@@ -1,0 +1,50 @@
+{
+  "slug": "video-player",
+  "name": "VideoPlayer",
+  "description": "a video player with play-in-view behavior, custom controls, and IntersectionObserver support",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".video-player",
+  "subClasses": [
+    "video-player-caption",
+    "video-player-element"
+  ],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` on container -- describes the video content for screen readers",
+    "Native `<video>` element provides built-in accessibility controls"
+  ],
+  "keyboard": [
+    "`Space` -- toggle play/pause when video is focused",
+    "Native video keyboard controls when using native controls"
+  ],
+  "props": [
+    "`src`: string (required) -- video source URL",
+    "`label`: string (required) -- accessible label for the video",
+    "`poster`: string (optional) -- poster image URL",
+    "`autoplay`: boolean (default: false) -- auto-play when scrolled into view",
+    "`muted`: boolean (default: false) -- muted state",
+    "`loop`: boolean (default: false) -- loop playback",
+    "`controls`: boolean (default: true) -- show native controls",
+    "`caption`: slot (optional) -- video caption",
+    "`children`: slot (optional) -- custom controls overlay",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "image"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/video-player.html",
+    "svelte": "lily-design-system-svelte-headless/components/VideoPlayer/VideoPlayer.svelte",
+    "react": "lily-design-system-react-headless/components/VideoPlayer.tsx",
+    "vue": "lily-design-system-vue-headless/components/VideoPlayer.vue",
+    "angular": "lily-design-system-angular-headless/components/VideoPlayer.ts",
+    "web-components": "lily-design-system-web-components-headless/components/video-player.ts",
+    "alpine": "lily-design-system-alpine-headless/components/video-player.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/video-player/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/VideoPlayer.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/video-player/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/video-player/AGENTS.md"
+}

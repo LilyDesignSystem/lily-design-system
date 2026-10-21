@@ -1,0 +1,44 @@
+{
+  "slug": "gantt-table",
+  "name": "GanttTable",
+  "description": "a Gantt chart table interactive grid for planning schedule visualization <table>",
+  "htmlTag": "table",
+  "category": "tables",
+  "baseClass": ".gantt-table",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"grid\"` -- identifies the table as an interactive grid widget",
+    "`aria-label={label}` -- provides an accessible name describing the Gantt chart"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name describing the Gantt chart content, applied via `aria-label`",
+    "`children`: slot (required) -- table rows and cells representing tasks and timelines"
+  ],
+  "related": [
+    "gantt-table-tbody",
+    "gantt-table-tfoot",
+    "gantt-table-thead",
+    "gantt-table-tr",
+    "gantt-table-td",
+    "gantt-table-th",
+    "table"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/gantt-table.html",
+    "svelte": "lily-design-system-svelte-headless/components/GanttTable/GanttTable.svelte",
+    "react": "lily-design-system-react-headless/components/GanttTable.tsx",
+    "vue": "lily-design-system-vue-headless/components/GanttTable.vue",
+    "angular": "lily-design-system-angular-headless/components/GanttTable.ts",
+    "web-components": "lily-design-system-web-components-headless/components/gantt-table.ts",
+    "alpine": "lily-design-system-alpine-headless/components/gantt-table.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/gantt-table/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/GanttTable.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/gantt-table/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/gantt-table/AGENTS.md"
+}

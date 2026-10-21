@@ -1,0 +1,41 @@
+{
+  "slug": "person",
+  "name": "Person",
+  "description": "a person component that contains other person-related information",
+  "htmlTag": "article",
+  "category": "navigation",
+  "baseClass": ".person",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `article` role from `<article>` element",
+    "`aria-label` -- describes the person for screen readers"
+  ],
+  "keyboard": [
+    "None -- person components are informational, not interactive"
+  ],
+  "props": [
+    "`label`: string (optional) -- accessible label for the person",
+    "`children`: slot (required) -- person content",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "organization",
+    "place",
+    "avatar"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/person.html",
+    "svelte": "lily-design-system-svelte-headless/components/Person/Person.svelte",
+    "react": "lily-design-system-react-headless/components/Person.tsx",
+    "vue": "lily-design-system-vue-headless/components/Person.vue",
+    "angular": "lily-design-system-angular-headless/components/Person.ts",
+    "web-components": "lily-design-system-web-components-headless/components/person.ts",
+    "alpine": "lily-design-system-alpine-headless/components/person.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/person/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Person.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/person/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/person/AGENTS.md"
+}

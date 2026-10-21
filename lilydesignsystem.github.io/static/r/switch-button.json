@@ -1,0 +1,43 @@
+{
+  "slug": "switch-button",
+  "name": "SwitchButton",
+  "description": "a toggle switch for turning a setting on or off",
+  "htmlTag": "button",
+  "category": "buttons",
+  "baseClass": ".switch-button",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"switch\"` -- identifies the element as a two-state toggle switch",
+    "`aria-checked={checked}` -- communicates whether the switch is currently on (`true`) or off (`false`)",
+    "`aria-label={label}` -- provides the accessible name for the switch control"
+  ],
+  "keyboard": [
+    "Space: toggles the switch between on and off states (custom handler with `preventDefault`)",
+    "Enter: activates the button (native button behavior)"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name applied via `aria-label`",
+    "`checked`: boolean (default: false) -- whether the switch is on, bindable with two-way `checked` binding",
+    "`disabled`: boolean (default: false) -- whether the switch is disabled",
+    "`...restProps`: spread onto the `<button>` element"
+  ],
+  "related": [
+    "toggle-button",
+    "checkbox-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/switch-button.html",
+    "svelte": "lily-design-system-svelte-headless/components/SwitchButton/SwitchButton.svelte",
+    "react": "lily-design-system-react-headless/components/SwitchButton.tsx",
+    "vue": "lily-design-system-vue-headless/components/SwitchButton.vue",
+    "angular": "lily-design-system-angular-headless/components/SwitchButton.ts",
+    "web-components": "lily-design-system-web-components-headless/components/switch-button.ts",
+    "alpine": "lily-design-system-alpine-headless/components/switch-button.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/switch-button/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SwitchButton.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/switch-button/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/switch-button/AGENTS.md"
+}

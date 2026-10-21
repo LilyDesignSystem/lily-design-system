@@ -1,0 +1,47 @@
+{
+  "slug": "checkbox-input",
+  "name": "CheckboxInput",
+  "description": "a checkbox input for toggling a boolean value <input type=\"checkbox\">",
+  "htmlTag": "input",
+  "category": "forms",
+  "baseClass": ".checkbox-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`aria-label={label}` -- provides an accessible name for the checkbox since there is no visible `<label>` element"
+  ],
+  "keyboard": [
+    "Space: Toggles the checkbox checked state (native browser behavior)",
+    "Tab: Moves focus to and from the checkbox (native browser behavior)"
+  ],
+  "props": [
+    "`checked`: boolean (default: false) -- bindable boolean indicating whether the checkbox is checked",
+    "`label`: string (required) -- accessible name applied via `aria-label`",
+    "`disabled`: boolean (default: false) -- whether the checkbox is disabled",
+    "`required`: boolean (default: false) -- whether the checkbox is required for form submission",
+    "`name`: string (default: undefined) -- form field name attribute",
+    "`id`: string (default: undefined) -- element id attribute",
+    "`value`: string (default: undefined) -- value attribute for form submission",
+    "`...restProps`: unknown -- additional attributes spread onto the input element"
+  ],
+  "related": [
+    "checkbox-group",
+    "radio-input",
+    "switch-button",
+    "toggle-button"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/checkbox-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/CheckboxInput/CheckboxInput.svelte",
+    "react": "lily-design-system-react-headless/components/CheckboxInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/CheckboxInput.vue",
+    "angular": "lily-design-system-angular-headless/components/CheckboxInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/checkbox-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/checkbox-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/checkbox-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CheckboxInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/checkbox-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/checkbox-input/AGENTS.md"
+}

@@ -1,0 +1,41 @@
+{
+  "slug": "digital-object-identifier-link",
+  "name": "DigitalObjectIdentifierLink",
+  "description": "a permanent hyperlink for a Digital Object Identifier (DOI) to an electronic source",
+  "htmlTag": "a",
+  "category": "links",
+  "baseClass": ".digital-object-identifier-link",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `link` role from `<a>` element with `href`",
+    "`aria-label` can be provided via restProps for additional context"
+  ],
+  "keyboard": [
+    "Tab: Focus the link",
+    "Enter: Activate the link and navigate to the DOI URL"
+  ],
+  "props": [
+    "`doi`: string (required) -- the Digital Object Identifier (e.g., \"10.1000/xyz123\")",
+    "`children`: slot (optional) -- link display text; defaults to the DOI string if not provided",
+    "`...restProps`: unknown -- additional attributes spread onto the `<a>` element"
+  ],
+  "related": [
+    "citation",
+    "footnote"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/digital-object-identifier-link.html",
+    "svelte": "lily-design-system-svelte-headless/components/DigitalObjectIdentifierLink/DigitalObjectIdentifierLink.svelte",
+    "react": "lily-design-system-react-headless/components/DigitalObjectIdentifierLink.tsx",
+    "vue": "lily-design-system-vue-headless/components/DigitalObjectIdentifierLink.vue",
+    "angular": "lily-design-system-angular-headless/components/DigitalObjectIdentifierLink.ts",
+    "web-components": "lily-design-system-web-components-headless/components/digital-object-identifier-link.ts",
+    "alpine": "lily-design-system-alpine-headless/components/digital-object-identifier-link.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/digital-object-identifier-link/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DigitalObjectIdentifierLink.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/digital-object-identifier-link/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/digital-object-identifier-link/AGENTS.md"
+}

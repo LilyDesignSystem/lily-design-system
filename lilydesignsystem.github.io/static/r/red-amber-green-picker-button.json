@@ -1,0 +1,43 @@
+{
+  "slug": "red-amber-green-picker-button",
+  "name": "RedAmberGreenPickerButton",
+  "description": "a picker button for selecting a red/amber/green status",
+  "htmlTag": "button",
+  "category": "pickers",
+  "baseClass": ".red-amber-green-picker-button",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-pressed` -- indicates whether this button is the currently selected status (`true` when selected, `false` otherwise)",
+    "`aria-label` -- provides the accessible name for the button (e.g., \"Amber - Caution\")",
+    "`data-value` -- carries the status value for CSS-based styling (e.g., `data-value=\"red\"`)"
+  ],
+  "keyboard": [
+    "Tab: Focus the button",
+    "Enter / Space: Activate the button to select this status"
+  ],
+  "props": [
+    "`value`: string (required) -- the RAG status value this button represents (e.g., \"red\", \"amber\", \"green\")",
+    "`selected`: boolean (default: false) -- whether this button is currently selected",
+    "`label`: string (required) -- accessible label for the button (e.g., \"Red - Critical\", \"Amber - Caution\", \"Green - On track\")",
+    "`onclick`: callback -- handler called when the button is clicked",
+    "`...restProps`: any -- additional HTML attributes spread onto the `<button>` element"
+  ],
+  "related": [
+    "red-amber-green-picker"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/red-amber-green-picker-button.html",
+    "svelte": "lily-design-system-svelte-headless/components/RedAmberGreenPickerButton/RedAmberGreenPickerButton.svelte",
+    "react": "lily-design-system-react-headless/components/RedAmberGreenPickerButton.tsx",
+    "vue": "lily-design-system-vue-headless/components/RedAmberGreenPickerButton.vue",
+    "angular": "lily-design-system-angular-headless/components/RedAmberGreenPickerButton.ts",
+    "web-components": "lily-design-system-web-components-headless/components/red-amber-green-picker-button.ts",
+    "alpine": "lily-design-system-alpine-headless/components/red-amber-green-picker-button.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/red-amber-green-picker-button/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/RedAmberGreenPickerButton.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/red-amber-green-picker-button/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/red-amber-green-picker-button/AGENTS.md"
+}

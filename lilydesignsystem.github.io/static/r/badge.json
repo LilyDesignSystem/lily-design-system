@@ -1,0 +1,42 @@
+{
+  "slug": "badge",
+  "name": "Badge",
+  "description": "a small label for counts, statuses, or categories",
+  "htmlTag": "span",
+  "category": "content",
+  "baseClass": ".badge",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"status\"` -- creates an ARIA live region for dynamic content announcements",
+    "`aria-label` -- optional expanded context for screen readers beyond the visible text"
+  ],
+  "keyboard": [
+    "None -- badges are informational, not interactive"
+  ],
+  "props": [
+    "`type`: \"default\" | \"info\" | \"success\" | \"warning\" | \"error\" (default: \"default\") -- badge variant for semantic meaning",
+    "`label`: string (optional) -- accessible label for screen readers",
+    "`children`: slot (required) -- badge content (text, number, etc.)",
+    "`...restProps`: Any additional HTML attributes passed to the `<span>` element"
+  ],
+  "related": [
+    "status-tag",
+    "tag",
+    "flair"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/badge.html",
+    "svelte": "lily-design-system-svelte-headless/components/Badge/Badge.svelte",
+    "react": "lily-design-system-react-headless/components/Badge.tsx",
+    "vue": "lily-design-system-vue-headless/components/Badge.vue",
+    "angular": "lily-design-system-angular-headless/components/Badge.ts",
+    "web-components": "lily-design-system-web-components-headless/components/badge.ts",
+    "alpine": "lily-design-system-alpine-headless/components/badge.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/badge/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Badge.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/badge/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/badge/AGENTS.md"
+}

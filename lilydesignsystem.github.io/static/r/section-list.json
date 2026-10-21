@@ -1,0 +1,39 @@
+{
+  "slug": "section-list",
+  "name": "SectionList",
+  "description": "a list of section navigation items",
+  "htmlTag": "ol",
+  "category": "lists",
+  "baseClass": ".section-list",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Native ordered list semantics announce the count of items"
+  ],
+  "keyboard": [
+    "No keyboard interactions on the list itself"
+  ],
+  "props": [
+    "`children`: slot (required) (default: —) — `SectionListItem` elements",
+    "`...restProps`: HTML attributes (default: —) — Spread onto the root `<ol>`"
+  ],
+  "related": [
+    "section-nav",
+    "section-list-item",
+    "section-link"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/section-list.html",
+    "svelte": "lily-design-system-svelte-headless/components/SectionList/SectionList.svelte",
+    "react": "lily-design-system-react-headless/components/SectionList.tsx",
+    "vue": "lily-design-system-vue-headless/components/SectionList.vue",
+    "angular": "lily-design-system-angular-headless/components/SectionList.ts",
+    "web-components": "lily-design-system-web-components-headless/components/section-list.ts",
+    "alpine": "lily-design-system-alpine-headless/components/section-list.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/section-list/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SectionList.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/section-list/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/section-list/AGENTS.md"
+}

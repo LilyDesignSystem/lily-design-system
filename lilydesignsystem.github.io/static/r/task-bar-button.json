@@ -1,0 +1,41 @@
+{
+  "slug": "task-bar-button",
+  "name": "TaskBarButton",
+  "description": "one item in a task bar",
+  "htmlTag": "button",
+  "category": "navigation",
+  "baseClass": ".task-bar-button",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `button` role from the `<button>` element",
+    "`disabled` attribute communicates disabled state to assistive technology"
+  ],
+  "keyboard": [
+    "Tab: Focus the button",
+    "Enter / Space: Activate the button (browser default)",
+    "Button is skipped in tab order when `disabled` is true"
+  ],
+  "props": [
+    "`disabled`: boolean (default: false) -- whether the button is disabled",
+    "`children`: slot (required) -- button content",
+    "`...restProps`: Any additional HTML attributes passed to the `<button>` element"
+  ],
+  "related": [
+    "task-bar"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/task-bar-button.html",
+    "svelte": "lily-design-system-svelte-headless/components/TaskBarButton/TaskBarButton.svelte",
+    "react": "lily-design-system-react-headless/components/TaskBarButton.tsx",
+    "vue": "lily-design-system-vue-headless/components/TaskBarButton.vue",
+    "angular": "lily-design-system-angular-headless/components/TaskBarButton.ts",
+    "web-components": "lily-design-system-web-components-headless/components/task-bar-button.ts",
+    "alpine": "lily-design-system-alpine-headless/components/task-bar-button.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/task-bar-button/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TaskBarButton.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/task-bar-button/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/task-bar-button/AGENTS.md"
+}

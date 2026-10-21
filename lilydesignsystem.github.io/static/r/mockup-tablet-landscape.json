@@ -1,0 +1,44 @@
+{
+  "slug": "mockup-tablet-landscape",
+  "name": "MockupTabletLandscape",
+  "description": "a box area that looks like a tablet computer in landscape mode",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".mockup-tablet-landscape",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"img\"` -- presents the mockup as a single image to assistive technologies",
+    "`aria-label` -- describes the mockup content for screen readers"
+  ],
+  "keyboard": [
+    "None -- mockups are decorative, not interactive"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label describing the mockup content",
+    "`children`: slot (required) -- the content displayed inside the tablet screen",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "mockup-browser",
+    "mockup-laptop",
+    "mockup-phone-landscape",
+    "mockup-phone-portrait",
+    "mockup-shell",
+    "mockup-tablet-portrait"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/mockup-tablet-landscape.html",
+    "svelte": "lily-design-system-svelte-headless/components/MockupTabletLandscape/MockupTabletLandscape.svelte",
+    "react": "lily-design-system-react-headless/components/MockupTabletLandscape.tsx",
+    "vue": "lily-design-system-vue-headless/components/MockupTabletLandscape.vue",
+    "angular": "lily-design-system-angular-headless/components/MockupTabletLandscape.ts",
+    "web-components": "lily-design-system-web-components-headless/components/mockup-tablet-landscape.ts",
+    "alpine": "lily-design-system-alpine-headless/components/mockup-tablet-landscape.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/mockup-tablet-landscape/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MockupTabletLandscape.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/mockup-tablet-landscape/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/mockup-tablet-landscape/AGENTS.md"
+}

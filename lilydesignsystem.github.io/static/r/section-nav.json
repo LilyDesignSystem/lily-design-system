@@ -1,0 +1,44 @@
+{
+  "slug": "section-nav",
+  "name": "SectionNav",
+  "description": "a navigation container for section navigation links",
+  "htmlTag": "nav",
+  "category": "navigation",
+  "baseClass": ".section-nav",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`<nav>` element is a navigation landmark",
+    "`aria-label` (from `label`) names the landmark",
+    "`aria-current=\"page\"` should be applied by the consumer to the current `SectionLink`"
+  ],
+  "keyboard": [
+    "Tab moves focus through the contained links"
+  ],
+  "props": [
+    "`label`: string (required) (default: —) — Accessible label for the navigation landmark",
+    "`children`: slot (required) (default: —) — The `SectionList` and its children",
+    "`...restProps`: HTML attributes (default: —) — Spread onto the root `<nav>`"
+  ],
+  "related": [
+    "section-list",
+    "section-list-item",
+    "section-link",
+    "contents-nav",
+    "breadcrumb-nav"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/section-nav.html",
+    "svelte": "lily-design-system-svelte-headless/components/SectionNav/SectionNav.svelte",
+    "react": "lily-design-system-react-headless/components/SectionNav.tsx",
+    "vue": "lily-design-system-vue-headless/components/SectionNav.vue",
+    "angular": "lily-design-system-angular-headless/components/SectionNav.ts",
+    "web-components": "lily-design-system-web-components-headless/components/section-nav.ts",
+    "alpine": "lily-design-system-alpine-headless/components/section-nav.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/section-nav/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SectionNav.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/section-nav/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/section-nav/AGENTS.md"
+}

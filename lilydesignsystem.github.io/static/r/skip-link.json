@@ -1,0 +1,42 @@
+{
+  "slug": "skip-link",
+  "name": "SkipLink",
+  "description": "a hidden link for keyboard users to skip to main content",
+  "htmlTag": "a",
+  "category": "links",
+  "baseClass": ".skip-link",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "No explicit ARIA roles or attributes are needed; the `<a>` element with an `href` is natively accessible as a link",
+    "The link text content (`label` prop) serves as the accessible name"
+  ],
+  "keyboard": [
+    "Tab: Moves focus to the skip link (should be the first focusable element on the page)",
+    "Enter: Activates the link, moving focus to the target anchor element"
+  ],
+  "props": [
+    "`href`: string (default: `\"#content\"`) -- the anchor target that the link navigates to",
+    "`label`: string (default: `\"Skip to content\"`) -- the visible link text",
+    "`...restProps`: unknown -- additional attributes spread onto the `<a>` element"
+  ],
+  "related": [
+    "back-link",
+    "go-to-top",
+    "navigation-menu"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/skip-link.html",
+    "svelte": "lily-design-system-svelte-headless/components/SkipLink/SkipLink.svelte",
+    "react": "lily-design-system-react-headless/components/SkipLink.tsx",
+    "vue": "lily-design-system-vue-headless/components/SkipLink.vue",
+    "angular": "lily-design-system-angular-headless/components/SkipLink.ts",
+    "web-components": "lily-design-system-web-components-headless/components/skip-link.ts",
+    "alpine": "lily-design-system-alpine-headless/components/skip-link.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/skip-link/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SkipLink.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/skip-link/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/skip-link/AGENTS.md"
+}

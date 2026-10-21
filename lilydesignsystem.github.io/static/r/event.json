@@ -1,0 +1,40 @@
+{
+  "slug": "event",
+  "name": "Event",
+  "description": "an event component that contains other event-related information",
+  "htmlTag": "article",
+  "category": "navigation",
+  "baseClass": ".event",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `article` role from `<article>` element",
+    "`aria-label` -- describes the event for screen readers"
+  ],
+  "keyboard": [
+    "None -- events are informational, not interactive"
+  ],
+  "props": [
+    "`label`: string (optional) -- accessible label for the event",
+    "`children`: slot (required) -- event content",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "timeline-list-item",
+    "date-range"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/event.html",
+    "svelte": "lily-design-system-svelte-headless/components/Event/Event.svelte",
+    "react": "lily-design-system-react-headless/components/Event.tsx",
+    "vue": "lily-design-system-vue-headless/components/Event.vue",
+    "angular": "lily-design-system-angular-headless/components/Event.ts",
+    "web-components": "lily-design-system-web-components-headless/components/event.ts",
+    "alpine": "lily-design-system-alpine-headless/components/event.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/event/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Event.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/event/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/event/AGENTS.md"
+}

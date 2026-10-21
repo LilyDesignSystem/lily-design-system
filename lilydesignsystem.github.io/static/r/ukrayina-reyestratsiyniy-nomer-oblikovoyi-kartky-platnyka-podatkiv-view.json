@@ -1,0 +1,39 @@
+{
+  "slug": "ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view",
+  "name": "UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView",
+  "description": "a read-only display of Ukraine's Taxpayer Registration Card Number (RNOKPP)",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (default: \"\") — the identifier to display",
+    "`label`: string (required) — accessible name via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView.svelte",
+    "react": "lily-design-system-react-headless/components/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView.tsx",
+    "vue": "lily-design-system-vue-headless/components/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView.vue",
+    "angular": "lily-design-system-angular-headless/components/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view/AGENTS.md"
+}

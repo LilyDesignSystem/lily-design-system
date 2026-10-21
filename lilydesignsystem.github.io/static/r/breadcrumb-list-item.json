@@ -1,0 +1,40 @@
+{
+  "slug": "breadcrumb-list-item",
+  "name": "BreadcrumbListItem",
+  "description": "one breadcrumb list item in the trail",
+  "htmlTag": "li",
+  "category": "lists",
+  "baseClass": ".breadcrumb-list-item",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "Implicit `listitem` role from the semantic `<li>` element",
+    "`aria-current=\"page\"` -- set when `current` is true, indicating the user's current location in the breadcrumb trail"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`current`: boolean (default: false) -- whether this item represents the current page in the breadcrumb trail",
+    "`children`: slot (required) -- breadcrumb content, typically a link or text"
+  ],
+  "related": [
+    "breadcrumb-nav",
+    "breadcrumb-list",
+    "breadcrumb-link"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/breadcrumb-list-item.html",
+    "svelte": "lily-design-system-svelte-headless/components/BreadcrumbListItem/BreadcrumbListItem.svelte",
+    "react": "lily-design-system-react-headless/components/BreadcrumbListItem.tsx",
+    "vue": "lily-design-system-vue-headless/components/BreadcrumbListItem.vue",
+    "angular": "lily-design-system-angular-headless/components/BreadcrumbListItem.ts",
+    "web-components": "lily-design-system-web-components-headless/components/breadcrumb-list-item.ts",
+    "alpine": "lily-design-system-alpine-headless/components/breadcrumb-list-item.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/breadcrumb-list-item/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/BreadcrumbListItem.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/breadcrumb-list-item/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/breadcrumb-list-item/AGENTS.md"
+}

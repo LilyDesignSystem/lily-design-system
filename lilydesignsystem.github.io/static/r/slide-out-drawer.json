@@ -1,0 +1,43 @@
+{
+  "slug": "slide-out-drawer",
+  "name": "SlideOutDrawer",
+  "description": "a drawer that slides out from the side of the page",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".slide-out-drawer",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"dialog\"` for modal dialog semantics",
+    "`aria-label` from the label prop provides the accessible name",
+    "`aria-modal=\"true\"` indicates modal behavior (content behind the drawer is inert)",
+    "`tabindex=\"-1\"` for programmatic focus management"
+  ],
+  "keyboard": [
+    "Escape closes the drawer"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label for the dialog",
+    "`open`: boolean (default: false) -- whether the drawer is visible, bindable",
+    "`children`: slot (required) -- drawer content",
+    "`...restProps`: Any additional HTML attributes spread onto the `<div>`"
+  ],
+  "related": [
+    "drawer",
+    "sheet"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/slide-out-drawer.html",
+    "svelte": "lily-design-system-svelte-headless/components/SlideOutDrawer/SlideOutDrawer.svelte",
+    "react": "lily-design-system-react-headless/components/SlideOutDrawer.tsx",
+    "vue": "lily-design-system-vue-headless/components/SlideOutDrawer.vue",
+    "angular": "lily-design-system-angular-headless/components/SlideOutDrawer.ts",
+    "web-components": "lily-design-system-web-components-headless/components/slide-out-drawer.ts",
+    "alpine": "lily-design-system-alpine-headless/components/slide-out-drawer.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/slide-out-drawer/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SlideOutDrawer.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/slide-out-drawer/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/slide-out-drawer/AGENTS.md"
+}

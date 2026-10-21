@@ -49,6 +49,7 @@
     {
       "title": "Optional",
       "links": [
+        { "title": "Component manifests", "url": "https://lilydesignsystem.com/r/index.json", "description": "Machine-readable manifest of every component (HTML tag, base and sub-classes, ARIA, keyboard, props, related, per-framework file paths); one /r/{slug}.json each." },
         { "title": "llms.txt", "url": "https://lilydesignsystem.com/llms.txt", "description": "This same curated map as Markdown." }
       ]
     }

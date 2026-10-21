@@ -1,0 +1,45 @@
+{
+  "slug": "table",
+  "name": "Table",
+  "description": "a table with rows and columns <table>",
+  "htmlTag": "table",
+  "category": "tables",
+  "baseClass": ".table",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` -- provides the accessible name for the table so screen readers can announce its purpose",
+    "Semantic `<table>` element -- conveys tabular data structure to assistive technologies",
+    "Consumers should use `<th scope=\"col\">` for column headers and `<th scope=\"row\">` for row headers"
+  ],
+  "keyboard": [
+    "None directly -- standard table navigation is handled by screen readers and browser built-in behavior"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label for the table via `aria-label`",
+    "`children`: slot (required) -- table content including thead, tbody, tfoot, etc.",
+    "`...restProps`: any -- additional HTML attributes spread onto the `<table>` element"
+  ],
+  "related": [
+    "table-body",
+    "table-foot",
+    "table-head",
+    "table-row",
+    "table-td",
+    "table-th"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/table.html",
+    "svelte": "lily-design-system-svelte-headless/components/Table/Table.svelte",
+    "react": "lily-design-system-react-headless/components/Table.tsx",
+    "vue": "lily-design-system-vue-headless/components/Table.vue",
+    "angular": "lily-design-system-angular-headless/components/Table.ts",
+    "web-components": "lily-design-system-web-components-headless/components/table.ts",
+    "alpine": "lily-design-system-alpine-headless/components/table.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/table/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Table.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/table/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/table/AGENTS.md"
+}

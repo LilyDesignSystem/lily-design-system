@@ -1,0 +1,42 @@
+{
+  "slug": "magyarorszag-taj-szam-input",
+  "name": "MagyarorszagTajSzamInput",
+  "description": "an input for entering Hungary's Tarsadalombiztositasi Azonosito Jel (TAJ)",
+  "htmlTag": "input",
+  "category": "national",
+  "baseClass": ".magyarorszag-taj-szam-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`required` and `disabled` states conveyed to assistive technology"
+  ],
+  "keyboard": [
+    "Standard text input keyboard behavior"
+  ],
+  "props": [
+    "`label`: string (required) — accessible label via aria-label",
+    "`value`: string (default: \"\") — bindable input value",
+    "`required`: boolean (default: false) — form validation",
+    "`disabled`: boolean (default: false) — disabled state",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "magyarorszag-taj-szam-view",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/magyarorszag-taj-szam-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/MagyarorszagTajSzamInput/MagyarorszagTajSzamInput.svelte",
+    "react": "lily-design-system-react-headless/components/MagyarorszagTajSzamInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/MagyarorszagTajSzamInput.vue",
+    "angular": "lily-design-system-angular-headless/components/MagyarorszagTajSzamInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/magyarorszag-taj-szam-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/magyarorszag-taj-szam-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/magyarorszag-taj-szam-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MagyarorszagTajSzamInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/magyarorszag-taj-szam-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/magyarorszag-taj-szam-input/AGENTS.md"
+}

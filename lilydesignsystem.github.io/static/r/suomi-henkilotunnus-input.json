@@ -1,0 +1,43 @@
+{
+  "slug": "suomi-henkilotunnus-input",
+  "name": "SuomiHenkilotunnusInput",
+  "description": "an input for entering Finland's Henkilötunnus (HETU)",
+  "htmlTag": "input",
+  "category": "national",
+  "baseClass": ".suomi-henkilotunnus-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`required` and `disabled` states conveyed to assistive technology",
+    "`aria-label` provided from the `label` prop"
+  ],
+  "keyboard": [
+    "Standard text input keyboard behavior"
+  ],
+  "props": [
+    "`label`: string (required) — accessible label via aria-label",
+    "`value`: string (default: \"\") — bindable input value",
+    "`required`: boolean (default: false) — form validation",
+    "`disabled`: boolean (default: false) — disabled state",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "suomi-henkilotunnus-view",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/suomi-henkilotunnus-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/SuomiHenkilotunnusInput/SuomiHenkilotunnusInput.svelte",
+    "react": "lily-design-system-react-headless/components/SuomiHenkilotunnusInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/SuomiHenkilotunnusInput.vue",
+    "angular": "lily-design-system-angular-headless/components/SuomiHenkilotunnusInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/suomi-henkilotunnus-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/suomi-henkilotunnus-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/suomi-henkilotunnus-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SuomiHenkilotunnusInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/suomi-henkilotunnus-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/suomi-henkilotunnus-input/AGENTS.md"
+}

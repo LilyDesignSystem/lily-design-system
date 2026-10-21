@@ -1,0 +1,40 @@
+{
+  "slug": "malta-national-identification-number-view",
+  "name": "MaltaNationalIdentificationNumberView",
+  "description": "a read-only display of Malta's Malta National Identification Number",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".malta-national-identification-number-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`role=\"text\"` so the identifier announces as a single unit"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (required) — the identifier to display",
+    "`label`: string (optional) — accessible name override via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "malta-national-identification-number-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/malta-national-identification-number-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/MaltaNationalIdentificationNumberView/MaltaNationalIdentificationNumberView.svelte",
+    "react": "lily-design-system-react-headless/components/MaltaNationalIdentificationNumberView.tsx",
+    "vue": "lily-design-system-vue-headless/components/MaltaNationalIdentificationNumberView.vue",
+    "angular": "lily-design-system-angular-headless/components/MaltaNationalIdentificationNumberView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/malta-national-identification-number-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/malta-national-identification-number-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/malta-national-identification-number-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MaltaNationalIdentificationNumberView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/malta-national-identification-number-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/malta-national-identification-number-view/AGENTS.md"
+}

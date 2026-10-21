@@ -1,0 +1,43 @@
+{
+  "slug": "error-summary",
+  "name": "ErrorSummary",
+  "description": "a summary of all validation errors on a form",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".error-summary",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"alert\"` -- creates a live region that announces content to screen readers when the summary appears",
+    "`aria-labelledby={titleId}` -- associates the alert region with its heading for context",
+    "`tabindex=\"-1\"` -- allows the error summary to receive programmatic focus without being in the natural tab order"
+  ],
+  "keyboard": [
+    "**Tab**: Moves focus through the error links within the summary",
+    "The container itself can receive programmatic focus via `element.focus()` due to `tabindex=\"-1\"`"
+  ],
+  "props": [
+    "`title`: string (required) -- heading text for the error summary (e.g., \"There is a problem\")",
+    "`children`: slot (required) -- error list content, typically a `<ul>` with `<li>` items containing anchor links to error fields",
+    "`...restProps`: any additional HTML attributes spread onto the outer `<div>`"
+  ],
+  "related": [
+    "error-message",
+    "alert",
+    "field"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/error-summary.html",
+    "svelte": "lily-design-system-svelte-headless/components/ErrorSummary/ErrorSummary.svelte",
+    "react": "lily-design-system-react-headless/components/ErrorSummary.tsx",
+    "vue": "lily-design-system-vue-headless/components/ErrorSummary.vue",
+    "angular": "lily-design-system-angular-headless/components/ErrorSummary.ts",
+    "web-components": "lily-design-system-web-components-headless/components/error-summary.ts",
+    "alpine": "lily-design-system-alpine-headless/components/error-summary.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/error-summary/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ErrorSummary.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/error-summary/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/error-summary/AGENTS.md"
+}

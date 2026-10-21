@@ -1,0 +1,39 @@
+{
+  "slug": "tool-call-name",
+  "name": "ToolCallName",
+  "description": "the name of the tool in a tool call, shown in the summary",
+  "htmlTag": "span",
+  "category": "content",
+  "baseClass": ".tool-call-name",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows",
+  "aria": [
+    "No ARIA attributes; the text is the name"
+  ],
+  "keyboard": [
+    "None"
+  ],
+  "props": [
+    "`class`: string -- Appended to the base class",
+    "`children`: slot -- The tool name",
+    "`...restProps`: HTML attributes -- Spread onto the root `<span>`"
+  ],
+  "related": [
+    "tool-call",
+    "tool-call-status"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/tool-call-name.html",
+    "svelte": "lily-design-system-svelte-headless/components/ToolCallName/ToolCallName.svelte",
+    "react": "lily-design-system-react-headless/components/ToolCallName.tsx",
+    "vue": "lily-design-system-vue-headless/components/ToolCallName.vue",
+    "angular": "lily-design-system-angular-headless/components/ToolCallName.ts",
+    "web-components": "lily-design-system-web-components-headless/components/tool-call-name.ts",
+    "alpine": "lily-design-system-alpine-headless/components/tool-call-name.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/tool-call-name/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ToolCallName.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/tool-call-name/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tool-call-name/AGENTS.md"
+}

@@ -1,0 +1,43 @@
+{
+  "slug": "espana-tarjeta-sanitaria-individual-view",
+  "name": "EspanaTarjetaSanitariaIndividualView",
+  "description": "a read-only display of an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".espana-tarjeta-sanitaria-individual-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` -- provides the accessible name from the `label` prop"
+  ],
+  "keyboard": [
+    "None -- this is a passive display-only component"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label for screen readers via `aria-label`",
+    "`value`: string (default: `\"\"`) -- the TSI string to display",
+    "`...restProps`: any -- additional HTML attributes spread onto the `<span>` element"
+  ],
+  "related": [
+    "espana-tarjeta-sanitaria-individual-input",
+    "france-numero-d-identification-au-repertoire-input",
+    "france-numero-d-identification-au-repertoire-view",
+    "eire-individual-health-identifier-input",
+    "eire-individual-health-identifier-view",
+    "tuaisceart-eireann-health-and-care-number-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/espana-tarjeta-sanitaria-individual-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/EspanaTarjetaSanitariaIndividualView/EspanaTarjetaSanitariaIndividualView.svelte",
+    "react": "lily-design-system-react-headless/components/EspanaTarjetaSanitariaIndividualView.tsx",
+    "vue": "lily-design-system-vue-headless/components/EspanaTarjetaSanitariaIndividualView.vue",
+    "angular": "lily-design-system-angular-headless/components/EspanaTarjetaSanitariaIndividualView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/espana-tarjeta-sanitaria-individual-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/espana-tarjeta-sanitaria-individual-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/espana-tarjeta-sanitaria-individual-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/EspanaTarjetaSanitariaIndividualView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/espana-tarjeta-sanitaria-individual-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/espana-tarjeta-sanitaria-individual-view/AGENTS.md"
+}

@@ -1,0 +1,43 @@
+{
+  "slug": "france-numero-d-identification-au-repertoire-view",
+  "name": "FranceNumeroDIdentificationAuRepertoireView",
+  "description": "a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".france-numero-d-identification-au-repertoire-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` -- provides the accessible name from the `label` prop so screen readers can announce the purpose of the displayed number"
+  ],
+  "keyboard": [
+    "None -- this is a passive display-only component"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label for screen readers via `aria-label`",
+    "`value`: string (default: `\"\"`) -- the NIR string to display",
+    "`...restProps`: any -- additional HTML attributes spread onto the `<span>` element"
+  ],
+  "related": [
+    "france-numero-d-identification-au-repertoire-input",
+    "espana-tarjeta-sanitaria-individual-input",
+    "espana-tarjeta-sanitaria-individual-view",
+    "eire-individual-health-identifier-input",
+    "eire-individual-health-identifier-view",
+    "tuaisceart-eireann-health-and-care-number-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/france-numero-d-identification-au-repertoire-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/FranceNumeroDIdentificationAuRepertoireView/FranceNumeroDIdentificationAuRepertoireView.svelte",
+    "react": "lily-design-system-react-headless/components/FranceNumeroDIdentificationAuRepertoireView.tsx",
+    "vue": "lily-design-system-vue-headless/components/FranceNumeroDIdentificationAuRepertoireView.vue",
+    "angular": "lily-design-system-angular-headless/components/FranceNumeroDIdentificationAuRepertoireView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/france-numero-d-identification-au-repertoire-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/france-numero-d-identification-au-repertoire-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/france-numero-d-identification-au-repertoire-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/FranceNumeroDIdentificationAuRepertoireView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/france-numero-d-identification-au-repertoire-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/france-numero-d-identification-au-repertoire-view/AGENTS.md"
+}

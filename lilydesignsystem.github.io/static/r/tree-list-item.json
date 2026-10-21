@@ -1,0 +1,43 @@
+{
+  "slug": "tree-list-item",
+  "name": "TreeListItem",
+  "description": "one item in a tree navigation list",
+  "htmlTag": "li",
+  "category": "lists",
+  "baseClass": ".tree-list-item",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"treeitem\"` -- identifies the element as an item in a tree widget",
+    "`tabindex` -- manages focus: `0` for the active item, `-1` for others (roving tabindex)",
+    "`aria-expanded` -- indicates whether an expandable item is open (`true`) or closed (`false`); omit for leaf nodes",
+    "`aria-selected` -- indicates whether the item is selected (optional)"
+  ],
+  "keyboard": [
+    "ArrowDown: Moves focus to the next visible tree item (managed by parent TreeList)",
+    "ArrowUp: Moves focus to the previous visible tree item (managed by parent TreeList)",
+    "ArrowRight: Expands a collapsed item, or moves to first child (when applicable)",
+    "ArrowLeft: Collapses an expanded item, or moves to parent (when applicable)",
+    "Home: Moves focus to the first tree item (managed by parent TreeList)",
+    "End: Moves focus to the last visible tree item (managed by parent TreeList)"
+  ],
+  "props": [],
+  "related": [
+    "tree-nav",
+    "tree-list",
+    "tree-link"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/tree-list-item.html",
+    "svelte": "lily-design-system-svelte-headless/components/TreeListItem/TreeListItem.svelte",
+    "react": "lily-design-system-react-headless/components/TreeListItem.tsx",
+    "vue": "lily-design-system-vue-headless/components/TreeListItem.vue",
+    "angular": "lily-design-system-angular-headless/components/TreeListItem.ts",
+    "alpine": "lily-design-system-alpine-headless/components/tree-list-item.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/tree-list-item/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TreeListItem.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/tree-list-item/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tree-list-item/AGENTS.md"
+}

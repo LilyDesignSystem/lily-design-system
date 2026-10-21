@@ -1,0 +1,51 @@
+{
+  "slug": "product-card",
+  "name": "ProductCard",
+  "description": "a specialized card for displaying a product with image, title, price, and actions",
+  "htmlTag": "article",
+  "category": "navigation",
+  "baseClass": ".product-card",
+  "subClasses": [
+    "product-card-header",
+    "product-card-image",
+    "product-card-name",
+    "product-card-price"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`<article>` implicit landmark",
+    "`aria-label` defaults to name, overridable by label prop",
+    "Image `alt` supplied via imageAlt prop"
+  ],
+  "keyboard": [
+    "None on card",
+    "Focusable children manage their own keyboard behavior"
+  ],
+  "props": [
+    "`name`: string (required)",
+    "`price`: string (required) -- pre-formatted",
+    "`imageUrl`: string (optional)",
+    "`imageAlt`: string (optional)",
+    "`label`: string (optional) -- aria-label override",
+    "`children`: slot -- additional content",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "card",
+    "feature-card"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/product-card.html",
+    "svelte": "lily-design-system-svelte-headless/components/ProductCard/ProductCard.svelte",
+    "react": "lily-design-system-react-headless/components/ProductCard.tsx",
+    "vue": "lily-design-system-vue-headless/components/ProductCard.vue",
+    "angular": "lily-design-system-angular-headless/components/ProductCard.ts",
+    "web-components": "lily-design-system-web-components-headless/components/product-card.ts",
+    "alpine": "lily-design-system-alpine-headless/components/product-card.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/product-card/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ProductCard.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/product-card/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/product-card/AGENTS.md"
+}

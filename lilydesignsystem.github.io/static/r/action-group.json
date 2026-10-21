@@ -1,0 +1,52 @@
+{
+  "slug": "action-group",
+  "name": "ActionGroup",
+  "description": "a group of action buttons that can collapse to an overflow menu when space is constrained",
+  "htmlTag": "div",
+  "category": "forms",
+  "baseClass": ".action-group",
+  "subClasses": [
+    "action-group-overflow-menu",
+    "action-group-overflow-trigger"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"group\"` on the container",
+    "`aria-label` is the accessible name (required)",
+    "Overflow trigger: `aria-haspopup=\"menu\"`, `aria-expanded`, optional `aria-label` via `overflowLabel`",
+    "Overflow panel uses the `hidden` attribute when closed"
+  ],
+  "keyboard": [
+    "Tab: Move focus into and out of the group",
+    "Arrow keys: (Consumer-provided) recommended roving tabindex among buttons",
+    "Enter / Space: Activate focused button or toggle overflow",
+    "Escape: (Consumer-provided) close the overflow menu when open"
+  ],
+  "props": [
+    "`label`: string (REQUIRED) -- aria-label for the group",
+    "`overflowOpen`: boolean (default false)",
+    "`overflowLabel`: string (optional)",
+    "`onOverflowToggle` / `onoverflowtoggle`: callback (optional)",
+    "`children`: slot -- visible action buttons",
+    "`overflow`: slot/snippet/ReactNode (optional) -- overflow menu content",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "button-group",
+    "tool-bar"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/action-group.html",
+    "svelte": "lily-design-system-svelte-headless/components/ActionGroup/ActionGroup.svelte",
+    "react": "lily-design-system-react-headless/components/ActionGroup.tsx",
+    "vue": "lily-design-system-vue-headless/components/ActionGroup.vue",
+    "angular": "lily-design-system-angular-headless/components/ActionGroup.ts",
+    "web-components": "lily-design-system-web-components-headless/components/action-group.ts",
+    "alpine": "lily-design-system-alpine-headless/components/action-group.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/action-group/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ActionGroup.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/action-group/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/action-group/AGENTS.md"
+}

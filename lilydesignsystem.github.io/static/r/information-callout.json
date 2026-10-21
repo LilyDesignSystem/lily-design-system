@@ -1,0 +1,41 @@
+{
+  "slug": "information-callout",
+  "name": "InformationCallout",
+  "description": "a callout box highlighting informational content",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".information-callout",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"note\"` -- identifies the content as a note or supplementary information",
+    "`aria-label={label}` -- provides an accessible name describing the type of callout (e.g., \"Note\", \"Warning\", \"Tip\")"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name for the callout via `aria-label`",
+    "`children`: slot (required) -- callout content to display",
+    "`...restProps`: unknown -- additional attributes spread onto the `<aside>` element"
+  ],
+  "related": [
+    "warning-callout",
+    "alert",
+    "inset-text"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/information-callout.html",
+    "svelte": "lily-design-system-svelte-headless/components/InformationCallout/InformationCallout.svelte",
+    "react": "lily-design-system-react-headless/components/InformationCallout.tsx",
+    "vue": "lily-design-system-vue-headless/components/InformationCallout.vue",
+    "angular": "lily-design-system-angular-headless/components/InformationCallout.ts",
+    "web-components": "lily-design-system-web-components-headless/components/information-callout.ts",
+    "alpine": "lily-design-system-alpine-headless/components/information-callout.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/information-callout/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/InformationCallout.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/information-callout/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/information-callout/AGENTS.md"
+}

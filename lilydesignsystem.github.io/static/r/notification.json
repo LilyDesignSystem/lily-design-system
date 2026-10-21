@@ -1,0 +1,45 @@
+{
+  "slug": "notification",
+  "name": "Notification",
+  "description": "a brief message about an event or update",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".notification",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"status\"` -- applied by default for non-urgent notifications; politely announces content changes",
+    "`role=\"alert\"` -- applied when `urgent` is true; assertively interrupts the user",
+    "`aria-label=\"...\"` -- provides an accessible name for the notification region",
+    "`aria-live=\"polite\"` -- default live region politeness; waits for user idle before announcing",
+    "`aria-live=\"assertive\"` -- applied when `urgent` is true; announces immediately"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`label`: string (optional) -- accessible name for the notification region via `aria-label`",
+    "`urgent`: boolean (default: false) -- when true, uses `role=\"alert\"` and `aria-live=\"assertive\"` instead of `role=\"status\"` and `aria-live=\"polite\"`",
+    "`children`: slot (required) -- the notification message content",
+    "`...restProps`: unknown -- additional attributes spread onto the `<div>` element"
+  ],
+  "related": [
+    "toast",
+    "alert",
+    "banner"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/notification.html",
+    "svelte": "lily-design-system-svelte-headless/components/Notification/Notification.svelte",
+    "react": "lily-design-system-react-headless/components/Notification.tsx",
+    "vue": "lily-design-system-vue-headless/components/Notification.vue",
+    "angular": "lily-design-system-angular-headless/components/Notification.ts",
+    "web-components": "lily-design-system-web-components-headless/components/notification.ts",
+    "alpine": "lily-design-system-alpine-headless/components/notification.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/notification/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Notification.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/notification/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/notification/AGENTS.md"
+}

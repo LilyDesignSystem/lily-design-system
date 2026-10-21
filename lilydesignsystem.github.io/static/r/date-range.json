@@ -1,0 +1,46 @@
+{
+  "slug": "date-range",
+  "name": "DateRange",
+  "description": "paired start and end date inputs",
+  "htmlTag": "fieldset",
+  "category": "forms",
+  "baseClass": ".date-range",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`aria-label={label}` on `<fieldset>` -- provides an accessible group name for the date range pair",
+    "`aria-label={startLabel}` on the start input -- identifies the start date field",
+    "`aria-label={endLabel}` on the end input -- identifies the end date field"
+  ],
+  "keyboard": [
+    "Tab: Move focus between the start and end date inputs",
+    "Up Arrow / Down Arrow: Increment/decrement the focused date segment",
+    "Left Arrow / Right Arrow: Move between date segments within an input"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible group label applied to the fieldset via `aria-label`",
+    "`startLabel`: string (required) -- accessible label for the start date input",
+    "`endLabel`: string (required) -- accessible label for the end date input",
+    "`start`: string (default: \"\") -- start date value in YYYY-MM-DD format; bindable",
+    "`end`: string (default: \"\") -- end date value in YYYY-MM-DD format; bindable"
+  ],
+  "related": [
+    "date-input",
+    "calendar-range-picker",
+    "date-field"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/date-range.html",
+    "svelte": "lily-design-system-svelte-headless/components/DateRange/DateRange.svelte",
+    "react": "lily-design-system-react-headless/components/DateRange.tsx",
+    "vue": "lily-design-system-vue-headless/components/DateRange.vue",
+    "angular": "lily-design-system-angular-headless/components/DateRange.ts",
+    "web-components": "lily-design-system-web-components-headless/components/date-range.ts",
+    "alpine": "lily-design-system-alpine-headless/components/date-range.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/date-range/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DateRange.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/date-range/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/date-range/AGENTS.md"
+}

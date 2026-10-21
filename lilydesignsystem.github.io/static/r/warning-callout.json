@@ -1,0 +1,40 @@
+{
+  "slug": "warning-callout",
+  "name": "WarningCallout",
+  "description": "a callout box highlighting a warning message",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".warning-callout",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"alert\"` -- identifies the content as an alert; screen readers announce it immediately when it appears or changes",
+    "`aria-label={label}` -- optional accessible name to distinguish this alert from others on the page"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`label`: string (optional) -- accessible name applied via `aria-label`; useful when multiple alerts exist on the same page",
+    "`children`: slot (required) -- the warning content to display"
+  ],
+  "related": [
+    "alert",
+    "information-callout",
+    "banner"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/warning-callout.html",
+    "svelte": "lily-design-system-svelte-headless/components/WarningCallout/WarningCallout.svelte",
+    "react": "lily-design-system-react-headless/components/WarningCallout.tsx",
+    "vue": "lily-design-system-vue-headless/components/WarningCallout.vue",
+    "angular": "lily-design-system-angular-headless/components/WarningCallout.ts",
+    "web-components": "lily-design-system-web-components-headless/components/warning-callout.ts",
+    "alpine": "lily-design-system-alpine-headless/components/warning-callout.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/warning-callout/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/WarningCallout.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/warning-callout/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/warning-callout/AGENTS.md"
+}

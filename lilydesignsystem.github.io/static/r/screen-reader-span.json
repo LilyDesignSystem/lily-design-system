@@ -1,0 +1,38 @@
+{
+  "slug": "screen-reader-span",
+  "name": "ScreenReaderSpan",
+  "description": "a visually hidden span of text intended for screen readers to provide more descriptive labels",
+  "htmlTag": "span",
+  "category": "content",
+  "baseClass": ".screen-reader-span",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "No ARIA attributes needed -- the text content itself provides the accessible information"
+  ],
+  "keyboard": [
+    "None -- screen reader spans are informational, not interactive"
+  ],
+  "props": [
+    "`children`: slot (required) -- the text content for screen readers",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "label",
+    "hint"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/screen-reader-span.html",
+    "svelte": "lily-design-system-svelte-headless/components/ScreenReaderSpan/ScreenReaderSpan.svelte",
+    "react": "lily-design-system-react-headless/components/ScreenReaderSpan.tsx",
+    "vue": "lily-design-system-vue-headless/components/ScreenReaderSpan.vue",
+    "angular": "lily-design-system-angular-headless/components/ScreenReaderSpan.ts",
+    "web-components": "lily-design-system-web-components-headless/components/screen-reader-span.ts",
+    "alpine": "lily-design-system-alpine-headless/components/screen-reader-span.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/screen-reader-span/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ScreenReaderSpan.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/screen-reader-span/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/screen-reader-span/AGENTS.md"
+}

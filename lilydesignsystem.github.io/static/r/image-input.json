@@ -1,0 +1,44 @@
+{
+  "slug": "image-input",
+  "name": "ImageInput",
+  "description": "a graphical submit button that displays an image <input type=\"image\">",
+  "htmlTag": "input",
+  "category": "forms",
+  "baseClass": ".image-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Native `<input type=\"image\">` exposes itself as a `button` to assistive technology",
+    "`alt` (set from `label`) provides the accessible name — required"
+  ],
+  "keyboard": [
+    "Enter: activates the image button and submits the form",
+    "Space: activates the image button and submits the form"
+  ],
+  "props": [
+    "`src`: string (required) -- URL of the image to display",
+    "`alt`: string (required) -- alternative text for the image; serves as accessible name",
+    "`width`: number | undefined (default: `undefined`) -- width of the image in pixels",
+    "`height`: number | undefined (default: `undefined`) -- height of the image in pixels",
+    "`disabled`: boolean (default: `false`) -- whether the button is disabled",
+    "`...restProps`: unknown -- additional attributes spread onto the `<input>` element"
+  ],
+  "related": [
+    "image",
+    "button-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/image-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/ImageInput/ImageInput.svelte",
+    "react": "lily-design-system-react-headless/components/ImageInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/ImageInput.vue",
+    "angular": "lily-design-system-angular-headless/components/ImageInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/image-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/image-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/image-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ImageInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/image-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/image-input/AGENTS.md"
+}

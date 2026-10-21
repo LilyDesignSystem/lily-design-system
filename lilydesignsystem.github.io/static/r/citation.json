@@ -1,0 +1,40 @@
+{
+  "slug": "citation",
+  "name": "Citation",
+  "description": "a citation acknowledges the relevance of a work of another to the topic of discussion",
+  "htmlTag": "cite",
+  "category": "content",
+  "baseClass": ".citation",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit semantics from the `<cite>` element",
+    "No additional ARIA attributes required for standard usage"
+  ],
+  "keyboard": [
+    "None (passive inline element)"
+  ],
+  "props": [
+    "`children`: slot (required) -- citation text, typically the title of the referenced work",
+    "`...restProps`: unknown -- additional attributes spread onto the `<cite>` element"
+  ],
+  "related": [
+    "blockquote",
+    "digital-object-identifier-link",
+    "footnote"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/citation.html",
+    "svelte": "lily-design-system-svelte-headless/components/Citation/Citation.svelte",
+    "react": "lily-design-system-react-headless/components/Citation.tsx",
+    "vue": "lily-design-system-vue-headless/components/Citation.vue",
+    "angular": "lily-design-system-angular-headless/components/Citation.ts",
+    "web-components": "lily-design-system-web-components-headless/components/citation.ts",
+    "alpine": "lily-design-system-alpine-headless/components/citation.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/citation/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Citation.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/citation/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/citation/AGENTS.md"
+}

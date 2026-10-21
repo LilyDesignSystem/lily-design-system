@@ -1,0 +1,43 @@
+{
+  "slug": "week-input",
+  "name": "WeekInput",
+  "description": "an input for selecting a week and year <input type=\"week\">",
+  "htmlTag": "input",
+  "category": "forms",
+  "baseClass": ".week-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label={label}` -- provides the accessible name for the week input since no visible label element is associated"
+  ],
+  "keyboard": [
+    "Up Arrow / Down Arrow: adjust the focused segment (year or week number)",
+    "Left Arrow / Right Arrow: move focus between year and week segments",
+    "Enter: confirm selection / submit form"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name applied via `aria-label`",
+    "`value`: string (default: \"\") -- current week value in YYYY-Www format, bindable with two-way `value` binding",
+    "`required`: boolean (default: false) -- whether the field must be filled before form submission",
+    "`disabled`: boolean (default: false) -- whether the input is disabled",
+    "`...restProps`: spread onto the `<input>` element"
+  ],
+  "related": [
+    "date-input",
+    "month-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/week-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/WeekInput/WeekInput.svelte",
+    "react": "lily-design-system-react-headless/components/WeekInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/WeekInput.vue",
+    "angular": "lily-design-system-angular-headless/components/WeekInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/week-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/week-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/week-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/WeekInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/week-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/week-input/AGENTS.md"
+}

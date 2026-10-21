@@ -1,0 +1,40 @@
+{
+  "slug": "united-kingdom-national-insurance-number-view",
+  "name": "UnitedKingdomNationalInsuranceNumberView",
+  "description": "a read-only display of United Kingdom's National Insurance Number (NINO)",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".united-kingdom-national-insurance-number-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`role=\"text\"` so the identifier announces as a single unit"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (required) — the identifier to display",
+    "`label`: string (optional) — accessible name override via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "united-kingdom-national-insurance-number-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/united-kingdom-national-insurance-number-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/UnitedKingdomNationalInsuranceNumberView/UnitedKingdomNationalInsuranceNumberView.svelte",
+    "react": "lily-design-system-react-headless/components/UnitedKingdomNationalInsuranceNumberView.tsx",
+    "vue": "lily-design-system-vue-headless/components/UnitedKingdomNationalInsuranceNumberView.vue",
+    "angular": "lily-design-system-angular-headless/components/UnitedKingdomNationalInsuranceNumberView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/united-kingdom-national-insurance-number-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/united-kingdom-national-insurance-number-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/united-kingdom-national-insurance-number-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/UnitedKingdomNationalInsuranceNumberView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/united-kingdom-national-insurance-number-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/united-kingdom-national-insurance-number-view/AGENTS.md"
+}

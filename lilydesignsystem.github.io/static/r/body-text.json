@@ -1,0 +1,38 @@
+{
+  "slug": "body-text",
+  "name": "BodyText",
+  "description": "a rendered text block within a content width container",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".body-text",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "None -- semantic content comes from child elements (p, ul, ol, etc.)"
+  ],
+  "keyboard": [
+    "None"
+  ],
+  "props": [
+    "`children`: slot (required) -- text content (paragraphs, lists, etc.)",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "blockquote",
+    "section-heading"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/body-text.html",
+    "svelte": "lily-design-system-svelte-headless/components/BodyText/BodyText.svelte",
+    "react": "lily-design-system-react-headless/components/BodyText.tsx",
+    "vue": "lily-design-system-vue-headless/components/BodyText.vue",
+    "angular": "lily-design-system-angular-headless/components/BodyText.ts",
+    "web-components": "lily-design-system-web-components-headless/components/body-text.ts",
+    "alpine": "lily-design-system-alpine-headless/components/body-text.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/body-text/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/BodyText.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/body-text/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/body-text/AGENTS.md"
+}

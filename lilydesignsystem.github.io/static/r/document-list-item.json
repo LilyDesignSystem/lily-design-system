@@ -1,0 +1,43 @@
+{
+  "slug": "document-list-item",
+  "name": "DocumentListItem",
+  "description": "one document entry in a document list",
+  "htmlTag": "li",
+  "category": "lists",
+  "baseClass": ".document-list-item",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Native anchor and list-item semantics",
+    "The link's accessible name combines the title and the file type/size when announced by screen readers"
+  ],
+  "keyboard": [
+    "Tab moves focus onto the document link",
+    "Enter activates the link to download the document (native browser behaviour)"
+  ],
+  "props": [
+    "`title`: string (required) (default: —) — Document title (link text)",
+    "`href`: string (required) (default: —) — Document URL",
+    "`type`: string (default: —) — File type label, e.g. `\"PDF\"`, `\"DOCX\"`",
+    "`size`: string (default: —) — File size, e.g. `\"1.2 MB\"`",
+    "`modified`: string (default: —) — Last-modified date string",
+    "`...restProps`: HTML attributes (default: —) — Spread onto the root `<li>`"
+  ],
+  "related": [
+    "document-list",
+    "download-button"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/document-list-item.html",
+    "svelte": "lily-design-system-svelte-headless/components/DocumentListItem/DocumentListItem.svelte",
+    "react": "lily-design-system-react-headless/components/DocumentListItem.tsx",
+    "vue": "lily-design-system-vue-headless/components/DocumentListItem.vue",
+    "angular": "lily-design-system-angular-headless/components/DocumentListItem.ts",
+    "alpine": "lily-design-system-alpine-headless/components/document-list-item.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/document-list-item/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DocumentListItem.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/document-list-item/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/document-list-item/AGENTS.md"
+}

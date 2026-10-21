@@ -1,0 +1,42 @@
+{
+  "slug": "data-table-head",
+  "name": "DataTableHead",
+  "description": "a data table interactive grid thead for displaying and sorting tabular data <thead>",
+  "htmlTag": "thead",
+  "category": "tables",
+  "baseClass": ".data-table-head",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "Implicit `rowgroup` role from the `<thead>` element -- groups the header rows of the table"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`children`: slot (required) -- header rows containing column labels",
+    "`...restProps`: Any additional HTML attributes passed to the `<thead>` element"
+  ],
+  "related": [
+    "data-table",
+    "data-table-body",
+    "data-table-foot",
+    "data-table-row",
+    "data-table-td",
+    "data-table-th",
+    "table"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/data-table-head.html",
+    "svelte": "lily-design-system-svelte-headless/components/DataTableHead/DataTableHead.svelte",
+    "react": "lily-design-system-react-headless/components/DataTableHead.tsx",
+    "vue": "lily-design-system-vue-headless/components/DataTableHead.vue",
+    "angular": "lily-design-system-angular-headless/components/DataTableHead.ts",
+    "alpine": "lily-design-system-alpine-headless/components/data-table-head.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/data-table-head/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DataTableHead.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/data-table-head/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/data-table-head/AGENTS.md"
+}

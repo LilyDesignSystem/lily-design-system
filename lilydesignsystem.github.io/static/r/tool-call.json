@@ -1,0 +1,57 @@
+{
+  "slug": "tool-call",
+  "name": "ToolCall",
+  "description": "a collapsible record of one tool invocation by an AI agent, with a name, a status word, and its input, output or error",
+  "htmlTag": "details",
+  "category": "navigation",
+  "baseClass": ".tool-call",
+  "subClasses": [
+    "tool-call-content",
+    "tool-call-error",
+    "tool-call-input",
+    "tool-call-name",
+    "tool-call-status",
+    "tool-call-summary"
+  ],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows",
+  "aria": [
+    "Native `<details>`/`<summary>` semantics; no ARIA role is added",
+    "`aria-busy=\"true\"` only while `status=\"running\"`",
+    "`data-status` is for consumer CSS; the visible status word (in `ToolCallStatus`) carries the meaning, never colour alone"
+  ],
+  "keyboard": [
+    "Enter / Space on the native `<summary>` toggles"
+  ],
+  "props": [
+    "`class`: string -- Appended to the base class",
+    "`status`: string (optional) -- `pending`, `running`, `done` or `error`; sets `data-status`, and `aria-busy=\"true\"` only while running",
+    "`open`: boolean -- Whether expanded (bindable / `v-model` / `@bind-Open` / `open` attribute)",
+    "`summary`: slot -- Summary content: name and status words",
+    "`children`: slot -- The body",
+    "`...restProps`: HTML attributes -- Spread onto the root `<details>`"
+  ],
+  "related": [
+    "tool-call-name",
+    "tool-call-status",
+    "tool-call-input",
+    "tool-call-output",
+    "tool-call-error",
+    "thinking",
+    "expander",
+    "streaming-text"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/tool-call.html",
+    "svelte": "lily-design-system-svelte-headless/components/ToolCall/ToolCall.svelte",
+    "react": "lily-design-system-react-headless/components/ToolCall.tsx",
+    "vue": "lily-design-system-vue-headless/components/ToolCall.vue",
+    "angular": "lily-design-system-angular-headless/components/ToolCall.ts",
+    "web-components": "lily-design-system-web-components-headless/components/tool-call.ts",
+    "alpine": "lily-design-system-alpine-headless/components/tool-call.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/tool-call/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ToolCall.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/tool-call/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tool-call/AGENTS.md"
+}

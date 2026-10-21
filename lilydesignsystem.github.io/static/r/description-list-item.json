@@ -1,0 +1,40 @@
+{
+  "slug": "description-list-item",
+  "name": "DescriptionListItem",
+  "description": "one key-value pair in a description list using dt and dd elements",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".description-list-item",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`<dt>` and `<dd>` retain their native term/description semantics inside the wrapper"
+  ],
+  "keyboard": [
+    "No keyboard interactions"
+  ],
+  "props": [
+    "`term`: string (required) (default: —) — Term shown in the `<dt>`",
+    "`description`: string (default: —) — Description shown in the `<dd>` (when no children slot)",
+    "`children`: slot (default: —) — Custom description content (overrides `description`)",
+    "`...restProps`: HTML attributes (default: —) — Spread onto the root `<div>`"
+  ],
+  "related": [
+    "description-list",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/description-list-item.html",
+    "svelte": "lily-design-system-svelte-headless/components/DescriptionListItem/DescriptionListItem.svelte",
+    "react": "lily-design-system-react-headless/components/DescriptionListItem.tsx",
+    "vue": "lily-design-system-vue-headless/components/DescriptionListItem.vue",
+    "angular": "lily-design-system-angular-headless/components/DescriptionListItem.ts",
+    "web-components": "lily-design-system-web-components-headless/components/description-list-item.ts",
+    "alpine": "lily-design-system-alpine-headless/components/description-list-item.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/description-list-item/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DescriptionListItem.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/description-list-item/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/description-list-item/AGENTS.md"
+}

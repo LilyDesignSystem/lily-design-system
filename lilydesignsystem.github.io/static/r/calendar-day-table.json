@@ -1,0 +1,43 @@
+{
+  "slug": "calendar-day-table",
+  "name": "CalendarDayTable",
+  "description": "a calendar grid showing the time slots of one day",
+  "htmlTag": "table",
+  "category": "tables",
+  "baseClass": ".calendar-day-table",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in the Svelte canonical; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"grid\"` -- identifies the table as an interactive grid widget",
+    "`aria-label={label}` -- provides an accessible name describing the period"
+  ],
+  "keyboard": [
+    "No keyboard interactions built in — the consumer implements grid navigation"
+  ],
+  "props": [
+    "`class`: string (default: `\"\"`) -- appended to the base class",
+    "`label`: string (required) -- accessible name describing the period shown, applied via `aria-label`",
+    "`caption`: string (optional) -- visible caption",
+    "`children`: slot (required) -- table sections and rows",
+    "`...restProps`: HTML attributes -- spread onto the root `<table>`"
+  ],
+  "related": [
+    "calendar-table",
+    "CalendarWeekTable",
+    "calendar-range-picker"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/calendar-day-table.html",
+    "svelte": "lily-design-system-svelte-headless/components/CalendarDayTable/CalendarDayTable.svelte",
+    "react": "lily-design-system-react-headless/components/CalendarDayTable.tsx",
+    "vue": "lily-design-system-vue-headless/components/CalendarDayTable.vue",
+    "angular": "lily-design-system-angular-headless/components/CalendarDayTable.ts",
+    "web-components": "lily-design-system-web-components-headless/components/calendar-day-table.ts",
+    "alpine": "lily-design-system-alpine-headless/components/calendar-day-table.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/calendar-day-table/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CalendarDayTable.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/calendar-day-table/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/calendar-day-table/AGENTS.md"
+}

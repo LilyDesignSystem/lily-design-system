@@ -1,0 +1,40 @@
+{
+  "slug": "question",
+  "name": "Question",
+  "description": "a question is anything that asks for information, invites a response, tests knowledge, etc.",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".question",
+  "subClasses": [],
+  "interactive": false,
+  "status": "experimental — recent catalog addition with the least accumulated depth; contract may still move",
+  "aria": [
+    "`aria-label` -- describes the question for screen readers when no visible heading is present"
+  ],
+  "keyboard": [
+    "None -- questions are informational, not interactive"
+  ],
+  "props": [
+    "`label`: string (optional) -- accessible label for the question",
+    "`children`: slot (required) -- question content",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "answer",
+    "comment",
+    "field"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/question.html",
+    "svelte": "lily-design-system-svelte-headless/components/Question/Question.svelte",
+    "react": "lily-design-system-react-headless/components/Question.tsx",
+    "vue": "lily-design-system-vue-headless/components/Question.vue",
+    "angular": "lily-design-system-angular-headless/components/Question.ts",
+    "web-components": "lily-design-system-web-components-headless/components/question.ts",
+    "alpine": "lily-design-system-alpine-headless/components/question.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/question/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Question.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/question/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/question/AGENTS.md"
+}

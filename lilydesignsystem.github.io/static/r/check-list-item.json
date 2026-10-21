@@ -1,0 +1,43 @@
+{
+  "slug": "check-list-item",
+  "name": "CheckListItem",
+  "description": "one check list item component with a checkbox",
+  "htmlTag": "li",
+  "category": "lists",
+  "baseClass": ".check-list-item",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "Implicit `listitem` role from `<li>` element",
+    "`aria-checked` reflects the current state of the checkbox",
+    "Label association via `<label>` element or `aria-label`"
+  ],
+  "keyboard": [
+    "Tab: Focus the checkbox",
+    "Space: Toggle the checkbox state"
+  ],
+  "props": [
+    "`checked`: boolean (default: false) -- whether the item is checked",
+    "`disabled`: boolean (default: false) -- whether the checkbox is disabled",
+    "`label`: string (optional) -- accessible label override",
+    "`onchange`: callback (optional) -- change handler",
+    "`children`: slot -- item content",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "check-list"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/check-list-item.html",
+    "svelte": "lily-design-system-svelte-headless/components/CheckListItem/CheckListItem.svelte",
+    "react": "lily-design-system-react-headless/components/CheckListItem.tsx",
+    "vue": "lily-design-system-vue-headless/components/CheckListItem.vue",
+    "angular": "lily-design-system-angular-headless/components/CheckListItem.ts",
+    "alpine": "lily-design-system-alpine-headless/components/check-list-item.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/check-list-item/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CheckListItem.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/check-list-item/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/check-list-item/AGENTS.md"
+}

@@ -1,0 +1,48 @@
+{
+  "slug": "pin-input-div",
+  "name": "PinInputDiv",
+  "description": "a series of single-digit inputs for entering a PIN or OTP code",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".pin-input-div",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"group\"` with `aria-label` on the container",
+    "Each input's `aria-label` comes from the optional `digitLabel(position, length)` (e.g. \"Digit 1 of 4\"); without it each input is named by `label` — no English default",
+    "`inputmode=\"numeric\"` for numeric keyboard on mobile"
+  ],
+  "keyboard": [
+    "Digit entry: enters value and auto-focuses next input",
+    "Backspace: clears current or moves to previous input",
+    "ArrowLeft: focuses previous input",
+    "ArrowRight: focuses next input",
+    "Tab: standard tab navigation in/out of the group"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label for the group via aria-label",
+    "`length`: number (default: 4) -- number of digit inputs",
+    "`digitLabel`: (position: number, length: number) => string (optional) -- each input's accessible name; defaults to `label`",
+    "`value`: string (default: \"\") -- bindable combined string of all digits",
+    "`disabled`: boolean (default: false) -- disables all inputs",
+    "`...restProps`: Any additional HTML attributes on the group div"
+  ],
+  "related": [
+    "password-input",
+    "input-with-mask"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/pin-input-div.html",
+    "svelte": "lily-design-system-svelte-headless/components/PinInputDiv/PinInputDiv.svelte",
+    "react": "lily-design-system-react-headless/components/PinInputDiv.tsx",
+    "vue": "lily-design-system-vue-headless/components/PinInputDiv.vue",
+    "angular": "lily-design-system-angular-headless/components/PinInputDiv.ts",
+    "web-components": "lily-design-system-web-components-headless/components/pin-input-div.ts",
+    "alpine": "lily-design-system-alpine-headless/components/pin-input-div.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/pin-input-div/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PinInputDiv.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/pin-input-div/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/pin-input-div/AGENTS.md"
+}

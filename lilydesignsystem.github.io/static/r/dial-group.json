@@ -1,0 +1,40 @@
+{
+  "slug": "dial-group",
+  "name": "DialGroup",
+  "description": "a group of dial components",
+  "htmlTag": "div",
+  "category": "forms",
+  "baseClass": ".dial-group",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"group\"` -- semantically groups the contained dials",
+    "`aria-label` -- describes the purpose of the group"
+  ],
+  "keyboard": [
+    "None at the group level -- individual dials handle their own keyboard interactions"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label for the dial group",
+    "`children`: slot -- dial components",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "dial",
+    "slider"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/dial-group.html",
+    "svelte": "lily-design-system-svelte-headless/components/DialGroup/DialGroup.svelte",
+    "react": "lily-design-system-react-headless/components/DialGroup.tsx",
+    "vue": "lily-design-system-vue-headless/components/DialGroup.vue",
+    "angular": "lily-design-system-angular-headless/components/DialGroup.ts",
+    "web-components": "lily-design-system-web-components-headless/components/dial-group.ts",
+    "alpine": "lily-design-system-alpine-headless/components/dial-group.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/dial-group/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DialGroup.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/dial-group/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/dial-group/AGENTS.md"
+}

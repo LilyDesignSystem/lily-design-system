@@ -1,0 +1,40 @@
+{
+  "slug": "answer",
+  "name": "Answer",
+  "description": "an answer is anything that responds to a question, request, action, etc.",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".answer",
+  "subClasses": [],
+  "interactive": false,
+  "status": "experimental — recent catalog addition with the least accumulated depth; contract may still move",
+  "aria": [
+    "`aria-label` -- describes the answer for screen readers when no visible heading is present"
+  ],
+  "keyboard": [
+    "None -- answers are informational, not interactive"
+  ],
+  "props": [
+    "`label`: string (optional) -- accessible label for the answer",
+    "`children`: slot (required) -- answer content",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "question",
+    "comment",
+    "success-panel"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/answer.html",
+    "svelte": "lily-design-system-svelte-headless/components/Answer/Answer.svelte",
+    "react": "lily-design-system-react-headless/components/Answer.tsx",
+    "vue": "lily-design-system-vue-headless/components/Answer.vue",
+    "angular": "lily-design-system-angular-headless/components/Answer.ts",
+    "web-components": "lily-design-system-web-components-headless/components/answer.ts",
+    "alpine": "lily-design-system-alpine-headless/components/answer.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/answer/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Answer.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/answer/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/answer/AGENTS.md"
+}

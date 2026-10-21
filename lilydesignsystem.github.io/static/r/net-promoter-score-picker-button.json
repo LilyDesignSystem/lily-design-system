@@ -1,0 +1,42 @@
+{
+  "slug": "net-promoter-score-picker-button",
+  "name": "NetPromoterScorePickerButton",
+  "description": "a picker button for selecting a 0-10 Net Promoter Score",
+  "htmlTag": "button",
+  "category": "pickers",
+  "baseClass": ".net-promoter-score-picker-button",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-pressed` -- indicates whether this button is the currently selected score (`true` when selected, `false` otherwise)",
+    "`aria-label` -- provides the accessible name for the button (e.g., \"8\")"
+  ],
+  "keyboard": [
+    "Tab: Focus the button",
+    "Enter / Space: Activate the button to select this score"
+  ],
+  "props": [
+    "`value`: string (required) -- the NPS score value this button represents (e.g., \"0\" through \"10\")",
+    "`selected`: boolean (default: false) -- whether this button is currently selected",
+    "`label`: string (required) -- accessible label for the button (e.g., \"0 - Not at all likely\", \"10 - Extremely likely\")",
+    "`onclick`: callback -- handler called when the button is clicked",
+    "`...restProps`: any -- additional HTML attributes spread onto the `<button>` element"
+  ],
+  "related": [
+    "net-promoter-score-picker"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/net-promoter-score-picker-button.html",
+    "svelte": "lily-design-system-svelte-headless/components/NetPromoterScorePickerButton/NetPromoterScorePickerButton.svelte",
+    "react": "lily-design-system-react-headless/components/NetPromoterScorePickerButton.tsx",
+    "vue": "lily-design-system-vue-headless/components/NetPromoterScorePickerButton.vue",
+    "angular": "lily-design-system-angular-headless/components/NetPromoterScorePickerButton.ts",
+    "web-components": "lily-design-system-web-components-headless/components/net-promoter-score-picker-button.ts",
+    "alpine": "lily-design-system-alpine-headless/components/net-promoter-score-picker-button.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/net-promoter-score-picker-button/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/NetPromoterScorePickerButton.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/net-promoter-score-picker-button/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/net-promoter-score-picker-button/AGENTS.md"
+}

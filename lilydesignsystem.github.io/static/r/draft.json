@@ -1,0 +1,43 @@
+{
+  "slug": "draft",
+  "name": "Draft",
+  "description": "an early preliminary version of content such as an article, email, report, etc.",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".draft",
+  "subClasses": [],
+  "interactive": false,
+  "status": "experimental — recent catalog addition with the least accumulated depth; contract may still move",
+  "aria": [
+    "`aria-label` -- describes the draft for screen readers when no visible heading is present"
+  ],
+  "keyboard": [
+    "None -- drafts are content wrappers, not interactive"
+  ],
+  "props": [
+    "`label`: string (optional) -- accessible label for the draft",
+    "`status`: string (optional) -- editorial state, exposed as `data-status`",
+    "`children`: slot (required) -- draft content",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "question",
+    "answer",
+    "comment",
+    "editable",
+    "editable-form"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/draft.html",
+    "svelte": "lily-design-system-svelte-headless/components/Draft/Draft.svelte",
+    "react": "lily-design-system-react-headless/components/Draft.tsx",
+    "vue": "lily-design-system-vue-headless/components/Draft.vue",
+    "angular": "lily-design-system-angular-headless/components/Draft.ts",
+    "web-components": "lily-design-system-web-components-headless/components/draft.ts",
+    "alpine": "lily-design-system-alpine-headless/components/draft.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/draft/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Draft.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/draft/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/draft/AGENTS.md"
+}

@@ -1,0 +1,44 @@
+{
+  "slug": "data-table-td",
+  "name": "DataTableTD",
+  "description": "a data table interactive grid data cell for displaying and sorting tabular data <td>",
+  "htmlTag": "td",
+  "category": "tables",
+  "baseClass": ".data-table-td",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "Implicit `cell` role from the `<td>` element -- identifies the element as a cell within a table row",
+    "`active` (Svelte, React and Vue) makes this cell the grid's single roving tab stop — `tabindex=\"0\"`, every other cell `-1` — and **never sets `aria-selected`**: focus is not selection, and announcing every focused cell as \"selected\" misleads screen-reader users. A grid with real selection sets `aria-selected` itself, on the row or explicitly on the cell (rest props pass it through). Corrected 2026-10-10; before that `active` set `aria-selected=\"true\"` too."
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`active`: boolean (optional, default false) -- the roving tab stop; sets `tabindex` only, never `aria-selected`",
+    "`children`: slot (required) -- cell content",
+    "`...restProps`: Any additional HTML attributes passed to the `<td>` element"
+  ],
+  "related": [
+    "data-table",
+    "data-table-body",
+    "data-table-foot",
+    "data-table-head",
+    "data-table-row",
+    "data-table-th",
+    "table"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/data-table-td.html",
+    "svelte": "lily-design-system-svelte-headless/components/DataTableTD/DataTableTD.svelte",
+    "react": "lily-design-system-react-headless/components/DataTableTD.tsx",
+    "vue": "lily-design-system-vue-headless/components/DataTableTD.vue",
+    "angular": "lily-design-system-angular-headless/components/DataTableTD.ts",
+    "alpine": "lily-design-system-alpine-headless/components/data-table-td.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/data-table-td/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DataTableTD.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/data-table-td/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/data-table-td/AGENTS.md"
+}

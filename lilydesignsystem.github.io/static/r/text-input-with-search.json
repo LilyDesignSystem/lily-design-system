@@ -1,0 +1,52 @@
+{
+  "slug": "text-input-with-search",
+  "name": "TextInputWithSearch",
+  "description": "a single-line text input field <input type=\"text\"> with search capability",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".text-input-with-search",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"search\"` -- on the wrapper `<div>` to establish a search landmark",
+    "`aria-label={label}` -- provides an accessible name for the search region",
+    "`aria-label={inputLabel}` -- provides an accessible name for the text input",
+    "`aria-label={searchLabel}` -- provides an accessible name for the search button"
+  ],
+  "keyboard": [
+    "Tab: Moves focus between the text input and search button",
+    "Enter in the text input: Triggers the search callback",
+    "Enter/Space on the search button: Triggers the search callback"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name for the search region via `aria-label`",
+    "`inputLabel`: string (default: \"Search\") -- accessible name for the text input via `aria-label`",
+    "`searchLabel`: string (default: \"Search\") -- accessible label and text for the search button",
+    "`value`: string (default: \"\") -- bindable text input value",
+    "`placeholder`: string (optional) -- placeholder text for the input",
+    "`onsearch`: `(value: string) => void` (optional) -- callback when search is triggered",
+    "`required`: boolean (default: false) -- whether the input is required",
+    "`disabled`: boolean (default: false) -- whether the input and button are disabled",
+    "`...restProps`: unknown -- additional attributes spread onto the wrapper `<div>`"
+  ],
+  "related": [
+    "text-input",
+    "search-input",
+    "combobox",
+    "autosuggest"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/text-input-with-search.html",
+    "svelte": "lily-design-system-svelte-headless/components/TextInputWithSearch/TextInputWithSearch.svelte",
+    "react": "lily-design-system-react-headless/components/TextInputWithSearch.tsx",
+    "vue": "lily-design-system-vue-headless/components/TextInputWithSearch.vue",
+    "angular": "lily-design-system-angular-headless/components/TextInputWithSearch.ts",
+    "web-components": "lily-design-system-web-components-headless/components/text-input-with-search.ts",
+    "alpine": "lily-design-system-alpine-headless/components/text-input-with-search.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/text-input-with-search/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TextInputWithSearch.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/text-input-with-search/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/text-input-with-search/AGENTS.md"
+}

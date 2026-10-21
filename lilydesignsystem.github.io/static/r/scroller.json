@@ -1,0 +1,51 @@
+{
+  "slug": "scroller",
+  "name": "Scroller",
+  "description": "a scrollytelling container with step-based foreground and background composition",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".scroller",
+  "subClasses": [
+    "scroller-background",
+    "scroller-base",
+    "scroller-foreground"
+  ],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` on container",
+    "`aria-live=\"polite\"` on background for screen reader updates"
+  ],
+  "keyboard": [
+    "Standard scroll behavior",
+    "Tab navigates focusable content within steps"
+  ],
+  "props": [
+    "`children`: slot (required) -- foreground step content",
+    "`background`: slot (required) -- sticky background content that changes with steps",
+    "`offset`: number (default: 0.5) -- viewport offset where step triggers",
+    "`index`: number (bindable, default: 0) -- current active step index",
+    "`progress`: number (bindable, default: 0) -- overall scroll progress (0-1)",
+    "`label`: string (optional) -- accessible label for the scroller region",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "scroller-base",
+    "scroller-video",
+    "horizontal-scroller",
+    "carousel"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/scroller.html",
+    "svelte": "lily-design-system-svelte-headless/components/Scroller/Scroller.svelte",
+    "react": "lily-design-system-react-headless/components/Scroller.tsx",
+    "vue": "lily-design-system-vue-headless/components/Scroller.vue",
+    "angular": "lily-design-system-angular-headless/components/Scroller.ts",
+    "web-components": "lily-design-system-web-components-headless/components/scroller.ts",
+    "alpine": "lily-design-system-alpine-headless/components/scroller.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/scroller/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Scroller.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/scroller/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/scroller/AGENTS.md"
+}

@@ -1,0 +1,43 @@
+{
+  "slug": "email-input",
+  "name": "EmailInput",
+  "description": "an input for entering an email address <input type=\"email\">",
+  "htmlTag": "input",
+  "category": "forms",
+  "baseClass": ".email-input",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`aria-label=\"...\"` -- provides an accessible name for the email input since it has no visible `<label>` element"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name via `aria-label`",
+    "`value`: string (default: `\"\"`) -- current email value, two-way bindable via `value`",
+    "`required`: boolean (default: `false`) -- whether the field is required",
+    "`disabled`: boolean (default: `false`) -- whether the field is disabled",
+    "`...restProps`: unknown -- additional attributes spread onto the `<input>`"
+  ],
+  "related": [
+    "text-input",
+    "email-link",
+    "tel-input",
+    "url-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/email-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/EmailInput/EmailInput.svelte",
+    "react": "lily-design-system-react-headless/components/EmailInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/EmailInput.vue",
+    "angular": "lily-design-system-angular-headless/components/EmailInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/email-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/email-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/email-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/EmailInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/email-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/email-input/AGENTS.md"
+}

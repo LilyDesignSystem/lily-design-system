@@ -1,0 +1,42 @@
+{
+  "slug": "calendar-table-body",
+  "name": "CalendarTableBody",
+  "description": "a calendar table interactive grid tbody for managing dates, days, etc. <tbody>",
+  "htmlTag": "tbody",
+  "category": "tables",
+  "baseClass": ".calendar-table-body",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `rowgroup` role from the `<tbody>` element -- groups the body rows of the grid"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`children`: slot (required) -- rows of day cells representing weeks in the calendar",
+    "`...restProps`: Any additional HTML attributes passed to the `<tbody>` element"
+  ],
+  "related": [
+    "calendar-table",
+    "calendar-table-foot",
+    "calendar-table-head",
+    "calendar-table-row",
+    "calendar-table-td",
+    "calendar-table-th",
+    "table"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/calendar-table-body.html",
+    "svelte": "lily-design-system-svelte-headless/components/CalendarTableBody/CalendarTableBody.svelte",
+    "react": "lily-design-system-react-headless/components/CalendarTableBody.tsx",
+    "vue": "lily-design-system-vue-headless/components/CalendarTableBody.vue",
+    "angular": "lily-design-system-angular-headless/components/CalendarTableBody.ts",
+    "alpine": "lily-design-system-alpine-headless/components/calendar-table-body.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/calendar-table-body/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CalendarTableBody.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/calendar-table-body/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/calendar-table-body/AGENTS.md"
+}

@@ -1,0 +1,48 @@
+{
+  "slug": "hamburger-menu",
+  "name": "HamburgerMenu",
+  "description": "a toggle button that opens a mobile navigation menu",
+  "htmlTag": "button",
+  "category": "navigation",
+  "baseClass": ".hamburger-menu",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`aria-label={label}` -- on the button, provides an accessible name for the toggle control",
+    "`aria-expanded={open}` -- on the button, indicates whether the navigation panel is currently visible",
+    "`aria-controls={menuId}` -- on the button, references the id of the navigation panel",
+    "`role=\"navigation\"` -- on the content container, identifies it as a navigation landmark",
+    "`aria-label={label}` -- on the navigation container, provides an accessible name for the landmark"
+  ],
+  "keyboard": [
+    "Enter: Toggles the menu open/closed when the button has focus (native button behavior)",
+    "Space: Toggles the menu open/closed when the button has focus (native button behavior)",
+    "Tab: Moves focus to/from the toggle button and into the navigation content when open"
+  ],
+  "props": [
+    "`label`: string (default: \"Menu\") -- accessible name for the toggle button and the navigation region",
+    "`open`: boolean (default: false) -- bindable boolean controlling whether the navigation panel is visible",
+    "`children`: slot (required) -- navigation content rendered when the menu is open",
+    "`...restProps`: unknown -- additional attributes spread onto the outer `<div>` wrapper"
+  ],
+  "related": [
+    "menu-bar",
+    "navigation-menu",
+    "drawer",
+    "menu"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/hamburger-menu.html",
+    "svelte": "lily-design-system-svelte-headless/components/HamburgerMenu/HamburgerMenu.svelte",
+    "react": "lily-design-system-react-headless/components/HamburgerMenu.tsx",
+    "vue": "lily-design-system-vue-headless/components/HamburgerMenu.vue",
+    "angular": "lily-design-system-angular-headless/components/HamburgerMenu.ts",
+    "web-components": "lily-design-system-web-components-headless/components/hamburger-menu.ts",
+    "alpine": "lily-design-system-alpine-headless/components/hamburger-menu.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/hamburger-menu/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/HamburgerMenu.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/hamburger-menu/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/hamburger-menu/AGENTS.md"
+}

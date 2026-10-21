@@ -1,0 +1,63 @@
+{
+  "slug": "newsletter-signup",
+  "name": "NewsletterSignup",
+  "description": "an email subscription form composition with idle, submitting, success, and error states",
+  "htmlTag": "form",
+  "category": "forms",
+  "baseClass": ".newsletter-signup",
+  "subClasses": [
+    "newsletter-signup-description",
+    "newsletter-signup-email",
+    "newsletter-signup-error",
+    "newsletter-signup-header",
+    "newsletter-signup-heading",
+    "newsletter-signup-label",
+    "newsletter-signup-submit",
+    "newsletter-signup-success"
+  ],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "aria-label on the <form> provides the form's accessible name (required)",
+    "data-state reflects current state",
+    "Success: role=\"status\" + aria-live=\"polite\"",
+    "Error: role=\"alert\"",
+    "Hidden attribute toggles message visibility per state"
+  ],
+  "keyboard": [
+    "Tab: Move focus through the email input and submit button",
+    "Enter inside the email input: Submit the form",
+    "(All handled natively by <form>, <input>, and <button>)"
+  ],
+  "props": [
+    "`label`: string (REQUIRED) -- aria-label for the form",
+    "`heading`: string (optional) -- visible heading",
+    "`description`: string (optional) -- body text",
+    "`emailLabel`: string (REQUIRED) -- visible label for email input",
+    "`emailPlaceholder`: string (optional)",
+    "`submitLabel`: string (REQUIRED) -- submit button text",
+    "`state`: \"idle\" | \"submitting\" | \"success\" | \"error\" (default \"idle\")",
+    "`successMessage`: string (optional)",
+    "`errorMessage`: string (optional)",
+    "`onSubmit` / `onsubmit`: callback (optional)",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "form",
+    "email-input",
+    "call-to-action"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/newsletter-signup.html",
+    "svelte": "lily-design-system-svelte-headless/components/NewsletterSignup/NewsletterSignup.svelte",
+    "react": "lily-design-system-react-headless/components/NewsletterSignup.tsx",
+    "vue": "lily-design-system-vue-headless/components/NewsletterSignup.vue",
+    "angular": "lily-design-system-angular-headless/components/NewsletterSignup.ts",
+    "web-components": "lily-design-system-web-components-headless/components/newsletter-signup.ts",
+    "alpine": "lily-design-system-alpine-headless/components/newsletter-signup.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/newsletter-signup/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/NewsletterSignup.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/newsletter-signup/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/newsletter-signup/AGENTS.md"
+}

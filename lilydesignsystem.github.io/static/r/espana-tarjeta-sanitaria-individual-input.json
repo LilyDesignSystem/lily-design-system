@@ -1,0 +1,42 @@
+{
+  "slug": "espana-tarjeta-sanitaria-individual-input",
+  "name": "EspanaTarjetaSanitariaIndividualInput",
+  "description": "an input for entering an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier",
+  "htmlTag": "input",
+  "category": "national",
+  "baseClass": ".espana-tarjeta-sanitaria-individual-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`required` and `disabled` states conveyed to assistive technology"
+  ],
+  "keyboard": [
+    "Standard text input keyboard behavior"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label via aria-label",
+    "`value`: string (default: \"\") -- bindable input value",
+    "`required`: boolean (default: false) -- form validation",
+    "`disabled`: boolean (default: false) -- disabled state",
+    "`...restProps`: Any additional HTML attributes spread onto the `<input>`"
+  ],
+  "related": [
+    "espana-tarjeta-sanitaria-individual-view",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/espana-tarjeta-sanitaria-individual-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/EspanaTarjetaSanitariaIndividualInput/EspanaTarjetaSanitariaIndividualInput.svelte",
+    "react": "lily-design-system-react-headless/components/EspanaTarjetaSanitariaIndividualInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/EspanaTarjetaSanitariaIndividualInput.vue",
+    "angular": "lily-design-system-angular-headless/components/EspanaTarjetaSanitariaIndividualInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/espana-tarjeta-sanitaria-individual-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/espana-tarjeta-sanitaria-individual-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/espana-tarjeta-sanitaria-individual-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/EspanaTarjetaSanitariaIndividualInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/espana-tarjeta-sanitaria-individual-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/espana-tarjeta-sanitaria-individual-input/AGENTS.md"
+}

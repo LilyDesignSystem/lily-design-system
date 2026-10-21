@@ -1,0 +1,43 @@
+{
+  "slug": "tool-bar",
+  "name": "ToolBar",
+  "description": "a horizontal bar of tool actions",
+  "htmlTag": "div",
+  "category": "navigation",
+  "baseClass": ".tool-bar",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"toolbar\"` -- identifies the container as a toolbar widget",
+    "`aria-label` -- provides the accessible name for the toolbar"
+  ],
+  "keyboard": [
+    "ArrowRight: Move focus to next item (wraps to first)",
+    "ArrowLeft: Move focus to previous item (wraps to last)",
+    "Home: Move focus to first item",
+    "End: Move focus to last item",
+    "Tab: Enter/exit the toolbar"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name for the toolbar via `aria-label`",
+    "`children`: slot (required) -- toolbar item elements",
+    "`...restProps`: Any additional HTML attributes passed to the `<div>` element"
+  ],
+  "related": [
+    "tool-bar-button"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/tool-bar.html",
+    "svelte": "lily-design-system-svelte-headless/components/ToolBar/ToolBar.svelte",
+    "react": "lily-design-system-react-headless/components/ToolBar.tsx",
+    "vue": "lily-design-system-vue-headless/components/ToolBar.vue",
+    "angular": "lily-design-system-angular-headless/components/ToolBar.ts",
+    "web-components": "lily-design-system-web-components-headless/components/tool-bar.ts",
+    "alpine": "lily-design-system-alpine-headless/components/tool-bar.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/tool-bar/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ToolBar.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/tool-bar/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tool-bar/AGENTS.md"
+}

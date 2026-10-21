@@ -1,0 +1,46 @@
+{
+  "slug": "dialog",
+  "name": "Dialog",
+  "description": "a modal or non-modal dialog window",
+  "htmlTag": "dialog",
+  "category": "overlays",
+  "baseClass": ".dialog",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"dialog\"` -- provided natively by the `<dialog>` element",
+    "`aria-label=\"{label}\"` -- provides an accessible name for the dialog",
+    "`aria-modal=\"true\"` -- present when the `modal` prop is true, indicating the dialog traps focus and blocks background interaction",
+    "`tabindex=\"-1\"` -- allows the dialog element itself to receive focus for keyboard event handling"
+  ],
+  "keyboard": [
+    "Escape: closes the dialog by setting `open` to false"
+  ],
+  "props": [
+    "`open`: boolean (default: false) -- whether the dialog is visible; bindable",
+    "`label`: string (required) -- accessible name for the dialog",
+    "`modal`: boolean (default: true) -- whether the dialog behaves as a modal",
+    "`children`: slot (required) -- dialog body content"
+  ],
+  "related": [
+    "alert-dialog",
+    "popconfirm-dialog",
+    "file-dialog",
+    "drawer",
+    "sheet"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/dialog.html",
+    "svelte": "lily-design-system-svelte-headless/components/Dialog/Dialog.svelte",
+    "react": "lily-design-system-react-headless/components/Dialog.tsx",
+    "vue": "lily-design-system-vue-headless/components/Dialog.vue",
+    "angular": "lily-design-system-angular-headless/components/Dialog.ts",
+    "web-components": "lily-design-system-web-components-headless/components/dialog.ts",
+    "alpine": "lily-design-system-alpine-headless/components/dialog.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/dialog/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Dialog.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/dialog/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/dialog/AGENTS.md"
+}

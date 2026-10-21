@@ -1,0 +1,49 @@
+{
+  "slug": "slider",
+  "name": "Slider",
+  "description": "a draggable control for selecting a value along a track",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".slider",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`aria-label={label}` -- provides an accessible name for the slider"
+  ],
+  "keyboard": [
+    "Left Arrow / Down Arrow: Decrease value by one step",
+    "Right Arrow / Up Arrow: Increase value by one step",
+    "Home: Set to minimum value",
+    "End: Set to maximum value",
+    "Page Up: Increase by a larger step (browser-dependent)",
+    "Page Down: Decrease by a larger step (browser-dependent)"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name applied via `aria-label`",
+    "`value`: number (default: 50) -- current slider value; bindable",
+    "`min`: number (default: 0) -- minimum allowed value",
+    "`max`: number (default: 100) -- maximum allowed value",
+    "`step`: number (default: 1) -- increment between allowed values",
+    "`disabled`: boolean (default: false) -- whether the slider is disabled"
+  ],
+  "related": [
+    "range-input",
+    "slider-button",
+    "dial",
+    "angle-slider-range-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/slider.html",
+    "svelte": "lily-design-system-svelte-headless/components/Slider/Slider.svelte",
+    "react": "lily-design-system-react-headless/components/Slider.tsx",
+    "vue": "lily-design-system-vue-headless/components/Slider.vue",
+    "angular": "lily-design-system-angular-headless/components/Slider.ts",
+    "web-components": "lily-design-system-web-components-headless/components/slider.ts",
+    "alpine": "lily-design-system-alpine-headless/components/slider.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/slider/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Slider.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/slider/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/slider/AGENTS.md"
+}

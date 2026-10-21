@@ -11,10 +11,16 @@ page (plan P5-T3). Regenerate after any AGENTS.md change; `--check`
 the site reference can never disagree with the canonical metadata.
 
 Only the marked region is generated; the surrounding page is untouched.
+
+It also writes the per-component machine manifests, static/r/{slug}.json
+and static/r/index.json (coss-ui-lessons item 2), from the same AGENTS.md
+files, components-categories.tsv and the file layout of the headless
+libraries; `--check` fails when any manifest drifts.
 """
 
 import glob
 import html
+import json
 import os
 import re
 import sys
@@ -24,6 +30,21 @@ SITE = os.path.join(TOP, "lilydesignsystem.github.io", "src", "routes", "compone
 BEGIN = "<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->"
 END = "<!-- END generated: canonical contract -->"
 SECTIONS = ["Metadata", "ARIA", "Keyboard", "Props"]
+STATIC_R = os.path.join(TOP, "lilydesignsystem.github.io", "static", "r")
+SITE_URL = "https://lilydesignsystem.com"
+REPO_URL = "https://github.com/LilyDesignSystem/lily-design-system/blob/main"
+# framework -> (subproject, path template relative to it); {slug} and {Name} are filled per component.
+FRAMEWORKS = {
+    "html": ("lily-design-system-html-headless", "components/{slug}.html"),
+    "svelte": ("lily-design-system-svelte-headless", "components/{Name}/{Name}.svelte"),
+    "react": ("lily-design-system-react-headless", "components/{Name}.tsx"),
+    "vue": ("lily-design-system-vue-headless", "components/{Name}.vue"),
+    "angular": ("lily-design-system-angular-headless", "components/{Name}.ts"),
+    "web-components": ("lily-design-system-web-components-headless", "components/{slug}.ts"),
+    "alpine": ("lily-design-system-alpine-headless", "components/{slug}.html"),
+    "nunjucks": ("lily-design-system-nunjucks-headless", "components/{slug}/macro.njk"),
+    "blazor": ("lily-design-system-blazor-headless", "src/LilyBlazorHeadless/Components/{Name}.razor"),
+}
 
 INLINE_CODE = re.compile(r"`([^`]+)`")
 
@@ -90,6 +111,93 @@ def contract_html(slug):
 {END}"""
 
 
+def bullets(text):
+    return [l[2:].strip() for l in text.strip().splitlines() if l.startswith("- ")]
+
+
+def manifest(slug, name, description, categories):
+    text = open(os.path.join(TOP, "components", slug, "AGENTS.md")).read()
+    sections = {}
+    for part in re.split(r"^## ", text, flags=re.M)[1:]:
+        title, _, body = part.partition("\n")
+        sections[title.strip()] = body
+    meta = {}
+    for b in bullets(sections.get("Metadata", "")):
+        k, _, v = b.partition(":")
+        meta[k.strip()] = v.strip()
+    files = {}
+    for fw, (sub, tpl) in FRAMEWORKS.items():
+        rel = tpl.format(slug=slug, Name=name)
+        if os.path.exists(os.path.join(TOP, sub, rel)):
+            files[fw] = f"{sub}/{rel}"
+    classes = []
+    snippet = os.path.join(TOP, "lily-design-system-html-headless", "components", f"{slug}.html")
+    if os.path.exists(snippet):
+        for m in re.finditer(r'class="([^"]*)"', open(snippet).read()):
+            classes += [c for c in m.group(1).split() if c == slug or c.startswith(slug + "-")]
+    related = []
+    index = os.path.join(TOP, "components", slug, "index.md")
+    if os.path.exists(index):
+        m = re.search(r"^## Related components\n(.*?)(?=^## |\Z)", open(index).read(), flags=re.M | re.S)
+        if m:
+            related = re.findall(r"^- `([^`]+)`", m.group(1), flags=re.M)
+    tag, category = categories.get(slug, (meta.get("HTML tag", ""), ""))
+    return {
+        "slug": slug,
+        "name": name,
+        "description": description,
+        "htmlTag": tag,
+        "category": category,
+        "baseClass": f".{slug}",
+        "subClasses": sorted(set(classes) - {slug}),
+        "interactive": meta.get("Interactive", "") == "yes",
+        "status": meta.get("Status", ""),
+        "aria": bullets(sections.get("ARIA", "")),
+        "keyboard": bullets(sections.get("Keyboard", "")),
+        "props": bullets(sections.get("Props", "")),
+        "related": related,
+        "files": files,
+        "docs": f"{SITE_URL}/components/{slug}/",
+        "source": f"{REPO_URL}/components/{slug}/AGENTS.md",
+    }
+
+
+def manifests(mode):
+    """Write (or check) static/r/*.json; returns the number that differ from disk."""
+    categories = {}
+    for line in open(os.path.join(TOP, "components-categories.tsv")):
+        f = line.rstrip("\n").split("\t")
+        if len(f) >= 3:
+            categories[f[0]] = (f[1], f[2])
+    rows = [l.rstrip("\n").split("\t") for l in open(os.path.join(TOP, "components.tsv")) if l.strip()]
+    out = {}
+    for slug, name, description in (r[:3] for r in rows):
+        out[f"{slug}.json"] = manifest(slug, name, description, categories)
+    out["index.json"] = {
+        "count": len(rows),
+        "components": [{"slug": r[0], "name": r[1], "description": r[2], "manifest": f"{SITE_URL}/r/{r[0]}.json"} for r in sorted(rows)],
+    }
+    wanted = {k: json.dumps(v, indent=2, ensure_ascii=False) + "\n" for k, v in out.items()}
+    os.makedirs(STATIC_R, exist_ok=True)
+    differ = 0
+    for k, body in wanted.items():
+        path = os.path.join(STATIC_R, k)
+        if not os.path.exists(path) or open(path).read() != body:
+            differ += 1
+            if mode != "--check":
+                open(path, "w").write(body)
+            else:
+                print(f"Error: r/{k} drifts from its sources", file=sys.stderr)
+    for k in os.listdir(STATIC_R):
+        if k not in wanted:
+            differ += 1
+            if mode == "--check":
+                print(f"Error: r/{k} has no source component", file=sys.stderr)
+            else:
+                os.remove(os.path.join(STATIC_R, k))
+    return differ
+
+
 def main():
     mode = sys.argv[1] if len(sys.argv) > 1 else "generate"
     slugs = sorted(
@@ -117,6 +225,7 @@ def main():
             else:
                 open(page, "w").write(new)
                 changed += 1
+    drift += manifests(mode)
     if mode == "--check":
         if drift:
             print(f"generate-api-docs: FAILED ({drift} drifting)", file=sys.stderr)

@@ -1,0 +1,39 @@
+{
+  "slug": "dont-list",
+  "name": "DontList",
+  "description": "a guideline list of discouraged dont-list-item components",
+  "htmlTag": "ol",
+  "category": "lists",
+  "baseClass": ".dont-list",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"list\"` -- explicitly declares list semantics on the `<ul>`, ensuring assistive technology announces it as a list",
+    "`aria-label={label}` -- provides an accessible name for the list (defaults to \"Don't\")"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`label`: string (default: `\"Don't\"`) -- accessible name for the list",
+    "`children`: slot (required) -- list items, each should be an `<li>` element",
+    "`...restProps`: any additional HTML attributes spread onto the `<ul>` element"
+  ],
+  "related": [
+    "dont-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/dont-list.html",
+    "svelte": "lily-design-system-svelte-headless/components/DontList/DontList.svelte",
+    "react": "lily-design-system-react-headless/components/DontList.tsx",
+    "vue": "lily-design-system-vue-headless/components/DontList.vue",
+    "angular": "lily-design-system-angular-headless/components/DontList.ts",
+    "web-components": "lily-design-system-web-components-headless/components/dont-list.ts",
+    "alpine": "lily-design-system-alpine-headless/components/dont-list.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/dont-list/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DontList.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/dont-list/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/dont-list/AGENTS.md"
+}

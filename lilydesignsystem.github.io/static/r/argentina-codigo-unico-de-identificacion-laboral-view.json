@@ -1,0 +1,39 @@
+{
+  "slug": "argentina-codigo-unico-de-identificacion-laboral-view",
+  "name": "ArgentinaCodigoUnicoDeIdentificacionLaboralView",
+  "description": "a read-only display of Argentina's Codigo Unico de Identificacion Laboral (CUIL)",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".argentina-codigo-unico-de-identificacion-laboral-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (default: \"\") — the identifier to display",
+    "`label`: string (required) — accessible name via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "argentina-codigo-unico-de-identificacion-laboral-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/argentina-codigo-unico-de-identificacion-laboral-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/ArgentinaCodigoUnicoDeIdentificacionLaboralView/ArgentinaCodigoUnicoDeIdentificacionLaboralView.svelte",
+    "react": "lily-design-system-react-headless/components/ArgentinaCodigoUnicoDeIdentificacionLaboralView.tsx",
+    "vue": "lily-design-system-vue-headless/components/ArgentinaCodigoUnicoDeIdentificacionLaboralView.vue",
+    "angular": "lily-design-system-angular-headless/components/ArgentinaCodigoUnicoDeIdentificacionLaboralView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/argentina-codigo-unico-de-identificacion-laboral-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/argentina-codigo-unico-de-identificacion-laboral-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/argentina-codigo-unico-de-identificacion-laboral-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ArgentinaCodigoUnicoDeIdentificacionLaboralView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/argentina-codigo-unico-de-identificacion-laboral-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/argentina-codigo-unico-de-identificacion-laboral-view/AGENTS.md"
+}

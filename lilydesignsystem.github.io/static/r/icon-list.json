@@ -1,0 +1,42 @@
+{
+  "slug": "icon-list",
+  "name": "IconList",
+  "description": "an ordered list of icon list item components",
+  "htmlTag": "ul",
+  "category": "lists",
+  "baseClass": ".icon-list",
+  "subClasses": [
+    "icon-list-item"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `list` role from the `<ul>` element",
+    "`aria-label` is rendered only when `label` is provided"
+  ],
+  "keyboard": [
+    "Tab: moves focus to interactive descendants of the items",
+    "The list itself is not interactive"
+  ],
+  "props": [
+    "`label`: string (optional) -- aria-label for the list",
+    "`children`: slot -- `icon-list-item` children",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "icon-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/icon-list.html",
+    "svelte": "lily-design-system-svelte-headless/components/IconList/IconList.svelte",
+    "react": "lily-design-system-react-headless/components/IconList.tsx",
+    "vue": "lily-design-system-vue-headless/components/IconList.vue",
+    "angular": "lily-design-system-angular-headless/components/IconList.ts",
+    "web-components": "lily-design-system-web-components-headless/components/icon-list.ts",
+    "alpine": "lily-design-system-alpine-headless/components/icon-list.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/icon-list/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/IconList.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/icon-list/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/icon-list/AGENTS.md"
+}

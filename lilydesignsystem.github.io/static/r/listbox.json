@@ -1,0 +1,45 @@
+{
+  "slug": "listbox",
+  "name": "Listbox",
+  "description": "a list of selectable options with keyboard navigation",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".listbox",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"listbox\"` -- identifies the container as a listbox widget for selecting from a list of options.",
+    "`aria-label` -- provides an accessible name describing the purpose of the listbox.",
+    "Child elements should use `role=\"option\"` and optionally `aria-selected` to indicate selection state."
+  ],
+  "keyboard": [
+    "ArrowDown: Moves focus to the next option, wrapping to the first option from the last.",
+    "ArrowUp: Moves focus to the previous option, wrapping to the last option from the first.",
+    "Home: Moves focus to the first option.",
+    "End: Moves focus to the last option."
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name applied via `aria-label`.",
+    "`children`: slot (required) -- option elements to render inside the listbox (should have `role=\"option\"` and `tabindex=\"-1\"`).",
+    "`...restProps`: unknown -- additional attributes spread onto the container `<div>`."
+  ],
+  "related": [
+    "select",
+    "combobox",
+    "option"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/listbox.html",
+    "svelte": "lily-design-system-svelte-headless/components/Listbox/Listbox.svelte",
+    "react": "lily-design-system-react-headless/components/Listbox.tsx",
+    "vue": "lily-design-system-vue-headless/components/Listbox.vue",
+    "angular": "lily-design-system-angular-headless/components/Listbox.ts",
+    "web-components": "lily-design-system-web-components-headless/components/listbox.ts",
+    "alpine": "lily-design-system-alpine-headless/components/listbox.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/listbox/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Listbox.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/listbox/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/listbox/AGENTS.md"
+}

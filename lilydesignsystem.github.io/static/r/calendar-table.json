@@ -1,0 +1,44 @@
+{
+  "slug": "calendar-table",
+  "name": "CalendarTable",
+  "description": "a calendar table interactive grid for managing dates, days, etc. <table>",
+  "htmlTag": "table",
+  "category": "tables",
+  "baseClass": ".calendar-table",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"grid\"` -- identifies the table as an interactive grid widget",
+    "`aria-label={label}` -- provides an accessible name describing the calendar period"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name describing the calendar period (e.g., month and year), applied via `aria-label`",
+    "`children`: slot (required) -- table rows and cells representing the calendar grid"
+  ],
+  "related": [
+    "calendar-table-body",
+    "calendar-table-foot",
+    "calendar-table-head",
+    "calendar-table-row",
+    "calendar-table-td",
+    "calendar-table-th",
+    "table"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/calendar-table.html",
+    "svelte": "lily-design-system-svelte-headless/components/CalendarTable/CalendarTable.svelte",
+    "react": "lily-design-system-react-headless/components/CalendarTable.tsx",
+    "vue": "lily-design-system-vue-headless/components/CalendarTable.vue",
+    "angular": "lily-design-system-angular-headless/components/CalendarTable.ts",
+    "web-components": "lily-design-system-web-components-headless/components/calendar-table.ts",
+    "alpine": "lily-design-system-alpine-headless/components/calendar-table.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/calendar-table/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CalendarTable.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/calendar-table/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/calendar-table/AGENTS.md"
+}

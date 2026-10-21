@@ -1,0 +1,40 @@
+{
+  "slug": "latvija-personas-kods-view",
+  "name": "LatvijaPersonasKodsView",
+  "description": "a read-only display of Latvia's Personas kods",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".latvija-personas-kods-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`role=\"text\"` so the identifier announces as a single unit"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (required) — the identifier to display",
+    "`label`: string (optional) — accessible name override via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "latvija-personas-kods-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/latvija-personas-kods-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/LatvijaPersonasKodsView/LatvijaPersonasKodsView.svelte",
+    "react": "lily-design-system-react-headless/components/LatvijaPersonasKodsView.tsx",
+    "vue": "lily-design-system-vue-headless/components/LatvijaPersonasKodsView.vue",
+    "angular": "lily-design-system-angular-headless/components/LatvijaPersonasKodsView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/latvija-personas-kods-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/latvija-personas-kods-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/latvija-personas-kods-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/LatvijaPersonasKodsView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/latvija-personas-kods-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/latvija-personas-kods-view/AGENTS.md"
+}

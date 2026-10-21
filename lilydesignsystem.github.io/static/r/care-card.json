@@ -1,0 +1,44 @@
+{
+  "slug": "care-card",
+  "name": "CareCard",
+  "description": "a medical care instruction card with urgency levels",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".care-card",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"region\"` -- identifies the card as a named landmark",
+    "`aria-label` -- set from `label` prop or `heading` prop for screen reader identification",
+    "`data-type` -- exposes urgency level for consumer styling hooks"
+  ],
+  "keyboard": [
+    "None -- this component is a passive content container"
+  ],
+  "props": [
+    "`type`: \"non-urgent\" | \"urgent\" | \"immediate\" (default: \"non-urgent\") -- urgency level",
+    "`heading`: string (required) -- heading text for the care card",
+    "`label`: string (optional) -- `aria-label` override; defaults to heading text",
+    "`children`: slot (required) -- the care card body content",
+    "`...restProps`: Any additional HTML attributes passed to the `<section>` element"
+  ],
+  "related": [
+    "card",
+    "medical-banner",
+    "alert"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/care-card.html",
+    "svelte": "lily-design-system-svelte-headless/components/CareCard/CareCard.svelte",
+    "react": "lily-design-system-react-headless/components/CareCard.tsx",
+    "vue": "lily-design-system-vue-headless/components/CareCard.vue",
+    "angular": "lily-design-system-angular-headless/components/CareCard.ts",
+    "web-components": "lily-design-system-web-components-headless/components/care-card.ts",
+    "alpine": "lily-design-system-alpine-headless/components/care-card.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/care-card/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CareCard.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/care-card/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/care-card/AGENTS.md"
+}

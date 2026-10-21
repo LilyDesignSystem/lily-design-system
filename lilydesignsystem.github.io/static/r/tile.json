@@ -1,0 +1,46 @@
+{
+  "slug": "tile",
+  "name": "Tile",
+  "description": "a grouping container that presents related content in a structured format, often as a single clickable area",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".tile",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` -- describes the tile for screen readers",
+    "`tabindex=\"0\"` when interactive",
+    "`role=\"button\"` when interactive"
+  ],
+  "keyboard": [
+    "Tab: Focus the tile (when interactive)",
+    "Enter: Activate the tile (when interactive)",
+    "Space: Activate the tile (when interactive)"
+  ],
+  "props": [
+    "`label`: string (optional) -- accessible label for the tile",
+    "`interactive`: boolean (default: false) -- whether the tile is clickable",
+    "`onclick`: callback (optional) -- click handler",
+    "`children`: slot (required) -- tile content",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "card",
+    "panel",
+    "feature-card"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/tile.html",
+    "svelte": "lily-design-system-svelte-headless/components/Tile/Tile.svelte",
+    "react": "lily-design-system-react-headless/components/Tile.tsx",
+    "vue": "lily-design-system-vue-headless/components/Tile.vue",
+    "angular": "lily-design-system-angular-headless/components/Tile.ts",
+    "web-components": "lily-design-system-web-components-headless/components/tile.ts",
+    "alpine": "lily-design-system-alpine-headless/components/tile.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/tile/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Tile.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/tile/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tile/AGENTS.md"
+}

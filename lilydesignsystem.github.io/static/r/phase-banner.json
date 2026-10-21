@@ -1,0 +1,41 @@
+{
+  "slug": "phase-banner",
+  "name": "PhaseBanner",
+  "description": "a banner showing service development phase and inviting feedback",
+  "htmlTag": "div",
+  "category": "overlays",
+  "baseClass": ".phase-banner",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Native semantics — no special ARIA needed",
+    "Consumers may add `role=\"region\"` + `aria-label` if they treat this banner as a landmark"
+  ],
+  "keyboard": [
+    "Native anchor keyboard behaviour applies for any feedback link inside the banner"
+  ],
+  "props": [
+    "`phase`: string (required) (default: —) — Phase label, e.g. \"Alpha\", \"Beta\", \"Live\"",
+    "`children`: slot (required) (default: —) — Descriptive text and feedback link",
+    "`...restProps`: HTML attributes (default: —) — Spread onto the root `<div>`"
+  ],
+  "related": [
+    "announcement-banner",
+    "banner",
+    "status-tag"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/phase-banner.html",
+    "svelte": "lily-design-system-svelte-headless/components/PhaseBanner/PhaseBanner.svelte",
+    "react": "lily-design-system-react-headless/components/PhaseBanner.tsx",
+    "vue": "lily-design-system-vue-headless/components/PhaseBanner.vue",
+    "angular": "lily-design-system-angular-headless/components/PhaseBanner.ts",
+    "web-components": "lily-design-system-web-components-headless/components/phase-banner.ts",
+    "alpine": "lily-design-system-alpine-headless/components/phase-banner.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/phase-banner/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PhaseBanner.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/phase-banner/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/phase-banner/AGENTS.md"
+}

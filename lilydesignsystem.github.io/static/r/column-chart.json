@@ -1,0 +1,47 @@
+{
+  "slug": "column-chart",
+  "name": "ColumnChart",
+  "description": "a vertical column chart visualization for displaying data",
+  "htmlTag": "figure",
+  "category": "data-viz",
+  "baseClass": ".column-chart",
+  "subClasses": [
+    "column-chart-data-table",
+    "column-chart-graphic"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"img\"` exposes the chart as a single image",
+    "`aria-label` and `aria-describedby` provide the accessible name and description"
+  ],
+  "keyboard": [
+    "No keyboard interactions on the rendered columns",
+    "Data table (when rendered) follows native table keyboard behaviour"
+  ],
+  "props": [
+    "`label`: string (required) (default: —) — Accessible name",
+    "`description`: string (default: —) — Extended description",
+    "`categories`: array of `{ label: string; value: number }` (default: []) — Categories to plot",
+    "`dataTable`: slot (default: —) — Optional fallback `<table>`",
+    "`...restProps`: HTML attributes (default: —) — Spread onto the root `<figure>`"
+  ],
+  "related": [
+    "bar-chart",
+    "line-chart",
+    "graphic-block"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/column-chart.html",
+    "svelte": "lily-design-system-svelte-headless/components/ColumnChart/ColumnChart.svelte",
+    "react": "lily-design-system-react-headless/components/ColumnChart.tsx",
+    "vue": "lily-design-system-vue-headless/components/ColumnChart.vue",
+    "angular": "lily-design-system-angular-headless/components/ColumnChart.ts",
+    "web-components": "lily-design-system-web-components-headless/components/column-chart.ts",
+    "alpine": "lily-design-system-alpine-headless/components/column-chart.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/column-chart/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ColumnChart.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/column-chart/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/column-chart/AGENTS.md"
+}

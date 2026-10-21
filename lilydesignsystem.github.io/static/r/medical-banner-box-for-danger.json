@@ -1,0 +1,44 @@
+{
+  "slug": "medical-banner-box-for-danger",
+  "name": "MedicalBannerBoxForDanger",
+  "description": "a medical record banner box for danger information e.g. reactions, warnings, alarms, etc.",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".medical-banner-box-for-danger",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"region\"` -- establishes the box as a landmark for assistive technology",
+    "`aria-label={label}` -- provides an accessible name describing the danger information"
+  ],
+  "keyboard": [
+    "None (passive layout element)"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name applied via `aria-label`",
+    "`children`: slot (required) -- the danger banner box content",
+    "`...restProps`: unknown -- additional attributes spread onto the `<div>` element"
+  ],
+  "related": [
+    "announcement-banner",
+    "banner",
+    "banner-box",
+    "government-banner",
+    "medical-banner",
+    "medical-banner-box"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/medical-banner-box-for-danger.html",
+    "svelte": "lily-design-system-svelte-headless/components/MedicalBannerBoxForDanger/MedicalBannerBoxForDanger.svelte",
+    "react": "lily-design-system-react-headless/components/MedicalBannerBoxForDanger.tsx",
+    "vue": "lily-design-system-vue-headless/components/MedicalBannerBoxForDanger.vue",
+    "angular": "lily-design-system-angular-headless/components/MedicalBannerBoxForDanger.ts",
+    "web-components": "lily-design-system-web-components-headless/components/medical-banner-box-for-danger.ts",
+    "alpine": "lily-design-system-alpine-headless/components/medical-banner-box-for-danger.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/medical-banner-box-for-danger/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MedicalBannerBoxForDanger.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/medical-banner-box-for-danger/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/medical-banner-box-for-danger/AGENTS.md"
+}

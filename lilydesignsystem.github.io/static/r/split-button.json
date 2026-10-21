@@ -1,0 +1,57 @@
+{
+  "slug": "split-button",
+  "name": "SplitButton",
+  "description": "a button with a primary action and a dropdown for related actions",
+  "htmlTag": "div",
+  "category": "forms",
+  "baseClass": ".split-button",
+  "subClasses": [
+    "split-button-menu",
+    "split-button-menu-trigger",
+    "split-button-primary"
+  ],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"group\"` on wrapper",
+    "`aria-label` on group from label prop",
+    "`aria-haspopup=\"menu\"` on menu trigger",
+    "`aria-expanded={menuOpen}` on menu trigger",
+    "`aria-label={menuLabel}` on menu trigger"
+  ],
+  "keyboard": [
+    "Tab: focus primary, then trigger",
+    "Enter / Space on primary: fires onPrimaryClick",
+    "Enter / Space on trigger: toggles onMenuToggle",
+    "Escape handled by consumer's menu component"
+  ],
+  "props": [
+    "`label`: string (required) -- aria-label for the group",
+    "`primaryLabel`: string (required)",
+    "`menuLabel`: string (required)",
+    "`menuOpen`: boolean (default: false)",
+    "`disabled`: boolean (default: false)",
+    "`onPrimaryClick` / `onprimaryclick`: callback",
+    "`onMenuToggle` / `onmenutoggle`: callback",
+    "`children`: slot -- menu content",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "button",
+    "dropdown-menu",
+    "menu-bar-button"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/split-button.html",
+    "svelte": "lily-design-system-svelte-headless/components/SplitButton/SplitButton.svelte",
+    "react": "lily-design-system-react-headless/components/SplitButton.tsx",
+    "vue": "lily-design-system-vue-headless/components/SplitButton.vue",
+    "angular": "lily-design-system-angular-headless/components/SplitButton.ts",
+    "web-components": "lily-design-system-web-components-headless/components/split-button.ts",
+    "alpine": "lily-design-system-alpine-headless/components/split-button.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/split-button/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SplitButton.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/split-button/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/split-button/AGENTS.md"
+}

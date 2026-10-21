@@ -1,0 +1,42 @@
+{
+  "slug": "flex-stack",
+  "name": "FlexStack",
+  "description": "a flex layout container for vertical or horizontal stacking with consistent gap",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".flex-stack",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "None — purely structural"
+  ],
+  "keyboard": [
+    "None — focusable children manage their own keyboard behavior"
+  ],
+  "props": [
+    "`direction`: \"row\" | \"column\" (default: \"column\") -- flex direction",
+    "`gap`: string (default: \"1rem\") -- gap CSS value",
+    "`align`: string (optional) -- align-items value",
+    "`justify`: string (optional) -- justify-content value",
+    "`children`: slot -- laid-out content",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "grid",
+    "container"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/flex-stack.html",
+    "svelte": "lily-design-system-svelte-headless/components/FlexStack/FlexStack.svelte",
+    "react": "lily-design-system-react-headless/components/FlexStack.tsx",
+    "vue": "lily-design-system-vue-headless/components/FlexStack.vue",
+    "angular": "lily-design-system-angular-headless/components/FlexStack.ts",
+    "web-components": "lily-design-system-web-components-headless/components/flex-stack.ts",
+    "alpine": "lily-design-system-alpine-headless/components/flex-stack.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/flex-stack/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/FlexStack.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/flex-stack/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/flex-stack/AGENTS.md"
+}

@@ -1,0 +1,41 @@
+{
+  "slug": "resizable",
+  "name": "Resizable",
+  "description": "a container that the user can resize by dragging",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".resizable",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"region\"` -- identifies the container as a landmark region for assistive technologies",
+    "`aria-label={label}` -- provides an accessible name describing the resizable area"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label for the resizable region, applied via `aria-label`",
+    "`direction`: `\"both\" | \"horizontal\" | \"vertical\"` (default: `\"both\"`) -- which directions the container can be resized",
+    "`children`: slot (required) -- content to render inside the resizable container",
+    "`...restProps`: unknown -- additional attributes spread onto the `<div>` element"
+  ],
+  "related": [
+    "splitter",
+    "split-view"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/resizable.html",
+    "svelte": "lily-design-system-svelte-headless/components/Resizable/Resizable.svelte",
+    "react": "lily-design-system-react-headless/components/Resizable.tsx",
+    "vue": "lily-design-system-vue-headless/components/Resizable.vue",
+    "angular": "lily-design-system-angular-headless/components/Resizable.ts",
+    "web-components": "lily-design-system-web-components-headless/components/resizable.ts",
+    "alpine": "lily-design-system-alpine-headless/components/resizable.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/resizable/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Resizable.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/resizable/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/resizable/AGENTS.md"
+}

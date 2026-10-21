@@ -1,0 +1,47 @@
+{
+  "slug": "contents-nav",
+  "name": "ContentsNav",
+  "description": "a contents navigation area",
+  "htmlTag": "nav",
+  "category": "navigation",
+  "baseClass": ".contents-nav",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`aria-label={label}` -- provides an accessible name for the `<nav>` landmark, distinguishing it from other navigation regions on the page",
+    "With `spy`: `aria-current=\"{current}\"` on the one active link (default `\"true\"`; there is no live region, so scrolling announces nothing)"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name for the navigation landmark (e.g., \"Contents\", \"On this page\")",
+    "`children`: slot (required) -- list items, typically ContentsListItem components or `<li>` elements with links",
+    "`spy`: boolean, default false -- turn scrollspy on",
+    "`offset`: number (px), default 0 -- the activation line below the top of `root`; set it to a fixed header's height, matching the targets' `scroll-margin-top`",
+    "`root`: element or null, default null (the viewport) -- a scrolling element other than the viewport",
+    "`current`: string, default `\"true\"` -- the `aria-current` token set on the active link",
+    "`active`: string, bindable -- the id of the section in view (spy only)",
+    "`onActiveChange`: `(id) => void` -- called once per change",
+    "`...restProps`: any additional HTML attributes spread onto the `<nav>` element"
+  ],
+  "related": [
+    "contents-list",
+    "contents-list-item",
+    "contents-link"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/contents-nav.html",
+    "svelte": "lily-design-system-svelte-headless/components/ContentsNav/ContentsNav.svelte",
+    "react": "lily-design-system-react-headless/components/ContentsNav.tsx",
+    "vue": "lily-design-system-vue-headless/components/ContentsNav.vue",
+    "angular": "lily-design-system-angular-headless/components/ContentsNav.ts",
+    "web-components": "lily-design-system-web-components-headless/components/contents-nav.ts",
+    "alpine": "lily-design-system-alpine-headless/components/contents-nav.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/contents-nav/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ContentsNav.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/contents-nav/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/contents-nav/AGENTS.md"
+}

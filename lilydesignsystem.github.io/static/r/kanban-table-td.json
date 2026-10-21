@@ -1,0 +1,46 @@
+{
+  "slug": "kanban-table-td",
+  "name": "KanbanTableTD",
+  "description": "kanban board table interactive grid data cell for organizing items by status <td>",
+  "htmlTag": "td",
+  "category": "tables",
+  "baseClass": ".kanban-table-td",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"listitem\"` -- identifies this as an item within a list container (the parent Kanban column with `role=\"list\"`)",
+    "`aria-label` -- optional accessible name for the card, set from the `label` prop, allowing screen readers to identify individual cards",
+    "`active` (Svelte, React and Vue) makes this cell the grid's single roving tab stop — `tabindex=\"0\"`, every other cell `-1` — and **never sets `aria-selected`**: focus is not selection, and announcing every focused cell as \"selected\" misleads screen-reader users. A grid with real selection sets `aria-selected` itself, on the row or explicitly on the cell (rest props pass it through). Corrected 2026-10-10; before that `active` set `aria-selected=\"true\"` too."
+  ],
+  "keyboard": [
+    "None directly -- keyboard interaction depends on interactive elements within the card content provided by the consumer"
+  ],
+  "props": [
+    "`active`: boolean (optional, default false) -- the roving tab stop; sets `tabindex` only, never `aria-selected`",
+    "`label`: string (optional) -- accessible label for the card via `aria-label`",
+    "`children`: slot (required) -- card content (title, assignee, metadata, etc.)",
+    "`...restProps`: any -- additional HTML attributes spread onto the `<div>` element"
+  ],
+  "related": [
+    "kanban-table",
+    "kanban-table-body",
+    "kanban-table-foot",
+    "kanban-table-head",
+    "kanban-table-row",
+    "kanban-table-th",
+    "table"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/kanban-table-td.html",
+    "svelte": "lily-design-system-svelte-headless/components/KanbanTableTD/KanbanTableTD.svelte",
+    "react": "lily-design-system-react-headless/components/KanbanTableTD.tsx",
+    "vue": "lily-design-system-vue-headless/components/KanbanTableTD.vue",
+    "angular": "lily-design-system-angular-headless/components/KanbanTableTD.ts",
+    "alpine": "lily-design-system-alpine-headless/components/kanban-table-td.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/kanban-table-td/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/KanbanTableTD.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/kanban-table-td/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/kanban-table-td/AGENTS.md"
+}

@@ -1,0 +1,42 @@
+{
+  "slug": "calendar-table-foot",
+  "name": "CalendarTableFoot",
+  "description": "a calendar table interactive grid tfoot for managing dates, days, etc. <tfoot>",
+  "htmlTag": "tfoot",
+  "category": "tables",
+  "baseClass": ".calendar-table-foot",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `rowgroup` role from the `<tfoot>` element -- groups the footer rows of the grid"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`children`: slot (required) -- footer rows with summary or supplementary content",
+    "`...restProps`: Any additional HTML attributes passed to the `<tfoot>` element"
+  ],
+  "related": [
+    "calendar-table",
+    "calendar-table-body",
+    "calendar-table-head",
+    "calendar-table-row",
+    "calendar-table-td",
+    "calendar-table-th",
+    "table"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/calendar-table-foot.html",
+    "svelte": "lily-design-system-svelte-headless/components/CalendarTableFoot/CalendarTableFoot.svelte",
+    "react": "lily-design-system-react-headless/components/CalendarTableFoot.tsx",
+    "vue": "lily-design-system-vue-headless/components/CalendarTableFoot.vue",
+    "angular": "lily-design-system-angular-headless/components/CalendarTableFoot.ts",
+    "alpine": "lily-design-system-alpine-headless/components/calendar-table-foot.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/calendar-table-foot/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CalendarTableFoot.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/calendar-table-foot/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/calendar-table-foot/AGENTS.md"
+}

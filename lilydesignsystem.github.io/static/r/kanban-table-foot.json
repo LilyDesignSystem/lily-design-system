@@ -1,0 +1,43 @@
+{
+  "slug": "kanban-table-foot",
+  "name": "KanbanTableFoot",
+  "description": "a kanban board table interactive grid tfoot for organizing items by status <tfoot>",
+  "htmlTag": "tfoot",
+  "category": "tables",
+  "baseClass": ".kanban-table-foot",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "No explicit ARIA roles required on the footer container itself",
+    "Interactive elements within the footer (e.g., buttons) provide their own semantics"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`children`: slot (required) -- footer content such as action buttons, item counts, or summary information",
+    "`...restProps`: any -- additional HTML attributes spread onto the `<div>` element"
+  ],
+  "related": [
+    "kanban-table",
+    "kanban-table-body",
+    "kanban-table-head",
+    "kanban-table-row",
+    "kanban-table-td",
+    "kanban-table-th",
+    "table"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/kanban-table-foot.html",
+    "svelte": "lily-design-system-svelte-headless/components/KanbanTableFoot/KanbanTableFoot.svelte",
+    "react": "lily-design-system-react-headless/components/KanbanTableFoot.tsx",
+    "vue": "lily-design-system-vue-headless/components/KanbanTableFoot.vue",
+    "angular": "lily-design-system-angular-headless/components/KanbanTableFoot.ts",
+    "alpine": "lily-design-system-alpine-headless/components/kanban-table-foot.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/kanban-table-foot/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/KanbanTableFoot.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/kanban-table-foot/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/kanban-table-foot/AGENTS.md"
+}

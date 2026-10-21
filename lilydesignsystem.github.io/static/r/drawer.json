@@ -1,0 +1,44 @@
+{
+  "slug": "drawer",
+  "name": "Drawer",
+  "description": "a panel that slides in from the edge of the screen",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".drawer",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"dialog\"` -- identifies the drawer as a dialog for assistive technology",
+    "`aria-label={label}` -- provides an accessible name for the dialog",
+    "`aria-modal=\"true\"` -- indicates the drawer is modal, restricting interaction to its contents",
+    "`data-side={side}` -- data attribute for consumer CSS styling based on drawer position"
+  ],
+  "keyboard": [
+    "Escape: closes the drawer by setting `open` to `false`"
+  ],
+  "props": [
+    "`open`: boolean (default: false) -- whether the drawer is visible, two-way bindable via `open`",
+    "`label`: string (required) -- accessible name for the drawer",
+    "`side`: \"left\" | \"right\" | \"top\" | \"bottom\" (default: \"left\") -- which edge the drawer enters from",
+    "`children`: slot (required) -- drawer content"
+  ],
+  "related": [
+    "sheet",
+    "slide-out-drawer",
+    "sidebar"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/drawer.html",
+    "svelte": "lily-design-system-svelte-headless/components/Drawer/Drawer.svelte",
+    "react": "lily-design-system-react-headless/components/Drawer.tsx",
+    "vue": "lily-design-system-vue-headless/components/Drawer.vue",
+    "angular": "lily-design-system-angular-headless/components/Drawer.ts",
+    "web-components": "lily-design-system-web-components-headless/components/drawer.ts",
+    "alpine": "lily-design-system-alpine-headless/components/drawer.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/drawer/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Drawer.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/drawer/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/drawer/AGENTS.md"
+}

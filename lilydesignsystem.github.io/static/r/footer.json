@@ -1,0 +1,39 @@
+{
+  "slug": "footer",
+  "name": "Footer",
+  "description": "a page or section footer area",
+  "htmlTag": "footer",
+  "category": "navigation",
+  "baseClass": ".footer",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`contentinfo` landmark role -- provided natively by the `<footer>` element, allowing screen reader users to navigate directly to the footer",
+    "`aria-label` -- optional accessible name to distinguish this footer from others on the page"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`label`: string (default: undefined) -- optional accessible name via `aria-label`, useful when multiple footers exist",
+    "`children`: slot (required) -- footer content"
+  ],
+  "related": [
+    "header",
+    "grail-layout-bottom-footer"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/footer.html",
+    "svelte": "lily-design-system-svelte-headless/components/Footer/Footer.svelte",
+    "react": "lily-design-system-react-headless/components/Footer.tsx",
+    "vue": "lily-design-system-vue-headless/components/Footer.vue",
+    "angular": "lily-design-system-angular-headless/components/Footer.ts",
+    "web-components": "lily-design-system-web-components-headless/components/footer.ts",
+    "alpine": "lily-design-system-alpine-headless/components/footer.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/footer/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Footer.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/footer/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/footer/AGENTS.md"
+}

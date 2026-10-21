@@ -1,0 +1,40 @@
+{
+  "slug": "danmark-personnummer-view",
+  "name": "DanmarkPersonnummerView",
+  "description": "a read-only display of Denmark's Personnummer (CPR-nummer) (CPR)",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".danmark-personnummer-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`role=\"text\"` so the identifier announces as a single unit"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (required) — the identifier to display",
+    "`label`: string (optional) — accessible name override via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "danmark-personnummer-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/danmark-personnummer-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/DanmarkPersonnummerView/DanmarkPersonnummerView.svelte",
+    "react": "lily-design-system-react-headless/components/DanmarkPersonnummerView.tsx",
+    "vue": "lily-design-system-vue-headless/components/DanmarkPersonnummerView.vue",
+    "angular": "lily-design-system-angular-headless/components/DanmarkPersonnummerView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/danmark-personnummer-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/danmark-personnummer-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/danmark-personnummer-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DanmarkPersonnummerView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/danmark-personnummer-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/danmark-personnummer-view/AGENTS.md"
+}

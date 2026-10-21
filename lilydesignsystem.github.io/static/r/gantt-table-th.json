@@ -1,0 +1,46 @@
+{
+  "slug": "gantt-table-th",
+  "name": "GanttTableTH",
+  "description": "a Gantt chart table interactive grid header cell for planning schedule visualization <th>",
+  "htmlTag": "th",
+  "category": "tables",
+  "baseClass": ".gantt-table-th",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`scope=\"col\"` associates the header with its column for assistive technologies",
+    "Use `scope=\"colgroup\"` together with `colspan` for grouped column headers (e.g. quarter spanning months)"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`colspan`: number (optional) -- number of columns this header cell spans",
+    "`rowspan`: number (optional) -- number of rows this header cell spans",
+    "`scope`: `\"col\" | \"row\" | \"colgroup\" | \"rowgroup\"` (default: `\"col\"`) -- header scope",
+    "`children`: optional -- header cell content",
+    "`...restProps`: any -- additional HTML attributes spread onto the `<th>` element"
+  ],
+  "related": [
+    "gantt-table",
+    "gantt-table-tbody",
+    "gantt-table-tfoot",
+    "gantt-table-thead",
+    "gantt-table-tr",
+    "gantt-table-td",
+    "table"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/gantt-table-th.html",
+    "svelte": "lily-design-system-svelte-headless/components/GanttTableTH/GanttTableTH.svelte",
+    "react": "lily-design-system-react-headless/components/GanttTableTH.tsx",
+    "vue": "lily-design-system-vue-headless/components/GanttTableTH.vue",
+    "angular": "lily-design-system-angular-headless/components/GanttTableTH.ts",
+    "alpine": "lily-design-system-alpine-headless/components/gantt-table-th.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/gantt-table-th/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/GanttTableTH.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/gantt-table-th/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/gantt-table-th/AGENTS.md"
+}

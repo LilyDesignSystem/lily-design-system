@@ -1,0 +1,41 @@
+{
+  "slug": "status-tag",
+  "name": "StatusTag",
+  "description": "a tag showing the current status of a task",
+  "htmlTag": "span",
+  "category": "content",
+  "baseClass": ".status-tag",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"status\"` is NOT applied by default — this component is a static label, not a live region",
+    "Consumers wanting screen reader announcements when status changes should wrap the tag in a `Notification` or apply `aria-live=\"polite\"` themselves"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive label"
+  ],
+  "props": [
+    "`label`: string (required) (default: —) — Status text shown to users",
+    "`tone`: \"neutral\" | \"success\" | \"warning\" | \"danger\" | \"info\" (default: \"neutral\") — Tone hint used by consumers to drive styling",
+    "`...restProps`: HTML attributes (default: —) — Spread onto the root `<span>`"
+  ],
+  "related": [
+    "badge",
+    "tag",
+    "flair"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/status-tag.html",
+    "svelte": "lily-design-system-svelte-headless/components/StatusTag/StatusTag.svelte",
+    "react": "lily-design-system-react-headless/components/StatusTag.tsx",
+    "vue": "lily-design-system-vue-headless/components/StatusTag.vue",
+    "angular": "lily-design-system-angular-headless/components/StatusTag.ts",
+    "web-components": "lily-design-system-web-components-headless/components/status-tag.ts",
+    "alpine": "lily-design-system-alpine-headless/components/status-tag.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/status-tag/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/StatusTag.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/status-tag/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/status-tag/AGENTS.md"
+}

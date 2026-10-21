@@ -1,0 +1,45 @@
+{
+  "slug": "button-input",
+  "name": "ButtonInput",
+  "description": "an input element of type button for form actions <input type=\"button\">",
+  "htmlTag": "input",
+  "category": "forms",
+  "baseClass": ".button-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `button` role -- provided natively by `<input type=\"button\">`",
+    "`aria-label={label}` -- optional screen reader label override; when provided, screen readers announce this instead of the `value` text",
+    "`aria-disabled` -- implicitly managed by the native `disabled` attribute"
+  ],
+  "keyboard": [
+    "Tab: Focus the button input",
+    "Enter: Activate the button (native behavior)",
+    "Space: Activate the button (native behavior)"
+  ],
+  "props": [
+    "`value`: string (required) -- the button label text displayed on the input",
+    "`disabled`: boolean (default: `false`) -- whether the input is disabled",
+    "`name`: string (optional) -- form field name for form submission",
+    "`label`: string (optional) -- accessible label override via `aria-label` for screen readers",
+    "`onclick`: `(event: MouseEvent) => void` (optional) -- click event handler",
+    "`...restProps`: any additional HTML attributes spread onto the `<input>` element"
+  ],
+  "related": [
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/button-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/ButtonInput/ButtonInput.svelte",
+    "react": "lily-design-system-react-headless/components/ButtonInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/ButtonInput.vue",
+    "angular": "lily-design-system-angular-headless/components/ButtonInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/button-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/button-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/button-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ButtonInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/button-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/button-input/AGENTS.md"
+}

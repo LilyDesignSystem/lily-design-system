@@ -1,0 +1,43 @@
+{
+  "slug": "tag",
+  "name": "Tag",
+  "description": "a keyword label for categorizing content",
+  "htmlTag": "span",
+  "category": "content",
+  "baseClass": ".tag",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "Default: no role; the `label` is screen-reader text after the content, for context the visible text lacks (visible \"High\", label \"priority\": read as \"High priority\")",
+    "With `live`: `role=\"status\"` (a polite live region) and `aria-label` from the `label` prop"
+  ],
+  "keyboard": [
+    "None -- tags are informational, not interactive"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label for screen readers: screen-reader text by default, `aria-label` when `live`",
+    "`live`: boolean (default false) -- render a `role=\"status\"` live region",
+    "`children`: slot (required) -- the tag's visible content (text, etc.)",
+    "`...restProps`: any -- additional HTML attributes spread onto the `<span>` element"
+  ],
+  "related": [
+    "tag-group",
+    "tag-input",
+    "badge",
+    "status-tag"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/tag.html",
+    "svelte": "lily-design-system-svelte-headless/components/Tag/Tag.svelte",
+    "react": "lily-design-system-react-headless/components/Tag.tsx",
+    "vue": "lily-design-system-vue-headless/components/Tag.vue",
+    "angular": "lily-design-system-angular-headless/components/Tag.ts",
+    "web-components": "lily-design-system-web-components-headless/components/tag.ts",
+    "alpine": "lily-design-system-alpine-headless/components/tag.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/tag/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Tag.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/tag/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tag/AGENTS.md"
+}

@@ -1,0 +1,49 @@
+{
+  "slug": "announcement-banner",
+  "name": "AnnouncementBanner",
+  "description": "a banner highlighting important messages for all users",
+  "htmlTag": "div",
+  "category": "overlays",
+  "baseClass": ".announcement-banner",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"region\"` makes the banner a labeled landmark",
+    "`aria-label` (from `label`) names the region",
+    "`aria-live=\"polite\"` (when `live=true`) announces content changes without interrupting the user",
+    "Dismiss button has `aria-label` for the close action"
+  ],
+  "keyboard": [
+    "Tab moves focus to the dismiss button when present",
+    "Enter or Space activates the dismiss button (native browser behaviour)"
+  ],
+  "props": [
+    "`label`: string (required) (default: —) — Accessible region label",
+    "`live`: boolean (default: false) — Whether the region announces dynamic changes via `aria-live=\"polite\"`",
+    "`dismissible`: boolean (default: false) — Whether to render a dismiss button",
+    "`dismissLabel`: string (default: \"Dismiss\") — Accessible label for the dismiss button",
+    "`onDismiss`: callback (default: —) — Fired when the user dismisses the banner",
+    "`children`: slot (required) (default: —) — Banner content",
+    "`...restProps`: HTML attributes (default: —) — Spread onto the root `<div>`"
+  ],
+  "related": [
+    "banner",
+    "phase-banner",
+    "alert",
+    "notification"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/announcement-banner.html",
+    "svelte": "lily-design-system-svelte-headless/components/AnnouncementBanner/AnnouncementBanner.svelte",
+    "react": "lily-design-system-react-headless/components/AnnouncementBanner.tsx",
+    "vue": "lily-design-system-vue-headless/components/AnnouncementBanner.vue",
+    "angular": "lily-design-system-angular-headless/components/AnnouncementBanner.ts",
+    "web-components": "lily-design-system-web-components-headless/components/announcement-banner.ts",
+    "alpine": "lily-design-system-alpine-headless/components/announcement-banner.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/announcement-banner/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AnnouncementBanner.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/announcement-banner/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/announcement-banner/AGENTS.md"
+}

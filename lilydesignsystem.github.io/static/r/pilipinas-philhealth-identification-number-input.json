@@ -1,0 +1,42 @@
+{
+  "slug": "pilipinas-philhealth-identification-number-input",
+  "name": "PilipinasPhilhealthIdentificationNumberInput",
+  "description": "an input for entering the Philippines' PhilHealth Identification Number (PIN)",
+  "htmlTag": "input",
+  "category": "national",
+  "baseClass": ".pilipinas-philhealth-identification-number-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`required` and `disabled` states conveyed to assistive technology"
+  ],
+  "keyboard": [
+    "Standard text input keyboard behavior"
+  ],
+  "props": [
+    "`label`: string (required) — accessible label via aria-label",
+    "`value`: string (default: \"\") — bindable input value",
+    "`required`: boolean (default: false) — form validation",
+    "`disabled`: boolean (default: false) — disabled state",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "pilipinas-philhealth-identification-number-view",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/pilipinas-philhealth-identification-number-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/PilipinasPhilhealthIdentificationNumberInput/PilipinasPhilhealthIdentificationNumberInput.svelte",
+    "react": "lily-design-system-react-headless/components/PilipinasPhilhealthIdentificationNumberInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/PilipinasPhilhealthIdentificationNumberInput.vue",
+    "angular": "lily-design-system-angular-headless/components/PilipinasPhilhealthIdentificationNumberInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/pilipinas-philhealth-identification-number-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/pilipinas-philhealth-identification-number-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/pilipinas-philhealth-identification-number-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PilipinasPhilhealthIdentificationNumberInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/pilipinas-philhealth-identification-number-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/pilipinas-philhealth-identification-number-input/AGENTS.md"
+}

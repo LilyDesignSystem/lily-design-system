@@ -1,0 +1,38 @@
+{
+  "slug": "tool-bar-button",
+  "name": "ToolBarButton",
+  "description": "one action button in a tool bar",
+  "htmlTag": "button",
+  "category": "navigation",
+  "baseClass": ".tool-bar-button",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "Implicit `button` role from the `<button>` element",
+    "`disabled` attribute communicates disabled state to assistive technology"
+  ],
+  "keyboard": [
+    "Tab: Focus the button (when not inside a ToolBar managing roving focus)",
+    "Enter / Space: Activate the button (browser default)",
+    "Arrow keys: Handled by parent ToolBar for roving focus navigation",
+    "Button is skipped in tab order when `disabled` is true"
+  ],
+  "props": [],
+  "related": [
+    "tool-bar"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/tool-bar-button.html",
+    "svelte": "lily-design-system-svelte-headless/components/ToolBarButton/ToolBarButton.svelte",
+    "react": "lily-design-system-react-headless/components/ToolBarButton.tsx",
+    "vue": "lily-design-system-vue-headless/components/ToolBarButton.vue",
+    "angular": "lily-design-system-angular-headless/components/ToolBarButton.ts",
+    "web-components": "lily-design-system-web-components-headless/components/tool-bar-button.ts",
+    "alpine": "lily-design-system-alpine-headless/components/tool-bar-button.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/tool-bar-button/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ToolBarButton.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/tool-bar-button/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tool-bar-button/AGENTS.md"
+}

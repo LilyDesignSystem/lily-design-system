@@ -1,0 +1,53 @@
+{
+  "slug": "split-view",
+  "name": "SplitView",
+  "description": "a two-panel resizable layout container with a draggable divider between them",
+  "htmlTag": "div",
+  "category": "navigation",
+  "baseClass": ".split-view",
+  "subClasses": [
+    "split-view-divider",
+    "split-view-primary",
+    "split-view-secondary"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Container: aria-label (required)",
+    "Container: data-orientation, data-split-percent for consumer CSS",
+    "Default divider: role=\"separator\", aria-orientation, aria-valuenow, aria-valuemin, aria-valuemax, tabindex=\"0\""
+  ],
+  "keyboard": [
+    "Tab: Focus to and from the divider",
+    "Arrow keys: (Consumer-provided) move divider position",
+    "Home / End: (Consumer-provided) snap to min / max",
+    "Enter / Space: (Consumer-provided) toggle a collapsed panel"
+  ],
+  "props": [
+    "`label`: string (REQUIRED)",
+    "`orientation`: \"horizontal\" | \"vertical\" (default \"horizontal\")",
+    "`primary`: slot/snippet/ReactNode (REQUIRED)",
+    "`secondary`: slot/snippet/ReactNode (REQUIRED)",
+    "`divider`: slot/snippet/ReactNode (optional)",
+    "`splitPercent`: number 0-100 (default 50)",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "splitter",
+    "drawer",
+    "sidebar"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/split-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/SplitView/SplitView.svelte",
+    "react": "lily-design-system-react-headless/components/SplitView.tsx",
+    "vue": "lily-design-system-vue-headless/components/SplitView.vue",
+    "angular": "lily-design-system-angular-headless/components/SplitView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/split-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/split-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/split-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SplitView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/split-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/split-view/AGENTS.md"
+}

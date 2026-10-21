@@ -1,0 +1,44 @@
+{
+  "slug": "tab-bar-button",
+  "name": "TabBarButton",
+  "description": "one tab button in a tab group",
+  "htmlTag": "button",
+  "category": "navigation",
+  "baseClass": ".tab-bar-button",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"tab\"` identifies this as a tab",
+    "`aria-selected` communicates selection state",
+    "`aria-controls` links to the corresponding tabpanel",
+    "Roving `tabindex` (0 for selected, -1 for unselected)"
+  ],
+  "keyboard": [
+    "TabBarButton: moves focus to the selected tab in the tablist",
+    "ArrowLeft/ArrowRight: moves between tabs (handled by parent tablist)",
+    "Enter/Space: activates the tab (native button behavior)"
+  ],
+  "props": [
+    "`selected`: boolean (default: false) -- whether this tab is active",
+    "`controls`: string (required) -- id of the associated tabpanel",
+    "`children`: slot -- tab label content",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "tab-bar"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/tab-bar-button.html",
+    "svelte": "lily-design-system-svelte-headless/components/TabBarButton/TabBarButton.svelte",
+    "react": "lily-design-system-react-headless/components/TabBarButton.tsx",
+    "vue": "lily-design-system-vue-headless/components/TabBarButton.vue",
+    "angular": "lily-design-system-angular-headless/components/TabBarButton.ts",
+    "web-components": "lily-design-system-web-components-headless/components/tab-bar-button.ts",
+    "alpine": "lily-design-system-alpine-headless/components/tab-bar-button.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/tab-bar-button/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TabBarButton.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/tab-bar-button/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tab-bar-button/AGENTS.md"
+}

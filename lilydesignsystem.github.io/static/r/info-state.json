@@ -1,0 +1,54 @@
+{
+  "slug": "info-state",
+  "name": "InfoState",
+  "description": "a composition of illustration, title, description, and action for empty, error, or info states",
+  "htmlTag": "section",
+  "category": "navigation",
+  "baseClass": ".info-state",
+  "subClasses": [
+    "info-state-action",
+    "info-state-description",
+    "info-state-illustration",
+    "info-state-title"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"status\"` on section",
+    "`aria-label` defaults to title; overridable via label prop",
+    "`data-level` attribute exposes variant for CSS"
+  ],
+  "keyboard": [
+    "None on container",
+    "Focusable children inside the action slot follow their own keyboard behavior"
+  ],
+  "props": [
+    "`level`: \"info\" | \"empty\" | \"error\" | \"success\" (default: \"info\")",
+    "`title`: string (required)",
+    "`description`: string (optional)",
+    "`label`: string (optional)",
+    "`illustration`: slot (optional)",
+    "`action`: slot (optional)",
+    "`children`: slot (optional) -- replaces structured layout",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "panel",
+    "loading",
+    "skeleton",
+    "alert"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/info-state.html",
+    "svelte": "lily-design-system-svelte-headless/components/InfoState/InfoState.svelte",
+    "react": "lily-design-system-react-headless/components/InfoState.tsx",
+    "vue": "lily-design-system-vue-headless/components/InfoState.vue",
+    "angular": "lily-design-system-angular-headless/components/InfoState.ts",
+    "web-components": "lily-design-system-web-components-headless/components/info-state.ts",
+    "alpine": "lily-design-system-alpine-headless/components/info-state.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/info-state/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/InfoState.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/info-state/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/info-state/AGENTS.md"
+}

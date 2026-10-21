@@ -1,0 +1,38 @@
+{
+  "slug": "summary-list",
+  "name": "SummaryList",
+  "description": "an ordered list of key-value summary pairs",
+  "htmlTag": "ol",
+  "category": "lists",
+  "baseClass": ".summary-list",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`aria-label={label}` -- provides the accessible name for the description list, allowing screen readers to announce the context of the key-value pairs"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label for the description list via `aria-label`",
+    "`children`: slot (required) -- list content, typically `<dt>`/`<dd>` pairs",
+    "`...restProps`: any additional HTML attributes spread onto the `<dl>` element"
+  ],
+  "related": [
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/summary-list.html",
+    "svelte": "lily-design-system-svelte-headless/components/SummaryList/SummaryList.svelte",
+    "react": "lily-design-system-react-headless/components/SummaryList.tsx",
+    "vue": "lily-design-system-vue-headless/components/SummaryList.vue",
+    "angular": "lily-design-system-angular-headless/components/SummaryList.ts",
+    "web-components": "lily-design-system-web-components-headless/components/summary-list.ts",
+    "alpine": "lily-design-system-alpine-headless/components/summary-list.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/summary-list/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SummaryList.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/summary-list/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/summary-list/AGENTS.md"
+}

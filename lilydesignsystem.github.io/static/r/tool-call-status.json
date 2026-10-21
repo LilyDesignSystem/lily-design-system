@@ -1,0 +1,42 @@
+{
+  "slug": "tool-call-status",
+  "name": "ToolCallStatus",
+  "description": "the status of a tool call as a word, such as pending, running, done or error",
+  "htmlTag": "span",
+  "category": "content",
+  "baseClass": ".tool-call-status",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows",
+  "aria": [
+    "No role: the status is plain text so it is read in order",
+    "`data-status` is for consumer CSS only"
+  ],
+  "keyboard": [
+    "None"
+  ],
+  "props": [
+    "`class`: string -- Appended to the base class",
+    "`status`: string (optional) -- `pending`, `running`, `done` or `error`; sets `data-status`",
+    "`children`: slot -- The visible status word",
+    "`...restProps`: HTML attributes -- Spread onto the root `<span>`"
+  ],
+  "related": [
+    "tool-call",
+    "tool-call-name",
+    "status-tag"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/tool-call-status.html",
+    "svelte": "lily-design-system-svelte-headless/components/ToolCallStatus/ToolCallStatus.svelte",
+    "react": "lily-design-system-react-headless/components/ToolCallStatus.tsx",
+    "vue": "lily-design-system-vue-headless/components/ToolCallStatus.vue",
+    "angular": "lily-design-system-angular-headless/components/ToolCallStatus.ts",
+    "web-components": "lily-design-system-web-components-headless/components/tool-call-status.ts",
+    "alpine": "lily-design-system-alpine-headless/components/tool-call-status.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/tool-call-status/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ToolCallStatus.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/tool-call-status/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tool-call-status/AGENTS.md"
+}

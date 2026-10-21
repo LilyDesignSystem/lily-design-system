@@ -1,0 +1,42 @@
+{
+  "slug": "option",
+  "name": "Option",
+  "description": "an option element within a select dropdown",
+  "htmlTag": "option",
+  "category": "forms",
+  "baseClass": ".option",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "Native `<option>` provides built-in accessibility via the parent `<select>` element",
+    "Screen readers announce the option text and selected state automatically"
+  ],
+  "keyboard": [
+    "Native `<option>` keyboard behavior (managed by parent `<select>`)"
+  ],
+  "props": [
+    "`value`: string (required) -- the option value submitted with the form",
+    "`selected`: boolean (default: false) -- whether this option is pre-selected",
+    "`disabled`: boolean (default: false) -- whether this option is disabled",
+    "`children`: slot (required) -- option label text",
+    "`...restProps`: Any additional HTML attributes passed to the `<option>` element"
+  ],
+  "related": [
+    "select",
+    "theme-select-option"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/option.html",
+    "svelte": "lily-design-system-svelte-headless/components/Option/Option.svelte",
+    "react": "lily-design-system-react-headless/components/Option.tsx",
+    "vue": "lily-design-system-vue-headless/components/Option.vue",
+    "angular": "lily-design-system-angular-headless/components/Option.ts",
+    "web-components": "lily-design-system-web-components-headless/components/option.ts",
+    "alpine": "lily-design-system-alpine-headless/components/option.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/option/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Option.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/option/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/option/AGENTS.md"
+}

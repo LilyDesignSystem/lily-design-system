@@ -1,0 +1,43 @@
+{
+  "slug": "fieldset",
+  "name": "Fieldset",
+  "description": "a group of related form fields with a legend",
+  "htmlTag": "fieldset",
+  "category": "forms",
+  "baseClass": ".fieldset",
+  "subClasses": [
+    "fieldset-legend"
+  ],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "No custom ARIA attributes required -- native `<fieldset>` and `<legend>` elements provide built-in group semantics and labeling for screen readers"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`legend`: string (required) -- text for the `<legend>` element describing the group",
+    "`disabled`: boolean (default: false) -- whether all controls in the fieldset are disabled",
+    "`children`: slot (required) -- grouped form controls"
+  ],
+  "related": [
+    "form",
+    "field",
+    "checkbox-group",
+    "radio-group"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/fieldset.html",
+    "svelte": "lily-design-system-svelte-headless/components/Fieldset/Fieldset.svelte",
+    "react": "lily-design-system-react-headless/components/Fieldset.tsx",
+    "vue": "lily-design-system-vue-headless/components/Fieldset.vue",
+    "angular": "lily-design-system-angular-headless/components/Fieldset.ts",
+    "web-components": "lily-design-system-web-components-headless/components/fieldset.ts",
+    "alpine": "lily-design-system-alpine-headless/components/fieldset.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/fieldset/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Fieldset.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/fieldset/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/fieldset/AGENTS.md"
+}

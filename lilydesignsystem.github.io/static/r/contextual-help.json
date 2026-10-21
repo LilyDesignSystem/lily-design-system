@@ -1,0 +1,48 @@
+{
+  "slug": "contextual-help",
+  "name": "ContextualHelp",
+  "description": "a help button that opens a popover with explanatory content",
+  "htmlTag": "div",
+  "category": "overlays",
+  "baseClass": ".contextual-help",
+  "subClasses": [
+    "contextual-help-panel",
+    "contextual-help-trigger"
+  ],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Trigger: aria-label, aria-haspopup=\"dialog\", aria-expanded, aria-controls",
+    "Panel: role=\"dialog\", matching id, hidden attribute when closed"
+  ],
+  "keyboard": [
+    "Tab / Shift+Tab: Move focus into and out of the trigger and panel",
+    "Enter / Space: Toggle the popover when the trigger is focused",
+    "Escape: (Consumer-provided) close the popover"
+  ],
+  "props": [
+    "`label`: string (REQUIRED) -- aria-label for the trigger",
+    "`expanded`: boolean (default false)",
+    "`onClick` / `onclick`: callback (optional)",
+    "`children`: slot -- popover content",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "tooltip",
+    "popover",
+    "details"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/contextual-help.html",
+    "svelte": "lily-design-system-svelte-headless/components/ContextualHelp/ContextualHelp.svelte",
+    "react": "lily-design-system-react-headless/components/ContextualHelp.tsx",
+    "vue": "lily-design-system-vue-headless/components/ContextualHelp.vue",
+    "angular": "lily-design-system-angular-headless/components/ContextualHelp.ts",
+    "web-components": "lily-design-system-web-components-headless/components/contextual-help.ts",
+    "alpine": "lily-design-system-alpine-headless/components/contextual-help.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/contextual-help/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ContextualHelp.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/contextual-help/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/contextual-help/AGENTS.md"
+}

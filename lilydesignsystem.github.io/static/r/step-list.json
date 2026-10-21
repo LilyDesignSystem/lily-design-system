@@ -1,0 +1,43 @@
+{
+  "slug": "step-list",
+  "name": "StepList",
+  "description": "an ordered list of step items showing progress through a multi-step process",
+  "htmlTag": "ol",
+  "category": "lists",
+  "baseClass": ".step-list",
+  "subClasses": [
+    "step-list-item"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "<ol> provides list semantics",
+    "aria-label provides the accessible name when label is set",
+    "data-current is a CSS hook for the active step index"
+  ],
+  "keyboard": [
+    "None at this level — interactive behavior lives on children"
+  ],
+  "props": [
+    "`label`: string (optional)",
+    "`current`: number (optional, 0-based index)",
+    "`children`: slot — step-list-item children",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "step-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/step-list.html",
+    "svelte": "lily-design-system-svelte-headless/components/StepList/StepList.svelte",
+    "react": "lily-design-system-react-headless/components/StepList.tsx",
+    "vue": "lily-design-system-vue-headless/components/StepList.vue",
+    "angular": "lily-design-system-angular-headless/components/StepList.ts",
+    "web-components": "lily-design-system-web-components-headless/components/step-list.ts",
+    "alpine": "lily-design-system-alpine-headless/components/step-list.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/step-list/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/StepList.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/step-list/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/step-list/AGENTS.md"
+}

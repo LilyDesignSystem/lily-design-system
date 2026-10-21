@@ -1,0 +1,37 @@
+{
+  "slug": "theme-select",
+  "name": "ThemeSelect",
+  "description": "a select dropdown for choosing a theme",
+  "htmlTag": "select",
+  "category": "forms",
+  "baseClass": ".theme-select",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`aria-label={label}` -- provides an accessible name for the theme select since there is no visible `<label>` element"
+  ],
+  "keyboard": [
+    "Tab: Moves focus to and from the select element (native browser behavior)",
+    "Space/Enter: Opens the dropdown list when focused (native browser behavior)",
+    "Arrow Up/Down: Navigates through theme options (native browser behavior)",
+    "Escape: Closes the dropdown list (native browser behavior)"
+  ],
+  "props": [],
+  "related": [
+    "theme-select-option"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/theme-select.html",
+    "svelte": "lily-design-system-svelte-headless/components/ThemeSelect/ThemeSelect.svelte",
+    "react": "lily-design-system-react-headless/components/ThemeSelect.tsx",
+    "vue": "lily-design-system-vue-headless/components/ThemeSelect.vue",
+    "angular": "lily-design-system-angular-headless/components/ThemeSelect.ts",
+    "web-components": "lily-design-system-web-components-headless/components/theme-select.ts",
+    "alpine": "lily-design-system-alpine-headless/components/theme-select.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/theme-select/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ThemeSelect.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/theme-select/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/theme-select/AGENTS.md"
+}

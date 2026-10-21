@@ -167,7 +167,7 @@ behaves this way (class-first rule, suffix to element table, per-component
 ## Acceptance criteria
 
 - [ ] 1. `recipes/` exists with the 15 Field recipes; `bin/check-recipes` passes in `bin/test`.
-- [ ] 2. `/r/{slug}.json` and `/r/index.json` are generated, drift-checked and linked from both `llms.json` files.
+- [x] 2. `/r/{slug}.json` and `/r/index.json` are generated, drift-checked and linked from both `llms.json` files (2026-10-21; by `bin/generate-api-docs`, 572 files; the 35 Web Components exclusions simply have no `web-components` path).
 - [ ] 3. `/components/{slug}.md` is served for all 571 components, with a Copy Markdown button.
 - [ ] 4. The maintainer has decided which skill registries to list in; the entry skills are listed with consistent install text.
 - [ ] 5. The validity timing is documented in `field` and `error-message`, with the 15 patterns tested.

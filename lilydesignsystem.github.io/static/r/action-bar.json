@@ -1,0 +1,51 @@
+{
+  "slug": "action-bar",
+  "name": "ActionBar",
+  "description": "a contextual action bar that appears when items are selected, showing the selection count and bulk action buttons",
+  "htmlTag": "div",
+  "category": "navigation",
+  "baseClass": ".action-bar",
+  "subClasses": [
+    "action-bar-clear",
+    "action-bar-count"
+  ],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"toolbar\"` on the container",
+    "`aria-label` is the accessible name (required)",
+    "Clear button has its own `aria-label` via `clearSelectionLabel`",
+    "`data-selected-count` is non-ARIA metadata for consumer CSS"
+  ],
+  "keyboard": [
+    "Tab: Move focus into and out of the toolbar",
+    "Arrow keys: (Consumer-provided) recommended roving tabindex among buttons",
+    "Enter / Space: Activate focused action button",
+    "Escape: (Consumer-provided) dismiss or clear selection"
+  ],
+  "props": [
+    "`label`: string (REQUIRED) -- aria-label for the toolbar",
+    "`selectedCount`: number (REQUIRED) -- count of currently selected items",
+    "`selectedCountLabel`: string (REQUIRED) -- pre-formatted count text",
+    "`clearSelectionLabel`: string (optional)",
+    "`onClearSelection` / `onclearselection`: callback (optional)",
+    "`children`: slot -- bulk action buttons",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "action-bar-button"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/action-bar.html",
+    "svelte": "lily-design-system-svelte-headless/components/ActionBar/ActionBar.svelte",
+    "react": "lily-design-system-react-headless/components/ActionBar.tsx",
+    "vue": "lily-design-system-vue-headless/components/ActionBar.vue",
+    "angular": "lily-design-system-angular-headless/components/ActionBar.ts",
+    "web-components": "lily-design-system-web-components-headless/components/action-bar.ts",
+    "alpine": "lily-design-system-alpine-headless/components/action-bar.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/action-bar/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ActionBar.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/action-bar/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/action-bar/AGENTS.md"
+}

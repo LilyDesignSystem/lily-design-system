@@ -1,0 +1,37 @@
+{
+  "slug": "accordion-list-item",
+  "name": "AccordionListItem",
+  "description": "an accordion list item component",
+  "htmlTag": "li",
+  "category": "lists",
+  "baseClass": ".accordion-list-item",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "Native `<details>` / `<summary>` provide implicit disclosure widget semantics",
+    "Browser automatically manages expanded/collapsed state announcement"
+  ],
+  "keyboard": [
+    "Tab: Focus the summary element",
+    "Enter / Space: Toggle open/close (browser default for `<details>`)"
+  ],
+  "props": [],
+  "related": [
+    "accordion-nav",
+    "accordion-list",
+    "accordion-link"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/accordion-list-item.html",
+    "svelte": "lily-design-system-svelte-headless/components/AccordionListItem/AccordionListItem.svelte",
+    "react": "lily-design-system-react-headless/components/AccordionListItem.tsx",
+    "vue": "lily-design-system-vue-headless/components/AccordionListItem.vue",
+    "angular": "lily-design-system-angular-headless/components/AccordionListItem.ts",
+    "alpine": "lily-design-system-alpine-headless/components/accordion-list-item.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/accordion-list-item/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AccordionListItem.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/accordion-list-item/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/accordion-list-item/AGENTS.md"
+}

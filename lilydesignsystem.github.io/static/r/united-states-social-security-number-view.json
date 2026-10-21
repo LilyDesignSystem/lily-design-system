@@ -1,0 +1,44 @@
+{
+  "slug": "united-states-social-security-number-view",
+  "name": "UnitedStatesSocialSecurityNumberView",
+  "description": "a read-only display of a US Social Security number",
+  "htmlTag": "div",
+  "category": "national",
+  "baseClass": ".united-states-social-security-number-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` -- provides the accessible name from the `label` prop so screen readers can announce the purpose of the displayed number",
+    "Screen readers announce the label followed by the text content (the number value)"
+  ],
+  "keyboard": [
+    "None -- this is a passive display-only component"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label for screen readers via `aria-label`",
+    "`value`: string (default: `\"\"`) -- the SSN string to display (e.g., \"123-45-6789\")",
+    "`...restProps`: any -- additional HTML attributes spread onto the `<span>` element"
+  ],
+  "related": [
+    "united-states-social-security-number-input",
+    "espana-tarjeta-sanitaria-individual-input",
+    "espana-tarjeta-sanitaria-individual-view",
+    "france-numero-d-identification-au-repertoire-input",
+    "france-numero-d-identification-au-repertoire-view",
+    "eire-individual-health-identifier-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/united-states-social-security-number-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/UnitedStatesSocialSecurityNumberView/UnitedStatesSocialSecurityNumberView.svelte",
+    "react": "lily-design-system-react-headless/components/UnitedStatesSocialSecurityNumberView.tsx",
+    "vue": "lily-design-system-vue-headless/components/UnitedStatesSocialSecurityNumberView.vue",
+    "angular": "lily-design-system-angular-headless/components/UnitedStatesSocialSecurityNumberView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/united-states-social-security-number-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/united-states-social-security-number-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/united-states-social-security-number-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/UnitedStatesSocialSecurityNumberView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/united-states-social-security-number-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/united-states-social-security-number-view/AGENTS.md"
+}

@@ -1,0 +1,46 @@
+{
+  "slug": "command",
+  "name": "Command",
+  "description": "a command palette for searching and executing actions",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".command",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"search\"` -- identifies the outer container as a search landmark region",
+    "`aria-label={label}` -- provides accessible name for the search region and input",
+    "`role=\"listbox\"` -- identifies the results container as a listbox for selectable options",
+    "`aria-label={label}` -- provides accessible name for the listbox"
+  ],
+  "keyboard": [
+    "**Tab**: Moves focus into and out of the search input",
+    "Additional keyboard navigation (arrow keys within the listbox) should be implemented by the consumer"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name for both the search region and the input",
+    "`placeholder`: string (default: `undefined`) -- placeholder text for the search input",
+    "`value`: string (default: `\"\"`, bindable) -- current search text, supports two-way binding via two-way `value` binding",
+    "`children`: slot (required) -- listbox content, typically option or command items",
+    "`...restProps`: any additional HTML attributes spread onto the outer `<div>`"
+  ],
+  "related": [
+    "combobox",
+    "menu",
+    "search-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/command.html",
+    "svelte": "lily-design-system-svelte-headless/components/Command/Command.svelte",
+    "react": "lily-design-system-react-headless/components/Command.tsx",
+    "vue": "lily-design-system-vue-headless/components/Command.vue",
+    "angular": "lily-design-system-angular-headless/components/Command.ts",
+    "web-components": "lily-design-system-web-components-headless/components/command.ts",
+    "alpine": "lily-design-system-alpine-headless/components/command.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/command/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Command.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/command/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/command/AGENTS.md"
+}

@@ -1,0 +1,37 @@
+{
+  "slug": "measurement-instance-view",
+  "name": "MeasurementInstanceView",
+  "description": "a read-only display of a measurement value and unit",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".measurement-instance-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` -- optionally set from the `label` prop to provide additional context beyond the displayed value"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`value`: string (required) -- the measurement instance value to display",
+    "`label`: string (optional) -- accessible name via aria-label for additional context"
+  ],
+  "related": [
+    "measurement-instance-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/measurement-instance-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/MeasurementInstanceView/MeasurementInstanceView.svelte",
+    "react": "lily-design-system-react-headless/components/MeasurementInstanceView.tsx",
+    "vue": "lily-design-system-vue-headless/components/MeasurementInstanceView.vue",
+    "angular": "lily-design-system-angular-headless/components/MeasurementInstanceView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/measurement-instance-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/measurement-instance-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/measurement-instance-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MeasurementInstanceView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/measurement-instance-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/measurement-instance-view/AGENTS.md"
+}

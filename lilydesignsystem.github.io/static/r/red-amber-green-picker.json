@@ -1,0 +1,40 @@
+{
+  "slug": "red-amber-green-picker",
+  "name": "RedAmberGreenPicker",
+  "description": "a picker for selecting a red/amber/green status",
+  "htmlTag": "div",
+  "category": "pickers",
+  "baseClass": ".red-amber-green-picker",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`aria-label` on the select from the label prop"
+  ],
+  "keyboard": [
+    "Arrow keys navigate options (native select behavior)",
+    "Enter/Space opens the dropdown",
+    "Escape closes the dropdown"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label for the select",
+    "`value`: string (default: \"\") -- currently selected status, bindable",
+    "`...restProps`: Any additional HTML attributes spread onto the select"
+  ],
+  "related": [
+    "red-amber-green-picker-button"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/red-amber-green-picker.html",
+    "svelte": "lily-design-system-svelte-headless/components/RedAmberGreenPicker/RedAmberGreenPicker.svelte",
+    "react": "lily-design-system-react-headless/components/RedAmberGreenPicker.tsx",
+    "vue": "lily-design-system-vue-headless/components/RedAmberGreenPicker.vue",
+    "angular": "lily-design-system-angular-headless/components/RedAmberGreenPicker.ts",
+    "web-components": "lily-design-system-web-components-headless/components/red-amber-green-picker.ts",
+    "alpine": "lily-design-system-alpine-headless/components/red-amber-green-picker.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/red-amber-green-picker/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/RedAmberGreenPicker.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/red-amber-green-picker/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/red-amber-green-picker/AGENTS.md"
+}

@@ -1,0 +1,50 @@
+{
+  "slug": "select",
+  "name": "Select",
+  "description": "a dropdown select element for choosing one option",
+  "htmlTag": "select",
+  "category": "forms",
+  "baseClass": ".select",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`aria-label={label}` -- provides an accessible name for the select element since there is no visible `<label>` element",
+    "The `<select>` element implicitly has `role=\"combobox\"` or `role=\"listbox\"` depending on the browser, with built-in accessible semantics"
+  ],
+  "keyboard": [
+    "Tab: Moves focus to and from the select element (native browser behavior)",
+    "Space/Enter: Opens the dropdown list when focused (native browser behavior)",
+    "Arrow Up/Down: Navigates through options (native browser behavior)",
+    "Escape: Closes the dropdown list (native browser behavior)",
+    "Home/End: Jumps to first/last option (native browser behavior)",
+    "Type-ahead: Typing characters jumps to matching options (native browser behavior)"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name applied via `aria-label`",
+    "`value`: string (default: \"\") -- bindable string representing the currently selected value",
+    "`required`: boolean (default: false) -- whether the select is required for form submission",
+    "`disabled`: boolean (default: false) -- whether the select is disabled",
+    "`children`: slot (required) -- `<option>` elements to render inside the select",
+    "`...restProps`: unknown -- additional attributes spread onto the select element"
+  ],
+  "related": [
+    "select-with-extras",
+    "option",
+    "combobox",
+    "theme-select"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/select.html",
+    "svelte": "lily-design-system-svelte-headless/components/Select/Select.svelte",
+    "react": "lily-design-system-react-headless/components/Select.tsx",
+    "vue": "lily-design-system-vue-headless/components/Select.vue",
+    "angular": "lily-design-system-angular-headless/components/Select.ts",
+    "web-components": "lily-design-system-web-components-headless/components/select.ts",
+    "alpine": "lily-design-system-alpine-headless/components/select.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/select/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Select.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/select/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/select/AGENTS.md"
+}

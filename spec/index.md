@@ -363,7 +363,7 @@ Scripts live in `bin/`:
 | `bin/verify-published`                | After a publish: is every helper package's local version on npm / nuget.org? `--wait` polls through registry lag. |
 | `bin/check-theme`                     | Conformance checks for the 57 reference themes; `--contrast` reports token-pair contrast (report only). |
 | `bin/generate-theme-tokens`           | DTCG token source: extract / generate / drift-check. |
-| `bin/generate-api-docs`               | Site canonical-contract sections from AGENTS metadata; drift-checked. |
+| `bin/generate-api-docs`               | Site canonical-contract sections and the `/r/{slug}.json` component manifests, from AGENTS metadata; drift-checked. |
 | `bin/check-class-names`               | Every implementation in all 8 headless libraries carries its slug as the first token of a class list. |
 | `bin/sync-example-components`         | Mirror each headless library's components into its example app's copy (`--check` in `bin/test`). |
 | `bin/check-coverage`                  | Coverage drift matrix: per-component file presence across all 7 headless libraries. |

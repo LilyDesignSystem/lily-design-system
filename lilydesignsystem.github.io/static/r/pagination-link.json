@@ -1,0 +1,43 @@
+{
+  "slug": "pagination-link",
+  "name": "PaginationLink",
+  "description": "one pagination link in the trail",
+  "htmlTag": "a",
+  "category": "links",
+  "baseClass": ".pagination-link",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `link` role from the `<a>` element",
+    "`aria-label` -- optional override for descriptive screen reader text, set from the `label` prop"
+  ],
+  "keyboard": [
+    "Tab: Focus the link",
+    "Enter: Activate the link (browser default)"
+  ],
+  "props": [
+    "`href`: string (required) -- the URL to navigate to",
+    "`label`: string (optional, default: undefined) -- accessible label override via `aria-label`",
+    "`children`: slot (required) -- the link text/content",
+    "`...restProps`: Any additional HTML attributes spread onto the `<a>`"
+  ],
+  "related": [
+    "pagination-nav",
+    "pagination-list",
+    "pagination-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/pagination-link.html",
+    "svelte": "lily-design-system-svelte-headless/components/PaginationLink/PaginationLink.svelte",
+    "react": "lily-design-system-react-headless/components/PaginationLink.tsx",
+    "vue": "lily-design-system-vue-headless/components/PaginationLink.vue",
+    "angular": "lily-design-system-angular-headless/components/PaginationLink.ts",
+    "web-components": "lily-design-system-web-components-headless/components/pagination-link.ts",
+    "alpine": "lily-design-system-alpine-headless/components/pagination-link.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/pagination-link/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PaginationLink.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/pagination-link/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/pagination-link/AGENTS.md"
+}

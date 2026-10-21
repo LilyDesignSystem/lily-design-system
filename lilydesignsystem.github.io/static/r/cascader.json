@@ -1,0 +1,54 @@
+{
+  "slug": "cascader",
+  "name": "Cascader",
+  "description": "a multi-level dropdown for selecting a value from a hierarchy",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".cascader",
+  "subClasses": [
+    "cascader-panel",
+    "cascader-trigger"
+  ],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "role=\"combobox\" on the container",
+    "aria-haspopup=\"tree\"",
+    "aria-expanded reflects the expanded prop",
+    "aria-label is the accessible name (required)"
+  ],
+  "keyboard": [
+    "Tab: Focus the trigger",
+    "Enter / Space: Toggle the panel (consumer handler)",
+    "Arrow keys: Consumer-provided tree navigation",
+    "Escape: Consumer-provided close + restore focus"
+  ],
+  "props": [
+    "`label`: string (REQUIRED) -- aria-label",
+    "`expanded`: boolean (default: false)",
+    "`disabled`: boolean (default: false)",
+    "`placeholder`: string (optional)",
+    "`value`: string (optional)",
+    "`onclick` / `onClick`: callback (optional)",
+    "`children`: slot — panel content",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "combobox",
+    "tree-select",
+    "select-with-extras"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/cascader.html",
+    "svelte": "lily-design-system-svelte-headless/components/Cascader/Cascader.svelte",
+    "react": "lily-design-system-react-headless/components/Cascader.tsx",
+    "vue": "lily-design-system-vue-headless/components/Cascader.vue",
+    "angular": "lily-design-system-angular-headless/components/Cascader.ts",
+    "web-components": "lily-design-system-web-components-headless/components/cascader.ts",
+    "alpine": "lily-design-system-alpine-headless/components/cascader.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/cascader/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Cascader.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/cascader/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/cascader/AGENTS.md"
+}

@@ -1,0 +1,38 @@
+{
+  "slug": "footnote",
+  "name": "Footnote",
+  "description": "a footnote reference and content element",
+  "htmlTag": "span",
+  "category": "content",
+  "baseClass": ".footnote",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"note\"` -- indicates supplementary content that is related to the main content",
+    "`aria-label=\"{id}\"` -- provides an accessible name derived from the footnote identifier"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`id`: string (required) -- unique footnote identifier, used for the element id and aria-label",
+    "`children`: slot (required) -- footnote content to render inside the aside"
+  ],
+  "related": [
+    "citation"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/footnote.html",
+    "svelte": "lily-design-system-svelte-headless/components/Footnote/Footnote.svelte",
+    "react": "lily-design-system-react-headless/components/Footnote.tsx",
+    "vue": "lily-design-system-vue-headless/components/Footnote.vue",
+    "angular": "lily-design-system-angular-headless/components/Footnote.ts",
+    "web-components": "lily-design-system-web-components-headless/components/footnote.ts",
+    "alpine": "lily-design-system-alpine-headless/components/footnote.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/footnote/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Footnote.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/footnote/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/footnote/AGENTS.md"
+}

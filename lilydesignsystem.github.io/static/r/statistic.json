@@ -1,0 +1,48 @@
+{
+  "slug": "statistic",
+  "name": "Statistic",
+  "description": "a numeric value display with title, prefix, and suffix",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".statistic",
+  "subClasses": [
+    "statistic-prefix",
+    "statistic-suffix",
+    "statistic-title",
+    "statistic-value"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "role=\"group\"",
+    "aria-label is the spoken summary of the statistic"
+  ],
+  "keyboard": [
+    "None — passive display element"
+  ],
+  "props": [
+    "`title`: string (REQUIRED)",
+    "`value`: string (REQUIRED)",
+    "`prefix`: slot (optional)",
+    "`suffix`: slot (optional)",
+    "`label`: string (optional)",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "meter",
+    "sparkline"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/statistic.html",
+    "svelte": "lily-design-system-svelte-headless/components/Statistic/Statistic.svelte",
+    "react": "lily-design-system-react-headless/components/Statistic.tsx",
+    "vue": "lily-design-system-vue-headless/components/Statistic.vue",
+    "angular": "lily-design-system-angular-headless/components/Statistic.ts",
+    "web-components": "lily-design-system-web-components-headless/components/statistic.ts",
+    "alpine": "lily-design-system-alpine-headless/components/statistic.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/statistic/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Statistic.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/statistic/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/statistic/AGENTS.md"
+}

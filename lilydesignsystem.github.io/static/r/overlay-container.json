@@ -1,0 +1,45 @@
+{
+  "slug": "overlay-container",
+  "name": "OverlayContainer",
+  "description": "a full-viewport overlay backdrop for modals and sheets",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".overlay-container",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"presentation\"`",
+    "`aria-hidden={!open}`",
+    "Modal child carries role=\"dialog\" / aria-modal — not this container"
+  ],
+  "keyboard": [
+    "None on backdrop itself",
+    "Modal child manages focus trap and Escape"
+  ],
+  "props": [
+    "`open`: boolean (default: false)",
+    "`label`: string (optional) -- aria-label",
+    "`onclick` / `onClick`: callback (optional)",
+    "`children`: slot -- overlay content",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "dialog",
+    "drawer",
+    "sheet"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/overlay-container.html",
+    "svelte": "lily-design-system-svelte-headless/components/OverlayContainer/OverlayContainer.svelte",
+    "react": "lily-design-system-react-headless/components/OverlayContainer.tsx",
+    "vue": "lily-design-system-vue-headless/components/OverlayContainer.vue",
+    "angular": "lily-design-system-angular-headless/components/OverlayContainer.ts",
+    "web-components": "lily-design-system-web-components-headless/components/overlay-container.ts",
+    "alpine": "lily-design-system-alpine-headless/components/overlay-container.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/overlay-container/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/OverlayContainer.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/overlay-container/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/overlay-container/AGENTS.md"
+}

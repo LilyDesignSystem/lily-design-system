@@ -1,0 +1,42 @@
+{
+  "slug": "data-table-body",
+  "name": "DataTableBody",
+  "description": "a data table interactive grid tbody for displaying and sorting tabular data <tbody>",
+  "htmlTag": "tbody",
+  "category": "tables",
+  "baseClass": ".data-table-body",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "Implicit `rowgroup` role from the `<tbody>` element -- groups the body rows of the table"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`children`: slot (required) -- data rows representing records in the table",
+    "`...restProps`: Any additional HTML attributes passed to the `<tbody>` element"
+  ],
+  "related": [
+    "data-table",
+    "data-table-foot",
+    "data-table-head",
+    "data-table-row",
+    "data-table-td",
+    "data-table-th",
+    "table"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/data-table-body.html",
+    "svelte": "lily-design-system-svelte-headless/components/DataTableBody/DataTableBody.svelte",
+    "react": "lily-design-system-react-headless/components/DataTableBody.tsx",
+    "vue": "lily-design-system-vue-headless/components/DataTableBody.vue",
+    "angular": "lily-design-system-angular-headless/components/DataTableBody.ts",
+    "alpine": "lily-design-system-alpine-headless/components/data-table-body.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/data-table-body/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DataTableBody.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/data-table-body/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/data-table-body/AGENTS.md"
+}

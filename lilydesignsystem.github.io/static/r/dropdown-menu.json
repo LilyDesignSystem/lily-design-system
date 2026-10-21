@@ -1,0 +1,47 @@
+{
+  "slug": "dropdown-menu",
+  "name": "DropdownMenu",
+  "description": "a menu that opens below a trigger button",
+  "htmlTag": "div",
+  "category": "navigation",
+  "baseClass": ".dropdown-menu",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`aria-haspopup=\"true\"` -- on the trigger button, indicates it opens a menu",
+    "`aria-expanded=\"{open}\"` -- on the trigger button, communicates whether the menu is currently shown",
+    "`aria-label=\"{label}\"` -- on both the trigger button and the menu, provides an accessible name",
+    "`role=\"menu\"` -- on the menu container, identifies it as a menu widget",
+    "`role=\"menuitem\"` -- expected on each child item provided by the consumer"
+  ],
+  "keyboard": [
+    "Enter or Space (on button): toggles the menu open/closed",
+    "ArrowDown: moves focus to the next menu item, wraps from last to first",
+    "ArrowUp: moves focus to the previous menu item, wraps from first to last",
+    "Home: moves focus to the first menu item",
+    "End: moves focus to the last menu item",
+    "Escape: closes the menu"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name for the menu button, also displayed as button text",
+    "`open`: boolean (default: false) -- whether the menu is visible; bindable",
+    "`children`: slot (required) -- menu items, each should have `role=\"menuitem\"` and `tabindex=\"-1\"`"
+  ],
+  "related": [
+    "menu-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/dropdown-menu.html",
+    "svelte": "lily-design-system-svelte-headless/components/DropdownMenu/DropdownMenu.svelte",
+    "react": "lily-design-system-react-headless/components/DropdownMenu.tsx",
+    "vue": "lily-design-system-vue-headless/components/DropdownMenu.vue",
+    "angular": "lily-design-system-angular-headless/components/DropdownMenu.ts",
+    "web-components": "lily-design-system-web-components-headless/components/dropdown-menu.ts",
+    "alpine": "lily-design-system-alpine-headless/components/dropdown-menu.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/dropdown-menu/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DropdownMenu.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/dropdown-menu/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/dropdown-menu/AGENTS.md"
+}

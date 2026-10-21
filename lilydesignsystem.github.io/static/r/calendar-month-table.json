@@ -1,0 +1,43 @@
+{
+  "slug": "calendar-month-table",
+  "name": "CalendarMonthTable",
+  "description": "a calendar grid showing the days of one month",
+  "htmlTag": "table",
+  "category": "tables",
+  "baseClass": ".calendar-month-table",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in the Svelte canonical; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"grid\"` -- identifies the table as an interactive grid widget",
+    "`aria-label={label}` -- provides an accessible name describing the period"
+  ],
+  "keyboard": [
+    "No keyboard interactions built in — the consumer implements grid navigation"
+  ],
+  "props": [
+    "`class`: string (default: `\"\"`) -- appended to the base class",
+    "`label`: string (required) -- accessible name describing the period shown, applied via `aria-label`",
+    "`caption`: string (optional) -- visible caption",
+    "`children`: slot (required) -- table sections and rows",
+    "`...restProps`: HTML attributes -- spread onto the root `<table>`"
+  ],
+  "related": [
+    "calendar-table",
+    "CalendarWeekTable",
+    "calendar-range-picker"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/calendar-month-table.html",
+    "svelte": "lily-design-system-svelte-headless/components/CalendarMonthTable/CalendarMonthTable.svelte",
+    "react": "lily-design-system-react-headless/components/CalendarMonthTable.tsx",
+    "vue": "lily-design-system-vue-headless/components/CalendarMonthTable.vue",
+    "angular": "lily-design-system-angular-headless/components/CalendarMonthTable.ts",
+    "web-components": "lily-design-system-web-components-headless/components/calendar-month-table.ts",
+    "alpine": "lily-design-system-alpine-headless/components/calendar-month-table.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/calendar-month-table/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CalendarMonthTable.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/calendar-month-table/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/calendar-month-table/AGENTS.md"
+}

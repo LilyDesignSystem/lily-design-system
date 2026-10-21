@@ -1,0 +1,39 @@
+{
+  "slug": "separator",
+  "name": "Separator",
+  "description": "a horizontal or vertical divider between content sections",
+  "htmlTag": "hr",
+  "category": "navigation",
+  "baseClass": ".separator",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"separator\"` -- explicitly identifies the element as a separator between sections of content",
+    "`aria-label={label}` -- optional descriptive label for the separator, announced by screen readers when present"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`label`: string (default: undefined) -- optional accessible label describing the separation, applied via `aria-label`",
+    "`...restProps`: spread onto the `<hr>` element"
+  ],
+  "related": [
+    "divider",
+    "horizontal-scroller"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/separator.html",
+    "svelte": "lily-design-system-svelte-headless/components/Separator/Separator.svelte",
+    "react": "lily-design-system-react-headless/components/Separator.tsx",
+    "vue": "lily-design-system-vue-headless/components/Separator.vue",
+    "angular": "lily-design-system-angular-headless/components/Separator.ts",
+    "web-components": "lily-design-system-web-components-headless/components/separator.ts",
+    "alpine": "lily-design-system-alpine-headless/components/separator.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/separator/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Separator.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/separator/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/separator/AGENTS.md"
+}

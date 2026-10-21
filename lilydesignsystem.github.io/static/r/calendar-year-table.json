@@ -1,0 +1,43 @@
+{
+  "slug": "calendar-year-table",
+  "name": "CalendarYearTable",
+  "description": "a calendar grid showing the twelve months of one year",
+  "htmlTag": "table",
+  "category": "tables",
+  "baseClass": ".calendar-year-table",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in the Svelte canonical; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"grid\"` -- identifies the table as an interactive grid widget",
+    "`aria-label={label}` -- provides an accessible name describing the period"
+  ],
+  "keyboard": [
+    "No keyboard interactions built in — the consumer implements grid navigation"
+  ],
+  "props": [
+    "`class`: string (default: `\"\"`) -- appended to the base class",
+    "`label`: string (required) -- accessible name describing the period shown, applied via `aria-label`",
+    "`caption`: string (optional) -- visible caption",
+    "`children`: slot (required) -- table sections and rows",
+    "`...restProps`: HTML attributes -- spread onto the root `<table>`"
+  ],
+  "related": [
+    "calendar-table",
+    "CalendarMonthTable",
+    "calendar-range-picker"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/calendar-year-table.html",
+    "svelte": "lily-design-system-svelte-headless/components/CalendarYearTable/CalendarYearTable.svelte",
+    "react": "lily-design-system-react-headless/components/CalendarYearTable.tsx",
+    "vue": "lily-design-system-vue-headless/components/CalendarYearTable.vue",
+    "angular": "lily-design-system-angular-headless/components/CalendarYearTable.ts",
+    "web-components": "lily-design-system-web-components-headless/components/calendar-year-table.ts",
+    "alpine": "lily-design-system-alpine-headless/components/calendar-year-table.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/calendar-year-table/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CalendarYearTable.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/calendar-year-table/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/calendar-year-table/AGENTS.md"
+}

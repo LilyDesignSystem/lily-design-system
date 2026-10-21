@@ -1,0 +1,43 @@
+{
+  "slug": "romania-cod-numeric-personal-input",
+  "name": "RomaniaCodNumericPersonalInput",
+  "description": "an input for entering Romania's Cod Numeric Personal (CNP)",
+  "htmlTag": "input",
+  "category": "national",
+  "baseClass": ".romania-cod-numeric-personal-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`required` and `disabled` states conveyed to assistive technology",
+    "`aria-label` provided from the `label` prop"
+  ],
+  "keyboard": [
+    "Standard text input keyboard behavior"
+  ],
+  "props": [
+    "`label`: string (required) — accessible label via aria-label",
+    "`value`: string (default: \"\") — bindable input value",
+    "`required`: boolean (default: false) — form validation",
+    "`disabled`: boolean (default: false) — disabled state",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "romania-cod-numeric-personal-view",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/romania-cod-numeric-personal-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/RomaniaCodNumericPersonalInput/RomaniaCodNumericPersonalInput.svelte",
+    "react": "lily-design-system-react-headless/components/RomaniaCodNumericPersonalInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/RomaniaCodNumericPersonalInput.vue",
+    "angular": "lily-design-system-angular-headless/components/RomaniaCodNumericPersonalInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/romania-cod-numeric-personal-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/romania-cod-numeric-personal-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/romania-cod-numeric-personal-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/RomaniaCodNumericPersonalInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/romania-cod-numeric-personal-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/romania-cod-numeric-personal-input/AGENTS.md"
+}

@@ -1,0 +1,48 @@
+{
+  "slug": "date-input",
+  "name": "DateInput",
+  "description": "an input for entering a date value <input type=\"date\">",
+  "htmlTag": "input",
+  "category": "forms",
+  "baseClass": ".date-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`aria-label={label}` -- provides an accessible name for the date input since there is no visible `<label>` element"
+  ],
+  "keyboard": [
+    "Tab: Moves focus to and from the date input (native browser behavior)",
+    "Arrow keys: Navigate within the date picker fields (native browser behavior)",
+    "Enter: Opens or confirms the date picker (native browser behavior)"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name applied via `aria-label`",
+    "`value`: string (default: \"\") -- bindable date string in YYYY-MM-DD format",
+    "`min`: string (default: undefined) -- minimum allowed date in YYYY-MM-DD format",
+    "`max`: string (default: undefined) -- maximum allowed date in YYYY-MM-DD format",
+    "`required`: boolean (default: false) -- whether the input is required for form submission",
+    "`disabled`: boolean (default: false) -- whether the input is disabled",
+    "`...restProps`: unknown -- additional attributes spread onto the input element"
+  ],
+  "related": [
+    "date-field",
+    "date-range",
+    "date-time-local-input",
+    "date-time-now-input",
+    "calendar-range-picker"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/date-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/DateInput/DateInput.svelte",
+    "react": "lily-design-system-react-headless/components/DateInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/DateInput.vue",
+    "angular": "lily-design-system-angular-headless/components/DateInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/date-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/date-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/date-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DateInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/date-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/date-input/AGENTS.md"
+}

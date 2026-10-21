@@ -1,0 +1,42 @@
+{
+  "slug": "grail-layout-bottom-footer",
+  "name": "GrailLayoutBottomFooter",
+  "description": "grail layout bottom footer full width with <footer> tag",
+  "htmlTag": "footer",
+  "category": "navigation",
+  "baseClass": ".grail-layout-bottom-footer",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Native `<footer>` element exposes a contentinfo landmark when used as a top-level page footer",
+    "Screen readers can navigate to the footer via landmark navigation"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`children`: slot (required) -- content to render inside the bottom footer section",
+    "`...restProps`: unknown -- additional attributes spread onto the `<footer>` element"
+  ],
+  "related": [
+    "grail-layout",
+    "grail-layout-center-main",
+    "grail-layout-left-aside",
+    "grail-layout-right-aside",
+    "grail-layout-top-header"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/grail-layout-bottom-footer.html",
+    "svelte": "lily-design-system-svelte-headless/components/GrailLayoutBottomFooter/GrailLayoutBottomFooter.svelte",
+    "react": "lily-design-system-react-headless/components/GrailLayoutBottomFooter.tsx",
+    "vue": "lily-design-system-vue-headless/components/GrailLayoutBottomFooter.vue",
+    "angular": "lily-design-system-angular-headless/components/GrailLayoutBottomFooter.ts",
+    "web-components": "lily-design-system-web-components-headless/components/grail-layout-bottom-footer.ts",
+    "alpine": "lily-design-system-alpine-headless/components/grail-layout-bottom-footer.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/grail-layout-bottom-footer/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/GrailLayoutBottomFooter.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/grail-layout-bottom-footer/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/grail-layout-bottom-footer/AGENTS.md"
+}

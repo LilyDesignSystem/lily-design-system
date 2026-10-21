@@ -1,0 +1,39 @@
+{
+  "slug": "tour",
+  "name": "Tour",
+  "description": "a tour guide, such as for sightseeing, or pathways, or demonstrations, etc.",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".tour",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`aria-label={label}` -- provides an accessible name for the tour container"
+  ],
+  "keyboard": [],
+  "props": [
+    "`label`: string (required) -- accessible name for the tour via `aria-label`",
+    "`className`: string (default: `\"\"`) -- CSS class name for the container",
+    "`children`: slot (required) -- tour content, typically a TourList",
+    "`...restProps`: unknown -- additional attributes spread onto the `<div>` element"
+  ],
+  "related": [
+    "tour-list",
+    "tour-list-item",
+    "coachmark"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/tour.html",
+    "svelte": "lily-design-system-svelte-headless/components/Tour/Tour.svelte",
+    "react": "lily-design-system-react-headless/components/Tour.tsx",
+    "vue": "lily-design-system-vue-headless/components/Tour.vue",
+    "angular": "lily-design-system-angular-headless/components/Tour.ts",
+    "web-components": "lily-design-system-web-components-headless/components/tour.ts",
+    "alpine": "lily-design-system-alpine-headless/components/tour.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/tour/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Tour.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/tour/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tour/AGENTS.md"
+}

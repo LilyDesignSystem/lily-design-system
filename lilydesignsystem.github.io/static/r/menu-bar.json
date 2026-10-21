@@ -1,0 +1,43 @@
+{
+  "slug": "menu-bar",
+  "name": "MenuBar",
+  "description": "a horizontal bar of menu triggers",
+  "htmlTag": "div",
+  "category": "navigation",
+  "baseClass": ".menu-bar",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"menubar\"` -- identifies the container as a horizontal menu bar widget.",
+    "`aria-label` -- provides an accessible name describing the purpose of the menu bar.",
+    "Child elements should use `role=\"menuitem\"` with `tabindex=\"-1\"` for focusable menu bar items."
+  ],
+  "keyboard": [
+    "ArrowRight: Moves focus to the next menu bar item, wrapping to the first item from the last.",
+    "ArrowLeft: Moves focus to the previous menu bar item, wrapping to the last item from the first.",
+    "Home: Moves focus to the first menu bar item.",
+    "End: Moves focus to the last menu bar item."
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name applied via `aria-label`.",
+    "`children`: slot (required) -- menu bar item elements to render (should have `role=\"menuitem\"` and `tabindex=\"-1\"`).",
+    "`...restProps`: unknown -- additional attributes spread onto the container `<div>`."
+  ],
+  "related": [
+    "menu-bar-button"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/menu-bar.html",
+    "svelte": "lily-design-system-svelte-headless/components/MenuBar/MenuBar.svelte",
+    "react": "lily-design-system-react-headless/components/MenuBar.tsx",
+    "vue": "lily-design-system-vue-headless/components/MenuBar.vue",
+    "angular": "lily-design-system-angular-headless/components/MenuBar.ts",
+    "web-components": "lily-design-system-web-components-headless/components/menu-bar.ts",
+    "alpine": "lily-design-system-alpine-headless/components/menu-bar.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/menu-bar/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MenuBar.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/menu-bar/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/menu-bar/AGENTS.md"
+}

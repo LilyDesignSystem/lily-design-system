@@ -1,0 +1,41 @@
+{
+  "slug": "gantt-table-tbody",
+  "name": "GanttTableTbody",
+  "description": "a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>",
+  "htmlTag": "tbody",
+  "category": "tables",
+  "baseClass": ".gantt-table-tbody",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `rowgroup` role from the `<tbody>` element -- groups the body rows of the grid"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`children`: slot (required) -- task rows representing items and their timeline data",
+    "`...restProps`: Any additional HTML attributes passed to the `<tbody>` element"
+  ],
+  "related": [
+    "gantt-table",
+    "gantt-table-thead",
+    "gantt-table-tfoot",
+    "gantt-table-tr",
+    "gantt-table-th",
+    "gantt-table-td"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/gantt-table-tbody.html",
+    "svelte": "lily-design-system-svelte-headless/components/GanttTableTbody/GanttTableTbody.svelte",
+    "react": "lily-design-system-react-headless/components/GanttTableTbody.tsx",
+    "vue": "lily-design-system-vue-headless/components/GanttTableTbody.vue",
+    "angular": "lily-design-system-angular-headless/components/GanttTableTbody.ts",
+    "alpine": "lily-design-system-alpine-headless/components/gantt-table-tbody.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/gantt-table-tbody/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/GanttTableTbody.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/gantt-table-tbody/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/gantt-table-tbody/AGENTS.md"
+}

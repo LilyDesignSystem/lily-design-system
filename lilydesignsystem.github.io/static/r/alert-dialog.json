@@ -1,0 +1,46 @@
+{
+  "slug": "alert-dialog",
+  "name": "AlertDialog",
+  "description": "a modal dialog for urgent messages requiring user acknowledgment",
+  "htmlTag": "dialog",
+  "category": "overlays",
+  "baseClass": ".alert-dialog",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"alertdialog\"`",
+    "`aria-modal=\"true\"`",
+    "`aria-labelledby` references the title element",
+    "`aria-describedby` references the description element (when present)"
+  ],
+  "keyboard": [
+    "Escape: Closes the dialog (consumer must implement via onkeydown)",
+    "Tab: Focus should be trapped within the dialog (consumer responsibility)"
+  ],
+  "props": [
+    "`open`: boolean (default: false, bindable) -- whether the dialog is visible",
+    "`title`: string (required) -- dialog heading, referenced by aria-labelledby",
+    "`description`: string (optional) -- dialog message, referenced by aria-describedby",
+    "`children`: slot -- action buttons and additional content",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "dialog",
+    "popconfirm-dialog",
+    "alert"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/alert-dialog.html",
+    "svelte": "lily-design-system-svelte-headless/components/AlertDialog/AlertDialog.svelte",
+    "react": "lily-design-system-react-headless/components/AlertDialog.tsx",
+    "vue": "lily-design-system-vue-headless/components/AlertDialog.vue",
+    "angular": "lily-design-system-angular-headless/components/AlertDialog.ts",
+    "web-components": "lily-design-system-web-components-headless/components/alert-dialog.ts",
+    "alpine": "lily-design-system-alpine-headless/components/alert-dialog.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/alert-dialog/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AlertDialog.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/alert-dialog/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/alert-dialog/AGENTS.md"
+}

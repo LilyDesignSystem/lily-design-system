@@ -1,0 +1,52 @@
+{
+  "slug": "autosuggest",
+  "name": "Autosuggest",
+  "description": "a text input that proposes matching options as users type",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".autosuggest",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"combobox\"` on the wrapper, `aria-expanded` toggled to reflect listbox visibility",
+    "`aria-controls` on the input references the listbox id",
+    "`aria-activedescendant` on the input references the currently highlighted option",
+    "`role=\"listbox\"` on the suggestion list, `role=\"option\"` on each suggestion",
+    "Selected option has `aria-selected=\"true\"`"
+  ],
+  "keyboard": [
+    "Down arrow: open the listbox / move highlight to the next option",
+    "Up arrow: move highlight to the previous option",
+    "Enter: select the highlighted option",
+    "Escape: close the listbox without selecting",
+    "Home / End: jump to the first / last option (when listbox is open)"
+  ],
+  "props": [
+    "`label`: string (required) (default: —) — Accessible name for the input",
+    "`value`: string (default: \"\") — Bindable input value",
+    "`suggestions`: array of `{ value: string; label: string }` (default: []) — Current suggestions to show",
+    "`onInput`: (query: string) => void (default: —) — Fired when the typed value changes; consumer recomputes suggestions",
+    "`onSelect`: (value: string) => void (default: —) — Fired when the user selects a suggestion",
+    "`placeholder`: string (default: —) — Placeholder text",
+    "`...restProps`: HTML attributes (default: —) — Spread onto the wrapper `<div>`"
+  ],
+  "related": [
+    "combobox",
+    "select",
+    "mentions-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/autosuggest.html",
+    "svelte": "lily-design-system-svelte-headless/components/Autosuggest/Autosuggest.svelte",
+    "react": "lily-design-system-react-headless/components/Autosuggest.tsx",
+    "vue": "lily-design-system-vue-headless/components/Autosuggest.vue",
+    "angular": "lily-design-system-angular-headless/components/Autosuggest.ts",
+    "web-components": "lily-design-system-web-components-headless/components/autosuggest.ts",
+    "alpine": "lily-design-system-alpine-headless/components/autosuggest.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/autosuggest/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Autosuggest.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/autosuggest/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/autosuggest/AGENTS.md"
+}

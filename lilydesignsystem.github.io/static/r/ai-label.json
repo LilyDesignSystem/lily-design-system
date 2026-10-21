@@ -1,0 +1,40 @@
+{
+  "slug": "ai-label",
+  "name": "AiLabel",
+  "description": "an indicator of AI instances that is a pathway to AI explainability",
+  "htmlTag": "span",
+  "category": "content",
+  "baseClass": ".ai-label",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label={label}` -- provides an accessible name for the AI indicator so screen readers announce its purpose"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`label`: string (default: \"AI\") -- accessible name for the indicator via `aria-label`",
+    "`text`: string (default: \"AI\") -- visible text displayed inside the indicator",
+    "`...restProps`: unknown -- additional attributes spread onto the `<span>` element"
+  ],
+  "related": [
+    "badge",
+    "tag",
+    "flair"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/ai-label.html",
+    "svelte": "lily-design-system-svelte-headless/components/AiLabel/AiLabel.svelte",
+    "react": "lily-design-system-react-headless/components/AiLabel.tsx",
+    "vue": "lily-design-system-vue-headless/components/AiLabel.vue",
+    "angular": "lily-design-system-angular-headless/components/AiLabel.ts",
+    "web-components": "lily-design-system-web-components-headless/components/ai-label.ts",
+    "alpine": "lily-design-system-alpine-headless/components/ai-label.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/ai-label/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AiLabel.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/ai-label/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/ai-label/AGENTS.md"
+}

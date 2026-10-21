@@ -1,0 +1,41 @@
+{
+  "slug": "postal-code-input",
+  "name": "PostalCodeInput",
+  "description": "an input for entering a postal or ZIP code",
+  "htmlTag": "input",
+  "category": "forms",
+  "baseClass": ".postal-code-input",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label={label}` -- provides an accessible name for the input since no visible `<label>` element is included"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name via `aria-label`",
+    "`value`: string (default: `\"\"`, bindable) -- current postal code value, supports two-way binding",
+    "`required`: boolean (default: `false`) -- whether the field is required",
+    "`disabled`: boolean (default: `false`) -- whether the field is disabled",
+    "`...restProps`: any additional HTML attributes spread onto the input"
+  ],
+  "related": [
+    "postal-code-view",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/postal-code-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/PostalCodeInput/PostalCodeInput.svelte",
+    "react": "lily-design-system-react-headless/components/PostalCodeInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/PostalCodeInput.vue",
+    "angular": "lily-design-system-angular-headless/components/PostalCodeInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/postal-code-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/postal-code-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/postal-code-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PostalCodeInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/postal-code-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/postal-code-input/AGENTS.md"
+}

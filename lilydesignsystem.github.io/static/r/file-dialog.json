@@ -1,0 +1,41 @@
+{
+  "slug": "file-dialog",
+  "name": "FileDialog",
+  "description": "a dialog for browsing and selecting files",
+  "htmlTag": "dialog",
+  "category": "overlays",
+  "baseClass": ".file-dialog",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label={label}` -- provides an accessible name for the dialog",
+    "Native `<dialog>` element -- provides implicit `role=\"dialog\"` semantics"
+  ],
+  "keyboard": [
+    "Escape: closes the dialog by setting `open` to `false`"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name for the dialog, applied as `aria-label`",
+    "`open`: boolean (default: false) -- whether the dialog is visible, two-way bindable via `open`",
+    "`children`: slot (required) -- dialog content"
+  ],
+  "related": [
+    "file-input",
+    "file-manager",
+    "dialog"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/file-dialog.html",
+    "svelte": "lily-design-system-svelte-headless/components/FileDialog/FileDialog.svelte",
+    "react": "lily-design-system-react-headless/components/FileDialog.tsx",
+    "vue": "lily-design-system-vue-headless/components/FileDialog.vue",
+    "angular": "lily-design-system-angular-headless/components/FileDialog.ts",
+    "web-components": "lily-design-system-web-components-headless/components/file-dialog.ts",
+    "alpine": "lily-design-system-alpine-headless/components/file-dialog.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/file-dialog/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/FileDialog.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/file-dialog/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/file-dialog/AGENTS.md"
+}

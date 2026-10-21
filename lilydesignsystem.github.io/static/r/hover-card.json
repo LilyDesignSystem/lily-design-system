@@ -1,0 +1,42 @@
+{
+  "slug": "hover-card",
+  "name": "HoverCard",
+  "description": "a card that appears on hover over a trigger element",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".hover-card",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"tooltip\"` -- identifies the hover card as supplementary descriptive content",
+    "`aria-label={label}` -- provides an accessible name describing the hover card content"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name for the hover card via `aria-label`",
+    "`open`: boolean (default: `false`) -- whether the hover card is currently visible; bindable with two-way `open` binding",
+    "`children`: slot (required) -- content to display inside the hover card",
+    "`...restProps`: unknown -- additional attributes spread onto the container `<div>`"
+  ],
+  "related": [
+    "popover",
+    "tooltip",
+    "popup"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/hover-card.html",
+    "svelte": "lily-design-system-svelte-headless/components/HoverCard/HoverCard.svelte",
+    "react": "lily-design-system-react-headless/components/HoverCard.tsx",
+    "vue": "lily-design-system-vue-headless/components/HoverCard.vue",
+    "angular": "lily-design-system-angular-headless/components/HoverCard.ts",
+    "web-components": "lily-design-system-web-components-headless/components/hover-card.ts",
+    "alpine": "lily-design-system-alpine-headless/components/hover-card.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/hover-card/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/HoverCard.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/hover-card/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/hover-card/AGENTS.md"
+}

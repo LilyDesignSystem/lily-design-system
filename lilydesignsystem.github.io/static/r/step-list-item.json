@@ -1,0 +1,43 @@
+{
+  "slug": "step-list-item",
+  "name": "StepListItem",
+  "description": "one step in a step list with status of waiting, in progress, finished, or error",
+  "htmlTag": "li",
+  "category": "lists",
+  "baseClass": ".step-list-item",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "<li> provides list-item semantics",
+    "aria-current=\"step\" when current is true",
+    "aria-label set when label prop is provided",
+    "data-status is a CSS hook for status-driven styling"
+  ],
+  "keyboard": [
+    "None at this level — interactive behavior lives on children"
+  ],
+  "props": [
+    "`status`: \"waiting\" | \"in-progress\" | \"finished\" | \"error\" (default: \"waiting\")",
+    "`current`: boolean (default: false)",
+    "`label`: string (optional)",
+    "`children`: slot",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "step-list"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/step-list-item.html",
+    "svelte": "lily-design-system-svelte-headless/components/StepListItem/StepListItem.svelte",
+    "react": "lily-design-system-react-headless/components/StepListItem.tsx",
+    "vue": "lily-design-system-vue-headless/components/StepListItem.vue",
+    "angular": "lily-design-system-angular-headless/components/StepListItem.ts",
+    "web-components": "lily-design-system-web-components-headless/components/step-list-item.ts",
+    "alpine": "lily-design-system-alpine-headless/components/step-list-item.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/step-list-item/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/StepListItem.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/step-list-item/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/step-list-item/AGENTS.md"
+}

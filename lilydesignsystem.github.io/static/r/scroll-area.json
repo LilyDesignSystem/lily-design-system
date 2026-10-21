@@ -1,0 +1,44 @@
+{
+  "slug": "scroll-area",
+  "name": "ScrollArea",
+  "description": "a scrollable container with custom scrollbar support",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".scroll-area",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"region\"` -- identifies the container as a landmark region so assistive technologies can announce it",
+    "`aria-label={label}` -- provides an accessible name describing what content is scrollable"
+  ],
+  "keyboard": [
+    "Tab: Moves focus to the scroll area container",
+    "Arrow Up / Arrow Down: Scrolls content vertically (native browser behavior when focused)",
+    "Arrow Left / Arrow Right: Scrolls content horizontally (native browser behavior when focused)",
+    "Page Up / Page Down: Scrolls content by one page (native browser behavior when focused)",
+    "Home / End: Scrolls to the beginning or end of content (native browser behavior when focused)"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label for the scrollable region, applied via `aria-label`",
+    "`children`: slot (required) -- scrollable content to render inside the container",
+    "`...restProps`: unknown -- additional attributes spread onto the `<div>` element"
+  ],
+  "related": [
+    "scroll-bar",
+    "container"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/scroll-area.html",
+    "svelte": "lily-design-system-svelte-headless/components/ScrollArea/ScrollArea.svelte",
+    "react": "lily-design-system-react-headless/components/ScrollArea.tsx",
+    "vue": "lily-design-system-vue-headless/components/ScrollArea.vue",
+    "angular": "lily-design-system-angular-headless/components/ScrollArea.ts",
+    "web-components": "lily-design-system-web-components-headless/components/scroll-area.ts",
+    "alpine": "lily-design-system-alpine-headless/components/scroll-area.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/scroll-area/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ScrollArea.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/scroll-area/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/scroll-area/AGENTS.md"
+}

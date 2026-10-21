@@ -1,0 +1,43 @@
+{
+  "slug": "button-group",
+  "name": "ButtonGroup",
+  "description": "a wrapper that groups related buttons together",
+  "htmlTag": "div",
+  "category": "forms",
+  "baseClass": ".button-group",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"group\"` on the root `<div>`",
+    "`aria-label` is required and provides the accessible name of the group"
+  ],
+  "keyboard": [
+    "Tab: moves focus across child buttons",
+    "All other key handling is delegated to the buttons inside the group"
+  ],
+  "props": [
+    "`label`: string (REQUIRED) -- aria-label for the group",
+    "`children`: slot -- the related buttons",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "button",
+    "action-group",
+    "segment-group",
+    "toggle-group"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/button-group.html",
+    "svelte": "lily-design-system-svelte-headless/components/ButtonGroup/ButtonGroup.svelte",
+    "react": "lily-design-system-react-headless/components/ButtonGroup.tsx",
+    "vue": "lily-design-system-vue-headless/components/ButtonGroup.vue",
+    "angular": "lily-design-system-angular-headless/components/ButtonGroup.ts",
+    "web-components": "lily-design-system-web-components-headless/components/button-group.ts",
+    "alpine": "lily-design-system-alpine-headless/components/button-group.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/button-group/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ButtonGroup.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/button-group/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/button-group/AGENTS.md"
+}

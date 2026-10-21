@@ -1,0 +1,39 @@
+{
+  "slug": "content-block",
+  "name": "ContentBlock",
+  "description": "a content width constraint container with named column widths",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".content-block",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "None -- presentational container"
+  ],
+  "keyboard": [
+    "None"
+  ],
+  "props": [
+    "`width`: \"narrower\" | \"narrow\" | \"normal\" | \"wide\" | \"wider\" | \"widest\" | \"fluid\" (default: \"normal\") -- content width",
+    "`children`: slot (required) -- block content",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "container",
+    "container-with-fluid-width"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/content-block.html",
+    "svelte": "lily-design-system-svelte-headless/components/ContentBlock/ContentBlock.svelte",
+    "react": "lily-design-system-react-headless/components/ContentBlock.tsx",
+    "vue": "lily-design-system-vue-headless/components/ContentBlock.vue",
+    "angular": "lily-design-system-angular-headless/components/ContentBlock.ts",
+    "web-components": "lily-design-system-web-components-headless/components/content-block.ts",
+    "alpine": "lily-design-system-alpine-headless/components/content-block.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/content-block/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ContentBlock.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/content-block/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/content-block/AGENTS.md"
+}

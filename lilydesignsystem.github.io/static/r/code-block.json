@@ -1,0 +1,42 @@
+{
+  "slug": "code-block",
+  "name": "CodeBlock",
+  "description": "a block of formatted code with optional line numbers and line highlighting",
+  "htmlTag": "pre",
+  "category": "content",
+  "baseClass": ".code-block",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` -- optional description of the code block content",
+    "`role=\"region\"` when `aria-label` is provided"
+  ],
+  "keyboard": [
+    "None -- code blocks are informational, not interactive"
+  ],
+  "props": [
+    "`label`: string (optional) -- accessible label describing the code content",
+    "`lineNumbers`: boolean (default: false) -- whether to display line numbers",
+    "`highlightLines`: string (optional) -- comma-separated line numbers to highlight",
+    "`children`: slot (required) -- the code content",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "code",
+    "kbd"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/code-block.html",
+    "svelte": "lily-design-system-svelte-headless/components/CodeBlock/CodeBlock.svelte",
+    "react": "lily-design-system-react-headless/components/CodeBlock.tsx",
+    "vue": "lily-design-system-vue-headless/components/CodeBlock.vue",
+    "angular": "lily-design-system-angular-headless/components/CodeBlock.ts",
+    "web-components": "lily-design-system-web-components-headless/components/code-block.ts",
+    "alpine": "lily-design-system-alpine-headless/components/code-block.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/code-block/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CodeBlock.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/code-block/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/code-block/AGENTS.md"
+}

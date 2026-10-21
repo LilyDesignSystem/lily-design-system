@@ -1,0 +1,41 @@
+{
+  "slug": "diff",
+  "name": "Diff",
+  "description": "a side-by-side comparison of two items",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".diff",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"group\"` with `aria-label` identifies the comparison region",
+    "Each side can use `aria-label` to describe its role"
+  ],
+  "keyboard": [
+    "Tab: Focus moves between interactive elements within the comparison panels",
+    "(Keyboard interactions depend on the content placed within the diff panels)"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name describing the comparison",
+    "`children`: slot (required) -- two child elements representing the items to compare",
+    "`...restProps`: unknown -- additional attributes spread onto the `<div>` element"
+  ],
+  "related": [
+    "code-block",
+    "table"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/diff.html",
+    "svelte": "lily-design-system-svelte-headless/components/Diff/Diff.svelte",
+    "react": "lily-design-system-react-headless/components/Diff.tsx",
+    "vue": "lily-design-system-vue-headless/components/Diff.vue",
+    "angular": "lily-design-system-angular-headless/components/Diff.ts",
+    "web-components": "lily-design-system-web-components-headless/components/diff.ts",
+    "alpine": "lily-design-system-alpine-headless/components/diff.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/diff/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Diff.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/diff/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/diff/AGENTS.md"
+}

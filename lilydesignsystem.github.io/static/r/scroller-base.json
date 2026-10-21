@@ -1,0 +1,44 @@
+{
+  "slug": "scroller-base",
+  "name": "ScrollerBase",
+  "description": "a low-level scroll position tracking primitive for scrollytelling",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".scroller-base",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` for the scrollable region",
+    "Steps should have appropriate roles"
+  ],
+  "keyboard": [
+    "Standard scroll behavior",
+    "Tab navigates between focusable step content"
+  ],
+  "props": [
+    "`children`: slot (required) -- scrollable content",
+    "`offset`: number (default: 0.5) -- viewport offset (0-1) where step triggers (0=top, 0.5=center, 1=bottom)",
+    "`index`: number (bindable, default: 0) -- current active step index",
+    "`progress`: number (bindable, default: 0) -- overall scroll progress (0-1)",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "scroller",
+    "scroller-video",
+    "visible"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/scroller-base.html",
+    "svelte": "lily-design-system-svelte-headless/components/ScrollerBase/ScrollerBase.svelte",
+    "react": "lily-design-system-react-headless/components/ScrollerBase.tsx",
+    "vue": "lily-design-system-vue-headless/components/ScrollerBase.vue",
+    "angular": "lily-design-system-angular-headless/components/ScrollerBase.ts",
+    "web-components": "lily-design-system-web-components-headless/components/scroller-base.ts",
+    "alpine": "lily-design-system-alpine-headless/components/scroller-base.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/scroller-base/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ScrollerBase.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/scroller-base/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/scroller-base/AGENTS.md"
+}

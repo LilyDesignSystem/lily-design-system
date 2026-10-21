@@ -1,0 +1,45 @@
+{
+  "slug": "data-table",
+  "name": "DataTable",
+  "description": "a data table interactive grid for displaying and sorting tabular data <table>",
+  "htmlTag": "table",
+  "category": "tables",
+  "baseClass": ".data-table",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`aria-label={label}` -- provides an accessible name when no visible caption is present",
+    "`<caption>` -- semantic table caption that serves as the accessible name when provided"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`caption`: string (default: undefined) -- visible caption text displayed above the table",
+    "`label`: string (default: undefined) -- accessible label used when `caption` is not provided",
+    "`children`: slot (required) -- table content including thead, tbody, tr, th, td elements"
+  ],
+  "related": [
+    "data-table-body",
+    "data-table-foot",
+    "data-table-head",
+    "data-table-row",
+    "data-table-td",
+    "data-table-th",
+    "table"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/data-table.html",
+    "svelte": "lily-design-system-svelte-headless/components/DataTable/DataTable.svelte",
+    "react": "lily-design-system-react-headless/components/DataTable.tsx",
+    "vue": "lily-design-system-vue-headless/components/DataTable.vue",
+    "angular": "lily-design-system-angular-headless/components/DataTable.ts",
+    "web-components": "lily-design-system-web-components-headless/components/data-table.ts",
+    "alpine": "lily-design-system-alpine-headless/components/data-table.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/data-table/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DataTable.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/data-table/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/data-table/AGENTS.md"
+}

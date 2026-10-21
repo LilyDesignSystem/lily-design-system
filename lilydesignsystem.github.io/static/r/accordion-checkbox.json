@@ -1,0 +1,47 @@
+{
+  "slug": "accordion-checkbox",
+  "name": "AccordionCheckbox",
+  "description": "a checkbox option that reveals an accordion panel when checked",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".accordion-checkbox",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-controls` on `<input>` references the panel id",
+    "`aria-expanded` on `<input>` reflects the checked state (\"true\" when checked)",
+    "`role=\"region\"` and `aria-labelledby` on the panel",
+    "`hidden` attribute on the panel when unchecked"
+  ],
+  "keyboard": [
+    "Tab: moves focus onto the checkbox",
+    "Space: toggles the checkbox checked state, revealing or hiding the panel (native checkbox behavior)"
+  ],
+  "props": [
+    "`label`: string (required) — the checkbox label text",
+    "`checked`: boolean (default: false) — whether the checkbox is checked and the panel is revealed; bindable",
+    "`id`: string (optional) — base id for the checkbox/panel link; auto-generated if not provided",
+    "`children`: slot (required) — content shown when the checkbox is checked"
+  ],
+  "related": [
+    "accordion-list",
+    "accordion-list-item",
+    "details",
+    "switch-button",
+    "checkbox-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/accordion-checkbox.html",
+    "svelte": "lily-design-system-svelte-headless/components/AccordionCheckbox/AccordionCheckbox.svelte",
+    "react": "lily-design-system-react-headless/components/AccordionCheckbox.tsx",
+    "vue": "lily-design-system-vue-headless/components/AccordionCheckbox.vue",
+    "angular": "lily-design-system-angular-headless/components/AccordionCheckbox.ts",
+    "web-components": "lily-design-system-web-components-headless/components/accordion-checkbox.ts",
+    "alpine": "lily-design-system-alpine-headless/components/accordion-checkbox.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/accordion-checkbox/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AccordionCheckbox.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/accordion-checkbox/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/accordion-checkbox/AGENTS.md"
+}

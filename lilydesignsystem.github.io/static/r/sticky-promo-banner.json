@@ -1,0 +1,55 @@
+{
+  "slug": "sticky-promo-banner",
+  "name": "StickyPromoBanner",
+  "description": "a fixed-position promotional banner with a dismiss button",
+  "htmlTag": "aside",
+  "category": "overlays",
+  "baseClass": ".sticky-promo-banner",
+  "subClasses": [
+    "sticky-promo-banner-content",
+    "sticky-promo-banner-dismiss"
+  ],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "<aside role=\"complementary\" aria-label={label}> landmark",
+    "data-position reflects \"top\" | \"bottom\"",
+    "Dismiss button: <button type=\"button\" aria-label={dismissLabel}>",
+    "Native hidden attribute when open is false"
+  ],
+  "keyboard": [
+    "Tab: Move focus into banner content and the dismiss button",
+    "Enter / Space on dismiss button: Dismiss the banner (calls handler)",
+    "Escape: Not handled by default — consumer may add their own"
+  ],
+  "props": [
+    "`label`: string (REQUIRED) -- aria-label for the aside region",
+    "`open`: boolean (default: true)",
+    "`position`: \"top\" | \"bottom\" (default: \"bottom\")",
+    "`dismissLabel`: string (REQUIRED) -- aria-label for dismiss button",
+    "`onDismiss` / `ondismiss`: callback (optional)",
+    "`children`: slot -- banner content",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "announcement-banner",
+    "banner",
+    "banner-box",
+    "government-banner",
+    "medical-banner",
+    "medical-banner-box"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/sticky-promo-banner.html",
+    "svelte": "lily-design-system-svelte-headless/components/StickyPromoBanner/StickyPromoBanner.svelte",
+    "react": "lily-design-system-react-headless/components/StickyPromoBanner.tsx",
+    "vue": "lily-design-system-vue-headless/components/StickyPromoBanner.vue",
+    "angular": "lily-design-system-angular-headless/components/StickyPromoBanner.ts",
+    "web-components": "lily-design-system-web-components-headless/components/sticky-promo-banner.ts",
+    "alpine": "lily-design-system-alpine-headless/components/sticky-promo-banner.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/sticky-promo-banner/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/StickyPromoBanner.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/sticky-promo-banner/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/sticky-promo-banner/AGENTS.md"
+}

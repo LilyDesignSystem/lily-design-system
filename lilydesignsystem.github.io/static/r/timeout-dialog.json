@@ -1,0 +1,46 @@
+{
+  "slug": "timeout-dialog",
+  "name": "TimeoutDialog",
+  "description": "a modal dialog warning users before session timeout",
+  "htmlTag": "dialog",
+  "category": "overlays",
+  "baseClass": ".timeout-dialog",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"alertdialog\"` identifies this as an interruption requiring user attention",
+    "`aria-labelledby` references the heading element",
+    "`aria-describedby` references the body content"
+  ],
+  "keyboard": [
+    "Tab / Shift+Tab cycles between focusable elements inside the dialog (focus trap)",
+    "Escape: triggers `cancel` (consumer typically wires this to \"Sign out\" or \"Stay signed in\")",
+    "Enter: activates the focused button (native browser behaviour)"
+  ],
+  "props": [
+    "`title`: string (required) (default: —) — Dialog heading",
+    "`open`: boolean (default: false) — Whether the dialog is open; bindable",
+    "`remainingSeconds`: number (required) (default: —) — Seconds remaining before timeout",
+    "`onExtend`: callback (default: —) — Fired when the user chooses to stay signed in",
+    "`onSignOut`: callback (default: —) — Fired when the user chooses to sign out now",
+    "`...restProps`: HTML attributes (default: —) — Spread onto the root `<dialog>`"
+  ],
+  "related": [
+    "dialog",
+    "alert-dialog"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/timeout-dialog.html",
+    "svelte": "lily-design-system-svelte-headless/components/TimeoutDialog/TimeoutDialog.svelte",
+    "react": "lily-design-system-react-headless/components/TimeoutDialog.tsx",
+    "vue": "lily-design-system-vue-headless/components/TimeoutDialog.vue",
+    "angular": "lily-design-system-angular-headless/components/TimeoutDialog.ts",
+    "web-components": "lily-design-system-web-components-headless/components/timeout-dialog.ts",
+    "alpine": "lily-design-system-alpine-headless/components/timeout-dialog.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/timeout-dialog/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TimeoutDialog.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/timeout-dialog/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/timeout-dialog/AGENTS.md"
+}

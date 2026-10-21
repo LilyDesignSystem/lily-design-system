@@ -1,0 +1,41 @@
+{
+  "slug": "segment-group",
+  "name": "SegmentGroup",
+  "description": "a group of mutually exclusive segment options",
+  "htmlTag": "div",
+  "category": "forms",
+  "baseClass": ".segment-group",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"radiogroup\"` -- identifies the container as a group of mutually exclusive radio-like options",
+    "`aria-label={label}` -- provides an accessible name for the group so screen readers announce its purpose"
+  ],
+  "keyboard": [
+    "Tab: Moves focus into the segment group",
+    "Arrow Left / Arrow Right: Consumer should implement arrow key navigation between segments (following the radiogroup pattern)",
+    "Space / Enter: Consumer should implement activation of the focused segment"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label for the segment group, applied via `aria-label`",
+    "`children`: slot (required) -- segment button elements to render inside the group",
+    "`...restProps`: unknown -- additional attributes spread onto the `<div>` element"
+  ],
+  "related": [
+    "segment-group-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/segment-group.html",
+    "svelte": "lily-design-system-svelte-headless/components/SegmentGroup/SegmentGroup.svelte",
+    "react": "lily-design-system-react-headless/components/SegmentGroup.tsx",
+    "vue": "lily-design-system-vue-headless/components/SegmentGroup.vue",
+    "angular": "lily-design-system-angular-headless/components/SegmentGroup.ts",
+    "web-components": "lily-design-system-web-components-headless/components/segment-group.ts",
+    "alpine": "lily-design-system-alpine-headless/components/segment-group.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/segment-group/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SegmentGroup.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/segment-group/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/segment-group/AGENTS.md"
+}

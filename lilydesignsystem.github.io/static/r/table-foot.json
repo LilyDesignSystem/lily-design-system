@@ -1,0 +1,41 @@
+{
+  "slug": "table-foot",
+  "name": "TableFoot",
+  "description": "a table interactive grid tfoot <tfoot>",
+  "htmlTag": "tfoot",
+  "category": "tables",
+  "baseClass": ".table-foot",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Native `<tfoot>` semantics group the footer rows (typically summary rows) of the table",
+    "No additional ARIA is needed for this passive structural element"
+  ],
+  "keyboard": [],
+  "props": [
+    "`className`: string (default: `\"\"`) -- CSS class name for the footer group",
+    "`children`: slot (required) -- footer rows, typically TableRow components",
+    "`...restProps`: unknown -- additional attributes spread onto the `<tfoot>` element"
+  ],
+  "related": [
+    "table",
+    "table-body",
+    "table-head",
+    "table-row",
+    "table-td",
+    "table-th"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/table-foot.html",
+    "svelte": "lily-design-system-svelte-headless/components/TableFoot/TableFoot.svelte",
+    "react": "lily-design-system-react-headless/components/TableFoot.tsx",
+    "vue": "lily-design-system-vue-headless/components/TableFoot.vue",
+    "angular": "lily-design-system-angular-headless/components/TableFoot.ts",
+    "alpine": "lily-design-system-alpine-headless/components/table-foot.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/table-foot/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TableFoot.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/table-foot/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/table-foot/AGENTS.md"
+}

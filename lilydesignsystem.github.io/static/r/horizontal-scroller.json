@@ -1,0 +1,42 @@
+{
+  "slug": "horizontal-scroller",
+  "name": "HorizontalScroller",
+  "description": "a horizontally scrollable content container",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".horizontal-scroller",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"region\"` with `aria-label`",
+    "`aria-roledescription=\"carousel\"` if applicable",
+    "`tabindex=\"0\"` for keyboard scrolling"
+  ],
+  "keyboard": [
+    "Left/Right arrow keys scroll horizontally when focused",
+    "Tab moves to focusable children"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label for the scrollable region",
+    "`children`: slot (required) -- horizontally arranged content",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "scroll-area",
+    "carousel"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/horizontal-scroller.html",
+    "svelte": "lily-design-system-svelte-headless/components/HorizontalScroller/HorizontalScroller.svelte",
+    "react": "lily-design-system-react-headless/components/HorizontalScroller.tsx",
+    "vue": "lily-design-system-vue-headless/components/HorizontalScroller.vue",
+    "angular": "lily-design-system-angular-headless/components/HorizontalScroller.ts",
+    "web-components": "lily-design-system-web-components-headless/components/horizontal-scroller.ts",
+    "alpine": "lily-design-system-alpine-headless/components/horizontal-scroller.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/horizontal-scroller/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/HorizontalScroller.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/horizontal-scroller/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/horizontal-scroller/AGENTS.md"
+}

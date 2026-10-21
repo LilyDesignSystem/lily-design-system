@@ -1,0 +1,40 @@
+{
+  "slug": "five-face-rating-view",
+  "name": "FiveFaceRatingView",
+  "description": "a read-only display of a five-face satisfaction rating",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".five-face-rating-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"img\"` -- indicates the span represents a visual/graphic element (the face rating)",
+    "`aria-label=\"...\"` -- provides an accessible description of the rating for screen readers"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`value`: number (required) -- rating value (1-5) to display",
+    "`label`: string (required) -- accessible description via `aria-label`",
+    "`labels`: string[] (default: `[\"1\", \"2\", \"3\", \"4\", \"5\"]`; no English default) -- text labels for each face",
+    "`...restProps`: unknown -- additional attributes spread onto the `<span>`"
+  ],
+  "related": [
+    "five-face-rating-picker"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/five-face-rating-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/FiveFaceRatingView/FiveFaceRatingView.svelte",
+    "react": "lily-design-system-react-headless/components/FiveFaceRatingView.tsx",
+    "vue": "lily-design-system-vue-headless/components/FiveFaceRatingView.vue",
+    "angular": "lily-design-system-angular-headless/components/FiveFaceRatingView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/five-face-rating-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/five-face-rating-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/five-face-rating-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/FiveFaceRatingView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/five-face-rating-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/five-face-rating-view/AGENTS.md"
+}

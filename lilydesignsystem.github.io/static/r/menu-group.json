@@ -1,0 +1,43 @@
+{
+  "slug": "menu-group",
+  "name": "MenuGroup",
+  "description": "a labeled section of menu items within a menu",
+  "htmlTag": "div",
+  "category": "forms",
+  "baseClass": ".menu-group",
+  "subClasses": [
+    "menu-group-heading"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"group\"` on the container",
+    "`aria-label` is the accessible name (required)",
+    "Visible heading uses `aria-hidden=\"true\"` to prevent double-announcement"
+  ],
+  "keyboard": [
+    "Group itself is non-interactive",
+    "Parent menu provides arrow-key navigation across items, Enter/Space to activate, Escape to close"
+  ],
+  "props": [
+    "`label`: string (REQUIRED) -- section heading text and aria-label",
+    "`children`: slot -- menu-item children",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "menu-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/menu-group.html",
+    "svelte": "lily-design-system-svelte-headless/components/MenuGroup/MenuGroup.svelte",
+    "react": "lily-design-system-react-headless/components/MenuGroup.tsx",
+    "vue": "lily-design-system-vue-headless/components/MenuGroup.vue",
+    "angular": "lily-design-system-angular-headless/components/MenuGroup.ts",
+    "web-components": "lily-design-system-web-components-headless/components/menu-group.ts",
+    "alpine": "lily-design-system-alpine-headless/components/menu-group.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/menu-group/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MenuGroup.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/menu-group/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/menu-group/AGENTS.md"
+}

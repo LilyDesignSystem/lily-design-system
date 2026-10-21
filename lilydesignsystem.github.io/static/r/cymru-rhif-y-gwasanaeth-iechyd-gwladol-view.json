@@ -1,0 +1,40 @@
+{
+  "slug": "cymru-rhif-y-gwasanaeth-iechyd-gwladol-view",
+  "name": "CymruRhifYGwasanaethIechydGwladolView",
+  "description": "a read-only display of Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".cymru-rhif-y-gwasanaeth-iechyd-gwladol-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`role=\"text\"` so the identifier announces as a single unit"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (required) — the identifier to display",
+    "`label`: string (optional) — accessible name override via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "cymru-rhif-y-gwasanaeth-iechyd-gwladol-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/CymruRhifYGwasanaethIechydGwladolView/CymruRhifYGwasanaethIechydGwladolView.svelte",
+    "react": "lily-design-system-react-headless/components/CymruRhifYGwasanaethIechydGwladolView.tsx",
+    "vue": "lily-design-system-vue-headless/components/CymruRhifYGwasanaethIechydGwladolView.vue",
+    "angular": "lily-design-system-angular-headless/components/CymruRhifYGwasanaethIechydGwladolView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CymruRhifYGwasanaethIechydGwladolView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-view/AGENTS.md"
+}

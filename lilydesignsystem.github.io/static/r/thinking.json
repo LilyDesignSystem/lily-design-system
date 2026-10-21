@@ -1,0 +1,50 @@
+{
+  "slug": "thinking",
+  "name": "Thinking",
+  "description": "a collapsible block that shows an AI agent's reasoning or thinking, closed by default",
+  "htmlTag": "details",
+  "category": "navigation",
+  "baseClass": ".thinking",
+  "subClasses": [
+    "thinking-content",
+    "thinking-summary"
+  ],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in the Svelte canonical; ports to the other frameworks pending (2026-10-05)",
+  "aria": [
+    "Native `details`/`summary` disclosure semantics",
+    "`aria-busy=\"true\"` on the root only while `streaming`"
+  ],
+  "keyboard": [
+    "Enter: toggles when the summary has focus (native)",
+    "Space: toggles when the summary has focus (native)",
+    "Tab: moves focus to / from the summary"
+  ],
+  "props": [
+    "`className`: string (default: `\"\"`) -- CSS class name appended to the base class",
+    "`label`: string (required) -- summary text",
+    "`open`: boolean (default: `false`) -- bindable",
+    "`streaming`: boolean (default: `false`) -- content is still arriving",
+    "`children`: slot -- the reasoning content",
+    "`...restProps`: unknown -- additional attributes spread onto the `<details>`"
+  ],
+  "related": [
+    "details",
+    "collapsible",
+    "expander",
+    "loading"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/thinking.html",
+    "svelte": "lily-design-system-svelte-headless/components/Thinking/Thinking.svelte",
+    "react": "lily-design-system-react-headless/components/Thinking.tsx",
+    "vue": "lily-design-system-vue-headless/components/Thinking.vue",
+    "angular": "lily-design-system-angular-headless/components/Thinking.ts",
+    "web-components": "lily-design-system-web-components-headless/components/thinking.ts",
+    "alpine": "lily-design-system-alpine-headless/components/thinking.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/thinking/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Thinking.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/thinking/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/thinking/AGENTS.md"
+}

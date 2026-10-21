@@ -1,0 +1,56 @@
+{
+  "slug": "tree-select",
+  "name": "TreeSelect",
+  "description": "a select dropdown showing a tree of hierarchical options",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".tree-select",
+  "subClasses": [
+    "tree-select-panel",
+    "tree-select-trigger"
+  ],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "role=\"combobox\" on the container",
+    "aria-haspopup=\"tree\"",
+    "aria-expanded reflects expanded prop",
+    "aria-label is the accessible name (required)",
+    "aria-multiselectable=\"true\" only when multiple is true"
+  ],
+  "keyboard": [
+    "Tab: Focus the trigger",
+    "Enter / Space: Toggle the panel (consumer handler)",
+    "Arrow keys: Consumer-supplied tree navigation",
+    "Escape: Consumer-supplied close + restore focus"
+  ],
+  "props": [
+    "`label`: string (REQUIRED)",
+    "`expanded`: boolean (default: false)",
+    "`disabled`: boolean (default: false)",
+    "`multiple`: boolean (default: false)",
+    "`placeholder`: string (optional)",
+    "`value`: string (optional)",
+    "`onclick` / `onClick`: callback (optional)",
+    "`children`: slot — tree content",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "combobox",
+    "tree-nav",
+    "select"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/tree-select.html",
+    "svelte": "lily-design-system-svelte-headless/components/TreeSelect/TreeSelect.svelte",
+    "react": "lily-design-system-react-headless/components/TreeSelect.tsx",
+    "vue": "lily-design-system-vue-headless/components/TreeSelect.vue",
+    "angular": "lily-design-system-angular-headless/components/TreeSelect.ts",
+    "web-components": "lily-design-system-web-components-headless/components/tree-select.ts",
+    "alpine": "lily-design-system-alpine-headless/components/tree-select.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/tree-select/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TreeSelect.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/tree-select/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tree-select/AGENTS.md"
+}

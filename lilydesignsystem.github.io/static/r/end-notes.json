@@ -1,0 +1,39 @@
+{
+  "slug": "end-notes",
+  "name": "EndNotes",
+  "description": "a section of titled endnote items at the end of an article",
+  "htmlTag": "section",
+  "category": "navigation",
+  "baseClass": ".end-notes",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `region` role from `<section>` with `aria-label`"
+  ],
+  "keyboard": [
+    "None"
+  ],
+  "props": [
+    "`label`: string (default: \"End notes\") -- accessible label for the section",
+    "`children`: slot (required) -- endnote content items",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "footnote",
+    "citation"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/end-notes.html",
+    "svelte": "lily-design-system-svelte-headless/components/EndNotes/EndNotes.svelte",
+    "react": "lily-design-system-react-headless/components/EndNotes.tsx",
+    "vue": "lily-design-system-vue-headless/components/EndNotes.vue",
+    "angular": "lily-design-system-angular-headless/components/EndNotes.ts",
+    "web-components": "lily-design-system-web-components-headless/components/end-notes.ts",
+    "alpine": "lily-design-system-alpine-headless/components/end-notes.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/end-notes/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/EndNotes.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/end-notes/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/end-notes/AGENTS.md"
+}

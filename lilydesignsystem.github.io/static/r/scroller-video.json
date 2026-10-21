@@ -1,0 +1,51 @@
+{
+  "slug": "scroller-video",
+  "name": "ScrollerVideo",
+  "description": "a video-driven scrollytelling component with frame-by-frame scrubbing",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".scroller-video",
+  "subClasses": [
+    "scroller-video-background",
+    "scroller-video-element",
+    "scroller-video-foreground"
+  ],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` on container",
+    "`role=\"img\"` with `aria-roledescription=\"scrollable video\"` on video area",
+    "`alt` text for non-visual access"
+  ],
+  "keyboard": [
+    "Standard scroll behavior drives video position"
+  ],
+  "props": [
+    "`src`: string (required) -- video source URL",
+    "`children`: slot (required) -- foreground step content overlaid on video",
+    "`offset`: number (default: 0.5) -- viewport offset where step triggers",
+    "`index`: number (bindable, default: 0) -- current active step index",
+    "`progress`: number (bindable, default: 0) -- overall scroll progress (0-1)",
+    "`label`: string (required) -- accessible label describing the video story",
+    "`alt`: string (required) -- text alternative describing the video content",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "scroller",
+    "scroller-base",
+    "video-player"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/scroller-video.html",
+    "svelte": "lily-design-system-svelte-headless/components/ScrollerVideo/ScrollerVideo.svelte",
+    "react": "lily-design-system-react-headless/components/ScrollerVideo.tsx",
+    "vue": "lily-design-system-vue-headless/components/ScrollerVideo.vue",
+    "angular": "lily-design-system-angular-headless/components/ScrollerVideo.ts",
+    "web-components": "lily-design-system-web-components-headless/components/scroller-video.ts",
+    "alpine": "lily-design-system-alpine-headless/components/scroller-video.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/scroller-video/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ScrollerVideo.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/scroller-video/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/scroller-video/AGENTS.md"
+}

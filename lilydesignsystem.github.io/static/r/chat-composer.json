@@ -1,0 +1,48 @@
+{
+  "slug": "chat-composer",
+  "name": "ChatComposer",
+  "description": "a chat input form with a text area that grows with its content, sends on Enter, and turns its send button into a stop button while a reply is in progress",
+  "htmlTag": "form",
+  "category": "forms",
+  "baseClass": ".chat-composer",
+  "subClasses": [
+    "chat-composer-button",
+    "chat-composer-button-label",
+    "chat-composer-input"
+  ],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows",
+  "aria": [
+    "Textarea `aria-label` from `label`; the button is named by its visible word"
+  ],
+  "keyboard": [
+    "Enter: send. Shift+Enter: line break. Enter during IME composition: nothing. Enter/Space on the button: send or stop"
+  ],
+  "props": [
+    "`label`, `sendLabel`, `stopLabel`: string (required)",
+    "`value`: string (bindable); `placeholder`, `name`: string; `minRows` (1), `maxRows` (8): number",
+    "`busy`, `disabled`: boolean (default `false`)",
+    "`onSend(value)`, `onStop()` (or `send` / `stop` events)",
+    "`children`: slot before the textarea; `class`, `...restProps` on the `<form>`"
+  ],
+  "related": [
+    "text-area-input",
+    "text-area-input-with-character-counter",
+    "chat-list",
+    "chat-message",
+    "form"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/chat-composer.html",
+    "svelte": "lily-design-system-svelte-headless/components/ChatComposer/ChatComposer.svelte",
+    "react": "lily-design-system-react-headless/components/ChatComposer.tsx",
+    "vue": "lily-design-system-vue-headless/components/ChatComposer.vue",
+    "angular": "lily-design-system-angular-headless/components/ChatComposer.ts",
+    "web-components": "lily-design-system-web-components-headless/components/chat-composer.ts",
+    "alpine": "lily-design-system-alpine-headless/components/chat-composer.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/chat-composer/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ChatComposer.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/chat-composer/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/chat-composer/AGENTS.md"
+}

@@ -1,0 +1,46 @@
+{
+  "slug": "kbd-shortcut",
+  "name": "KbdShortcut",
+  "description": "a keyboard shortcut made of one or more key caps, for example Ctrl plus K",
+  "htmlTag": "kbd",
+  "category": "content",
+  "baseClass": ".kbd-shortcut",
+  "subClasses": [
+    "kbd-shortcut-key",
+    "kbd-shortcut-separator"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in the Svelte canonical; ports to the other frameworks pending (2026-10-05)",
+  "aria": [
+    "Separators are `aria-hidden=\"true\"` so they are not read",
+    "`aria-label={label}` -- optional spoken form on the root"
+  ],
+  "keyboard": [
+    "None. KbdShortcut is a passive display element"
+  ],
+  "props": [
+    "`className`: string (default: `\"\"`) -- CSS class name appended to the base class",
+    "`keys`: string[] (required) -- the key names, in order",
+    "`separator`: string (default: `\"+\"`) -- decorative separator between keys",
+    "`label`: string (optional) -- spoken form, applied as `aria-label`",
+    "`...restProps`: unknown -- additional attributes spread onto the root"
+  ],
+  "related": [
+    "kbd",
+    "code",
+    "menu"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/kbd-shortcut.html",
+    "svelte": "lily-design-system-svelte-headless/components/KbdShortcut/KbdShortcut.svelte",
+    "react": "lily-design-system-react-headless/components/KbdShortcut.tsx",
+    "vue": "lily-design-system-vue-headless/components/KbdShortcut.vue",
+    "angular": "lily-design-system-angular-headless/components/KbdShortcut.ts",
+    "web-components": "lily-design-system-web-components-headless/components/kbd-shortcut.ts",
+    "alpine": "lily-design-system-alpine-headless/components/kbd-shortcut.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/kbd-shortcut/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/KbdShortcut.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/kbd-shortcut/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/kbd-shortcut/AGENTS.md"
+}

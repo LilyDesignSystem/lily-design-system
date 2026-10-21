@@ -1,0 +1,50 @@
+{
+  "slug": "transfer-list",
+  "name": "TransferList",
+  "description": "a dual list box for moving items between two lists",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".transfer-list",
+  "subClasses": [
+    "transfer-list-actions",
+    "transfer-list-source",
+    "transfer-list-target"
+  ],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "role=\"group\" on container with aria-label from label prop",
+    "Each <section> has aria-label from sourceLabel / targetLabel",
+    "Consumer-supplied listboxes carry their own ARIA roles"
+  ],
+  "keyboard": [
+    "None at the container level — keyboard behavior lives on consumer-supplied listboxes and action buttons"
+  ],
+  "props": [
+    "`label`: string (REQUIRED)",
+    "`sourceLabel`: string (REQUIRED)",
+    "`targetLabel`: string (REQUIRED)",
+    "`source`: slot (REQUIRED)",
+    "`target`: slot (REQUIRED)",
+    "`actions`: slot (optional)",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "listbox",
+    "select",
+    "checkbox-group"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/transfer-list.html",
+    "svelte": "lily-design-system-svelte-headless/components/TransferList/TransferList.svelte",
+    "react": "lily-design-system-react-headless/components/TransferList.tsx",
+    "vue": "lily-design-system-vue-headless/components/TransferList.vue",
+    "angular": "lily-design-system-angular-headless/components/TransferList.ts",
+    "web-components": "lily-design-system-web-components-headless/components/transfer-list.ts",
+    "alpine": "lily-design-system-alpine-headless/components/transfer-list.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/transfer-list/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TransferList.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/transfer-list/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/transfer-list/AGENTS.md"
+}

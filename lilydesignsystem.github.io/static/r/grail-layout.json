@@ -1,0 +1,42 @@
+{
+  "slug": "grail-layout",
+  "name": "GrailLayout",
+  "description": "a responsive web design structure with header, left aside, center main, right aside, footer",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".grail-layout",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Renders no implicit landmark — the wrapper is a generic container",
+    "The contained `<header>`, `<aside>`, `<main>`, and `<footer>` elements provide page-level landmarks"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`children`: slot (required) -- layout section elements to render inside the container",
+    "`...restProps`: unknown -- additional attributes spread onto the `<div>` element"
+  ],
+  "related": [
+    "grail-layout-bottom-footer",
+    "grail-layout-center-main",
+    "grail-layout-left-aside",
+    "grail-layout-right-aside",
+    "grail-layout-top-header"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/grail-layout.html",
+    "svelte": "lily-design-system-svelte-headless/components/GrailLayout/GrailLayout.svelte",
+    "react": "lily-design-system-react-headless/components/GrailLayout.tsx",
+    "vue": "lily-design-system-vue-headless/components/GrailLayout.vue",
+    "angular": "lily-design-system-angular-headless/components/GrailLayout.ts",
+    "web-components": "lily-design-system-web-components-headless/components/grail-layout.ts",
+    "alpine": "lily-design-system-alpine-headless/components/grail-layout.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/grail-layout/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/GrailLayout.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/grail-layout/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/grail-layout/AGENTS.md"
+}

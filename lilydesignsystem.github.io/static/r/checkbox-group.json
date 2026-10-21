@@ -1,0 +1,44 @@
+{
+  "slug": "checkbox-group",
+  "name": "CheckboxGroup",
+  "description": "a group component that manages a collection of checkboxes with shared state",
+  "htmlTag": "div",
+  "category": "forms",
+  "baseClass": ".checkbox-group",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"group\"` -- identifies the fieldset as a group of related checkboxes",
+    "`aria-label={label}` -- provides an accessible name for the group so screen readers announce the purpose",
+    "Native `<fieldset>` `disabled` attribute propagates disabled state to all child inputs"
+  ],
+  "keyboard": [
+    "Tab: Moves focus between checkboxes within the group (native browser behavior)",
+    "Space: Toggles the focused checkbox checked state (native browser behavior)"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label for the checkbox group, applied via `aria-label`",
+    "`children`: slot (required) -- checkbox elements to render inside the fieldset",
+    "`disabled`: boolean (default: false) -- disables the entire group via the fieldset `disabled` attribute",
+    "`...restProps`: unknown -- additional attributes spread onto the `<fieldset>` element"
+  ],
+  "related": [
+    "checkbox-input",
+    "radio-group",
+    "toggle-group"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/checkbox-group.html",
+    "svelte": "lily-design-system-svelte-headless/components/CheckboxGroup/CheckboxGroup.svelte",
+    "react": "lily-design-system-react-headless/components/CheckboxGroup.tsx",
+    "vue": "lily-design-system-vue-headless/components/CheckboxGroup.vue",
+    "angular": "lily-design-system-angular-headless/components/CheckboxGroup.ts",
+    "web-components": "lily-design-system-web-components-headless/components/checkbox-group.ts",
+    "alpine": "lily-design-system-alpine-headless/components/checkbox-group.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/checkbox-group/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CheckboxGroup.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/checkbox-group/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/checkbox-group/AGENTS.md"
+}

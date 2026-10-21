@@ -1,0 +1,38 @@
+{
+  "slug": "do-list-item",
+  "name": "DoListItem",
+  "description": "an encouraged-practice item in a do-list guideline list",
+  "htmlTag": "li",
+  "category": "lists",
+  "baseClass": ".do-list-item",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "Semantic `<li>` provides implicit `listitem` role",
+    "Inherits list context from the parent DoList `<ul>`"
+  ],
+  "keyboard": [
+    "None directly -- standard list item with no interactive behavior"
+  ],
+  "props": [
+    "`children`: slot (required) -- list item content describing a recommended action",
+    "`...restProps`: Any additional HTML attributes spread onto the `<li>`"
+  ],
+  "related": [
+    "do-list"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/do-list-item.html",
+    "svelte": "lily-design-system-svelte-headless/components/DoListItem/DoListItem.svelte",
+    "react": "lily-design-system-react-headless/components/DoListItem.tsx",
+    "vue": "lily-design-system-vue-headless/components/DoListItem.vue",
+    "angular": "lily-design-system-angular-headless/components/DoListItem.ts",
+    "web-components": "lily-design-system-web-components-headless/components/do-list-item.ts",
+    "alpine": "lily-design-system-alpine-headless/components/do-list-item.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/do-list-item/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DoListItem.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/do-list-item/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/do-list-item/AGENTS.md"
+}

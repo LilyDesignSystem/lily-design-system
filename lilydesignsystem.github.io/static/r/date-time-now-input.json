@@ -1,0 +1,48 @@
+{
+  "slug": "date-time-now-input",
+  "name": "DateTimeNowInput",
+  "description": "an input for entering a date and time and \"now\" button <input type=\"date\"><input type=\"time\"><button type=\"button\">",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".date-time-now-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label={dateLabel}` -- provides an accessible name for the date input",
+    "`aria-label={timeLabel}` -- provides an accessible name for the time input",
+    "`aria-label={nowLabel}` -- provides an accessible name for the \"Now\" button"
+  ],
+  "keyboard": [
+    "Tab: Moves focus between the date input, time input, and \"Now\" button",
+    "Enter/Space on the \"Now\" button: Sets both inputs to the current date and time",
+    "Arrow keys: Navigate within the date and time picker fields (native browser behavior)"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name for the wrapper group via `aria-label`",
+    "`dateLabel`: string (default: \"Date\") -- accessible name for the date input via `aria-label`",
+    "`timeLabel`: string (default: \"Time\") -- accessible name for the time input via `aria-label`",
+    "`nowLabel`: string (default: \"Now\") -- accessible label and text for the \"Now\" button",
+    "`dateValue`: string (default: \"\") -- bindable date string (format: YYYY-MM-DD)",
+    "`timeValue`: string (default: \"\") -- bindable time string (format: HH:mm)",
+    "`required`: boolean (default: false) -- whether the inputs are required for form submission",
+    "`disabled`: boolean (default: false) -- whether the inputs and button are disabled",
+    "`...restProps`: unknown -- additional attributes spread onto the wrapper `<div>`"
+  ],
+  "related": [
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/date-time-now-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/DateTimeNowInput/DateTimeNowInput.svelte",
+    "react": "lily-design-system-react-headless/components/DateTimeNowInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/DateTimeNowInput.vue",
+    "angular": "lily-design-system-angular-headless/components/DateTimeNowInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/date-time-now-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/date-time-now-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/date-time-now-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DateTimeNowInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/date-time-now-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/date-time-now-input/AGENTS.md"
+}

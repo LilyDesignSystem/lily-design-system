@@ -1,0 +1,43 @@
+{
+  "slug": "details",
+  "name": "Details",
+  "description": "a disclosure widget that shows and hides content",
+  "htmlTag": "details",
+  "category": "navigation",
+  "baseClass": ".details",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "Native `<details>` and `<summary>` elements provide built-in ARIA semantics",
+    "The browser automatically exposes the expanded/collapsed state to assistive technology",
+    "No additional ARIA attributes are needed because the native elements handle accessibility"
+  ],
+  "keyboard": [
+    "Enter or Space: toggles the disclosure open/closed when the `<summary>` element is focused (native browser behavior)"
+  ],
+  "props": [
+    "`summary`: string (required) -- text displayed in the summary toggle",
+    "`open`: boolean (default: false) -- whether the details section is expanded; bindable",
+    "`children`: slot (required) -- content revealed when expanded"
+  ],
+  "related": [
+    "collapsible",
+    "expander",
+    "accordion-list-item",
+    "summary-box"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/details.html",
+    "svelte": "lily-design-system-svelte-headless/components/Details/Details.svelte",
+    "react": "lily-design-system-react-headless/components/Details.tsx",
+    "vue": "lily-design-system-vue-headless/components/Details.vue",
+    "angular": "lily-design-system-angular-headless/components/Details.ts",
+    "web-components": "lily-design-system-web-components-headless/components/details.ts",
+    "alpine": "lily-design-system-alpine-headless/components/details.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/details/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Details.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/details/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/details/AGENTS.md"
+}

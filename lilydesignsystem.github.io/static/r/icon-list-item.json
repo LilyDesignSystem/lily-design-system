@@ -1,0 +1,44 @@
+{
+  "slug": "icon-list-item",
+  "name": "IconListItem",
+  "description": "one item in an icon list with a leading icon slot",
+  "htmlTag": "li",
+  "category": "lists",
+  "baseClass": ".icon-list-item",
+  "subClasses": [
+    "icon-list-item-icon",
+    "icon-list-item-text"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `listitem` role from the `<li>` element",
+    "Icon span has `aria-hidden=\"true\"` (decorative)",
+    "Text span carries the accessible content of the item"
+  ],
+  "keyboard": [
+    "Tab: moves focus to interactive descendants of the item",
+    "The item itself is not interactive"
+  ],
+  "props": [
+    "`icon`: slot/snippet/ReactNode (optional) -- leading icon content",
+    "`children`: slot -- text content",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "icon-list"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/icon-list-item.html",
+    "svelte": "lily-design-system-svelte-headless/components/IconListItem/IconListItem.svelte",
+    "react": "lily-design-system-react-headless/components/IconListItem.tsx",
+    "vue": "lily-design-system-vue-headless/components/IconListItem.vue",
+    "angular": "lily-design-system-angular-headless/components/IconListItem.ts",
+    "web-components": "lily-design-system-web-components-headless/components/icon-list-item.ts",
+    "alpine": "lily-design-system-alpine-headless/components/icon-list-item.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/icon-list-item/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/IconListItem.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/icon-list-item/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/icon-list-item/AGENTS.md"
+}

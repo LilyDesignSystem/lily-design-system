@@ -1,0 +1,41 @@
+{
+  "slug": "avatar-group",
+  "name": "AvatarGroup",
+  "description": "a group of avatar components",
+  "htmlTag": "div",
+  "category": "forms",
+  "baseClass": ".avatar-group",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"group\"` -- semantically groups the contained avatars",
+    "`aria-label` -- describes the purpose of the group"
+  ],
+  "keyboard": [
+    "None -- avatar groups are informational, not interactive"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label for the avatar group",
+    "`children`: slot -- avatar components",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "avatar",
+    "avatar-image",
+    "avatar-text"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/avatar-group.html",
+    "svelte": "lily-design-system-svelte-headless/components/AvatarGroup/AvatarGroup.svelte",
+    "react": "lily-design-system-react-headless/components/AvatarGroup.tsx",
+    "vue": "lily-design-system-vue-headless/components/AvatarGroup.vue",
+    "angular": "lily-design-system-angular-headless/components/AvatarGroup.ts",
+    "web-components": "lily-design-system-web-components-headless/components/avatar-group.ts",
+    "alpine": "lily-design-system-alpine-headless/components/avatar-group.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/avatar-group/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AvatarGroup.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/avatar-group/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/avatar-group/AGENTS.md"
+}

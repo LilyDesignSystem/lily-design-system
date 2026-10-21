@@ -77,6 +77,7 @@ actually live.
 
 ## Optional
 
+- [Component manifests](https://lilydesignsystem.com/r/index.json): Machine-readable manifest of every component (HTML tag, base and sub-classes, ARIA, keyboard, props, related, per-framework file paths); one /r/{slug}.json each.
 - [llms.json](https://lilydesignsystem.com/llms.json): this same
   curated map as structured JSON.
 

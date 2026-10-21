@@ -1,0 +1,43 @@
+{
+  "slug": "sverige-personnummer-input",
+  "name": "SverigePersonnummerInput",
+  "description": "an input for entering Sweden's Personnummer",
+  "htmlTag": "input",
+  "category": "national",
+  "baseClass": ".sverige-personnummer-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`required` and `disabled` states conveyed to assistive technology",
+    "`aria-label` provided from the `label` prop"
+  ],
+  "keyboard": [
+    "Standard text input keyboard behavior"
+  ],
+  "props": [
+    "`label`: string (required) — accessible label via aria-label",
+    "`value`: string (default: \"\") — bindable input value",
+    "`required`: boolean (default: false) — form validation",
+    "`disabled`: boolean (default: false) — disabled state",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "sverige-personnummer-view",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/sverige-personnummer-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/SverigePersonnummerInput/SverigePersonnummerInput.svelte",
+    "react": "lily-design-system-react-headless/components/SverigePersonnummerInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/SverigePersonnummerInput.vue",
+    "angular": "lily-design-system-angular-headless/components/SverigePersonnummerInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/sverige-personnummer-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/sverige-personnummer-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/sverige-personnummer-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SverigePersonnummerInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/sverige-personnummer-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/sverige-personnummer-input/AGENTS.md"
+}

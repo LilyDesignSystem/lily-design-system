@@ -1,0 +1,40 @@
+{
+  "slug": "article-layout",
+  "name": "ArticleLayout",
+  "description": "a top-level article wrapper that sets CSS custom properties for content column widths",
+  "htmlTag": "article",
+  "category": "navigation",
+  "baseClass": ".article-layout",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `article` role from `<article>` element",
+    "Optional `aria-label` -- describes the article for screen readers"
+  ],
+  "keyboard": [
+    "None -- children handle their own keyboard interactions"
+  ],
+  "props": [
+    "`label`: string (optional) -- accessible label for the article",
+    "`children`: slot (required) -- article content",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "container",
+    "grail-layout"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/article-layout.html",
+    "svelte": "lily-design-system-svelte-headless/components/ArticleLayout/ArticleLayout.svelte",
+    "react": "lily-design-system-react-headless/components/ArticleLayout.tsx",
+    "vue": "lily-design-system-vue-headless/components/ArticleLayout.vue",
+    "angular": "lily-design-system-angular-headless/components/ArticleLayout.ts",
+    "web-components": "lily-design-system-web-components-headless/components/article-layout.ts",
+    "alpine": "lily-design-system-alpine-headless/components/article-layout.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/article-layout/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ArticleLayout.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/article-layout/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/article-layout/AGENTS.md"
+}

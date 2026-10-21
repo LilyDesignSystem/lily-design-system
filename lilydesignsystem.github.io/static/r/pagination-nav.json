@@ -1,0 +1,42 @@
+{
+  "slug": "pagination-nav",
+  "name": "PaginationNav",
+  "description": "an ordered list of page navigation links",
+  "htmlTag": "nav",
+  "category": "navigation",
+  "baseClass": ".pagination-nav",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`<nav aria-label=\"...\">` -- creates a navigation landmark with a descriptive label for the pagination region",
+    "Consumer applies `aria-current=\"page\"` on the link representing the current page"
+  ],
+  "keyboard": [
+    "Tab: Moves focus between pagination links within the navigation",
+    "Enter: Activates the focused link to navigate to that page"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name for the navigation landmark via `aria-label`",
+    "`children`: slot (required) -- PaginationList with page navigation items",
+    "`...restProps`: any -- additional HTML attributes spread onto the `<nav>` element"
+  ],
+  "related": [
+    "pagination-list",
+    "pagination-list-item",
+    "pagination-link"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/pagination-nav.html",
+    "svelte": "lily-design-system-svelte-headless/components/PaginationNav/PaginationNav.svelte",
+    "react": "lily-design-system-react-headless/components/PaginationNav.tsx",
+    "vue": "lily-design-system-vue-headless/components/PaginationNav.vue",
+    "angular": "lily-design-system-angular-headless/components/PaginationNav.ts",
+    "web-components": "lily-design-system-web-components-headless/components/pagination-nav.ts",
+    "alpine": "lily-design-system-alpine-headless/components/pagination-nav.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/pagination-nav/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PaginationNav.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/pagination-nav/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/pagination-nav/AGENTS.md"
+}

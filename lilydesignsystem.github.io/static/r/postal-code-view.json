@@ -1,0 +1,39 @@
+{
+  "slug": "postal-code-view",
+  "name": "PostalCodeView",
+  "description": "a read-only display of a postal or ZIP code",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".postal-code-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Renders a `<span>` that displays the postal/ZIP code as text content",
+    "No specific ARIA needed — the visible text provides the accessible name",
+    "Consumers may add `aria-label` for additional context (e.g. \"Postal code: SW1A 1AA\")"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`text`: string (default: `\"\"`) -- the postal code string to display",
+    "`...restProps`: any additional HTML attributes spread onto the `<span>` element"
+  ],
+  "related": [
+    "postal-code-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/postal-code-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/PostalCodeView/PostalCodeView.svelte",
+    "react": "lily-design-system-react-headless/components/PostalCodeView.tsx",
+    "vue": "lily-design-system-vue-headless/components/PostalCodeView.vue",
+    "angular": "lily-design-system-angular-headless/components/PostalCodeView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/postal-code-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/postal-code-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/postal-code-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PostalCodeView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/postal-code-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/postal-code-view/AGENTS.md"
+}

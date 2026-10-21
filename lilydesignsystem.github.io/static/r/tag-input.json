@@ -1,0 +1,40 @@
+{
+  "slug": "tag-input",
+  "name": "TagInput",
+  "description": "an input for adding and removing tags",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".tag-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`aria-label={label}` -- provides an accessible name for the text input"
+  ],
+  "keyboard": [
+    "Enter: When the input has a non-empty trimmed value, prevents default form submission, calls `onadd` with the trimmed value, and clears the input"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name for the input via `aria-label`",
+    "`value`: string (default: `\"\"`) -- current input text; bindable with two-way `value` binding",
+    "`onadd`: `(value: string) => void` (optional) -- callback fired when Enter is pressed with a non-empty trimmed value",
+    "`disabled`: boolean (default: `false`) -- whether the input is disabled",
+    "`...restProps`: unknown -- additional attributes spread onto the `<input>` element"
+  ],
+  "related": [
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/tag-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/TagInput/TagInput.svelte",
+    "react": "lily-design-system-react-headless/components/TagInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/TagInput.vue",
+    "angular": "lily-design-system-angular-headless/components/TagInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/tag-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/tag-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/tag-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TagInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/tag-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tag-input/AGENTS.md"
+}

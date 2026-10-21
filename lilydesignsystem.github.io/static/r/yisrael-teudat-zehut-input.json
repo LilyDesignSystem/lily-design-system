@@ -1,0 +1,42 @@
+{
+  "slug": "yisrael-teudat-zehut-input",
+  "name": "YisraelTeudatZehutInput",
+  "description": "an input for entering Israel's Teudat Zehut identity number",
+  "htmlTag": "input",
+  "category": "national",
+  "baseClass": ".yisrael-teudat-zehut-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`required` and `disabled` states conveyed to assistive technology"
+  ],
+  "keyboard": [
+    "Standard text input keyboard behavior"
+  ],
+  "props": [
+    "`label`: string (required) — accessible label via aria-label",
+    "`value`: string (default: \"\") — bindable input value",
+    "`required`: boolean (default: false) — form validation",
+    "`disabled`: boolean (default: false) — disabled state",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "yisrael-teudat-zehut-view",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/yisrael-teudat-zehut-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/YisraelTeudatZehutInput/YisraelTeudatZehutInput.svelte",
+    "react": "lily-design-system-react-headless/components/YisraelTeudatZehutInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/YisraelTeudatZehutInput.vue",
+    "angular": "lily-design-system-angular-headless/components/YisraelTeudatZehutInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/yisrael-teudat-zehut-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/yisrael-teudat-zehut-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/yisrael-teudat-zehut-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/YisraelTeudatZehutInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/yisrael-teudat-zehut-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/yisrael-teudat-zehut-input/AGENTS.md"
+}

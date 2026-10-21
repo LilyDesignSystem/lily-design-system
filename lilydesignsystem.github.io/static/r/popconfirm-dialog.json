@@ -1,0 +1,55 @@
+{
+  "slug": "popconfirm-dialog",
+  "name": "PopconfirmDialog",
+  "description": "a popover dialog with confirm and cancel buttons",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".popconfirm-dialog",
+  "subClasses": [
+    "popconfirm-dialog-cancel",
+    "popconfirm-dialog-confirm",
+    "popconfirm-dialog-description",
+    "popconfirm-dialog-title"
+  ],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "role=\"alertdialog\"",
+    "aria-modal=\"false\"",
+    "aria-labelledby references title id",
+    "aria-describedby references description id (only when description present)"
+  ],
+  "keyboard": [
+    "Tab / Shift+Tab: Move focus between buttons",
+    "Enter / Space: Activate focused button",
+    "Escape: Consumer closes and triggers cancel"
+  ],
+  "props": [
+    "`open`: boolean (default: false)",
+    "`title`: string (REQUIRED)",
+    "`description`: string (optional)",
+    "`confirmLabel`: string (REQUIRED)",
+    "`cancelLabel`: string (REQUIRED)",
+    "`onconfirm` / `onConfirm`: callback (optional)",
+    "`oncancel` / `onCancel`: callback (optional)",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "dialog",
+    "alert-dialog",
+    "popover"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/popconfirm-dialog.html",
+    "svelte": "lily-design-system-svelte-headless/components/PopconfirmDialog/PopconfirmDialog.svelte",
+    "react": "lily-design-system-react-headless/components/PopconfirmDialog.tsx",
+    "vue": "lily-design-system-vue-headless/components/PopconfirmDialog.vue",
+    "angular": "lily-design-system-angular-headless/components/PopconfirmDialog.ts",
+    "web-components": "lily-design-system-web-components-headless/components/popconfirm-dialog.ts",
+    "alpine": "lily-design-system-alpine-headless/components/popconfirm-dialog.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/popconfirm-dialog/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PopconfirmDialog.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/popconfirm-dialog/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/popconfirm-dialog/AGENTS.md"
+}

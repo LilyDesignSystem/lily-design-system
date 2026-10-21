@@ -1,0 +1,48 @@
+{
+  "slug": "combobox",
+  "name": "Combobox",
+  "description": "a text input combined with a dropdown list for filtering options",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".combobox",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"combobox\"` -- on the `<input>`, identifies it as a combobox widget.",
+    "`aria-label` -- provides an accessible name for both the input and the listbox.",
+    "`aria-expanded` -- reflects the `open` state, telling screen readers whether the dropdown is visible.",
+    "`aria-controls` -- links the input to its associated listbox by ID.",
+    "`aria-autocomplete=\"list\"` -- indicates the input provides autocomplete suggestions via a list.",
+    "`role=\"listbox\"` -- on the dropdown container, identifies it as a list of selectable options."
+  ],
+  "keyboard": [
+    "Escape: Closes the dropdown listbox."
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name applied via `aria-label` on both the input and listbox.",
+    "`value`: string (default: `\"\"`) -- bindable current text input value.",
+    "`open`: boolean (default: `false`) -- bindable dropdown visibility state.",
+    "`children`: slot (required) -- option elements rendered inside the listbox dropdown.",
+    "`...restProps`: unknown -- additional attributes spread onto the wrapper `<div>`."
+  ],
+  "related": [
+    "autosuggest",
+    "select",
+    "cascader",
+    "tree-select"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/combobox.html",
+    "svelte": "lily-design-system-svelte-headless/components/Combobox/Combobox.svelte",
+    "react": "lily-design-system-react-headless/components/Combobox.tsx",
+    "vue": "lily-design-system-vue-headless/components/Combobox.vue",
+    "angular": "lily-design-system-angular-headless/components/Combobox.ts",
+    "web-components": "lily-design-system-web-components-headless/components/combobox.ts",
+    "alpine": "lily-design-system-alpine-headless/components/combobox.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/combobox/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Combobox.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/combobox/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/combobox/AGENTS.md"
+}

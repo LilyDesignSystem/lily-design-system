@@ -1,0 +1,39 @@
+{
+  "slug": "emoji-character-picker",
+  "name": "EmojiCharacterPicker",
+  "description": "a picker for browsing and selecting emoji characters",
+  "htmlTag": "div",
+  "category": "pickers",
+  "baseClass": ".emoji-character-picker",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"grid\"` -- identifies the container as a grid widget for structured cell navigation",
+    "`aria-label={label}` -- provides an accessible name for the emoji picker"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name describing the picker, applied via `aria-label`",
+    "`children`: slot (required) -- the grid content containing emoji characters"
+  ],
+  "related": [
+    "emoji",
+    "character"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/emoji-character-picker.html",
+    "svelte": "lily-design-system-svelte-headless/components/EmojiCharacterPicker/EmojiCharacterPicker.svelte",
+    "react": "lily-design-system-react-headless/components/EmojiCharacterPicker.tsx",
+    "vue": "lily-design-system-vue-headless/components/EmojiCharacterPicker.vue",
+    "angular": "lily-design-system-angular-headless/components/EmojiCharacterPicker.ts",
+    "web-components": "lily-design-system-web-components-headless/components/emoji-character-picker.ts",
+    "alpine": "lily-design-system-alpine-headless/components/emoji-character-picker.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/emoji-character-picker/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/EmojiCharacterPicker.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/emoji-character-picker/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/emoji-character-picker/AGENTS.md"
+}

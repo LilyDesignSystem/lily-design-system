@@ -1,0 +1,45 @@
+{
+  "slug": "tab-bar",
+  "name": "TabBar",
+  "description": "a group of tabs for switching between content panels",
+  "htmlTag": "div",
+  "category": "navigation",
+  "baseClass": ".tab-bar",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"tablist\"` -- identifies the container as a list of tabs",
+    "`aria-label={label}` -- provides an accessible name for the tab list so screen readers announce its purpose",
+    "Child tabs should have `role=\"tab\"` and `aria-selected` attributes (managed by consumer)",
+    "Associated tab panels should have `role=\"tabpanel\"` with `aria-labelledby` pointing to the corresponding tab (managed by consumer)"
+  ],
+  "keyboard": [
+    "Arrow Right: Moves focus to the next tab; wraps from the last tab to the first",
+    "Arrow Left: Moves focus to the previous tab; wraps from the first tab to the last",
+    "Home: Moves focus to the first tab",
+    "End: Moves focus to the last tab",
+    "Tab: Moves focus into and out of the tab list (only one tab in the list is in the tab order at a time)"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label for the tab list, applied via `aria-label`",
+    "`children`: slot (required) -- tab button elements to render inside the tablist",
+    "`...restProps`: unknown -- additional attributes spread onto the `<div>` element"
+  ],
+  "related": [
+    "tab-bar-button"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/tab-bar.html",
+    "svelte": "lily-design-system-svelte-headless/components/TabBar/TabBar.svelte",
+    "react": "lily-design-system-react-headless/components/TabBar.tsx",
+    "vue": "lily-design-system-vue-headless/components/TabBar.vue",
+    "angular": "lily-design-system-angular-headless/components/TabBar.ts",
+    "web-components": "lily-design-system-web-components-headless/components/tab-bar.ts",
+    "alpine": "lily-design-system-alpine-headless/components/tab-bar.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/tab-bar/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TabBar.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/tab-bar/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tab-bar/AGENTS.md"
+}

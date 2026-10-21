@@ -1,0 +1,42 @@
+{
+  "slug": "collection-list",
+  "name": "CollectionList",
+  "description": "a compact list of multiple related items such as articles or events",
+  "htmlTag": "ul",
+  "category": "lists",
+  "baseClass": ".collection-list",
+  "subClasses": [
+    "collection-list-item"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `list` role from the `<ul>` element",
+    "`aria-label` is rendered only when `label` is provided"
+  ],
+  "keyboard": [
+    "Tab: moves focus to interactive descendants of the items",
+    "The list itself is not interactive"
+  ],
+  "props": [
+    "`label`: string (optional) -- aria-label for the list",
+    "`children`: slot -- `collection-list-item` children",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "collection-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/collection-list.html",
+    "svelte": "lily-design-system-svelte-headless/components/CollectionList/CollectionList.svelte",
+    "react": "lily-design-system-react-headless/components/CollectionList.tsx",
+    "vue": "lily-design-system-vue-headless/components/CollectionList.vue",
+    "angular": "lily-design-system-angular-headless/components/CollectionList.ts",
+    "web-components": "lily-design-system-web-components-headless/components/collection-list.ts",
+    "alpine": "lily-design-system-alpine-headless/components/collection-list.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/collection-list/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CollectionList.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/collection-list/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/collection-list/AGENTS.md"
+}

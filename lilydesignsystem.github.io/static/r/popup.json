@@ -1,0 +1,43 @@
+{
+  "slug": "popup",
+  "name": "Popup",
+  "description": "a temporary overlay that appears above page content",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".popup",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"dialog\"` -- identifies the popup as a dialog overlay for assistive technology",
+    "`aria-label=\"...\"` -- provides the accessible name for the dialog"
+  ],
+  "keyboard": [
+    "Escape: Consumer should implement closing the popup by setting `open` to false",
+    "Tab: Should trap focus within the popup when open (consumer responsibility)"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name for the popup dialog via `aria-label`",
+    "`open`: boolean (default: false, bindable) -- controls whether the popup is visible; supports two-way binding",
+    "`children`: slot (required) -- the popup content rendered inside the dialog",
+    "`...restProps`: unknown -- additional attributes spread onto the `<div>` element"
+  ],
+  "related": [
+    "popover",
+    "tooltip",
+    "drawer"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/popup.html",
+    "svelte": "lily-design-system-svelte-headless/components/Popup/Popup.svelte",
+    "react": "lily-design-system-react-headless/components/Popup.tsx",
+    "vue": "lily-design-system-vue-headless/components/Popup.vue",
+    "angular": "lily-design-system-angular-headless/components/Popup.ts",
+    "web-components": "lily-design-system-web-components-headless/components/popup.ts",
+    "alpine": "lily-design-system-alpine-headless/components/popup.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/popup/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Popup.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/popup/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/popup/AGENTS.md"
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "brasil-cartao-nacional-de-saude-view",
+  "name": "BrasilCartaoNacionalDeSaudeView",
+  "description": "a read-only display of Brazil's Cartao Nacional de Saude (CNS)",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".brasil-cartao-nacional-de-saude-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (default: \"\") — the identifier to display",
+    "`label`: string (required) — accessible name via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "brasil-cartao-nacional-de-saude-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/brasil-cartao-nacional-de-saude-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/BrasilCartaoNacionalDeSaudeView/BrasilCartaoNacionalDeSaudeView.svelte",
+    "react": "lily-design-system-react-headless/components/BrasilCartaoNacionalDeSaudeView.tsx",
+    "vue": "lily-design-system-vue-headless/components/BrasilCartaoNacionalDeSaudeView.vue",
+    "angular": "lily-design-system-angular-headless/components/BrasilCartaoNacionalDeSaudeView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/brasil-cartao-nacional-de-saude-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/brasil-cartao-nacional-de-saude-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/brasil-cartao-nacional-de-saude-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/BrasilCartaoNacionalDeSaudeView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/brasil-cartao-nacional-de-saude-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/brasil-cartao-nacional-de-saude-view/AGENTS.md"
+}

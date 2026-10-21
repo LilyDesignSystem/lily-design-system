@@ -1,0 +1,39 @@
+{
+  "slug": "indonesia-nomor-induk-kependudukan-view",
+  "name": "IndonesiaNomorIndukKependudukanView",
+  "description": "a read-only display of Indonesia's Nomor Induk Kependudukan (NIK)",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".indonesia-nomor-induk-kependudukan-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (default: \"\") — the identifier to display",
+    "`label`: string (required) — accessible name via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "indonesia-nomor-induk-kependudukan-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/indonesia-nomor-induk-kependudukan-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/IndonesiaNomorIndukKependudukanView/IndonesiaNomorIndukKependudukanView.svelte",
+    "react": "lily-design-system-react-headless/components/IndonesiaNomorIndukKependudukanView.tsx",
+    "vue": "lily-design-system-vue-headless/components/IndonesiaNomorIndukKependudukanView.vue",
+    "angular": "lily-design-system-angular-headless/components/IndonesiaNomorIndukKependudukanView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/indonesia-nomor-induk-kependudukan-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/indonesia-nomor-induk-kependudukan-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/indonesia-nomor-induk-kependudukan-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/IndonesiaNomorIndukKependudukanView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/indonesia-nomor-induk-kependudukan-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/indonesia-nomor-induk-kependudukan-view/AGENTS.md"
+}

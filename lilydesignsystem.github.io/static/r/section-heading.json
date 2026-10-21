@@ -1,0 +1,48 @@
+{
+  "slug": "section-heading",
+  "name": "SectionHeading",
+  "description": "a styled heading introducing a major content section, with optional eyebrow and subtitle",
+  "htmlTag": "header",
+  "category": "navigation",
+  "baseClass": ".section-heading",
+  "subClasses": [
+    "section-heading-eyebrow",
+    "section-heading-heading",
+    "section-heading-subtitle"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit semantics from <header> and the chosen heading element",
+    "Heading element exposes the heading role with the appropriate level",
+    "No additional ARIA needed"
+  ],
+  "keyboard": [
+    "None (passive element)"
+  ],
+  "props": [
+    "`heading`: string (REQUIRED) -- main heading text",
+    "`eyebrow`: string (optional) -- eyebrow text above the heading",
+    "`subtitle`: string (optional) -- subtitle text below the heading",
+    "`level`: 2 | 3 | 4 | 5 | 6 (default: 2)",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "headline",
+    "hero-headline",
+    "byline"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/section-heading.html",
+    "svelte": "lily-design-system-svelte-headless/components/SectionHeading/SectionHeading.svelte",
+    "react": "lily-design-system-react-headless/components/SectionHeading.tsx",
+    "vue": "lily-design-system-vue-headless/components/SectionHeading.vue",
+    "angular": "lily-design-system-angular-headless/components/SectionHeading.ts",
+    "web-components": "lily-design-system-web-components-headless/components/section-heading.ts",
+    "alpine": "lily-design-system-alpine-headless/components/section-heading.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/section-heading/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SectionHeading.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/section-heading/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/section-heading/AGENTS.md"
+}

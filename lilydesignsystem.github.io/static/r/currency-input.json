@@ -1,0 +1,44 @@
+{
+  "slug": "currency-input",
+  "name": "CurrencyInput",
+  "description": "a locale-aware currency input with automatic formatting, symbols, separators",
+  "htmlTag": "input",
+  "category": "forms",
+  "baseClass": ".currency-input",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label={label}` -- provides an accessible name describing the purpose of the currency input",
+    "`inputmode=\"decimal\"` -- triggers a numeric keyboard with decimal point on mobile devices"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name for the input via `aria-label`",
+    "`value`: number | undefined (default: `undefined`) -- current numeric value; bindable with two-way binding",
+    "`currencyCode`: string (default: `\"USD\"`) -- ISO 4217 currency code for formatting",
+    "`min`: number (optional) -- minimum allowed value",
+    "`max`: number (optional) -- maximum allowed value",
+    "`required`: boolean (default: `false`) -- whether the input is required",
+    "`disabled`: boolean (default: `false`) -- whether the input is disabled",
+    "`...restProps`: unknown -- additional attributes spread onto the `<input>` element"
+  ],
+  "related": [
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/currency-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/CurrencyInput/CurrencyInput.svelte",
+    "react": "lily-design-system-react-headless/components/CurrencyInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/CurrencyInput.vue",
+    "angular": "lily-design-system-angular-headless/components/CurrencyInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/currency-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/currency-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/currency-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CurrencyInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/currency-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/currency-input/AGENTS.md"
+}

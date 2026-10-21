@@ -1,0 +1,40 @@
+{
+  "slug": "photo-pack",
+  "name": "PhotoPack",
+  "description": "a collection of photos displayed together as a group",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".photo-pack",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"group\"` -- identifies the collection as a semantic group",
+    "`aria-label` -- describes the photo collection for screen readers"
+  ],
+  "keyboard": [
+    "None -- child FeaturePhoto components are not interactive"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label for the photo collection",
+    "`children`: slot (required) -- FeaturePhoto components",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "image",
+    "carousel"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/photo-pack.html",
+    "svelte": "lily-design-system-svelte-headless/components/PhotoPack/PhotoPack.svelte",
+    "react": "lily-design-system-react-headless/components/PhotoPack.tsx",
+    "vue": "lily-design-system-vue-headless/components/PhotoPack.vue",
+    "angular": "lily-design-system-angular-headless/components/PhotoPack.ts",
+    "web-components": "lily-design-system-web-components-headless/components/photo-pack.ts",
+    "alpine": "lily-design-system-alpine-headless/components/photo-pack.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/photo-pack/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PhotoPack.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/photo-pack/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/photo-pack/AGENTS.md"
+}

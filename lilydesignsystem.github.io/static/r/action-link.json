@@ -1,0 +1,43 @@
+{
+  "slug": "action-link",
+  "name": "ActionLink",
+  "description": "a hyperlink styled as an action trigger",
+  "htmlTag": "a",
+  "category": "links",
+  "baseClass": ".action-link",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "Implicit `link` role from the `<a>` element",
+    "`aria-label` -- optional override for screen reader text when the visible link text does not fully convey the action"
+  ],
+  "keyboard": [
+    "Tab: Focus the link (native browser behavior)",
+    "Enter: Activate the link (native browser behavior)"
+  ],
+  "props": [
+    "`href`: string (required) -- the URL the link points to",
+    "`label`: string (optional) -- accessible label override for screen readers via aria-label",
+    "`children`: slot (required) -- the link content (text or mixed content)"
+  ],
+  "related": [
+    "call-to-action",
+    "back-link",
+    "go-to-top",
+    "skip-link"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/action-link.html",
+    "svelte": "lily-design-system-svelte-headless/components/ActionLink/ActionLink.svelte",
+    "react": "lily-design-system-react-headless/components/ActionLink.tsx",
+    "vue": "lily-design-system-vue-headless/components/ActionLink.vue",
+    "angular": "lily-design-system-angular-headless/components/ActionLink.ts",
+    "web-components": "lily-design-system-web-components-headless/components/action-link.ts",
+    "alpine": "lily-design-system-alpine-headless/components/action-link.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/action-link/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ActionLink.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/action-link/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/action-link/AGENTS.md"
+}

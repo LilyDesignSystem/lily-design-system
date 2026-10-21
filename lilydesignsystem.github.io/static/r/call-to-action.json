@@ -1,0 +1,48 @@
+{
+  "slug": "call-to-action",
+  "name": "CallToAction",
+  "description": "a prominent prompt encouraging user action",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".call-to-action",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `link` role when rendered as `<a>`",
+    "Implicit `button` role when rendered as `<button>`",
+    "Optional `aria-label` -- provides screen reader text when visible text alone is insufficient"
+  ],
+  "keyboard": [
+    "Tab: Focus the element",
+    "Enter: Activate the link or button",
+    "Space: Activate the button (button mode only; links do not respond to Space)"
+  ],
+  "props": [
+    "`href`: string (optional) -- if provided, renders as a link",
+    "`label`: string (optional) -- `aria-label` override for screen readers",
+    "`disabled`: boolean (default: false) -- disables the button (button mode only)",
+    "`onclick`: (event: MouseEvent) => void (optional) -- click handler (button mode)",
+    "`children`: slot (required) -- the CTA content",
+    "`...restProps`: Any additional HTML attributes passed to the element"
+  ],
+  "related": [
+    "button",
+    "action-link",
+    "hero",
+    "feature-card"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/call-to-action.html",
+    "svelte": "lily-design-system-svelte-headless/components/CallToAction/CallToAction.svelte",
+    "react": "lily-design-system-react-headless/components/CallToAction.tsx",
+    "vue": "lily-design-system-vue-headless/components/CallToAction.vue",
+    "angular": "lily-design-system-angular-headless/components/CallToAction.ts",
+    "web-components": "lily-design-system-web-components-headless/components/call-to-action.ts",
+    "alpine": "lily-design-system-alpine-headless/components/call-to-action.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/call-to-action/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CallToAction.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/call-to-action/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/call-to-action/AGENTS.md"
+}

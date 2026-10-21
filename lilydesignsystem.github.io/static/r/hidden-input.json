@@ -1,0 +1,41 @@
+{
+  "slug": "hidden-input",
+  "name": "HiddenInput",
+  "description": "a hidden input for including data in form submission <input type=\"hidden\">",
+  "htmlTag": "input",
+  "category": "forms",
+  "baseClass": ".hidden-input",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Native `<input type=\"hidden\">` is non-interactive and not announced to assistive technology",
+    "No ARIA attributes are needed; the value is part of form submission only"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`name`: string (required) -- the form field name attribute",
+    "`value`: string (default: `\"\"`) -- the hidden input value",
+    "`...restProps`: unknown -- additional attributes spread onto the `<input>` element"
+  ],
+  "related": [
+    "input",
+    "form",
+    "field"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/hidden-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/HiddenInput/HiddenInput.svelte",
+    "react": "lily-design-system-react-headless/components/HiddenInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/HiddenInput.vue",
+    "angular": "lily-design-system-angular-headless/components/HiddenInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/hidden-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/hidden-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/hidden-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/HiddenInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/hidden-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/hidden-input/AGENTS.md"
+}

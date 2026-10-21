@@ -1,0 +1,48 @@
+{
+  "slug": "select-with-extras",
+  "name": "SelectWithExtras",
+  "description": "a select dropdown with additional features like search or groups",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".select-with-extras",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label={label}` -- provides an accessible name for the select element so screen readers announce its purpose"
+  ],
+  "keyboard": [
+    "Tab: Moves focus to the native select element",
+    "Arrow Up / Arrow Down: Navigates between options (native select behavior)",
+    "Space / Enter: Opens the select dropdown on some platforms (native select behavior)",
+    "Escape: Closes the dropdown if open (native select behavior)"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label for the select element, applied via `aria-label`",
+    "`value`: string (default: `\"\"`) -- the currently selected value; two-way bindable via `value`",
+    "`required`: boolean (default: `false`) -- whether the select is required for form validation",
+    "`disabled`: boolean (default: `false`) -- whether the select is disabled",
+    "`children`: slot (required) -- `<option>` elements for the select",
+    "`before`: slot (optional) -- content rendered before the select element",
+    "`after`: slot (optional) -- content rendered after the select element",
+    "`...restProps`: unknown -- additional attributes spread onto the wrapper `<div>` element"
+  ],
+  "related": [
+    "select",
+    "combobox",
+    "cascader"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/select-with-extras.html",
+    "svelte": "lily-design-system-svelte-headless/components/SelectWithExtras/SelectWithExtras.svelte",
+    "react": "lily-design-system-react-headless/components/SelectWithExtras.tsx",
+    "vue": "lily-design-system-vue-headless/components/SelectWithExtras.vue",
+    "angular": "lily-design-system-angular-headless/components/SelectWithExtras.ts",
+    "web-components": "lily-design-system-web-components-headless/components/select-with-extras.ts",
+    "alpine": "lily-design-system-alpine-headless/components/select-with-extras.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/select-with-extras/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SelectWithExtras.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/select-with-extras/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/select-with-extras/AGENTS.md"
+}

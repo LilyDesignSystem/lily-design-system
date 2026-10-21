@@ -1,0 +1,42 @@
+{
+  "slug": "data-filter-form",
+  "name": "DataFilterForm",
+  "description": "a form for filtering data by criteria",
+  "htmlTag": "form",
+  "category": "forms",
+  "baseClass": ".data-filter-form",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"search\"` -- identifies the form as a search landmark for assistive technology",
+    "`aria-label={label}` -- provides an accessible name for the search region"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name for the filter region, applied as `aria-label`",
+    "`onsubmit`: (event: SubmitEvent) => void (default: undefined) -- callback when the filter form is submitted",
+    "`onreset`: (event: Event) => void (default: undefined) -- callback when the filter form is reset",
+    "`children`: slot (required) -- filter controls rendered inside the form"
+  ],
+  "related": [
+    "form",
+    "data-table",
+    "search-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/data-filter-form.html",
+    "svelte": "lily-design-system-svelte-headless/components/DataFilterForm/DataFilterForm.svelte",
+    "react": "lily-design-system-react-headless/components/DataFilterForm.tsx",
+    "vue": "lily-design-system-vue-headless/components/DataFilterForm.vue",
+    "angular": "lily-design-system-angular-headless/components/DataFilterForm.ts",
+    "web-components": "lily-design-system-web-components-headless/components/data-filter-form.ts",
+    "alpine": "lily-design-system-alpine-headless/components/data-filter-form.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/data-filter-form/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DataFilterForm.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/data-filter-form/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/data-filter-form/AGENTS.md"
+}

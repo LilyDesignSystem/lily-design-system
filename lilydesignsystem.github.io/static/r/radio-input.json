@@ -1,0 +1,46 @@
+{
+  "slug": "radio-input",
+  "name": "RadioInput",
+  "description": "a single radio button input <input type=\"radio\">",
+  "htmlTag": "input",
+  "category": "forms",
+  "baseClass": ".radio-input",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`aria-label={label}` -- provides an accessible name for the radio button since no visible `<label>` element is included"
+  ],
+  "keyboard": [
+    "**Tab**: Moves focus to the selected radio in the group (or the first if none selected)",
+    "**Arrow Up / Arrow Left**: Moves selection to the previous radio in the group",
+    "**Arrow Down / Arrow Right**: Moves selection to the next radio in the group",
+    "**Space**: Selects the focused radio button (if not already selected)"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name via `aria-label`",
+    "`name`: string (default: `undefined`) -- radio group name for mutual exclusion",
+    "`value`: string (default: `undefined`) -- the value representing this radio option",
+    "`checked`: boolean (default: `false`) -- whether this radio button is currently selected",
+    "`disabled`: boolean (default: `false`) -- whether the radio button is disabled",
+    "`...restProps`: any additional HTML attributes spread onto the input"
+  ],
+  "related": [
+    "radio-group",
+    "checkbox-input",
+    "segment-group-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/radio-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/RadioInput/RadioInput.svelte",
+    "react": "lily-design-system-react-headless/components/RadioInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/RadioInput.vue",
+    "angular": "lily-design-system-angular-headless/components/RadioInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/radio-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/radio-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/radio-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/RadioInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/radio-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/radio-input/AGENTS.md"
+}

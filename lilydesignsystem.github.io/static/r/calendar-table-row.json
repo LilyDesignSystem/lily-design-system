@@ -1,0 +1,42 @@
+{
+  "slug": "calendar-table-row",
+  "name": "CalendarTableRow",
+  "description": "a calendar table interactive grid row for managing dates, days, etc. <tr>",
+  "htmlTag": "tr",
+  "category": "tables",
+  "baseClass": ".calendar-table-row",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `row` role from the `<tr>` element -- identifies a row of cells within the grid"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`children`: slot (required) -- cells for this row, typically day numbers or day-of-week labels",
+    "`...restProps`: Any additional HTML attributes passed to the `<tr>` element"
+  ],
+  "related": [
+    "calendar-table",
+    "calendar-table-body",
+    "calendar-table-foot",
+    "calendar-table-head",
+    "calendar-table-td",
+    "calendar-table-th",
+    "table"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/calendar-table-row.html",
+    "svelte": "lily-design-system-svelte-headless/components/CalendarTableRow/CalendarTableRow.svelte",
+    "react": "lily-design-system-react-headless/components/CalendarTableRow.tsx",
+    "vue": "lily-design-system-vue-headless/components/CalendarTableRow.vue",
+    "angular": "lily-design-system-angular-headless/components/CalendarTableRow.ts",
+    "alpine": "lily-design-system-alpine-headless/components/calendar-table-row.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/calendar-table-row/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CalendarTableRow.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/calendar-table-row/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/calendar-table-row/AGENTS.md"
+}

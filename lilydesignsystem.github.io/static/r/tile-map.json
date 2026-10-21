@@ -1,0 +1,44 @@
+{
+  "slug": "tile-map",
+  "name": "TileMap",
+  "description": "a tile cartogram map with configurable layers for geographic data visualization",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".tile-map",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"img\"` with `aria-label` for the overall map",
+    "`aria-roledescription=\"tile map\"` for the map container",
+    "Individual tiles can have `role=\"listitem\"` with labels"
+  ],
+  "keyboard": [
+    "Arrow keys navigate between tiles",
+    "Enter/Space activates focused tile",
+    "Escape deselects"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label describing the map",
+    "`children`: slot (required) -- map layer content (tile-map-layer components or custom)",
+    "`data`: array (optional) -- geographic tile data",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "tile",
+    "image"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/tile-map.html",
+    "svelte": "lily-design-system-svelte-headless/components/TileMap/TileMap.svelte",
+    "react": "lily-design-system-react-headless/components/TileMap.tsx",
+    "vue": "lily-design-system-vue-headless/components/TileMap.vue",
+    "angular": "lily-design-system-angular-headless/components/TileMap.ts",
+    "web-components": "lily-design-system-web-components-headless/components/tile-map.ts",
+    "alpine": "lily-design-system-alpine-headless/components/tile-map.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/tile-map/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TileMap.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/tile-map/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tile-map/AGENTS.md"
+}

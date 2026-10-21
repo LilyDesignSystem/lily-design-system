@@ -1,0 +1,46 @@
+{
+  "slug": "card",
+  "name": "Card",
+  "description": "a grouped content container with header, body, and footer areas",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".card",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "Implicit `article` role from the `<article>` element",
+    "Optional `aria-label` -- identifies the card as a named landmark for screen readers"
+  ],
+  "keyboard": [
+    "Tab: Focus the heading link when `href` is provided",
+    "Enter: Activate the heading link (browser default)"
+  ],
+  "props": [
+    "`heading`: string (optional) -- heading text for the card",
+    "`headingLevel`: 2 | 3 | 4 | 5 | 6 (default: 3) -- HTML heading level",
+    "`href`: string (optional) -- makes the heading a link",
+    "`label`: string (optional) -- `aria-label` for the article",
+    "`children`: slot (required) -- card body content",
+    "`...restProps`: Any additional HTML attributes passed to the `<article>` element"
+  ],
+  "related": [
+    "feature-card",
+    "product-card",
+    "panel",
+    "tile"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/card.html",
+    "svelte": "lily-design-system-svelte-headless/components/Card/Card.svelte",
+    "react": "lily-design-system-react-headless/components/Card.tsx",
+    "vue": "lily-design-system-vue-headless/components/Card.vue",
+    "angular": "lily-design-system-angular-headless/components/Card.ts",
+    "web-components": "lily-design-system-web-components-headless/components/card.ts",
+    "alpine": "lily-design-system-alpine-headless/components/card.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/card/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Card.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/card/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/card/AGENTS.md"
+}

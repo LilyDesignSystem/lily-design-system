@@ -1,0 +1,40 @@
+{
+  "slug": "liechtenstein-passport-number-view",
+  "name": "LiechtensteinPassportNumberView",
+  "description": "a read-only display of Liechtenstein's Liechtenstein Passport Number",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".liechtenstein-passport-number-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`role=\"text\"` so the identifier announces as a single unit"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (required) — the identifier to display",
+    "`label`: string (optional) — accessible name override via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "liechtenstein-passport-number-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/liechtenstein-passport-number-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/LiechtensteinPassportNumberView/LiechtensteinPassportNumberView.svelte",
+    "react": "lily-design-system-react-headless/components/LiechtensteinPassportNumberView.tsx",
+    "vue": "lily-design-system-vue-headless/components/LiechtensteinPassportNumberView.vue",
+    "angular": "lily-design-system-angular-headless/components/LiechtensteinPassportNumberView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/liechtenstein-passport-number-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/liechtenstein-passport-number-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/liechtenstein-passport-number-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/LiechtensteinPassportNumberView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/liechtenstein-passport-number-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/liechtenstein-passport-number-view/AGENTS.md"
+}

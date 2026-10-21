@@ -1,0 +1,39 @@
+{
+  "slug": "nihon-kojin-bango-view",
+  "name": "NihonKojinBangoView",
+  "description": "a read-only display of Japan's Individual Number (My Number)",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".nihon-kojin-bango-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (default: \"\") — the identifier to display",
+    "`label`: string (required) — accessible name via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "nihon-kojin-bango-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/nihon-kojin-bango-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/NihonKojinBangoView/NihonKojinBangoView.svelte",
+    "react": "lily-design-system-react-headless/components/NihonKojinBangoView.tsx",
+    "vue": "lily-design-system-vue-headless/components/NihonKojinBangoView.vue",
+    "angular": "lily-design-system-angular-headless/components/NihonKojinBangoView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/nihon-kojin-bango-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/nihon-kojin-bango-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/nihon-kojin-bango-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/NihonKojinBangoView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/nihon-kojin-bango-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/nihon-kojin-bango-view/AGENTS.md"
+}

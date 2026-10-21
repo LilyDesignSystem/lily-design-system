@@ -1,0 +1,42 @@
+{
+  "slug": "chat-list",
+  "name": "ChatList",
+  "description": "an ordered list of chat list item components",
+  "htmlTag": "ol",
+  "category": "lists",
+  "baseClass": ".chat-list",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `list` role from `<ol>` element",
+    "Implicit `listitem` role from child `<li>` elements",
+    "Ordered list conveys sequential relationship of chat entries"
+  ],
+  "keyboard": [
+    "Tab: Focus moves between interactive elements within the list items",
+    "(Keyboard interactions are primarily handled by child ChatListItem components)"
+  ],
+  "props": [
+    "`children`: slot (required) -- ChatListItem components",
+    "`...restProps`: unknown -- additional attributes spread onto the `<ol>` element"
+  ],
+  "related": [
+    "chat-nav",
+    "chat-list-item",
+    "chat-message"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/chat-list.html",
+    "svelte": "lily-design-system-svelte-headless/components/ChatList/ChatList.svelte",
+    "react": "lily-design-system-react-headless/components/ChatList.tsx",
+    "vue": "lily-design-system-vue-headless/components/ChatList.vue",
+    "angular": "lily-design-system-angular-headless/components/ChatList.ts",
+    "web-components": "lily-design-system-web-components-headless/components/chat-list.ts",
+    "alpine": "lily-design-system-alpine-headless/components/chat-list.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/chat-list/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ChatList.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/chat-list/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/chat-list/AGENTS.md"
+}

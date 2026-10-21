@@ -1,0 +1,43 @@
+{
+  "slug": "loading",
+  "name": "Loading",
+  "description": "a loading indicator, such as text, or image, or animation",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".loading",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"status\"` -- creates an ARIA live region for loading announcements",
+    "`aria-live=\"polite\"` -- announces changes without interrupting current speech",
+    "`aria-label` -- describes the loading state"
+  ],
+  "keyboard": [
+    "None -- loading indicators are informational, not interactive"
+  ],
+  "props": [
+    "`label`: string (default: \"Loading\") -- accessible label for the loading state",
+    "`children`: slot (optional) -- loading indicator content",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "skeleton",
+    "progress-spinner",
+    "progress",
+    "beach-ball"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/loading.html",
+    "svelte": "lily-design-system-svelte-headless/components/Loading/Loading.svelte",
+    "react": "lily-design-system-react-headless/components/Loading.tsx",
+    "vue": "lily-design-system-vue-headless/components/Loading.vue",
+    "angular": "lily-design-system-angular-headless/components/Loading.ts",
+    "web-components": "lily-design-system-web-components-headless/components/loading.ts",
+    "alpine": "lily-design-system-alpine-headless/components/loading.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/loading/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Loading.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/loading/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/loading/AGENTS.md"
+}

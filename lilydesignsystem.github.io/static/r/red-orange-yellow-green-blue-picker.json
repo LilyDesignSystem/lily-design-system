@@ -1,0 +1,40 @@
+{
+  "slug": "red-orange-yellow-green-blue-picker",
+  "name": "RedOrangeYellowGreenBluePicker",
+  "description": "a picker for selecting a five-level color status",
+  "htmlTag": "div",
+  "category": "pickers",
+  "baseClass": ".red-orange-yellow-green-blue-picker",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`aria-label` on the select from the label prop"
+  ],
+  "keyboard": [
+    "Arrow keys navigate options (native select behavior)",
+    "Enter/Space opens the dropdown",
+    "Escape closes the dropdown"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label for the select",
+    "`value`: string (default: \"\") -- currently selected status, bindable",
+    "`...restProps`: Any additional HTML attributes spread onto the select"
+  ],
+  "related": [
+    "red-orange-yellow-green-blue-picker-button"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/red-orange-yellow-green-blue-picker.html",
+    "svelte": "lily-design-system-svelte-headless/components/RedOrangeYellowGreenBluePicker/RedOrangeYellowGreenBluePicker.svelte",
+    "react": "lily-design-system-react-headless/components/RedOrangeYellowGreenBluePicker.tsx",
+    "vue": "lily-design-system-vue-headless/components/RedOrangeYellowGreenBluePicker.vue",
+    "angular": "lily-design-system-angular-headless/components/RedOrangeYellowGreenBluePicker.ts",
+    "web-components": "lily-design-system-web-components-headless/components/red-orange-yellow-green-blue-picker.ts",
+    "alpine": "lily-design-system-alpine-headless/components/red-orange-yellow-green-blue-picker.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/red-orange-yellow-green-blue-picker/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/RedOrangeYellowGreenBluePicker.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/red-orange-yellow-green-blue-picker/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/red-orange-yellow-green-blue-picker/AGENTS.md"
+}

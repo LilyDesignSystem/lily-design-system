@@ -1,0 +1,43 @@
+{
+  "slug": "submit-input",
+  "name": "SubmitInput",
+  "description": "a button input that submits a form <input type=\"submit\">",
+  "htmlTag": "input",
+  "category": "forms",
+  "baseClass": ".submit-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "Native `<input type=\"submit\">` exposes itself as a `button` and is the form's default submit control",
+    "`value` (or label override) provides the accessible name"
+  ],
+  "keyboard": [
+    "Enter: activates the submit button",
+    "Space: activates the submit button"
+  ],
+  "props": [
+    "`value`: string (default: \"Submit\") -- the visible button text",
+    "`disabled`: boolean (default: false) -- whether the button is disabled",
+    "`...restProps`: spread onto the `<input>` element"
+  ],
+  "related": [
+    "reset-input",
+    "button-input",
+    "button",
+    "form"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/submit-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/SubmitInput/SubmitInput.svelte",
+    "react": "lily-design-system-react-headless/components/SubmitInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/SubmitInput.vue",
+    "angular": "lily-design-system-angular-headless/components/SubmitInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/submit-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/submit-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/submit-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SubmitInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/submit-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/submit-input/AGENTS.md"
+}

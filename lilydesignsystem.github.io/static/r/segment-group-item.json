@@ -1,0 +1,44 @@
+{
+  "slug": "segment-group-item",
+  "name": "SegmentGroupItem",
+  "description": "one selectable segment in a segment group",
+  "htmlTag": "div",
+  "category": "forms",
+  "baseClass": ".segment-group-item",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"radio\"` -- identifies this button as a radio-like option within a radiogroup",
+    "`aria-checked` -- indicates whether this segment is selected (`true`) or not (`false`)",
+    "Roving tabindex -- only the checked item has `tabindex=\"0\"`, others have `tabindex=\"-1\"`"
+  ],
+  "keyboard": [
+    "Tab: Focus moves to the checked segment (or first segment if none checked)",
+    "Arrow Left / Arrow Right: Consumer should implement arrow key navigation on the parent SegmentGroup",
+    "Space / Enter: Activates the focused segment (native button behavior)"
+  ],
+  "props": [
+    "`checked`: boolean (default `false`) -- whether this segment is currently selected",
+    "`value`: string (default `\"\"`) -- value associated with this segment, exposed as `data-value`",
+    "`disabled`: boolean (default `false`) -- whether the segment is disabled",
+    "`children`: slot (required) -- label content to render inside the button",
+    "`...restProps`: unknown -- additional attributes spread onto the `<button>` element"
+  ],
+  "related": [
+    "segment-group"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/segment-group-item.html",
+    "svelte": "lily-design-system-svelte-headless/components/SegmentGroupItem/SegmentGroupItem.svelte",
+    "react": "lily-design-system-react-headless/components/SegmentGroupItem.tsx",
+    "vue": "lily-design-system-vue-headless/components/SegmentGroupItem.vue",
+    "angular": "lily-design-system-angular-headless/components/SegmentGroupItem.ts",
+    "web-components": "lily-design-system-web-components-headless/components/segment-group-item.ts",
+    "alpine": "lily-design-system-alpine-headless/components/segment-group-item.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/segment-group-item/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SegmentGroupItem.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/segment-group-item/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/segment-group-item/AGENTS.md"
+}

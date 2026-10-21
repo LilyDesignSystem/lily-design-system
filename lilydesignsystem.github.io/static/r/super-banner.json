@@ -1,0 +1,48 @@
+{
+  "slug": "super-banner",
+  "name": "SuperBanner",
+  "description": "a super-banner communicates a high-priority state that affects an entire app, experience, process, or system",
+  "htmlTag": "div",
+  "category": "overlays",
+  "baseClass": ".super-banner",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"alert\"` -- announces the banner content immediately",
+    "`aria-live=\"assertive\"` -- interrupts current speech for high-priority messages",
+    "`aria-label` -- optional description of the banner purpose"
+  ],
+  "keyboard": [
+    "Tab: Focus the dismiss button (if dismissable)",
+    "Enter/Space: Dismiss the banner (if dismissable)"
+  ],
+  "props": [
+    "`label`: string (optional) -- accessible label for the super banner",
+    "`dismissable`: boolean (default: false) -- whether the banner can be dismissed",
+    "`ondismiss`: callback (optional) -- handler called when dismissed",
+    "`children`: slot (required) -- banner content",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "announcement-banner",
+    "banner",
+    "banner-box",
+    "government-banner",
+    "medical-banner",
+    "medical-banner-box"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/super-banner.html",
+    "svelte": "lily-design-system-svelte-headless/components/SuperBanner/SuperBanner.svelte",
+    "react": "lily-design-system-react-headless/components/SuperBanner.tsx",
+    "vue": "lily-design-system-vue-headless/components/SuperBanner.vue",
+    "angular": "lily-design-system-angular-headless/components/SuperBanner.ts",
+    "web-components": "lily-design-system-web-components-headless/components/super-banner.ts",
+    "alpine": "lily-design-system-alpine-headless/components/super-banner.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/super-banner/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SuperBanner.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/super-banner/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/super-banner/AGENTS.md"
+}

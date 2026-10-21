@@ -1,0 +1,39 @@
+{
+  "slug": "south-africa-identity-number-view",
+  "name": "SouthAfricaIdentityNumberView",
+  "description": "a read-only display of South Africa's Identity Number",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".south-africa-identity-number-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (default: \"\") — the identifier to display",
+    "`label`: string (required) — accessible name via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "south-africa-identity-number-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/south-africa-identity-number-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/SouthAfricaIdentityNumberView/SouthAfricaIdentityNumberView.svelte",
+    "react": "lily-design-system-react-headless/components/SouthAfricaIdentityNumberView.tsx",
+    "vue": "lily-design-system-vue-headless/components/SouthAfricaIdentityNumberView.vue",
+    "angular": "lily-design-system-angular-headless/components/SouthAfricaIdentityNumberView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/south-africa-identity-number-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/south-africa-identity-number-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/south-africa-identity-number-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SouthAfricaIdentityNumberView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/south-africa-identity-number-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/south-africa-identity-number-view/AGENTS.md"
+}

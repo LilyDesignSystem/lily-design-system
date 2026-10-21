@@ -1,0 +1,39 @@
+{
+  "slug": "tour-list-item",
+  "name": "TourListItem",
+  "description": "one step in a tour guide list",
+  "htmlTag": "li",
+  "category": "lists",
+  "baseClass": ".tour-list-item",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"group\"` -- groups the step content semantically",
+    "`aria-roledescription=\"step\"` -- identifies the element as a tour step",
+    "`aria-label` -- provides an accessible name, optionally including \"Step N of M\"",
+    "`aria-current=\"step\"` -- indicates the currently active step",
+    "`aria-hidden=\"true\"` -- hides inactive steps from assistive technology",
+    "`hidden` -- hides inactive steps from visual rendering"
+  ],
+  "keyboard": [
+    "None directly -- keyboard interactions are managed by the parent TourGuideList and by interactive elements within step content"
+  ],
+  "props": [],
+  "related": [
+    "tour-list"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/tour-list-item.html",
+    "svelte": "lily-design-system-svelte-headless/components/TourListItem/TourListItem.svelte",
+    "react": "lily-design-system-react-headless/components/TourListItem.tsx",
+    "vue": "lily-design-system-vue-headless/components/TourListItem.vue",
+    "angular": "lily-design-system-angular-headless/components/TourListItem.ts",
+    "web-components": "lily-design-system-web-components-headless/components/tour-list-item.ts",
+    "alpine": "lily-design-system-alpine-headless/components/tour-list-item.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/tour-list-item/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TourListItem.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/tour-list-item/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tour-list-item/AGENTS.md"
+}

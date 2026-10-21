@@ -1,0 +1,47 @@
+{
+  "slug": "scatter-chart",
+  "name": "ScatterChart",
+  "description": "a scatter chart visualization using dots to display data",
+  "htmlTag": "figure",
+  "category": "data-viz",
+  "baseClass": ".scatter-chart",
+  "subClasses": [
+    "scatter-chart-data-table",
+    "scatter-chart-graphic"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"img\"` exposes the chart as a single image",
+    "`aria-label` and `aria-describedby` provide the accessible name and description"
+  ],
+  "keyboard": [
+    "No keyboard interactions on the rendered dots",
+    "Data table (when rendered) follows native table keyboard behaviour"
+  ],
+  "props": [
+    "`label`: string (required) (default: —) — Accessible name",
+    "`description`: string (default: —) — Extended description",
+    "`series`: array of series (default: []) — Each series is `{ name: string; points: { x: number; y: number }[] }`",
+    "`dataTable`: slot (default: —) — Optional fallback `<table>`",
+    "`...restProps`: HTML attributes (default: —) — Spread onto the root `<figure>`"
+  ],
+  "related": [
+    "line-chart",
+    "bar-chart",
+    "graphic-block"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/scatter-chart.html",
+    "svelte": "lily-design-system-svelte-headless/components/ScatterChart/ScatterChart.svelte",
+    "react": "lily-design-system-react-headless/components/ScatterChart.tsx",
+    "vue": "lily-design-system-vue-headless/components/ScatterChart.vue",
+    "angular": "lily-design-system-angular-headless/components/ScatterChart.ts",
+    "web-components": "lily-design-system-web-components-headless/components/scatter-chart.ts",
+    "alpine": "lily-design-system-alpine-headless/components/scatter-chart.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/scatter-chart/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ScatterChart.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/scatter-chart/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/scatter-chart/AGENTS.md"
+}

@@ -1,0 +1,41 @@
+{
+  "slug": "image-cropper",
+  "name": "ImageCropper",
+  "description": "a container for cropping and resizing an image to a selected region",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".image-cropper",
+  "subClasses": [],
+  "interactive": false,
+  "status": "experimental — recent catalog addition with the least accumulated depth; contract may still move",
+  "aria": [
+    "`role=\"application\"` -- indicates a complex widget with custom pointer interactions, informing assistive technologies to pass keyboard events through to the application",
+    "`aria-label` -- provides an accessible description of the image cropper purpose"
+  ],
+  "keyboard": [
+    "No keyboard interactions are baked in — this is a passive container. Consumers wire pointer and keyboard handling for the crop region and resize handles inside the provided children."
+  ],
+  "props": [
+    "`label`: string (required) -- accessible description of the image cropper via `aria-label`",
+    "`children`: slot (required) -- the image and crop overlay surface (image, canvas, SVG, or cropping-library output)"
+  ],
+  "related": [
+    "image-file-input",
+    "image",
+    "signature-pad",
+    "field"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/image-cropper.html",
+    "svelte": "lily-design-system-svelte-headless/components/ImageCropper/ImageCropper.svelte",
+    "react": "lily-design-system-react-headless/components/ImageCropper.tsx",
+    "vue": "lily-design-system-vue-headless/components/ImageCropper.vue",
+    "angular": "lily-design-system-angular-headless/components/ImageCropper.ts",
+    "web-components": "lily-design-system-web-components-headless/components/image-cropper.ts",
+    "alpine": "lily-design-system-alpine-headless/components/image-cropper.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/image-cropper/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ImageCropper.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/image-cropper/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/image-cropper/AGENTS.md"
+}

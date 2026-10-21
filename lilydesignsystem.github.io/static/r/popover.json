@@ -1,0 +1,44 @@
+{
+  "slug": "popover",
+  "name": "Popover",
+  "description": "a floating content box anchored to a trigger element",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".popover",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"dialog\"` -- identifies the popover as a dialog overlay for assistive technology",
+    "`aria-label=\"...\"` -- provides the accessible name for the dialog"
+  ],
+  "keyboard": [
+    "Escape: Consumer should implement closing the popover by setting `open` to false",
+    "Tab: Should trap focus within the popover when open (consumer responsibility)"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name for the popover dialog via `aria-label`",
+    "`open`: boolean (default: false, bindable) -- controls whether the popover is visible; supports two-way binding",
+    "`children`: slot (required) -- the popover content",
+    "`...restProps`: unknown -- additional attributes spread onto the `<div>` element"
+  ],
+  "related": [
+    "popup",
+    "hover-card",
+    "tooltip",
+    "popconfirm-dialog"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/popover.html",
+    "svelte": "lily-design-system-svelte-headless/components/Popover/Popover.svelte",
+    "react": "lily-design-system-react-headless/components/Popover.tsx",
+    "vue": "lily-design-system-vue-headless/components/Popover.vue",
+    "angular": "lily-design-system-angular-headless/components/Popover.ts",
+    "web-components": "lily-design-system-web-components-headless/components/popover.ts",
+    "alpine": "lily-design-system-alpine-headless/components/popover.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/popover/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Popover.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/popover/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/popover/AGENTS.md"
+}

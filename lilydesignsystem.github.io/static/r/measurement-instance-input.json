@@ -1,0 +1,41 @@
+{
+  "slug": "measurement-instance-input",
+  "name": "MeasurementInstanceInput",
+  "description": "an input for entering a measurement value and unit",
+  "htmlTag": "input",
+  "category": "forms",
+  "baseClass": ".measurement-instance-input",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` -- set from the `label` prop to provide an accessible name"
+  ],
+  "keyboard": [
+    "Native `<input type=\"text\">` keyboard behavior (typing, selection, clipboard)"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name via `aria-label`",
+    "`value`: string (default: \"\", bindable) -- bindable measurement instance value",
+    "`required`: boolean (default: false) -- whether the field is required",
+    "`disabled`: boolean (default: false) -- whether the field is disabled",
+    "`...restProps`: Any additional HTML attributes passed to the `<input>` element"
+  ],
+  "related": [
+    "measurement-instance-view",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/measurement-instance-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/MeasurementInstanceInput/MeasurementInstanceInput.svelte",
+    "react": "lily-design-system-react-headless/components/MeasurementInstanceInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/MeasurementInstanceInput.vue",
+    "angular": "lily-design-system-angular-headless/components/MeasurementInstanceInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/measurement-instance-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/measurement-instance-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/measurement-instance-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MeasurementInstanceInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/measurement-instance-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/measurement-instance-input/AGENTS.md"
+}

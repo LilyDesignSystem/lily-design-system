@@ -1,0 +1,39 @@
+{
+  "slug": "singapore-national-registration-identity-card-view",
+  "name": "SingaporeNationalRegistrationIdentityCardView",
+  "description": "a read-only display of Singapore's National Registration Identity Card number (NRIC/FIN)",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".singapore-national-registration-identity-card-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (default: \"\") — the identifier to display",
+    "`label`: string (required) — accessible name via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "singapore-national-registration-identity-card-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/singapore-national-registration-identity-card-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/SingaporeNationalRegistrationIdentityCardView/SingaporeNationalRegistrationIdentityCardView.svelte",
+    "react": "lily-design-system-react-headless/components/SingaporeNationalRegistrationIdentityCardView.tsx",
+    "vue": "lily-design-system-vue-headless/components/SingaporeNationalRegistrationIdentityCardView.vue",
+    "angular": "lily-design-system-angular-headless/components/SingaporeNationalRegistrationIdentityCardView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/singapore-national-registration-identity-card-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/singapore-national-registration-identity-card-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/singapore-national-registration-identity-card-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SingaporeNationalRegistrationIdentityCardView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/singapore-national-registration-identity-card-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/singapore-national-registration-identity-card-view/AGENTS.md"
+}

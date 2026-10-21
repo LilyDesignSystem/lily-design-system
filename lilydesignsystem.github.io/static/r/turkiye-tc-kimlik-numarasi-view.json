@@ -1,0 +1,39 @@
+{
+  "slug": "turkiye-tc-kimlik-numarasi-view",
+  "name": "TurkiyeTcKimlikNumarasiView",
+  "description": "a read-only display of Turkey's T.C. Kimlik Numarasi",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".turkiye-tc-kimlik-numarasi-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (default: \"\") — the identifier to display",
+    "`label`: string (required) — accessible name via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "turkiye-tc-kimlik-numarasi-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/turkiye-tc-kimlik-numarasi-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/TurkiyeTcKimlikNumarasiView/TurkiyeTcKimlikNumarasiView.svelte",
+    "react": "lily-design-system-react-headless/components/TurkiyeTcKimlikNumarasiView.tsx",
+    "vue": "lily-design-system-vue-headless/components/TurkiyeTcKimlikNumarasiView.vue",
+    "angular": "lily-design-system-angular-headless/components/TurkiyeTcKimlikNumarasiView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/turkiye-tc-kimlik-numarasi-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/turkiye-tc-kimlik-numarasi-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/turkiye-tc-kimlik-numarasi-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TurkiyeTcKimlikNumarasiView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/turkiye-tc-kimlik-numarasi-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/turkiye-tc-kimlik-numarasi-view/AGENTS.md"
+}

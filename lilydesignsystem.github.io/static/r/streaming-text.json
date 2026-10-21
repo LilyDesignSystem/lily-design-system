@@ -1,0 +1,44 @@
+{
+  "slug": "streaming-text",
+  "name": "StreamingText",
+  "description": "text that arrives in chunks, as an AI answer streams in, announced once to screen readers when complete",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".streaming-text",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"status\"`, `aria-live=\"polite\"`, `aria-atomic=\"true\"`",
+    "`aria-busy=\"true\"` while streaming"
+  ],
+  "keyboard": [
+    "No keyboard interactions"
+  ],
+  "props": [
+    "`class`: string (default: `\"\"`) -- appended to the base class",
+    "`label`: string (optional) -- accessible name",
+    "`streaming`: boolean (default: `false`) -- true while chunks are still arriving",
+    "`children`: slot -- the text so far",
+    "`...restProps`: HTML attributes -- spread onto the root `<div>`"
+  ],
+  "related": [
+    "thinking",
+    "chat-message",
+    "loading",
+    "progress-spinner"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/streaming-text.html",
+    "svelte": "lily-design-system-svelte-headless/components/StreamingText/StreamingText.svelte",
+    "react": "lily-design-system-react-headless/components/StreamingText.tsx",
+    "vue": "lily-design-system-vue-headless/components/StreamingText.vue",
+    "angular": "lily-design-system-angular-headless/components/StreamingText.ts",
+    "web-components": "lily-design-system-web-components-headless/components/streaming-text.ts",
+    "alpine": "lily-design-system-alpine-headless/components/streaming-text.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/streaming-text/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/StreamingText.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/streaming-text/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/streaming-text/AGENTS.md"
+}

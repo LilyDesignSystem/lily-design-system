@@ -1,0 +1,42 @@
+{
+  "slug": "image",
+  "name": "Image",
+  "description": "an image element with alt text",
+  "htmlTag": "img",
+  "category": "media",
+  "baseClass": ".image",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`alt=\"...\"` -- provides the accessible name for the image, required for all non-decorative images",
+    "`<figure>` and `<figcaption>` -- when caption is present, these semantic HTML elements associate the caption with the image for assistive technology"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`src`: string (required) -- the image source URL",
+    "`alt`: string (required) -- alternative text describing the image for screen readers and when the image fails to load",
+    "`caption`: string (optional) -- when provided, wraps the image in a `<figure>` with a `<figcaption>`",
+    "`loading`: \"lazy\" | \"eager\" (optional) -- controls the native browser loading behavior",
+    "`...restProps`: unknown -- additional attributes spread onto the root element"
+  ],
+  "related": [
+    "image-input",
+    "image-file-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/image.html",
+    "svelte": "lily-design-system-svelte-headless/components/Image/Image.svelte",
+    "react": "lily-design-system-react-headless/components/Image.tsx",
+    "vue": "lily-design-system-vue-headless/components/Image.vue",
+    "angular": "lily-design-system-angular-headless/components/Image.ts",
+    "web-components": "lily-design-system-web-components-headless/components/image.ts",
+    "alpine": "lily-design-system-alpine-headless/components/image.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/image/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Image.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/image/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/image/AGENTS.md"
+}

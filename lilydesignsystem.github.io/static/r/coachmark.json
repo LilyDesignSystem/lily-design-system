@@ -1,0 +1,54 @@
+{
+  "slug": "coachmark",
+  "name": "Coachmark",
+  "description": "an anchored popover that spotlights and explains a single feature",
+  "htmlTag": "div",
+  "category": "overlays",
+  "baseClass": ".coachmark",
+  "subClasses": [
+    "coachmark-description",
+    "coachmark-dismiss",
+    "coachmark-title"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"dialog\"` on the container",
+    "`aria-modal=\"false\"` (non-blocking)",
+    "`aria-labelledby` referencing the title id",
+    "`aria-describedby` referencing the description id, only when description is provided",
+    "`hidden` attribute reflects `!open`",
+    "Dismiss button has `aria-label` via `dismissLabel`"
+  ],
+  "keyboard": [
+    "Tab / Shift+Tab: Move focus into and out of the coachmark",
+    "Enter / Space: Activate the dismiss button when focused",
+    "Escape: (Consumer-provided) dismiss the coachmark"
+  ],
+  "props": [
+    "`open`: boolean (default false)",
+    "`title`: string (REQUIRED)",
+    "`description`: string (optional)",
+    "`dismissLabel`: string (REQUIRED)",
+    "`onDismiss` / `ondismiss`: callback (optional)",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "popover",
+    "tooltip",
+    "tour"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/coachmark.html",
+    "svelte": "lily-design-system-svelte-headless/components/Coachmark/Coachmark.svelte",
+    "react": "lily-design-system-react-headless/components/Coachmark.tsx",
+    "vue": "lily-design-system-vue-headless/components/Coachmark.vue",
+    "angular": "lily-design-system-angular-headless/components/Coachmark.ts",
+    "web-components": "lily-design-system-web-components-headless/components/coachmark.ts",
+    "alpine": "lily-design-system-alpine-headless/components/coachmark.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/coachmark/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Coachmark.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/coachmark/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/coachmark/AGENTS.md"
+}

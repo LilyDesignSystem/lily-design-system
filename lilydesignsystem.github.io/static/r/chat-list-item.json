@@ -1,0 +1,41 @@
+{
+  "slug": "chat-list-item",
+  "name": "ChatListItem",
+  "description": "one chat list item component, typically containing one chat message component",
+  "htmlTag": "li",
+  "category": "lists",
+  "baseClass": ".chat-list-item",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `listitem` role from `<li>` element",
+    "`aria-current=\"true\"` when the `current` prop is provided"
+  ],
+  "keyboard": [
+    "Tab: Focus the interactive element within the list item",
+    "Enter: Activate the focused list item or link"
+  ],
+  "props": [
+    "`current`: boolean (default: false) -- marks this item as the currently selected conversation",
+    "`children`: slot (required) -- typically a ChatMessage component",
+    "`...restProps`: unknown -- additional attributes spread onto the `<li>` element"
+  ],
+  "related": [
+    "chat-nav",
+    "chat-list",
+    "chat-message"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/chat-list-item.html",
+    "svelte": "lily-design-system-svelte-headless/components/ChatListItem/ChatListItem.svelte",
+    "react": "lily-design-system-react-headless/components/ChatListItem.tsx",
+    "vue": "lily-design-system-vue-headless/components/ChatListItem.vue",
+    "angular": "lily-design-system-angular-headless/components/ChatListItem.ts",
+    "alpine": "lily-design-system-alpine-headless/components/chat-list-item.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/chat-list-item/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ChatListItem.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/chat-list-item/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/chat-list-item/AGENTS.md"
+}

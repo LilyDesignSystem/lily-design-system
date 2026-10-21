@@ -1,0 +1,42 @@
+{
+  "slug": "grail-layout-right-aside",
+  "name": "GrailLayoutRightAside",
+  "description": "grail layout right aside sidebar with <aside> tag",
+  "htmlTag": "aside",
+  "category": "navigation",
+  "baseClass": ".grail-layout-right-aside",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Native `<aside>` element exposes a complementary landmark",
+    "Consumers should add `aria-label` (or `aria-labelledby`) to distinguish from other asides on the page"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`children`: slot (required) -- content to render inside the right aside",
+    "`...restProps`: unknown -- additional attributes spread onto the `<div>` element"
+  ],
+  "related": [
+    "grail-layout",
+    "grail-layout-bottom-footer",
+    "grail-layout-center-main",
+    "grail-layout-left-aside",
+    "grail-layout-top-header"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/grail-layout-right-aside.html",
+    "svelte": "lily-design-system-svelte-headless/components/GrailLayoutRightAside/GrailLayoutRightAside.svelte",
+    "react": "lily-design-system-react-headless/components/GrailLayoutRightAside.tsx",
+    "vue": "lily-design-system-vue-headless/components/GrailLayoutRightAside.vue",
+    "angular": "lily-design-system-angular-headless/components/GrailLayoutRightAside.ts",
+    "web-components": "lily-design-system-web-components-headless/components/grail-layout-right-aside.ts",
+    "alpine": "lily-design-system-alpine-headless/components/grail-layout-right-aside.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/grail-layout-right-aside/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/GrailLayoutRightAside.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/grail-layout-right-aside/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/grail-layout-right-aside/AGENTS.md"
+}

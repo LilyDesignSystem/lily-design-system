@@ -1,0 +1,41 @@
+{
+  "slug": "tool-call-output",
+  "name": "ToolCallOutput",
+  "description": "the output or result returned by a tool in a tool call",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".tool-call-output",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"group\"` with `aria-label` only when `label` is given"
+  ],
+  "keyboard": [
+    "None. If a long `<pre>` inside scrolls, give it `tabindex=\"0\"`"
+  ],
+  "props": [
+    "`class`: string -- Appended to the base class",
+    "`label`: string (optional) -- Adds `role=\"group\"` and `aria-label`; without it neither is rendered",
+    "`children`: slot -- The result",
+    "`...restProps`: HTML attributes -- Spread onto the root `<div>`"
+  ],
+  "related": [
+    "tool-call",
+    "tool-call-input",
+    "tool-call-error"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/tool-call-output.html",
+    "svelte": "lily-design-system-svelte-headless/components/ToolCallOutput/ToolCallOutput.svelte",
+    "react": "lily-design-system-react-headless/components/ToolCallOutput.tsx",
+    "vue": "lily-design-system-vue-headless/components/ToolCallOutput.vue",
+    "angular": "lily-design-system-angular-headless/components/ToolCallOutput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/tool-call-output.ts",
+    "alpine": "lily-design-system-alpine-headless/components/tool-call-output.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/tool-call-output/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ToolCallOutput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/tool-call-output/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tool-call-output/AGENTS.md"
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "yisrael-teudat-zehut-view",
+  "name": "YisraelTeudatZehutView",
+  "description": "a read-only display of Israel's Teudat Zehut identity number",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".yisrael-teudat-zehut-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (default: \"\") — the identifier to display",
+    "`label`: string (required) — accessible name via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "yisrael-teudat-zehut-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/yisrael-teudat-zehut-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/YisraelTeudatZehutView/YisraelTeudatZehutView.svelte",
+    "react": "lily-design-system-react-headless/components/YisraelTeudatZehutView.tsx",
+    "vue": "lily-design-system-vue-headless/components/YisraelTeudatZehutView.vue",
+    "angular": "lily-design-system-angular-headless/components/YisraelTeudatZehutView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/yisrael-teudat-zehut-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/yisrael-teudat-zehut-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/yisrael-teudat-zehut-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/YisraelTeudatZehutView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/yisrael-teudat-zehut-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/yisrael-teudat-zehut-view/AGENTS.md"
+}

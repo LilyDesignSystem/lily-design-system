@@ -1,0 +1,49 @@
+{
+  "slug": "show-more",
+  "name": "ShowMore",
+  "description": "a content region clamped to a shorter height with a button that reveals the rest",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".show-more",
+  "subClasses": [
+    "show-more-button",
+    "show-more-content"
+  ],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in the Svelte canonical; ports to the other frameworks pending (2026-10-05)",
+  "aria": [
+    "`aria-expanded={expanded}` -- on the button",
+    "`aria-controls={contentId}` -- on the button, references the content `id`"
+  ],
+  "keyboard": [
+    "Enter: toggles when the button has focus (native)",
+    "Space: toggles when the button has focus (native)",
+    "Tab: moves focus to / from the button"
+  ],
+  "props": [
+    "`className`: string (default: `\"\"`) -- CSS class name appended to the base class",
+    "`moreLabel`: string (required) -- button text while collapsed",
+    "`lessLabel`: string (required) -- button text while expanded",
+    "`expanded`: boolean (default: `false`) -- bindable",
+    "`children`: slot -- the content",
+    "`...restProps`: unknown -- additional attributes spread onto the root"
+  ],
+  "related": [
+    "expander",
+    "details",
+    "collapsible"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/show-more.html",
+    "svelte": "lily-design-system-svelte-headless/components/ShowMore/ShowMore.svelte",
+    "react": "lily-design-system-react-headless/components/ShowMore.tsx",
+    "vue": "lily-design-system-vue-headless/components/ShowMore.vue",
+    "angular": "lily-design-system-angular-headless/components/ShowMore.ts",
+    "web-components": "lily-design-system-web-components-headless/components/show-more.ts",
+    "alpine": "lily-design-system-alpine-headless/components/show-more.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/show-more/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ShowMore.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/show-more/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/show-more/AGENTS.md"
+}

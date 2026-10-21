@@ -1,0 +1,39 @@
+{
+  "slug": "bharat-aadhaar-view",
+  "name": "BharatAadhaarView",
+  "description": "a read-only display of India's Aadhaar number",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".bharat-aadhaar-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (default: \"\") — the identifier to display",
+    "`label`: string (required) — accessible name via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "bharat-aadhaar-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/bharat-aadhaar-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/BharatAadhaarView/BharatAadhaarView.svelte",
+    "react": "lily-design-system-react-headless/components/BharatAadhaarView.tsx",
+    "vue": "lily-design-system-vue-headless/components/BharatAadhaarView.vue",
+    "angular": "lily-design-system-angular-headless/components/BharatAadhaarView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/bharat-aadhaar-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/bharat-aadhaar-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/bharat-aadhaar-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/BharatAadhaarView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/bharat-aadhaar-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/bharat-aadhaar-view/AGENTS.md"
+}

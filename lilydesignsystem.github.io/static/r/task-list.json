@@ -1,0 +1,41 @@
+{
+  "slug": "task-list",
+  "name": "TaskList",
+  "description": "an ordered list of task list items",
+  "htmlTag": "ol",
+  "category": "lists",
+  "baseClass": ".task-list",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"list\"` explicitly marks as a list",
+    "`aria-label` provides accessible name for the list",
+    "Screen readers announce the list with its label and item count"
+  ],
+  "keyboard": [
+    "None directly -- standard list navigation by screen readers",
+    "Tab moves focus between interactive elements (checkboxes, links) within task items"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label via aria-label",
+    "`children`: slot -- task items (should be `<li>` elements)",
+    "`...restProps`: Any additional HTML attributes spread onto the `<ul>`"
+  ],
+  "related": [
+    "task-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/task-list.html",
+    "svelte": "lily-design-system-svelte-headless/components/TaskList/TaskList.svelte",
+    "react": "lily-design-system-react-headless/components/TaskList.tsx",
+    "vue": "lily-design-system-vue-headless/components/TaskList.vue",
+    "angular": "lily-design-system-angular-headless/components/TaskList.ts",
+    "web-components": "lily-design-system-web-components-headless/components/task-list.ts",
+    "alpine": "lily-design-system-alpine-headless/components/task-list.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/task-list/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TaskList.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/task-list/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/task-list/AGENTS.md"
+}

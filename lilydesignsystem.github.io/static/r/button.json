@@ -1,0 +1,53 @@
+{
+  "slug": "button",
+  "name": "Button",
+  "description": "a generic clickable button element",
+  "htmlTag": "button",
+  "category": "buttons",
+  "baseClass": ".button",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "Implicit `button` role from `<button>` element",
+    "`aria-pressed` for toggle button state (when provided)",
+    "`aria-label` for screen reader text override",
+    "`aria-disabled` from native disabled attribute"
+  ],
+  "keyboard": [
+    "Tab: Focus the button",
+    "Enter: Activate the button",
+    "Space: Activate the button",
+    "(All handled natively by `<button>` element)"
+  ],
+  "props": [
+    "`type`: \"button\" | \"submit\" | \"reset\" (default: \"button\")",
+    "`disabled`: boolean (default: false)",
+    "`pressed`: boolean | undefined (default: undefined) -- toggle button state",
+    "`label`: string (optional) -- accessible label override",
+    "`onclick`: callback (optional) -- click handler",
+    "`children`: slot -- button content",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "button-group",
+    "button-input",
+    "icon-button",
+    "split-button",
+    "toggle-button",
+    "float-button"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/button.html",
+    "svelte": "lily-design-system-svelte-headless/components/Button/Button.svelte",
+    "react": "lily-design-system-react-headless/components/Button.tsx",
+    "vue": "lily-design-system-vue-headless/components/Button.vue",
+    "angular": "lily-design-system-angular-headless/components/Button.ts",
+    "web-components": "lily-design-system-web-components-headless/components/button.ts",
+    "alpine": "lily-design-system-alpine-headless/components/button.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/button/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Button.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/button/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/button/AGENTS.md"
+}

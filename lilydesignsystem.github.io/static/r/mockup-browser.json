@@ -1,0 +1,44 @@
+{
+  "slug": "mockup-browser",
+  "name": "MockupBrowser",
+  "description": "a box area that looks like a web browser",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".mockup-browser",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"img\"` -- presents the mockup as a single image to assistive technologies",
+    "`aria-label` -- describes the mockup content for screen readers"
+  ],
+  "keyboard": [
+    "None -- mockups are decorative, not interactive"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label describing the mockup content",
+    "`children`: slot (required) -- the content displayed inside the browser mockup",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "mockup-laptop",
+    "mockup-phone-landscape",
+    "mockup-phone-portrait",
+    "mockup-shell",
+    "mockup-tablet-landscape",
+    "mockup-tablet-portrait"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/mockup-browser.html",
+    "svelte": "lily-design-system-svelte-headless/components/MockupBrowser/MockupBrowser.svelte",
+    "react": "lily-design-system-react-headless/components/MockupBrowser.tsx",
+    "vue": "lily-design-system-vue-headless/components/MockupBrowser.vue",
+    "angular": "lily-design-system-angular-headless/components/MockupBrowser.ts",
+    "web-components": "lily-design-system-web-components-headless/components/mockup-browser.ts",
+    "alpine": "lily-design-system-alpine-headless/components/mockup-browser.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/mockup-browser/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MockupBrowser.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/mockup-browser/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/mockup-browser/AGENTS.md"
+}

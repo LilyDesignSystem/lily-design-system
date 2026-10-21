@@ -1,0 +1,45 @@
+{
+  "slug": "mutually-exclusive",
+  "name": "MutuallyExclusive",
+  "description": "a container ensuring only one option can be selected from a group",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".mutually-exclusive",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"group\"` + `aria-label` identifies the group",
+    "Each child checkbox retains its own native semantics",
+    "Consumers may also use `aria-describedby` to reference an explanation of the constraint"
+  ],
+  "keyboard": [
+    "Tab moves focus through the child controls",
+    "Space toggles the focused checkbox (native behaviour); the component handler then unchecks any other previously-checked option"
+  ],
+  "props": [
+    "`label`: string (required) (default: —) — Accessible label for the group",
+    "`value`: string | null (default: null) — Currently selected option's value, or null when none is selected; bindable",
+    "`onChange`: (value: string | null) => void (default: —) — Fired when the selected value changes",
+    "`children`: slot (required) (default: —) — The CheckboxInput controls that make up the group",
+    "`...restProps`: HTML attributes (default: —) — Spread onto the root `<div>`"
+  ],
+  "related": [
+    "radio-group",
+    "checkbox-group",
+    "segment-group"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/mutually-exclusive.html",
+    "svelte": "lily-design-system-svelte-headless/components/MutuallyExclusive/MutuallyExclusive.svelte",
+    "react": "lily-design-system-react-headless/components/MutuallyExclusive.tsx",
+    "vue": "lily-design-system-vue-headless/components/MutuallyExclusive.vue",
+    "angular": "lily-design-system-angular-headless/components/MutuallyExclusive.ts",
+    "web-components": "lily-design-system-web-components-headless/components/mutually-exclusive.ts",
+    "alpine": "lily-design-system-alpine-headless/components/mutually-exclusive.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/mutually-exclusive/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MutuallyExclusive.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/mutually-exclusive/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/mutually-exclusive/AGENTS.md"
+}

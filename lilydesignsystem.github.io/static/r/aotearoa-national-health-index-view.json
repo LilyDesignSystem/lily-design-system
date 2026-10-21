@@ -1,0 +1,39 @@
+{
+  "slug": "aotearoa-national-health-index-view",
+  "name": "AotearoaNationalHealthIndexView",
+  "description": "a read-only display of New Zealand's National Health Index (NHI) Number",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".aotearoa-national-health-index-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (default: \"\") — the identifier to display",
+    "`label`: string (required) — accessible name via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "aotearoa-national-health-index-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/aotearoa-national-health-index-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/AotearoaNationalHealthIndexView/AotearoaNationalHealthIndexView.svelte",
+    "react": "lily-design-system-react-headless/components/AotearoaNationalHealthIndexView.tsx",
+    "vue": "lily-design-system-vue-headless/components/AotearoaNationalHealthIndexView.vue",
+    "angular": "lily-design-system-angular-headless/components/AotearoaNationalHealthIndexView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/aotearoa-national-health-index-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/aotearoa-national-health-index-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/aotearoa-national-health-index-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AotearoaNationalHealthIndexView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/aotearoa-national-health-index-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/aotearoa-national-health-index-view/AGENTS.md"
+}

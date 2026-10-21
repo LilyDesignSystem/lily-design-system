@@ -1,0 +1,41 @@
+{
+  "slug": "table-row",
+  "name": "TableRow",
+  "description": "a table interactive grid row <tr>",
+  "htmlTag": "tr",
+  "category": "tables",
+  "baseClass": ".table-row",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Native `<tr>` semantics announce the row position within the surrounding `<table>`",
+    "Screen readers expose `<tr>` as a row in the data grid"
+  ],
+  "keyboard": [],
+  "props": [
+    "`className`: string (default: `\"\"`) -- CSS class name for the row",
+    "`children`: slot (required) -- row cells, typically `<th>` or TableTD components",
+    "`...restProps`: unknown -- additional attributes spread onto the `<tr>` element"
+  ],
+  "related": [
+    "table",
+    "table-body",
+    "table-foot",
+    "table-head",
+    "table-td",
+    "table-th"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/table-row.html",
+    "svelte": "lily-design-system-svelte-headless/components/TableRow/TableRow.svelte",
+    "react": "lily-design-system-react-headless/components/TableRow.tsx",
+    "vue": "lily-design-system-vue-headless/components/TableRow.vue",
+    "angular": "lily-design-system-angular-headless/components/TableRow.ts",
+    "alpine": "lily-design-system-alpine-headless/components/table-row.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/table-row/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TableRow.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/table-row/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/table-row/AGENTS.md"
+}

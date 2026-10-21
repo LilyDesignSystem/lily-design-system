@@ -1,0 +1,39 @@
+{
+  "slug": "addressograph-box",
+  "name": "AddressographBox",
+  "description": "a box that shows a person's identification details, such as name, tracking information, and salient notations",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".addressograph-box",
+  "subClasses": [],
+  "interactive": false,
+  "status": "experimental — recent catalog addition with the least accumulated depth; contract may still move",
+  "aria": [
+    "`aria-label` -- describes the box for screen readers"
+  ],
+  "keyboard": [
+    "None -- the addressograph-box is informational, not interactive"
+  ],
+  "props": [
+    "`label`: string (optional) -- accessible label for the addressograph-box box",
+    "`children`: slot (required) -- identifying content",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "person",
+    "government-identifier"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/addressograph-box.html",
+    "svelte": "lily-design-system-svelte-headless/components/AddressographBox/AddressographBox.svelte",
+    "react": "lily-design-system-react-headless/components/AddressographBox.tsx",
+    "vue": "lily-design-system-vue-headless/components/AddressographBox.vue",
+    "angular": "lily-design-system-angular-headless/components/AddressographBox.ts",
+    "web-components": "lily-design-system-web-components-headless/components/addressograph-box.ts",
+    "alpine": "lily-design-system-alpine-headless/components/addressograph-box.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/addressograph-box/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AddressographBox.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/addressograph-box/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/addressograph-box/AGENTS.md"
+}

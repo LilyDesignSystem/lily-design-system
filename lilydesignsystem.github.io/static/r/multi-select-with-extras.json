@@ -1,0 +1,51 @@
+{
+  "slug": "multi-select-with-extras",
+  "name": "MultiSelectWithExtras",
+  "description": "a multiple-choice select with additional features like search, groups, or selected-value chips",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".multi-select-with-extras",
+  "subClasses": [
+    "multi-select-with-extras-after",
+    "multi-select-with-extras-before"
+  ],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in the Svelte canonical; ports to the other frameworks pending (2026-10-05)",
+  "aria": [
+    "`aria-label={label}` -- on the `<select multiple>`, provides its accessible name"
+  ],
+  "keyboard": [
+    "Native select keyboard behaviour only: Arrow keys move, Shift+Arrow extends selection, Tab moves focus",
+    "Interactive content in `before` / `after` has its own native keyboard behaviour"
+  ],
+  "props": [
+    "`className`: string (default: `\"\"`) -- CSS class on the wrapper",
+    "`label`: string (required) -- accessible name for the select",
+    "`value`: string[] (default: `[]`) -- bindable selected values",
+    "`size`: number (optional) -- visible rows",
+    "`required`: boolean (default: `false`)",
+    "`disabled`: boolean (default: `false`)",
+    "`children`: slot (required) -- `Option` elements",
+    "`before`: slot (optional) -- content before the select",
+    "`after`: slot (optional) -- content after the select",
+    "`...restProps`: unknown -- additional attributes spread onto the wrapper `<div>`"
+  ],
+  "related": [
+    "multi-select",
+    "select-with-extras",
+    "checkbox-group"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/multi-select-with-extras.html",
+    "svelte": "lily-design-system-svelte-headless/components/MultiSelectWithExtras/MultiSelectWithExtras.svelte",
+    "react": "lily-design-system-react-headless/components/MultiSelectWithExtras.tsx",
+    "vue": "lily-design-system-vue-headless/components/MultiSelectWithExtras.vue",
+    "angular": "lily-design-system-angular-headless/components/MultiSelectWithExtras.ts",
+    "web-components": "lily-design-system-web-components-headless/components/multi-select-with-extras.ts",
+    "alpine": "lily-design-system-alpine-headless/components/multi-select-with-extras.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/multi-select-with-extras/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MultiSelectWithExtras.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/multi-select-with-extras/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/multi-select-with-extras/AGENTS.md"
+}

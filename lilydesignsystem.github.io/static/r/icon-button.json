@@ -1,0 +1,50 @@
+{
+  "slug": "icon-button",
+  "name": "IconButton",
+  "description": "a button containing only an icon with a required accessible label",
+  "htmlTag": "button",
+  "category": "buttons",
+  "baseClass": ".icon-button",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `button` role from `<button>` element",
+    "`aria-label` is the entire accessible name (required)",
+    "`aria-pressed` for toggle button state (when provided)",
+    "`aria-disabled` from native disabled attribute"
+  ],
+  "keyboard": [
+    "Tab: Focus the button",
+    "Enter: Activate the button",
+    "Space: Activate the button",
+    "(All handled natively by `<button>` element)"
+  ],
+  "props": [
+    "`label`: string (REQUIRED) -- aria-label",
+    "`type`: \"button\" | \"submit\" | \"reset\" (default: \"button\")",
+    "`disabled`: boolean (default: false)",
+    "`pressed`: boolean | undefined (default: undefined) -- toggle state",
+    "`onclick` / `onClick`: callback (optional)",
+    "`children`: slot -- icon content",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "button",
+    "float-button",
+    "tool-bar-button"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/icon-button.html",
+    "svelte": "lily-design-system-svelte-headless/components/IconButton/IconButton.svelte",
+    "react": "lily-design-system-react-headless/components/IconButton.tsx",
+    "vue": "lily-design-system-vue-headless/components/IconButton.vue",
+    "angular": "lily-design-system-angular-headless/components/IconButton.ts",
+    "web-components": "lily-design-system-web-components-headless/components/icon-button.ts",
+    "alpine": "lily-design-system-alpine-headless/components/icon-button.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/icon-button/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/IconButton.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/icon-button/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/icon-button/AGENTS.md"
+}

@@ -1,0 +1,52 @@
+{
+  "slug": "feature-card",
+  "name": "FeatureCard",
+  "description": "a large content card with a prominent image positioned alongside or above the text",
+  "htmlTag": "article",
+  "category": "navigation",
+  "baseClass": ".feature-card",
+  "subClasses": [
+    "feature-card-description",
+    "feature-card-header",
+    "feature-card-heading",
+    "feature-card-image"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `article` semantics from the <article> element",
+    "aria-label provides the accessible name (defaults to heading)",
+    "Image alt attribute provides its accessible name; decorative images use empty alt"
+  ],
+  "keyboard": [
+    "None on the card itself (passive container); interactive children manage their own keyboard behavior."
+  ],
+  "props": [
+    "`heading`: string (REQUIRED) -- card heading",
+    "`imagePosition`: \"start\" | \"end\" | \"top\" (default: \"start\")",
+    "`imageUrl`: string (optional)",
+    "`imageAlt`: string (optional)",
+    "`description`: string (optional) -- body text",
+    "`label`: string (optional) -- aria-label override; defaults to heading",
+    "`children`: slot (optional) -- additional content",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "card",
+    "hero",
+    "call-to-action"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/feature-card.html",
+    "svelte": "lily-design-system-svelte-headless/components/FeatureCard/FeatureCard.svelte",
+    "react": "lily-design-system-react-headless/components/FeatureCard.tsx",
+    "vue": "lily-design-system-vue-headless/components/FeatureCard.vue",
+    "angular": "lily-design-system-angular-headless/components/FeatureCard.ts",
+    "web-components": "lily-design-system-web-components-headless/components/feature-card.ts",
+    "alpine": "lily-design-system-alpine-headless/components/feature-card.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/feature-card/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/FeatureCard.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/feature-card/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/feature-card/AGENTS.md"
+}

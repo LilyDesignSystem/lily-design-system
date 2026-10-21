@@ -1,0 +1,44 @@
+{
+  "slug": "back-link",
+  "name": "BackLink",
+  "description": "a navigation link to return to a previous page",
+  "htmlTag": "a",
+  "category": "links",
+  "baseClass": ".back-link",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "Implicit `link` role from the `<a>` element",
+    "`aria-label` -- optional override for descriptive screen reader text, set from the `label` prop"
+  ],
+  "keyboard": [
+    "Tab: Focus the link",
+    "Enter: Activate the link (browser default)"
+  ],
+  "props": [
+    "`href`: string (required) -- the URL to navigate back to",
+    "`label`: string (optional, default: undefined) -- accessible label override via `aria-label`",
+    "`children`: slot (required) -- the link text/content",
+    "`...restProps`: Any additional HTML attributes spread onto the `<a>`"
+  ],
+  "related": [
+    "go-to-top",
+    "skip-link",
+    "breadcrumb-nav",
+    "action-link"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/back-link.html",
+    "svelte": "lily-design-system-svelte-headless/components/BackLink/BackLink.svelte",
+    "react": "lily-design-system-react-headless/components/BackLink.tsx",
+    "vue": "lily-design-system-vue-headless/components/BackLink.vue",
+    "angular": "lily-design-system-angular-headless/components/BackLink.ts",
+    "web-components": "lily-design-system-web-components-headless/components/back-link.ts",
+    "alpine": "lily-design-system-alpine-headless/components/back-link.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/back-link/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/BackLink.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/back-link/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/back-link/AGENTS.md"
+}

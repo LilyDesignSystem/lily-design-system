@@ -1,0 +1,43 @@
+{
+  "slug": "clipboard-copy-button",
+  "name": "ClipboardCopyButton",
+  "description": "a button that copies text to the clipboard",
+  "htmlTag": "button",
+  "category": "buttons",
+  "baseClass": ".clipboard-copy-button",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`aria-label` -- describes the copy action for screen readers",
+    "`data-copied` -- reflects `\"true\"` or `\"false\"` for CSS-based visual feedback (not an ARIA attribute, but useful for consumer styling)"
+  ],
+  "keyboard": [
+    "Enter/Space: Activate the copy button (native button behavior)"
+  ],
+  "props": [
+    "`text`: string (required) -- the text to copy to the clipboard",
+    "`label`: string (required) -- accessible label for the copy button via `aria-label`",
+    "`onsuccess`: () => void (default: undefined) -- callback invoked after a successful copy",
+    "`onerror`: (error: unknown) => void (default: undefined) -- callback invoked if the copy fails",
+    "`children`: slot (default: undefined) -- optional custom button content"
+  ],
+  "related": [
+    "button",
+    "icon-button",
+    "share-page"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/clipboard-copy-button.html",
+    "svelte": "lily-design-system-svelte-headless/components/ClipboardCopyButton/ClipboardCopyButton.svelte",
+    "react": "lily-design-system-react-headless/components/ClipboardCopyButton.tsx",
+    "vue": "lily-design-system-vue-headless/components/ClipboardCopyButton.vue",
+    "angular": "lily-design-system-angular-headless/components/ClipboardCopyButton.ts",
+    "web-components": "lily-design-system-web-components-headless/components/clipboard-copy-button.ts",
+    "alpine": "lily-design-system-alpine-headless/components/clipboard-copy-button.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/clipboard-copy-button/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ClipboardCopyButton.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/clipboard-copy-button/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/clipboard-copy-button/AGENTS.md"
+}

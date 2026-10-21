@@ -1,0 +1,44 @@
+{
+  "slug": "byline",
+  "name": "Byline",
+  "description": "an author attribution with publish and update timestamps",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".byline",
+  "subClasses": [
+    "byline-authors",
+    "byline-published"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`<time datetime=\"\">` for machine-readable dates",
+    "`rel=\"author\"` on author links"
+  ],
+  "keyboard": [
+    "None (links within are natively focusable)"
+  ],
+  "props": [
+    "`children`: slot (required) -- author names/links",
+    "`published`: slot (optional) -- publish date/time",
+    "`updated`: slot (optional) -- last updated date/time",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "review-date",
+    "comment"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/byline.html",
+    "svelte": "lily-design-system-svelte-headless/components/Byline/Byline.svelte",
+    "react": "lily-design-system-react-headless/components/Byline.tsx",
+    "vue": "lily-design-system-vue-headless/components/Byline.vue",
+    "angular": "lily-design-system-angular-headless/components/Byline.ts",
+    "web-components": "lily-design-system-web-components-headless/components/byline.ts",
+    "alpine": "lily-design-system-alpine-headless/components/byline.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/byline/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Byline.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/byline/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/byline/AGENTS.md"
+}

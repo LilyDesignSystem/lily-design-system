@@ -1,0 +1,39 @@
+{
+  "slug": "toggle-button",
+  "name": "ToggleButton",
+  "description": "a button that toggles between pressed and unpressed states",
+  "htmlTag": "button",
+  "category": "buttons",
+  "baseClass": ".toggle-button",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"switch\"` -- identifies the element as a two-state toggle switch",
+    "`aria-checked={pressed}` -- communicates whether the toggle is currently on (`true`) or off (`false`)",
+    "`aria-label={label}` -- provides the accessible name for the toggle control"
+  ],
+  "keyboard": [
+    "Space: Toggles between on and off states (custom handler with `preventDefault`)",
+    "Enter: Activates the button (native button behavior)"
+  ],
+  "props": [],
+  "related": [
+    "switch-button",
+    "button",
+    "checkbox-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/toggle-button.html",
+    "svelte": "lily-design-system-svelte-headless/components/ToggleButton/ToggleButton.svelte",
+    "react": "lily-design-system-react-headless/components/ToggleButton.tsx",
+    "vue": "lily-design-system-vue-headless/components/ToggleButton.vue",
+    "angular": "lily-design-system-angular-headless/components/ToggleButton.ts",
+    "web-components": "lily-design-system-web-components-headless/components/toggle-button.ts",
+    "alpine": "lily-design-system-alpine-headless/components/toggle-button.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/toggle-button/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ToggleButton.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/toggle-button/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/toggle-button/AGENTS.md"
+}

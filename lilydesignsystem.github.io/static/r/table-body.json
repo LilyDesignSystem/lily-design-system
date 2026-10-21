@@ -1,0 +1,41 @@
+{
+  "slug": "table-body",
+  "name": "TableBody",
+  "description": "a table interactive grid tbody <tbody>",
+  "htmlTag": "tbody",
+  "category": "tables",
+  "baseClass": ".table-body",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Native `<tbody>` semantics group the body rows of the table",
+    "No additional ARIA is needed for this passive structural element"
+  ],
+  "keyboard": [],
+  "props": [
+    "`className`: string (default: `\"\"`) -- CSS class name for the body group",
+    "`children`: slot (required) -- data rows, typically TableRow components",
+    "`...restProps`: unknown -- additional attributes spread onto the `<tbody>` element"
+  ],
+  "related": [
+    "table",
+    "table-foot",
+    "table-head",
+    "table-row",
+    "table-td",
+    "table-th"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/table-body.html",
+    "svelte": "lily-design-system-svelte-headless/components/TableBody/TableBody.svelte",
+    "react": "lily-design-system-react-headless/components/TableBody.tsx",
+    "vue": "lily-design-system-vue-headless/components/TableBody.vue",
+    "angular": "lily-design-system-angular-headless/components/TableBody.ts",
+    "alpine": "lily-design-system-alpine-headless/components/table-body.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/table-body/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TableBody.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/table-body/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/table-body/AGENTS.md"
+}

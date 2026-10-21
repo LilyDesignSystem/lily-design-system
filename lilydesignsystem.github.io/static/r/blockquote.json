@@ -1,0 +1,45 @@
+{
+  "slug": "blockquote",
+  "name": "Blockquote",
+  "description": "a block-level quotation with optional source citation",
+  "htmlTag": "blockquote",
+  "category": "content",
+  "baseClass": ".blockquote",
+  "subClasses": [
+    "blockquote-citation"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `blockquote` semantics from the `<blockquote>` element",
+    "`aria-label` optional override",
+    "`cite` attribute references source URL (HTML semantic, not surfaced to most AT)"
+  ],
+  "keyboard": [
+    "None (passive element)"
+  ],
+  "props": [
+    "`cite`: string (optional) -- URL of the source",
+    "`citationText`: string (optional) -- visible attribution text",
+    "`label`: string (optional) -- aria-label override",
+    "`children`: slot -- quoted content",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "citation",
+    "inset-text"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/blockquote.html",
+    "svelte": "lily-design-system-svelte-headless/components/Blockquote/Blockquote.svelte",
+    "react": "lily-design-system-react-headless/components/Blockquote.tsx",
+    "vue": "lily-design-system-vue-headless/components/Blockquote.vue",
+    "angular": "lily-design-system-angular-headless/components/Blockquote.ts",
+    "web-components": "lily-design-system-web-components-headless/components/blockquote.ts",
+    "alpine": "lily-design-system-alpine-headless/components/blockquote.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/blockquote/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Blockquote.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/blockquote/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/blockquote/AGENTS.md"
+}

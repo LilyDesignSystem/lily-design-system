@@ -1,0 +1,49 @@
+{
+  "slug": "text-area-input-with-character-counter",
+  "name": "TextAreaInputWithCharacterCounter",
+  "description": "a multi-line text area input with a caption below that is a character counter \"[number] of [maximum] characters\"",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".text-area-input-with-character-counter",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label={label}` -- provides an accessible name for the text-area-input",
+    "`aria-describedby` -- links the text-area-input to the character counter",
+    "`aria-live=\"polite\"` -- on the counter so screen readers announce updates"
+  ],
+  "keyboard": [
+    "Tab: Moves focus to and from the text-area-input (native browser behavior)",
+    "Standard text-area-input keyboard interactions (native browser behavior)"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name for the text-area-input via `aria-label`",
+    "`value`: string (default: \"\") -- bindable text-area-input value",
+    "`maxLength`: number (required) -- maximum number of characters allowed",
+    "`counterTemplate`: string (default: \"{count} of {max} characters\") -- template for the counter text; `{count}` and `{max}` are replaced with actual values",
+    "`rows`: number (optional) -- number of visible text rows",
+    "`placeholder`: string (optional) -- placeholder text for the text-area-input",
+    "`required`: boolean (default: false) -- whether the text-area-input is required",
+    "`disabled`: boolean (default: false) -- whether the text-area-input is disabled",
+    "`...restProps`: unknown -- additional attributes spread onto the wrapper `<div>`"
+  ],
+  "related": [
+    "text-area-input",
+    "character-counter",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/text-area-input-with-character-counter.html",
+    "svelte": "lily-design-system-svelte-headless/components/TextAreaInputWithCharacterCounter/TextAreaInputWithCharacterCounter.svelte",
+    "react": "lily-design-system-react-headless/components/TextAreaInputWithCharacterCounter.tsx",
+    "vue": "lily-design-system-vue-headless/components/TextAreaInputWithCharacterCounter.vue",
+    "angular": "lily-design-system-angular-headless/components/TextAreaInputWithCharacterCounter.ts",
+    "web-components": "lily-design-system-web-components-headless/components/text-area-input-with-character-counter.ts",
+    "alpine": "lily-design-system-alpine-headless/components/text-area-input-with-character-counter.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/text-area-input-with-character-counter/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TextAreaInputWithCharacterCounter.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/text-area-input-with-character-counter/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/text-area-input-with-character-counter/AGENTS.md"
+}

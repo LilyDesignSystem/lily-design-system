@@ -1,0 +1,49 @@
+{
+  "slug": "banner",
+  "name": "Banner",
+  "description": "a prominent message bar across the top of a page",
+  "htmlTag": "div",
+  "category": "overlays",
+  "baseClass": ".banner",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"region\"` -- establishes the banner as a landmark region for assistive technology navigation",
+    "`aria-live=\"polite\"` -- ensures screen readers announce banner content without interrupting the current reading",
+    "`aria-label={closeLabel}` -- provides the accessible name for the dismiss button when present"
+  ],
+  "keyboard": [
+    "Tab: Focus the dismiss button (when `dismissible` is `true`)",
+    "Enter/Space: Activate the dismiss button to hide the banner"
+  ],
+  "props": [
+    "`type`: `\"info\"` | `\"success\"` | `\"warning\"` | `\"error\"` (default: `\"info\"`) -- banner variant for semantic meaning, exposed as `data-type`",
+    "`dismissible`: boolean (default: `false`) -- whether the banner can be dismissed",
+    "`onclose`: `() => void` (optional) -- callback invoked when the banner is dismissed",
+    "`closeLabel`: string (optional) -- accessible label for the dismiss button via `aria-label`",
+    "`children`: slot (required) -- the banner content",
+    "`...restProps`: any additional HTML attributes spread onto the root `<div>` element"
+  ],
+  "related": [
+    "announcement-banner",
+    "banner-box",
+    "government-banner",
+    "medical-banner",
+    "medical-banner-box",
+    "medical-banner-box-for-advice"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/banner.html",
+    "svelte": "lily-design-system-svelte-headless/components/Banner/Banner.svelte",
+    "react": "lily-design-system-react-headless/components/Banner.tsx",
+    "vue": "lily-design-system-vue-headless/components/Banner.vue",
+    "angular": "lily-design-system-angular-headless/components/Banner.ts",
+    "web-components": "lily-design-system-web-components-headless/components/banner.ts",
+    "alpine": "lily-design-system-alpine-headless/components/banner.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/banner/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Banner.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/banner/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/banner/AGENTS.md"
+}

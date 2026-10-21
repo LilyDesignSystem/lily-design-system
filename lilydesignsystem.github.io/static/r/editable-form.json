@@ -1,0 +1,42 @@
+{
+  "slug": "editable-form",
+  "name": "EditableForm",
+  "description": "a form wrapper for inline editing of content",
+  "htmlTag": "form",
+  "category": "forms",
+  "baseClass": ".editable-form",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label={label}` -- provides an accessible name for the form"
+  ],
+  "keyboard": [
+    "Enter: submits the form (native form behavior), exits edit mode, calls `onsubmit`",
+    "Escape: cancels editing, exits edit mode, calls `oncancel`"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name for the form, applied as `aria-label`",
+    "`editing`: boolean (default: false) -- whether the form is in edit mode, two-way bindable via `editing`",
+    "`onsubmit`: (event: SubmitEvent) => void (default: undefined) -- callback when the form is submitted",
+    "`oncancel`: () => void (default: undefined) -- callback when editing is cancelled",
+    "`children`: slot (required) -- form content (inputs, buttons, etc.)"
+  ],
+  "related": [
+    "editable",
+    "form"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/editable-form.html",
+    "svelte": "lily-design-system-svelte-headless/components/EditableForm/EditableForm.svelte",
+    "react": "lily-design-system-react-headless/components/EditableForm.tsx",
+    "vue": "lily-design-system-vue-headless/components/EditableForm.vue",
+    "angular": "lily-design-system-angular-headless/components/EditableForm.ts",
+    "web-components": "lily-design-system-web-components-headless/components/editable-form.ts",
+    "alpine": "lily-design-system-alpine-headless/components/editable-form.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/editable-form/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/EditableForm.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/editable-form/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/editable-form/AGENTS.md"
+}

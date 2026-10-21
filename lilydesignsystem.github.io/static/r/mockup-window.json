@@ -1,0 +1,44 @@
+{
+  "slug": "mockup-window",
+  "name": "MockupWindow",
+  "description": "a box area that looks like a desktop window",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".mockup-window",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"img\"` -- presents the mockup as a single image to assistive technologies",
+    "`aria-label` -- describes the mockup content for screen readers"
+  ],
+  "keyboard": [
+    "None -- mockups are decorative, not interactive"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label describing the mockup content",
+    "`children`: slot (required) -- the content displayed inside the window mockup",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "mockup-browser",
+    "mockup-laptop",
+    "mockup-phone-landscape",
+    "mockup-phone-portrait",
+    "mockup-shell",
+    "mockup-tablet-landscape"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/mockup-window.html",
+    "svelte": "lily-design-system-svelte-headless/components/MockupWindow/MockupWindow.svelte",
+    "react": "lily-design-system-react-headless/components/MockupWindow.tsx",
+    "vue": "lily-design-system-vue-headless/components/MockupWindow.vue",
+    "angular": "lily-design-system-angular-headless/components/MockupWindow.ts",
+    "web-components": "lily-design-system-web-components-headless/components/mockup-window.ts",
+    "alpine": "lily-design-system-alpine-headless/components/mockup-window.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/mockup-window/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MockupWindow.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/mockup-window/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/mockup-window/AGENTS.md"
+}

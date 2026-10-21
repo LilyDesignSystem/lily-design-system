@@ -1,0 +1,52 @@
+{
+  "slug": "collection-list-item",
+  "name": "CollectionListItem",
+  "description": "one item in a collection list with optional image, heading, meta, and description",
+  "htmlTag": "li",
+  "category": "lists",
+  "baseClass": ".collection-list-item",
+  "subClasses": [
+    "collection-list-item-description",
+    "collection-list-item-heading",
+    "collection-list-item-image",
+    "collection-list-item-meta"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `listitem` role from the `<li>` element",
+    "`aria-label` is rendered only when `label` is provided",
+    "Image `alt` provides the image's accessible text"
+  ],
+  "keyboard": [
+    "Tab: moves focus to the heading link (when href is provided) or to descendants",
+    "All key handling is delegated to the contained interactive elements"
+  ],
+  "props": [
+    "`heading`: string (REQUIRED) -- item heading text",
+    "`meta`: string (optional) -- meta line",
+    "`description`: string (optional) -- body description",
+    "`imageUrl`: string (optional) -- thumbnail image src",
+    "`imageAlt`: string (optional) -- thumbnail image alt",
+    "`href`: string (optional) -- wraps heading in <a>",
+    "`label`: string (optional) -- aria-label override",
+    "`children`: slot -- additional content",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "collection-list"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/collection-list-item.html",
+    "svelte": "lily-design-system-svelte-headless/components/CollectionListItem/CollectionListItem.svelte",
+    "react": "lily-design-system-react-headless/components/CollectionListItem.tsx",
+    "vue": "lily-design-system-vue-headless/components/CollectionListItem.vue",
+    "angular": "lily-design-system-angular-headless/components/CollectionListItem.ts",
+    "web-components": "lily-design-system-web-components-headless/components/collection-list-item.ts",
+    "alpine": "lily-design-system-alpine-headless/components/collection-list-item.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/collection-list-item/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CollectionListItem.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/collection-list-item/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/collection-list-item/AGENTS.md"
+}

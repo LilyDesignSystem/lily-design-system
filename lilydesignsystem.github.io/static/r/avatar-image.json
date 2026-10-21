@@ -1,0 +1,37 @@
+{
+  "slug": "avatar-image",
+  "name": "AvatarImage",
+  "description": "an avatar indicator inside image such as a user photo",
+  "htmlTag": "img",
+  "category": "media",
+  "baseClass": ".avatar-image",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "Native `<img>` element with `alt` text provides accessible image semantics",
+    "When inside an Avatar, the parent's `aria-label` provides the primary accessible name"
+  ],
+  "keyboard": [
+    "None -- this is a decorative/informational element, not interactive"
+  ],
+  "props": [],
+  "related": [
+    "avatar",
+    "avatar-text",
+    "avatar-group"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/avatar-image.html",
+    "svelte": "lily-design-system-svelte-headless/components/AvatarImage/AvatarImage.svelte",
+    "react": "lily-design-system-react-headless/components/AvatarImage.tsx",
+    "vue": "lily-design-system-vue-headless/components/AvatarImage.vue",
+    "angular": "lily-design-system-angular-headless/components/AvatarImage.ts",
+    "web-components": "lily-design-system-web-components-headless/components/avatar-image.ts",
+    "alpine": "lily-design-system-alpine-headless/components/avatar-image.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/avatar-image/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AvatarImage.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/avatar-image/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/avatar-image/AGENTS.md"
+}

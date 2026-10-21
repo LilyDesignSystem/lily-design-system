@@ -1,0 +1,45 @@
+{
+  "slug": "five-face-rating-picker",
+  "name": "FiveFaceRatingPicker",
+  "description": "a picker for selecting a 1-5 satisfaction rating using face labels",
+  "htmlTag": "div",
+  "category": "pickers",
+  "baseClass": ".five-face-rating-picker",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"radiogroup\"` -- on the `<fieldset>`, identifies the group as a set of radio buttons",
+    "`aria-label=\"...\"` -- provides an accessible name for the entire rating group"
+  ],
+  "keyboard": [
+    "Tab: focus the selected radio (or first if none selected)",
+    "ArrowDown / ArrowRight: move to next radio button",
+    "ArrowUp / ArrowLeft: move to previous radio button",
+    "Space: select the focused radio button"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name for the rating group via `aria-label`",
+    "`value`: number (default: `0`) -- current rating (1-5, 0 = none), two-way bindable via `value`",
+    "`name`: string (default: `\"face-rating\"`) -- radio group name for form submission",
+    "`labels`: string[] (default: `[\"1\", \"2\", \"3\", \"4\", \"5\"]`; no English default) -- accessible labels for each face",
+    "`disabled`: boolean (default: `false`) -- whether the entire group is disabled",
+    "`...restProps`: unknown -- additional attributes spread onto the `<fieldset>`"
+  ],
+  "related": [
+    "five-face-rating-picker-button"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/five-face-rating-picker.html",
+    "svelte": "lily-design-system-svelte-headless/components/FiveFaceRatingPicker/FiveFaceRatingPicker.svelte",
+    "react": "lily-design-system-react-headless/components/FiveFaceRatingPicker.tsx",
+    "vue": "lily-design-system-vue-headless/components/FiveFaceRatingPicker.vue",
+    "angular": "lily-design-system-angular-headless/components/FiveFaceRatingPicker.ts",
+    "web-components": "lily-design-system-web-components-headless/components/five-face-rating-picker.ts",
+    "alpine": "lily-design-system-alpine-headless/components/five-face-rating-picker.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/five-face-rating-picker/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/FiveFaceRatingPicker.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/five-face-rating-picker/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/five-face-rating-picker/AGENTS.md"
+}

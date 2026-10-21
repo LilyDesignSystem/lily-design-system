@@ -1,0 +1,43 @@
+{
+  "slug": "file-input",
+  "name": "FileInput",
+  "description": "an input for selecting files from the file system <input type=\"file\">",
+  "htmlTag": "input",
+  "category": "forms",
+  "baseClass": ".file-input",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`aria-label={label}` -- provides an accessible name for the file input since no visible `<label>` element is included"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name via `aria-label`",
+    "`accept`: string (default: `undefined`) -- comma-separated list of accepted file types (MIME types or extensions)",
+    "`multiple`: boolean (default: `false`) -- whether multiple files can be selected",
+    "`required`: boolean (default: `false`) -- whether a file selection is required",
+    "`disabled`: boolean (default: `false`) -- whether the file input is disabled",
+    "`...restProps`: any additional HTML attributes spread onto the input"
+  ],
+  "related": [
+    "file-upload",
+    "image-file-input",
+    "file-dialog"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/file-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/FileInput/FileInput.svelte",
+    "react": "lily-design-system-react-headless/components/FileInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/FileInput.vue",
+    "angular": "lily-design-system-angular-headless/components/FileInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/file-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/file-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/file-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/FileInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/file-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/file-input/AGENTS.md"
+}

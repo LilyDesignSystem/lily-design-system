@@ -1,0 +1,39 @@
+{
+  "slug": "figure",
+  "name": "Figure",
+  "description": "a self-contained figure with optional caption",
+  "htmlTag": "figure",
+  "category": "media",
+  "baseClass": ".figure",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"img\"` -- identifies the figure as a graphical image to assistive technologies",
+    "`aria-label={label}` -- provides an accessible name describing the figure content"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name describing what the figure represents, applied via `aria-label`",
+    "`children`: slot (required) -- the figure visualization content"
+  ],
+  "related": [
+    "caption",
+    "image"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/figure.html",
+    "svelte": "lily-design-system-svelte-headless/components/Figure/Figure.svelte",
+    "react": "lily-design-system-react-headless/components/Figure.tsx",
+    "vue": "lily-design-system-vue-headless/components/Figure.vue",
+    "angular": "lily-design-system-angular-headless/components/Figure.ts",
+    "web-components": "lily-design-system-web-components-headless/components/figure.ts",
+    "alpine": "lily-design-system-alpine-headless/components/figure.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/figure/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Figure.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/figure/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/figure/AGENTS.md"
+}

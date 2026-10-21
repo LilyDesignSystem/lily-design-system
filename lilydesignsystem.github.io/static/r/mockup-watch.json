@@ -1,0 +1,44 @@
+{
+  "slug": "mockup-watch",
+  "name": "MockupWatch",
+  "description": "a box area that looks like a smart watch",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".mockup-watch",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"img\"` -- presents the mockup as a single image to assistive technologies",
+    "`aria-label` -- describes the mockup content for screen readers"
+  ],
+  "keyboard": [
+    "None -- mockups are decorative, not interactive"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label describing the mockup content",
+    "`children`: slot (required) -- the content displayed inside the watch screen",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "mockup-browser",
+    "mockup-laptop",
+    "mockup-phone-landscape",
+    "mockup-phone-portrait",
+    "mockup-shell",
+    "mockup-tablet-landscape"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/mockup-watch.html",
+    "svelte": "lily-design-system-svelte-headless/components/MockupWatch/MockupWatch.svelte",
+    "react": "lily-design-system-react-headless/components/MockupWatch.tsx",
+    "vue": "lily-design-system-vue-headless/components/MockupWatch.vue",
+    "angular": "lily-design-system-angular-headless/components/MockupWatch.ts",
+    "web-components": "lily-design-system-web-components-headless/components/mockup-watch.ts",
+    "alpine": "lily-design-system-alpine-headless/components/mockup-watch.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/mockup-watch/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MockupWatch.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/mockup-watch/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/mockup-watch/AGENTS.md"
+}

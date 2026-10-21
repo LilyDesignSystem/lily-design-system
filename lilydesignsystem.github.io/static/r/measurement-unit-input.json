@@ -1,0 +1,41 @@
+{
+  "slug": "measurement-unit-input",
+  "name": "MeasurementUnitInput",
+  "description": "an input for selecting a measurement unit",
+  "htmlTag": "input",
+  "category": "forms",
+  "baseClass": ".measurement-unit-input",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` -- set from the `label` prop to provide an accessible name"
+  ],
+  "keyboard": [
+    "Native `<input type=\"text\">` keyboard behavior (typing, selection, clipboard)"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name via `aria-label`",
+    "`value`: string (default: \"\", bindable) -- bindable measurement unit value",
+    "`required`: boolean (default: false) -- whether the field is required",
+    "`disabled`: boolean (default: false) -- whether the field is disabled",
+    "`...restProps`: Any additional HTML attributes passed to the `<input>` element"
+  ],
+  "related": [
+    "measurement-unit-view",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/measurement-unit-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/MeasurementUnitInput/MeasurementUnitInput.svelte",
+    "react": "lily-design-system-react-headless/components/MeasurementUnitInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/MeasurementUnitInput.vue",
+    "angular": "lily-design-system-angular-headless/components/MeasurementUnitInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/measurement-unit-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/measurement-unit-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/measurement-unit-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MeasurementUnitInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/measurement-unit-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/measurement-unit-input/AGENTS.md"
+}

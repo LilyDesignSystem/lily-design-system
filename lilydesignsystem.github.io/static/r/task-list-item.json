@@ -1,0 +1,40 @@
+{
+  "slug": "task-list-item",
+  "name": "TaskListItem",
+  "description": "one task item with a checkbox and label",
+  "htmlTag": "li",
+  "category": "lists",
+  "baseClass": ".task-list-item",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "Semantic `<li>` provides implicit `listitem` role",
+    "`data-completed` communicates task state for consumer styling hooks"
+  ],
+  "keyboard": [
+    "None directly -- standard list item with no interactive behavior",
+    "If the item contains interactive elements (checkboxes, links), they handle their own keyboard behavior"
+  ],
+  "props": [
+    "`completed`: boolean (default: `false`) -- whether the task is completed",
+    "`children`: slot (required) -- task content",
+    "`...restProps`: Any additional HTML attributes spread onto the `<li>`"
+  ],
+  "related": [
+    "task-list"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/task-list-item.html",
+    "svelte": "lily-design-system-svelte-headless/components/TaskListItem/TaskListItem.svelte",
+    "react": "lily-design-system-react-headless/components/TaskListItem.tsx",
+    "vue": "lily-design-system-vue-headless/components/TaskListItem.vue",
+    "angular": "lily-design-system-angular-headless/components/TaskListItem.ts",
+    "web-components": "lily-design-system-web-components-headless/components/task-list-item.ts",
+    "alpine": "lily-design-system-alpine-headless/components/task-list-item.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/task-list-item/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TaskListItem.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/task-list-item/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/task-list-item/AGENTS.md"
+}

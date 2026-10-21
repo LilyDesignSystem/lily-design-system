@@ -1,0 +1,39 @@
+{
+  "slug": "aspect-ratio-container",
+  "name": "AspectRatioContainer",
+  "description": "a container that maintains a fixed aspect ratio",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".aspect-ratio-container",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "None -- transparent layout container; content within maintains its own accessibility semantics"
+  ],
+  "keyboard": [
+    "None -- this component is a passive layout container"
+  ],
+  "props": [
+    "`ratio`: number (default: 1) -- aspect ratio as width/height",
+    "`children`: slot (required) -- content to display within the container",
+    "`...restProps`: Any additional HTML attributes passed to the `<div>` element"
+  ],
+  "related": [
+    "container",
+    "image"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/aspect-ratio-container.html",
+    "svelte": "lily-design-system-svelte-headless/components/AspectRatioContainer/AspectRatioContainer.svelte",
+    "react": "lily-design-system-react-headless/components/AspectRatioContainer.tsx",
+    "vue": "lily-design-system-vue-headless/components/AspectRatioContainer.vue",
+    "angular": "lily-design-system-angular-headless/components/AspectRatioContainer.ts",
+    "web-components": "lily-design-system-web-components-headless/components/aspect-ratio-container.ts",
+    "alpine": "lily-design-system-alpine-headless/components/aspect-ratio-container.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/aspect-ratio-container/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AspectRatioContainer.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/aspect-ratio-container/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/aspect-ratio-container/AGENTS.md"
+}

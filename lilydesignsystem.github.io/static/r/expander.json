@@ -1,0 +1,46 @@
+{
+  "slug": "expander",
+  "name": "Expander",
+  "description": "a control that expands to reveal more content",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".expander",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`aria-expanded={expanded}` -- on the button, indicates whether the controlled content is currently visible",
+    "`aria-controls={contentId}` -- on the button, references the id of the expandable content region",
+    "`role=\"region\"` -- on the content container, identifies the expandable area as a landmark region",
+    "`aria-label={label}` -- on the content region, provides an accessible name for the region"
+  ],
+  "keyboard": [
+    "Enter: Toggles the expander open/closed when the button has focus (native button behavior)",
+    "Space: Toggles the expander open/closed when the button has focus (native button behavior)",
+    "Tab: Moves focus to/from the toggle button"
+  ],
+  "props": [
+    "`label`: string (required) -- button text and accessible name for both the button and the content region",
+    "`expanded`: boolean (default: false) -- bindable boolean controlling whether the content is visible",
+    "`children`: slot (required) -- expandable content rendered when expanded is true",
+    "`...restProps`: unknown -- additional attributes spread onto the outer `<div>` wrapper"
+  ],
+  "related": [
+    "details",
+    "collapsible",
+    "accordion-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/expander.html",
+    "svelte": "lily-design-system-svelte-headless/components/Expander/Expander.svelte",
+    "react": "lily-design-system-react-headless/components/Expander.tsx",
+    "vue": "lily-design-system-vue-headless/components/Expander.vue",
+    "angular": "lily-design-system-angular-headless/components/Expander.ts",
+    "web-components": "lily-design-system-web-components-headless/components/expander.ts",
+    "alpine": "lily-design-system-alpine-headless/components/expander.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/expander/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Expander.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/expander/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/expander/AGENTS.md"
+}

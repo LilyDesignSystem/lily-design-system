@@ -1,0 +1,45 @@
+{
+  "slug": "sheet",
+  "name": "Sheet",
+  "description": "a panel that slides in from a screen edge as an overlay",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".sheet",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"dialog\"` -- identifies the sheet as a dialog window",
+    "`aria-label={label}` -- provides an accessible name for the dialog",
+    "`aria-modal=\"true\"` -- indicates the dialog is modal, meaning content behind it is inert"
+  ],
+  "keyboard": [
+    "Escape: Closes the sheet by setting `open` to `false`",
+    "Tab: Moves focus between focusable elements within the sheet (consumer should implement focus trapping)"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label for the sheet dialog, applied via `aria-label`",
+    "`open`: boolean (default: `false`) -- whether the sheet is visible; two-way bindable via `open`",
+    "`side`: `\"left\" | \"right\" | \"top\" | \"bottom\"` (default: `\"right\"`) -- which edge the sheet appears from",
+    "`children`: slot (required) -- content to render inside the sheet",
+    "`...restProps`: unknown -- additional attributes spread onto the `<div>` element"
+  ],
+  "related": [
+    "drawer",
+    "dialog",
+    "slide-out-drawer"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/sheet.html",
+    "svelte": "lily-design-system-svelte-headless/components/Sheet/Sheet.svelte",
+    "react": "lily-design-system-react-headless/components/Sheet.tsx",
+    "vue": "lily-design-system-vue-headless/components/Sheet.vue",
+    "angular": "lily-design-system-angular-headless/components/Sheet.ts",
+    "web-components": "lily-design-system-web-components-headless/components/sheet.ts",
+    "alpine": "lily-design-system-alpine-headless/components/sheet.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/sheet/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Sheet.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/sheet/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/sheet/AGENTS.md"
+}

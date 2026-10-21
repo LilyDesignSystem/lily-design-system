@@ -1,0 +1,45 @@
+{
+  "slug": "success-panel",
+  "name": "SuccessPanel",
+  "description": "a panel confirming a task has been completed",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".success-panel",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"alert\"` exposes the panel as an alert region",
+    "`aria-live=\"polite\"` ensures the heading and body are announced when the panel renders",
+    "Heading level is configurable via the `headingLevel` prop (default `<h1>` — confirmation pages typically use the panel as the page's main heading)"
+  ],
+  "keyboard": [
+    "No keyboard interactions on the panel itself",
+    "Focus is moved to the panel by the consumer when navigating to the confirmation page so screen readers announce it immediately"
+  ],
+  "props": [
+    "`title`: string (required) (default: —) — Confirmation headline",
+    "`headingLevel`: 1 | 2 | 3 | 4 | 5 | 6 (default: 1) — Heading level used for `title`",
+    "`reference`: string (default: —) — Optional reference number shown beneath the title",
+    "`children`: slot (default: —) — Body content (next steps, links, etc.)",
+    "`...restProps`: HTML attributes (default: —) — Spread onto the root `<div>`"
+  ],
+  "related": [
+    "alert",
+    "notification",
+    "info-state"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/success-panel.html",
+    "svelte": "lily-design-system-svelte-headless/components/SuccessPanel/SuccessPanel.svelte",
+    "react": "lily-design-system-react-headless/components/SuccessPanel.tsx",
+    "vue": "lily-design-system-vue-headless/components/SuccessPanel.vue",
+    "angular": "lily-design-system-angular-headless/components/SuccessPanel.ts",
+    "web-components": "lily-design-system-web-components-headless/components/success-panel.ts",
+    "alpine": "lily-design-system-alpine-headless/components/success-panel.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/success-panel/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SuccessPanel.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/success-panel/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/success-panel/AGENTS.md"
+}

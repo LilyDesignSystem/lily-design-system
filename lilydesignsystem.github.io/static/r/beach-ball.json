@@ -1,0 +1,42 @@
+{
+  "slug": "beach-ball",
+  "name": "BeachBall",
+  "description": "a decorative animated beach ball element",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".beach-ball",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"status\"` -- identifies this as a status region that announces updates to screen readers",
+    "`aria-live=\"polite\"` -- ensures loading announcements do not interrupt the user's current task",
+    "`aria-busy` -- set to `true` when active, signaling to assistive technologies that content is loading",
+    "`aria-label` -- provides the accessible name describing what is loading, set from the `label` prop"
+  ],
+  "keyboard": [
+    "None -- this is a passive informational indicator, not interactive"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible description of what is loading, via `aria-label`",
+    "`active`: boolean (default: `true`) -- whether the loading indicator is currently active",
+    "`...restProps`: any -- additional HTML attributes spread onto the `<div>` element"
+  ],
+  "related": [
+    "loading",
+    "progress-spinner"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/beach-ball.html",
+    "svelte": "lily-design-system-svelte-headless/components/BeachBall/BeachBall.svelte",
+    "react": "lily-design-system-react-headless/components/BeachBall.tsx",
+    "vue": "lily-design-system-vue-headless/components/BeachBall.vue",
+    "angular": "lily-design-system-angular-headless/components/BeachBall.ts",
+    "web-components": "lily-design-system-web-components-headless/components/beach-ball.ts",
+    "alpine": "lily-design-system-alpine-headless/components/beach-ball.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/beach-ball/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/BeachBall.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/beach-ball/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/beach-ball/AGENTS.md"
+}

@@ -1,0 +1,40 @@
+{
+  "slug": "romania-cod-numeric-personal-view",
+  "name": "RomaniaCodNumericPersonalView",
+  "description": "a read-only display of Romania's Cod Numeric Personal (CNP)",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".romania-cod-numeric-personal-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`role=\"text\"` so the identifier announces as a single unit"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (required) — the identifier to display",
+    "`label`: string (optional) — accessible name override via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "romania-cod-numeric-personal-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/romania-cod-numeric-personal-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/RomaniaCodNumericPersonalView/RomaniaCodNumericPersonalView.svelte",
+    "react": "lily-design-system-react-headless/components/RomaniaCodNumericPersonalView.tsx",
+    "vue": "lily-design-system-vue-headless/components/RomaniaCodNumericPersonalView.vue",
+    "angular": "lily-design-system-angular-headless/components/RomaniaCodNumericPersonalView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/romania-cod-numeric-personal-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/romania-cod-numeric-personal-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/romania-cod-numeric-personal-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/RomaniaCodNumericPersonalView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/romania-cod-numeric-personal-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/romania-cod-numeric-personal-view/AGENTS.md"
+}

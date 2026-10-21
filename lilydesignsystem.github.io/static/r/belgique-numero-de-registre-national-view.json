@@ -1,0 +1,40 @@
+{
+  "slug": "belgique-numero-de-registre-national-view",
+  "name": "BelgiqueNumeroDeRegistreNationalView",
+  "description": "a read-only display of Belgium's Numéro de Registre National / Rijksregisternummer (NRN)",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".belgique-numero-de-registre-national-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`role=\"text\"` so the identifier announces as a single unit"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (required) — the identifier to display",
+    "`label`: string (optional) — accessible name override via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "belgique-numero-de-registre-national-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/belgique-numero-de-registre-national-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/BelgiqueNumeroDeRegistreNationalView/BelgiqueNumeroDeRegistreNationalView.svelte",
+    "react": "lily-design-system-react-headless/components/BelgiqueNumeroDeRegistreNationalView.tsx",
+    "vue": "lily-design-system-vue-headless/components/BelgiqueNumeroDeRegistreNationalView.vue",
+    "angular": "lily-design-system-angular-headless/components/BelgiqueNumeroDeRegistreNationalView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/belgique-numero-de-registre-national-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/belgique-numero-de-registre-national-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/belgique-numero-de-registre-national-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/BelgiqueNumeroDeRegistreNationalView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/belgique-numero-de-registre-national-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/belgique-numero-de-registre-national-view/AGENTS.md"
+}

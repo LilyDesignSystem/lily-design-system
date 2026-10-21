@@ -1,0 +1,53 @@
+{
+  "slug": "government-identifier",
+  "name": "GovernmentIdentifier",
+  "description": "an identifier section with a parent agency logo, agency name, and required government links",
+  "htmlTag": "section",
+  "category": "navigation",
+  "baseClass": ".government-identifier",
+  "subClasses": [
+    "government-identifier-agency",
+    "government-identifier-description",
+    "government-identifier-links",
+    "government-identifier-logo",
+    "government-identifier-masthead"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`<section>` with `aria-label` -- labeled region landmark",
+    "Inner `<nav>` with `aria-label` -- labeled navigation landmark",
+    "Image `alt` provides accessible text for the logo"
+  ],
+  "keyboard": [
+    "Tab: moves focus through the agency link and child links",
+    "All key handling is delegated to native interactive elements"
+  ],
+  "props": [
+    "`label`: string (REQUIRED) -- aria-label for the section",
+    "`agencyName`: string (REQUIRED) -- parent agency name",
+    "`agencyHref`: string (optional) -- agency site link",
+    "`logoUrl`: string (optional) -- logo src",
+    "`logoAlt`: string (optional) -- logo alt",
+    "`description`: string (optional) -- description text",
+    "`children`: slot -- required-links list content",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "government-banner",
+    "organization"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/government-identifier.html",
+    "svelte": "lily-design-system-svelte-headless/components/GovernmentIdentifier/GovernmentIdentifier.svelte",
+    "react": "lily-design-system-react-headless/components/GovernmentIdentifier.tsx",
+    "vue": "lily-design-system-vue-headless/components/GovernmentIdentifier.vue",
+    "angular": "lily-design-system-angular-headless/components/GovernmentIdentifier.ts",
+    "web-components": "lily-design-system-web-components-headless/components/government-identifier.ts",
+    "alpine": "lily-design-system-alpine-headless/components/government-identifier.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/government-identifier/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/GovernmentIdentifier.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/government-identifier/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/government-identifier/AGENTS.md"
+}

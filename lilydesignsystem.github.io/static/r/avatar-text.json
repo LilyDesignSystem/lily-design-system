@@ -1,0 +1,37 @@
+{
+  "slug": "avatar-text",
+  "name": "AvatarText",
+  "description": "an avatar indicator inner text such as a user name",
+  "htmlTag": "span",
+  "category": "content",
+  "baseClass": ".avatar-text",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "Typically marked `aria-hidden=\"true\"` when inside an Avatar, since the parent's `aria-label` already provides the accessible name",
+    "When used standalone, ensure the text is accessible or the parent provides an accessible label"
+  ],
+  "keyboard": [
+    "None -- this is a decorative/informational element, not interactive"
+  ],
+  "props": [],
+  "related": [
+    "avatar",
+    "avatar-image",
+    "avatar-group"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/avatar-text.html",
+    "svelte": "lily-design-system-svelte-headless/components/AvatarText/AvatarText.svelte",
+    "react": "lily-design-system-react-headless/components/AvatarText.tsx",
+    "vue": "lily-design-system-vue-headless/components/AvatarText.vue",
+    "angular": "lily-design-system-angular-headless/components/AvatarText.ts",
+    "web-components": "lily-design-system-web-components-headless/components/avatar-text.ts",
+    "alpine": "lily-design-system-alpine-headless/components/avatar-text.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/avatar-text/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AvatarText.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/avatar-text/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/avatar-text/AGENTS.md"
+}

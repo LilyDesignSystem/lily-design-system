@@ -1,0 +1,49 @@
+{
+  "slug": "scroll-bar",
+  "name": "ScrollBar",
+  "description": "a custom scrollbar element",
+  "htmlTag": "div",
+  "category": "navigation",
+  "baseClass": ".scroll-bar",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"scrollbar\"` -- identifies the element as a scrollbar control",
+    "`aria-label=\"...\"` -- provides the accessible name for the scrollbar",
+    "`aria-orientation=\"vertical|horizontal\"` -- indicates the scrollbar direction",
+    "`aria-valuenow=\"0\"` -- the current scroll position (consumer should update dynamically)",
+    "`aria-valuemin=\"0\"` -- the minimum scroll value",
+    "`aria-valuemax=\"100\"` -- the maximum scroll value"
+  ],
+  "keyboard": [
+    "Arrow Up / Arrow Left: Scroll backward (decrease value) by a small increment",
+    "Arrow Down / Arrow Right: Scroll forward (increase value) by a small increment",
+    "Page Up: Scroll backward by a large increment",
+    "Page Down: Scroll forward by a large increment",
+    "Home: Scroll to the beginning (minimum value)",
+    "End: Scroll to the end (maximum value)"
+  ],
+  "props": [
+    "`orientation`: \"vertical\" | \"horizontal\" (default: \"vertical\") -- the scrollbar direction, reflected in `aria-orientation`",
+    "`label`: string (required) -- accessible name for the scrollbar via `aria-label`",
+    "`children`: slot (required) -- scrollbar content, typically the draggable thumb element",
+    "`...restProps`: unknown -- additional attributes spread onto the `<div>` element"
+  ],
+  "related": [
+    "scroll-area"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/scroll-bar.html",
+    "svelte": "lily-design-system-svelte-headless/components/ScrollBar/ScrollBar.svelte",
+    "react": "lily-design-system-react-headless/components/ScrollBar.tsx",
+    "vue": "lily-design-system-vue-headless/components/ScrollBar.vue",
+    "angular": "lily-design-system-angular-headless/components/ScrollBar.ts",
+    "web-components": "lily-design-system-web-components-headless/components/scroll-bar.ts",
+    "alpine": "lily-design-system-alpine-headless/components/scroll-bar.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/scroll-bar/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ScrollBar.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/scroll-bar/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/scroll-bar/AGENTS.md"
+}

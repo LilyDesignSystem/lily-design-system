@@ -1,0 +1,48 @@
+{
+  "slug": "input-group",
+  "name": "InputGroup",
+  "description": "a group wrapping an input with prefix and suffix addons",
+  "htmlTag": "div",
+  "category": "forms",
+  "baseClass": ".input-group",
+  "subClasses": [
+    "input-group-prefix",
+    "input-group-suffix"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"group\"` on wrapper",
+    "`aria-label` when label prop provided",
+    "Inner input continues to require its own name"
+  ],
+  "keyboard": [
+    "Inner input retains native keyboard behavior",
+    "Focusable controls in slots follow their own keyboard behavior"
+  ],
+  "props": [
+    "`label`: string (optional) -- aria-label for the group",
+    "`prefix`: slot (optional) -- content before input",
+    "`suffix`: slot (optional) -- content after input",
+    "`children`: slot -- the input",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "input",
+    "field",
+    "form"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/input-group.html",
+    "svelte": "lily-design-system-svelte-headless/components/InputGroup/InputGroup.svelte",
+    "react": "lily-design-system-react-headless/components/InputGroup.tsx",
+    "vue": "lily-design-system-vue-headless/components/InputGroup.vue",
+    "angular": "lily-design-system-angular-headless/components/InputGroup.ts",
+    "web-components": "lily-design-system-web-components-headless/components/input-group.ts",
+    "alpine": "lily-design-system-alpine-headless/components/input-group.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/input-group/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/InputGroup.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/input-group/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/input-group/AGENTS.md"
+}

@@ -1,0 +1,43 @@
+{
+  "slug": "mark",
+  "name": "Mark",
+  "description": "an inline highlight marking text as relevant or referenced, such as a search match, using the native mark element",
+  "htmlTag": "mark",
+  "category": "content",
+  "baseClass": ".mark",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows",
+  "aria": [
+    "None added; native `<mark>` semantics",
+    "Consumers may pass `aria-label` / `aria-roledescription` through rest props for a spoken cue"
+  ],
+  "keyboard": [
+    "None"
+  ],
+  "props": [
+    "`class`: string (default: `\"\"`) -- appended to the base class",
+    "`children`: slot -- the highlighted text",
+    "`...restProps`: HTML attributes -- spread onto the root `<mark>`"
+  ],
+  "related": [
+    "code",
+    "kbd",
+    "badge",
+    "inset-text",
+    "diff"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/mark.html",
+    "svelte": "lily-design-system-svelte-headless/components/Mark/Mark.svelte",
+    "react": "lily-design-system-react-headless/components/Mark.tsx",
+    "vue": "lily-design-system-vue-headless/components/Mark.vue",
+    "angular": "lily-design-system-angular-headless/components/Mark.ts",
+    "web-components": "lily-design-system-web-components-headless/components/mark.ts",
+    "alpine": "lily-design-system-alpine-headless/components/mark.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/mark/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Mark.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/mark/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/mark/AGENTS.md"
+}

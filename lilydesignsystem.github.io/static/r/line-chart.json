@@ -1,0 +1,49 @@
+{
+  "slug": "line-chart",
+  "name": "LineChart",
+  "description": "a line chart visualization connecting data points to display data",
+  "htmlTag": "figure",
+  "category": "data-viz",
+  "baseClass": ".line-chart",
+  "subClasses": [
+    "line-chart-data-table",
+    "line-chart-graphic"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"img\"` exposes the chart as a single image",
+    "`aria-label` and `aria-describedby` provide the accessible name and description"
+  ],
+  "keyboard": [
+    "No keyboard interactions on the rendered lines",
+    "Data table (when rendered) follows native table keyboard behaviour"
+  ],
+  "props": [
+    "`label`: string (required) (default: —) — Accessible name",
+    "`description`: string (default: —) — Extended description",
+    "`series`: array of series (default: []) — Each series is `{ name: string; points: { x: number; y: number }[] }`",
+    "`dataTable`: slot (default: —) — Optional fallback `<table>`",
+    "`...restProps`: HTML attributes (default: —) — Spread onto the root `<figure>`"
+  ],
+  "related": [
+    "area-chart",
+    "scatter-chart",
+    "bar-chart",
+    "sparkline",
+    "graphic-block"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/line-chart.html",
+    "svelte": "lily-design-system-svelte-headless/components/LineChart/LineChart.svelte",
+    "react": "lily-design-system-react-headless/components/LineChart.tsx",
+    "vue": "lily-design-system-vue-headless/components/LineChart.vue",
+    "angular": "lily-design-system-angular-headless/components/LineChart.ts",
+    "web-components": "lily-design-system-web-components-headless/components/line-chart.ts",
+    "alpine": "lily-design-system-alpine-headless/components/line-chart.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/line-chart/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/LineChart.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/line-chart/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/line-chart/AGENTS.md"
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "hint",
+  "name": "Hint",
+  "description": "hint text providing guidance for a form field",
+  "htmlTag": "span",
+  "category": "content",
+  "baseClass": ".hint",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`id={id}` -- provides a target for `aria-describedby` on the associated form control"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`id`: string (default: undefined) -- ID for linking via `aria-describedby` on the associated form control",
+    "`children`: slot (required) -- hint text content"
+  ],
+  "related": [
+    "error-message",
+    "field",
+    "label"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/hint.html",
+    "svelte": "lily-design-system-svelte-headless/components/Hint/Hint.svelte",
+    "react": "lily-design-system-react-headless/components/Hint.tsx",
+    "vue": "lily-design-system-vue-headless/components/Hint.vue",
+    "angular": "lily-design-system-angular-headless/components/Hint.ts",
+    "web-components": "lily-design-system-web-components-headless/components/hint.ts",
+    "alpine": "lily-design-system-alpine-headless/components/hint.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/hint/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Hint.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/hint/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/hint/AGENTS.md"
+}

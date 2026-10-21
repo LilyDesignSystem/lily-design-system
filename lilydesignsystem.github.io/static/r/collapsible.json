@@ -1,0 +1,40 @@
+{
+  "slug": "collapsible",
+  "name": "Collapsible",
+  "description": "a container that can be expanded or collapsed",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".collapsible",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "No custom ARIA attributes required -- native `<details>`/`<summary>` elements provide built-in expanded/collapsed state announcements to screen readers"
+  ],
+  "keyboard": [
+    "Enter/Space: Toggle the disclosure open/closed (handled natively by `<summary>`)"
+  ],
+  "props": [
+    "`summary`: string (required) -- the clickable summary text shown as the toggle trigger",
+    "`open`: boolean (default: false) -- whether the content is expanded; bindable for two-way control",
+    "`children`: slot (required) -- the collapsible content revealed when expanded"
+  ],
+  "related": [
+    "details",
+    "expander",
+    "accordion-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/collapsible.html",
+    "svelte": "lily-design-system-svelte-headless/components/Collapsible/Collapsible.svelte",
+    "react": "lily-design-system-react-headless/components/Collapsible.tsx",
+    "vue": "lily-design-system-vue-headless/components/Collapsible.vue",
+    "angular": "lily-design-system-angular-headless/components/Collapsible.ts",
+    "web-components": "lily-design-system-web-components-headless/components/collapsible.ts",
+    "alpine": "lily-design-system-alpine-headless/components/collapsible.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/collapsible/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Collapsible.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/collapsible/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/collapsible/AGENTS.md"
+}

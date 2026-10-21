@@ -1,0 +1,41 @@
+{
+  "slug": "label",
+  "name": "Label",
+  "description": "a label associated with a form input",
+  "htmlTag": "label",
+  "category": "forms",
+  "baseClass": ".label",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "The native `<label>` element with `for` attribute provides an implicit accessible name for the linked form control",
+    "No additional ARIA attributes are needed because the semantic HTML `<label>` element is fully recognized by assistive technology"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`for`: string (optional) -- the `id` of the associated form control, rendered as the HTML `for` attribute",
+    "`children`: slot (required) -- the label text content",
+    "`...restProps`: unknown -- additional attributes spread onto the `<label>` element"
+  ],
+  "related": [
+    "field",
+    "hint",
+    "error-message"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/label.html",
+    "svelte": "lily-design-system-svelte-headless/components/Label/Label.svelte",
+    "react": "lily-design-system-react-headless/components/Label.tsx",
+    "vue": "lily-design-system-vue-headless/components/Label.vue",
+    "angular": "lily-design-system-angular-headless/components/Label.ts",
+    "web-components": "lily-design-system-web-components-headless/components/label.ts",
+    "alpine": "lily-design-system-alpine-headless/components/label.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/label/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Label.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/label/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/label/AGENTS.md"
+}

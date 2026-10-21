@@ -1,0 +1,41 @@
+{
+  "slug": "time-picker-input",
+  "name": "TimePickerInput",
+  "description": "an input with a dropdown for picking a time",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".time-picker-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label={label}` -- provides an accessible name for the time input"
+  ],
+  "keyboard": [
+    "Tab: Move focus to/from the time input",
+    "Up Arrow / Down Arrow: Increment/decrement the focused time segment (hours, minutes, AM/PM)",
+    "Left Arrow / Right Arrow: Move between time segments within the input"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name applied via `aria-label`",
+    "`value`: string (default: \"\") -- current time value in HH:MM format; bindable",
+    "`required`: boolean (default: false) -- whether a value is required for form submission",
+    "`disabled`: boolean (default: false) -- whether the input is disabled"
+  ],
+  "related": [
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/time-picker-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/TimePickerInput/TimePickerInput.svelte",
+    "react": "lily-design-system-react-headless/components/TimePickerInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/TimePickerInput.vue",
+    "angular": "lily-design-system-angular-headless/components/TimePickerInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/time-picker-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/time-picker-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/time-picker-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TimePickerInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/time-picker-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/time-picker-input/AGENTS.md"
+}

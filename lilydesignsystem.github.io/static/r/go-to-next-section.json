@@ -1,0 +1,41 @@
+{
+  "slug": "go-to-next-section",
+  "name": "GoToNextSection",
+  "description": "a link that takes users to the next section of the current page",
+  "htmlTag": "a",
+  "category": "links",
+  "baseClass": ".go-to-next-section",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Native anchor accessibility — the `href` provides the destination, the link text provides the accessible name"
+  ],
+  "keyboard": [
+    "Tab: moves focus onto the link",
+    "Enter: navigates to the linked anchor (native browser behavior)"
+  ],
+  "props": [
+    "`href`: string (required) — anchor URL of the next section, typically `#section-id`",
+    "`label`: string (required) — visible link text",
+    "`className`: string (optional) — extra CSS classes appended to `go-to-next-section`"
+  ],
+  "related": [
+    "go-to-previous-section",
+    "go-to-top",
+    "section-nav"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/go-to-next-section.html",
+    "svelte": "lily-design-system-svelte-headless/components/GoToNextSection/GoToNextSection.svelte",
+    "react": "lily-design-system-react-headless/components/GoToNextSection.tsx",
+    "vue": "lily-design-system-vue-headless/components/GoToNextSection.vue",
+    "angular": "lily-design-system-angular-headless/components/GoToNextSection.ts",
+    "web-components": "lily-design-system-web-components-headless/components/go-to-next-section.ts",
+    "alpine": "lily-design-system-alpine-headless/components/go-to-next-section.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/go-to-next-section/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/GoToNextSection.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/go-to-next-section/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/go-to-next-section/AGENTS.md"
+}

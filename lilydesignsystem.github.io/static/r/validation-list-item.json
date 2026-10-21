@@ -1,0 +1,42 @@
+{
+  "slug": "validation-list-item",
+  "name": "ValidationListItem",
+  "description": "one validation rule in a validation list with a status of pending, passed, or failed",
+  "htmlTag": "li",
+  "category": "lists",
+  "baseClass": ".validation-list-item",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `listitem` role from the `<li>` element",
+    "`aria-label` is rendered only when `label` is provided",
+    "`data-status` exposes rule state for consumer styling"
+  ],
+  "keyboard": [
+    "None — the item is not interactive",
+    "Tab moves focus past the item"
+  ],
+  "props": [
+    "`status`: `\"pending\" | \"passed\" | \"failed\"` (default: `\"pending\"`)",
+    "`label`: string (optional) -- aria-label override",
+    "`children`: slot -- rule text",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "validation-list"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/validation-list-item.html",
+    "svelte": "lily-design-system-svelte-headless/components/ValidationListItem/ValidationListItem.svelte",
+    "react": "lily-design-system-react-headless/components/ValidationListItem.tsx",
+    "vue": "lily-design-system-vue-headless/components/ValidationListItem.vue",
+    "angular": "lily-design-system-angular-headless/components/ValidationListItem.ts",
+    "web-components": "lily-design-system-web-components-headless/components/validation-list-item.ts",
+    "alpine": "lily-design-system-alpine-headless/components/validation-list-item.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/validation-list-item/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ValidationListItem.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/validation-list-item/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/validation-list-item/AGENTS.md"
+}

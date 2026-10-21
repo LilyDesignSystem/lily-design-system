@@ -1,0 +1,50 @@
+{
+  "slug": "area-chart",
+  "name": "AreaChart",
+  "description": "an area chart visualization showing sized components in continuous data",
+  "htmlTag": "figure",
+  "category": "data-viz",
+  "baseClass": ".area-chart",
+  "subClasses": [
+    "area-chart-data-table",
+    "area-chart-graphic"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"img\"` exposes the chart as a single image",
+    "`aria-label` (from `label`) names the chart",
+    "`aria-describedby` references the chart caption / data table"
+  ],
+  "keyboard": [
+    "No keyboard interactions on the rendered area itself",
+    "If a data table is rendered, it follows native table keyboard behaviour"
+  ],
+  "props": [
+    "`label`: string (required) (default: —) — Accessible name for the chart",
+    "`description`: string (default: —) — Extended description (becomes a `<figcaption>` and is referenced via `aria-describedby`)",
+    "`series`: array of series (default: []) — Each series is `{ name: string; points: { x: number; y: number }[] }`",
+    "`dataTable`: slot (default: —) — Optional fallback `<table>` summarising the data",
+    "`...restProps`: HTML attributes (default: —) — Spread onto the root `<figure>`"
+  ],
+  "related": [
+    "line-chart",
+    "bar-chart",
+    "scatter-chart",
+    "graphic-block",
+    "sparkline"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/area-chart.html",
+    "svelte": "lily-design-system-svelte-headless/components/AreaChart/AreaChart.svelte",
+    "react": "lily-design-system-react-headless/components/AreaChart.tsx",
+    "vue": "lily-design-system-vue-headless/components/AreaChart.vue",
+    "angular": "lily-design-system-angular-headless/components/AreaChart.ts",
+    "web-components": "lily-design-system-web-components-headless/components/area-chart.ts",
+    "alpine": "lily-design-system-alpine-headless/components/area-chart.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/area-chart/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AreaChart.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/area-chart/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/area-chart/AGENTS.md"
+}

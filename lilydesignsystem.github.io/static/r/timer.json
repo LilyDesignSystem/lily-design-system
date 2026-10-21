@@ -1,0 +1,42 @@
+{
+  "slug": "timer",
+  "name": "Timer",
+  "description": "a countdown or elapsed time display",
+  "htmlTag": "span",
+  "category": "content",
+  "baseClass": ".timer",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"timer\"` indicates countdown or elapsed time",
+    "`aria-label` from the label prop provides accessible name",
+    "`aria-live=\"polite\"` for non-intrusive screen reader announcements of updates"
+  ],
+  "keyboard": [
+    "None -- this is an informational display, not interactive"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label for screen readers",
+    "`children`: slot (required) -- formatted timer display content",
+    "`...restProps`: Any additional HTML attributes spread onto the `<time>` element"
+  ],
+  "related": [
+    "timer-button",
+    "loading",
+    "date-time-view"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/timer.html",
+    "svelte": "lily-design-system-svelte-headless/components/Timer/Timer.svelte",
+    "react": "lily-design-system-react-headless/components/Timer.tsx",
+    "vue": "lily-design-system-vue-headless/components/Timer.vue",
+    "angular": "lily-design-system-angular-headless/components/Timer.ts",
+    "web-components": "lily-design-system-web-components-headless/components/timer.ts",
+    "alpine": "lily-design-system-alpine-headless/components/timer.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/timer/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Timer.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/timer/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/timer/AGENTS.md"
+}

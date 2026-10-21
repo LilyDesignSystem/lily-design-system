@@ -1,0 +1,42 @@
+{
+  "slug": "pagination-list",
+  "name": "PaginationList",
+  "description": "an ordered list of pagination list items",
+  "htmlTag": "ol",
+  "category": "lists",
+  "baseClass": ".pagination-list",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`<nav aria-label=\"...\">` -- identifies the pagination as a navigation landmark with a descriptive label",
+    "`aria-current=\"page\"` -- consumer applies this to the link representing the current page"
+  ],
+  "keyboard": [
+    "Tab: Moves focus between pagination links/buttons in the list",
+    "Enter: Activates the focused link or button to navigate to that page"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name for the pagination navigation region via `aria-label`",
+    "`children`: slot (required) -- pagination list items, typically `<li>` elements containing links or buttons",
+    "`...restProps`: unknown -- additional attributes spread onto the `<nav>` element"
+  ],
+  "related": [
+    "pagination-nav",
+    "pagination-list-item",
+    "pagination-link"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/pagination-list.html",
+    "svelte": "lily-design-system-svelte-headless/components/PaginationList/PaginationList.svelte",
+    "react": "lily-design-system-react-headless/components/PaginationList.tsx",
+    "vue": "lily-design-system-vue-headless/components/PaginationList.vue",
+    "angular": "lily-design-system-angular-headless/components/PaginationList.ts",
+    "web-components": "lily-design-system-web-components-headless/components/pagination-list.ts",
+    "alpine": "lily-design-system-alpine-headless/components/pagination-list.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/pagination-list/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PaginationList.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/pagination-list/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/pagination-list/AGENTS.md"
+}

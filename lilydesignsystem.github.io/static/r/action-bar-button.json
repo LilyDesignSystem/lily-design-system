@@ -1,0 +1,46 @@
+{
+  "slug": "action-bar-button",
+  "name": "ActionBarButton",
+  "description": "one action button inside an action bar",
+  "htmlTag": "button",
+  "category": "navigation",
+  "baseClass": ".action-bar-button",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `button` role from <button>",
+    "`aria-label` is the accessible name (required)",
+    "`aria-disabled` from native `disabled`"
+  ],
+  "keyboard": [
+    "Tab: Focus the button",
+    "Enter: Activate",
+    "Space: Activate",
+    "(Native <button> behavior)"
+  ],
+  "props": [
+    "`label`: string (REQUIRED) -- aria-label",
+    "`type`: \"button\" | \"submit\" | \"reset\" (default: \"button\")",
+    "`disabled`: boolean (default: false)",
+    "`onclick` / `onClick`: callback (optional)",
+    "`children`: slot -- button content",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "action-bar"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/action-bar-button.html",
+    "svelte": "lily-design-system-svelte-headless/components/ActionBarButton/ActionBarButton.svelte",
+    "react": "lily-design-system-react-headless/components/ActionBarButton.tsx",
+    "vue": "lily-design-system-vue-headless/components/ActionBarButton.vue",
+    "angular": "lily-design-system-angular-headless/components/ActionBarButton.ts",
+    "web-components": "lily-design-system-web-components-headless/components/action-bar-button.ts",
+    "alpine": "lily-design-system-alpine-headless/components/action-bar-button.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/action-bar-button/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ActionBarButton.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/action-bar-button/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/action-bar-button/AGENTS.md"
+}

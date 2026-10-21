@@ -1,0 +1,50 @@
+{
+  "slug": "feature-photo",
+  "name": "FeaturePhoto",
+  "description": "a responsive photo with lazy loading and alt text validation",
+  "htmlTag": "figure",
+  "category": "media",
+  "baseClass": ".feature-photo",
+  "subClasses": [
+    "feature-photo-caption",
+    "feature-photo-image"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `figure` role from `<figure>` element",
+    "`alt` on `<img>` -- provides text alternative for screen readers",
+    "`<figcaption>` -- provides visible caption and credit text"
+  ],
+  "keyboard": [
+    "None -- the photo is not interactive"
+  ],
+  "props": [
+    "`src`: string (required) -- image source URL",
+    "`alt`: string (required) -- alt text describing the image",
+    "`caption`: slot (optional) -- photo caption",
+    "`credit`: slot (optional) -- photographer/source credit",
+    "`loading`: \"lazy\" | \"eager\" (default: \"lazy\") -- image loading strategy",
+    "`width`: number (optional) -- intrinsic image width for aspect ratio",
+    "`height`: number (optional) -- intrinsic image height for aspect ratio",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "image",
+    "feature-card",
+    "hero"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/feature-photo.html",
+    "svelte": "lily-design-system-svelte-headless/components/FeaturePhoto/FeaturePhoto.svelte",
+    "react": "lily-design-system-react-headless/components/FeaturePhoto.tsx",
+    "vue": "lily-design-system-vue-headless/components/FeaturePhoto.vue",
+    "angular": "lily-design-system-angular-headless/components/FeaturePhoto.ts",
+    "web-components": "lily-design-system-web-components-headless/components/feature-photo.ts",
+    "alpine": "lily-design-system-alpine-headless/components/feature-photo.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/feature-photo/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/FeaturePhoto.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/feature-photo/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/feature-photo/AGENTS.md"
+}

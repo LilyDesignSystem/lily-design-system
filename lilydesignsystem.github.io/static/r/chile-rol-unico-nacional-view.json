@@ -1,0 +1,39 @@
+{
+  "slug": "chile-rol-unico-nacional-view",
+  "name": "ChileRolUnicoNacionalView",
+  "description": "a read-only display of Chile's Rol Unico Nacional (RUN)",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".chile-rol-unico-nacional-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (default: \"\") — the identifier to display",
+    "`label`: string (required) — accessible name via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "chile-rol-unico-nacional-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/chile-rol-unico-nacional-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/ChileRolUnicoNacionalView/ChileRolUnicoNacionalView.svelte",
+    "react": "lily-design-system-react-headless/components/ChileRolUnicoNacionalView.tsx",
+    "vue": "lily-design-system-vue-headless/components/ChileRolUnicoNacionalView.vue",
+    "angular": "lily-design-system-angular-headless/components/ChileRolUnicoNacionalView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/chile-rol-unico-nacional-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/chile-rol-unico-nacional-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/chile-rol-unico-nacional-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ChileRolUnicoNacionalView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/chile-rol-unico-nacional-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/chile-rol-unico-nacional-view/AGENTS.md"
+}

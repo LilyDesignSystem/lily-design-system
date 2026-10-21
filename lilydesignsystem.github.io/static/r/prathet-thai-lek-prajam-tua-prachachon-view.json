@@ -1,0 +1,39 @@
+{
+  "slug": "prathet-thai-lek-prajam-tua-prachachon-view",
+  "name": "PrathetThaiLekPrajamTuaPrachachonView",
+  "description": "a read-only display of Thailand's National Identification Number",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".prathet-thai-lek-prajam-tua-prachachon-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (default: \"\") — the identifier to display",
+    "`label`: string (required) — accessible name via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "prathet-thai-lek-prajam-tua-prachachon-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/prathet-thai-lek-prajam-tua-prachachon-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/PrathetThaiLekPrajamTuaPrachachonView/PrathetThaiLekPrajamTuaPrachachonView.svelte",
+    "react": "lily-design-system-react-headless/components/PrathetThaiLekPrajamTuaPrachachonView.tsx",
+    "vue": "lily-design-system-vue-headless/components/PrathetThaiLekPrajamTuaPrachachonView.vue",
+    "angular": "lily-design-system-angular-headless/components/PrathetThaiLekPrajamTuaPrachachonView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/prathet-thai-lek-prajam-tua-prachachon-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/prathet-thai-lek-prajam-tua-prachachon-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/prathet-thai-lek-prajam-tua-prachachon-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PrathetThaiLekPrajamTuaPrachachonView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/prathet-thai-lek-prajam-tua-prachachon-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/prathet-thai-lek-prajam-tua-prachachon-view/AGENTS.md"
+}

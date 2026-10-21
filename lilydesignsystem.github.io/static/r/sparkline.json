@@ -1,0 +1,40 @@
+{
+  "slug": "sparkline",
+  "name": "Sparkline",
+  "description": "a small inline chart showing a data trend",
+  "htmlTag": "span",
+  "category": "content",
+  "baseClass": ".sparkline",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"img\"` -- identifies the container as a graphical image to assistive technologies",
+    "`aria-label={label}` -- provides an accessible name describing what the sparkline represents"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name describing the sparkline data, applied via `aria-label`",
+    "`children`: slot (required) -- the visualization content to render inside the container"
+  ],
+  "related": [
+    "statistic",
+    "line-chart",
+    "meter"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/sparkline.html",
+    "svelte": "lily-design-system-svelte-headless/components/Sparkline/Sparkline.svelte",
+    "react": "lily-design-system-react-headless/components/Sparkline.tsx",
+    "vue": "lily-design-system-vue-headless/components/Sparkline.vue",
+    "angular": "lily-design-system-angular-headless/components/Sparkline.ts",
+    "web-components": "lily-design-system-web-components-headless/components/sparkline.ts",
+    "alpine": "lily-design-system-alpine-headless/components/sparkline.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/sparkline/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Sparkline.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/sparkline/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/sparkline/AGENTS.md"
+}

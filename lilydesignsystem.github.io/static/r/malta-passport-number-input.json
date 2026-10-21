@@ -1,0 +1,43 @@
+{
+  "slug": "malta-passport-number-input",
+  "name": "MaltaPassportNumberInput",
+  "description": "an input for entering Malta's Malta Passport Number",
+  "htmlTag": "input",
+  "category": "national",
+  "baseClass": ".malta-passport-number-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`required` and `disabled` states conveyed to assistive technology",
+    "`aria-label` provided from the `label` prop"
+  ],
+  "keyboard": [
+    "Standard text input keyboard behavior"
+  ],
+  "props": [
+    "`label`: string (required) — accessible label via aria-label",
+    "`value`: string (default: \"\") — bindable input value",
+    "`required`: boolean (default: false) — form validation",
+    "`disabled`: boolean (default: false) — disabled state",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "malta-passport-number-view",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/malta-passport-number-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/MaltaPassportNumberInput/MaltaPassportNumberInput.svelte",
+    "react": "lily-design-system-react-headless/components/MaltaPassportNumberInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/MaltaPassportNumberInput.vue",
+    "angular": "lily-design-system-angular-headless/components/MaltaPassportNumberInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/malta-passport-number-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/malta-passport-number-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/malta-passport-number-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MaltaPassportNumberInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/malta-passport-number-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/malta-passport-number-input/AGENTS.md"
+}

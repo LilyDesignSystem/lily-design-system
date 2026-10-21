@@ -1,0 +1,40 @@
+{
+  "slug": "clamp-text",
+  "name": "ClampText",
+  "description": "a text container that truncates content to a maximum number of lines",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".clamp-text",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` rendered only when the `label` prop is provided",
+    "No role is forced — this is a generic presentation container"
+  ],
+  "keyboard": [
+    "None — passive container"
+  ],
+  "props": [
+    "`lines`: number (default: 2) -- maximum visible lines",
+    "`label`: string (optional) -- aria-label",
+    "`children`: slot -- the text content to clamp",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "blockquote"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/clamp-text.html",
+    "svelte": "lily-design-system-svelte-headless/components/ClampText/ClampText.svelte",
+    "react": "lily-design-system-react-headless/components/ClampText.tsx",
+    "vue": "lily-design-system-vue-headless/components/ClampText.vue",
+    "angular": "lily-design-system-angular-headless/components/ClampText.ts",
+    "web-components": "lily-design-system-web-components-headless/components/clamp-text.ts",
+    "alpine": "lily-design-system-alpine-headless/components/clamp-text.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/clamp-text/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ClampText.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/clamp-text/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/clamp-text/AGENTS.md"
+}

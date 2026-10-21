@@ -1,0 +1,50 @@
+{
+  "slug": "medical-banner",
+  "name": "MedicalBanner",
+  "description": "a prominent message bar across the top of a page, with medical information",
+  "htmlTag": "div",
+  "category": "overlays",
+  "baseClass": ".medical-banner",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"region\"` -- establishes the banner as a landmark region for assistive technology navigation",
+    "`aria-live=\"polite\"` -- ensures screen readers announce banner content without interrupting the current reading",
+    "`aria-label={closeLabel}` -- provides the accessible name for the dismiss button when present"
+  ],
+  "keyboard": [
+    "Tab: Focus the dismiss button (when `dismissible` is `true`)",
+    "Enter/Space: Activate the dismiss button to hide the banner"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name for the banner via `aria-label`",
+    "`type`: `\"info\"` | `\"success\"` | `\"warning\"` | `\"error\"` (default: `\"info\"`) -- banner variant for semantic meaning, exposed as `data-type`",
+    "`dismissible`: boolean (default: `false`) -- whether the banner can be dismissed",
+    "`onclose`: `() => void` (optional) -- callback invoked when the banner is dismissed",
+    "`closeLabel`: string (optional) -- accessible label for the dismiss button via `aria-label`",
+    "`children`: slot (required) -- the banner content",
+    "`...restProps`: unknown -- additional attributes spread onto the root `<div>` element"
+  ],
+  "related": [
+    "announcement-banner",
+    "banner",
+    "banner-box",
+    "government-banner",
+    "medical-banner-box",
+    "medical-banner-box-for-advice"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/medical-banner.html",
+    "svelte": "lily-design-system-svelte-headless/components/MedicalBanner/MedicalBanner.svelte",
+    "react": "lily-design-system-react-headless/components/MedicalBanner.tsx",
+    "vue": "lily-design-system-vue-headless/components/MedicalBanner.vue",
+    "angular": "lily-design-system-angular-headless/components/MedicalBanner.ts",
+    "web-components": "lily-design-system-web-components-headless/components/medical-banner.ts",
+    "alpine": "lily-design-system-alpine-headless/components/medical-banner.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/medical-banner/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MedicalBanner.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/medical-banner/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/medical-banner/AGENTS.md"
+}

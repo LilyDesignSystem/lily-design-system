@@ -1,0 +1,43 @@
+{
+  "slug": "tuaisceart-eireann-health-and-care-number-view",
+  "name": "TuaisceartEireannHealthAndCareNumberView",
+  "description": "a read-only display of Tuaisceart Eireann Health and Care (H&C) Number unique national healthcare identifier",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".tuaisceart-eireann-health-and-care-number-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` -- provides the accessible name from the `label` prop"
+  ],
+  "keyboard": [
+    "None -- passive display-only component"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label via `aria-label`",
+    "`value`: string (default: `\"\"`) -- the H&C Number string to display",
+    "`...restProps`: any -- additional HTML attributes spread onto the `<span>`"
+  ],
+  "related": [
+    "tuaisceart-eireann-health-and-care-number-input",
+    "espana-tarjeta-sanitaria-individual-input",
+    "espana-tarjeta-sanitaria-individual-view",
+    "france-numero-d-identification-au-repertoire-input",
+    "france-numero-d-identification-au-repertoire-view",
+    "eire-individual-health-identifier-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/tuaisceart-eireann-health-and-care-number-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/TuaisceartEireannHealthAndCareNumberView/TuaisceartEireannHealthAndCareNumberView.svelte",
+    "react": "lily-design-system-react-headless/components/TuaisceartEireannHealthAndCareNumberView.tsx",
+    "vue": "lily-design-system-vue-headless/components/TuaisceartEireannHealthAndCareNumberView.vue",
+    "angular": "lily-design-system-angular-headless/components/TuaisceartEireannHealthAndCareNumberView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/tuaisceart-eireann-health-and-care-number-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/tuaisceart-eireann-health-and-care-number-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/tuaisceart-eireann-health-and-care-number-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TuaisceartEireannHealthAndCareNumberView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/tuaisceart-eireann-health-and-care-number-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tuaisceart-eireann-health-and-care-number-view/AGENTS.md"
+}

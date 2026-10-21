@@ -1,0 +1,44 @@
+{
+  "slug": "united-states-social-security-number-input",
+  "name": "UnitedStatesSocialSecurityNumberInput",
+  "description": "an input for entering a US Social Security number",
+  "htmlTag": "input",
+  "category": "national",
+  "baseClass": ".united-states-social-security-number-input",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`required` and `disabled` states conveyed to assistive technology",
+    "`inputmode=\"numeric\"` hints mobile assistive technology to present a numeric keyboard"
+  ],
+  "keyboard": [
+    "Standard text input keyboard behavior",
+    "Users type digits and hyphens in the format XXX-XX-XXXX"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label via aria-label",
+    "`value`: string (default: \"\") -- bindable input value",
+    "`required`: boolean (default: false) -- form validation",
+    "`disabled`: boolean (default: false) -- disabled state",
+    "`...restProps`: Any additional HTML attributes spread onto the `<input>`"
+  ],
+  "related": [
+    "united-states-social-security-number-view",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/united-states-social-security-number-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/UnitedStatesSocialSecurityNumberInput/UnitedStatesSocialSecurityNumberInput.svelte",
+    "react": "lily-design-system-react-headless/components/UnitedStatesSocialSecurityNumberInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/UnitedStatesSocialSecurityNumberInput.vue",
+    "angular": "lily-design-system-angular-headless/components/UnitedStatesSocialSecurityNumberInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/united-states-social-security-number-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/united-states-social-security-number-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/united-states-social-security-number-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/UnitedStatesSocialSecurityNumberInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/united-states-social-security-number-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/united-states-social-security-number-input/AGENTS.md"
+}

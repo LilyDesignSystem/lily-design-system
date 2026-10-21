@@ -1,0 +1,40 @@
+{
+  "slug": "framer",
+  "name": "Framer",
+  "description": "a container for framed content display with decorative border",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".framer",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Optional `aria-label` when frame has semantic meaning; otherwise presentational"
+  ],
+  "keyboard": [
+    "None"
+  ],
+  "props": [
+    "`label`: string (optional) -- accessible label for the framed content",
+    "`children`: slot (required) -- framed content",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "card",
+    "panel",
+    "aspect-ratio-container"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/framer.html",
+    "svelte": "lily-design-system-svelte-headless/components/Framer/Framer.svelte",
+    "react": "lily-design-system-react-headless/components/Framer.tsx",
+    "vue": "lily-design-system-vue-headless/components/Framer.vue",
+    "angular": "lily-design-system-angular-headless/components/Framer.ts",
+    "web-components": "lily-design-system-web-components-headless/components/framer.ts",
+    "alpine": "lily-design-system-alpine-headless/components/framer.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/framer/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Framer.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/framer/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/framer/AGENTS.md"
+}

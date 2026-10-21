@@ -1,0 +1,42 @@
+{
+  "slug": "luxembourg-matricule-input",
+  "name": "LuxembourgMatriculeInput",
+  "description": "an input for entering Luxembourg's Numero d'Identification Nationale (Matricule)",
+  "htmlTag": "input",
+  "category": "national",
+  "baseClass": ".luxembourg-matricule-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`required` and `disabled` states conveyed to assistive technology"
+  ],
+  "keyboard": [
+    "Standard text input keyboard behavior"
+  ],
+  "props": [
+    "`label`: string (required) — accessible label via aria-label",
+    "`value`: string (default: \"\") — bindable input value",
+    "`required`: boolean (default: false) — form validation",
+    "`disabled`: boolean (default: false) — disabled state",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "luxembourg-matricule-view",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/luxembourg-matricule-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/LuxembourgMatriculeInput/LuxembourgMatriculeInput.svelte",
+    "react": "lily-design-system-react-headless/components/LuxembourgMatriculeInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/LuxembourgMatriculeInput.vue",
+    "angular": "lily-design-system-angular-headless/components/LuxembourgMatriculeInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/luxembourg-matricule-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/luxembourg-matricule-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/luxembourg-matricule-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/LuxembourgMatriculeInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/luxembourg-matricule-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/luxembourg-matricule-input/AGENTS.md"
+}

@@ -1,0 +1,45 @@
+{
+  "slug": "date-time-local-input",
+  "name": "DateTimeLocalInput",
+  "description": "an input for entering a date and time without time zone <input type=\"datetime-local\">",
+  "htmlTag": "input",
+  "category": "forms",
+  "baseClass": ".date-time-local-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label={label}` -- provides an accessible name for the datetime input since there is no visible `<label>` element"
+  ],
+  "keyboard": [
+    "Tab: Moves focus to and from the datetime input (native browser behavior)",
+    "Arrow keys: Navigate within the datetime picker fields (native browser behavior)",
+    "Enter: Opens or confirms the datetime picker (native browser behavior)"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name applied via `aria-label`",
+    "`value`: string (default: \"\") -- bindable datetime string (format: YYYY-MM-DDThh:mm)",
+    "`min`: string (default: undefined) -- minimum allowed datetime",
+    "`max`: string (default: undefined) -- maximum allowed datetime",
+    "`required`: boolean (default: false) -- whether the input is required for form submission",
+    "`disabled`: boolean (default: false) -- whether the input is disabled",
+    "`...restProps`: unknown -- additional attributes spread onto the input element"
+  ],
+  "related": [
+    "date-input",
+    "time-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/date-time-local-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/DateTimeLocalInput/DateTimeLocalInput.svelte",
+    "react": "lily-design-system-react-headless/components/DateTimeLocalInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/DateTimeLocalInput.vue",
+    "angular": "lily-design-system-angular-headless/components/DateTimeLocalInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/date-time-local-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/date-time-local-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/date-time-local-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DateTimeLocalInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/date-time-local-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/date-time-local-input/AGENTS.md"
+}

@@ -1,0 +1,49 @@
+{
+  "slug": "file-tree",
+  "name": "FileTree",
+  "description": "a hierarchical tree of folders and files with expandable folders",
+  "htmlTag": "ul",
+  "category": "lists",
+  "baseClass": ".file-tree",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in the Svelte canonical; ports to the other frameworks pending (2026-10-05)",
+  "aria": [
+    "`role=\"tree\"` and `aria-label={label}` on the root",
+    "Consumer supplies `role=\"treeitem\"`, `role=\"group\"`, `aria-expanded` (folders) and `aria-selected`"
+  ],
+  "keyboard": [
+    "Tab: moves focus into the tree to the single tab-stop item, and out of it",
+    "ArrowDown / ArrowUp: next / previous visible item (no wrap)",
+    "ArrowRight: on a closed folder opens it; on an open folder moves to its first child",
+    "ArrowLeft: on an open folder closes it; otherwise moves to the parent folder",
+    "Home / End: first / last visible item",
+    "`*`: expands all closed sibling folders at the focused level",
+    "Printable characters: typeahead to the next visible item whose text starts with the typed characters",
+    "Enter / Space: activates the focused item"
+  ],
+  "props": [
+    "`className`: string (default: `\"\"`) -- CSS class name appended to the base class",
+    "`label`: string (required) -- accessible name via `aria-label`",
+    "`children`: slot -- the tree items",
+    "`...restProps`: unknown -- additional attributes spread onto the `<ul>`"
+  ],
+  "related": [
+    "tree-nav",
+    "tree-list",
+    "listbox"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/file-tree.html",
+    "svelte": "lily-design-system-svelte-headless/components/FileTree/FileTree.svelte",
+    "react": "lily-design-system-react-headless/components/FileTree.tsx",
+    "vue": "lily-design-system-vue-headless/components/FileTree.vue",
+    "angular": "lily-design-system-angular-headless/components/FileTree.ts",
+    "web-components": "lily-design-system-web-components-headless/components/file-tree.ts",
+    "alpine": "lily-design-system-alpine-headless/components/file-tree.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/file-tree/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/FileTree.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/file-tree/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/file-tree/AGENTS.md"
+}

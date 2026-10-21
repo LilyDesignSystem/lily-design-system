@@ -1,0 +1,39 @@
+{
+  "slug": "pagination-list-item",
+  "name": "PaginationListItem",
+  "description": "one pagination list item in the trail",
+  "htmlTag": "li",
+  "category": "lists",
+  "baseClass": ".pagination-list-item",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "Implicit `listitem` role from the semantic `<li>` element",
+    "Consumer should set `aria-current=\"page\"` on the active page link within the item"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`children`: slot (required) -- item content, typically a link (e.g., `<a href=\"/page/2\">2</a>`) or button"
+  ],
+  "related": [
+    "pagination-nav",
+    "pagination-list",
+    "pagination-link"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/pagination-list-item.html",
+    "svelte": "lily-design-system-svelte-headless/components/PaginationListItem/PaginationListItem.svelte",
+    "react": "lily-design-system-react-headless/components/PaginationListItem.tsx",
+    "vue": "lily-design-system-vue-headless/components/PaginationListItem.vue",
+    "angular": "lily-design-system-angular-headless/components/PaginationListItem.ts",
+    "web-components": "lily-design-system-web-components-headless/components/pagination-list-item.ts",
+    "alpine": "lily-design-system-alpine-headless/components/pagination-list-item.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/pagination-list-item/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PaginationListItem.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/pagination-list-item/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/pagination-list-item/AGENTS.md"
+}

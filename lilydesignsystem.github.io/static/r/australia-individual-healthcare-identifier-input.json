@@ -1,0 +1,43 @@
+{
+  "slug": "australia-individual-healthcare-identifier-input",
+  "name": "AustraliaIndividualHealthcareIdentifierInput",
+  "description": "an input for entering Australia's Individual Healthcare Identifier (IHI)",
+  "htmlTag": "input",
+  "category": "national",
+  "baseClass": ".australia-individual-healthcare-identifier-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`required` and `disabled` states conveyed to assistive technology",
+    "`aria-label` provided from the `label` prop"
+  ],
+  "keyboard": [
+    "Standard text input keyboard behavior"
+  ],
+  "props": [
+    "`label`: string (required) — accessible label via aria-label",
+    "`value`: string (default: \"\") — bindable input value",
+    "`required`: boolean (default: false) — form validation",
+    "`disabled`: boolean (default: false) — disabled state",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "australia-individual-healthcare-identifier-view",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/australia-individual-healthcare-identifier-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/AustraliaIndividualHealthcareIdentifierInput/AustraliaIndividualHealthcareIdentifierInput.svelte",
+    "react": "lily-design-system-react-headless/components/AustraliaIndividualHealthcareIdentifierInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/AustraliaIndividualHealthcareIdentifierInput.vue",
+    "angular": "lily-design-system-angular-headless/components/AustraliaIndividualHealthcareIdentifierInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/australia-individual-healthcare-identifier-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/australia-individual-healthcare-identifier-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/australia-individual-healthcare-identifier-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AustraliaIndividualHealthcareIdentifierInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/australia-individual-healthcare-identifier-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/australia-individual-healthcare-identifier-input/AGENTS.md"
+}

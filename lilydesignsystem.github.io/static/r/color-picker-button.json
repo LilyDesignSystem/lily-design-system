@@ -1,0 +1,43 @@
+{
+  "slug": "color-picker-button",
+  "name": "ColorPickerButton",
+  "description": "a button showing a color swatch in a color picker",
+  "htmlTag": "button",
+  "category": "pickers",
+  "baseClass": ".color-picker-button",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label={label}` -- provides an accessible name for the swatch since it has no visible text content",
+    "`aria-pressed={selected}` -- indicates whether the swatch is currently selected in a toggle context"
+  ],
+  "keyboard": [
+    "**Tab**: Moves focus to the swatch button",
+    "**Enter / Space**: Activates the button (native button behavior)"
+  ],
+  "props": [
+    "`color`: string (required) -- CSS color value applied as background-color and exposed via `data-color`",
+    "`label`: string (required) -- accessible name announced by screen readers (e.g., \"Red\", \"Ocean Blue\")",
+    "`selected`: boolean (default: `false`) -- whether the swatch is currently selected, reflected in `aria-pressed`",
+    "`disabled`: boolean (default: `false`) -- whether the swatch is disabled",
+    "`onclick`: `(event: MouseEvent) => void` (default: `undefined`) -- click handler for selection",
+    "`...restProps`: any additional HTML attributes spread onto the button"
+  ],
+  "related": [
+    "color-picker"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/color-picker-button.html",
+    "svelte": "lily-design-system-svelte-headless/components/ColorPickerButton/ColorPickerButton.svelte",
+    "react": "lily-design-system-react-headless/components/ColorPickerButton.tsx",
+    "vue": "lily-design-system-vue-headless/components/ColorPickerButton.vue",
+    "angular": "lily-design-system-angular-headless/components/ColorPickerButton.ts",
+    "web-components": "lily-design-system-web-components-headless/components/color-picker-button.ts",
+    "alpine": "lily-design-system-alpine-headless/components/color-picker-button.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/color-picker-button/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ColorPickerButton.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/color-picker-button/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/color-picker-button/AGENTS.md"
+}

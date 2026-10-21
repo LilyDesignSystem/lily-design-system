@@ -1,0 +1,40 @@
+{
+  "slug": "polska-numer-identyfikacji-podatkowej-view",
+  "name": "PolskaNumerIdentyfikacjiPodatkowejView",
+  "description": "a read-only display of Poland's Numer Identyfikacji Podatkowej (NIP)",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".polska-numer-identyfikacji-podatkowej-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`role=\"text\"` so the identifier announces as a single unit"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (required) — the identifier to display",
+    "`label`: string (optional) — accessible name override via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "polska-numer-identyfikacji-podatkowej-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/polska-numer-identyfikacji-podatkowej-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/PolskaNumerIdentyfikacjiPodatkowejView/PolskaNumerIdentyfikacjiPodatkowejView.svelte",
+    "react": "lily-design-system-react-headless/components/PolskaNumerIdentyfikacjiPodatkowejView.tsx",
+    "vue": "lily-design-system-vue-headless/components/PolskaNumerIdentyfikacjiPodatkowejView.vue",
+    "angular": "lily-design-system-angular-headless/components/PolskaNumerIdentyfikacjiPodatkowejView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/polska-numer-identyfikacji-podatkowej-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/polska-numer-identyfikacji-podatkowej-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/polska-numer-identyfikacji-podatkowej-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PolskaNumerIdentyfikacjiPodatkowejView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/polska-numer-identyfikacji-podatkowej-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/polska-numer-identyfikacji-podatkowej-view/AGENTS.md"
+}

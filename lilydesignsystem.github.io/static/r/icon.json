@@ -1,0 +1,43 @@
+{
+  "slug": "icon",
+  "name": "Icon",
+  "description": "a container for displaying an icon",
+  "htmlTag": "span",
+  "category": "content",
+  "baseClass": ".icon",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"img\"` -- applied to meaningful icons so assistive technology treats the span as an image",
+    "`aria-label=\"...\"` -- provides the accessible name for meaningful icons",
+    "`aria-hidden=\"true\"` -- applied when `decorative` is true, hiding the icon from the accessibility tree"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`label`: string (optional) -- accessible name announced by screen readers for meaningful icons",
+    "`decorative`: boolean (default: false) -- when true, hides the icon from assistive technology and removes the img role",
+    "`children`: slot (required) -- the icon content (text, SVG, or other markup)",
+    "`...restProps`: unknown -- additional attributes spread onto the `<span>` element"
+  ],
+  "related": [
+    "icon-button",
+    "emoji",
+    "qr-code"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/icon.html",
+    "svelte": "lily-design-system-svelte-headless/components/Icon/Icon.svelte",
+    "react": "lily-design-system-react-headless/components/Icon.tsx",
+    "vue": "lily-design-system-vue-headless/components/Icon.vue",
+    "angular": "lily-design-system-angular-headless/components/Icon.ts",
+    "web-components": "lily-design-system-web-components-headless/components/icon.ts",
+    "alpine": "lily-design-system-alpine-headless/components/icon.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/icon/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Icon.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/icon/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/icon/AGENTS.md"
+}

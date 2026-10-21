@@ -1,0 +1,43 @@
+{
+  "slug": "menu",
+  "name": "Menu",
+  "description": "a list of actions or options triggered by a button",
+  "htmlTag": "div",
+  "category": "navigation",
+  "baseClass": ".menu",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"menu\"` -- identifies the container as a menu widget for presenting a list of actions.",
+    "`aria-label` -- provides an accessible name describing the purpose of the menu.",
+    "Child elements should use `role=\"menuitem\"` with `tabindex=\"-1\"` for focusable menu items."
+  ],
+  "keyboard": [
+    "ArrowDown: Moves focus to the next menu item, wrapping to the first item from the last.",
+    "ArrowUp: Moves focus to the previous menu item, wrapping to the last item from the first.",
+    "Home: Moves focus to the first menu item.",
+    "End: Moves focus to the last menu item."
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name applied via `aria-label`.",
+    "`children`: slot (required) -- menu item elements to render inside the menu (should have `role=\"menuitem\"` and `tabindex=\"-1\"`).",
+    "`...restProps`: unknown -- additional attributes spread onto the container `<div>`."
+  ],
+  "related": [
+    "menu-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/menu.html",
+    "svelte": "lily-design-system-svelte-headless/components/Menu/Menu.svelte",
+    "react": "lily-design-system-react-headless/components/Menu.tsx",
+    "vue": "lily-design-system-vue-headless/components/Menu.vue",
+    "angular": "lily-design-system-angular-headless/components/Menu.ts",
+    "web-components": "lily-design-system-web-components-headless/components/menu.ts",
+    "alpine": "lily-design-system-alpine-headless/components/menu.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/menu/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Menu.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/menu/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/menu/AGENTS.md"
+}

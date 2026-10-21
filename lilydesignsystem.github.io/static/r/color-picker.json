@@ -1,0 +1,50 @@
+{
+  "slug": "color-picker",
+  "name": "ColorPicker",
+  "description": "a two-dimensional board for picking colors by hue and saturation",
+  "htmlTag": "div",
+  "category": "pickers",
+  "baseClass": ".color-picker",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"slider\"` -- identifies the element as a slider control",
+    "`aria-label=\"...\"` -- provides an accessible name for the slider",
+    "`aria-valuenow` -- current X value (0-100)",
+    "`aria-valuemin=\"0\"` -- minimum slider value",
+    "`aria-valuemax=\"100\"` -- maximum slider value",
+    "`aria-disabled=\"true\"` -- set when the control is disabled"
+  ],
+  "keyboard": [
+    "ArrowRight: increase X by 1 (Shift: by 10)",
+    "ArrowLeft: decrease X by 1 (Shift: by 10)",
+    "ArrowUp: decrease Y by 1 (Shift: by 10)",
+    "ArrowDown: increase Y by 1 (Shift: by 10)",
+    "Home: set X to 0",
+    "End: set X to 100"
+  ],
+  "props": [
+    "`x`: number (default: `0`) -- horizontal position (0-100, saturation), two-way bindable via `x`",
+    "`y`: number (default: `0`) -- vertical position (0-100, brightness), two-way bindable via `y`",
+    "`label`: string (required) -- accessible name via `aria-label`",
+    "`disabled`: boolean (default: `false`) -- whether the control is disabled",
+    "`...restProps`: unknown -- additional attributes spread onto the `<div>`"
+  ],
+  "related": [
+    "color-picker-button"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/color-picker.html",
+    "svelte": "lily-design-system-svelte-headless/components/ColorPicker/ColorPicker.svelte",
+    "react": "lily-design-system-react-headless/components/ColorPicker.tsx",
+    "vue": "lily-design-system-vue-headless/components/ColorPicker.vue",
+    "angular": "lily-design-system-angular-headless/components/ColorPicker.ts",
+    "web-components": "lily-design-system-web-components-headless/components/color-picker.ts",
+    "alpine": "lily-design-system-alpine-headless/components/color-picker.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/color-picker/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ColorPicker.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/color-picker/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/color-picker/AGENTS.md"
+}

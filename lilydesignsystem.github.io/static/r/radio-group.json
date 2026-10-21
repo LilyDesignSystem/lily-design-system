@@ -1,0 +1,44 @@
+{
+  "slug": "radio-group",
+  "name": "RadioGroup",
+  "description": "a group of radio buttons for selecting one option",
+  "htmlTag": "div",
+  "category": "forms",
+  "baseClass": ".radio-group",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"radiogroup\"` -- identifies the fieldset as a group of radio buttons",
+    "`aria-label={label}` -- provides an accessible name for the group so screen readers announce the purpose"
+  ],
+  "keyboard": [
+    "Tab: Moves focus into the radio group; within the group, arrow keys move between radio buttons (native browser behavior)",
+    "Arrow Up / Arrow Down: Moves selection between radio buttons within the group (native radio behavior)",
+    "Space: Selects the focused radio button (native radio behavior)"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label for the radio group, applied via `aria-label`",
+    "`children`: slot (required) -- radio button elements to render inside the fieldset",
+    "`...restProps`: unknown -- additional attributes spread onto the `<fieldset>` element"
+  ],
+  "related": [
+    "radio-input",
+    "checkbox-group",
+    "segment-group",
+    "mutually-exclusive"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/radio-group.html",
+    "svelte": "lily-design-system-svelte-headless/components/RadioGroup/RadioGroup.svelte",
+    "react": "lily-design-system-react-headless/components/RadioGroup.tsx",
+    "vue": "lily-design-system-vue-headless/components/RadioGroup.vue",
+    "angular": "lily-design-system-angular-headless/components/RadioGroup.ts",
+    "web-components": "lily-design-system-web-components-headless/components/radio-group.ts",
+    "alpine": "lily-design-system-alpine-headless/components/radio-group.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/radio-group/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/RadioGroup.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/radio-group/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/radio-group/AGENTS.md"
+}

@@ -1,0 +1,43 @@
+{
+  "slug": "menu-item",
+  "name": "MenuItem",
+  "description": "one item in a menu",
+  "htmlTag": "div",
+  "category": "navigation",
+  "baseClass": ".menu-item",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"menuitem\"` identifies this as a menu item",
+    "`tabindex=\"-1\"` for roving focus management",
+    "Supports `aria-disabled` for disabled state",
+    "Supports `aria-haspopup` for submenu triggers",
+    "Supports `aria-expanded` for items with open/closed submenus"
+  ],
+  "keyboard": [
+    "Focus is managed by the parent menu using ArrowUp/ArrowDown",
+    "Enter or Space activates the menu item (handled by consumer event listeners)",
+    "Home/End move focus to the first/last item (handled by the parent menu)"
+  ],
+  "props": [
+    "`children`: slot -- menu item content",
+    "`...restProps`: Any additional HTML attributes spread onto the `<div>`"
+  ],
+  "related": [
+    "menu"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/menu-item.html",
+    "svelte": "lily-design-system-svelte-headless/components/MenuItem/MenuItem.svelte",
+    "react": "lily-design-system-react-headless/components/MenuItem.tsx",
+    "vue": "lily-design-system-vue-headless/components/MenuItem.vue",
+    "angular": "lily-design-system-angular-headless/components/MenuItem.ts",
+    "web-components": "lily-design-system-web-components-headless/components/menu-item.ts",
+    "alpine": "lily-design-system-alpine-headless/components/menu-item.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/menu-item/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MenuItem.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/menu-item/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/menu-item/AGENTS.md"
+}

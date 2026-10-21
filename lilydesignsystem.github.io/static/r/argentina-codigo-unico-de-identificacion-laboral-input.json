@@ -1,0 +1,42 @@
+{
+  "slug": "argentina-codigo-unico-de-identificacion-laboral-input",
+  "name": "ArgentinaCodigoUnicoDeIdentificacionLaboralInput",
+  "description": "an input for entering Argentina's Codigo Unico de Identificacion Laboral (CUIL)",
+  "htmlTag": "input",
+  "category": "national",
+  "baseClass": ".argentina-codigo-unico-de-identificacion-laboral-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`required` and `disabled` states conveyed to assistive technology"
+  ],
+  "keyboard": [
+    "Standard text input keyboard behavior"
+  ],
+  "props": [
+    "`label`: string (required) — accessible label via aria-label",
+    "`value`: string (default: \"\") — bindable input value",
+    "`required`: boolean (default: false) — form validation",
+    "`disabled`: boolean (default: false) — disabled state",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "argentina-codigo-unico-de-identificacion-laboral-view",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/argentina-codigo-unico-de-identificacion-laboral-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/ArgentinaCodigoUnicoDeIdentificacionLaboralInput/ArgentinaCodigoUnicoDeIdentificacionLaboralInput.svelte",
+    "react": "lily-design-system-react-headless/components/ArgentinaCodigoUnicoDeIdentificacionLaboralInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/ArgentinaCodigoUnicoDeIdentificacionLaboralInput.vue",
+    "angular": "lily-design-system-angular-headless/components/ArgentinaCodigoUnicoDeIdentificacionLaboralInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/argentina-codigo-unico-de-identificacion-laboral-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/argentina-codigo-unico-de-identificacion-laboral-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/argentina-codigo-unico-de-identificacion-laboral-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ArgentinaCodigoUnicoDeIdentificacionLaboralInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/argentina-codigo-unico-de-identificacion-laboral-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/argentina-codigo-unico-de-identificacion-laboral-input/AGENTS.md"
+}

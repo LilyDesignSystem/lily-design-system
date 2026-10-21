@@ -1,0 +1,43 @@
+{
+  "slug": "validation-list",
+  "name": "ValidationList",
+  "description": "a live-feedback list of input validation rules with pending, passed, and failed states",
+  "htmlTag": "ul",
+  "category": "lists",
+  "baseClass": ".validation-list",
+  "subClasses": [
+    "validation-list-item"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `list` role from the `<ul>` element",
+    "`aria-label` describes the field the rules apply to",
+    "`aria-live=\"polite\"` announces status changes"
+  ],
+  "keyboard": [
+    "Tab: moves focus past the list (the list is not interactive)",
+    "The list itself does not handle keyboard input"
+  ],
+  "props": [
+    "`label`: string (REQUIRED) -- aria-label describing the field",
+    "`children`: slot -- `validation-list-item` children",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "validation-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/validation-list.html",
+    "svelte": "lily-design-system-svelte-headless/components/ValidationList/ValidationList.svelte",
+    "react": "lily-design-system-react-headless/components/ValidationList.tsx",
+    "vue": "lily-design-system-vue-headless/components/ValidationList.vue",
+    "angular": "lily-design-system-angular-headless/components/ValidationList.ts",
+    "web-components": "lily-design-system-web-components-headless/components/validation-list.ts",
+    "alpine": "lily-design-system-alpine-headless/components/validation-list.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/validation-list/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ValidationList.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/validation-list/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/validation-list/AGENTS.md"
+}

@@ -1,0 +1,46 @@
+{
+  "slug": "timer-button",
+  "name": "TimerButton",
+  "description": "a button with a timer that will automatically click after a given amount of time",
+  "htmlTag": "button",
+  "category": "buttons",
+  "baseClass": ".timer-button",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `button` role from `<button>` element",
+    "`aria-label` -- describes the action and remaining time",
+    "`aria-live=\"polite\"` region for countdown announcements"
+  ],
+  "keyboard": [
+    "Tab: Focus the button",
+    "Enter: Activate the button immediately",
+    "Space: Activate the button immediately"
+  ],
+  "props": [
+    "`duration`: number (required) -- countdown duration in seconds",
+    "`label`: string (required) -- accessible label describing the action",
+    "`disabled`: boolean (default: false) -- whether the button is disabled",
+    "`onclick`: callback (optional) -- handler called when activated",
+    "`children`: slot -- button content",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "button",
+    "timer"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/timer-button.html",
+    "svelte": "lily-design-system-svelte-headless/components/TimerButton/TimerButton.svelte",
+    "react": "lily-design-system-react-headless/components/TimerButton.tsx",
+    "vue": "lily-design-system-vue-headless/components/TimerButton.vue",
+    "angular": "lily-design-system-angular-headless/components/TimerButton.ts",
+    "web-components": "lily-design-system-web-components-headless/components/timer-button.ts",
+    "alpine": "lily-design-system-alpine-headless/components/timer-button.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/timer-button/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TimerButton.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/timer-button/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/timer-button/AGENTS.md"
+}

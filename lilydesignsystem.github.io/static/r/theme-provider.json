@@ -1,0 +1,40 @@
+{
+  "slug": "theme-provider",
+  "name": "ThemeProvider",
+  "description": "a container that applies CSS custom properties from a theme object to its children",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".theme-provider",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "None -- presentational wrapper. Ensure sufficient color contrast in custom themes."
+  ],
+  "keyboard": [
+    "None"
+  ],
+  "props": [
+    "`theme`: object (required) -- theme object with key-value pairs flattened to CSS custom properties",
+    "`base`: \"light\" | \"dark\" (default: \"light\") -- base theme to merge with",
+    "`children`: slot (required) -- themed content",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "theme-select",
+    "theme-view"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/theme-provider.html",
+    "svelte": "lily-design-system-svelte-headless/components/ThemeProvider/ThemeProvider.svelte",
+    "react": "lily-design-system-react-headless/components/ThemeProvider.tsx",
+    "vue": "lily-design-system-vue-headless/components/ThemeProvider.vue",
+    "angular": "lily-design-system-angular-headless/components/ThemeProvider.ts",
+    "web-components": "lily-design-system-web-components-headless/components/theme-provider.ts",
+    "alpine": "lily-design-system-alpine-headless/components/theme-provider.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/theme-provider/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ThemeProvider.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/theme-provider/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/theme-provider/AGENTS.md"
+}

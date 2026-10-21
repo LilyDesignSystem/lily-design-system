@@ -1,0 +1,40 @@
+{
+  "slug": "signature-pad",
+  "name": "SignaturePad",
+  "description": "a drawing area for capturing a handwritten signature",
+  "htmlTag": "canvas",
+  "category": "media",
+  "baseClass": ".signature-pad",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"application\"` -- indicates a complex widget with custom pointer interactions, informing assistive technologies to pass keyboard events through to the application",
+    "`aria-label` -- provides an accessible description of the signature pad purpose"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible description of the signature field via `aria-label`",
+    "`children`: slot (required) -- drawing surface (canvas, SVG, or other input mechanism)"
+  ],
+  "related": [
+    "text-input",
+    "field",
+    "form"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/signature-pad.html",
+    "svelte": "lily-design-system-svelte-headless/components/SignaturePad/SignaturePad.svelte",
+    "react": "lily-design-system-react-headless/components/SignaturePad.tsx",
+    "vue": "lily-design-system-vue-headless/components/SignaturePad.vue",
+    "angular": "lily-design-system-angular-headless/components/SignaturePad.ts",
+    "web-components": "lily-design-system-web-components-headless/components/signature-pad.ts",
+    "alpine": "lily-design-system-alpine-headless/components/signature-pad.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/signature-pad/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SignaturePad.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/signature-pad/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/signature-pad/AGENTS.md"
+}

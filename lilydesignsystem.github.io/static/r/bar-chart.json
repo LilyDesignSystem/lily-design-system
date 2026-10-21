@@ -1,0 +1,47 @@
+{
+  "slug": "bar-chart",
+  "name": "BarChart",
+  "description": "a horizontal bar chart visualization for displaying data",
+  "htmlTag": "figure",
+  "category": "data-viz",
+  "baseClass": ".bar-chart",
+  "subClasses": [
+    "bar-chart-data-table",
+    "bar-chart-graphic"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"img\"` exposes the chart as a single image",
+    "`aria-label` and `aria-describedby` provide the accessible name and description"
+  ],
+  "keyboard": [
+    "No keyboard interactions on the rendered bars",
+    "Data table (when rendered) follows native table keyboard behaviour"
+  ],
+  "props": [
+    "`label`: string (required) (default: —) — Accessible name",
+    "`description`: string (default: —) — Extended description",
+    "`categories`: array of `{ label: string; value: number }` (default: []) — Categories to plot",
+    "`dataTable`: slot (default: —) — Optional fallback `<table>`",
+    "`...restProps`: HTML attributes (default: —) — Spread onto the root `<figure>`"
+  ],
+  "related": [
+    "column-chart",
+    "line-chart",
+    "graphic-block"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/bar-chart.html",
+    "svelte": "lily-design-system-svelte-headless/components/BarChart/BarChart.svelte",
+    "react": "lily-design-system-react-headless/components/BarChart.tsx",
+    "vue": "lily-design-system-vue-headless/components/BarChart.vue",
+    "angular": "lily-design-system-angular-headless/components/BarChart.ts",
+    "web-components": "lily-design-system-web-components-headless/components/bar-chart.ts",
+    "alpine": "lily-design-system-alpine-headless/components/bar-chart.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/bar-chart/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/BarChart.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/bar-chart/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/bar-chart/AGENTS.md"
+}

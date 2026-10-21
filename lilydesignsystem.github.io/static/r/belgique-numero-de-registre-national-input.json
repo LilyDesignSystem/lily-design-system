@@ -1,0 +1,43 @@
+{
+  "slug": "belgique-numero-de-registre-national-input",
+  "name": "BelgiqueNumeroDeRegistreNationalInput",
+  "description": "an input for entering Belgium's Numéro de Registre National / Rijksregisternummer (NRN)",
+  "htmlTag": "input",
+  "category": "national",
+  "baseClass": ".belgique-numero-de-registre-national-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`required` and `disabled` states conveyed to assistive technology",
+    "`aria-label` provided from the `label` prop"
+  ],
+  "keyboard": [
+    "Standard text input keyboard behavior"
+  ],
+  "props": [
+    "`label`: string (required) — accessible label via aria-label",
+    "`value`: string (default: \"\") — bindable input value",
+    "`required`: boolean (default: false) — form validation",
+    "`disabled`: boolean (default: false) — disabled state",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "belgique-numero-de-registre-national-view",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/belgique-numero-de-registre-national-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/BelgiqueNumeroDeRegistreNationalInput/BelgiqueNumeroDeRegistreNationalInput.svelte",
+    "react": "lily-design-system-react-headless/components/BelgiqueNumeroDeRegistreNationalInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/BelgiqueNumeroDeRegistreNationalInput.vue",
+    "angular": "lily-design-system-angular-headless/components/BelgiqueNumeroDeRegistreNationalInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/belgique-numero-de-registre-national-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/belgique-numero-de-registre-national-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/belgique-numero-de-registre-national-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/BelgiqueNumeroDeRegistreNationalInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/belgique-numero-de-registre-national-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/belgique-numero-de-registre-national-input/AGENTS.md"
+}

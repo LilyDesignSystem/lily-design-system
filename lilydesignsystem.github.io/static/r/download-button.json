@@ -1,0 +1,48 @@
+{
+  "slug": "download-button",
+  "name": "DownloadButton",
+  "description": "a download link styled as a button, with optional file size and format metadata",
+  "htmlTag": "a",
+  "category": "links",
+  "baseClass": ".download-button",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `link` role from <a> element",
+    "aria-label provides descriptive accessible name (required)",
+    "data-file-size and data-file-format are non-ARIA styling hooks"
+  ],
+  "keyboard": [
+    "Tab: Focus the link",
+    "Enter: Activate the link (download or navigate)",
+    "(All handled natively by <a> element)"
+  ],
+  "props": [
+    "`href`: string (REQUIRED) -- file URL",
+    "`label`: string (REQUIRED) -- aria-label and default visible text",
+    "`fileSize`: string (optional) -- pre-formatted size text",
+    "`fileFormat`: string (optional) -- file format text",
+    "`download`: string | boolean (optional) -- native download attribute",
+    "`children`: slot (optional) -- defaults to label",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "button",
+    "document-list-item",
+    "file-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/download-button.html",
+    "svelte": "lily-design-system-svelte-headless/components/DownloadButton/DownloadButton.svelte",
+    "react": "lily-design-system-react-headless/components/DownloadButton.tsx",
+    "vue": "lily-design-system-vue-headless/components/DownloadButton.vue",
+    "angular": "lily-design-system-angular-headless/components/DownloadButton.ts",
+    "web-components": "lily-design-system-web-components-headless/components/download-button.ts",
+    "alpine": "lily-design-system-alpine-headless/components/download-button.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/download-button/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DownloadButton.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/download-button/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/download-button/AGENTS.md"
+}

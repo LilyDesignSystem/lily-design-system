@@ -1,0 +1,39 @@
+{
+  "slug": "luxembourg-matricule-view",
+  "name": "LuxembourgMatriculeView",
+  "description": "a read-only display of Luxembourg's Numero d'Identification Nationale (Matricule)",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".luxembourg-matricule-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (default: \"\") — the identifier to display",
+    "`label`: string (required) — accessible name via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "luxembourg-matricule-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/luxembourg-matricule-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/LuxembourgMatriculeView/LuxembourgMatriculeView.svelte",
+    "react": "lily-design-system-react-headless/components/LuxembourgMatriculeView.tsx",
+    "vue": "lily-design-system-vue-headless/components/LuxembourgMatriculeView.vue",
+    "angular": "lily-design-system-angular-headless/components/LuxembourgMatriculeView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/luxembourg-matricule-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/luxembourg-matricule-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/luxembourg-matricule-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/LuxembourgMatriculeView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/luxembourg-matricule-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/luxembourg-matricule-view/AGENTS.md"
+}

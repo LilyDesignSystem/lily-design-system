@@ -1,0 +1,42 @@
+{
+  "slug": "floating-panel",
+  "name": "FloatingPanel",
+  "description": "a panel that floats above page content",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".floating-panel",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"region\"` -- identifies the panel as a landmark region",
+    "`aria-label=\"...\"` -- provides an accessible name for the region"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`open`: boolean (default: `false`) -- whether the panel is visible",
+    "`label`: string (required) -- accessible name for the panel region via `aria-label`",
+    "`children`: slot (required) -- panel content to render inside",
+    "`...restProps`: unknown -- additional attributes spread onto the `<div>`"
+  ],
+  "related": [
+    "panel",
+    "popover",
+    "drawer"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/floating-panel.html",
+    "svelte": "lily-design-system-svelte-headless/components/FloatingPanel/FloatingPanel.svelte",
+    "react": "lily-design-system-react-headless/components/FloatingPanel.tsx",
+    "vue": "lily-design-system-vue-headless/components/FloatingPanel.vue",
+    "angular": "lily-design-system-angular-headless/components/FloatingPanel.ts",
+    "web-components": "lily-design-system-web-components-headless/components/floating-panel.ts",
+    "alpine": "lily-design-system-alpine-headless/components/floating-panel.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/floating-panel/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/FloatingPanel.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/floating-panel/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/floating-panel/AGENTS.md"
+}

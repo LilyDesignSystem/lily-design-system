@@ -1,0 +1,37 @@
+{
+  "slug": "padding-reset",
+  "name": "PaddingReset",
+  "description": "a container that resets padding inside fluid-width containers",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".padding-reset",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "None -- presentational container"
+  ],
+  "keyboard": [
+    "None"
+  ],
+  "props": [
+    "`children`: slot (required) -- content",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "container"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/padding-reset.html",
+    "svelte": "lily-design-system-svelte-headless/components/PaddingReset/PaddingReset.svelte",
+    "react": "lily-design-system-react-headless/components/PaddingReset.tsx",
+    "vue": "lily-design-system-vue-headless/components/PaddingReset.vue",
+    "angular": "lily-design-system-angular-headless/components/PaddingReset.ts",
+    "web-components": "lily-design-system-web-components-headless/components/padding-reset.ts",
+    "alpine": "lily-design-system-alpine-headless/components/padding-reset.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/padding-reset/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PaddingReset.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/padding-reset/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/padding-reset/AGENTS.md"
+}

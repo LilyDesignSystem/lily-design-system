@@ -1,0 +1,48 @@
+{
+  "slug": "multi-select",
+  "name": "MultiSelect",
+  "description": "a native select that allows choosing several options at once",
+  "htmlTag": "select",
+  "category": "forms",
+  "baseClass": ".multi-select",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in the Svelte canonical; ports to the other frameworks pending (2026-10-05)",
+  "aria": [
+    "`aria-label={label}` -- accessible name; the `<select multiple>` is exposed as a listbox with multiple selection"
+  ],
+  "keyboard": [
+    "Arrow Up / Arrow Down: moves the active option (native); Shift+Arrow extends the selection (native)",
+    "Ctrl/Cmd+Click and Ctrl/Cmd+Space: toggle one option (native, platform-dependent)",
+    "Native only: no keyboard handling is added"
+  ],
+  "props": [
+    "`className`: string (default: `\"\"`) -- CSS class name appended to the base class",
+    "`label`: string (required) -- accessible name via `aria-label`",
+    "`value`: string[] (default: `[]`) -- bindable selected values",
+    "`size`: number (optional) -- visible rows",
+    "`required`: boolean (default: `false`)",
+    "`disabled`: boolean (default: `false`)",
+    "`children`: slot (required) -- `Option` elements",
+    "`...restProps`: unknown -- additional attributes spread onto the `<select>`"
+  ],
+  "related": [
+    "select",
+    "multi-select-with-extras",
+    "checkbox-group",
+    "combobox"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/multi-select.html",
+    "svelte": "lily-design-system-svelte-headless/components/MultiSelect/MultiSelect.svelte",
+    "react": "lily-design-system-react-headless/components/MultiSelect.tsx",
+    "vue": "lily-design-system-vue-headless/components/MultiSelect.vue",
+    "angular": "lily-design-system-angular-headless/components/MultiSelect.ts",
+    "web-components": "lily-design-system-web-components-headless/components/multi-select.ts",
+    "alpine": "lily-design-system-alpine-headless/components/multi-select.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/multi-select/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MultiSelect.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/multi-select/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/multi-select/AGENTS.md"
+}

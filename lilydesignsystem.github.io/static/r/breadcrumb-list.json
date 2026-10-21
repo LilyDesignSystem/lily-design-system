@@ -1,0 +1,42 @@
+{
+  "slug": "breadcrumb-list",
+  "name": "BreadcrumbList",
+  "description": "an ordered list of breadcrumb list items",
+  "htmlTag": "ol",
+  "category": "lists",
+  "baseClass": ".breadcrumb-list",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`<ol>` conveys the ordered hierarchical relationship of the breadcrumb trail",
+    "Implicit `list` role from the semantic `<ol>` element",
+    "The parent BreadcrumbNav provides the `<nav>` landmark with `aria-label`"
+  ],
+  "keyboard": [
+    "Tab: Focus moves between links in the breadcrumb trail",
+    "Enter: Activates the focused breadcrumb link"
+  ],
+  "props": [
+    "`children`: slot (required) -- BreadcrumbListItem components forming the breadcrumb trail",
+    "`...restProps`: any -- additional HTML attributes spread onto the `<ol>` element"
+  ],
+  "related": [
+    "breadcrumb-nav",
+    "breadcrumb-list-item",
+    "breadcrumb-link"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/breadcrumb-list.html",
+    "svelte": "lily-design-system-svelte-headless/components/BreadcrumbList/BreadcrumbList.svelte",
+    "react": "lily-design-system-react-headless/components/BreadcrumbList.tsx",
+    "vue": "lily-design-system-vue-headless/components/BreadcrumbList.vue",
+    "angular": "lily-design-system-angular-headless/components/BreadcrumbList.ts",
+    "web-components": "lily-design-system-web-components-headless/components/breadcrumb-list.ts",
+    "alpine": "lily-design-system-alpine-headless/components/breadcrumb-list.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/breadcrumb-list/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/BreadcrumbList.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/breadcrumb-list/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/breadcrumb-list/AGENTS.md"
+}

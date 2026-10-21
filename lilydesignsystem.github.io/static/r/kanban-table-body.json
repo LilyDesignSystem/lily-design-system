@@ -1,0 +1,44 @@
+{
+  "slug": "kanban-table-body",
+  "name": "KanbanTableBody",
+  "description": "a kanban board table interactive grid tbody for organizing items by status <tbody>",
+  "htmlTag": "tbody",
+  "category": "tables",
+  "baseClass": ".kanban-table-body",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "No explicit ARIA roles required on the body container itself",
+    "Column containers within should use `role=\"list\"` with `aria-label` to identify each workflow stage",
+    "Card items within columns should use `role=\"listitem\"` (provided by KanbanTableTD)"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`children`: slot (required) -- column containers with card content",
+    "`...restProps`: any -- additional HTML attributes spread onto the `<div>` element"
+  ],
+  "related": [
+    "kanban-table",
+    "kanban-table-foot",
+    "kanban-table-head",
+    "kanban-table-row",
+    "kanban-table-td",
+    "kanban-table-th",
+    "table"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/kanban-table-body.html",
+    "svelte": "lily-design-system-svelte-headless/components/KanbanTableBody/KanbanTableBody.svelte",
+    "react": "lily-design-system-react-headless/components/KanbanTableBody.tsx",
+    "vue": "lily-design-system-vue-headless/components/KanbanTableBody.vue",
+    "angular": "lily-design-system-angular-headless/components/KanbanTableBody.ts",
+    "alpine": "lily-design-system-alpine-headless/components/kanban-table-body.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/kanban-table-body/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/KanbanTableBody.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/kanban-table-body/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/kanban-table-body/AGENTS.md"
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "misr-al-raqm-al-qawmi-view",
+  "name": "MisrAlRaqmAlQawmiView",
+  "description": "a read-only display of Egypt's National Number",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".misr-al-raqm-al-qawmi-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (default: \"\") — the identifier to display",
+    "`label`: string (required) — accessible name via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "misr-al-raqm-al-qawmi-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/misr-al-raqm-al-qawmi-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/MisrAlRaqmAlQawmiView/MisrAlRaqmAlQawmiView.svelte",
+    "react": "lily-design-system-react-headless/components/MisrAlRaqmAlQawmiView.tsx",
+    "vue": "lily-design-system-vue-headless/components/MisrAlRaqmAlQawmiView.vue",
+    "angular": "lily-design-system-angular-headless/components/MisrAlRaqmAlQawmiView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/misr-al-raqm-al-qawmi-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/misr-al-raqm-al-qawmi-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/misr-al-raqm-al-qawmi-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MisrAlRaqmAlQawmiView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/misr-al-raqm-al-qawmi-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/misr-al-raqm-al-qawmi-view/AGENTS.md"
+}

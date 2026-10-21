@@ -1,0 +1,40 @@
+{
+  "slug": "hero",
+  "name": "Hero",
+  "description": "a large box or image with a title and description",
+  "htmlTag": "section",
+  "category": "navigation",
+  "baseClass": ".hero",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `region` role from `<section>` element with `aria-label`",
+    "`aria-label` -- describes the hero section for screen readers"
+  ],
+  "keyboard": [
+    "None at the section level -- interactive children handle their own keyboard interactions"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label for the hero section",
+    "`children`: slot (required) -- hero content",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "feature-card",
+    "call-to-action"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/hero.html",
+    "svelte": "lily-design-system-svelte-headless/components/Hero/Hero.svelte",
+    "react": "lily-design-system-react-headless/components/Hero.tsx",
+    "vue": "lily-design-system-vue-headless/components/Hero.vue",
+    "angular": "lily-design-system-angular-headless/components/Hero.ts",
+    "web-components": "lily-design-system-web-components-headless/components/hero.ts",
+    "alpine": "lily-design-system-alpine-headless/components/hero.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/hero/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Hero.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/hero/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/hero/AGENTS.md"
+}

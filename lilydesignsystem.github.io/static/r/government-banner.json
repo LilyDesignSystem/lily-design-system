@@ -1,0 +1,57 @@
+{
+  "slug": "government-banner",
+  "name": "GovernmentBanner",
+  "description": "a banner identifying a website as belonging to a government, with an expandable details panel",
+  "htmlTag": "aside",
+  "category": "overlays",
+  "baseClass": ".government-banner",
+  "subClasses": [
+    "government-banner-details",
+    "government-banner-header",
+    "government-banner-text",
+    "government-banner-toggle"
+  ],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`<aside>` (complementary landmark) with `aria-label`",
+    "Toggle `<button>` with `aria-expanded` and `aria-controls`",
+    "Panel uses `hidden` attribute when collapsed"
+  ],
+  "keyboard": [
+    "Tab: Focus the toggle button",
+    "Enter: Activate the toggle button",
+    "Space: Activate the toggle button",
+    "(All handled natively by the `<button>` element)"
+  ],
+  "props": [
+    "`label`: string (REQUIRED) -- aria-label for the banner",
+    "`headerText`: string (REQUIRED) -- top headline",
+    "`expanded`: boolean (default: false) -- panel state",
+    "`expandLabel`: string (REQUIRED) -- toggle button text",
+    "`onToggle` / `ontoggle`: callback (optional)",
+    "`children`: slot -- details panel content",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "announcement-banner",
+    "banner",
+    "banner-box",
+    "medical-banner",
+    "medical-banner-box",
+    "medical-banner-box-for-advice"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/government-banner.html",
+    "svelte": "lily-design-system-svelte-headless/components/GovernmentBanner/GovernmentBanner.svelte",
+    "react": "lily-design-system-react-headless/components/GovernmentBanner.tsx",
+    "vue": "lily-design-system-vue-headless/components/GovernmentBanner.vue",
+    "angular": "lily-design-system-angular-headless/components/GovernmentBanner.ts",
+    "web-components": "lily-design-system-web-components-headless/components/government-banner.ts",
+    "alpine": "lily-design-system-alpine-headless/components/government-banner.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/government-banner/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/GovernmentBanner.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/government-banner/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/government-banner/AGENTS.md"
+}

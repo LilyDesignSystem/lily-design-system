@@ -1,0 +1,49 @@
+{
+  "slug": "float-button",
+  "name": "FloatButton",
+  "description": "a floating action button anchored to a viewport corner",
+  "htmlTag": "button",
+  "category": "buttons",
+  "baseClass": ".float-button",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit button role from <button>",
+    "aria-label is the entire accessible name (required)",
+    "aria-disabled from native disabled attribute",
+    "data-position attribute exposes corner anchor"
+  ],
+  "keyboard": [
+    "Tab: Focus the button",
+    "Enter: Activate the button",
+    "Space: Activate the button"
+  ],
+  "props": [
+    "`label`: string (REQUIRED)",
+    "`position`: \"top-left\" | \"top-right\" | \"bottom-left\" | \"bottom-right\" (default: \"bottom-right\")",
+    "`disabled`: boolean (default: false)",
+    "`type`: \"button\" | \"submit\" | \"reset\" (default: \"button\")",
+    "`onclick` / `onClick`: callback (optional)",
+    "`children`: slot — icon content",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "button",
+    "icon-button",
+    "affix"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/float-button.html",
+    "svelte": "lily-design-system-svelte-headless/components/FloatButton/FloatButton.svelte",
+    "react": "lily-design-system-react-headless/components/FloatButton.tsx",
+    "vue": "lily-design-system-vue-headless/components/FloatButton.vue",
+    "angular": "lily-design-system-angular-headless/components/FloatButton.ts",
+    "web-components": "lily-design-system-web-components-headless/components/float-button.ts",
+    "alpine": "lily-design-system-alpine-headless/components/float-button.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/float-button/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/FloatButton.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/float-button/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/float-button/AGENTS.md"
+}

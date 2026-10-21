@@ -1,0 +1,44 @@
+{
+  "slug": "share-page",
+  "name": "SharePage",
+  "description": "a component for sharing the page on social media",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".share-page",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Wrapper has `role=\"group\"` with `aria-label` so the share controls are announced as a related set",
+    "Each share control has its own `aria-label` (e.g. \"Share on email\")",
+    "The copy-link button announces success via a transient `aria-live=\"polite\"` region"
+  ],
+  "keyboard": [
+    "Tab cycles through each share control",
+    "Enter or Space activates the focused control (native button behaviour)"
+  ],
+  "props": [
+    "`label`: string (required) (default: —) — Accessible label for the share group (e.g. \"Share this page\")",
+    "`url`: string (required) (default: —) — URL to share",
+    "`title`: string (default: —) — Page title shared alongside the URL",
+    "`services`: array of `{ id: string; label: string; href?: string; onClick?: () => void }` (default: [email, copy, x, facebook]) — Services to render",
+    "`...restProps`: HTML attributes (default: —) — Spread onto the root `<div>`"
+  ],
+  "related": [
+    "clipboard-copy-button",
+    "button-group"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/share-page.html",
+    "svelte": "lily-design-system-svelte-headless/components/SharePage/SharePage.svelte",
+    "react": "lily-design-system-react-headless/components/SharePage.tsx",
+    "vue": "lily-design-system-vue-headless/components/SharePage.vue",
+    "angular": "lily-design-system-angular-headless/components/SharePage.ts",
+    "web-components": "lily-design-system-web-components-headless/components/share-page.ts",
+    "alpine": "lily-design-system-alpine-headless/components/share-page.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/share-page/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SharePage.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/share-page/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/share-page/AGENTS.md"
+}

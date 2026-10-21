@@ -1,0 +1,42 @@
+{
+  "slug": "mockup-phone-landscape",
+  "name": "MockupPhoneLandscape",
+  "description": "a box area that looks like a mobile phone in landscape orientation",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".mockup-phone-landscape",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "No specific ARIA — decorative wrapper. Apply `role=\"img\"` on the inner image if needed"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive decorative container"
+  ],
+  "props": [
+    "`className`: string (optional) — extra CSS classes appended to `mockup-phone-landscape`",
+    "`children`: slot — content rendered inside the simulated phone screen"
+  ],
+  "related": [
+    "mockup-browser",
+    "mockup-laptop",
+    "mockup-phone-portrait",
+    "mockup-shell",
+    "mockup-tablet-landscape",
+    "mockup-tablet-portrait"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/mockup-phone-landscape.html",
+    "svelte": "lily-design-system-svelte-headless/components/MockupPhoneLandscape/MockupPhoneLandscape.svelte",
+    "react": "lily-design-system-react-headless/components/MockupPhoneLandscape.tsx",
+    "vue": "lily-design-system-vue-headless/components/MockupPhoneLandscape.vue",
+    "angular": "lily-design-system-angular-headless/components/MockupPhoneLandscape.ts",
+    "web-components": "lily-design-system-web-components-headless/components/mockup-phone-landscape.ts",
+    "alpine": "lily-design-system-alpine-headless/components/mockup-phone-landscape.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/mockup-phone-landscape/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MockupPhoneLandscape.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/mockup-phone-landscape/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/mockup-phone-landscape/AGENTS.md"
+}

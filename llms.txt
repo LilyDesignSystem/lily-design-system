@@ -90,6 +90,7 @@ searchable component catalog: https://lilydesignsystem.com/.
 
 ## Optional
 
+- [Component manifests](https://lilydesignsystem.com/r/index.json): Machine-readable manifest of every component (HTML tag, base and sub-classes, ARIA, keyboard, props, related, per-framework file paths); one /r/{slug}.json each.
 - [components-categories.tsv](components-categories.tsv): per-component
   HTML tag and category (content, forms, navigation, tables, …).
 - [css-style-sheet-template.css](css-style-sheet-template.css): one CSS

@@ -1,0 +1,43 @@
+{
+  "slug": "input",
+  "name": "Input",
+  "description": "a generic HTML input element",
+  "htmlTag": "input",
+  "category": "forms",
+  "baseClass": ".input",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` -- provides an accessible name for the input when no visible label is present."
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name applied via `aria-label`.",
+    "`value`: string (default: `\"\"`) -- bindable current input value.",
+    "`type`: string (default: `\"text\"`) -- HTML input type attribute (e.g., `\"text\"`, `\"email\"`, `\"password\"`, `\"number\"`).",
+    "`required`: boolean (default: `false`) -- whether the input is required for form submission.",
+    "`disabled`: boolean (default: `false`) -- whether the input is disabled.",
+    "`...restProps`: unknown -- additional attributes spread onto the `<input>` element."
+  ],
+  "related": [
+    "text-input",
+    "field",
+    "form"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/input.html",
+    "svelte": "lily-design-system-svelte-headless/components/Input/Input.svelte",
+    "react": "lily-design-system-react-headless/components/Input.tsx",
+    "vue": "lily-design-system-vue-headless/components/Input.vue",
+    "angular": "lily-design-system-angular-headless/components/Input.ts",
+    "web-components": "lily-design-system-web-components-headless/components/input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Input.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/input/AGENTS.md"
+}

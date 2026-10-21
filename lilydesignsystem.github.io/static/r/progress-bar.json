@@ -1,0 +1,46 @@
+{
+  "slug": "progress-bar",
+  "name": "ProgressBar",
+  "description": "a horizontal progress indicator",
+  "htmlTag": "div",
+  "category": "navigation",
+  "baseClass": ".progress-bar",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"progressbar\"` identifies the element as a progress indicator",
+    "`aria-valuenow`, `aria-valuemin`, `aria-valuemax` expose the current and bounding values",
+    "`aria-label` provides an accessible name"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive status indicator"
+  ],
+  "props": [
+    "`label`: string (required) — accessible name set on `aria-label`",
+    "`value`: number (required) — current value",
+    "`min`: number (default: 0) — minimum value",
+    "`max`: number (default: 100) — maximum value",
+    "`className`: string (optional) — extra CSS classes appended to `progress-bar`"
+  ],
+  "related": [
+    "progress",
+    "progress-circle",
+    "progress-spinner",
+    "meter",
+    "loading"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/progress-bar.html",
+    "svelte": "lily-design-system-svelte-headless/components/ProgressBar/ProgressBar.svelte",
+    "react": "lily-design-system-react-headless/components/ProgressBar.tsx",
+    "vue": "lily-design-system-vue-headless/components/ProgressBar.vue",
+    "angular": "lily-design-system-angular-headless/components/ProgressBar.ts",
+    "web-components": "lily-design-system-web-components-headless/components/progress-bar.ts",
+    "alpine": "lily-design-system-alpine-headless/components/progress-bar.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/progress-bar/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ProgressBar.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/progress-bar/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/progress-bar/AGENTS.md"
+}

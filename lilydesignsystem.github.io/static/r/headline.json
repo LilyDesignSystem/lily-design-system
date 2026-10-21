@@ -1,0 +1,45 @@
+{
+  "slug": "headline",
+  "name": "Headline",
+  "description": "a page headline with heading, subtitle, and byline area",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".headline",
+  "subClasses": [
+    "headline-byline",
+    "headline-heading",
+    "headline-subtitle"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Heading role from semantic heading element (h1-h6)"
+  ],
+  "keyboard": [
+    "None"
+  ],
+  "props": [
+    "`level`: 1 | 2 | 3 | 4 | 5 | 6 (default: 1) -- heading level",
+    "`children`: slot (required) -- heading text content",
+    "`subtitle`: slot (optional) -- subtitle/dek content below heading",
+    "`byline`: slot (optional) -- byline area below subtitle",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "hero",
+    "section-heading"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/headline.html",
+    "svelte": "lily-design-system-svelte-headless/components/Headline/Headline.svelte",
+    "react": "lily-design-system-react-headless/components/Headline.tsx",
+    "vue": "lily-design-system-vue-headless/components/Headline.vue",
+    "angular": "lily-design-system-angular-headless/components/Headline.ts",
+    "web-components": "lily-design-system-web-components-headless/components/headline.ts",
+    "alpine": "lily-design-system-alpine-headless/components/headline.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/headline/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Headline.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/headline/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/headline/AGENTS.md"
+}

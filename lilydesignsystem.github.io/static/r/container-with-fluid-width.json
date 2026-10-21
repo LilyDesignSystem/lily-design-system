@@ -1,0 +1,39 @@
+{
+  "slug": "container-with-fluid-width",
+  "name": "ContainerWithFluidWidth",
+  "description": "a full-width content wrapper with horizontal padding",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".container-with-fluid-width",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "None — purely structural"
+  ],
+  "keyboard": [
+    "None"
+  ],
+  "props": [
+    "`paddingInline`: string (default: \"1rem\") -- horizontal padding CSS value",
+    "`children`: slot -- wrapped content",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "container",
+    "container-with-fixed-width"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/container-with-fluid-width.html",
+    "svelte": "lily-design-system-svelte-headless/components/ContainerWithFluidWidth/ContainerWithFluidWidth.svelte",
+    "react": "lily-design-system-react-headless/components/ContainerWithFluidWidth.tsx",
+    "vue": "lily-design-system-vue-headless/components/ContainerWithFluidWidth.vue",
+    "angular": "lily-design-system-angular-headless/components/ContainerWithFluidWidth.ts",
+    "web-components": "lily-design-system-web-components-headless/components/container-with-fluid-width.ts",
+    "alpine": "lily-design-system-alpine-headless/components/container-with-fluid-width.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/container-with-fluid-width/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ContainerWithFluidWidth.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/container-with-fluid-width/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/container-with-fluid-width/AGENTS.md"
+}

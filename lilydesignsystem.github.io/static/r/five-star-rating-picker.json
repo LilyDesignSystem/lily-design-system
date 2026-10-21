@@ -1,0 +1,45 @@
+{
+  "slug": "five-star-rating-picker",
+  "name": "FiveStarRatingPicker",
+  "description": "a picker for selecting a 1-5 star rating using radio buttons",
+  "htmlTag": "div",
+  "category": "pickers",
+  "baseClass": ".five-star-rating-picker",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"radiogroup\"` -- on the `<fieldset>`, identifies the group as a set of radio buttons",
+    "`aria-label=\"...\"` -- provides an accessible name for the entire rating group"
+  ],
+  "keyboard": [
+    "Tab: focus the selected radio (or first if none selected)",
+    "ArrowDown / ArrowRight: move to next radio button",
+    "ArrowUp / ArrowLeft: move to previous radio button",
+    "Space: select the focused radio button"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name for the rating group via `aria-label`",
+    "`starLabel`: (star: number) => string (optional) -- each option's text; defaults to the number",
+    "`value`: number (default: `0`) -- current rating (1-5, 0 = none), two-way bindable via `value`",
+    "`name`: string (default: `\"rating\"`) -- radio group name for form submission",
+    "`disabled`: boolean (default: `false`) -- whether the entire group is disabled",
+    "`...restProps`: unknown -- additional attributes spread onto the `<fieldset>`"
+  ],
+  "related": [
+    "five-star-rating-picker-button"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/five-star-rating-picker.html",
+    "svelte": "lily-design-system-svelte-headless/components/FiveStarRatingPicker/FiveStarRatingPicker.svelte",
+    "react": "lily-design-system-react-headless/components/FiveStarRatingPicker.tsx",
+    "vue": "lily-design-system-vue-headless/components/FiveStarRatingPicker.vue",
+    "angular": "lily-design-system-angular-headless/components/FiveStarRatingPicker.ts",
+    "web-components": "lily-design-system-web-components-headless/components/five-star-rating-picker.ts",
+    "alpine": "lily-design-system-alpine-headless/components/five-star-rating-picker.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/five-star-rating-picker/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/FiveStarRatingPicker.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/five-star-rating-picker/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/five-star-rating-picker/AGENTS.md"
+}

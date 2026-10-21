@@ -1,0 +1,42 @@
+{
+  "slug": "empty-state",
+  "name": "EmptyState",
+  "description": "a placeholder shown when a list, table, or view has nothing to display yet, with room for guidance and an action",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".empty-state",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in the Svelte canonical; ports to the other frameworks pending (2026-10-05)",
+  "aria": [
+    "`role=\"group\"` and `aria-label={label}` -- only when `label` is provided",
+    "No `aria-live`: use `info-state` (`role=\"status\"`) when the state must be announced"
+  ],
+  "keyboard": [
+    "None. Any action inside is a native control with its own keyboard behaviour"
+  ],
+  "props": [
+    "`className`: string (default: `\"\"`) -- CSS class name appended to the base class",
+    "`label`: string (optional) -- accessible name; adds `role=\"group\"`",
+    "`children`: slot -- heading, text and action supplied by the consumer",
+    "`...restProps`: unknown -- additional attributes spread onto the root"
+  ],
+  "related": [
+    "info-state",
+    "loading",
+    "skeleton"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/empty-state.html",
+    "svelte": "lily-design-system-svelte-headless/components/EmptyState/EmptyState.svelte",
+    "react": "lily-design-system-react-headless/components/EmptyState.tsx",
+    "vue": "lily-design-system-vue-headless/components/EmptyState.vue",
+    "angular": "lily-design-system-angular-headless/components/EmptyState.ts",
+    "web-components": "lily-design-system-web-components-headless/components/empty-state.ts",
+    "alpine": "lily-design-system-alpine-headless/components/empty-state.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/empty-state/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/EmptyState.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/empty-state/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/empty-state/AGENTS.md"
+}

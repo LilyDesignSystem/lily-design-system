@@ -1,0 +1,44 @@
+{
+  "slug": "mockup-tablet-portrait",
+  "name": "MockupTabletPortrait",
+  "description": "a box area that looks like a tablet computer in portrait mode",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".mockup-tablet-portrait",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"img\"` -- presents the mockup as a single image to assistive technologies",
+    "`aria-label` -- describes the mockup content for screen readers"
+  ],
+  "keyboard": [
+    "None -- mockups are decorative, not interactive"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible label describing the mockup content",
+    "`children`: slot (required) -- the content displayed inside the tablet screen",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "mockup-browser",
+    "mockup-laptop",
+    "mockup-phone-landscape",
+    "mockup-phone-portrait",
+    "mockup-shell",
+    "mockup-tablet-landscape"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/mockup-tablet-portrait.html",
+    "svelte": "lily-design-system-svelte-headless/components/MockupTabletPortrait/MockupTabletPortrait.svelte",
+    "react": "lily-design-system-react-headless/components/MockupTabletPortrait.tsx",
+    "vue": "lily-design-system-vue-headless/components/MockupTabletPortrait.vue",
+    "angular": "lily-design-system-angular-headless/components/MockupTabletPortrait.ts",
+    "web-components": "lily-design-system-web-components-headless/components/mockup-tablet-portrait.ts",
+    "alpine": "lily-design-system-alpine-headless/components/mockup-tablet-portrait.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/mockup-tablet-portrait/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MockupTabletPortrait.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/mockup-tablet-portrait/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/mockup-tablet-portrait/AGENTS.md"
+}

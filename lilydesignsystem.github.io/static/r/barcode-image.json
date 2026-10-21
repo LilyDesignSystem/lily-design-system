@@ -1,0 +1,41 @@
+{
+  "slug": "barcode-image",
+  "name": "BarcodeImage",
+  "description": "a visual machine-readable symbolic code image, such as for a scanner",
+  "htmlTag": "img",
+  "category": "media",
+  "baseClass": ".barcode-image",
+  "subClasses": [],
+  "interactive": false,
+  "status": "experimental — recent catalog addition with the least accumulated depth; contract may still move",
+  "aria": [
+    "`alt=\"...\"` -- provides the accessible name for the barcode-image image; required for all non-decorative images"
+  ],
+  "keyboard": [
+    "None -- this is a passive image element"
+  ],
+  "props": [
+    "`src`: string (required) -- the barcode-image image URL or data-URL",
+    "`alt`: string (required) -- alternative text describing what the barcode-image encodes",
+    "`loading`: \"lazy\" | \"eager\" (optional) -- controls native browser loading behavior",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "qr-code",
+    "image",
+    "icon"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/barcode-image.html",
+    "svelte": "lily-design-system-svelte-headless/components/BarcodeImage/BarcodeImage.svelte",
+    "react": "lily-design-system-react-headless/components/BarcodeImage.tsx",
+    "vue": "lily-design-system-vue-headless/components/BarcodeImage.vue",
+    "angular": "lily-design-system-angular-headless/components/BarcodeImage.ts",
+    "web-components": "lily-design-system-web-components-headless/components/barcode-image.ts",
+    "alpine": "lily-design-system-alpine-headless/components/barcode-image.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/barcode-image/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/BarcodeImage.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/barcode-image/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/barcode-image/AGENTS.md"
+}

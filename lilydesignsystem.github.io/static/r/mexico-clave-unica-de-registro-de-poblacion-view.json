@@ -1,0 +1,39 @@
+{
+  "slug": "mexico-clave-unica-de-registro-de-poblacion-view",
+  "name": "MexicoClaveUnicaDeRegistroDePoblacionView",
+  "description": "a read-only display of Mexico's Clave Unica de Registro de Poblacion (CURP)",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".mexico-clave-unica-de-registro-de-poblacion-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (default: \"\") — the identifier to display",
+    "`label`: string (required) — accessible name via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "mexico-clave-unica-de-registro-de-poblacion-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/mexico-clave-unica-de-registro-de-poblacion-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/MexicoClaveUnicaDeRegistroDePoblacionView/MexicoClaveUnicaDeRegistroDePoblacionView.svelte",
+    "react": "lily-design-system-react-headless/components/MexicoClaveUnicaDeRegistroDePoblacionView.tsx",
+    "vue": "lily-design-system-vue-headless/components/MexicoClaveUnicaDeRegistroDePoblacionView.vue",
+    "angular": "lily-design-system-angular-headless/components/MexicoClaveUnicaDeRegistroDePoblacionView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/mexico-clave-unica-de-registro-de-poblacion-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/mexico-clave-unica-de-registro-de-poblacion-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/mexico-clave-unica-de-registro-de-poblacion-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MexicoClaveUnicaDeRegistroDePoblacionView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/mexico-clave-unica-de-registro-de-poblacion-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/mexico-clave-unica-de-registro-de-poblacion-view/AGENTS.md"
+}

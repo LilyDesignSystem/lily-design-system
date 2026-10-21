@@ -1,0 +1,45 @@
+{
+  "slug": "mockup-phone-portrait",
+  "name": "MockupPhonePortrait",
+  "description": "a box area that looks like a mobile phone",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".mockup-phone-portrait",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"img\"` with `aria-label` identifies the mockup as a phone frame representation",
+    "Screen readers announce the label to describe the mockup context"
+  ],
+  "keyboard": [
+    "Tab: Focus moves to interactive elements within the phone content",
+    "(The phone frame itself is not interactive)"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name describing the phone mockup",
+    "`children`: slot (required) -- content displayed within the phone screen area",
+    "`...restProps`: unknown -- additional attributes spread onto the `<div>` element"
+  ],
+  "related": [
+    "mockup-browser",
+    "mockup-laptop",
+    "mockup-phone-landscape",
+    "mockup-shell",
+    "mockup-tablet-landscape",
+    "mockup-tablet-portrait"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/mockup-phone-portrait.html",
+    "svelte": "lily-design-system-svelte-headless/components/MockupPhonePortrait/MockupPhonePortrait.svelte",
+    "react": "lily-design-system-react-headless/components/MockupPhonePortrait.tsx",
+    "vue": "lily-design-system-vue-headless/components/MockupPhonePortrait.vue",
+    "angular": "lily-design-system-angular-headless/components/MockupPhonePortrait.ts",
+    "web-components": "lily-design-system-web-components-headless/components/mockup-phone-portrait.ts",
+    "alpine": "lily-design-system-alpine-headless/components/mockup-phone-portrait.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/mockup-phone-portrait/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MockupPhonePortrait.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/mockup-phone-portrait/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/mockup-phone-portrait/AGENTS.md"
+}

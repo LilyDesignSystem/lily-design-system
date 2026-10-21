@@ -1,0 +1,42 @@
+{
+  "slug": "section-link",
+  "name": "SectionLink",
+  "description": "one section link in the navigation",
+  "htmlTag": "a",
+  "category": "links",
+  "baseClass": ".section-link",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Native anchor accessibility",
+    "`aria-current=\"page\"` when `current` is true"
+  ],
+  "keyboard": [
+    "Tab moves focus onto the link",
+    "Enter activates the link (native browser behaviour)"
+  ],
+  "props": [
+    "`href`: string (required) (default: —) — Link target",
+    "`current`: boolean (default: false) — Whether this link represents the current page",
+    "`children`: slot (required) (default: —) — Link text",
+    "`...restProps`: HTML attributes (default: —) — Spread onto the root `<a>`"
+  ],
+  "related": [
+    "section-nav",
+    "section-list"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/section-link.html",
+    "svelte": "lily-design-system-svelte-headless/components/SectionLink/SectionLink.svelte",
+    "react": "lily-design-system-react-headless/components/SectionLink.tsx",
+    "vue": "lily-design-system-vue-headless/components/SectionLink.vue",
+    "angular": "lily-design-system-angular-headless/components/SectionLink.ts",
+    "web-components": "lily-design-system-web-components-headless/components/section-link.ts",
+    "alpine": "lily-design-system-alpine-headless/components/section-link.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/section-link/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SectionLink.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/section-link/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/section-link/AGENTS.md"
+}

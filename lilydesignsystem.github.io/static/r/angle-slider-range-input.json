@@ -1,0 +1,52 @@
+{
+  "slug": "angle-slider-range-input",
+  "name": "AngleSliderRangeInput",
+  "description": "a range input for selecting an angle in degrees",
+  "htmlTag": "input",
+  "category": "forms",
+  "baseClass": ".angle-slider-range-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"slider\"` (implicit from input[type=\"range\"])",
+    "`aria-label` from label prop",
+    "`aria-valuemin`, `aria-valuemax`, `aria-valuenow`",
+    "`aria-valuetext` for human-readable angle (e.g., \"90°\")"
+  ],
+  "keyboard": [
+    "Arrow Right/Up: Increase value by step",
+    "Arrow Left/Down: Decrease value by step",
+    "Home: Set to minimum",
+    "End: Set to maximum",
+    "(All handled natively by input[type=\"range\"])"
+  ],
+  "props": [
+    "`value`: number (default: 0, bindable) -- current angle in degrees",
+    "`min`: number (default: 0) -- minimum angle",
+    "`max`: number (default: 360) -- maximum angle",
+    "`step`: number (default: 1) -- step increment",
+    "`label`: string (required) -- accessible label",
+    "`disabled`: boolean (default: false)",
+    "`name`: string (optional) -- form field name",
+    "`id`: string (optional) -- element ID",
+    "`valueTextSuffix`: string (default: \"°\") -- suffix for aria-valuetext",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/angle-slider-range-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/AngleSliderRangeInput/AngleSliderRangeInput.svelte",
+    "react": "lily-design-system-react-headless/components/AngleSliderRangeInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/AngleSliderRangeInput.vue",
+    "angular": "lily-design-system-angular-headless/components/AngleSliderRangeInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/angle-slider-range-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/angle-slider-range-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/angle-slider-range-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AngleSliderRangeInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/angle-slider-range-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/angle-slider-range-input/AGENTS.md"
+}

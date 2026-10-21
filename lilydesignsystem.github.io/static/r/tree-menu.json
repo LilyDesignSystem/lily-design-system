@@ -1,0 +1,47 @@
+{
+  "slug": "tree-menu",
+  "name": "TreeMenu",
+  "description": "a hierarchical tree menu with expandable branches",
+  "htmlTag": "div",
+  "category": "navigation",
+  "baseClass": ".tree-menu",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"tree\"` -- identifies the container as a tree view widget",
+    "`aria-label={label}` -- provides an accessible name for the tree",
+    "Consumer items should use `role=\"treeitem\"` on each navigable child"
+  ],
+  "keyboard": [
+    "Arrow Down: Move focus to the next tree item (wraps to first)",
+    "Arrow Up: Move focus to the previous tree item (wraps to last)",
+    "Home: Move focus to the first tree item",
+    "End: Move focus to the last tree item"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name applied via `aria-label`",
+    "`children`: slot (required) -- tree item elements, expected to be `<li role=\"treeitem\">` elements"
+  ],
+  "related": [
+    "tree-nav",
+    "tree-list",
+    "tree-list-item",
+    "tree-link",
+    "menu",
+    "navigation-menu"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/tree-menu.html",
+    "svelte": "lily-design-system-svelte-headless/components/TreeMenu/TreeMenu.svelte",
+    "react": "lily-design-system-react-headless/components/TreeMenu.tsx",
+    "vue": "lily-design-system-vue-headless/components/TreeMenu.vue",
+    "angular": "lily-design-system-angular-headless/components/TreeMenu.ts",
+    "web-components": "lily-design-system-web-components-headless/components/tree-menu.ts",
+    "alpine": "lily-design-system-alpine-headless/components/tree-menu.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/tree-menu/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TreeMenu.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/tree-menu/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tree-menu/AGENTS.md"
+}

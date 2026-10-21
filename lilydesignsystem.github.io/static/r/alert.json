@@ -1,0 +1,46 @@
+{
+  "slug": "alert",
+  "name": "Alert",
+  "description": "a status message for important information or feedback",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".alert",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"alert\"` or `role=\"status\"` for live region semantics",
+    "`aria-live=\"assertive\"` (default for alert role) or `aria-live=\"polite\"` (default for status role)",
+    "`aria-atomic=\"true\"` ensures the entire region is re-announced on any change"
+  ],
+  "keyboard": [
+    "None -- alerts are passive announcements, not interactive elements"
+  ],
+  "props": [
+    "`type`: \"info\" | \"success\" | \"warning\" | \"error\" (default: \"info\") -- severity type",
+    "`heading`: string (optional) -- heading text for the alert",
+    "`role`: \"alert\" | \"status\" (default: \"alert\") -- ARIA role",
+    "`live`: \"assertive\" | \"polite\" | \"off\" (optional) -- override for aria-live politeness",
+    "`children`: slot (required) -- the alert content",
+    "`...restProps`: Any additional HTML attributes spread onto the `<div>`"
+  ],
+  "related": [
+    "alert-dialog",
+    "banner",
+    "notification",
+    "warning-callout"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/alert.html",
+    "svelte": "lily-design-system-svelte-headless/components/Alert/Alert.svelte",
+    "react": "lily-design-system-react-headless/components/Alert.tsx",
+    "vue": "lily-design-system-vue-headless/components/Alert.vue",
+    "angular": "lily-design-system-angular-headless/components/Alert.ts",
+    "web-components": "lily-design-system-web-components-headless/components/alert.ts",
+    "alpine": "lily-design-system-alpine-headless/components/alert.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/alert/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Alert.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/alert/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/alert/AGENTS.md"
+}

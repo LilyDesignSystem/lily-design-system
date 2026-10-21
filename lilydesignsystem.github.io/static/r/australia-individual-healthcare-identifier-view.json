@@ -1,0 +1,40 @@
+{
+  "slug": "australia-individual-healthcare-identifier-view",
+  "name": "AustraliaIndividualHealthcareIdentifierView",
+  "description": "a read-only display of Australia's Individual Healthcare Identifier (IHI)",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".australia-individual-healthcare-identifier-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`role=\"text\"` so the identifier announces as a single unit"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (required) — the identifier to display",
+    "`label`: string (optional) — accessible name override via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "australia-individual-healthcare-identifier-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/australia-individual-healthcare-identifier-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/AustraliaIndividualHealthcareIdentifierView/AustraliaIndividualHealthcareIdentifierView.svelte",
+    "react": "lily-design-system-react-headless/components/AustraliaIndividualHealthcareIdentifierView.tsx",
+    "vue": "lily-design-system-vue-headless/components/AustraliaIndividualHealthcareIdentifierView.vue",
+    "angular": "lily-design-system-angular-headless/components/AustraliaIndividualHealthcareIdentifierView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/australia-individual-healthcare-identifier-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/australia-individual-healthcare-identifier-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/australia-individual-healthcare-identifier-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AustraliaIndividualHealthcareIdentifierView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/australia-individual-healthcare-identifier-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/australia-individual-healthcare-identifier-view/AGENTS.md"
+}

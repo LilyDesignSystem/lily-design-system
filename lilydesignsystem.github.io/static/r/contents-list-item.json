@@ -1,0 +1,40 @@
+{
+  "slug": "contents-list-item",
+  "name": "ContentsListItem",
+  "description": "one contents list item",
+  "htmlTag": "li",
+  "category": "lists",
+  "baseClass": ".contents-list-item",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "Semantic `<li>` provides implicit `listitem` role",
+    "Supports `aria-current=\"page\"` or `aria-current=\"true\"` on the `<li>` for indicating the current page in a navigation context"
+  ],
+  "keyboard": [
+    "None directly -- keyboard interaction is handled by contained links or the parent list"
+  ],
+  "props": [
+    "`children`: slot (required) -- list item content, typically a link or nested list",
+    "`...restProps`: Any additional HTML attributes spread onto the `<li>`"
+  ],
+  "related": [
+    "contents-nav",
+    "contents-list",
+    "contents-link"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/contents-list-item.html",
+    "svelte": "lily-design-system-svelte-headless/components/ContentsListItem/ContentsListItem.svelte",
+    "react": "lily-design-system-react-headless/components/ContentsListItem.tsx",
+    "vue": "lily-design-system-vue-headless/components/ContentsListItem.vue",
+    "angular": "lily-design-system-angular-headless/components/ContentsListItem.ts",
+    "web-components": "lily-design-system-web-components-headless/components/contents-list-item.ts",
+    "alpine": "lily-design-system-alpine-headless/components/contents-list-item.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/contents-list-item/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ContentsListItem.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/contents-list-item/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/contents-list-item/AGENTS.md"
+}

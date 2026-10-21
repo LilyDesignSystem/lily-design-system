@@ -1,0 +1,46 @@
+{
+  "slug": "editable",
+  "name": "Editable",
+  "description": "an inline-editable text element that toggles between view and edit modes",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".editable",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`aria-label` -- the accessible name: in edit mode the `label`; in display mode `\"value, label\"` (the label alone when the value is empty), so the visible text is part of the name (WCAG 2.5.3 label in name)",
+    "`role=\"button\"` -- on the display span, indicates it is an activatable element",
+    "`aria-disabled={disabled}` -- on the display span when disabled, communicates the disabled state",
+    "`tabindex=\"0\"` / `tabindex=\"-1\"` -- controls focusability based on disabled state"
+  ],
+  "keyboard": [
+    "Enter: Activate edit mode",
+    "Space: Activate edit mode",
+    "Enter: Confirm the edit and return to display mode",
+    "Escape: Cancel the edit and return to display mode"
+  ],
+  "props": [
+    "`value`: string (default: \"\") -- current text value; bindable",
+    "`label`: string (required) -- accessible name for the editable control, applied via `aria-label`",
+    "`editing`: boolean (default: false) -- whether the component is in edit mode; bindable",
+    "`disabled`: boolean (default: false) -- whether editing is disabled"
+  ],
+  "related": [
+    "editable-form",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/editable.html",
+    "svelte": "lily-design-system-svelte-headless/components/Editable/Editable.svelte",
+    "react": "lily-design-system-react-headless/components/Editable.tsx",
+    "vue": "lily-design-system-vue-headless/components/Editable.vue",
+    "angular": "lily-design-system-angular-headless/components/Editable.ts",
+    "web-components": "lily-design-system-web-components-headless/components/editable.ts",
+    "alpine": "lily-design-system-alpine-headless/components/editable.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/editable/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Editable.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/editable/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/editable/AGENTS.md"
+}

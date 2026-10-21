@@ -1,0 +1,37 @@
+{
+  "slug": "measurement-unit-view",
+  "name": "MeasurementUnitView",
+  "description": "a read-only display of a measurement unit",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".measurement-unit-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` -- optionally set from the `label` prop to provide additional context beyond the displayed unit abbreviation"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`value`: string (required) -- the measurement unit to display",
+    "`label`: string (optional) -- accessible name via aria-label for additional context"
+  ],
+  "related": [
+    "measurement-unit-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/measurement-unit-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/MeasurementUnitView/MeasurementUnitView.svelte",
+    "react": "lily-design-system-react-headless/components/MeasurementUnitView.tsx",
+    "vue": "lily-design-system-vue-headless/components/MeasurementUnitView.vue",
+    "angular": "lily-design-system-angular-headless/components/MeasurementUnitView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/measurement-unit-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/measurement-unit-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/measurement-unit-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MeasurementUnitView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/measurement-unit-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/measurement-unit-view/AGENTS.md"
+}

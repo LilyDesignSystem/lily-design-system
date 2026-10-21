@@ -1,0 +1,43 @@
+{
+  "slug": "text-area-input",
+  "name": "TextAreaInput",
+  "description": "a multi-line text input area",
+  "htmlTag": "textarea",
+  "category": "forms",
+  "baseClass": ".text-area-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`aria-label={label}` -- provides an accessible name for the text-area-input since there is no visible `<label>` element"
+  ],
+  "keyboard": [
+    "Tab: Moves focus to and from the text-area-input (native browser behavior)",
+    "All standard text editing keys function normally within the text-area-input (native browser behavior)",
+    "Enter: Inserts a new line (does not submit forms, unlike single-line inputs)"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name applied via `aria-label`",
+    "`value`: string (default: \"\") -- bindable text content of the text-area-input",
+    "`rows`: number (default: undefined) -- number of visible text rows (browser default if unset)",
+    "`required`: boolean (default: false) -- whether the text-area-input is required for form submission",
+    "`disabled`: boolean (default: false) -- whether the text-area-input is disabled",
+    "`...restProps`: unknown -- additional attributes spread onto the text-area-input element"
+  ],
+  "related": [
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/text-area-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/TextAreaInput/TextAreaInput.svelte",
+    "react": "lily-design-system-react-headless/components/TextAreaInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/TextAreaInput.vue",
+    "angular": "lily-design-system-angular-headless/components/TextAreaInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/text-area-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/text-area-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/text-area-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TextAreaInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/text-area-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/text-area-input/AGENTS.md"
+}

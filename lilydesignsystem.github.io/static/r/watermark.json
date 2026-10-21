@@ -1,0 +1,46 @@
+{
+  "slug": "watermark",
+  "name": "Watermark",
+  "description": "a decorative repeating overlay text or image marking a page",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".watermark",
+  "subClasses": [
+    "watermark-overlay"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "watermark-overlay has aria-hidden=\"true\"",
+    "Container has no ARIA role",
+    "Underlying content remains fully accessible"
+  ],
+  "keyboard": [
+    "None — purely decorative"
+  ],
+  "props": [
+    "`text`: string (optional)",
+    "`imageUrl`: string (optional)",
+    "`gap`: string (default: \"100px\")",
+    "`rotate`: number (default: -22)",
+    "`children`: slot",
+    "`...restProps`: any additional HTML attributes"
+  ],
+  "related": [
+    "banner",
+    "image"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/watermark.html",
+    "svelte": "lily-design-system-svelte-headless/components/Watermark/Watermark.svelte",
+    "react": "lily-design-system-react-headless/components/Watermark.tsx",
+    "vue": "lily-design-system-vue-headless/components/Watermark.vue",
+    "angular": "lily-design-system-angular-headless/components/Watermark.ts",
+    "web-components": "lily-design-system-web-components-headless/components/watermark.ts",
+    "alpine": "lily-design-system-alpine-headless/components/watermark.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/watermark/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Watermark.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/watermark/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/watermark/AGENTS.md"
+}

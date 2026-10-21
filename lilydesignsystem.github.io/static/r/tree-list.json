@@ -1,0 +1,40 @@
+{
+  "slug": "tree-list",
+  "name": "TreeList",
+  "description": "a hierarchical list with nested expandable items",
+  "htmlTag": "ol",
+  "category": "lists",
+  "baseClass": ".tree-list",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"tree\"` -- identifies the container as a tree widget for hierarchical data",
+    "`aria-label={label}` -- provides an accessible name describing the purpose of the tree"
+  ],
+  "keyboard": [
+    "ArrowDown: Moves focus to the next tree item; wraps to the first item after the last",
+    "ArrowUp: Moves focus to the previous tree item; wraps to the last item before the first",
+    "Home: Moves focus to the first tree item",
+    "End: Moves focus to the last tree item"
+  ],
+  "props": [],
+  "related": [
+    "tree-nav",
+    "tree-list-item",
+    "tree-link"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/tree-list.html",
+    "svelte": "lily-design-system-svelte-headless/components/TreeList/TreeList.svelte",
+    "react": "lily-design-system-react-headless/components/TreeList.tsx",
+    "vue": "lily-design-system-vue-headless/components/TreeList.vue",
+    "angular": "lily-design-system-angular-headless/components/TreeList.ts",
+    "web-components": "lily-design-system-web-components-headless/components/tree-list.ts",
+    "alpine": "lily-design-system-alpine-headless/components/tree-list.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/tree-list/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TreeList.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/tree-list/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tree-list/AGENTS.md"
+}

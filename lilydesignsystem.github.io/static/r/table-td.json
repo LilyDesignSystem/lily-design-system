@@ -1,0 +1,41 @@
+{
+  "slug": "table-td",
+  "name": "TableTD",
+  "description": "a table interactive grid data cell <td>",
+  "htmlTag": "td",
+  "category": "tables",
+  "baseClass": ".table-td",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Native `<td>` exposes a data cell within the surrounding `<table>`",
+    "Screen readers announce the cell value alongside the relevant column / row header"
+  ],
+  "keyboard": [],
+  "props": [
+    "`className`: string (default: `\"\"`) -- CSS class name for the cell",
+    "`children`: slot (required) -- cell content",
+    "`...restProps`: unknown -- additional attributes spread onto the `<td>` element"
+  ],
+  "related": [
+    "table",
+    "table-body",
+    "table-foot",
+    "table-head",
+    "table-row",
+    "table-th"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/table-td.html",
+    "svelte": "lily-design-system-svelte-headless/components/TableTD/TableTD.svelte",
+    "react": "lily-design-system-react-headless/components/TableTD.tsx",
+    "vue": "lily-design-system-vue-headless/components/TableTD.vue",
+    "angular": "lily-design-system-angular-headless/components/TableTD.ts",
+    "alpine": "lily-design-system-alpine-headless/components/table-td.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/table-td/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TableTD.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/table-td/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/table-td/AGENTS.md"
+}

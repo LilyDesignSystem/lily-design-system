@@ -1,0 +1,41 @@
+{
+  "slug": "context-menu-item",
+  "name": "ContextMenuItem",
+  "description": "one item in a context menu",
+  "htmlTag": "div",
+  "category": "navigation",
+  "baseClass": ".context-menu-item",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"menuitem\"` -- identifies this element as an item within a menu",
+    "`tabindex=\"-1\"` -- supports roving focus management by the parent menu",
+    "Supports `aria-disabled` for disabled state (added by consumer)",
+    "Supports `aria-keyshortcuts` for keyboard shortcut hints (added by consumer)"
+  ],
+  "keyboard": [
+    "Focus is managed by the parent menu using ArrowUp/ArrowDown",
+    "Enter or Space activates the menu item (handled by consumer event listeners)"
+  ],
+  "props": [
+    "`children`: slot (required) -- menu item content (text, icon, shortcut hint, etc.)",
+    "`...restProps`: any -- additional HTML attributes spread onto the div"
+  ],
+  "related": [
+    "context-menu"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/context-menu-item.html",
+    "svelte": "lily-design-system-svelte-headless/components/ContextMenuItem/ContextMenuItem.svelte",
+    "react": "lily-design-system-react-headless/components/ContextMenuItem.tsx",
+    "vue": "lily-design-system-vue-headless/components/ContextMenuItem.vue",
+    "angular": "lily-design-system-angular-headless/components/ContextMenuItem.ts",
+    "web-components": "lily-design-system-web-components-headless/components/context-menu-item.ts",
+    "alpine": "lily-design-system-alpine-headless/components/context-menu-item.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/context-menu-item/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ContextMenuItem.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/context-menu-item/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/context-menu-item/AGENTS.md"
+}

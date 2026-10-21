@@ -1,0 +1,39 @@
+{
+  "slug": "pilipinas-philhealth-identification-number-view",
+  "name": "PilipinasPhilhealthIdentificationNumberView",
+  "description": "a read-only display of the Philippines' PhilHealth Identification Number (PIN)",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".pilipinas-philhealth-identification-number-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (default: \"\") — the identifier to display",
+    "`label`: string (required) — accessible name via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "pilipinas-philhealth-identification-number-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/pilipinas-philhealth-identification-number-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/PilipinasPhilhealthIdentificationNumberView/PilipinasPhilhealthIdentificationNumberView.svelte",
+    "react": "lily-design-system-react-headless/components/PilipinasPhilhealthIdentificationNumberView.tsx",
+    "vue": "lily-design-system-vue-headless/components/PilipinasPhilhealthIdentificationNumberView.vue",
+    "angular": "lily-design-system-angular-headless/components/PilipinasPhilhealthIdentificationNumberView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/pilipinas-philhealth-identification-number-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/pilipinas-philhealth-identification-number-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/pilipinas-philhealth-identification-number-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PilipinasPhilhealthIdentificationNumberView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/pilipinas-philhealth-identification-number-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/pilipinas-philhealth-identification-number-view/AGENTS.md"
+}

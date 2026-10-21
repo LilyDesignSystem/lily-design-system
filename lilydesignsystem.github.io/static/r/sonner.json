@@ -1,0 +1,40 @@
+{
+  "slug": "sonner",
+  "name": "Sonner",
+  "description": "a toast notification manager",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".sonner",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"region\"` -- defines the notification area as a named landmark section",
+    "`aria-label={label}` -- provides an accessible name identifying the notification area",
+    "`aria-live=\"polite\"` -- ensures new content is announced after the screen reader finishes its current output"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name identifying the notification area, applied via `aria-label`",
+    "`children`: slot (required) -- the toast notification content"
+  ],
+  "related": [
+    "toast",
+    "notification"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/sonner.html",
+    "svelte": "lily-design-system-svelte-headless/components/Sonner/Sonner.svelte",
+    "react": "lily-design-system-react-headless/components/Sonner.tsx",
+    "vue": "lily-design-system-vue-headless/components/Sonner.vue",
+    "angular": "lily-design-system-angular-headless/components/Sonner.ts",
+    "web-components": "lily-design-system-web-components-headless/components/sonner.ts",
+    "alpine": "lily-design-system-alpine-headless/components/sonner.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/sonner/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Sonner.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/sonner/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/sonner/AGENTS.md"
+}

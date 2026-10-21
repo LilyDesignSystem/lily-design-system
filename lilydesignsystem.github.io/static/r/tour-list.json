@@ -1,0 +1,37 @@
+{
+  "slug": "tour-list",
+  "name": "TourList",
+  "description": "an ordered list of tour guide steps",
+  "htmlTag": "ol",
+  "category": "lists",
+  "baseClass": ".tour-list",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"dialog\"` -- identifies the tour overlay as a dialog window",
+    "`aria-modal=\"true\"` -- indicates the dialog is modal and content behind it is inert",
+    "`aria-label={label}` -- provides an accessible name describing the tour",
+    "`tabindex=\"-1\"` -- allows the dialog element to receive focus for keyboard event handling"
+  ],
+  "keyboard": [
+    "Escape: Closes the tour by setting `active` to false"
+  ],
+  "props": [],
+  "related": [
+    "tour-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/tour-list.html",
+    "svelte": "lily-design-system-svelte-headless/components/TourList/TourList.svelte",
+    "react": "lily-design-system-react-headless/components/TourList.tsx",
+    "vue": "lily-design-system-vue-headless/components/TourList.vue",
+    "angular": "lily-design-system-angular-headless/components/TourList.ts",
+    "web-components": "lily-design-system-web-components-headless/components/tour-list.ts",
+    "alpine": "lily-design-system-alpine-headless/components/tour-list.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/tour-list/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TourList.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/tour-list/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tour-list/AGENTS.md"
+}

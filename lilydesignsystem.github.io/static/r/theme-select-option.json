@@ -1,0 +1,36 @@
+{
+  "slug": "theme-select-option",
+  "name": "ThemeSelectOption",
+  "description": "one option in a theme select dropdown",
+  "htmlTag": "option",
+  "category": "forms",
+  "baseClass": ".theme-select-option",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "Native `<option>` element provides built-in accessibility semantics",
+    "`disabled` attribute communicates disabled state to assistive technology"
+  ],
+  "keyboard": [
+    "Arrow Up/Down: Navigates between options within the parent select (native browser behavior)",
+    "Enter/Space: Selects the focused option (native browser behavior)"
+  ],
+  "props": [],
+  "related": [
+    "theme-select"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/theme-select-option.html",
+    "svelte": "lily-design-system-svelte-headless/components/ThemeSelectOption/ThemeSelectOption.svelte",
+    "react": "lily-design-system-react-headless/components/ThemeSelectOption.tsx",
+    "vue": "lily-design-system-vue-headless/components/ThemeSelectOption.vue",
+    "angular": "lily-design-system-angular-headless/components/ThemeSelectOption.ts",
+    "web-components": "lily-design-system-web-components-headless/components/theme-select-option.ts",
+    "alpine": "lily-design-system-alpine-headless/components/theme-select-option.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/theme-select-option/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ThemeSelectOption.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/theme-select-option/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/theme-select-option/AGENTS.md"
+}

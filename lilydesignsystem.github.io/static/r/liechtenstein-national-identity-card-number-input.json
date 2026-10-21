@@ -1,0 +1,43 @@
+{
+  "slug": "liechtenstein-national-identity-card-number-input",
+  "name": "LiechtensteinNationalIdentityCardNumberInput",
+  "description": "an input for entering Liechtenstein's Liechtenstein National Identity Card Number",
+  "htmlTag": "input",
+  "category": "national",
+  "baseClass": ".liechtenstein-national-identity-card-number-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`required` and `disabled` states conveyed to assistive technology",
+    "`aria-label` provided from the `label` prop"
+  ],
+  "keyboard": [
+    "Standard text input keyboard behavior"
+  ],
+  "props": [
+    "`label`: string (required) — accessible label via aria-label",
+    "`value`: string (default: \"\") — bindable input value",
+    "`required`: boolean (default: false) — form validation",
+    "`disabled`: boolean (default: false) — disabled state",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "liechtenstein-national-identity-card-number-view",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/liechtenstein-national-identity-card-number-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/LiechtensteinNationalIdentityCardNumberInput/LiechtensteinNationalIdentityCardNumberInput.svelte",
+    "react": "lily-design-system-react-headless/components/LiechtensteinNationalIdentityCardNumberInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/LiechtensteinNationalIdentityCardNumberInput.vue",
+    "angular": "lily-design-system-angular-headless/components/LiechtensteinNationalIdentityCardNumberInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/liechtenstein-national-identity-card-number-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/liechtenstein-national-identity-card-number-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/liechtenstein-national-identity-card-number-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/LiechtensteinNationalIdentityCardNumberInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/liechtenstein-national-identity-card-number-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/liechtenstein-national-identity-card-number-input/AGENTS.md"
+}

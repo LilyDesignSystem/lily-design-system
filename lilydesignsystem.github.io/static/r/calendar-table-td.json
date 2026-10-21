@@ -1,0 +1,47 @@
+{
+  "slug": "calendar-table-td",
+  "name": "CalendarTableTD",
+  "description": "a calendar table interactive grid data cell for managing dates, days, etc. <td>",
+  "htmlTag": "td",
+  "category": "tables",
+  "baseClass": ".calendar-table-td",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"gridcell\"` -- identifies the cell as part of a grid",
+    "`aria-selected` -- set to `true` when the cell is selected; omitted otherwise",
+    "`aria-current=\"date\"` -- set when the cell represents today's date; omitted otherwise"
+  ],
+  "keyboard": [
+    "Tab: Focus moves to the selected cell (`tabindex=\"0\"`)",
+    "Arrow keys: Typically handled by the parent CalendarTable grid navigation"
+  ],
+  "props": [
+    "`selected`: boolean (default: false) -- whether this day cell is selected",
+    "`today`: boolean (default: false) -- whether this day cell represents today's date",
+    "`children`: slot (required) -- day content, typically the day number",
+    "`...restProps`: Any additional HTML attributes passed to the `<td>` element"
+  ],
+  "related": [
+    "calendar-table",
+    "calendar-table-body",
+    "calendar-table-foot",
+    "calendar-table-head",
+    "calendar-table-row",
+    "calendar-table-th",
+    "table"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/calendar-table-td.html",
+    "svelte": "lily-design-system-svelte-headless/components/CalendarTableTD/CalendarTableTD.svelte",
+    "react": "lily-design-system-react-headless/components/CalendarTableTD.tsx",
+    "vue": "lily-design-system-vue-headless/components/CalendarTableTD.vue",
+    "angular": "lily-design-system-angular-headless/components/CalendarTableTD.ts",
+    "alpine": "lily-design-system-alpine-headless/components/calendar-table-td.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/calendar-table-td/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CalendarTableTD.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/calendar-table-td/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/calendar-table-td/AGENTS.md"
+}

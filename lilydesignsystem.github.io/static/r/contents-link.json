@@ -1,0 +1,47 @@
+{
+  "slug": "contents-link",
+  "name": "ContentsLink",
+  "description": "one table of contents link",
+  "htmlTag": "a",
+  "category": "links",
+  "baseClass": ".contents-link",
+  "subClasses": [
+    "contents-link-count"
+  ],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "Implicit `link` role from `<a>` element",
+    "`aria-current=\"true\"` when the link corresponds to the currently visible section"
+  ],
+  "keyboard": [
+    "Tab: Focus the link",
+    "Enter: Follow the link"
+  ],
+  "props": [
+    "`href`: string (required) -- the URL or anchor the link points to",
+    "`current`: boolean (default: false) -- whether this is the currently active section",
+    "`count`: number -- tasks (or items) to show a count for; sets `data-count`, and `data-complete` when 0",
+    "`countLabel`: string -- visible, localised count text, rendered inside the link after the text",
+    "`children`: slot (required) -- link text content",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "contents-nav",
+    "contents-list",
+    "contents-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/contents-link.html",
+    "svelte": "lily-design-system-svelte-headless/components/ContentsLink/ContentsLink.svelte",
+    "react": "lily-design-system-react-headless/components/ContentsLink.tsx",
+    "vue": "lily-design-system-vue-headless/components/ContentsLink.vue",
+    "angular": "lily-design-system-angular-headless/components/ContentsLink.ts",
+    "web-components": "lily-design-system-web-components-headless/components/contents-link.ts",
+    "alpine": "lily-design-system-alpine-headless/components/contents-link.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/contents-link/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ContentsLink.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/contents-link/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/contents-link/AGENTS.md"
+}

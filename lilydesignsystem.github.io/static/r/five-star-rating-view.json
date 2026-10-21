@@ -1,0 +1,40 @@
+{
+  "slug": "five-star-rating-view",
+  "name": "FiveStarRatingView",
+  "description": "a read-only display of a five-star rating",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".five-star-rating-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`role=\"img\"` -- indicates the span represents a visual/graphic element (the star rating)",
+    "`aria-label=\"...\"` -- provides the full rating description for screen readers",
+    "`aria-hidden=\"true\"` -- on each inner star span, prevents screen readers from reading individual star characters"
+  ],
+  "keyboard": [
+    "No keyboard interactions — this is a passive element"
+  ],
+  "props": [
+    "`value`: number (required) -- rating value (0-5) to display",
+    "`label`: string (required) -- accessible description via `aria-label` (e.g., \"4 out of 5 stars\")",
+    "`...restProps`: unknown -- additional attributes spread onto the outer `<span>`"
+  ],
+  "related": [
+    "five-star-rating-picker"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/five-star-rating-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/FiveStarRatingView/FiveStarRatingView.svelte",
+    "react": "lily-design-system-react-headless/components/FiveStarRatingView.tsx",
+    "vue": "lily-design-system-vue-headless/components/FiveStarRatingView.vue",
+    "angular": "lily-design-system-angular-headless/components/FiveStarRatingView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/five-star-rating-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/five-star-rating-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/five-star-rating-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/FiveStarRatingView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/five-star-rating-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/five-star-rating-view/AGENTS.md"
+}

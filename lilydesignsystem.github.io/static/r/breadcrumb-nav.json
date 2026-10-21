@@ -1,0 +1,44 @@
+{
+  "slug": "breadcrumb-nav",
+  "name": "BreadcrumbNav",
+  "description": "a navigation container for breadcrumb trail links",
+  "htmlTag": "nav",
+  "category": "navigation",
+  "baseClass": ".breadcrumb-nav",
+  "subClasses": [],
+  "interactive": true,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "`<nav>` with `aria-label` creates a navigation landmark for the breadcrumb trail",
+    "`<ol>` conveys the ordered hierarchical relationship of the trail",
+    "`aria-current=\"page\"` on the BreadcrumbListItem for the current page",
+    "Implicit `listitem` role from semantic `<li>` elements"
+  ],
+  "keyboard": [
+    "Tab: Focus moves between links in the breadcrumb trail",
+    "Enter: Activates the focused breadcrumb link"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name for the navigation landmark",
+    "`children`: slot (required) -- BreadcrumbListItem components",
+    "`...restProps`: unknown -- additional attributes spread onto the `<nav>` element"
+  ],
+  "related": [
+    "breadcrumb-list",
+    "breadcrumb-list-item",
+    "breadcrumb-link"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/breadcrumb-nav.html",
+    "svelte": "lily-design-system-svelte-headless/components/BreadcrumbNav/BreadcrumbNav.svelte",
+    "react": "lily-design-system-react-headless/components/BreadcrumbNav.tsx",
+    "vue": "lily-design-system-vue-headless/components/BreadcrumbNav.vue",
+    "angular": "lily-design-system-angular-headless/components/BreadcrumbNav.ts",
+    "web-components": "lily-design-system-web-components-headless/components/breadcrumb-nav.ts",
+    "alpine": "lily-design-system-alpine-headless/components/breadcrumb-nav.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/breadcrumb-nav/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/BreadcrumbNav.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/breadcrumb-nav/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/breadcrumb-nav/AGENTS.md"
+}

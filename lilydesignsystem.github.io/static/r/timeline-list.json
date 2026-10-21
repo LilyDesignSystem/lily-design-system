@@ -1,0 +1,37 @@
+{
+  "slug": "timeline-list",
+  "name": "TimelineList",
+  "description": "an ordered list of chronological events or milestones",
+  "htmlTag": "ol",
+  "category": "lists",
+  "baseClass": ".timeline-list",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
+  "aria": [
+    "Semantic `<ol>` for ordered/chronological content",
+    "`aria-label` provides accessible name for the list",
+    "Consumers should use `<time>` elements with `datetime` attributes for machine-readable dates within items"
+  ],
+  "keyboard": [
+    "None directly -- standard list navigation by screen readers",
+    "Tab moves focus between any interactive elements (links, buttons) within timeline items"
+  ],
+  "props": [],
+  "related": [
+    "timeline-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/timeline-list.html",
+    "svelte": "lily-design-system-svelte-headless/components/TimelineList/TimelineList.svelte",
+    "react": "lily-design-system-react-headless/components/TimelineList.tsx",
+    "vue": "lily-design-system-vue-headless/components/TimelineList.vue",
+    "angular": "lily-design-system-angular-headless/components/TimelineList.ts",
+    "web-components": "lily-design-system-web-components-headless/components/timeline-list.ts",
+    "alpine": "lily-design-system-alpine-headless/components/timeline-list.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/timeline-list/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TimelineList.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/timeline-list/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/timeline-list/AGENTS.md"
+}

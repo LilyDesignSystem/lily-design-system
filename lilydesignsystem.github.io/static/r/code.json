@@ -1,0 +1,38 @@
+{
+  "slug": "code",
+  "name": "Code",
+  "description": "an inline code span for displaying short code snippets within surrounding text",
+  "htmlTag": "code",
+  "category": "content",
+  "baseClass": ".code",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "aria": [
+    "No additional ARIA attributes needed -- the `<code>` element provides semantic meaning natively"
+  ],
+  "keyboard": [
+    "None -- code spans are informational, not interactive"
+  ],
+  "props": [
+    "`children`: slot (required) -- the code text content",
+    "`...restProps`: Any additional HTML attributes"
+  ],
+  "related": [
+    "code-block",
+    "kbd"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/code.html",
+    "svelte": "lily-design-system-svelte-headless/components/Code/Code.svelte",
+    "react": "lily-design-system-react-headless/components/Code.tsx",
+    "vue": "lily-design-system-vue-headless/components/Code.vue",
+    "angular": "lily-design-system-angular-headless/components/Code.ts",
+    "web-components": "lily-design-system-web-components-headless/components/code.ts",
+    "alpine": "lily-design-system-alpine-headless/components/code.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/code/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Code.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/code/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/code/AGENTS.md"
+}
