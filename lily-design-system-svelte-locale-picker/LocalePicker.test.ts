@@ -186,6 +186,8 @@ describe("LocalePicker — markup contract (§4.3, §7.1)", () => {
         // agree.
         expect(localeEndonym("cy")).toBe("Cymraeg");
         expect(localeEndonym("de")).toBe("Deutsch");
+        expect(localeEndonym("wuu-001")).toBe("吴语");
+        expect(localeEndonym("pcm-001")).toBe("Naijá");
     });
 });
 

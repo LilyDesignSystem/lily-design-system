@@ -67,6 +67,12 @@ export function localeName(locale) {
 }
 
 /**
+ * Self-names the runtime's `Intl.DisplayNames` data gets wrong: for these it answers
+ * with a fallback-language name ("Wu Chinese", "Naijíriá Píjin") rather than the one speakers use.
+ */
+const ENDONYM_OVERRIDES = { wuu: "吴语", pcm: "Naijá" };
+
+/**
  * The language's own name for itself — "de" → "Deutsch", "cy" →
  * "Cymraeg" — from `Intl.DisplayNames` asked *in that language*.
  *
@@ -81,6 +87,8 @@ export function localeName(locale) {
 export function localeEndonym(locale) {
   try {
     const tag = bcp47LocaleTag(locale);
+    const override = ENDONYM_OVERRIDES[tag.split("-")[0].toLowerCase()];
+    if (override) return override;
     const dn = new Intl.DisplayNames([tag], { type: "language" });
     const found = dn.of(tag) || "";
     return found && found.toLowerCase() !== tag.toLowerCase() ? found : "";
