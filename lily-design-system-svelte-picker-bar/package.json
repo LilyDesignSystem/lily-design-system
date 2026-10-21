@@ -28,12 +28,12 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@lilydesignsystem/svelte-link-picker": "^0.1.1",
-    "@lilydesignsystem/svelte-locale-picker": "^0.2.0",
-    "@lilydesignsystem/svelte-search-picker": "^0.1.0",
-    "@lilydesignsystem/svelte-share-picker": "^0.2.0",
-    "@lilydesignsystem/svelte-text-size-picker": "^0.2.0",
-    "@lilydesignsystem/svelte-theme-picker": "^0.2.0"
+    "@lilydesignsystem/svelte-link-picker": "^0.2.0",
+    "@lilydesignsystem/svelte-locale-picker": "^0.3.0",
+    "@lilydesignsystem/svelte-search-picker": "^0.2.0",
+    "@lilydesignsystem/svelte-share-picker": "^0.3.0",
+    "@lilydesignsystem/svelte-text-size-picker": "^0.3.0",
+    "@lilydesignsystem/svelte-theme-picker": "^0.3.0"
   },
   "peerDependencies": {
     "svelte": "^5.0.0"
