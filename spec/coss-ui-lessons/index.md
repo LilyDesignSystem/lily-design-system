@@ -118,6 +118,10 @@ Complete Form). Its page leaves *when* an error appears undefined.
   `error-summary`.
 - **Examples:** the same 15 as recipes (item 1), each wiring `aria-invalid`,
   `aria-describedby` / `aria-errormessage` and the error text.
+- **Revised 2026-10-21:** the "validate on blur after first interaction" timing can
+  be had natively from `:user-invalid` / `:user-valid`, which match only after the
+  user has interacted; see [daisyui-lessons](../daisyui-lessons/index.md) item 5.
+  Script is then needed only for the submit-time summary and focus move.
 - **Rule:** headless layer ships no validation rules (they stay the
   consumer's); the pattern only wires the attributes.
 - **Check:** one e2e test per pattern asserting the ARIA wiring and focus
