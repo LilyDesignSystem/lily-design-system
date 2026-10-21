@@ -1,13 +1,10 @@
-# Lessons from coss ui and ShardsUI (planned work)
+# Lessons from coss ui (planned work)
 
 ## Summary
 
-Twelve improvements to Lily, plus open questions, proposed 2026-10-21 from
-two reviews: [coss ui-svelte](https://cossui-svelte.com/) (an unofficial
-community Svelte port of [coss ui](https://coss.com/ui), "Built for
-developers and AI") for items 1-8, and [ShardsUI](https://shardsui.com/) (an
-unstyled Svelte 5 port "adapted from Base UI", the base coss ui-svelte
-builds on) for items 9-12.
+Eight improvements to Lily, proposed 2026-10-21 from a review of
+[coss ui-svelte](https://cossui-svelte.com/) (an unofficial community Svelte
+port of [coss ui](https://coss.com/ui), "Built for developers and AI").
 Nothing here is built yet: this topic is the plan, and each item is an
 open acceptance criterion below. Lily is already ahead of coss on catalog
 size (571 against 72), the WCAG 2.2 AAA target, the i18n rule and framework
@@ -32,20 +29,15 @@ check.
   (no data fetching, no bundled assets) rules out.
 - Any Tailwind or CSS-framework dependency.
 
-## Limits of the reviews
+## Limits of the review
 
-ShardsUI: only the home page and the Menu page were readable; its quick-start
-and overview pages returned 404, and a search found nothing about it, so its
-maintainer, testing, styling guide and animation guide are unknown. It is
-beta (`v0.1.0-beta.2`, "expect API change, and bugs").
-
-coss ui-svelte: only the home page, the docs landing page and the Field page of
+Only the home page, the docs landing page and the Field page of
 cossui-svelte.com were readable, plus search results for the React original.
 Its Get started and Styling pages, token system, dark-mode handling and any
 accessibility testing were **not** seen, so nothing below is a claim about
 them. Re-check before citing coss for anything beyond what is listed.
 
-## The twelve items
+## The eight items
 
 ### 1. A recipes ("particles") layer
 
@@ -168,95 +160,6 @@ behaves this way (class-first rule, suffix to element table, per-component
   that component's `AGENTS.md`, not left implicit.
 - **Check:** none beyond review; it is a design rule.
 
-### 9. One state data-attribute vocabulary
-
-ShardsUI exposes every part's state as data attributes (`data-open` /
-`data-closed`, `data-highlighted`, `data-checked` / `data-unchecked`,
-`data-disabled`, `data-popup-open`, `data-side`, `data-align`). Lily uses
-`data-open`, `data-active`, `data-selected`, `data-expanded` and others
-unevenly: building the Alpine overlays showed `data-open` on some parts and
-not on their siblings.
-
-- **Deliverable:** one vocabulary in `AGENTS/headless.md` and the
-  [headless](../headless/index.md) topic: `data-open` / `data-closed` for
-  disclosure state, `data-highlighted` for the roving/active item,
-  `data-checked` / `data-unchecked`, `data-disabled`, `data-side` /
-  `data-align` for placed popups. ARIA remains the assistive-technology
-  signal; these are for consumer CSS and JS only, as the root rule says.
-- **Migration:** an audit table of today's attributes per component; renames
-  are breaking, so keep the old attribute alongside the new one for one minor
-  release and list both in each component's `AGENTS.md`.
-- **Check:** a `bin/check-data-attributes` that fails on an attribute outside
-  the vocabulary (an allow-list file for per-component exceptions).
-
-### 10. Missing menu parts
-
-Lily's menu family is flat: `menu`, `menu-item`, `menu-group`, `menu-bar`,
-`dropdown-menu`, `context-menu`. ShardsUI's has checkbox items, radio
-groups and items, group labels, link items and separators.
-
-- **Deliverable:** `menu-checkbox-item` (`role="menuitemcheckbox"`),
-  `menu-radio-group` + `menu-radio-item` (`role="menuitemradio"`),
-  `menu-group-label` (labels a `role="group"`), `menu-link-item` (a real
-  `<a>`, so middle-click and copy-link work) and `menu-separator`
-  (`role="separator"`). Contracts follow the WAI-ARIA APG menu pattern.
-- **Reach:** catalog entries in `components.tsv` first, then all eight
-  headless libraries via `bin/new-component`; the Alpine plugin's
-  `lilyMenu` / `lilyDropdownMenu` items must handle the checked and radio
-  roles.
-- **Check:** per-component unit tests plus the standard coverage matrix.
-
-### 11. Document behaviour defaults as props
-
-ShardsUI states a default for every behavioural option: `loopFocus` (true),
-`closeOnClick` (true for items, false for checkbox and radio items),
-`openOnHover` (false), `delay` (100 ms), `closeDelay` (0), `modal` (true),
-`highlightItemOnHover` (true).
-
-- **Deliverable:** in each interactive component's `AGENTS.md` Props section,
-  list every behavioural option with its default, even when Lily hard-codes it
-  today (wrap-around focus, close on select). A hard-coded behaviour is
-  documented as "fixed"; an option is added only when a real consumer needs
-  it.
-- **Why:** an agent or maintainer cannot tell from the docs whether
-  `loopFocus` is configurable or fixed.
-- **Check:** extend `bin/generate-api-docs` to fail when an interactive
-  component's keyboard section mentions wrapping, closing or delay without a
-  matching Props entry.
-
-### 12. Published positioning variables
-
-ShardsUI's positioner publishes `--anchor-width`, `--anchor-height`,
-`--available-width`, `--available-height` and `--transform-origin`. Lily's
-57 themes already position popups with CSS anchor positioning, and the
-Alpine context menu already publishes `--context-menu-x` / `--context-menu-y`.
-
-- **Deliverable:** a documented set of custom properties per popup component
-  (`popover`, `tooltip`, `dropdown-menu`, `context-menu`, `hover-card`,
-  `combobox`, pickers) listed in its `AGENTS.md`, written only where the
-  component already computes the value (for example from a pointer event).
-  The headless layer does not measure anchors itself.
-- **Rule:** custom properties applied as variables are the permitted inline
-  style; nothing else.
-- **Check:** a test per component that reads the documented properties.
-
-## Open questions (not yet items)
-
-- **Animation hooks.** ShardsUI sets `data-starting-style` /
-  `data-ending-style` so CSS can animate enter and exit. Lily's rule is that
-  headless components never animate; the practical cost is that `hidden`
-  removes an element at once, so consumers cannot animate exit. Option: an
-  opt-in transition-status attribute set by the component while Lily ships no
-  motion, honouring `motion-picker` and `prefers-reduced-motion`. Needs a
-  maintainer decision because it touches the "no animation" rule.
-- **Submenus.** Lily has none. ShardsUI's `openOnHover`, delays and focus
-  rules are substantial; give it its own topic if wanted.
-- **Detached triggers.** A trigger away from its menu is already expressible
-  with `aria-controls`; document the pattern in `dropdown-menu`, and in the
-  Alpine plugin allow `trigger` and `menu` to bind to separate elements.
-- **Not copied:** ShardsUI's beta API churn. Lily's stable sub-class rule is
-  the better contract; item 9 extends it to cover the state vocabulary.
-
 ## Acceptance criteria
 
 - [ ] 1. `recipes/` exists with the 15 Field recipes; `bin/check-recipes` passes in `bin/test`.
@@ -267,11 +170,6 @@ Alpine context menu already publishes `--context-menu-x` / `--context-menu-y`.
 - [ ] 6. `/chat-interface` ships in all seven example apps and passes axe and keyboard tests.
 - [ ] 7. The "How the pieces fit" page exists.
 - [ ] 8. The predictability principle is in `AGENTS/headless.md` and the headless topic.
-- [ ] 9. The state data-attribute vocabulary is documented, audited and checked by `bin/check-data-attributes`.
-- [ ] 10. The five menu parts exist in `components.tsv` and all eight headless libraries.
-- [ ] 11. Every interactive component's Props section lists its behavioural defaults.
-- [ ] 12. Popup components document their published custom properties, each tested.
-- [ ] Open questions above are decided, or recorded as declined.
 
 ## Related topics
 
@@ -285,6 +183,5 @@ Alpine context menu already publishes `--context-menu-x` / `--context-menu-y`.
 ## Sources
 
 - [coss ui-svelte](https://cossui-svelte.com/), [its docs](https://cossui-svelte.com/docs) and [Field page](https://cossui-svelte.com/docs/components/field) (unofficial port; read 2026-10-21).
-- [ShardsUI](https://shardsui.com/) and its [Menu page](https://shardsui.com/svelte/menu) (beta; read 2026-10-21).
 - [coss ui](https://coss.com/ui) and its [skills listing](https://www.skills.sh/cosscom/coss/coss-particles) (seen via search results only).
 - [AGENTS/citations.md](../../AGENTS/citations.md), which already lists Coss UI.
