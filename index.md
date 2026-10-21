@@ -27,7 +27,7 @@ see the modular specification docs under [spec/](spec/index.md).
 
 ## AI agent support
 
-Twenty-six [Claude Skills](https://code.claude.com/docs/en/skills) give an AI
+Twenty-seven [Claude Skills](https://code.claude.com/docs/en/skills) give an AI
 coding agent a curated entry point, in three tiers:
 [lily-design-system-skill](lily-design-system-skill) for people
 building *with* Lily (concepts, naming, composition patterns),

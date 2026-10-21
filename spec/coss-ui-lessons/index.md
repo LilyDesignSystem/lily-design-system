@@ -91,7 +91,7 @@ only).
 ### 4. Publish the skills where agents look
 
 coss lists its skills (`coss`, `coss-particles`) on skills.sh and tessl.
-Lily has 26 skill packages (see [agent-skills](../agent-skills/index.md)).
+Lily has 27 skill packages (see [agent-skills](../agent-skills/index.md)).
 
 - **Deliverable:** confirm which registries index the skills; list the two
   entry skills (`lily-design-system-skill`,

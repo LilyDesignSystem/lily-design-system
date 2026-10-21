@@ -124,7 +124,7 @@ they are why Lily's attack surface is small:
 
 - **The headless layer performs no data fetching, no network calls, and no
   persistence.** This is a design rule, not an accident —
-  [AGENTS/headless.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/headless.md) § Behavior boundaries.
+  [AGENTS/headless.md](AGENTS/headless.md) § Behavior boundaries.
 - **No telemetry and no analytics anywhere.** Nothing about your use of Lily reaches
   the project.
 - **No personal data in the repository** — not in fixtures, not in demo content. The

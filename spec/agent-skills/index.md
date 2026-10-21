@@ -2,15 +2,17 @@
 
 ## Summary
 
-Twenty-six repository top-level [Claude Skill](https://code.claude.com/docs/en/skills)
+Twenty-seven repository top-level [Claude Skill](https://code.claude.com/docs/en/skills)
 packages give AI coding agents a curated, loadable entry point into Lily
 Design System, in three tiers: [`lily-design-system-skill`](../../lily-design-system-skill/)
 for people building *with* the system in general and
 [`lily-design-system-maintainer-skill`](../../lily-design-system-maintainer-skill/)
 for people working *on* this monorepo (the original two); eight
 framework-umbrella skills, one per framework family, added 2026-09-05;
-and sixteen framework-specific skills, one headless-skill and one
-helpers-skill per framework, added 2026-09-04. All twenty-six follow the
+and seventeen framework-specific skills, one headless-skill and one
+helpers-skill per framework, added 2026-09-04, plus
+`lily-design-system-alpine-headless-skill` (2026-10-21; Alpine has no helpers
+or example app yet, so it has no helpers-skill or umbrella). All twenty-seven follow the
 same `lily-design-system-` naming convention and get identical
 full-subproject treatment — see "Naming-split retirement" and
 "Framework-specific skills reversal" below for how each tier arrived.
@@ -34,7 +36,9 @@ full-subproject treatment — see "Naming-split retirement" and
   duplicating them.
 - Sixteen framework-specific skills, `lily-design-system-{framework}-headless-skill`
   and `lily-design-system-{framework}-helpers-skill` for each of the eight
-  framework families — see "The sixteen framework-specific skills" below.
+  framework families — see "The sixteen framework-specific skills" below —
+  plus `lily-design-system-alpine-headless-skill` for the ninth, Alpine.js
+  headless catalog (no helpers-skill: Alpine has no helpers yet).
 - Each skill's own `SKILL.md` (the Claude Skill entry point: YAML
   frontmatter with `name`/`description`/`license`, then Markdown
   instructions) and any `reference/*.md` files it loads on demand.
@@ -60,10 +64,10 @@ full-subproject treatment — see "Naming-split retirement" and
 
 ## Principles and rules
 
-- **Twenty-six skills, one naming convention.** `lily-design-system-skill`
+- **Twenty-seven skills, one naming convention.** `lily-design-system-skill`
   is portable in spirit — useful in any project that consumes Lily Design
-  System, not just this monorepo — while the other twenty-five are bound
-  to this repository's own subprojects and conventions. All twenty-six
+  System, not just this monorepo — while the other twenty-six are bound
+  to this repository's own subprojects and conventions. All twenty-seven
   nonetheless share the `lily-design-system-` prefix, because a
   directory's naming convention is a statement about repository plumbing
   (is it swept into `bin/list-implementations`/`bin/sync-special-files`?),
@@ -76,7 +80,7 @@ full-subproject treatment — see "Naming-split retirement" and
   `spec/index.md`, the 14 special files), per
   [architecture](../architecture/index.md) and
   [special-files-for-public-repos](../special-files-for-public-repos/index.md).
-  All twenty-six skills carry the full set.
+  All twenty-seven skills carry the full set.
 - **Content, not code.** No skill folder ships components, tests, or a
   build step — a skill package is documentation for an AI agent, so
   `bin/test`'s per-framework checks (Storybook, vitest, Playwright) don't
@@ -122,7 +126,7 @@ the record of intent):
 
 ### File shape by skill
 
-Identical across all twenty-six skills:
+Identical across all twenty-seven skills:
 
 | File | General/maintainer skills | Umbrella / framework-specific skills |
 | --- | --- | --- |
@@ -283,14 +287,14 @@ subproject's remote carries remains a maintainer step.
 
 ## Acceptance criteria
 
-- [x] All twenty-six skill folders exist at the repository root, all
+- [x] All twenty-seven skill folders exist at the repository root, all
       named under the `lily-design-system-` prefix.
 - [x] Each has a `SKILL.md` with `name` + `description` frontmatter
       naming concrete trigger phrases.
-- [x] All twenty-six skills carry the full required-files set
+- [x] All twenty-seven skills carry the full required-files set
       (`index.md`, `README.md` symlink to `index.md`, `AGENTS.md`, `spec/index.md`, the 14 special
       files via `bin/sync-special-files`) and pass `bin/test`.
-- [x] `bin/sync-special-files`'s generated files for all twenty-six
+- [x] `bin/sync-special-files`'s generated files for all twenty-seven
       skills (and for the two pre-existing `web-components-*`
       subprojects caught by the same classification fix) describe a
       Claude Skill or the correct real-subproject kind, not a

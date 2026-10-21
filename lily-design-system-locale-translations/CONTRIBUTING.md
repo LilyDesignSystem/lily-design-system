@@ -96,11 +96,11 @@ These are not style preferences; they are the contracts Lily exists to hold.
 
 - **No CSS in the headless layer.** No stylesheets, no `style="..."` attributes
   (except where structurally required), no colour, spacing, typography, or
-  breakpoint literals. [AGENTS/headless.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/headless.md) has the forbidden
+  breakpoint literals. [AGENTS/headless.md](AGENTS/headless.md) has the forbidden
   list.
 - **No hardcoded user-facing strings.** Every label, error, placeholder, and
   announcement is a prop. No English defaults, including ones that seem obviously
-  safe. [AGENTS/internationalization.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/internationalization.md).
+  safe. [AGENTS/internationalization.md](AGENTS/internationalization.md).
 - **Semantic HTML first, ARIA second.** `role="button"` on a `<div>` is a defect.
   The canonical element for each component is fixed in `components/{slug}/AGENTS.md`
   and is not negotiable in an implementation PR.
@@ -170,7 +170,7 @@ the project — the license menu in [LICENSE.md](LICENSE.md). There is no CLA an
 copyright assignment.
 
 Do not contribute code, CSS, or documentation copied from another design system.
-Lily learns from the systems in [AGENTS/citations.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/citations.md) by taking
+Lily learns from the systems in [AGENTS/citations.md](AGENTS/citations.md) by taking
 *patterns and research* — what a component is for, which ARIA pattern applies —
 never their source.
 

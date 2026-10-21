@@ -158,7 +158,7 @@ about where that target is not met.
 Bootstrap v6 ships skills by *task*, installed with
 `npx skills add twbs/bootstrap`: `bootstrap-v6-install`, `-npm`, `-webpack`,
 `-parcel`, `-vite`, `-component`, `-component-js`, `-color-system`,
-`-utility-api`, and migration skills (4 to 6, 5 to 6). Lily's 26 skills are
+`-utility-api`, and migration skills (4 to 6, 5 to 6). Lily's 27 skills are
 organised by *framework* and layer.
 
 - **Deliverable:** add task skills that cut across frameworks, in the

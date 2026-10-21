@@ -124,7 +124,7 @@
         {
           "title": "spec/agent-skills/index.md",
           "url": "spec/agent-skills/index.md",
-          "description": "The 26 Claude Skills: `lily-design-system-skill`, `lily-design-system-maintainer-skill`, eight framework umbrella skills and sixteen headless/helpers skills."
+          "description": "The 27 Claude Skills: `lily-design-system-skill`, `lily-design-system-maintainer-skill`, eight framework umbrella skills, sixteen headless/helpers skills and the Alpine.js headless skill."
         },
         {
           "title": "spec/examples/index.md",
@@ -164,7 +164,7 @@
         {
           "title": "lily-design-system-skill",
           "url": "lily-design-system-skill/SKILL.md",
-          "description": "General-purpose Claude Skill explaining Lily concepts and usage to people building with the system (one of 26 Claude Skills: see spec/agent-skills)."
+          "description": "General-purpose Claude Skill explaining Lily concepts and usage to people building with the system (one of 27 Claude Skills: see spec/agent-skills)."
         },
         {
           "title": "lily-design-system-maintainer-skill",

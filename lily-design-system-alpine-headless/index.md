@@ -26,7 +26,15 @@ The snippet fixes the element, the base class (first, as in every Lily catalog) 
 ## Components
 
 - **Static markup (488):** every html-headless snippet with no behaviour, e.g. `alert`, `badge`, `breadcrumb-nav`, `button`, `card`, `table`, the national identifiers. Their tests check the element, base class and ARIA role, not behaviour.
-- **Alpine behaviour (12):** `clipboard-copy-button` (`lilyClipboardCopy`), `collapsible` (`lilyCollapsible`), `dialog` (`lilyDialog`), `popover` (`lilyPopover`), `show-more` (`lilyShowMore`), `switch-button` (`lilySwitchButton`), `tab-bar`, `tab-bar-button`, `tab-panel` (`lilyTabs`), `toggle-button` (`lilyToggleButton`), `toggle-group` (`lilyToggleGroup`), `tooltip` (`lilyTooltip`).
+- **Hand-written (83), by family** (the `families/*.mjs` modules, plus the first 12 in the generator):
+  - *Toggles and disclosure:* `toggle-button` (`lilyToggleButton`), `switch-button` (`lilySwitchButton`), `toggle-group` (`lilyToggleGroup`), `collapsible`, `expander`, `government-banner`, `hamburger-menu` (`lilyCollapsible`), `show-more` (`lilyShowMore`), `accordion-nav` (`lilyAccordion`), `accordion-checkbox` (`lilyCheckboxAccordion`), `medical-banner`, `sticky-promo-banner` (`lilyDismissible`), `hover-card` (`lilyHoverCard`), `tooltip` (`lilyTooltip`), `popover`, `contextual-help` (`lilyPopover`), `clipboard-copy-button` (`lilyClipboardCopy`), `tab-bar`, `tab-bar-button`, `tab-panel` (`lilyTabs`).
+  - *Overlays:* `dialog`, `alert-dialog`, `file-dialog` (`lilyDialog`), `drawer`, `slide-out-drawer`, `sheet`, `popup`, `overlay-container` (`lilyOverlay`), `popconfirm-dialog` (`lilyConfirm`).
+  - *Menus:* `menu`, `menu-bar` (`lilyMenu`), `dropdown-menu`, `split-button`, `action-group` (`lilyDropdownMenu`), `context-menu` (`lilyContextMenu`).
+  - *Selection:* `listbox` (`lilyListbox`), `segment-group` (`lilySegmentGroup`), `combobox` (`lilyCombobox`), `command` (`lilyCommand`); the five rating and status pickers are native radios and `<select>` bound with `x-model`.
+  - *Trees:* `tree-nav`, `tree-menu`, `file-tree` (`lilyTree`), `tree-select` (`lilyTreeSelect`), `cascader` (`lilyCascader`).
+  - *Text and form inputs:* `character-counter`, `text-area-input-with-character-counter`, `password-input-or-text-input-div`, `pin-input-div`, `tag-input`, `currency-input`, `text-input-with-search`, `mentions-input`, `editable`, `editable-form`, `data-filter-form`, `newsletter-signup`, `date-time-now-input`, `time-picker-input`.
+  - *Value controls and guided widgets:* `slider`, `dial`, `color-picker`, `splitter`, `resizable`, `scroll-area`, `carousel`, `tour`, `coachmark`, `file-upload`.
+  - *Container-only (role and name, no behaviour):* `calendar-range-picker`, `emoji-character-picker`, `image-cropper`, `signature-pad`, `file-manager`, `float-button`, `toast`, `sonner`, `timer`.
 
 ## Develop
 

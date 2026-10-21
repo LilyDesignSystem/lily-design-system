@@ -128,7 +128,7 @@ most projects do not have: what to do when the frameworks disagree.
   pickers deliberately omit a focus-restoration step because its async event
   ordering makes the bug impossible and the fix a regression. That is a legitimate
   divergence precisely because it is recorded in
-  [AGENTS/helpers.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/helpers.md) with its reasoning.
+  [AGENTS/helpers.md](AGENTS/helpers.md) with its reasoning.
 - **A behaviour change lands in all seven or it explains why not.**
 
 ## Becoming a maintainer

@@ -61,9 +61,9 @@ searchable component catalog: https://lilydesignsystem.com/.
   catalog and the checks that keep them in step.
 - [spec/frameworks/index.md](spec/frameworks/index.md): the seven
   framework pairs, per-framework file shapes, the copy-pattern.
-- [spec/agent-skills/index.md](spec/agent-skills/index.md): the 26 Claude
+- [spec/agent-skills/index.md](spec/agent-skills/index.md): the 27 Claude
   Skills (end-user, maintainer, eight framework umbrellas, sixteen
-  headless/helpers skills).
+  headless/helpers skills, and the Alpine.js headless skill).
 - [spec/examples/index.md](spec/examples/index.md): the example apps and the
   demonstration-page contract (live demo, variants, real usage example).
 - [spec/tooling/index.md](spec/tooling/index.md): the `bin/` scripts, sync

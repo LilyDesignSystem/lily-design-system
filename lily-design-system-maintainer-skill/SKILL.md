@@ -20,7 +20,7 @@ the canonical monorepo with `spec/index.md` as the living specification and
   publish from this monorepo; the per-subproject subtree mirrors were deleted 2026-10-10 and only the docs
   site is still pushed to its own repository (`make github-pages`). Directory names all start with the
   `lily-design-system-` prefix, which is exactly what `bin/list-implementations` and
-  `bin/sync-special-files` scope on. Beside them: 26 Claude Skills, `lily-design-system-themes` and
+  `bin/sync-special-files` scope on. Beside them: 27 Claude Skills, `lily-design-system-themes` and
   `lilydesignsystem.github.io` (172 subprojects in all).
 - **571 component directories** under `components/{slug}/`.
 - **Root canon**: `components.tsv` (the catalog), `css-style-sheet-template.css`

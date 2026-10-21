@@ -16,15 +16,15 @@ the summary a reader, a reporter, or an evaluator wants first.
 
 ## Status at a glance
 
-_Updated 2026-09-06._
+_Updated 2026-10-21._
 
 | | |
 | --- | --- |
 | Version | 0.6.0 (pre-1.0; minor versions may break) |
 | Started | 2025-08-09 |
 | Catalog | 571 components |
-| Frameworks | 7 full-catalog — HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — plus an 8th, Web Components, at its full achievable scope (536/571; the remaining 35 are permanently excluded, not backlog) |
-| Layers | 8 headless libraries, 7 example applications, 129 helper packages (one top-level subproject each since 2026-10-10) |
+| Frameworks | 7 full-catalog — HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — plus an 8th, Web Components, at its full achievable scope (536/571; the remaining 35 are permanently excluded, not backlog), and a 9th, Alpine.js, covering all 571 as HTML snippets plus one plugin (unpublished; no example app or helpers yet) |
+| Layers | 9 headless libraries, 7 example applications, 129 helper packages (one top-level subproject each since 2026-10-10) |
 | Themes | 57 reference stylesheets |
 | Published | 6 of 7 full-catalog headless libraries and the JS helper packages on npm (see [CHANGELOG.md](CHANGELOG.md) for exact per-package status); the 6 Blazor NuGet packages are packed, push pending credentials; Web Components headless and helpers are built but not yet subtree-pushed or published |
 | License | MIT, Apache-2.0, GPL-2.0-only, GPL-3.0-only, or BSD-3-Clause, at your option |
@@ -32,6 +32,16 @@ _Updated 2026-09-06._
 | Funding | [GitHub Sponsors](https://github.com/sponsors/joelparkerhenderson) live; Open Collective planned — see [CONTRIBUTING.md](CONTRIBUTING.md) for what money buys and does not |
 
 ## Recent news
+
+### 2026-10-21 — A 9th headless catalog, Alpine.js, covers all 571 components
+
+`lily-design-system-alpine-headless` (`@lilydesignsystem/alpine-headless`,
+not yet published) ships every component as an annotated HTML snippet plus
+one Alpine plugin that owns state and keyboard behaviour: 488 are static
+markup and 83 have hand-written behaviour (menus, trees, tabs, dialogs,
+combobox, sliders, tours and more), each with a jsdom test and a Storybook
+story. A matching `lily-design-system-alpine-headless-skill` explains the
+idiom. There is no Alpine example app or helper package yet.
 
 ### 2026-09-06 — An 8th headless catalog, Web Components, reaches its full achievable scope
 
