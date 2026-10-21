@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof CalendarTableTD>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof CalendarTableTD>;
 
 export const Default: Story = {};

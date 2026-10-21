@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof DataFilterForm>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof DataFilterForm>;
 
 export const Default: Story = {};

@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof TaskBarButton>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof TaskBarButton>;
 
 export const Default: Story = {};

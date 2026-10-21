@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof Cascader>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Cascader>;
 
 export const Default: Story = {};

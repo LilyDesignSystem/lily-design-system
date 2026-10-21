@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof RadioInput>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof RadioInput>;
 
 export const Default: Story = {};

@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof FileDialog>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof FileDialog>;
 
 export const Default: Story = {};

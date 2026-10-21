@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof Splitter>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Splitter>;
 
 export const Default: Story = {};

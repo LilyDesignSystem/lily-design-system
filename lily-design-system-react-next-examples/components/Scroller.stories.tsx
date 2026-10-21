@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof Scroller>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Scroller>;
 
 export const Default: Story = {};

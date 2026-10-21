@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof DateRange>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof DateRange>;
 
 export const Default: Story = {};

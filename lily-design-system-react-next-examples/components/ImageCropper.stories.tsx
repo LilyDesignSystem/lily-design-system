@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof ImageCropper>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof ImageCropper>;
 
 export const Default: Story = {};

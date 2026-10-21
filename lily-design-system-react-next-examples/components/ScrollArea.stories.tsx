@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof ScrollArea>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof ScrollArea>;
 
 export const Default: Story = {};

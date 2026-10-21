@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof RingChart>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof RingChart>;
 
 export const Default: Story = {};

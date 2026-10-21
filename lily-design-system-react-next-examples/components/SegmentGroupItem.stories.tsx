@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof SegmentGroupItem>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof SegmentGroupItem>;
 
 export const Default: Story = {};

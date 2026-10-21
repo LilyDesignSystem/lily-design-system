@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof CalendarRangePicker>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof CalendarRangePicker>;
 
 export const Default: Story = {};

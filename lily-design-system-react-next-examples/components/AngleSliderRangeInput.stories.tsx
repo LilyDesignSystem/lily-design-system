@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof AngleSliderRangeInput>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof AngleSliderRangeInput>;
 
 export const Default: Story = {};

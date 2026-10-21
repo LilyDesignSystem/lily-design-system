@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof DateTimeView>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof DateTimeView>;
 
 export const Default: Story = {};

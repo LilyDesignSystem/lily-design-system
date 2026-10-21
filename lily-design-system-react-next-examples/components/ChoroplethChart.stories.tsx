@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof ChoroplethChart>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof ChoroplethChart>;
 
 export const Default: Story = {};

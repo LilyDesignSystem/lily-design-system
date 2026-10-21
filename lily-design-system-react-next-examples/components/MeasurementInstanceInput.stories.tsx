@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof MeasurementInstanceInput>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof MeasurementInstanceInput>;
 
 export const Default: Story = {};

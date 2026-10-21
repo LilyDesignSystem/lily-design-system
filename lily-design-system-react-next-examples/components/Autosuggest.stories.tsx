@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof Autosuggest>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Autosuggest>;
 
 export const Default: Story = {};

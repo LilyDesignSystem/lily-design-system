@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof PaginationListItem>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof PaginationListItem>;
 
 export const Default: Story = {};

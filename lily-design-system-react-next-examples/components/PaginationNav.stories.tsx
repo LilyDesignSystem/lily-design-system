@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof PaginationNav>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof PaginationNav>;
 
 export const Default: Story = {};

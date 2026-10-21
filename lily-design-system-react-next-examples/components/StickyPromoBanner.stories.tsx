@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof StickyPromoBanner>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof StickyPromoBanner>;
 
 export const Default: Story = {};

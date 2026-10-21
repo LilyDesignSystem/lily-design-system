@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof MockupShell>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof MockupShell>;
 
 export const Default: Story = {};

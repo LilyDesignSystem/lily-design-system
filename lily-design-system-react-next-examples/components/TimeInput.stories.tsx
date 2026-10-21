@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof TimeInput>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof TimeInput>;
 
 export const Default: Story = {};

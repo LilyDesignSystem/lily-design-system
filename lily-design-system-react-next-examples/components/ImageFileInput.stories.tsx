@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof ImageFileInput>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof ImageFileInput>;
 
 export const Default: Story = {};

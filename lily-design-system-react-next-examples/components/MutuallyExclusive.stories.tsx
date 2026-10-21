@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof MutuallyExclusive>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof MutuallyExclusive>;
 
 export const Default: Story = {};

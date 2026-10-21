@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof Flair>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Flair>;
 
 export const Default: Story = {};

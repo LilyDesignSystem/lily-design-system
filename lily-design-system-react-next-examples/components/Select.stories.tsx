@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof Select>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Select>;
 
 export const Default: Story = {};

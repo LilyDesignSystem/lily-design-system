@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof Expander>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Expander>;
 
 export const Default: Story = {};

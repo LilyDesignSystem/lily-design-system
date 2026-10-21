@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof ClipboardCopyButton>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof ClipboardCopyButton>;
 
 export const Default: Story = {};

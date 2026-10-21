@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof EspanaTarjetaSanitariaIndividualInput>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof EspanaTarjetaSanitariaIndividualInput>;
 
 export const Default: Story = {};

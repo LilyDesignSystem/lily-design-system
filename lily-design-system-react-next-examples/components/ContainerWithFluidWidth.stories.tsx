@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof ContainerWithFluidWidth>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof ContainerWithFluidWidth>;
 
 export const Default: Story = {};

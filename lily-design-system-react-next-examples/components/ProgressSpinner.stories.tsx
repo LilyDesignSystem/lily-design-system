@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof ProgressSpinner>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof ProgressSpinner>;
 
 export const Default: Story = {};
