@@ -1,0 +1,73 @@
+# Polska Pesel View
+
+PolskaPeselView is a headless read-only display of Poland's PESEL, Poland's national-id identifier. It renders as a `<span>` with `role="text"` so assistive technology announces the identifier as a single unit. It is the read-only companion to PolskaPeselInput.
+
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
+## Implementation Notes
+
+- Renders as `<span>` with `role="text"`
+- Format: 11 numeric digits; assigned shortly after birth and unchanged for life
+- Provides accessible name via the `value` content
+- Companion to PolskaPeselInput
+
+## Props
+
+- `value`: string (required) — the identifier to display
+- `label`: string (optional) — accessible label override via `aria-label`
+- `...restProps`: any — additional HTML attributes spread onto the `<span>`
+
+## Usage
+
+```html
+<SummaryList>
+  <SummaryListItem term="PESEL">
+    <PolskaPeselView value={value} />
+  </SummaryListItem>
+</SummaryList>
+```
+
+## ARIA
+
+- `role="text"` ensures the identifier is announced as a single unit
+
+## When to Use
+
+- Use to display a stored Poland PESEL read-only.
+- Use in summary lists, patient records, audit logs, or detail views.
+- Use when the identifier should not be editable in the current context.
+
+## When Not to Use
+
+- Do not use for editing identifiers — use `polska-pesel-input` instead.
+- Do not use for general text display — use a `<span>` directly.
+- Do not use for other countries' identifiers — use the corresponding country-specific view.
+
+## Headless
+
+This headless component ships zero CSS. The consumer provides all styling targeting the `.polska-pesel-view` class hook.
+
+## Testing
+
+- Verify renders a `<span>` with the correct class and `role="text"`
+- Verify the `value` prop is rendered as text content
+- Verify `aria-label` overrides the accessible name when supplied
+
+## Domain Knowledge
+
+Eleven numeric digits in the form YYMMDDSSSSC: the date of birth (with month offset +20 for the 2000s, +40 for the 2100s, +60 for the 2200s, −20 for the 1800s), four serial digits (the penultimate digit encodes sex — odd male, even female), and a weighted Modulus-10 check digit. The PESEL is assigned shortly after birth and is permanent.
+
+**Where to find it:** Polish ID card (dowód osobisty), passport, driving licence, birth certificate, and the obywatel.gov.pl portal.
+
+## Related components
+
+- `polska-pesel-input` — an input for entering Poland's PESEL
+- `summary-list-item` — one key-value pair in a summary list
+
+## References
+
+- Wikipedia: https://en.wikipedia.org/wiki/PESEL
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

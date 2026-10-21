@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@lilydesignsystem/svelte-headless':
+        specifier: ^0.5.1
+        version: 0.5.1(svelte@5.57.2)
       '@lilydesignsystem/svelte-picker-bar':
         specifier: ^0.3.0
         version: 0.3.0(svelte@5.57.2)
@@ -63,6 +66,12 @@ packages:
 
   '@lilydesignsystem/svelte-headless@0.2.0':
     resolution: {integrity: sha512-xaCVY+qX2Aznb2wGtJhEIMCSeP04N/EZMZbjuOEllpMb3vow5yb/hH1pUybZwic/2HMCEp6zjuI9dSY7gKnRig==}
+    engines: {node: '=26'}
+    peerDependencies:
+      svelte: ^5.0.0
+
+  '@lilydesignsystem/svelte-headless@0.5.1':
+    resolution: {integrity: sha512-55wMJ1+KPGq4eY0JqVgikPafDPxFq/mrvEPx2ps6cR/4iBGq3D+OxbHcWKV1tPbJU54T9NQ/MIfJ0zaI0UeOLA==}
     engines: {node: '=26'}
     peerDependencies:
       svelte: ^5.0.0
@@ -578,6 +587,11 @@ snapshots:
       '@jridgewell/sourcemap-codec': 1.6.0
 
   '@lilydesignsystem/svelte-headless@0.2.0(svelte@5.57.2)':
+    dependencies:
+      aria-query: 5.3.2
+      svelte: 5.57.2
+
+  '@lilydesignsystem/svelte-headless@0.5.1(svelte@5.57.2)':
     dependencies:
       aria-query: 5.3.2
       svelte: 5.57.2

@@ -1,0 +1,73 @@
+# Suomi Henkilotunnus View
+
+SuomiHenkilotunnusView is a headless read-only display of Finland's Henkilötunnus (HETU), Finland's national-id identifier. It renders as a `<span>` with `role="text"` so assistive technology announces the identifier as a single unit. It is the read-only companion to SuomiHenkilotunnusInput.
+
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
+## Implementation Notes
+
+- Renders as `<span>` with `role="text"`
+- Format: 11 characters in the format DDMMYYCZZZQ: DDMMYY is the date of birth, C is the century sign (+, -, or A), ZZZ is an individual number (odd male, even female), Q is the checksum
+- Provides accessible name via the `value` content
+- Companion to SuomiHenkilotunnusInput
+
+## Props
+
+- `value`: string (required) — the identifier to display
+- `label`: string (optional) — accessible label override via `aria-label`
+- `...restProps`: any — additional HTML attributes spread onto the `<span>`
+
+## Usage
+
+```html
+<SummaryList>
+  <SummaryListItem term="Personal Identity Code">
+    <SuomiHenkilotunnusView value={value} />
+  </SummaryListItem>
+</SummaryList>
+```
+
+## ARIA
+
+- `role="text"` ensures the identifier is announced as a single unit
+
+## When to Use
+
+- Use to display a stored Finland Henkilötunnus (HETU) read-only.
+- Use in summary lists, patient records, audit logs, or detail views.
+- Use when the identifier should not be editable in the current context.
+
+## When Not to Use
+
+- Do not use for editing identifiers — use `suomi-henkilotunnus-input` instead.
+- Do not use for general text display — use a `<span>` directly.
+- Do not use for other countries' identifiers — use the corresponding country-specific view.
+
+## Headless
+
+This headless component ships zero CSS. The consumer provides all styling targeting the `.suomi-henkilotunnus-view` class hook.
+
+## Testing
+
+- Verify renders a `<span>` with the correct class and `role="text"`
+- Verify the `value` prop is rendered as text content
+- Verify `aria-label` overrides the accessible name when supplied
+
+## Domain Knowledge
+
+Eleven characters of the form DDMMYYCZZZQ: DDMMYY is the date of birth, C is the century sign (+ for 1800–1899, - for 1900–1999, A for 2000–2099), ZZZ is the individual number (odd for males and even for females; for people born in Finland the range is 002–899), and Q is the check character (a digit or letter from a defined alphabet). Example: 311280-888Y.
+
+**Where to find it:** Finnish ID card, passport, residence permit, driving licence, and the Suomi.fi portal.
+
+## Related components
+
+- `suomi-henkilotunnus-input` — an input for entering Finland's Henkilötunnus (HETU)
+- `summary-list-item` — one key-value pair in a summary list
+
+## References
+
+- Wikipedia: https://en.wikipedia.org/wiki/Personal_identity_code_(Finland)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

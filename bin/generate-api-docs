@@ -15,7 +15,9 @@ Only the marked region is generated; the surrounding page is untouched.
 It also writes the per-component machine manifests, static/r/{slug}.json
 and static/r/index.json (coss-ui-lessons item 2), from the same AGENTS.md
 files, components-categories.tsv and the file layout of the headless
-libraries; `--check` fails when any manifest drifts.
+libraries; `--check` fails when any manifest drifts. Likewise
+static/components/{slug}.md, a verbatim copy of components/{slug}/index.md
+(coss-ui-lessons item 3), which the site's "Copy Markdown" button copies.
 """
 
 import glob
@@ -198,6 +200,33 @@ def manifests(mode):
     return differ
 
 
+def markdown_copies(mode):
+    """static/components/{slug}.md must equal components/{slug}/index.md byte for byte."""
+    dest = os.path.join(TOP, "lilydesignsystem.github.io", "static", "components")
+    os.makedirs(dest, exist_ok=True)
+    slugs = [l.split("\t")[0] for l in open(os.path.join(TOP, "components.tsv")) if l.strip()]
+    wanted = set()
+    differ = 0
+    for slug in slugs:
+        wanted.add(f"{slug}.md")
+        body = open(os.path.join(TOP, "components", slug, "index.md"), "rb").read()
+        path = os.path.join(dest, f"{slug}.md")
+        if not os.path.exists(path) or open(path, "rb").read() != body:
+            differ += 1
+            if mode == "--check":
+                print(f"Error: components/{slug}.md drifts from components/{slug}/index.md", file=sys.stderr)
+            else:
+                open(path, "wb").write(body)
+    for k in os.listdir(dest):
+        if k.endswith(".md") and k not in wanted:
+            differ += 1
+            if mode == "--check":
+                print(f"Error: components/{k} has no source component", file=sys.stderr)
+            else:
+                os.remove(os.path.join(dest, k))
+    return differ
+
+
 def main():
     mode = sys.argv[1] if len(sys.argv) > 1 else "generate"
     slugs = sorted(
@@ -226,6 +255,7 @@ def main():
                 open(page, "w").write(new)
                 changed += 1
     drift += manifests(mode)
+    drift += markdown_copies(mode)
     if mode == "--check":
         if drift:
             print(f"generate-api-docs: FAILED ({drift} drifting)", file=sys.stderr)

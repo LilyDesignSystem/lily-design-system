@@ -1,0 +1,86 @@
+# Eire Individual Health Identifier View
+
+EireIndividualHealthIdentifierView is a read-only display of an Eire Individual Health Identifier (IHI), the unique national healthcare identifier used by the Health Service Executive (HSE) to match patients with their medical records. It renders the value as inline text inside a `<span>` with `aria-label` for accessibility. It is the display-only companion to EireIndividualHealthIdentifierInput.
+
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
+## Implementation Notes
+
+- Renders a `<span>` with `aria-label`
+- Displays the value as text content
+- No formatting or validation; consumer provides the value pre-formatted
+- Companion to EireIndividualHealthIdentifierInput for the Input/View pattern
+
+## Props
+
+- `label`: string (required) -- accessible label via `aria-label`
+- `value`: string (default: "") -- the IHI string to display
+- `...restProps`: any -- additional HTML attributes spread onto the `<span>`
+
+## Usage
+
+```html
+<SummaryList>
+  <SummaryListItem>
+    <dt>Individual Health Identifier</dt>
+    <dd><EireIndividualHealthIdentifierView label="IHI" value="1234567890" /></dd>
+  </SummaryListItem>
+</SummaryList>
+```
+
+## Keyboard Interactions
+
+- None (passive display-only component)
+
+## ARIA
+
+- `aria-label={label}` -- provides accessible name for the displayed identifier
+
+## When to Use
+
+- Use to display an Eire Individual Health Identifier (IHI) in a formatted, read-only view.
+- Use in patient banners, summary lists, or medical records to show the IHI.
+- Use in confirmation screens after identifier entry.
+
+## When Not to Use
+
+- Do not use for entering identifiers -- use EireIndividualHealthIdentifierInput instead.
+- Do not use for editable display -- combine with Editable.
+- Do not use for other national identifiers -- use the corresponding country-specific view component.
+
+## Headless
+
+This headless component provides a `<span>` with `aria-label`. The consumer provides all styling.
+
+## Styles
+
+The consumer provides all CSS styling. The component renders with a `.eire-individual-health-identifier-view` class for targeting.
+
+## Testing
+
+- Verify renders a `<span>` with the correct class
+- Verify `aria-label` is set from the label prop
+- Verify value is displayed as text content
+
+## Domain Knowledge
+
+Ten-digit lifelong identifier created under the 2014 Health Identifiers Act and operated by the Health Service Executive (HSE) to uniquely identify every person using a health or social care service in Eire. No check-digit or checksum algorithm is published for this identifier; correctness is confirmed by the issuing authority's own records, not by the format alone.
+
+**Where to find it:** HSE correspondence, hospital and GP appointment letters, the National Shared Care Record, and patient-facing portals.
+
+## Related components
+
+- `eire-individual-health-identifier-input` — an input for entering Eire Individual Health Identifier (IHI) unique national healthcare identifier
+- `espana-tarjeta-sanitaria-individual-input` — an input for entering an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
+- `espana-tarjeta-sanitaria-individual-view` — a read-only display of an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
+- `france-numero-d-identification-au-repertoire-input` — an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
+- `france-numero-d-identification-au-repertoire-view` — a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
+- `tuaisceart-eireann-health-and-care-number-input` — an input for entering aTuaisceart Eireann Health and Care (H&C) Number unique national healthcare identifier
+
+## References
+
+- HSE: https://www.hse.ie/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

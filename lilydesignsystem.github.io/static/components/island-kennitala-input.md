@@ -1,0 +1,78 @@
+# Island Kennitala Input
+
+IslandKennitalaInput is a headless input for entering Iceland's Kennitala, Iceland's national-id identifier. It renders as `<input type="text">` with pattern validation, numeric/letter keyboard hints, and `autocomplete="off"` to protect sensitive identifiers. It is the editable companion to IslandKennitalaView.
+
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
+## Implementation Notes
+
+- Renders as `<input type="text">` with pattern validation
+- Format: 10 digits where the first 6 are the date of birth (DDMMYY)
+- `autocomplete="off"` to protect sensitive identifiers
+- Supports two-way binding on the `value` prop
+- Companion to IslandKennitalaView
+
+## Props
+
+- `label`: string (required) — accessible label via `aria-label`
+- `value`: string (default: "") — bindable input value
+- `required`: boolean (default: false) — form validation
+- `disabled`: boolean (default: false) — disabled state
+- `...restProps`: any — additional HTML attributes spread onto the `<input>`
+
+## Usage
+
+```html
+<Field label="Personal Identity Code" required>
+  <IslandKennitalaInput label="Personal Identity Code" value={value} required />
+  <Hint>10 digits where the first 6 are the date of birth (DDMMYY)</Hint>
+  <ErrorMessage>Please enter a valid Personal Identity Code</ErrorMessage>
+</Field>
+```
+
+## ARIA
+
+- `aria-label={label}` — provides accessible name
+
+## When to Use
+
+- Use in forms collecting Iceland's Kennitala.
+- Use with pattern validation matching the documented format.
+- Use in administrative or national-id workflows where the identifier is required.
+
+## When Not to Use
+
+- Do not use for displaying read-only identifiers — use `island-kennitala-view` instead.
+- Do not use for general text input — use `text-input` instead.
+- Do not use for other countries' identifiers — use the corresponding country-specific input.
+
+## Headless
+
+This headless component ships zero CSS. The consumer provides all styling targeting the `.island-kennitala-input` class hook.
+
+## Testing
+
+- Verify renders an `<input>` with the correct class and `type="text"`
+- Verify `aria-label` is set from the `label` prop
+- Verify pattern attribute matches the documented format
+- Verify `autocomplete="off"`
+- Verify value binding works
+
+## Domain Knowledge
+
+Ten-digit identifier in the form DDMMYY-RRCC: the first six digits are the date of birth, the next two are a random serial, then a Modulus-11 check digit, and a final digit denoting the century of birth (9 for 19th, 0 for 20th, 1 for 21st).
+
+**Where to find it:** Icelandic National Registry (Þjóðskrá Íslands) record, national ID card, passport, driving licence, and all official forms and contracts.
+
+## Related components
+
+- `island-kennitala-view` — a read-only display of Iceland's Kennitala
+- `text-input` — a single-line text input field <input type="text">
+
+## References
+
+- Wikipedia: https://en.wikipedia.org/wiki/Kennitala
+
+---
+
+Lily™ and Lily Design System™ are trademarks.
