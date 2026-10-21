@@ -1,0 +1,14 @@
+<!-- color-picker.html -->
+<!-- ColorPicker component (Alpine.js) -->
+<!--
+  Description: a two-dimensional board for picking colors by hue and saturation
+  HTML tag: <div>
+  CSS class: color-picker
+  Keyboard: Right/Left change x, Up/Down change y, Shift moves ten, Home/End set x to 0 / 100
+  Accessibility: role="slider" with aria-label and aria-valuenow (x) between 0 and 100; data-x and data-y position the cursor
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="color-picker" aria-label="" x-data="lilyColorPicker(0, 0)" x-bind="area">
+  <!-- Consumer provides the colour area and cursor -->
+</div>

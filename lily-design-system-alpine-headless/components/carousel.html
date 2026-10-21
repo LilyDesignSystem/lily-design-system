@@ -1,0 +1,20 @@
+<!-- carousel.html -->
+<!-- Carousel component (Alpine.js) -->
+<!--
+  Description: a slideshow for cycling through content items
+  HTML tag: <div>
+  CSS class: carousel
+  Keyboard: Tab to the previous and next buttons; Enter or Space moves, wrapping at the ends
+  Accessibility: role="region" with aria-roledescription="carousel" and aria-label; slides are role="group" with aria-roledescription="slide" and a numeric "n / m" label; inactive slides are hidden
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="carousel" role="region" aria-roledescription="carousel" aria-label="" x-data="lilyCarousel(0)" x-bind="root">
+  <button class="carousel-previous" aria-label="" x-bind="previous"><!-- Consumer provides icon --></button>
+  <div class="carousel-slides">
+    <div class="carousel-slide" x-bind="slide(0)"><!-- Consumer provides slide content --></div>
+    <div class="carousel-slide" x-bind="slide(1)"><!-- Consumer provides slide content --></div>
+    <div class="carousel-slide" x-bind="slide(2)"><!-- Consumer provides slide content --></div>
+  </div>
+  <button class="carousel-next" aria-label="" x-bind="next"><!-- Consumer provides icon --></button>
+</div>

@@ -1,0 +1,16 @@
+<!-- splitter.html -->
+<!-- Splitter component (Alpine.js) -->
+<!--
+  Description: a draggable divider for resizing adjacent panels
+  HTML tag: <div>
+  CSS class: splitter
+  Keyboard: Left/Right (side by side) or Up/Down (stacked) move it, Shift moves ten, Home/End jump; drag with a pointer
+  Accessibility: role="separator" with aria-label, aria-orientation and aria-valuenow/min/max as a percentage; tabindex 0
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div x-data="lilySplitter(50, 'vertical')">
+  <!-- Consumer provides the first pane -->
+  <div class="splitter" aria-label="" x-bind="separator"></div>
+  <!-- Consumer provides the second pane -->
+</div>

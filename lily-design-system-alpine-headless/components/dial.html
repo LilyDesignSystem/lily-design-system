@@ -1,0 +1,14 @@
+<!-- dial.html -->
+<!-- Dial component (Alpine.js) -->
+<!--
+  Description: a rotary dial control for selecting a value
+  HTML tag: <div>
+  CSS class: dial
+  Keyboard: Right/Up raise, Left/Down lower, Shift moves ten steps, Home and End jump to the bounds
+  Accessibility: role="slider" with aria-label, aria-valuenow/min/max; tabindex 0 (or -1) and aria-disabled only when disabled
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="dial" aria-label="" x-data="lilyDial(50, 0, 100, 1)" x-bind="dial">
+  <!-- Consumer provides the dial face -->
+</div>

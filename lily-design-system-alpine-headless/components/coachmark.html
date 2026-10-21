@@ -1,0 +1,16 @@
+<!-- coachmark.html -->
+<!-- Coachmark component (Alpine.js) -->
+<!--
+  Description: an anchored popover that spotlights and explains a single feature
+  HTML tag: <div>
+  CSS class: coachmark
+  Keyboard: Tab moves in and out; Enter or Space on the dismiss button; Escape dismisses
+  Accessibility: role="dialog" with aria-modal="false", aria-labelledby the title and aria-describedby the description; the dismiss button has an aria-label; hidden once dismissed
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="coachmark" role="dialog" aria-modal="false" aria-labelledby="coachmark-title-1" aria-describedby="coachmark-desc-1" x-data="lilyCoachmark(true)" x-bind="root">
+  <h2 class="coachmark-title" id="coachmark-title-1"><!-- Consumer provides title --></h2>
+  <p class="coachmark-description" id="coachmark-desc-1"><!-- Consumer provides description --></p>
+  <button class="coachmark-dismiss" aria-label="" x-bind="dismissButton">×</button>
+</div>

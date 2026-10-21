@@ -1,0 +1,21 @@
+<!-- tour.html -->
+<!-- Tour component (Alpine.js) -->
+<!--
+  Description: a tour guide, such as for sightseeing, or pathways, or demonstrations, etc.
+  HTML tag: <div>
+  CSS class: tour
+  Keyboard: Tab to previous, next and close; Escape ends the tour
+  Accessibility: aria-label names the tour; each step is role="group" with aria-roledescription="step"; the current step has aria-current="step", the others are hidden and aria-hidden
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="tour" aria-label="" x-data="lilyTour(0)" x-bind="root">
+  <ol class="tour-list">
+    <li class="tour-list-item" x-bind="item(0)"><!-- Consumer provides step content --></li>
+    <li class="tour-list-item" x-bind="item(1)"><!-- Consumer provides step content --></li>
+    <li class="tour-list-item" x-bind="item(2)"><!-- Consumer provides step content --></li>
+  </ol>
+  <button class="tour-previous" aria-label="" x-bind="previous"><!-- Consumer provides label --></button>
+  <button class="tour-next" aria-label="" x-bind="next"><!-- Consumer provides label --></button>
+  <button class="tour-close" aria-label="" x-bind="close"><!-- Consumer provides label --></button>
+</div>

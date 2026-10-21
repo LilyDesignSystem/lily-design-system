@@ -36,6 +36,11 @@ function menuTarget(key, items, from, horizontal) {
   return null;
 }
 
+/** How many descendants carry an x-bind starting with `prefix` (counts parts before they initialise). */
+function boundCount(root, prefix) {
+  return Array.from(root.querySelectorAll("[x-bind]")).filter((e) => e.getAttribute("x-bind").startsWith(prefix)).length;
+}
+
 const MENU_ITEMS = '[role="menuitem"]:not([disabled])';
 
 /**
@@ -1228,6 +1233,244 @@ export default function lily(Alpine) {
     nowButton: {
       type: "button",
       "@click"() { this.now(); },
+    },
+  }));
+
+  // Dial / slider keys (APG slider): Right/Up raise, Left/Down lower, Shift
+  // moves ten steps, Home and End jump to the bounds.
+  const sliderKey = (event, value, { min, max, step }) => {
+    const big = event.shiftKey ? 10 : 1;
+    let next = value;
+    if (event.key === "ArrowRight" || event.key === "ArrowUp") next = value + step * big;
+    else if (event.key === "ArrowLeft" || event.key === "ArrowDown") next = value - step * big;
+    else if (event.key === "Home") next = min;
+    else if (event.key === "End") next = max;
+    else return null;
+    return Math.min(max, Math.max(min, next));
+  };
+
+  // Dial: a role="slider" div (there is no native dial). Focusable unless
+  // disabled; aria-disabled only when disabled; data-value for CSS.
+  Alpine.data("lilyDial", (value = 0, min = 0, max = 100, step = 1, disabled = false) => ({
+    value: Math.min(max, Math.max(min, value)),
+    min,
+    max,
+    step,
+    disabled,
+    dial: {
+      role: "slider",
+      ":tabindex"() { return this.disabled ? "-1" : "0"; },
+      ":aria-valuenow"() { return String(this.value); },
+      ":aria-valuemin"() { return String(this.min); },
+      ":aria-valuemax"() { return String(this.max); },
+      ":aria-disabled"() { return this.disabled ? "true" : null; },
+      ":data-value"() { return String(this.value); },
+      "@keydown"(event) {
+        if (this.disabled) return;
+        const next = sliderKey(event, this.value, this);
+        if (next === null) return;
+        event.preventDefault();
+        if (next === this.value) return;
+        this.value = next;
+        this.$dispatch("lily:change", { value: next });
+      },
+    },
+  }));
+
+  // ColorPicker: a two-axis role="slider" over a 0–100 square. aria-valuenow
+  // is x; data-x and data-y position the cursor. Up lowers y, Down raises it.
+  Alpine.data("lilyColorPicker", (x = 0, y = 0, disabled = false) => ({
+    x,
+    y,
+    disabled,
+    area: {
+      role: "slider",
+      ":tabindex"() { return this.disabled ? "-1" : "0"; },
+      "aria-valuemin": "0",
+      "aria-valuemax": "100",
+      ":aria-valuenow"() { return String(this.x); },
+      ":aria-disabled"() { return this.disabled ? "true" : null; },
+      ":data-x"() { return String(this.x); },
+      ":data-y"() { return String(this.y); },
+      "@keydown"(event) {
+        if (this.disabled) return;
+        const big = event.shiftKey ? 10 : 1;
+        const clamp = (n) => Math.min(100, Math.max(0, n));
+        const move = {
+          ArrowRight: () => { this.x = clamp(this.x + big); },
+          ArrowLeft: () => { this.x = clamp(this.x - big); },
+          ArrowUp: () => { this.y = clamp(this.y - big); },
+          ArrowDown: () => { this.y = clamp(this.y + big); },
+          Home: () => { this.x = 0; },
+          End: () => { this.x = 100; },
+        }[event.key];
+        if (!move) return;
+        event.preventDefault();
+        move();
+        this.$dispatch("lily:change", { x: this.x, y: this.y });
+      },
+    },
+  }));
+
+  // Splitter: a focusable role="separator" with a 0–100 position. The keys
+  // that move it follow the orientation (Left/Right when the panes sit side by
+  // side, Up/Down when stacked); Shift moves ten steps; Home/End jump to the
+  // bounds. Dragging maps the pointer onto the separator's parent. The
+  // position is also exposed as --splitter-position on the separator.
+  Alpine.data("lilySplitter", (value = 50, orientation = "vertical", min = 0, max = 100, step = 1) => ({
+    value,
+    orientation,
+    min,
+    max,
+    step,
+    set(next) {
+      next = Math.min(this.max, Math.max(this.min, next));
+      if (next === this.value) return;
+      this.value = next;
+      this.$dispatch("lily:change", { value: next });
+    },
+    separator: {
+      role: "separator",
+      tabindex: "0",
+      ":aria-orientation"() { return this.orientation; },
+      ":aria-valuenow"() { return String(this.value); },
+      ":aria-valuemin"() { return String(this.min); },
+      ":aria-valuemax"() { return String(this.max); },
+      ":data-value"() { return String(this.value); },
+      ":style"() { return { "--splitter-position": `${this.value}%` }; },
+      "@keydown"(event) {
+        const sideBySide = this.orientation === "vertical";
+        const keys = sideBySide ? ["ArrowLeft", "ArrowRight"] : ["ArrowUp", "ArrowDown"];
+        const big = event.shiftKey ? 10 : 1;
+        if (event.key === keys[0]) this.set(this.value - this.step * big);
+        else if (event.key === keys[1]) this.set(this.value + this.step * big);
+        else if (event.key === "Home") this.set(this.min);
+        else if (event.key === "End") this.set(this.max);
+        else return;
+        event.preventDefault();
+      },
+      "@pointerdown"(event) {
+        const parent = this.$el.parentElement;
+        const sideBySide = this.orientation === "vertical";
+        const move = (e) => {
+          const box = parent.getBoundingClientRect();
+          const size = sideBySide ? box.width : box.height;
+          if (!size) return;
+          const at = sideBySide ? e.clientX - box.left : e.clientY - box.top;
+          this.set(Math.round(this.min + (at / size) * (this.max - this.min)));
+        };
+        const stop = () => {
+          document.removeEventListener("pointermove", move);
+          document.removeEventListener("pointerup", stop);
+        };
+        event.preventDefault();
+        document.addEventListener("pointermove", move);
+        document.addEventListener("pointerup", stop);
+      },
+    },
+  }));
+
+  // Carousel: one slide shown at a time (the rest hidden), previous / next
+  // buttons that wrap, and a numeric "n / m" slide label. It never advances
+  // by itself.
+  Alpine.data("lilyCarousel", (index = 0) => ({
+    index,
+    total: 0,
+    init() { this.total = this.count(); },
+    count() { return boundCount(this.$root, "slide("); },
+    go(to) {
+      const count = this.count();
+      if (!count) return;
+      this.index = (to + count) % count;
+      this.$dispatch("lily:change", { index: this.index });
+    },
+    root: { ":data-index"() { return String(this.index); } },
+    previous: { type: "button", "@click"() { this.go(this.index - 1); } },
+    next: { type: "button", "@click"() { this.go(this.index + 1); } },
+    slide(i) {
+      return {
+        role: "group",
+        "aria-roledescription": "slide",
+        ":aria-label"() { return `${i + 1} / ${this.total}`; },
+        ":hidden"() { return this.index !== i; },
+        ":data-active"() { return String(this.index === i); },
+      };
+    },
+  }));
+
+  // Tour: steps shown one at a time, the current one aria-current="step".
+  // Next on the last step finishes; Escape and close end the tour.
+  Alpine.data("lilyTour", (step = 0, open = true) => ({
+    step,
+    open,
+    total: 0,
+    init() { this.total = this.count(); },
+    count() { return boundCount(this.$root, "item("); },
+    go(to) {
+      if (to < 0) return;
+      if (to >= this.count()) return this.end("lily:finish");
+      this.step = to;
+      this.$dispatch("lily:change", { step: to });
+    },
+    end(type = "lily:close") {
+      this.open = false;
+      this.$dispatch(type);
+    },
+    root: {
+      ":hidden"() { return !this.open; },
+      "@keydown.escape"() { if (this.open) this.end(); },
+    },
+    previous: { type: "button", "@click"() { this.go(this.step - 1); } },
+    next: { type: "button", "@click"() { this.go(this.step + 1); } },
+    close: { type: "button", "@click"() { this.end(); } },
+    item(i) {
+      return {
+        role: "group",
+        "aria-roledescription": "step",
+        ":aria-label"() { return `${i + 1} / ${this.total}`; },
+        ":aria-current"() { return this.step === i ? "step" : null; },
+        ":aria-hidden"() { return this.step === i ? null : "true"; },
+        ":hidden"() { return this.step !== i; },
+      };
+    },
+  }));
+
+  // Coachmark: a non-modal dialog (aria-modal="false") with a dismiss button;
+  // Escape dismisses. Hidden while closed.
+  Alpine.data("lilyCoachmark", (open = true) => ({
+    open,
+    dismiss() {
+      this.open = false;
+      this.$dispatch("lily:dismiss");
+    },
+    root: {
+      ":hidden"() { return !this.open; },
+      "@keydown.escape"() { if (this.open) this.dismiss(); },
+    },
+    dismissButton: { type: "button", "@click"() { this.dismiss(); } },
+  }));
+
+  // FileUpload: a button opens the hidden native file input; the status
+  // (aria-live="polite") carries the file count in data-file-count.
+  Alpine.data("lilyFileUpload", () => ({
+    count: 0,
+    trigger: {
+      type: "button",
+      "@click"() { this.$refs.input.click(); },
+    },
+    input: {
+      "x-ref": "input",
+      type: "file",
+      "@change"(event) {
+        const files = Array.from(event.target.files ?? []);
+        this.count = files.length;
+        this.$dispatch("lily:change", { files });
+      },
+    },
+    status: {
+      "aria-live": "polite",
+      ":data-file-count"() { return String(this.count); },
+      "x-text"() { return this.count ? String(this.count) : ""; },
     },
   }));
 }

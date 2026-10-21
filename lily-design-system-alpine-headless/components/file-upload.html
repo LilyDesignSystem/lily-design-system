@@ -1,0 +1,16 @@
+<!-- file-upload.html -->
+<!-- FileUpload component (Alpine.js) -->
+<!--
+  Description: a drag-and-drop area for uploading files
+  HTML tag: <div>
+  CSS class: file-upload
+  Keyboard: Enter or Space on the button opens the file chooser
+  Accessibility: aria-label on the button; the status is aria-live="polite" and carries data-file-count
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="file-upload" x-data="lilyFileUpload()">
+  <button class="file-upload-button" aria-label="" x-bind="trigger"><!-- Consumer provides button text --></button>
+  <input class="file-upload-input" hidden x-bind="input">
+  <span class="file-upload-status" data-file-count="0" x-bind="status"></span>
+</div>
