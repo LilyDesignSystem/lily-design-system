@@ -15,8 +15,8 @@
   },
   "dependencies": {
     "@lilydesignsystem/svelte-headless": "^0.5.1",
-    "@lilydesignsystem/svelte-picker-bar": "^0.3.0",
-    "@lilydesignsystem/svelte-share-picker": "^0.2.0"
+    "@lilydesignsystem/svelte-picker-bar": "^0.4.0",
+    "@lilydesignsystem/svelte-share-picker": "^0.3.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",

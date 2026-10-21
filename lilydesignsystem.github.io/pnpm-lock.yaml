@@ -12,11 +12,11 @@ importers:
         specifier: ^0.5.1
         version: 0.5.1(svelte@5.57.2)
       '@lilydesignsystem/svelte-picker-bar':
+        specifier: ^0.4.0
+        version: 0.4.0(svelte@5.57.2)
+      '@lilydesignsystem/svelte-share-picker':
         specifier: ^0.3.0
         version: 0.3.0(svelte@5.57.2)
-      '@lilydesignsystem/svelte-share-picker':
-        specifier: ^0.2.0
-        version: 0.2.0(svelte@5.57.2)
     devDependencies:
       '@playwright/test':
         specifier: ^1.64.1
@@ -70,6 +70,12 @@ packages:
     peerDependencies:
       svelte: ^5.0.0
 
+  '@lilydesignsystem/svelte-headless@0.4.0':
+    resolution: {integrity: sha512-zrHBMmliIK6ic+eKH4ZE0AJ+kWnAf5su1SRv7AlU2YcEx4Q3hm0MruApaIjgOAc2UxjJjT2UBIldw2y40CVURQ==}
+    engines: {node: '=26'}
+    peerDependencies:
+      svelte: ^5.0.0
+
   '@lilydesignsystem/svelte-headless@0.5.1':
     resolution: {integrity: sha512-55wMJ1+KPGq4eY0JqVgikPafDPxFq/mrvEPx2ps6cR/4iBGq3D+OxbHcWKV1tPbJU54T9NQ/MIfJ0zaI0UeOLA==}
     engines: {node: '=26'}
@@ -88,8 +94,8 @@ packages:
     peerDependencies:
       svelte: ^5.0.0
 
-  '@lilydesignsystem/svelte-picker-bar@0.3.0':
-    resolution: {integrity: sha512-0T27Y+Xpk49YMuAI2OghPY1XhC+12YMkc/7/DPRtpQUwKZHWyNkGRTut2B5l+FJDBAHD/K90bLzT/Fg0DCaPPQ==}
+  '@lilydesignsystem/svelte-picker-bar@0.4.0':
+    resolution: {integrity: sha512-XT8c3U2Fw29Vzl+EFXIFT4d9SWMS/HdXXJiPK3Mx7FEvlnXxWd7pHNVZkDyWGUx9Oaw3M2j4jf6nrizt9atoxQ==}
     engines: {node: '=26'}
     peerDependencies:
       svelte: ^5.0.0
@@ -102,6 +108,12 @@ packages:
 
   '@lilydesignsystem/svelte-share-picker@0.2.0':
     resolution: {integrity: sha512-/W+yda4IEfEhaMWdEh4kVvHUQKz/pbFtuaoxgOZMg65JhMcKjWeis9J3OHQ69o5LIK+AFxFhDCqDh/g/8gSDGQ==}
+    engines: {node: '=26'}
+    peerDependencies:
+      svelte: ^5.0.0
+
+  '@lilydesignsystem/svelte-share-picker@0.3.0':
+    resolution: {integrity: sha512-fdGoLcLpabO8vv63ePAnjJRP9U0Wjb1EXuTxHPDmHqJQ0PCezxzRlQ+mpTIxHlaqZ0T1SjtQasai6JkjQDsE5w==}
     engines: {node: '=26'}
     peerDependencies:
       svelte: ^5.0.0
@@ -591,6 +603,11 @@ snapshots:
       aria-query: 5.3.2
       svelte: 5.57.2
 
+  '@lilydesignsystem/svelte-headless@0.4.0(svelte@5.57.2)':
+    dependencies:
+      aria-query: 5.3.2
+      svelte: 5.57.2
+
   '@lilydesignsystem/svelte-headless@0.5.1(svelte@5.57.2)':
     dependencies:
       aria-query: 5.3.2
@@ -606,7 +623,7 @@ snapshots:
       '@lilydesignsystem/svelte-headless': 0.2.0(svelte@5.57.2)
       svelte: 5.57.2
 
-  '@lilydesignsystem/svelte-picker-bar@0.3.0(svelte@5.57.2)':
+  '@lilydesignsystem/svelte-picker-bar@0.4.0(svelte@5.57.2)':
     dependencies:
       '@lilydesignsystem/svelte-link-picker': 0.1.1(svelte@5.57.2)
       '@lilydesignsystem/svelte-locale-picker': 0.2.0(svelte@5.57.2)
@@ -624,6 +641,11 @@ snapshots:
   '@lilydesignsystem/svelte-share-picker@0.2.0(svelte@5.57.2)':
     dependencies:
       '@lilydesignsystem/svelte-headless': 0.2.0(svelte@5.57.2)
+      svelte: 5.57.2
+
+  '@lilydesignsystem/svelte-share-picker@0.3.0(svelte@5.57.2)':
+    dependencies:
+      '@lilydesignsystem/svelte-headless': 0.4.0(svelte@5.57.2)
       svelte: 5.57.2
 
   '@lilydesignsystem/svelte-text-size-picker@0.2.0(svelte@5.57.2)':
