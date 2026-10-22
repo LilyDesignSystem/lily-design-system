@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
 
 /**
  * Drawer — a panel that slides in from the edge of the screen
@@ -10,10 +10,31 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
   selector: "lily-drawer",
   standalone: true,
-  template: `<div class="drawer {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+  template: `@if (open()) {
+    <div
+      class="drawer {{ className() }}"
+      role="dialog"
+      tabindex="-1"
+      aria-modal="true"
+      [attr.aria-label]="label() || null"
+      [attr.data-side]="side()"
+      (keydown)="onKeydown($event)"
+    ><ng-content /></div>
+  }`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Drawer {
   readonly label = input<string>("");
+  /** Whether the panel is shown. Two-way bindable; Escape sets it to false. */
+  readonly open = model<boolean>(false);
+  /** Edge the panel attaches to; exposed as `data-side`. */
+  readonly side = input<"left" | "right" | "top" | "bottom">("left");
   readonly className = input<string>("");
+
+  protected onKeydown(event: KeyboardEvent): void {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      this.open.set(false);
+    }
+  }
 }

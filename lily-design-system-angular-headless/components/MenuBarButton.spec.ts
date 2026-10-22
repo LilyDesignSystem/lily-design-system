@@ -20,3 +20,13 @@ describe("MenuBarButton", () => {
     expect(el.classList.contains("extra")).toBe(true);
   });
 });
+
+describe("MenuBarButton — menuitem semantics", () => {
+  test("is role=menuitem and focusable only programmatically (tabindex=-1)", () => {
+    const fixture = TestBed.createComponent(MenuBarButton);
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector("button.menu-bar-button") as HTMLElement;
+    expect(el.getAttribute("role")).toBe("menuitem");
+    expect(el.getAttribute("tabindex")).toBe("-1");
+  });
+});

@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
   selector: "lily-menu-bar-button",
   standalone: true,
-  template: `<button class="menu-bar-button {{ className() }}" type="button" [attr.aria-label]="label() || null"><ng-content /></button>`,
+  template: `<button class="menu-bar-button {{ className() }}" type="button" role="menuitem" tabindex="-1" [attr.aria-label]="label() || null"><ng-content /></button>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuBarButton {

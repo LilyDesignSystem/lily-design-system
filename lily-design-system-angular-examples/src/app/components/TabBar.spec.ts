@@ -20,3 +20,62 @@ describe("TabBar", () => {
     expect(el.classList.contains("extra")).toBe(true);
   });
 });
+
+function key(el: Element, k: string) {
+  const event = new KeyboardEvent("keydown", { key: k, bubbles: true, cancelable: true });
+  el.dispatchEvent(event);
+  return event;
+}
+
+const ITEMS = '<button role="tab">One</button><button role="tab">Two</button><button role="tab">Three</button>';
+
+describe("TabBar — role and roving focus", () => {
+  function create() {
+    const fixture = TestBed.createComponent(TabBar);
+    fixture.componentRef.setInput("label", "Label");
+    fixture.detectChanges();
+    const root = fixture.nativeElement.querySelector("[role='tablist']") as HTMLElement;
+    root.innerHTML = ITEMS;
+    return { root, items: Array.from(root.querySelectorAll<HTMLElement>("[role='tab']")) };
+  }
+
+  test("has role=tablist and its label", () => {
+    const { root } = create();
+    expect(root.getAttribute("aria-label")).toBe("Label");
+  });
+
+  test("ArrowRight moves to the next item and wraps from the last to the first", () => {
+    const { root, items } = create();
+    items[0].focus();
+    expect(key(root, "ArrowRight").defaultPrevented).toBe(true);
+    expect(document.activeElement).toBe(items[1]);
+    items[2].focus();
+    key(root, "ArrowRight");
+    expect(document.activeElement).toBe(items[0]);
+  });
+
+  test("ArrowLeft moves to the previous item and wraps from the first to the last", () => {
+    const { root, items } = create();
+    items[1].focus();
+    key(root, "ArrowLeft");
+    expect(document.activeElement).toBe(items[0]);
+    key(root, "ArrowLeft");
+    expect(document.activeElement).toBe(items[2]);
+  });
+
+  test("Home and End jump to the first and last item", () => {
+    const { root, items } = create();
+    items[1].focus();
+    key(root, "End");
+    expect(document.activeElement).toBe(items[2]);
+    key(root, "Home");
+    expect(document.activeElement).toBe(items[0]);
+  });
+
+  test("An unrelated key is not intercepted", () => {
+    const { root, items } = create();
+    items[0].focus();
+    expect(key(root, "a").defaultPrevented).toBe(false);
+    expect(document.activeElement).toBe(items[0]);
+  });
+});

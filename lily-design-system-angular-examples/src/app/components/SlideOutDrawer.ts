@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
 
 /**
  * SlideOutDrawer — a drawer that slides out from the side of the page
@@ -10,10 +10,28 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
   selector: "lily-slide-out-drawer",
   standalone: true,
-  template: `<div class="slide-out-drawer {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+  template: `@if (open()) {
+    <div
+      class="slide-out-drawer {{ className() }}"
+      role="dialog"
+      tabindex="-1"
+      aria-modal="true"
+      [attr.aria-label]="label() || null"
+      (keydown)="onKeydown($event)"
+    ><ng-content /></div>
+  }`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SlideOutDrawer {
   readonly label = input<string>("");
+  /** Whether the panel is shown. Two-way bindable; Escape sets it to false. */
+  readonly open = model<boolean>(false);
   readonly className = input<string>("");
+
+  protected onKeydown(event: KeyboardEvent): void {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      this.open.set(false);
+    }
+  }
 }

@@ -20,3 +20,27 @@ describe("TabBarButton", () => {
     expect(el.classList.contains("extra")).toBe(true);
   });
 });
+
+describe("TabBarButton — tab semantics", () => {
+  function create(inputs: Record<string, unknown> = {}) {
+    const fixture = TestBed.createComponent(TabBarButton);
+    for (const [k, v] of Object.entries(inputs)) fixture.componentRef.setInput(k, v);
+    fixture.detectChanges();
+    return fixture.nativeElement.querySelector("button") as HTMLButtonElement;
+  }
+
+  test("is role=tab, unselected and out of the tab order by default", () => {
+    const b = create();
+    expect(b.getAttribute("role")).toBe("tab");
+    expect(b.getAttribute("aria-selected")).toBe("false");
+    expect(b.getAttribute("tabindex")).toBe("-1");
+    expect(b.hasAttribute("aria-controls")).toBe(false);
+  });
+
+  test("the selected tab is aria-selected and tabbable (roving tabindex)", () => {
+    const b = create({ selected: true, controls: "panel-1" });
+    expect(b.getAttribute("aria-selected")).toBe("true");
+    expect(b.getAttribute("tabindex")).toBe("0");
+    expect(b.getAttribute("aria-controls")).toBe("panel-1");
+  });
+});

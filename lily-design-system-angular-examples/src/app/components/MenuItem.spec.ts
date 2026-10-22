@@ -20,3 +20,13 @@ describe("MenuItem", () => {
     expect(el.classList.contains("extra")).toBe(true);
   });
 });
+
+describe("MenuItem — menuitem semantics", () => {
+  test("is role=menuitem and focusable only programmatically (tabindex=-1)", () => {
+    const fixture = TestBed.createComponent(MenuItem);
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector("div.menu-item") as HTMLElement;
+    expect(el.getAttribute("role")).toBe("menuitem");
+    expect(el.getAttribute("tabindex")).toBe("-1");
+  });
+});
