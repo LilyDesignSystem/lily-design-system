@@ -34,4 +34,13 @@ public class TreeListItemTests : TestContext
         var root = cut.Find(".tree-list-item");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Is_a_focusable_treeitem()
+    {
+        var cut = RenderComponent<TreeListItem>(p => p.AddChildContent("body"));
+        var root = cut.Find("li.tree-list-item");
+        Assert.Equal("treeitem", root.GetAttribute("role"));
+        Assert.Equal("-1", root.GetAttribute("tabindex"));
+    }
 }

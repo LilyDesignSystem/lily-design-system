@@ -13,6 +13,6 @@
 </script>
 
 <!-- TreeListItem.svelte -->
-<div class={`tree-list-item ${className}`} aria-label={label} {...restProps}>
+<li class={`tree-list-item ${className}`} role="treeitem" tabindex="-1" aria-label={label} {...restProps}>
     {@render children?.()}
-</div>
+</li>

@@ -38,4 +38,17 @@ describe("TreeListItem", () => {
         const { container } = render(<Subject data-testid="subject">content</Subject>);
         expect(container.querySelector("[data-testid='subject']")).toBeTruthy();
     });
+
+    test("is a focusable li role=treeitem (tabindex=-1) so TreeList's arrow keys can focus it", () => {
+        const { container } = render(<Subject>content</Subject>);
+        const root = container.querySelector(".tree-list-item");
+        expect(root?.tagName).toBe("LI");
+        expect(root?.getAttribute("role")).toBe("treeitem");
+        expect(root?.getAttribute("tabindex")).toBe("-1");
+    });
+
+    test("a consumer tabIndex overrides the default (roving tabindex: the active item is 0)", () => {
+        const { container } = render(<Subject tabIndex={0}>content</Subject>);
+        expect(container.querySelector(".tree-list-item")?.getAttribute("tabindex")).toBe("0");
+    });
 });

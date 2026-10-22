@@ -39,6 +39,7 @@ export default function TreeListItem({
         <li
             className={`tree-list-item ${className}`}
             role="treeitem"
+            tabIndex={-1}
             aria-label={label}
             {...restProps}
         >

@@ -59,4 +59,16 @@ describe("tree-list-item", () => {
     expect(html).not.toContain("<style");
     expect(html).not.toContain("<script");
   });
+
+  it("is focusable by script (tabindex=-1) so TreeList's arrow keys can reach it", () => {
+    const { html } = render("tree-list-item", { text: "x" });
+    expect(html).toContain('role="treeitem"');
+    expect(html).toContain('tabindex="-1"');
+  });
+
+  it("a tabindex passed in attributes replaces the default rather than duplicating it", () => {
+    const { html } = render("tree-list-item", { text: "x", attributes: { tabindex: "0" } });
+    expect(html.match(/tabindex=/g)).toHaveLength(1);
+    expect(html).toContain('tabindex="0"');
+  });
 });

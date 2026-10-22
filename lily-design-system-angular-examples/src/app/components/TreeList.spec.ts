@@ -1,7 +1,9 @@
+import { Component } from "@angular/core";
 import { describe, expect, test } from "vitest";
 import { TestBed } from "@angular/core/testing";
 
 import { TreeList } from "./TreeList";
+import { TreeListItem } from "./TreeListItem";
 
 describe("TreeList", () => {
   test("renders the ol root with the base class", () => {
@@ -77,5 +79,41 @@ describe("TreeList — role and roving focus", () => {
     items[0].focus();
     expect(key(root, "a").defaultPrevented).toBe(false);
     expect(document.activeElement).toBe(items[0]);
+  });
+});
+
+@Component({
+  standalone: true,
+  imports: [TreeList, TreeListItem],
+  template: `<lily-tree-list label="Files">
+    <li lily-tree-list-item>One</li>
+    <li lily-tree-list-item>Two</li>
+    <li lily-tree-list-item>Three</li>
+  </lily-tree-list>`,
+})
+class TreeHost {}
+
+describe("TreeList with TreeListItem — arrow keys reach real items", () => {
+  test("ArrowDown/ArrowUp/Home/End move focus across the treeitems", () => {
+    const fixture = TestBed.createComponent(TreeHost);
+    document.body.appendChild(fixture.nativeElement);
+    fixture.detectChanges();
+    const tree = fixture.nativeElement.querySelector("[role='tree']") as HTMLElement;
+    const items = Array.from(tree.querySelectorAll<HTMLElement>("li[role='treeitem']"));
+    expect(items).toHaveLength(3);
+    const press = (k: string) => tree.dispatchEvent(new KeyboardEvent("keydown", { key: k, bubbles: true, cancelable: true }));
+    items[0].focus();
+    expect(document.activeElement).toBe(items[0]);
+    press("ArrowDown");
+    expect(document.activeElement).toBe(items[1]);
+    press("End");
+    expect(document.activeElement).toBe(items[2]);
+    press("ArrowDown");
+    expect(document.activeElement).toBe(items[0]);
+    press("ArrowUp");
+    expect(document.activeElement).toBe(items[2]);
+    press("Home");
+    expect(document.activeElement).toBe(items[0]);
+    fixture.nativeElement.remove();
   });
 });

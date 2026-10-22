@@ -5,7 +5,7 @@
     one item in a tree navigation list
 *@
 
-<li class="@($"tree-list-item {CssClass}".Trim())" role="treeitem" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</li>
+<li class="@($"tree-list-item {CssClass}".Trim())" role="treeitem" tabindex="-1" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</li>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

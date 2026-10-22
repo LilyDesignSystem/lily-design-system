@@ -33,4 +33,12 @@ describe("TreeListItem", () => {
     const el = fixture.nativeElement.querySelector("li");
     expect(el.classList.contains("extra")).toBe(true);
   });
+
+  test("the host li is role=treeitem and focusable by script (tabindex=-1)", () => {
+    const fixture = TestBed.createComponent(TestHost);
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector("li");
+    expect(el.getAttribute("role")).toBe("treeitem");
+    expect(el.getAttribute("tabindex")).toBe("-1");
+  });
 });

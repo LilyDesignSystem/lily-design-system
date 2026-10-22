@@ -32,6 +32,7 @@
     <li
         class="tree-list-item"
         role="treeitem"
+        tabindex="-1"
         :aria-label="label"
     >
         <slot />

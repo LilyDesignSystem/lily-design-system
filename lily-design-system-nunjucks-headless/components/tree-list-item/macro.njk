@@ -25,6 +25,7 @@
 <li
   class="tree-list-item{% if p.classes %} {{ p.classes }}{% endif %}"
   role="treeitem"
+  {%- if not (p.attributes and p.attributes.tabindex != undefined) %} tabindex="-1"{% endif %}
   {%- if p.expanded != undefined %} aria-expanded="{{ 'true' if p.expanded else 'false' }}"{% endif %}
   {%- if p.selected %} aria-selected="true"{% endif %}
   {%- if p.current %} aria-current="page"{% endif %}

@@ -18,6 +18,8 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
   template: `<ng-content />`,
   host: {
     "[class]": '"tree-list-item " + className()',
+    role: "treeitem",
+    tabindex: "-1",
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
