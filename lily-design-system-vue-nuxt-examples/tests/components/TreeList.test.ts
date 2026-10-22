@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/vue";
+import userEvent from "@testing-library/user-event";
 import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/TreeList.vue";
@@ -62,5 +63,15 @@ describe("TreeList", () => {
       },
     });
     expect(screen.getByTestId("tv")).toBeTruthy();
+  });
+});
+
+describe("TreeList — skips items hidden in a collapsed branch", () => {
+  test("ArrowDown from a collapsed parent goes to the next visible item, not its hidden child", async () => {
+    const { container } = render(Subject, { props: { label: "Files" }, slots: { default: '<li role="treeitem" tabindex="-1" id="a" aria-expanded="false">A<ol><li role="treeitem" tabindex="-1" id="a1">A1</li></ol></li><li role="treeitem" tabindex="-1" id="b">B</li>' } });
+    const user = userEvent.setup();
+    (container.querySelector("#a") as HTMLElement).focus();
+    await user.keyboard("{ArrowDown}");
+    expect(document.activeElement).toBe(container.querySelector("#b"));
   });
 });

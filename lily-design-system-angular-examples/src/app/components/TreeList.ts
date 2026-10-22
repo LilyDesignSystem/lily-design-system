@@ -25,7 +25,7 @@ export class TreeList {
   /** Focus moves over the `role="treeitem"` descendants (up/down, wrapping; Home/End). */
   protected onKeydown(event: KeyboardEvent): void {
     const root = event.currentTarget as HTMLElement;
-    const items = Array.from(root.querySelectorAll<HTMLElement>("[role='treeitem']"));
+    const items = Array.from(root.querySelectorAll<HTMLElement>("[role='treeitem']")).filter((el) => !el.parentElement?.closest("[role='treeitem'][aria-expanded='false']"));
     const index = items.indexOf(document.activeElement as HTMLElement);
     switch (event.key) {
       case "ArrowDown":

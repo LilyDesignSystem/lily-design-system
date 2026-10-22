@@ -91,14 +91,16 @@
     <ul>
       <li>ArrowDown: Moves focus to the next visible tree item (managed by parent TreeList)</li>
       <li>ArrowUp: Moves focus to the previous visible tree item (managed by parent TreeList)</li>
-      <li>ArrowRight: Expands a collapsed item, or moves to first child (when applicable)</li>
-      <li>ArrowLeft: Collapses an expanded item, or moves to parent (when applicable)</li>
-      <li>Home: Moves focus to the first tree item (managed by parent TreeList)</li>
+      <li>ArrowRight: On a collapsed item (<code>expanded</code> is <code>false</code>), expands it; on an expanded item, moves focus to its first child; on a leaf, does nothing</li>
+      <li>ArrowLeft: On an expanded item, collapses it; otherwise moves focus to the parent item, if there is one</li>
+      <li>Home: Moves focus to the first visible tree item (managed by parent TreeList)</li>
       <li>End: Moves focus to the last visible tree item (managed by parent TreeList)</li>
     </ul>
+    <p>ArrowRight and ArrowLeft act only when the item itself has focus, never on a key that bubbled up from a nested item, and are swapped in right-to-left layouts (<code>direction: rtl</code>). "Visible" means not inside an item whose <code>aria-expanded</code> is <code>false</code>.</p>
     <h3>Props</h3>
     <p>| Prop           | Type            | Default    | Description                                                                                          |</p>
     <p>| -------------- | --------------- | ---------- | ---------------------------------------------------------------------------------------------------- |</p>
+    <p>| <code>expanded</code>     | <code>boolean</code>    | <code>undefined</code> | Expanded state: <code>true</code> / <code>false</code> sets <code>aria-expanded</code>; leave undefined for a leaf (no attribute). Svelte <code>bind:expanded</code>, Vue <code>v-model:expanded</code>, Angular <code>[(expanded)]</code>; React is controlled — pass <code>expanded</code> and <code>onExpandedChange(next)</code> |</p>
     <p>| <code>children</code>     | <code>slot</code>       | (required) | Content for the tree item                                                                            |</p>
     <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes spread onto the <code>&lt;li&gt;</code> element (including <code>role</code>, <code>tabindex</code>, <code>aria-expanded</code>) |</p>
 </section>

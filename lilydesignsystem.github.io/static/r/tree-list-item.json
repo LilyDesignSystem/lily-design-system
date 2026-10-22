@@ -17,9 +17,9 @@
   "keyboard": [
     "ArrowDown: Moves focus to the next visible tree item (managed by parent TreeList)",
     "ArrowUp: Moves focus to the previous visible tree item (managed by parent TreeList)",
-    "ArrowRight: Expands a collapsed item, or moves to first child (when applicable)",
-    "ArrowLeft: Collapses an expanded item, or moves to parent (when applicable)",
-    "Home: Moves focus to the first tree item (managed by parent TreeList)",
+    "ArrowRight: On a collapsed item (`expanded` is `false`), expands it; on an expanded item, moves focus to its first child; on a leaf, does nothing",
+    "ArrowLeft: On an expanded item, collapses it; otherwise moves focus to the parent item, if there is one",
+    "Home: Moves focus to the first visible tree item (managed by parent TreeList)",
     "End: Moves focus to the last visible tree item (managed by parent TreeList)"
   ],
   "props": [],

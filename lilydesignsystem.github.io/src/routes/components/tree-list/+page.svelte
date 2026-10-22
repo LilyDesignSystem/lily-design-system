@@ -87,10 +87,11 @@
     </ul>
     <h3>Keyboard</h3>
     <ul>
-      <li>ArrowDown: Moves focus to the next tree item; wraps to the first item after the last</li>
-      <li>ArrowUp: Moves focus to the previous tree item; wraps to the last item before the first</li>
+      <li>ArrowDown: Moves focus to the next visible tree item (items inside a collapsed <code>aria-expanded="false"</code> item are skipped); wraps to the first item after the last</li>
+      <li>ArrowUp: Moves focus to the previous visible tree item; wraps to the last item before the first</li>
       <li>Home: Moves focus to the first tree item</li>
-      <li>End: Moves focus to the last tree item</li>
+      <li>End: Moves focus to the last visible tree item</li>
+      <li>ArrowRight / ArrowLeft: handled by each [TreeListItem](../tree-list-item/) (expand, collapse, move to child or parent)</li>
     </ul>
     <h3>Props</h3>
     <p>| Prop           | Type            | Default    | Description                                                         |</p>

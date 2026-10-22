@@ -93,6 +93,16 @@ describe("TreeList — role and roving focus", () => {
 })
 class TreeHost {}
 
+@Component({
+  standalone: true,
+  imports: [TreeList, TreeListItem],
+  template: `<lily-tree-list label="Files">
+    <li lily-tree-list-item id="a" [expanded]="false">A<ol><li lily-tree-list-item id="a1">A1</li></ol></li>
+    <li lily-tree-list-item id="b">B</li>
+  </lily-tree-list>`,
+})
+class CollapsedHost {}
+
 describe("TreeList with TreeListItem — arrow keys reach real items", () => {
   test("ArrowDown/ArrowUp/Home/End move focus across the treeitems", () => {
     const fixture = TestBed.createComponent(TreeHost);
@@ -114,6 +124,21 @@ describe("TreeList with TreeListItem — arrow keys reach real items", () => {
     expect(document.activeElement).toBe(items[2]);
     press("Home");
     expect(document.activeElement).toBe(items[0]);
+    fixture.nativeElement.remove();
+  });
+});
+
+describe("TreeList — skips items hidden in a collapsed branch", () => {
+  test("ArrowDown from a collapsed parent goes to the next visible item, not its hidden child", () => {
+    const fixture = TestBed.createComponent(CollapsedHost);
+    document.body.appendChild(fixture.nativeElement);
+    fixture.detectChanges();
+    const tree = fixture.nativeElement.querySelector("[role='tree']") as HTMLElement;
+    const a = fixture.nativeElement.querySelector("#a") as HTMLElement;
+    const b = fixture.nativeElement.querySelector("#b") as HTMLElement;
+    a.focus();
+    tree.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, cancelable: true }));
+    expect(document.activeElement).toBe(b);
     fixture.nativeElement.remove();
   });
 });

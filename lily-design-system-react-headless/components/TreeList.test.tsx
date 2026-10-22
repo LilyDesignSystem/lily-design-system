@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { describe, expect, test } from "vitest";
 
 import Subject from "./TreeList";
@@ -57,5 +58,15 @@ describe("TreeList", () => {
             </Subject>
         );
         expect(screen.getByTestId("tv")).toBeTruthy();
+    });
+});
+
+describe("TreeList — skips items hidden in a collapsed branch", () => {
+    test("ArrowDown from a collapsed parent goes to the next visible item, not its hidden child", async () => {
+        const { container } = render(<Subject label="Files"><li role="treeitem" tabIndex={-1} id="a" aria-expanded="false">A<ol><li role="treeitem" tabIndex={-1} id="a1">A1</li></ol></li><li role="treeitem" tabIndex={-1} id="b">B</li></Subject>);
+        const user = userEvent.setup();
+        (container.querySelector("#a") as HTMLElement).focus();
+        await user.keyboard("{ArrowDown}");
+        expect(document.activeElement).toBe(container.querySelector("#b"));
     });
 });

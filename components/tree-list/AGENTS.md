@@ -31,10 +31,11 @@
 
 ## Keyboard
 
-- ArrowDown: Moves focus to the next tree item; wraps to the first item after the last
-- ArrowUp: Moves focus to the previous tree item; wraps to the last item before the first
+- ArrowDown: Moves focus to the next visible tree item (items inside a collapsed `aria-expanded="false"` item are skipped); wraps to the first item after the last
+- ArrowUp: Moves focus to the previous visible tree item; wraps to the last item before the first
 - Home: Moves focus to the first tree item
-- End: Moves focus to the last tree item
+- End: Moves focus to the last visible tree item
+- ArrowRight / ArrowLeft: handled by each [TreeListItem](../tree-list-item/) (expand, collapse, move to child or parent)
 
 ## Props
 

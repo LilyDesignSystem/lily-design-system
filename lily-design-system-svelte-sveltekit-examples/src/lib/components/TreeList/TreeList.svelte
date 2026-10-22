@@ -40,7 +40,7 @@
     //
     // Claude rules:
     //   - Headless: no CSS, no styles -- consumer provides all styling
-    //   - Queries [role='treeitem'] descendants for keyboard navigation
+    //   - Queries [role='treeitem'] descendants for keyboard navigation, skipping items inside a collapsed (aria-expanded=false) item
     //   - Uses $state() for internal DOM reference
     //
     // References:
@@ -68,7 +68,7 @@
         if (!treeRef) return;
         const items = Array.from(
             treeRef.querySelectorAll<HTMLElement>("[role='treeitem']"),
-        );
+        ).filter((el) => !el.parentElement?.closest("[role='treeitem'][aria-expanded='false']"));
         const current = document.activeElement as HTMLElement;
         const index = items.indexOf(current);
         switch (event.key) {
