@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
 
 /**
  * Tour — a tour guide, such as for sightseeing, or pathways, or demonstrations, etc.
@@ -10,10 +10,25 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
   selector: "lily-tour",
   standalone: true,
-  template: `<div class="tour {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+  template: `@if (active()) {
+    <div
+      class="tour {{ className() }}"
+      role="dialog"
+      aria-modal="true"
+      tabindex="-1"
+      [attr.aria-label]="label() || null"
+      (keydown)="onKeydown($event)"
+    ><ng-content /></div>
+  }`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Tour {
   readonly label = input<string>("");
+  /** Whether the tour is showing. Two-way bindable; Escape sets it to false. */
+  readonly active = model<boolean>(false);
   readonly className = input<string>("");
+
+  protected onKeydown(event: KeyboardEvent): void {
+    if (event.key === "Escape") this.active.set(false);
+  }
 }
