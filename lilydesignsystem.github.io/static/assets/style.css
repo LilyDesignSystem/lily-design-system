@@ -364,20 +364,22 @@ html[data-text-size='largest'] { font-size: 150%; }
 }
 
 .framework-icon-row {
-  /* Eight icons need more room than .page-intro's 48rem prose-width
-     column gives them -- at the old 6rem item width even a zero gap
-     left no space at all, so they always wrapped onto two rows
-     regardless of viewport. Widening past the parent and tightening
-     the gap together (found live 2026-09-07) is what actually fits
-     them on one line down to a real tablet width. */
+  /* Nine icons need about 49rem; .page-intro is only 48rem wide (less its padding), and a
+     max-width can never exceed the parent, so the ninth icon wrapped onto a second row at every
+     viewport width (found by tests/framework-icons.spec.ts, 2026-10-22). Break out of the
+     column instead: as wide as the viewport allows (less a gutter), up to the content width,
+     centred on the column. */
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 1.5rem auto;
+  width: min(calc(100vw - 2rem), var(--lily-content-max));
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 1.5rem 0;
   padding: 0;
   list-style: none;
-  max-width: var(--lily-content-max);
 }
 .framework-icon-link {
   display: flex;

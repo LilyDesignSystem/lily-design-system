@@ -63,6 +63,12 @@
       </a>
     </li>
     <li>
+      <a class="framework-icon-link" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-alpine-headless">
+        <img src="/assets/images/icons/alpine/64x64.png" alt="" width="40" height="40" />
+        <span>Alpine</span>
+      </a>
+    </li>
+    <li>
       <a class="framework-icon-link" href="/tutorials/html/">
         <img src="/assets/images/icons/html/64x64.png" alt="" width="40" height="40" />
         <span>HTML</span>
@@ -71,13 +77,7 @@
     <li>
       <a class="framework-icon-link" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless">
         <img src="/assets/images/icons/web-components/64x64.png" alt="" width="40" height="40" />
-        <span>Web Components</span>
-      </a>
-    </li>
-    <li>
-      <a class="framework-icon-link" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-alpine-headless">
-        <img src="/assets/images/icons/alpine/64x64.png" alt="" width="40" height="40" />
-        <span>Alpine.js</span>
+        <span>Web</span>
       </a>
     </li>
   </ul>
