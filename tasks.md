@@ -2340,7 +2340,7 @@ a task was measured on 2026-10-21; re-measure before closing it.
   subproject; `dotnet format --verify-no-changes` for Blazor. Land the formatting as its own commit; then add a CI job.
   Decide first whether lint warnings fail CI (recommend: errors only, warnings reported).
   Verify: CI job green; `git blame --ignore-rev` file lists the formatting commit.
-- [ ] **P12-T4 Keyboard behaviour is missing, not just untested, in Angular and HTML (re-scoped 2026-10-21).** *(Angular `Dialog` done 2026-10-21 as the pilot: `open` is a `model`, `modal` input, `tabindex="-1"`, `aria-modal`, Escape closes; 4 new tests. 22 of the 23 remain.)* Measured:
+- [ ] **P12-T4 Keyboard behaviour is missing, not just untested, in Angular and HTML (re-scoped 2026-10-21).** *(Angular, 2026-10-21/22: `Dialog`, `Menu`, `MenuBar`, `ContextMenu`, `DropdownMenu`, `ToggleButton` and `SwitchButton` done — roles, ARIA state and keys ported from Svelte, 43 new/updated tests, mutation-checked; `ContextMenu` now renders only while open, as in Svelte; the toggles rely on the native button for Space/Enter. 16 remain: `color-picker`, `dial`, `drawer`, `editable`, `editable-form`, `horizontal-scroller`, `pin-input-div`, `sheet`, `slide-out-drawer`, `tab-bar`, `task-bar`, `tile-map`, `tool-bar`, `tour`, `tour-list`, `tree-list`.)* Measured:
   of 162 components whose `AGENTS.md` has a `## Keyboard` section naming keys, 48 have key tests in at least two of Svelte,
   React and Vue. For those, Svelte's source handles keys in 23 (`color-picker`, `context-menu`, `dial`, `dialog`, `drawer`,
   `dropdown-menu`, `editable`, `editable-form`, `horizontal-scroller`, `menu`, `menu-bar`, `pin-input-div`, `sheet`,

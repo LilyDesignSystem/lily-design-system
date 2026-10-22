@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
 
 /**
  * SwitchButton — a toggle switch for turning a setting on or off
@@ -10,12 +10,29 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
   selector: "lily-switch-button",
   standalone: true,
-  template: `<button class="switch-button {{ className() }}" type="button" [attr.aria-label]="label() || null"><ng-content /></button>`,
+  template: `<button
+    class="switch-button {{ className() }}"
+    type="button"
+    role="switch"
+    [attr.aria-checked]="checked()"
+    [attr.aria-label]="label() || null"
+    [disabled]="disabled()"
+    (click)="toggle()"
+  ><ng-content /></button>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SwitchButton {
-  /** Optional aria-label override. */
   readonly label = input<string>("");
-  /** Extra CSS classes appended to the base class. */
+  /** Whether the control is on. Two-way bindable. */
+  readonly checked = model<boolean>(false);
+  readonly disabled = input<boolean>(false);
   readonly className = input<string>("");
+
+  /**
+   * Space and Enter activate a native <button> through `click`, so no key handler is
+   * needed (and none can double-toggle).
+   */
+  protected toggle(): void {
+    if (!this.disabled()) this.checked.set(!this.checked());
+  }
 }

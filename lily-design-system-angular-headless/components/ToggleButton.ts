@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
 
 /**
  * ToggleButton — a button that toggles between pressed and unpressed states
@@ -10,12 +10,29 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
   selector: "lily-toggle-button",
   standalone: true,
-  template: `<button class="toggle-button {{ className() }}" type="button" [attr.aria-label]="label() || null"><ng-content /></button>`,
+  template: `<button
+    class="toggle-button {{ className() }}"
+    type="button"
+    role="switch"
+    [attr.aria-checked]="pressed()"
+    [attr.aria-label]="label() || null"
+    [disabled]="disabled()"
+    (click)="toggle()"
+  ><ng-content /></button>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToggleButton {
-  /** Optional aria-label override. */
   readonly label = input<string>("");
-  /** Extra CSS classes appended to the base class. */
+  /** Whether the control is on. Two-way bindable. */
+  readonly pressed = model<boolean>(false);
+  readonly disabled = input<boolean>(false);
   readonly className = input<string>("");
+
+  /**
+   * Space and Enter activate a native <button> through `click`, so no key handler is
+   * needed (and none can double-toggle).
+   */
+  protected toggle(): void {
+    if (!this.disabled()) this.pressed.set(!this.pressed());
+  }
 }

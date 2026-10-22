@@ -20,3 +20,45 @@ describe("ToggleButton", () => {
     expect(el.classList.contains("extra")).toBe(true);
   });
 });
+
+describe("ToggleButton — switch semantics", () => {
+  function create(inputs: Record<string, unknown> = {}) {
+    const fixture = TestBed.createComponent(ToggleButton);
+    for (const [k, v] of Object.entries({ label: "Dark mode", ...inputs })) fixture.componentRef.setInput(k, v);
+    fixture.detectChanges();
+    return { fixture, button: fixture.nativeElement.querySelector("button") as HTMLButtonElement };
+  }
+
+  test("is a button with role=switch, a name and aria-checked=false by default", () => {
+    const { button } = create();
+    expect(button.getAttribute("type")).toBe("button");
+    expect(button.getAttribute("role")).toBe("switch");
+    expect(button.getAttribute("aria-label")).toBe("Dark mode");
+    expect(button.getAttribute("aria-checked")).toBe("false");
+  });
+
+  test("click toggles aria-checked and the bound model", () => {
+    const { fixture, button } = create();
+    button.click();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.pressed()).toBe(true);
+    expect(button.getAttribute("aria-checked")).toBe("true");
+    button.click();
+    fixture.detectChanges();
+    expect(button.getAttribute("aria-checked")).toBe("false");
+  });
+
+  test("a disabled switch cannot be toggled", () => {
+    const { fixture, button } = create({ disabled: true });
+    expect(button.disabled).toBe(true);
+    button.click();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.pressed()).toBe(false);
+  });
+
+  test("is natively keyboard-operable: a real <button>, in the tab order", () => {
+    const { button } = create();
+    expect(button.tagName).toBe("BUTTON");
+    expect(button.tabIndex).toBe(0);
+  });
+});
