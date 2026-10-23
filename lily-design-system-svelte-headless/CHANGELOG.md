@@ -3,6 +3,15 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
+## 0.6.0 — 2026-10-23 (three components)
+
+- New: `HeatmapChartWithYearOfDays`, `MiddleTruncation`, `WheelPicker`.
+- `HeatmapChartWithYearOfDays`: a `HeatmapChart` for one year of days (required `year` and `weekStart`, reflected as `data-year` and `data-week-start`; a week-column by weekday-row layout contract).
+- `MiddleTruncation`: a string shortened in the middle to fit its width, keeping the start and the end; the shortened text is `aria-hidden` and the full text stays in the accessibility tree; `ellipsis` is required and has no default.
+- `WheelPicker`: a vertical single-select listbox where the selection follows the cursor (arrows, Home/End, Page keys, type-ahead, optional loop).
+- Contract fix: `Slider`'s documented root is `<input type="range">` (the docs said `<div>`); `aria-valuetext` documented. `Button` documents the pending-action pattern (`aria-busy`, `aria-disabled`, never `disabled`).
+- The 57 reference themes style the new components. See the repository CHANGELOG (2026-10-23).
+
 ## 0.5.1 — 2026-10-18 (Editable accessible name)
 
 - `Editable`: the display-mode button is named "value, label" (the label alone when the value is empty) so its visible text is part of its accessible name (WCAG 2.5.3).

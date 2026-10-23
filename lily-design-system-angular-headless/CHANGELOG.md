@@ -5,6 +5,15 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
+## 0.7.0 — 2026-10-23 (three components)
+
+- New: `HeatmapChartWithYearOfDays`, `MiddleTruncation`, `WheelPicker` (`lily-heatmap-chart-with-year-of-days`, `lily-middle-truncation`, `lily-wheel-picker`).
+- `HeatmapChartWithYearOfDays`: a `HeatmapChart` for one year of days (required `year` and `weekStart`, reflected as `data-year` and `data-week-start`; a week-column by weekday-row layout contract).
+- `MiddleTruncation`: a string shortened in the middle to fit its width, keeping the start and the end; the shortened text is `aria-hidden` and the full text stays in the accessibility tree; `ellipsis` is required and has no default.
+- `WheelPicker`: a vertical single-select listbox where the selection follows the cursor (arrows, Home/End, Page keys, type-ahead, optional loop).
+- Contract fix: `Slider`'s documented root is `<input type="range">` (the docs said `<div>`); `aria-valuetext` documented. `Button` documents the pending-action pattern (`aria-busy`, `aria-disabled`, never `disabled`).
+- The 57 reference themes style the new components. See the repository CHANGELOG (2026-10-23).
+
 ## 0.6.0 — 2026-10-14 (scrollspy, link counts)
 
 - `ContentsNav` gains scrollspy (`spy`): the link of the section in view gets `aria-current` and `data-active`. Inputs `spy`, `offset`, `root`, `current`; two-way `[(active)]`.

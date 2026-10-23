@@ -9,6 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## HeatmapChartWithYearOfDays, MiddleTruncation, WheelPicker — 2026-10-23
+
+- Three components in all nine headless catalogs (catalog 574): `heatmap-chart-with-year-of-days` (a year of days in week columns), `middle-truncation` (full text kept in the accessibility tree), `wheel-picker` (a single-select listbox, selection follows the cursor). Pure logic in `shared/` (`year-of-days-layout.ts`, `middle-truncation.ts`, `wheel-picker.ts`), written into component folders by `bin/sync-shared-modules`.
+- Released svelte/react/vue-headless 0.6.0, angular-headless 0.7.0, html-headless 0.8.0, nunjucks-headless 0.6.0, web-components-headless 0.7.0 and Blazor headless 0.6.0.
+- Docs: the pending-action contract on `button` (never `disabled`), the APG carousel controls, "Reduced motion" sections on seven components, `slider`'s contract fixed (`<input>`, not `<div>`).
+- Tooling: a Generated files table in `AGENTS/lily.md` checked by `bin/check-generated-files`; `--dry-run` on the three scaffolders; `spec/chanhdai-lessons` and Phase 13 of tasks.md.
+
 ## Alpine.js example app and four helpers — 2026-10-21
 
 - New `lily-design-system-alpine-examples`: a static site (`node build.mjs`, 578 pages, no framework runtime) with `/`, `/components/` (searchable), `/components/{slug}/` for all 571 components (a live demo, the shipped markup, links) and a page per helper; the reference themes are copied in and chosen from a header selector. vitest mounts every demo under real Alpine in jsdom (no Alpine error, base class kept, no empty `aria-label`); Playwright + axe visits every page in Chromium at WCAG 2.2 AA (586 tests), with one named reference-theme finding (the filled-star colour of `five-star-rating-view`, 1.49:1). CI job `alpine-examples`.

@@ -882,6 +882,10 @@ export { Headline } from "./components/headline.js";
 import { Headline as _Headline } from "./components/headline.js";
 if (!customElements.get("lily-headline")) customElements.define("lily-headline", _Headline);
 
+export { HeatmapChartWithYearOfDays } from "./components/heatmap-chart-with-year-of-days.js";
+import { HeatmapChartWithYearOfDays as _HeatmapChartWithYearOfDays } from "./components/heatmap-chart-with-year-of-days.js";
+if (!customElements.get("lily-heatmap-chart-with-year-of-days")) customElements.define("lily-heatmap-chart-with-year-of-days", _HeatmapChartWithYearOfDays);
+
 export { HeatmapChart } from "./components/heatmap-chart.js";
 import { HeatmapChart as _HeatmapChart } from "./components/heatmap-chart.js";
 if (!customElements.get("lily-heatmap-chart")) customElements.define("lily-heatmap-chart", _HeatmapChart);
@@ -1189,6 +1193,10 @@ if (!customElements.get("lily-mexico-clave-unica-de-registro-de-poblacion-input"
 export { MexicoClaveUnicaDeRegistroDePoblacionView } from "./components/mexico-clave-unica-de-registro-de-poblacion-view.js";
 import { MexicoClaveUnicaDeRegistroDePoblacionView as _MexicoClaveUnicaDeRegistroDePoblacionView } from "./components/mexico-clave-unica-de-registro-de-poblacion-view.js";
 if (!customElements.get("lily-mexico-clave-unica-de-registro-de-poblacion-view")) customElements.define("lily-mexico-clave-unica-de-registro-de-poblacion-view", _MexicoClaveUnicaDeRegistroDePoblacionView);
+
+export { MiddleTruncation } from "./components/middle-truncation.js";
+import { MiddleTruncation as _MiddleTruncation } from "./components/middle-truncation.js";
+if (!customElements.get("lily-middle-truncation")) customElements.define("lily-middle-truncation", _MiddleTruncation);
 
 export { MisrAlRaqmAlQawmiInput } from "./components/misr-al-raqm-al-qawmi-input.js";
 import { MisrAlRaqmAlQawmiInput as _MisrAlRaqmAlQawmiInput } from "./components/misr-al-raqm-al-qawmi-input.js";
@@ -2129,6 +2137,10 @@ if (!customElements.get("lily-watermark")) customElements.define("lily-watermark
 export { WeekInput } from "./components/week-input.js";
 import { WeekInput as _WeekInput } from "./components/week-input.js";
 if (!customElements.get("lily-week-input")) customElements.define("lily-week-input", _WeekInput);
+
+export { WheelPicker } from "./components/wheel-picker.js";
+import { WheelPicker as _WheelPicker } from "./components/wheel-picker.js";
+if (!customElements.get("lily-wheel-picker")) customElements.define("lily-wheel-picker", _WheelPicker);
 
 export { YisraelTeudatZehutInput } from "./components/yisrael-teudat-zehut-input.js";
 import { YisraelTeudatZehutInput as _YisraelTeudatZehutInput } from "./components/yisrael-teudat-zehut-input.js";

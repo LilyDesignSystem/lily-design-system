@@ -570,6 +570,7 @@ export { default as Visible } from "./components/Visible/Visible.svelte";
 export { default as WarningCallout } from "./components/WarningCallout/WarningCallout.svelte";
 export { default as Watermark } from "./components/Watermark/Watermark.svelte";
 export { default as WeekInput } from "./components/WeekInput/WeekInput.svelte";
+export { default as WheelPicker } from "./components/WheelPicker/WheelPicker.svelte";
 export { default as YisraelTeudatZehutInput } from "./components/YisraelTeudatZehutInput/YisraelTeudatZehutInput.svelte";
 export { default as YisraelTeudatZehutView } from "./components/YisraelTeudatZehutView/YisraelTeudatZehutView.svelte";
 export { default as ZhongguoJuminShenfenzhengHaomaInput } from "./components/ZhongguoJuminShenfenzhengHaomaInput/ZhongguoJuminShenfenzhengHaomaInput.svelte";
