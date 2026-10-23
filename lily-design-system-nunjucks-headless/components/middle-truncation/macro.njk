@@ -1,0 +1,44 @@
+{#
+  MiddleTruncation macro -- a string shortened in the middle to fit its width, keeping the start and the end.
+
+  A server cannot measure a width, so the macro renders the markup contract and nothing more: the full text twice, once
+  in .middle-truncation-visual (aria-hidden) and once in .middle-truncation-full (which the consumer's CSS visually hides),
+  with the options as data attributes. Measuring and shortening happen in the browser: add the script from
+  html-headless's middle-truncation.html (it reads these data attributes), or use the Web Components element. Without
+  either, the full text is shown. To shorten on the server, pass params.shortened (computed with shared/middle-truncation.ts
+  and a character-count measure, for example).
+
+  HTML tag: <span> holding two <span>s
+  CSS class: middle-truncation (sub-elements: middle-truncation-visual, middle-truncation-full)
+  Accessibility:
+    - the shortened text is aria-hidden; the full text is what assistive technology, find-in-page and copy receive.
+    - the consumer's CSS bounds the root (display: block; overflow: hidden; white-space: nowrap) and visually hides
+      .middle-truncation-full (clipped, never display: none).
+
+  Params:
+    text        string   Required. The full text (escaped).
+    ellipsis    string   Required, no default. The cut marker.
+    strategy    string   "even" (default) | "fixed-end" | "min-end".
+    end         number   Characters kept at the end for "fixed-end" and "min-end".
+    shortened   string   Optional, already shortened text for the visual span (sets data-truncated).
+    id          string   Element id.
+    classes     string   Consumer-provided extra CSS classes.
+    attributes  object   Extra HTML attributes as key/value pairs.
+
+  Usage:
+    {% from "components/middle-truncation/macro.njk" import middleTruncation %}
+    {{ middleTruncation({ text: "quarterly-report-final-version-3.pdf", ellipsis: "…", strategy: "min-end", end: 6 }) }}
+#}
+{%- macro middleTruncation(params) -%}
+{%- set p = params | default({}) -%}
+{%- set strategy = p.strategy or "even" -%}
+<span
+  class="middle-truncation{% if p.classes %} {{ p.classes }}{% endif %}"
+  data-strategy="{{ strategy }}"
+  data-ellipsis="{{ p.ellipsis }}"
+  {%- if p.end is defined and p.end !== none %} data-end="{{ p.end }}"{% endif %}
+  {%- if p.shortened %} data-truncated{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+><span class="middle-truncation-visual" aria-hidden="true">{{ p.shortened or p.text }}</span><span class="middle-truncation-full">{{ p.text }}</span></span>
+{%- endmacro -%}

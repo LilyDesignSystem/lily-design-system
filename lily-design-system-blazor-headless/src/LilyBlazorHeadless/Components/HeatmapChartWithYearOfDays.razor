@@ -1,0 +1,34 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    HeatmapChartWithYearOfDays component
+    A headless wrapper for a grid chart where cell colour encodes the value at each row and column. Renders a <figure> holding a
+    role="img" graphic wrapper around the consumer-supplied inline <svg>.
+    No drawing happens here. The optional DataTable fragment renders the
+    accessible table alternative in .heatmap-chart-with-year-of-days-data-table, a SIBLING of the
+    image wrapper: role="img" makes descendants presentational, so a table
+    inside it would be invisible to assistive technology.
+    Use aria-describedby (unmatched attribute, applied to the figure) for a
+    text description; unmatched attributes spread onto the <figure>.
+*@
+
+<figure class="@($"heatmap-chart-with-year-of-days {CssClass}".Trim())" data-year="@Year" data-week-start="@WeekStart" @attributes="AdditionalAttributes">
+    <div class="heatmap-chart-with-year-of-days-graphic" role="img" aria-label="@Label">@ChildContent</div>
+    @if (DataTable is not null)
+    {
+        <div class="heatmap-chart-with-year-of-days-data-table">@DataTable</div>
+    }
+</figure>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    /// <summary>The calendar year shown (data-year).</summary>
+    [Parameter, EditorRequired] public int Year { get; set; }
+    /// <summary>First weekday row: 0 = Sunday … 6 = Saturday (data-week-start). No default: it is locale-dependent.</summary>
+    [Parameter, EditorRequired] public int WeekStart { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>Optional accessible data table alternative, rendered outside the role=img wrapper.</summary>
+    [Parameter] public RenderFragment? DataTable { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

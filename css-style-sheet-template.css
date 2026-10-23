@@ -2468,3 +2468,39 @@
 /* chat-composer-input: sub-element of chat-composer */
 .chat-composer-input {
 }
+
+/* heatmap-chart-with-year-of-days: a heatmap chart of one year of days, one cell per day in week columns and weekday rows */
+.heatmap-chart-with-year-of-days {
+}
+
+/* heatmap-chart-with-year-of-days-graphic: sub-element of heatmap-chart-with-year-of-days */
+.heatmap-chart-with-year-of-days-graphic {
+}
+
+/* heatmap-chart-with-year-of-days-data-table: sub-element of heatmap-chart-with-year-of-days */
+.heatmap-chart-with-year-of-days-data-table {
+}
+
+/* middle-truncation: a string shortened in the middle to fit its width, keeping the start and the end */
+.middle-truncation {
+}
+
+/* middle-truncation-visual: sub-element of middle-truncation */
+.middle-truncation-visual {
+}
+
+/* middle-truncation-full: sub-element of middle-truncation */
+.middle-truncation-full {
+}
+
+/* wheel-picker: a vertical single-select listbox where the selection follows the cursor, for choosing one of a short list by scrolling or typing */
+.wheel-picker {
+}
+
+/* wheel-picker-list: sub-element of wheel-picker */
+.wheel-picker-list {
+}
+
+/* wheel-picker-option: sub-element of wheel-picker */
+.wheel-picker-option {
+}

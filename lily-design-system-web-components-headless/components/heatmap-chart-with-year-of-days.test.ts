@@ -1,0 +1,85 @@
+import { afterEach, describe, expect, test } from "vitest";
+
+import { HeatmapChartWithYearOfDays } from "./heatmap-chart-with-year-of-days.js";
+
+if (!customElements.get("lily-heatmap-chart-with-year-of-days")) {
+    customElements.define("lily-heatmap-chart-with-year-of-days", HeatmapChartWithYearOfDays);
+}
+
+afterEach(() => {
+    document.body.innerHTML = "";
+});
+
+function render(html: string): HTMLElement {
+    document.body.innerHTML = html;
+    return document.body.firstElementChild as HTMLElement;
+}
+
+const SVG = '<svg data-testid="art" viewBox="0 0 10 10"><circle r="4"></circle></svg>';
+const TABLE = '<table slot="data-table"><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>';
+const BASIC = `<lily-heatmap-chart-with-year-of-days label="Test" year="2026" week-start="0">${SVG}</lily-heatmap-chart-with-year-of-days>`;
+const WITH_TABLE = `<lily-heatmap-chart-with-year-of-days label="Test" year="2026" week-start="0">${SVG}${TABLE}</lily-heatmap-chart-with-year-of-days>`;
+
+describe("HeatmapChartWithYearOfDays", () => {
+    test("renders a figure with the base class", () => {
+        expect(render(BASIC).querySelector("figure.heatmap-chart-with-year-of-days")).toBeTruthy();
+    });
+
+    test("exposes the graphic as a single named image, not the figure", () => {
+        const host = render(BASIC);
+        const g = host.querySelector(".heatmap-chart-with-year-of-days-graphic")!;
+        expect(g.tagName).toBe("DIV");
+        expect(g.getAttribute("role")).toBe("img");
+        expect(g.getAttribute("aria-label")).toBe("Test");
+        expect(host.querySelector("figure")!.hasAttribute("role")).toBe(false);
+    });
+
+    test("appends the consumer class after the base class", () => {
+        const host = render('<lily-heatmap-chart-with-year-of-days label="T" year="2026" week-start="0" class="mine"></lily-heatmap-chart-with-year-of-days>');
+        expect(host.querySelector("figure")!.getAttribute("class")).toBe("heatmap-chart-with-year-of-days mine");
+    });
+
+    test("moves the consumer svg into the graphic wrapper", () => {
+        const host = render(BASIC);
+        expect(host.querySelector("svg")!.closest("[role=img]")).toBe(host.querySelector(".heatmap-chart-with-year-of-days-graphic"));
+    });
+
+    test("spreads other attributes onto the figure", () => {
+        const host = render('<lily-heatmap-chart-with-year-of-days label="T" year="2026" week-start="0" id="c1" data-testid="chart"></lily-heatmap-chart-with-year-of-days>');
+        const fig = host.querySelector("figure")!;
+        expect(fig.id).toBe("c1");
+        expect(fig.getAttribute("data-testid")).toBe("chart");
+    });
+
+    test("renders no data-table wrapper without a slot=data-table child", () => {
+        expect(render(BASIC).querySelector(".heatmap-chart-with-year-of-days-data-table")).toBeNull();
+    });
+
+    test("moves a slot=data-table child into a sibling wrapper after the graphic", () => {
+        const host = render(WITH_TABLE);
+        const wrap = host.querySelector(".heatmap-chart-with-year-of-days-data-table")!;
+        expect(wrap.querySelector("table")).toBeTruthy();
+        expect(wrap.previousElementSibling).toBe(host.querySelector(".heatmap-chart-with-year-of-days-graphic"));
+        expect(wrap.parentElement!.tagName).toBe("FIGURE");
+    });
+
+    test("keeps the table outside the role=img element so assistive technology can reach it", () => {
+        const host = render(WITH_TABLE);
+        expect(host.querySelector("table")!.closest("[role=img]")).toBeNull();
+        expect(host.querySelector("[role=img] table")).toBeNull();
+    });
+
+    test("is idempotent if connectedCallback runs twice", () => {
+        const host = render(WITH_TABLE);
+        (host as unknown as HeatmapChartWithYearOfDays).connectedCallback();
+        expect(host.querySelectorAll("figure").length).toBe(1);
+        expect(host.querySelectorAll(".heatmap-chart-with-year-of-days-data-table").length).toBe(1);
+    });
+
+    test("reflects year and week-start as data attributes on the figure", () => {
+        const host = render('<lily-heatmap-chart-with-year-of-days label="T" year="2025" week-start="1"></lily-heatmap-chart-with-year-of-days>');
+        const fig = host.querySelector("figure")!;
+        expect(fig.getAttribute("data-year")).toBe("2025");
+        expect(fig.getAttribute("data-week-start")).toBe("1");
+    });
+});

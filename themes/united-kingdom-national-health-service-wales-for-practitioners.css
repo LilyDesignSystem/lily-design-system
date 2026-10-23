@@ -4192,7 +4192,7 @@
     }
     /* Screen-reader-only — visually hidden but available to AT. The
        classic clip-rect pattern (works in every screen reader). */
-    :where(.screen-reader-span) {
+    :where(.screen-reader-span, .middle-truncation-full) {
         position: absolute;
         width: 1px;
         height: 1px;
@@ -4202,6 +4202,42 @@
         clip: rect(0, 0, 0, 0);
         white-space: nowrap;
         border: 0;
+    }
+    /* Middle truncation — a bounded one-line block; the shortened string is aria-hidden and the full
+       text (hidden above) stays in the accessibility tree. */
+    :where(.middle-truncation) {
+        display: block;
+        position: relative;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    /* Wheel picker — a scrolling listbox that snaps the chosen option to the centre. The selected option is filled with the
+       primary colour (aria-selected, not colour alone: it is also the activedescendant and gets a bold weight). */
+    :where(.wheel-picker-list) {
+        max-block-size: 10em;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        scroll-snap-type: y mandatory;
+        border: 1px solid var(--color-base-300);
+        border-radius: var(--lily-radius-md);
+    }
+    :where(.wheel-picker-list:focus-visible) {
+        outline: 2px solid var(--lily-focus-ring);
+        outline-offset: 2px;
+    }
+    :where(.wheel-picker-option) {
+        padding: 0.5rem 1rem;
+        scroll-snap-align: center;
+        cursor: pointer;
+    }
+    :where(.wheel-picker-option[aria-selected="true"]) {
+        background-color: var(--color-primary);
+        color: var(--color-primary-content);
+        font-weight: 600;
+    }
+    :where(.wheel-picker-option[aria-disabled="true"]) {
+        opacity: 0.5;
+        cursor: not-allowed;
     }
 
     /* ==========================================================================

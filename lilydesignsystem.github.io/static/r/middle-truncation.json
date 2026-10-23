@@ -1,0 +1,48 @@
+{
+  "slug": "middle-truncation",
+  "name": "MiddleTruncation",
+  "description": "a string shortened in the middle to fit its width, keeping the start and the end",
+  "htmlTag": "span",
+  "category": "content",
+  "baseClass": ".middle-truncation",
+  "subClasses": [
+    "middle-truncation-full",
+    "middle-truncation-visual"
+  ],
+  "interactive": false,
+  "status": "experimental — implemented and tested in all nine headless catalogs (2026-10-23); Blazor (`MaxCharacters`), Nunjucks and HTML measure differently, see index.md",
+  "aria": [
+    "The shortened string is `aria-hidden=\"true\"`; the full text in `.middle-truncation-full` is what assistive technology, find-in-page and copy receive",
+    "No role and no `aria-label`: the text content is the accessible content (a `title` attribute would reach hovering pointers only)"
+  ],
+  "keyboard": [
+    "None"
+  ],
+  "props": [
+    "`class`: string (default: `\"\"`) -- appended to the base class",
+    "`text`: string (required) -- the full text",
+    "`ellipsis`: string (required) -- the cut marker; no default, the headless layer ships no text",
+    "`strategy`: `\"even\" | \"fixed-end\" | \"min-end\"` (default: `\"even\"`)",
+    "`end`: number (optional) -- characters kept at the end for `fixed-end` and `min-end`; ignored by `even`",
+    "`...restProps`: HTML attributes -- spread onto the root `<span>`"
+  ],
+  "related": [
+    "tooltip",
+    "hover-card",
+    "clipboard-copy-button",
+    "code"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/middle-truncation.html",
+    "svelte": "lily-design-system-svelte-headless/components/MiddleTruncation/MiddleTruncation.svelte",
+    "react": "lily-design-system-react-headless/components/MiddleTruncation.tsx",
+    "vue": "lily-design-system-vue-headless/components/MiddleTruncation.vue",
+    "angular": "lily-design-system-angular-headless/components/MiddleTruncation.ts",
+    "web-components": "lily-design-system-web-components-headless/components/middle-truncation.ts",
+    "alpine": "lily-design-system-alpine-headless/components/middle-truncation.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/middle-truncation/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MiddleTruncation.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/middle-truncation/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/middle-truncation/AGENTS.md"
+}

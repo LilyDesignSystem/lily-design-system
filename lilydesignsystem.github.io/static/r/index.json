@@ -1,5 +1,5 @@
 {
-  "count": 571,
+  "count": 574,
   "components": [
     {
       "slug": "accordion-checkbox",
@@ -1460,6 +1460,12 @@
       "manifest": "https://lilydesignsystem.com/r/heatmap-chart.json"
     },
     {
+      "slug": "heatmap-chart-with-year-of-days",
+      "name": "HeatmapChartWithYearOfDays",
+      "description": "a heatmap chart of one year of days, one cell per day in week columns and weekday rows",
+      "manifest": "https://lilydesignsystem.com/r/heatmap-chart-with-year-of-days.json"
+    },
+    {
       "slug": "hero",
       "name": "Hero",
       "description": "a large box or image with a title and description",
@@ -1950,6 +1956,12 @@
       "name": "MexicoClaveUnicaDeRegistroDePoblacionView",
       "description": "a read-only display of Mexico's Clave Unica de Registro de Poblacion (CURP)",
       "manifest": "https://lilydesignsystem.com/r/mexico-clave-unica-de-registro-de-poblacion-view.json"
+    },
+    {
+      "slug": "middle-truncation",
+      "name": "MiddleTruncation",
+      "description": "a string shortened in the middle to fit its width, keeping the start and the end",
+      "manifest": "https://lilydesignsystem.com/r/middle-truncation.json"
     },
     {
       "slug": "misr-al-raqm-al-qawmi-input",
@@ -3402,6 +3414,12 @@
       "name": "WeekInput",
       "description": "an input for selecting a week and year <input type=\"week\">",
       "manifest": "https://lilydesignsystem.com/r/week-input.json"
+    },
+    {
+      "slug": "wheel-picker",
+      "name": "WheelPicker",
+      "description": "a vertical single-select listbox where the selection follows the cursor, for choosing one of a short list by scrolling or typing",
+      "manifest": "https://lilydesignsystem.com/r/wheel-picker.json"
     },
     {
       "slug": "yisrael-teudat-zehut-input",

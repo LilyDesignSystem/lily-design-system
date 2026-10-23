@@ -581,4 +581,7 @@ export const LILY_COMPONENTS: LilyComponent[] = [
   { name: "tool-call-error", pascal: "ToolCallError", description: "the error shown when a tool call fails", status: "beta" },
   { name: "mark", pascal: "Mark", description: "an inline highlight marking text as relevant or referenced, such as a search match, using the native mark element", status: "beta" },
   { name: "chat-composer", pascal: "ChatComposer", description: "a chat input form with a text area that grows with its content, sends on Enter, and turns its send button into a stop button while a reply is in progress", status: "beta" },
+  { name: "heatmap-chart-with-year-of-days", pascal: "HeatmapChartWithYearOfDays", description: "a heatmap chart of one year of days, one cell per day in week columns and weekday rows", status: "experimental" },
+  { name: "middle-truncation", pascal: "MiddleTruncation", description: "a string shortened in the middle to fit its width, keeping the start and the end", status: "experimental" },
+  { name: "wheel-picker", pascal: "WheelPicker", description: "a vertical single-select listbox where the selection follows the cursor, for choosing one of a short list by scrolling or typing", status: "experimental" },
 ];

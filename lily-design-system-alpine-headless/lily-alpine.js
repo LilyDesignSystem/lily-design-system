@@ -11,6 +11,15 @@
 //   Alpine.plugin(lily);
 //   Alpine.start();
 
+import { truncateMiddle } from "./middle-truncation.js";
+import {
+  isWheelTypeaheadKey,
+  nextWheelIndex,
+  nextWheelPrefix,
+  WHEEL_MOVE_KEYS,
+  wheelTypeaheadIndex,
+} from "./wheel-picker.js";
+
 /** What focus may land on when an overlay opens. */
 const FOCUSABLE =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
@@ -1470,6 +1479,117 @@ export default function lily(Alpine) {
       "aria-live": "polite",
       ":data-file-count"() { return String(this.count); },
       "x-text"() { return this.count ? String(this.count) : ""; },
+    },
+  }));
+
+  // MiddleTruncation: the text shortened in the middle to the root's measured width (canvas metrics in its own font),
+  // re-measured on resize. The full text stays in the page for assistive technology; ellipsis has no default.
+  Alpine.data("lilyMiddleTruncation", (options = {}) => ({
+    text: options.text ?? "",
+    ellipsis: options.ellipsis ?? "",
+    strategy: options.strategy ?? "even",
+    end: options.end,
+    shown: null,
+    _observer: null,
+    _frame: 0,
+    _context: undefined,
+    init() {
+      this.recalculate();
+      if (typeof ResizeObserver !== "undefined") {
+        this._observer = new ResizeObserver(() => {
+          cancelAnimationFrame(this._frame);
+          this._frame = requestAnimationFrame(() => this.recalculate());
+        });
+        this._observer.observe(this.$el);
+      }
+      this.$watch(() => [this.text, this.ellipsis, this.strategy, this.end], () => this.recalculate());
+    },
+    destroy() {
+      cancelAnimationFrame(this._frame);
+      this._observer?.disconnect();
+    },
+    recalculate() {
+      const el = this.$el;
+      const width = el.clientWidth;
+      if (this._context === undefined) this._context = document.createElement("canvas").getContext("2d");
+      const ctx = this._context;
+      if (!ctx || width <= 0) {
+        this.shown = null;
+        return;
+      }
+      const style = getComputedStyle(el);
+      ctx.font = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+      const result = truncateMiddle(this.text, {
+        ellipsis: this.ellipsis,
+        strategy: this.strategy,
+        end: this.end,
+        maxWidth: width,
+        measure: (t) => ctx.measureText(t).width,
+      });
+      this.shown = result === this.text ? null : result;
+    },
+    root: {
+      ":data-strategy"() { return this.strategy; },
+      ":data-truncated"() { return this.shown === null ? null : ""; },
+    },
+    visual: { "x-text"() { return this.shown ?? this.text; } },
+    full: { "x-text"() { return this.text; } },
+  }));
+
+  // WheelPicker: a vertical single-select listbox where the selection follows the cursor (APG listbox). The roles live in the
+  // snippet; this owns the value, the keys (arrows, Home/End, PageUp/PageDown, type-ahead) and centring the selected option.
+  let wheelPickerCount = 0;
+  Alpine.data("lilyWheelPicker", (config = {}) => ({
+    options: config.options ?? [],
+    value: config.value ?? "",
+    loop: Boolean(config.loop),
+    pageSize: config.pageSize ?? 5,
+    disabled: Boolean(config.disabled),
+    uid: `wheel-picker-${++wheelPickerCount}`,
+    _typeahead: { prefix: "", at: 0 },
+    init() {
+      this.$nextTick(() => this.centre());
+      this.$watch("value", () => this.$nextTick(() => this.centre()));
+    },
+    get selectedIndex() {
+      return this.options.findIndex((o) => o.value === this.value);
+    },
+    select(index) {
+      if (index < 0) return;
+      const next = this.options[index].value;
+      if (next === this.value) return; // applying the selection already held is a no-op
+      this.value = next;
+      this.$dispatch("change", { value: next });
+    },
+    // Only the list scrolls (never the page), and instantly: no animation.
+    centre() {
+      const list = this.$refs.list;
+      const option = list?.querySelector(`[data-index="${this.selectedIndex}"]`);
+      if (list && option) list.scrollTop = option.offsetTop - (list.clientHeight - option.offsetHeight) / 2;
+    },
+    list: {
+      role: "listbox",
+      "aria-orientation": "vertical",
+      ":aria-disabled"() { return this.disabled ? "true" : null; },
+      ":aria-activedescendant"() { return this.selectedIndex >= 0 ? `${this.uid}-option-${this.selectedIndex}` : null; },
+      ":tabindex"() { return this.disabled ? -1 : 0; },
+      "@keydown"(event) {
+        if (this.disabled) return;
+        if (WHEEL_MOVE_KEYS.includes(event.key)) {
+          event.preventDefault();
+          this.select(nextWheelIndex(this.options, this.selectedIndex, event.key, { loop: this.loop, pageSize: this.pageSize }));
+        } else if (isWheelTypeaheadKey(event)) {
+          this._typeahead = nextWheelPrefix(this._typeahead, event.key, Date.now());
+          this.select(wheelTypeaheadIndex(this.options, this.selectedIndex, this._typeahead.prefix));
+        }
+      },
+      "@click"(event) {
+        if (this.disabled) return;
+        const target = event.target.closest('[role="option"]');
+        if (!target || target.getAttribute("aria-disabled") === "true") return;
+        this.select(Number(target.getAttribute("data-index")));
+        this.$refs.list.focus();
+      },
     },
   }));
 }

@@ -1,0 +1,111 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    WheelPicker component
+    A vertical single-select listbox where the selection follows the cursor: moving with the arrow keys, typing, or clicking an
+    option chooses it. Use it to pick one of a short list (hours, minutes, months, years) in the manner of a scroll wheel. The
+    component owns the roles and the keys; the wheel LOOK (scroll snapping, fading, 3-D) is the consumer's CSS.
+
+    Value / ValueChanged is two-way (@bind-Value). Options are WheelPickerOption records. The key model is WheelPickerKeys.
+
+    Deviations from the Svelte canonical (Blazor here uses no JS interop):
+      - an event handler cannot call preventDefault for only some keys, so the arrow and page keys also scroll the list: give
+        .wheel-picker-list `overflow: hidden` if the wheel should not scroll under the keys, or scroll-snap it and accept it;
+      - the selected option is not re-centred by script: use CSS scroll-snap/`scroll-padding` and scroll-margin, or
+        scrollIntoView from the consumer.
+    Unmatched attributes spread onto the root <div>.
+*@
+
+<div class="@($"wheel-picker {CssClass}".Trim())" @attributes="AdditionalAttributes">
+    <div @ref="_list"
+         class="wheel-picker-list"
+         role="listbox"
+         aria-label="@Label"
+         aria-orientation="vertical"
+         aria-disabled="@(Disabled ? "true" : null)"
+         aria-activedescendant="@(SelectedIndex >= 0 ? $"{_uid}-option-{SelectedIndex}" : null)"
+         tabindex="@(Disabled ? -1 : 0)"
+         @onkeydown="OnKeyDown">
+        @for (var i = 0; i < Options.Count; i++)
+        {
+            var index = i;
+            var option = Options[i];
+            <div class="wheel-picker-option"
+                 role="option"
+                 id="@($"{_uid}-option-{index}")"
+                 aria-selected="@(index == SelectedIndex ? "true" : "false")"
+                 aria-disabled="@(option.Disabled ? "true" : null)"
+                 data-value="@option.Value"
+                 data-index="@index"
+                 @onclick="() => OnOptionClick(index)">@option.Label</div>
+        }
+    </div>
+    @if (!string.IsNullOrEmpty(Name))
+    {
+        <input type="hidden" name="@Name" value="@Value" />
+    }
+</div>
+
+@code {
+    private static int _count;
+    private readonly string _uid = $"wheel-picker-{Interlocked.Increment(ref _count)}";
+    private ElementReference _list;
+    private (string Prefix, long At) _typeahead = ("", 0);
+
+    /// <summary>Accessible name of the listbox.</summary>
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    /// <summary>The choices.</summary>
+    [Parameter, EditorRequired] public IReadOnlyList<WheelPickerOption> Options { get; set; } = [];
+    /// <summary>The selected option's value; empty or unknown selects nothing.</summary>
+    [Parameter] public string Value { get; set; } = "";
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    /// <summary>Arrow keys wrap from the last enabled option to the first and back.</summary>
+    [Parameter] public bool Loop { get; set; }
+    /// <summary>Enabled options PageUp / PageDown move by.</summary>
+    [Parameter] public int PageSize { get; set; } = 5;
+    /// <summary>Ignores keys and clicks; not focusable.</summary>
+    [Parameter] public bool Disabled { get; set; }
+    /// <summary>When set, a hidden input carries the value for a form.</summary>
+    [Parameter] public string? Name { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private int SelectedIndex
+    {
+        get
+        {
+            for (var i = 0; i < Options.Count; i++) if (Options[i].Value == Value) return i;
+            return -1;
+        }
+    }
+
+    private async Task Select(int index)
+    {
+        if (index < 0) return;
+        var next = Options[index].Value;
+        if (next == Value) return; // applying the selection already held is a no-op
+        Value = next;
+        await ValueChanged.InvokeAsync(next);
+    }
+
+    private async Task OnKeyDown(KeyboardEventArgs e)
+    {
+        if (Disabled) return;
+        if (Array.IndexOf(WheelPickerKeys.MoveKeys, e.Key) >= 0)
+        {
+            await Select(WheelPickerKeys.NextIndex(Options, SelectedIndex, e.Key, Loop, PageSize));
+        }
+        else if (WheelPickerKeys.IsTypeaheadKey(e.Key, e.CtrlKey, e.AltKey, e.MetaKey))
+        {
+            _typeahead = WheelPickerKeys.NextPrefix(_typeahead, e.Key, DateTimeOffset.UtcNow.ToUnixTimeMilliseconds());
+            await Select(WheelPickerKeys.TypeaheadIndex(Options, SelectedIndex, _typeahead.Prefix));
+        }
+    }
+
+    private async Task OnOptionClick(int index)
+    {
+        if (Disabled || Options[index].Disabled) return;
+        await Select(index);
+        await _list.FocusAsync();
+    }
+}

@@ -1,0 +1,67 @@
+{#
+  WheelPicker macro -- a vertical single-select listbox where the selection follows the cursor.
+
+  Renders the markup contract: a listbox holding one role="option" per entry, the selected one aria-selected, and an
+  optional hidden input. A server cannot handle keys, so the behaviour is the browser's: include the script from
+  html-headless's wheel-picker.html (it reads this markup, including data-loop and data-page-size), or use the Web
+  Components element. Without either the list is static.
+
+  HTML tag: <div> holding a listbox <div>
+  CSS class: wheel-picker (sub-elements: wheel-picker-list, wheel-picker-option)
+  Accessibility: role="listbox", aria-orientation="vertical", aria-activedescendant naming the selected option; each option
+    role="option" with aria-selected (and aria-disabled when disabled).
+
+  Params:
+    label       string   Required accessible name (aria-label).
+    options     array    Required. [{ value, label, disabled? }].
+    value       string   The selected option's value; none or unknown selects nothing.
+    loop        boolean  Arrow keys wrap (data-loop).
+    pageSize    number   Enabled options PageUp / PageDown move by (data-page-size), default 5.
+    disabled    boolean  Not focusable; the script ignores keys and clicks.
+    name        string   When set, a hidden input carries the value for a form.
+    id          string   Id prefix for the options, and the root's id.
+    classes     string   Consumer-provided extra CSS classes.
+    attributes  object   Extra HTML attributes as key/value pairs (on the root).
+
+  Usage:
+    {% from "components/wheel-picker/macro.njk" import wheelPicker %}
+    {{ wheelPicker({ label: "Month", options: months, value: "2", name: "month" }) }}
+#}
+{%- macro wheelPicker(params) -%}
+{%- set p = params | default({}) -%}
+{%- set prefix = p.id or "wheel-picker" -%}
+{#- Nunjucks cannot reassign a variable inside a loop, so collect the selected index in an array. -#}
+{%- set selected = [] -%}
+{%- for option in p.options %}{% if option.value == p.value and selected.length == 0 %}{% set _ = selected.push(loop.index0) %}{% endif %}{% endfor -%}
+<div
+  class="wheel-picker{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.loop %} data-loop{% endif %}
+  {%- if p.pageSize %} data-page-size="{{ p.pageSize }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <div
+    class="wheel-picker-list"
+    role="listbox"
+    aria-orientation="vertical"
+    {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+    {%- if p.disabled %} aria-disabled="true"{% endif %}
+    {%- if selected.length %} aria-activedescendant="{{ prefix }}-option-{{ selected[0] }}"{% endif %}
+    tabindex="{{ -1 if p.disabled else 0 }}"
+  >
+    {%- for option in p.options %}
+    <div
+      class="wheel-picker-option"
+      role="option"
+      id="{{ prefix }}-option-{{ loop.index0 }}"
+      aria-selected="{{ 'true' if selected.length and loop.index0 == selected[0] else 'false' }}"
+      {%- if option.disabled %} aria-disabled="true"{% endif %}
+      data-value="{{ option.value }}"
+    >{{ option.label }}</div>
+    {%- endfor %}
+  </div>
+  {%- if p.name %}
+  <input type="hidden" name="{{ p.name }}" value="{{ p.value }}">
+  {%- endif %}
+</div>
+{%- endmacro -%}

@@ -43,6 +43,8 @@
   "files": [
     "index.js",
     "lily-alpine.js",
+    "middle-truncation.js",
+    "wheel-picker.js",
     "components/*.html",
     "index.md",
     "README.md"

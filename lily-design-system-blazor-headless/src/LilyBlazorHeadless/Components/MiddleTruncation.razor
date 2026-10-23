@@ -1,0 +1,86 @@
+@namespace LilyBlazorHeadless.Components
+@using System.Globalization
+@using System.Text
+
+@*
+    MiddleTruncation component
+    A string shortened in the middle, keeping the start and the end. The full text always stays in the accessibility tree:
+    the shortened string is aria-hidden in .middle-truncation-visual and the whole text sits in .middle-truncation-full, which
+    the consumer's CSS visually hides.
+
+    Deviation from the Svelte canonical: Blazor Server/WebAssembly here uses no JS interop, so the component cannot measure
+    a pixel width. MaxCharacters is a text-element budget instead (the result, ellipsis included, is at most that many
+    user-perceived characters); without it the full text is shown. Cuts fall between grapheme clusters (StringInfo).
+    The Ellipsis has no default. Strategy: even | fixed-end | min-end; End applies to the last two.
+    Unmatched attributes spread onto the root <span>.
+*@
+
+<span class="@($"middle-truncation {CssClass}".Trim())" data-strategy="@Strategy" data-truncated="@(Shown is null ? null : "")" @attributes="AdditionalAttributes"><span class="middle-truncation-visual" aria-hidden="true">@(Shown ?? Text)</span><span class="middle-truncation-full">@Text</span></span>
+
+@code {
+    /// <summary>The full text.</summary>
+    [Parameter, EditorRequired] public string Text { get; set; } = "";
+    /// <summary>The cut marker. No default: the headless layer ships no text.</summary>
+    [Parameter, EditorRequired] public string Ellipsis { get; set; } = "";
+    /// <summary>"even" (default), "fixed-end" or "min-end".</summary>
+    [Parameter] public string Strategy { get; set; } = "even";
+    /// <summary>Characters kept at the end for "fixed-end" and "min-end".</summary>
+    [Parameter] public int? End { get; set; }
+    /// <summary>The most user-perceived characters the result may have, ellipsis included. Null shows the full text.</summary>
+    [Parameter] public int? MaxCharacters { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string? Shown => MaxCharacters is int max ? Truncate(Text, Ellipsis, Strategy, End, max) : null;
+
+    /// <summary>The text shortened to at most <paramref name="max"/> text elements, or null when it already fits.</summary>
+    public static string? Truncate(string text, string ellipsis, string strategy, int? end, int max)
+    {
+        var g = Graphemes(text);
+        if (g.Count <= max) return null;
+        int Width(string s) => Graphemes(s).Count;
+        string Head(int count) => string.Concat(g.Take(count));
+        string Tail(int count) => count > 0 ? string.Concat(g.Skip(g.Count - count)) : "";
+        int Clamp() => Math.Min(Math.Max(end ?? 0, 0), g.Count);
+
+        if (strategy == "fixed-end")
+        {
+            var keep = Clamp();
+            var room = max - Width(ellipsis + Tail(keep));
+            var low = 0;
+            var high = g.Count - keep;
+            while (low < high)
+            {
+                var middle = (low + high + 1) / 2;
+                if (middle <= room) low = middle; else high = middle - 1;
+            }
+            return Head(low) + ellipsis + Tail(keep);
+        }
+
+        var minEnd = strategy == "min-end" ? Clamp() : 0;
+        (int Start, int End) Split(int kept)
+        {
+            var endCount = Math.Min(g.Count, Math.Max((kept + 1) / 2, minEnd));
+            return (Math.Max(0, kept - endCount), endCount);
+        }
+        var roomAll = max - Width(ellipsis);
+        var lo = 0;
+        var hi = g.Count;
+        while (lo < hi)
+        {
+            var middle = (lo + hi + 1) / 2;
+            var (s, e) = Split(middle);
+            if (s + e <= roomAll) lo = middle; else hi = middle - 1;
+        }
+        var (startCount, endCount2) = Split(lo);
+        return Head(startCount) + ellipsis + Tail(endCount2);
+    }
+
+    private static List<string> Graphemes(string text)
+    {
+        var list = new List<string>();
+        var e = StringInfo.GetTextElementEnumerator(text);
+        while (e.MoveNext()) list.Add((string)e.Current);
+        return list;
+    }
+}

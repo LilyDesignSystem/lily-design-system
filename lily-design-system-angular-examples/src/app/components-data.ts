@@ -550,7 +550,7 @@ export const components: ComponentMeta[] = [
       slug: "checkbox-group",
       name: "CheckboxGroup",
       description: "a group component that manages a collection of checkboxes with shared state",
-      tag: "div",
+      tag: "fieldset",
       category: "forms",
   },
   {
@@ -2482,7 +2482,7 @@ export const components: ComponentMeta[] = [
       slug: "radio-group",
       name: "RadioGroup",
       description: "a group of radio buttons for selecting one option",
-      tag: "div",
+      tag: "fieldset",
       category: "forms",
   },
   {
@@ -2699,7 +2699,7 @@ export const components: ComponentMeta[] = [
       slug: "segment-group-item",
       name: "SegmentGroupItem",
       description: "one selectable segment in a segment group",
-      tag: "div",
+      tag: "button",
       category: "forms",
   },
   {
@@ -2776,8 +2776,8 @@ export const components: ComponentMeta[] = [
       slug: "slider",
       name: "Slider",
       description: "a draggable control for selecting a value along a track",
-      tag: "div",
-      category: "content",
+      tag: "input",
+      category: "forms",
   },
   {
       slug: "slider-button",
@@ -4003,6 +4003,27 @@ export const components: ComponentMeta[] = [
       description: "a chat input form with a text area that grows with its content, sends on Enter, and turns its send button into a stop button while a reply is in progress",
       tag: "form",
       category: "forms",
+  },
+  {
+      slug: "heatmap-chart-with-year-of-days",
+      name: "HeatmapChartWithYearOfDays",
+      description: "a heatmap chart of one year of days, one cell per day in week columns and weekday rows",
+      tag: "figure",
+      category: "data-viz",
+  },
+  {
+      slug: "middle-truncation",
+      name: "MiddleTruncation",
+      description: "a string shortened in the middle to fit its width, keeping the start and the end",
+      tag: "span",
+      category: "content",
+  },
+  {
+      slug: "wheel-picker",
+      name: "WheelPicker",
+      description: "a vertical single-select listbox where the selection follows the cursor, for choosing one of a short list by scrolling or typing",
+      tag: "div",
+      category: "pickers",
   },
 ];
 

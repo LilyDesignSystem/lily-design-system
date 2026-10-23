@@ -14,7 +14,8 @@
     "`aria-label` -- provides an accessible name describing the carousel content."
   ],
   "keyboard": [
-    "No keyboard interactions — this is a passive element"
+    "No keyboard interactions — this is a passive element",
+    "The consumer's controls follow the APG carousel pattern (index.md, \"Controls the consumer builds\"): a Pause / Play button first, rotation off until pressed and under reduced motion, `tablist` with roving tabindex and ArrowLeft / ArrowRight / Home / End, `aria-live` off while rotating, hidden and cloned slides `inert`"
   ],
   "props": [
     "`label`: string (required) -- accessible name for the carousel region, applied via `aria-label`.",

@@ -70,6 +70,13 @@ for (const name of names) {
     path.join(componentsDir, name, `${name}.svelte`),
     path.join(target, `${name}.svelte`),
   );
+  // A component may import a pure helper that sits beside it (shared/ is the source; bin/sync-shared-modules
+  // keeps the copy current). Ship it, but never tests or stories.
+  for (const file of fs.readdirSync(path.join(componentsDir, name))) {
+    if (/\.ts$/.test(file) && !/\.(test|spec|stories)\.ts$/.test(file) && !/\.d\.ts$/.test(file)) {
+      fs.copyFileSync(path.join(componentsDir, name, file), path.join(target, file));
+    }
+  }
 }
 
 try {

@@ -244,6 +244,7 @@ export { default as HangukJuminDeungnokBeonhoView } from "./components/HangukJum
 export { default as Header } from "./components/Header/Header.svelte";
 export { default as Headline } from "./components/Headline/Headline.svelte";
 export { default as HeatmapChart } from "./components/HeatmapChart/HeatmapChart.svelte";
+export { default as HeatmapChartWithYearOfDays } from "./components/HeatmapChartWithYearOfDays/HeatmapChartWithYearOfDays.svelte";
 export { default as Hero } from "./components/Hero/Hero.svelte";
 export { default as HeroHeadline } from "./components/HeroHeadline/HeroHeadline.svelte";
 export { default as HiddenInput } from "./components/HiddenInput/HiddenInput.svelte";
@@ -326,6 +327,7 @@ export { default as MenuItem } from "./components/MenuItem/MenuItem.svelte";
 export { default as Meter } from "./components/Meter/Meter.svelte";
 export { default as MexicoClaveUnicaDeRegistroDePoblacionInput } from "./components/MexicoClaveUnicaDeRegistroDePoblacionInput/MexicoClaveUnicaDeRegistroDePoblacionInput.svelte";
 export { default as MexicoClaveUnicaDeRegistroDePoblacionView } from "./components/MexicoClaveUnicaDeRegistroDePoblacionView/MexicoClaveUnicaDeRegistroDePoblacionView.svelte";
+export { default as MiddleTruncation } from "./components/MiddleTruncation/MiddleTruncation.svelte";
 export { default as MisrAlRaqmAlQawmiInput } from "./components/MisrAlRaqmAlQawmiInput/MisrAlRaqmAlQawmiInput.svelte";
 export { default as MisrAlRaqmAlQawmiView } from "./components/MisrAlRaqmAlQawmiView/MisrAlRaqmAlQawmiView.svelte";
 export { default as MockupBrowser } from "./components/MockupBrowser/MockupBrowser.svelte";

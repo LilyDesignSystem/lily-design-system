@@ -1,0 +1,58 @@
+{
+  "slug": "wheel-picker",
+  "name": "WheelPicker",
+  "description": "a vertical single-select listbox where the selection follows the cursor, for choosing one of a short list by scrolling or typing",
+  "htmlTag": "div",
+  "category": "pickers",
+  "baseClass": ".wheel-picker",
+  "subClasses": [
+    "wheel-picker-list",
+    "wheel-picker-option"
+  ],
+  "interactive": true,
+  "status": "experimental — implemented and unit-tested in all nine headless catalogs (2026-10-23); Blazor and plain HTML/Nunjucks differ, see index.md",
+  "aria": [
+    "`role=\"listbox\"` with `aria-label`, `aria-orientation=\"vertical\"` and `aria-activedescendant` naming the chosen option; `aria-disabled=\"true\"` when disabled",
+    "Each option: `role=\"option\"`, `aria-selected`, `aria-disabled=\"true\"` when disabled",
+    "DOM focus stays on the listbox; the cursor is `aria-activedescendant`"
+  ],
+  "keyboard": [
+    "ArrowDown / ArrowUp: choose the next / previous enabled option (wrap only with `loop`)",
+    "Home / End: choose the first / last enabled option",
+    "PageDown / PageUp: move by `pageSize` enabled options, clamped",
+    "Printable character: type-ahead over the labels",
+    "Tab: leaves the control"
+  ],
+  "props": [
+    "`class`: string (default: `\"\"`) -- appended to the base class",
+    "`label`: string (required) -- accessible name",
+    "`options`: `{ value: string, label: string, disabled?: boolean }[]` (required)",
+    "`value`: string (default: `\"\"`) -- the chosen option's value; bindable (Svelte `bind:value`, Vue `v-model`, Angular `[(value)]`, Blazor `@bind-Value`, React controlled with `onChange`)",
+    "`loop`: boolean (default: false)",
+    "`pageSize`: number (default: 5)",
+    "`disabled`: boolean (default: false) -- not focusable; ignores keys and clicks",
+    "`name`: string -- adds a hidden input",
+    "`onChange`: `(value: string) => void` -- once per change (React, Svelte); `change` event in Web Components, Alpine and HTML",
+    "`...restProps`: HTML attributes -- spread onto the root `<div>`"
+  ],
+  "related": [
+    "listbox",
+    "select",
+    "combobox",
+    "date-time-picker",
+    "slider"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/wheel-picker.html",
+    "svelte": "lily-design-system-svelte-headless/components/WheelPicker/WheelPicker.svelte",
+    "react": "lily-design-system-react-headless/components/WheelPicker.tsx",
+    "vue": "lily-design-system-vue-headless/components/WheelPicker.vue",
+    "angular": "lily-design-system-angular-headless/components/WheelPicker.ts",
+    "web-components": "lily-design-system-web-components-headless/components/wheel-picker.ts",
+    "alpine": "lily-design-system-alpine-headless/components/wheel-picker.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/wheel-picker/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/WheelPicker.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/wheel-picker/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/wheel-picker/AGENTS.md"
+}

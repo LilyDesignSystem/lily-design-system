@@ -1,0 +1,17 @@
+---
+layout: layouts/component-demo.njk
+title: HeatmapChartWithYearOfDays
+description: a heatmap chart of one year of days, one cell per day in week columns and weekday rows
+---
+
+{% from "components/heatmap-chart-with-year-of-days/macro.njk" import heatmapChartWithYearOfDays %}
+
+<h2>Default</h2>
+<p>{{ heatmapChartWithYearOfDays({ text: "HeatmapChartWithYearOfDays example", label: "HeatmapChartWithYearOfDays example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/heatmap-chart-with-year-of-days/macro.njk" import heatmapChart %}
+{% call heatmapChartWithYearOfDays({ label: "Example", year: 2026, weekStart: 1, describedBy: "desc" }) %}&lt;svg&gt;...&lt;/svg&gt;{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

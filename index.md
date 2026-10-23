@@ -694,6 +694,9 @@ slug below links to the per-component documentation.
 - [tool-call-error](components/tool-call-error): the error shown when a tool call fails
 - [mark](components/mark): an inline highlight marking text as relevant or referenced, such as a search match, using the native mark element
 - [chat-composer](components/chat-composer): a chat input form with a text area that grows with its content, sends on Enter, and turns its send button into a stop button while a reply is in progress
+- [heatmap-chart-with-year-of-days](components/heatmap-chart-with-year-of-days): a heatmap chart of one year of days, one cell per day in week columns and weekday rows
+- [middle-truncation](components/middle-truncation): a string shortened in the middle to fit its width, keeping the start and the end
+- [wheel-picker](components/wheel-picker): a vertical single-select listbox where the selection follows the cursor, for choosing one of a short list by scrolling or typing
 
 ## Special-Purpose Identifiers
 

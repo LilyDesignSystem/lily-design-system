@@ -1,0 +1,19 @@
+<!-- middle-truncation.html -->
+<!-- MiddleTruncation component (Alpine.js) -->
+<!--
+  Description: a string shortened in the middle to fit its width, keeping the start and the end
+  HTML tag: <span> holding two <span>s
+  CSS class: middle-truncation (sub-elements: middle-truncation-visual, middle-truncation-full)
+  Keyboard: None
+  Accessibility: the shortened text is aria-hidden; the full text in .middle-truncation-full is what assistive technology,
+    find-in-page and copy receive. The consumer's CSS bounds the root (display: block; overflow: hidden; white-space: nowrap)
+    and visually hides .middle-truncation-full (clipped, never display: none).
+  Options: text, ellipsis (required, no default), strategy ("even" | "fixed-end" | "min-end"), end
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<span
+  class="middle-truncation"
+  x-data="lilyMiddleTruncation({ text: 'quarterly-report-final-version-3.pdf', ellipsis: '…', strategy: 'min-end', end: 6 })"
+  x-bind="root"
+><span class="middle-truncation-visual" aria-hidden="true" x-bind="visual">quarterly-report-final-version-3.pdf</span><span class="middle-truncation-full" x-bind="full">quarterly-report-final-version-3.pdf</span></span>

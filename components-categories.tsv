@@ -75,7 +75,7 @@ chat-message	article	navigation
 chat-nav	nav	navigation
 check-list	ol	lists
 check-list-item	li	lists
-checkbox-group	div	forms
+checkbox-group	fieldset	forms
 checkbox-input	input	forms
 citation	cite	content
 clamp-text	div	content
@@ -351,7 +351,7 @@ progress-circle	div	content
 progress-spinner	div	content
 qr-code-image	div	content
 question	div	content
-radio-group	div	forms
+radio-group	fieldset	forms
 radio-input	input	forms
 range-input	input	forms
 red-amber-green-picker	div	pickers
@@ -382,7 +382,7 @@ section-list	ol	lists
 section-list-item	li	lists
 section-nav	nav	navigation
 segment-group	div	forms
-segment-group-item	div	forms
+segment-group-item	button	forms
 select	select	forms
 select-with-extras	div	content
 separator	hr	navigation
@@ -393,7 +393,7 @@ signature-pad	canvas	media
 skeleton	div	content
 skip-link	a	links
 slide-out-drawer	div	content
-slider	div	content
+slider	input	forms
 slider-button	button	buttons
 slovenija-emso-input	input	national
 slovenija-emso-view	span	national
@@ -569,3 +569,6 @@ tool-call-output	div	content
 tool-call-error	div	content
 mark	mark	content
 chat-composer	form	forms
+heatmap-chart-with-year-of-days	figure	data-viz
+middle-truncation	span	content
+wheel-picker	div	pickers

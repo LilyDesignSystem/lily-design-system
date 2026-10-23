@@ -1,0 +1,17 @@
+---
+layout: layouts/component-demo.njk
+title: MiddleTruncation
+description: a string shortened in the middle to fit its width, keeping the start and the end
+---
+
+{% from "components/middle-truncation/macro.njk" import middleTruncation %}
+
+<h2>Default</h2>
+<p>{{ middleTruncation({ text: "MiddleTruncation example", label: "MiddleTruncation example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/middle-truncation/macro.njk" import middleTruncation %}
+{{ middleTruncation({ text: "quarterly-report-final-version-3.pdf", ellipsis: "…", strategy: "min-end", end: 6 }) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

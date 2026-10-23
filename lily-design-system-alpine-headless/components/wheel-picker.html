@@ -1,0 +1,32 @@
+<!-- wheel-picker.html -->
+<!-- WheelPicker component (Alpine.js) -->
+<!--
+  Description: a vertical single-select listbox where the selection follows the cursor
+  HTML tag: <div> holding a listbox <div>
+  CSS class: wheel-picker (sub-elements: wheel-picker-list, wheel-picker-option)
+  Keyboard: ArrowDown / ArrowUp, Home / End, PageDown / PageUp, type-ahead over the labels; disabled options are skipped
+  Accessibility: role="listbox" with aria-orientation="vertical" and aria-activedescendant on the focusable list; each option
+    is role="option" with aria-selected (and aria-disabled when disabled). The label is the consumer's.
+  Options: options [{ value, label, disabled? }], value, loop, pageSize, disabled. A `change` event fires with { value }.
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div
+  class="wheel-picker"
+  x-data="lilyWheelPicker({ value: '2', options: [{ value: '1', label: 'January' }, { value: '2', label: 'February' }, { value: '3', label: 'March' }] })"
+>
+  <div class="wheel-picker-list" x-ref="list" x-bind="list" aria-label="">
+    <template x-for="(option, index) in options" :key="option.value">
+      <div
+        class="wheel-picker-option"
+        role="option"
+        :id="`${uid}-option-${index}`"
+        :aria-selected="String(index === selectedIndex)"
+        :aria-disabled="option.disabled ? 'true' : null"
+        :data-value="option.value"
+        :data-index="index"
+        x-text="option.label"
+      ></div>
+    </template>
+  </div>
+</div>

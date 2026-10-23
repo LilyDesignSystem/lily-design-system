@@ -1,0 +1,17 @@
+---
+layout: layouts/component-demo.njk
+title: WheelPicker
+description: a vertical single-select listbox where the selection follows the cursor, for choosing one of a short list by scrolling or typing
+---
+
+{% from "components/wheel-picker/macro.njk" import wheelPicker %}
+
+<h2>Default</h2>
+<p>{{ wheelPicker({ text: "WheelPicker example", label: "WheelPicker example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/wheel-picker/macro.njk" import wheelPicker %}
+{{ wheelPicker({ label: "Month", options: months, value: "2", name: "month" }) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}
