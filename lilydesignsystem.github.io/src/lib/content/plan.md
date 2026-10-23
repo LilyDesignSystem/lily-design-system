@@ -362,6 +362,117 @@ Goal: examples demonstrate the system, not just the components.
 7. **`motion-picker` helper** (stretch, carried; renamed from
    `motion-select`; follows the five-helper contract).
 
+## Research findings (2026-10-21): capabilities and code quality
+
+An audit of the tree as it stands on 2026-10-21 (commit `c25bfe528`). Every number below was measured that day by a
+command run against the working tree; nothing is carried over from earlier sections.
+
+### What is strong
+
+- **Breadth and parity are real.** 571 catalog rows; nine headless libraries (Alpine.js joined 2026-10-21, Web
+  Components at 536); 133 helper packages; `bin/check-coverage` and `bin/check-class-names` keep the catalogs in step.
+- **Contracts are machine-checked.** `bin/test` exits 0 and gates required files, links, class names, shared-module
+  drift, example-component drift, label packs, helper docs and theme conformance. Few design systems check this much.
+- **The grid-like helpers are tested in depth** where it matters most: the Svelte, React, Vue and Angular data grids
+  each carry ~2,650 lines of tests against ~3,300 lines of source; pure logic lives in `shared/` with its own tests.
+- **Low debt markers.** 108 `TODO`/`FIXME` and 62 files with a type or lint suppression across ~190 subprojects.
+
+### What needs work
+
+1. **No lint, no formatter, no typecheck in CI.** None of the nine headless libraries has an ESLint or Prettier
+   config. `svelte-check` exists only as a `check` script in the 16 Svelte helpers and the SvelteKit app — not in
+   `svelte-headless`, and `ci.yml` never runs it. `tsc --noEmit` on `react-headless` reports **405 errors** (389 in
+   `*.stories.tsx`: stories without `args`; 16 in tests: missing required props, `unknown` as `ReactNode`); the
+   components themselves type-check clean. Types are what consumers rely on, and nothing guards them. → P12-T1, P12-T2, P12-T3.
+2. **Keyboard behaviour is missing in Angular and HTML, and test depth is uneven.** Mean test cases per component file:
+   Web Components 6.0, Nunjucks 6.1, React 5.8, Vue 5.7, Svelte 5.4 — but Angular 2.7, HTML 2.7, Alpine 2.3. Digging
+   in (2026-10-21) showed the cause is not only thin tests: of 162 components with a documented keyboard contract, 23
+   handle keys in Svelte's source and **none** do in Angular's (`Dialog`, `Menu`, `TabBar` are bare wrappers) or in the
+   HTML library's component files, while the HTML `index.md` claims "full keyboard support for all interactive
+   components". A keyboard-test heuristic that only counts tests (159 of 162 "missing" in Angular) overstates the gap,
+   since many contracts are native (`button`); the behaviour gap is the real one. → P12-T4, P12-T4a, P12-T5.
+3. **`bin/test` takes 5 m 42 s** (25 s user, 215 s system — filesystem-bound), against a ~63 s baseline and a <20 s
+   target set in Phase 7. A five-minute local gate gets skipped. → P12-T7.
+4. **CI installs are not reproducible.** Every `pnpm install` in `ci.yml` (six sites) uses `--no-frozen-lockfile`, so a
+   CI run can resolve different versions from the committed lockfiles and pass on code nobody pinned. → P12-T6.
+5. **Dependency drift across 141 independent lockfiles.** No root workspace; ~24 GB of `node_modules` across
+   subprojects. Ranges in use: `vitest` ^4.0.0 / ^4.1.11 (15 packages) vs ^5.0.x (122); `typescript` ^5.9.3 (90) vs
+   ^6.0.3 (43); `svelte` ^5.0.0 (17) vs ^5.57.x (18). Every bump is 141 separate edits and 141 installs. → P12-T8.
+6. **HTML and Web Components helpers are hand-kept duplicates.** `data-grid.ts` differs by 4 lines out of 2,066; the
+   kanban, Gantt and data-grid element files by 0 of 571; `calendar` by 10 of 1,797. `AGENTS/helpers.md` says the two
+   "must be kept in step deliberately, since nothing ports between them automatically". That is the same drift
+   problem `bin/sync-shared-modules` solved for `shared/`; generate one from the other with the tag prefix as the only
+   parameter. → P12-T9.
+7. **Shared modules ship as copies.** `search-text.ts` exists in 39 packages, `export-data.ts` in 29, `edit-history.ts`
+   in 28. The drift check makes this safe; it does not make a bug fix one release. The `@lilydesignsystem/core`
+   package from `spec/headless-improvements` Tier 2.2 is the durable fix. → P12-T10 (maintainer decision).
+8. **Monolithic helper components.** `DataGrid.svelte` 1,843 lines, `KanbanBoard.svelte` 1,496, `GanttChart.svelte`
+   1,304, `CalendarView.svelte` 1,179 — each port mirrors the size. Logic that is not rendering (sorting, filtering,
+   selection, column state, windowing) can move to tested pure modules in `shared/` the way grid navigation did,
+   shrinking every port at once. → P12-T11.
+9. **Picker attributes have no default styling in the themes.** `text-size-picker` sets `data-text-size` and
+   `motion-picker` sets `data-motion`, but none of the 57 `themes/*.css` reacts to either; only the docs site's own
+   `style.css` maps text size. A consumer who installs a picker and a theme sees a picker that does nothing. Also:
+   2 of 57 themes handle `forced-colors`, none `prefers-contrast`. → P12-T12, P12-T13.
+10. **Stale counts and maps.** `spec/index.md` still says "491-component catalog" in its topic table and §2, and
+    "150 implementation subprojects / 133 helper packages" in §3; this plan's "Current state" says 172 subprojects
+    and omits Alpine entirely. Actual: 187 subprojects = 9 headless + 8 example apps + 133 helpers + 27 skills +
+    9 locale-translations + themes. → P12-T14.
+11. **Root clutter.** Five one-off scripts at the root (`generate-component-demos.js`, `generate-component-docs.js`,
+    `upgrade-component-docs.js`, `upgrade-html-component-demos.js`, `upgrade-subproject-docs.js`), last touched
+    April–September 2026; only the first is referenced (by `bin/generate-registries`). → P12-T15.
+12. **Lessons backlog is not in `tasks.md`.** The bootstrap (10 items), daisyUI (11), ShardsUI (4) and coss (items 1,
+    4, 5, 6 still open) topics each list planned work that has no task ID, so it cannot be scheduled or closed. → P12-T16.
+13. **`bin/check-links` fails today (26 broken links)** in the `/components/{slug}.md` copies added by `c25bfe528`;
+    `bin/test` still passed because it does not run `bin/check-links`, contrary to "Current state" above. → P12-T17.
+
+### Advice, in priority order
+
+1. **Guard what consumers touch first**: typecheck and lint in CI (P12-T1–T3) and frozen lockfiles (P12-T6). Cheap, and both
+   stop silent regressions in published packages.
+2. **Close the keyboard-behaviour gap** in Angular and HTML for the 23 components Svelte implements, or correct the
+   claim (P12-T4/T4a/T5). This is the accessibility claim; it should be the best-tested thing in the repo.
+3. **Make `bin/test` fast again** (P12-T7) so the gate is actually run.
+4. **Stop hand-copying**: generate the Web Components helpers from the HTML ones (P12-T9), then decide on a root pnpm
+   workspace (P12-T8) and the core package (P12-T10). These cut future maintenance cost the most.
+5. **Close the capability gaps users would notice**: themes that honour `data-text-size` / `data-motion` and
+   forced-colors (P12-T12/T13).
+6. Defer new components until 1–3 land; the catalog is broad, the guarantees behind it are the weaker half.
+
+## Phase 12 — Code quality and capability gaps (2026-10-21)
+
+Goal: make the guarantees as strong as the breadth. Tasks P12-T1 to P12-T17 in [tasks.md](tasks.md).
+
+1. **Static checks in CI**: lint + typecheck for every TypeScript catalog and helper; fix the React story/test types.
+2. **Behaviour tests**: keyboard and ARIA-state tests for interactive components in Angular, HTML and Alpine.
+3. **Fast, reproducible verification**: `bin/test` under a minute; frozen lockfiles in CI; one dependency policy.
+4. **Less duplication**: Web Components helpers generated from HTML; pure helper logic moved into `shared/`; decide
+   the workspace and core-package questions.
+5. **Theme capability**: default `data-text-size`, `data-motion` and forced-colors handling in all 57 themes.
+6. **Truth**: restamp counts in `spec/index.md` and this plan; tidy root scripts; turn the lessons topics into tasks;
+   fix the broken generated links.
+
+## Phase 13 — chanhdai.com and sv-chanhdai lessons (2026-10-22)
+
+Goal: adopt the packaging and contract ideas from two reviewed repositories without importing their styling or effects.
+Tasks P13-T1 to P13-T16 in [tasks.md](tasks.md); detail and sources in
+[spec/chanhdai-lessons](spec/chanhdai-lessons/index.md).
+
+1. **Repo and tooling hygiene**: a generated-files table, `--dry-run` scaffolders, golden tests for the generators,
+   a port-parity check (P13-T1, T4, T5, T7).
+2. **AI-readable surface**: `.md` twins of every page and one per-component URL convention (P13-T2, T3).
+3. **Contracts**: reduced-motion sections, the async-button pending contract, the APG carousel and slider tightening
+   (P13-T6, T9, T14, T15).
+4. **Recipes, no endpoints**: open-in-assistant links and package-manager tabs (P13-T8, T10).
+5. **New components**: `wheel-picker` and `middle-truncation`; decisions on `item`, `frame`, `highlight`, `annotation`
+   (P13-T11, T12, T13).
+6. **Decisions**: record the declines (`slide-to-unlock`, `apple-hello-effect`) and the open questions (P13-T16).
+
+Sequencing: P13-T3 and P13-T16 need a maintainer decision before code. P13-T14 and P13-T15 start by reading the Svelte
+source, because they were scoped from the docs. The new components follow the existing rule: Svelte first, then the
+other seven libraries. These are lower priority than Phase 12's guards (the plan's own advice: defer new components until
+the static checks and keyboard-test work land).
+
 ## Sequencing and dependencies
 
 - Phase 1 first — registry hygiene and true claims before anything is
@@ -372,6 +483,9 @@ Goal: examples demonstrate the system, not just the components.
 - Phase 4 can interleave with 3; its maturity labels feed Phase 5's
   generated reference pages.
 - Phase 7 items 1–2 can land any time and are cheap wins.
+- Phase 13 is unscheduled and lower priority than Phase 12; see its own sequencing note.
+- Phase 12: static checks and frozen lockfiles first (they protect everything after), then behaviour tests, then
+  the duplication work; P12-T8 and P12-T10 need a maintainer decision before any code.
 
 ## Definition of done (whole plan)
 

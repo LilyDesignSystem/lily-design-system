@@ -57,7 +57,7 @@ const SUFFIX_OVERRIDES = [
   ["pickers", ["picker-button", "picker"]],
   ["navigation", ["bar-button", "bar", "menu-item", "menu"]],
   ["forms", ["group-item", "group"]],
-  ["data-viz", ["chart"]],
+  ["data-viz", ["chart-with-year-of-days", "chart"]],
   ["overlays", ["banner"]],
 ];
 

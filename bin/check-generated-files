@@ -1,0 +1,58 @@
+#!/usr/bin/env python3
+"""bin/check-generated-files — the "Generated files" table in AGENTS/lily.md matches the bin/ scripts.
+
+Fails when the table:
+  - names a generator that is not an executable file in bin/,
+  - claims `bin/x --check` for a script whose text never mentions `--check`, or
+  - omits a bin/ script that does support `--check` (other than the test runner and this script).
+Rows whose Check column starts with "none" are reported as known gaps and do not fail.
+"""
+import re
+import sys
+from pathlib import Path
+
+top = Path(__file__).resolve().parent.parent
+text = (top / "AGENTS" / "lily.md").read_text()
+m = re.search(r"^## Generated files\n(.*?)^## ", text, re.S | re.M)
+if not m:
+    sys.exit("check-generated-files: AGENTS/lily.md has no '## Generated files' section")
+
+errors, gaps, listed = [], [], set()
+for line in m.group(1).splitlines():
+    if not line.startswith("|") or line.startswith("| ---") or line.startswith("| Source"):
+        continue
+    cells = [c.strip() for c in line.strip().strip("|").split("|")]
+    if len(cells) != 4:
+        errors.append(f"malformed row: {line[:80]}")
+        continue
+    gen = re.search(r"`(bin/[\w.\-]+)`", cells[1])
+    if not gen:
+        errors.append(f"no generator in row: {line[:80]}")
+        continue
+    script = top / gen.group(1)
+    listed.add(gen.group(1))
+    if not script.is_file():
+        errors.append(f"{gen.group(1)} does not exist")
+        continue
+    check = cells[3]
+    if check.startswith("none"):
+        gaps.append(gen.group(1))
+    elif "--check" in check and "--check" not in script.read_text():
+        errors.append(f"{gen.group(1)} is listed with --check but the script has none")
+
+skip = {"bin/test", "bin/check-generated-files"}
+for script in sorted((top / "bin").iterdir()):
+    rel = f"bin/{script.name}"
+    if script.is_file() and rel not in skip and rel not in listed:
+        try:
+            if "--check" in script.read_text():
+                errors.append(f"{rel} supports --check but is missing from the Generated files table")
+        except UnicodeDecodeError:
+            pass
+
+for g in gaps:
+    print(f"gap (no --check): {g}")
+if errors:
+    print("\n".join("check-generated-files: " + e for e in errors))
+    sys.exit(1)
+print(f"check-generated-files: OK ({len(listed)} generators, {len(gaps)} without a --check)")

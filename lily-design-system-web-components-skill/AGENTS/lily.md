@@ -222,6 +222,31 @@ All twenty-seven follow the `lily-design-system-` prefix and get full subproject
 
 [llms.txt](../llms.txt) and [llms.json](../llms.json) at the repository root, spec: [spec/llms-json-and-llms-txt/index.md](../spec/llms-json-and-llms-txt/index.md). A curated map of the project's most important content for AI tools, following the [llms.txt convention](https://llmstxt.org). The docs site publishes its own pair at `lilydesignsystem.github.io/static/llms.txt` and `llms.json` with site-route links instead of repo-relative ones.
 
+## Generated files
+
+Edit the source, never the output. These files are written by a generator; a hand edit is overwritten, or fails the check.
+`bin/check-generated-files` (run by `bin/test`) fails when this table names a script that does not exist, claims a `--check`
+the script lacks, or omits a script that has one. Rows whose check is "none" are known gaps (tasks.md P13-T1), not
+exemptions.
+
+| Source (edit this) | Generator | Generated output (never edit) | Check |
+| ------------------ | --------- | ----------------------------- | ----- |
+| `components/{slug}/AGENTS.md`, `components.tsv` | `bin/generate-component-categories` | `components-categories.tsv` | none (staleness is caught indirectly by `bin/generate-registries --check`) |
+| `components.tsv`, `components-categories.tsv`, the Svelte `component-demos.ts` | `bin/generate-registries` | the example apps' registries and `component-demos.ts` copies, `ComponentData.cs`, the HTML app's embedded arrays, the site's `src/lib/components.ts`, the component listing in `index.md` | `bin/generate-registries --check` |
+| each component's `## Usage` doc, `component-variants.json` | `bin/generate-examples` | every app's `component-examples` data, `ComponentExamples.cs`, the HTML app's `componentExamples` region, the Nunjucks app's generated examples regions | none |
+| `components/{slug}/index.md`, the demo map, the examples data | `bin/generate-site-pages` | the docs site's `src/routes/components/{slug}/+page.svelte` (placeholder rebuild and the Example region) | none |
+| `components/{slug}/AGENTS.md`, the headless file layout | `bin/generate-api-docs` | the canonical-contract region on each site page, `static/r/{slug}.json` and `static/r/index.json`, `static/components/{slug}.md` | `bin/generate-api-docs --check` |
+| the SvelteKit route tree | `bin/generate-sitemap` | `lilydesignsystem.github.io/static/sitemap.xml` | `bin/generate-sitemap --check` (not yet in `bin/test`) |
+| `themes/tokens/*.json` | `bin/generate-theme-tokens` | the token block of each `themes/*.css` | `bin/generate-theme-tokens --check` |
+| each headless library's components | `bin/sync-example-components` | the same components inside each example app | `bin/sync-example-components --check` |
+| `shared/*.ts`, `shared/label-packs/*.json` | `bin/sync-shared-modules` | each package's copy of a shared module, and the locale-translations label packs | `bin/sync-shared-modules --check` |
+| the root special files (LICENSE, CONTRIBUTING, …) | `bin/sync-special-files` | the same files in every subproject | `bin/sync-special-files --check` |
+| the site's English route pages | `bin/extract-site-pages` | `src/lib/pages/{slug}/en.html` | `bin/extract-site-pages --check` |
+| `src/lib/pages/*` translations | `bin/generate-locale-pages` | `src/routes/<code>/<slug>/+page.svelte` | `bin/generate-locale-pages --check` |
+
+Also copied rather than generated: `bin/sync` rsyncs the root `AGENTS/` and `themes/` into subprojects, and
+`bin/generate-storybook-stories.mjs` writes Svelte story files. Neither has a `--check`.
+
 ## Tools
 
 - [Makefile](../Makefile): `make github-pages` delegates to [bin/make-github-pages](../bin/make-github-pages), see [spec/monorepo-github-pages/index.md](../spec/monorepo-github-pages/index.md)
@@ -230,6 +255,7 @@ All twenty-seven follow the `lily-design-system-` prefix and get full subproject
 - [list-components-as-pascal-case](../bin/list-components-as-pascal-case): List components as PascalCase
 - [list-implementations](../bin/list-implementations): List implementation directories
 - [list-helper-packages](../bin/list-helper-packages): List one framework's top-level helper packages in dependency (build) order
+- [check-generated-files](../bin/check-generated-files): The Generated files table above lists every generator and its `--check`, and none is missing or invented
 - [check-package-metadata](../bin/check-package-metadata): Every published npm/NuGet package names the monorepo as its source repository — packages publish from the monorepo
 - [create-component-directory](../bin/create-component-directory): Scaffold one component directory
 - [create-implementation-directory](../bin/create-implementation-directory): Scaffold one implementation directory

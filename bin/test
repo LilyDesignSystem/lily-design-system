@@ -411,6 +411,18 @@ test_lockfiles_are_tracked
     || err "special files are out of sync; run bin/sync-special-files"
 "$top/bin/generate-registries" --check >/dev/null 2>&1 \
     || err "example-app registries are stale; run bin/generate-registries"
+# --dry-run must write nothing: the working tree is identical before and after.
+dry_before="$(git -C "$top" status --porcelain | cksum)"
+"$top/bin/new-component" --dry-run bin-test-dry-run-probe >/dev/null 2>&1 \
+    || err "bin/new-component --dry-run failed"
+"$top/bin/create-component-directory" --dry-run bin-test-dry-run-probe >/dev/null 2>&1 \
+    || err "bin/create-component-directory --dry-run failed"
+"$top/bin/create-implementation-directory" --dry-run lily-design-system-bin-test-dry-run-probe >/dev/null 2>&1 \
+    || err "bin/create-implementation-directory --dry-run failed"
+test "$dry_before" = "$(git -C "$top" status --porcelain | cksum)" \
+    || err "a scaffolder --dry-run changed the working tree"
+"$top/bin/check-generated-files" >/dev/null 2>&1 \
+    || err "the Generated files table in AGENTS/lily.md disagrees with bin/; run bin/check-generated-files"
 
 if test -s "$ERRFLAG"; then
     >&2 printf %s\\n "bin/test: FAILED"

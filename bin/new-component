@@ -22,12 +22,15 @@ set -euf
 ## tag" line + the CSS hook comment) once the real design is known.
 ##
 ## Usage:
-##   bin/new-component <slug> ["description"]
+##   bin/new-component [--dry-run] <slug> ["description"]
 ##   bin/new-component --revert <slug>
 ##
 ## <slug> is kebab-case (e.g. "example-widget"); the PascalCase name is
 ## derived automatically ("ExampleWidget"). description defaults to a
 ## generic placeholder if omitted.
+##
+## --dry-run validates the slug and lists every path that would be created or modified, then exits
+## without writing anything.
 ##
 ## --revert undoes exactly what a prior run created or modified for
 ## <slug>: new files/dirs are removed, the shared registries this
@@ -143,6 +146,19 @@ if [ "${1:-}" = "--revert" ]; then
     exit 0
 fi
 
+# --dry-run (anywhere on the line): validate, list every path that would be created or modified, write nothing.
+dry_run=
+for arg in "$@"; do
+    if [ "$arg" = "--dry-run" ]; then dry_run=1; fi
+done
+if [ -n "$dry_run" ]; then
+    n=$#
+    while [ "$n" -gt 0 ]; do
+        a="$1"; shift; n=$((n - 1))
+        if [ "$a" != "--dry-run" ]; then set -- "$@" "$a"; fi
+    done
+fi
+
 slug="${1:-}"
 if [ -z "$slug" ]; then
     usage
@@ -187,6 +203,22 @@ fi
 # and a stray `\'` renders as a literal backslash there instead of an
 # apostrophe. Use the raw $description in those contexts.
 desc_js="$(printf '%s' "$description" | sed -e "s/'/\\\\'/g")"
+
+if [ -n "$dry_run" ]; then
+    echo "Dry run for '$slug' ($pascal): nothing will be written."
+    new_dirs_for "$slug" "$pascal" | while IFS= read -r d; do
+        if test -e "$d"; then echo "would overwrite dir: $d"; else echo "would create dir:   $d"; fi
+    done
+    new_files_for "$slug" "$pascal" | while IFS= read -r f; do
+        if test -e "$f"; then echo "would overwrite:    $f"; else echo "would create:       $f"; fi
+    done
+    echo "$SHARED_FILES" | while IFS= read -r f; do
+        test -z "$f" && continue
+        echo "would modify:       $f"
+    done
+    echo "would regenerate:   components-categories.tsv, the example-app registries and examples, the docs-site page, the canonical-contract sections and the example components"
+    exit 0
+fi
 
 echo "Scaffolding '$slug' ($pascal): $description"
 

@@ -452,6 +452,27 @@ Goal: make the guarantees as strong as the breadth. Tasks P12-T1 to P12-T17 in [
 6. **Truth**: restamp counts in `spec/index.md` and this plan; tidy root scripts; turn the lessons topics into tasks;
    fix the broken generated links.
 
+## Phase 13 — chanhdai.com and sv-chanhdai lessons (2026-10-22)
+
+Goal: adopt the packaging and contract ideas from two reviewed repositories without importing their styling or effects.
+Tasks P13-T1 to P13-T16 in [tasks.md](tasks.md); detail and sources in
+[spec/chanhdai-lessons](spec/chanhdai-lessons/index.md).
+
+1. **Repo and tooling hygiene**: a generated-files table, `--dry-run` scaffolders, golden tests for the generators,
+   a port-parity check (P13-T1, T4, T5, T7).
+2. **AI-readable surface**: `.md` twins of every page and one per-component URL convention (P13-T2, T3).
+3. **Contracts**: reduced-motion sections, the async-button pending contract, the APG carousel and slider tightening
+   (P13-T6, T9, T14, T15).
+4. **Recipes, no endpoints**: open-in-assistant links and package-manager tabs (P13-T8, T10).
+5. **New components**: `wheel-picker` and `middle-truncation`; decisions on `item`, `frame`, `highlight`, `annotation`
+   (P13-T11, T12, T13).
+6. **Decisions**: record the declines (`slide-to-unlock`, `apple-hello-effect`) and the open questions (P13-T16).
+
+Sequencing: P13-T3 and P13-T16 need a maintainer decision before code. P13-T14 and P13-T15 start by reading the Svelte
+source, because they were scoped from the docs. The new components follow the existing rule: Svelte first, then the
+other seven libraries. These are lower priority than Phase 12's guards (the plan's own advice: defer new components until
+the static checks and keyboard-test work land).
+
 ## Sequencing and dependencies
 
 - Phase 1 first — registry hygiene and true claims before anything is
@@ -462,6 +483,7 @@ Goal: make the guarantees as strong as the breadth. Tasks P12-T1 to P12-T17 in [
 - Phase 4 can interleave with 3; its maturity labels feed Phase 5's
   generated reference pages.
 - Phase 7 items 1–2 can land any time and are cheap wins.
+- Phase 13 is unscheduled and lower priority than Phase 12; see its own sequencing note.
 - Phase 12: static checks and frozen lockfiles first (they protect everything after), then behaviour tests, then
   the duplication work; P12-T8 and P12-T10 need a maintainer decision before any code.
 

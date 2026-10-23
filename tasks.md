@@ -2415,6 +2415,90 @@ a task was measured on 2026-10-21; re-measure before closing it.
   commit passed locally; either add it to `bin/test` or correct the plan's claim that it is there.
   Verify: `bin/check-links` exits 0.
 
+## Phase 13 — chanhdai.com and sv-chanhdai lessons (2026-10-22)
+
+From [spec/chanhdai-lessons](spec/chanhdai-lessons/index.md) (items 1-12; reviewed 2026-10-22). Neither repo is a headless
+catalog, so most tasks are packaging and contract work. All are unscheduled; P12-T16 should still triage the older
+lessons topics. Numbers in the spec were measured 2026-10-22 from shallow clones; re-check before closing a task.
+
+- [x] **P13-T1 (done 2026-10-23: table in `AGENTS/lily.md`, `bin/check-generated-files` in `bin/test`; 3 generators still have no `--check`: `generate-component-categories`, `generate-examples`, `generate-site-pages`, and `generate-sitemap --check` is not yet in `bin/test`) Generated-files table.** One table in `AGENTS/lily.md`: generated file or glob → generator → check command,
+  with "edit the source, never the output" (chanhdai.com's `AGENTS.md` does this for its registry). Cover the example-app
+  registries, `component-examples` data, `/r/{slug}.json`, `components-categories.tsv`, the sitemap, mirrored example
+  components and `shared/` copies. Spec item 1.
+  Verify: a script fails when a generator in the table has no `--check`; `bin/test` runs it.
+- [ ] **P13-T2 `.md` twin for every site page.** Today only `/components/{slug}.md` exists. Add twins for the eight main
+  pages, the translated pages and the topic index pages, and link them from `llms.txt` / `llms.json`. Spec item 2.
+  Verify: a drift check fails when a route with an HTML page has no `.md` twin or allow-listed reason.
+- [ ] **P13-T3 One per-component Markdown URL convention.** Choose `/components/{slug}.md` (today) or
+  `/components/{slug}/llms.txt` (sv-chanhdai); record it in `spec/llms-json-and-llms-txt`; point `llms.json` at it.
+  Needs a maintainer decision first. Spec item 3.
+  Verify: `bin/generate-api-docs` drift check covers the URL.
+- [x] **P13-T4 (done 2026-10-23: all three scaffolders; `bin/test` asserts the tree is unchanged) `--dry-run` on the scaffolders.** `bin/new-component`, `bin/create-component-directory`,
+  `bin/create-implementation-directory` list each path and created/overwritten without writing. Spec item 4.
+  Verify: a test that a dry run leaves `git status` clean.
+- [ ] **P13-T5 Golden tests for the generators.** A three-component fixture catalogue with golden outputs for
+  `bin/generate-registries`, `generate-examples`, `generate-site-pages`, `generate-api-docs`; goldens regenerate only by
+  an explicit flag and the diff is reviewed. Spec item 5.
+  Verify: the golden tests run in `bin/test` and CI; a deliberate generator change fails them.
+- [~] **P13-T6 (docs done 2026-10-23, Playwright check open: a "Reduced motion" section in `skeleton`, `loading`, `slide-out-drawer`, `scroller`, `scroller-video`, `slider` and `carousel`; the Playwright check is not written) "Reduced motion" sections.** For `carousel`, `slider`, `skeleton`, `slide-out-drawer`, `loading`,
+  `scroller*`: what to suppress and what must survive (content, focus, order); reduced motion changes how content appears,
+  never whether. Spec item 6. Related: P12-T12 (themes honour `data-motion`).
+  Verify: Playwright runs three affected demos with `reducedMotion: "reduce"` and asserts content is present.
+- [ ] **P13-T7 `bin/check-port-parity`.** For Web Components (vs HTML) and Alpine (vs Svelte): public names (props, events,
+  class hooks) in the reference and missing from the port, with an allow-list and a reason per difference. Spec item 7.
+  Verify: runs in `bin/test`; an unlisted difference fails.
+- [ ] **P13-T8 Open-in-assistant recipe.** From sv-chanhdai's `open-in-chat`: a recipe on `menu-picker` or `share-picker`
+  with consumer-supplied `targets` each having `href(query)`; **no bundled provider URLs** (as `share-picker`). One recipe
+  also serves the AI page links in `daisyui-lessons` and Copy Markdown in `coss-ui-lessons`. Spec item 8.
+  Verify: the recipe's test asserts real `<a rel="noopener">` links and a URL-encoded query.
+- [~] **P13-T9 (contract documented 2026-10-23 in `button` and `loading`, and the `button` usage example that used `disabled` for pending is fixed; pass-through pinned by tests in Svelte, React and Vue; the `status-button` component decision is still open) Async-button pending contract, and `status-button`.** Document in `button`/`loading`: pending keeps the
+  button focusable, sets `aria-busy="true"` and `aria-disabled="true"`, ignores repeat activation, announces completion via
+  a live region; never `disabled` for pending. Decide whether to add a `status-button` (idle/loading/success/error,
+  `role="status"` / `role="alert"`, reserved width) — chanhdai's `status-button` is the model. Promise handling stays the
+  consumer's. Spec items 9 and 12.
+  Verify: a test per library that pending keeps focus and a second click does nothing.
+- [ ] **P13-T10 Package-manager tabs recipe.** From `pm-command`: `tabs` + `clipboard-copy-button` + `code`, command strings
+  supplied by the page, no new dependency; used by the docs site's install blocks. A recipe, not a catalog component.
+  Spec item 10.
+  Verify: the install blocks use it and pass the axe sweep.
+- [ ] **P13-T11 Decide the `ui/`-layer gap table.** Record add / recipe / decline for `item`, `frame`, `highlight`,
+  `annotation`, `light-switch` (proposed: item = decide; frame = recipe; highlight = theme recipe on `mark`
+  with `--marker-color`; annotation = open; light-switch = decline). Run `bin/new-component` for each "add". Spec item 11.
+  Verify: each row has a recorded decision in `spec/chanhdai-lessons`.
+- [x] **P13-T12 (done 2026-10-23: `shared/wheel-picker.ts` + 15 tests; Svelte 16 tests, React 16, Vue 16, Angular 14, Web Components 17, Alpine 13, Nunjucks 10, Blazor 16; the HTML script checked in jsdom and its WebdriverIO test written, not run; the 57 themes style it; Blazor cannot preventDefault per key or re-centre without JS interop; not yet used by `date-time-picker`) `wheel-picker`.** A `listbox` (vertical `aria-orientation`, `option` with `aria-selected`/`aria-disabled`,
+  roving tabindex, arrows/Home/End, type-ahead, optional loop); inertia and snapping stay CSS (`scroll-snap`). Candidate
+  control for the time part of `date-time-picker`. `bin/new-component`, Svelte first, then the other seven libraries
+  (Alpine as a snippet). Spec item 12.
+  Verify: per-library keyboard and ARIA tests; `bin/check-coverage` shows it in every catalog.
+- [x] **P13-T13 (done 2026-10-23: all nine catalogs. Original note: Svelte canonical done: `shared/middle-truncation.ts` + 10 tests, `MiddleTruncation.svelte` + 10 tests, docs, the 57 themes' visually-hidden and bounded-block rules, a build change so a sibling `.ts` ships; then ported: React 10 tests, Vue 10, Angular 9, Web Components 11, Alpine 9, Nunjucks 9, Blazor 11 (a `MaxCharacters` character budget, no JS interop), HTML an inline script generated from the shared module and checked in jsdom, its WebdriverIO test written and not run; `bin/sync-shared-modules` now writes the module into six packages, stripping types for Alpine and filling a marked region in the HTML snippet) `middle-truncation`.** Strategies fixed-end / minimum-end / even-split (enum); ellipsis a prop with **no
+  default** (i18n); the full text stays in the accessibility tree (shortened visual `aria-hidden` plus a visually hidden
+  full-text sibling), unlike the source, which renders only the shortened string. Spec item 12.
+  Verify: a test that the full text is in the accessibility tree and a resize changes only the visual string.
+- [x] **P13-T14 (done 2026-10-23: read the Svelte source first — `Carousel` is a passive labelled region in every library, so this is documentation; the contract is in `components/carousel/index.md` "Controls the consumer builds", with no code or per-library test, since the component has no controls to test) Document the APG carousel in `carousel`.** Tab controls (`tablist`/`tab`/`tabpanel`, roving tabindex,
+  Arrow/Home/End), the rotation-control rule (WCAG 2.2.2: a Play/Pause button whose label changes, no autoplay until
+  pressed), and cloned slides `aria-hidden` and non-focusable (the sv-chanhdai clones are not hidden: do not copy that).
+  Read the Svelte `carousel` source first; this task was scoped from its docs only. Spec item 12.
+  Verify: `components/carousel/{index,AGENTS}.md` carry the contract; a keyboard test per library.
+- [x] **P13-T15 (done 2026-10-23, re-scoped after reading the source: `Slider` is a native `<input type="range">` in every library, so End, PageUp/PageDown, `role`, `aria-valuemin/max/now` were already native and documented. The real defects were the contract's HTML tag (`<div>`, so the manifest, category and acceptance criteria were wrong; now `<input>`, category forms) and an undocumented `aria-valuetext`; documented as a consumer-formatted rest prop and pinned by tests in Svelte, React and Vue) Tighten the `slider` contract.** Add `aria-valuetext` (consumer-supplied formatted string) and
+  PageUp/PageDown steps to the docs and implementations (Home is documented; End, PageUp/PageDown and `valuetext` were not
+  found in `slider/AGENTS.md`); add a Reduced motion note (P13-T6). Check the Svelte source first. Spec item 12.
+  Verify: per-library tests for `aria-valuetext` and PageUp/PageDown.
+- [ ] **P13-T16 Record the declines and open questions.** Declined as built: `slide-to-unlock` (drag-only; fails 2.1.1 and
+  2.5.7 — a `button` confirm with optional drag is a recipe), `apple-hello-effect` (decoration; hardcoded greetings),
+  `github-contributions` fetching (a `heatmap-chart` recipe with consumer data only). Decide: shadcn-schema output for
+  `/r/{slug}.json`; a committed `.mcp.json` once the daisyUI-lessons MCP server exists; a generated `stats.json` to end
+  count drift (overlaps P12-T14); the `annotation` component (real text note, decorative arrow).
+  Verify: each has a dated decision in `spec/chanhdai-lessons` § Open questions.
+
+- [x] **P13-T17 (done 2026-10-22: `bin/new-component`, then filled in for all nine headless catalogs; unit tests green in Svelte, React, Vue, Angular, Web Components, Nunjucks, Alpine and Blazor, HTML uses WebdriverIO and was not run) Add `heatmap-chart-with-year-of-days` (`HeatmapChartWithYearOfDays`).** A `HeatmapChart` specialisation for a
+  year of days (the `github-contributions` shape): required `year` and `weekStart` (0 = Sunday … 6 = Saturday, no default,
+  locale-dependent) reflected as `data-year` / `data-week-start`; the layout contract (`row = (weekday − weekStart + 7) mod 7`,
+  `column = floor((dayOfYear − 1 + row(1 January)) / 7)`, 53 or 54 columns); the same `-graphic` / `-data-table` siblings as
+  `heatmap-chart`. The component draws nothing and fetches nothing.
+  Verify: unit tests per library; `bin/check-coverage` and `bin/check-class-names` pass. The shared layout helper
+  (`shared/year-of-days-layout.ts`, 8 tests, 2026-10-23) returns `{ date, dayOfYear, column, row }` for a year. Still open: use it in the
+  example apps' demo drawing (the current demo SVG is a pre-generated string), and run the HTML WebdriverIO test.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.
