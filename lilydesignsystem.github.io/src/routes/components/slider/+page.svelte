@@ -76,13 +76,14 @@
       <li>PascalCase: Slider</li>
       <li>Description: a draggable control for selecting a value along a track</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
-      <li>HTML tag: &lt;div&gt;</li>
+      <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .slider</li>
       <li>Interactive: yes</li>
     </ul>
     <h3>ARIA</h3>
     <ul>
       <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the slider</li>
+      <li><code>aria-valuetext</code> (optional, via rest props) -- a human-readable value such as "50 percent" or "£20" when the bare number is not meaningful; the consumer formats it (with <code>Intl.NumberFormat</code>) and updates it with the value, because the component holds no locale</li>
     </ul>
     <h3>Keyboard</h3>
     <ul>
@@ -93,6 +94,7 @@
       <li>Page Up: Increase by a larger step (browser-dependent)</li>
       <li>Page Down: Decrease by a larger step (browser-dependent)</li>
     </ul>
+    <p>The <code>&lt;input type="range"&gt;</code> supplies all of these natively, with the implicit <code>slider</code> role and the <code>aria-valuemin</code>, <code>aria-valuemax</code> and <code>aria-valuenow</code> values; the component adds no key handling. A rubber-band or spring effect on the thumb is consumer CSS and must stop under <code>prefers-reduced-motion</code> (see <code>motion-picker</code>'s <code>data-motion</code>).</p>
     <h3>Props</h3>
     <ul>
       <li><code>label</code>: string (required) -- accessible name applied via <code>aria-label</code></li>

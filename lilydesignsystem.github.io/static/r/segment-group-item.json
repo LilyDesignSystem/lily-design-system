@@ -2,7 +2,7 @@
   "slug": "segment-group-item",
   "name": "SegmentGroupItem",
   "description": "one selectable segment in a segment group",
-  "htmlTag": "div",
+  "htmlTag": "button",
   "category": "forms",
   "baseClass": ".segment-group-item",
   "subClasses": [],

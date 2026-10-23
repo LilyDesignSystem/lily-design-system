@@ -2,14 +2,15 @@
   "slug": "slider",
   "name": "Slider",
   "description": "a draggable control for selecting a value along a track",
-  "htmlTag": "div",
-  "category": "content",
+  "htmlTag": "input",
+  "category": "forms",
   "baseClass": ".slider",
   "subClasses": [],
   "interactive": true,
   "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
   "aria": [
-    "`aria-label={label}` -- provides an accessible name for the slider"
+    "`aria-label={label}` -- provides an accessible name for the slider",
+    "`aria-valuetext` (optional, via rest props) -- a human-readable value such as \"50 percent\" or \"£20\" when the bare number is not meaningful; the consumer formats it (with `Intl.NumberFormat`) and updates it with the value, because the component holds no locale"
   ],
   "keyboard": [
     "Left Arrow / Down Arrow: Decrease value by one step",

@@ -156,4 +156,14 @@ describe("Button", () => {
         const button: HTMLElement = screen.getByTestId("my-btn");
         expect(button.getAttribute("id")).toBe("btn-1");
     });
+
+    test("a pending button stays enabled and focusable, carrying aria-busy and aria-disabled", async () => {
+        render(Subject, { props: { "aria-busy": "true", "aria-disabled": "true", children: textSnippet("Saving") }});
+        const button = screen.getByRole("button") as HTMLButtonElement;
+        expect(button.disabled).toBe(false);
+        expect(button.getAttribute("aria-busy")).toBe("true");
+        expect(button.getAttribute("aria-disabled")).toBe("true");
+        button.focus();
+        expect(document.activeElement).toBe(button);
+    });
 });

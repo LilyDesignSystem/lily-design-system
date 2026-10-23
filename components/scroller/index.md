@@ -91,6 +91,13 @@ This headless component uses a `<div>` element with an optional `aria-label` to 
 
 This component provides a `<div>` element with foreground/background composition and scroll tracking, with zero visual styling. The consumer is responsible for all CSS including background stickiness, foreground overlay positioning, step spacing, and responsive layout.
 
+## Reduced motion
+
+Reduced motion changes how content appears, never whether it does. Apply it in consumer CSS under `@media (prefers-reduced-motion: reduce)` and under the `motion-picker`'s `[data-motion="reduce"]` on the document root (the 57 reference themes already honour both for the preference hooks they style). For a scrollytelling scroller:
+
+- **Suppress:** parallax and animated transitions between steps. Switch the background frame at once, or cross-fade it briefly, when a step becomes active.
+- **Keep:** every step's text, the order of the steps, and step activation by scrolling. Nothing autoplays; the story reads in full with no animation.
+
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.scroller` class for targeting. No default styles are included -- this is a fully headless component.

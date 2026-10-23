@@ -27,6 +27,7 @@
 ## Keyboard
 
 - No keyboard interactions — this is a passive element
+- The consumer's controls follow the APG carousel pattern (index.md, "Controls the consumer builds"): a Pause / Play button first, rotation off until pressed and under reduced motion, `tablist` with roving tabindex and ArrowLeft / ArrowRight / Home / End, `aria-live` off while rotating, hidden and cloned slides `inert`
 
 ## Props
 

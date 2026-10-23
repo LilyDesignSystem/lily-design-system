@@ -44,6 +44,10 @@ Simple text-only loading indicator:
 <Loading label="Fetching results">Fetching results...</Loading>
 ```
 
+## With a button
+
+For a button that is working, add this indicator or a changed label next to the text and keep the button focusable with `aria-busy` and `aria-disabled`; see "Pending (async) actions" in `button`. The indicator is not a substitute for the text.
+
 ## Keyboard Interactions
 
 - None -- loading indicators are informational, not interactive
@@ -72,6 +76,13 @@ Simple text-only loading indicator:
 ## Headless
 
 This component provides `role="status"` with `aria-live="polite"` for accessible loading announcements, with zero visual styling. The consumer is responsible for all CSS including spinner animation, text styling, overlay, positioning, and size.
+
+## Reduced motion
+
+Reduced motion changes how content appears, never whether it does. Apply it in consumer CSS under `@media (prefers-reduced-motion: reduce)` and under the `motion-picker`'s `[data-motion="reduce"]` on the document root (the 57 reference themes already honour both for the preference hooks they style). For a loading indicator:
+
+- **Suppress:** spinning, bouncing and looping animation. Show a static glyph, or none.
+- **Keep:** the visible text (`Loading…` in the reader's language, supplied by the consumer) and `role="status"`, so the busy state is read and seen without any motion.
 
 ## Styles
 

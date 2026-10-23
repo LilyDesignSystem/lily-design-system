@@ -38,10 +38,10 @@ Submit button for saving progress:
 <Button type="submit">Save and continue</Button>
 ```
 
-Action button with disabled state:
+Action button that stays unavailable until a form is valid (use `disabled` for this, not for work in progress; see "Pending (async) actions"):
 
 ```html
-<Button onclick={handleSave} disabled={isSaving}>
+<Button onclick={handleSave} disabled={!formIsValid}>
   Save your progress
 </Button>
 ```
@@ -61,6 +61,33 @@ With accessible label override:
   ✕
 </Button>
 ```
+
+## Pending (async) actions
+
+A button that starts work (save, send, pay) is *pending* until the work ends. Do **not** mark it `disabled` while pending: a disabled button leaves the tab order, so keyboard focus is lost when the press happens and when the action finishes, and a screen reader says nothing about what happened. Keep it focusable and say it is busy:
+
+- `aria-busy="true"` while pending, and `aria-disabled="true"` so assistive technology reports it as unavailable. Both reach the `<button>` through the rest props. The button stays enabled and focused.
+- Ignore repeat activation in the handler (`if (pending) return;`). `aria-disabled` does not stop the click event; the guard does.
+- Show progress in text, not motion alone: change the label (`Saving…`, in the reader's language) or add a `Loading` indicator, and keep the button's width (render the longest label invisibly, or fix the width in CSS) so nothing jumps.
+- Announce the outcome once, in a deliberate live region: `role="status"` for success, `role="alert"` for a failure that needs action. Do not put the live region inside the button, whose content changes would be re-read as a new name.
+- Clear `aria-busy` and `aria-disabled` in a `finally`, so a failure never leaves the button stuck.
+
+```svelte
+<script>
+  let pending = $state(false);
+  async function save() {
+    if (pending) return;
+    pending = true;
+    try { await saveProgress(); } finally { pending = false; }
+  }
+</script>
+
+<Button onclick={save} aria-busy={pending} aria-disabled={pending}>
+  {pending ? savingLabel : saveLabel}
+</Button>
+```
+
+The component holds no promise, no timer and no network state; the pending flag is the consumer's. A built-in `status-button` (idle, loading, success, error with its live regions and reserved width) is an open decision: see tasks P13-T9.
 
 ## Keyboard Interactions
 

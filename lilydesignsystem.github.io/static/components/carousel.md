@@ -60,9 +60,40 @@ The consumer is responsible for providing the slide content as children and impl
 </Carousel>
 ```
 
+## Controls the consumer builds (the APG carousel pattern)
+
+The component supplies only the labelled region. Everything that makes a carousel operable is the consumer's, and the
+[WAI-ARIA APG carousel pattern](https://www.w3.org/WAI/ARIA/apg/patterns/carousel/) sets what it must be. (The
+`apple-carousel` in the sv-chanhdai review, [chanhdai-lessons](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/chanhdai-lessons/index.md) item 12, is a working
+example of the tabbed variant.)
+
+**Rotation control (WCAG 2.2.2).** Anything that moves on its own for more than five seconds needs a way to pause it.
+- Start paused. Do not auto-rotate until the reader presses Play, or when `prefers-reduced-motion` is set.
+- Put a real `<button>` Pause / Play first in the carousel. Its accessible name changes with the state ("Pause gallery",
+  "Play gallery", supplied by the consumer), and focus stays on it when pressed.
+- Stop rotating while any control inside has keyboard focus or the pointer is over the carousel.
+
+**Slides.** Each slide is `<div role="group" aria-roledescription="slide" aria-label="3 of 8">` (the label text is the
+consumer's, by locale). In the tabbed variant each slide is `role="tabpanel"` and is labelled by its tab instead.
+
+**Slide controls.** Either Previous / Next `<button>`s, or a tablist:
+- `role="tablist"` with a `role="tab"` per slide, `aria-selected` on the current one and `aria-controls` naming its slide.
+- Roving tabindex: only the selected tab is tabbable. ArrowLeft / ArrowRight move between tabs and select them, Home / End
+  jump to the first and last (reverse the arrows under `dir="rtl"`).
+
+**Live region.** `aria-live="off"` while the carousel rotates (a constantly changing live region is unusable); `"polite"`
+when it does not, so a slide change the reader asked for is announced.
+
+**Hidden slides.** Slides not shown are `hidden` or `inert`, not just moved off-screen: off-screen links and buttons
+stay focusable and read aloud. For an infinite loop, cloned slides are `aria-hidden="true"` and `inert`, so a screen reader
+does not read each slide twice and Tab does not enter the copy.
+
+**Reduced motion.** Under `prefers-reduced-motion`, replace the slide transition with an instant change or a cross-fade.
+The slides still change, so no content is dropped (reduced motion changes how content appears, never whether).
+
 ## Keyboard Interactions
 
-None -- this component is a passive container. The consumer should implement keyboard navigation for slide controls (e.g., previous/next buttons respond to Enter and Space, arrow keys for slide navigation).
+None -- this component is a passive container. The consumer builds the controls and their keys: see "Controls the consumer builds" above (buttons respond to Enter and Space; a tablist uses ArrowLeft / ArrowRight / Home / End).
 
 ## ARIA
 
@@ -88,6 +119,10 @@ None -- this component is a passive container. The consumer should implement key
 
 This headless Carousel component provides the semantic container with `role="region"`, `aria-roledescription="carousel"`, and `aria-label` for screen reader identification. The consumer provides all visual styling, slide navigation controls (previous/next buttons, pagination dots), autoplay logic, transition animations, and slide layout.
 
+
+## Reduced motion
+
+Reduced motion changes how content appears, never whether it does. Apply it in consumer CSS under `@media (prefers-reduced-motion: reduce)` and under the `motion-picker`'s `[data-motion="reduce"]` on the document root (the 57 reference themes already honour both for the preference hooks they style). For a carousel, the rules are in "Controls the consumer builds" above: no auto-rotation under the preference, and an instant change or a cross-fade in place of the slide transition. The slides still change, so no content is dropped.
 
 ## Styles
 

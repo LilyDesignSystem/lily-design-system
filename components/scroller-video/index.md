@@ -82,6 +82,13 @@ This headless component uses a `<div>` element with an `aria-label` and a muted 
 
 This component provides a `<div>` element with scroll-driven video playback and foreground step composition, with zero visual styling. The consumer is responsible for all CSS including video sizing, foreground overlay positioning, step spacing, and responsive layout.
 
+## Reduced motion
+
+Reduced motion changes how content appears, never whether it does. Apply it in consumer CSS under `@media (prefers-reduced-motion: reduce)` and under the `motion-picker`'s `[data-motion="reduce"]` on the document root (the 57 reference themes already honour both for the preference hooks they style). For a scroll-linked video:
+
+- **Suppress:** scrubbing and autoplay. Show the poster or a still frame for each step, and start no video until the reader asks.
+- **Keep:** the step text and the video's controls (play, pause), and a text description of what the video shows. A video that plays at all must be pausable (WCAG 2.2.2).
+
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.scroller-video` class for targeting. No default styles are included -- this is a fully headless component.

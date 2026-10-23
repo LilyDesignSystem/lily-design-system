@@ -2,7 +2,7 @@
   "slug": "checkbox-group",
   "name": "CheckboxGroup",
   "description": "a group component that manages a collection of checkboxes with shared state",
-  "htmlTag": "div",
+  "htmlTag": "fieldset",
   "category": "forms",
   "baseClass": ".checkbox-group",
   "subClasses": [],

@@ -17,6 +17,7 @@
 - `aria-pressed` only rendered when `pressed` prop is provided (toggle button pattern)
 - `aria-label` provides screen reader override when button text alone is insufficient
 - Native disabled attribute prevents click events automatically
+- Do not use `disabled` for a pending (async) action: it drops focus. Keep the button enabled with `aria-busy="true"` and `aria-disabled="true"` (rest props), guard repeat activation in the handler, and announce the outcome in a separate live region (index.md, "Pending (async) actions")
 
 ## ARIA
 

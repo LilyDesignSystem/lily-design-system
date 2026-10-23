@@ -6,7 +6,7 @@
 - PascalCase: Slider
 - Description: a draggable control for selecting a value along a track
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
-- HTML tag: <div>
+- HTML tag: <input>
 - CSS class: .slider
 - Interactive: yes
 
@@ -20,6 +20,7 @@
 ## ARIA
 
 - `aria-label={label}` -- provides an accessible name for the slider
+- `aria-valuetext` (optional, via rest props) -- a human-readable value such as "50 percent" or "£20" when the bare number is not meaningful; the consumer formats it (with `Intl.NumberFormat`) and updates it with the value, because the component holds no locale
 
 ## Keyboard
 
@@ -29,6 +30,8 @@
 - End: Set to maximum value
 - Page Up: Increase by a larger step (browser-dependent)
 - Page Down: Decrease by a larger step (browser-dependent)
+
+The `<input type="range">` supplies all of these natively, with the implicit `slider` role and the `aria-valuemin`, `aria-valuemax` and `aria-valuenow` values; the component adds no key handling. A rubber-band or spring effect on the thumb is consumer CSS and must stop under `prefers-reduced-motion` (see `motion-picker`'s `data-motion`).
 
 ## Props
 
@@ -41,7 +44,7 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <div> element with class="slider"
+- [ ] Renders an <input type="range"> element with class="slider"
 - [ ] Has aria-label attribute
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant

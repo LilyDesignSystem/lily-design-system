@@ -2,7 +2,7 @@
   "slug": "radio-group",
   "name": "RadioGroup",
   "description": "a group of radio buttons for selecting one option",
-  "htmlTag": "div",
+  "htmlTag": "fieldset",
   "category": "forms",
   "baseClass": ".radio-group",
   "subClasses": [],
