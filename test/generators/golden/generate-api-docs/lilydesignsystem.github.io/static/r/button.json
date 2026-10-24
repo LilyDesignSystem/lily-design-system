@@ -1,0 +1,26 @@
+{
+  "slug": "button",
+  "name": "Button",
+  "description": "a generic clickable button element",
+  "htmlTag": "button",
+  "category": "buttons",
+  "baseClass": ".button",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable",
+  "aria": [
+    "Implicit role"
+  ],
+  "keyboard": [
+    "Tab: Focus it"
+  ],
+  "props": [
+    "`label`: string (required)"
+  ],
+  "related": [],
+  "files": {
+    "html": "lily-design-system-html-headless/components/button.html"
+  },
+  "docs": "https://lilydesignsystem.com/components/button/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/button/AGENTS.md"
+}

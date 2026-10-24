@@ -1,0 +1,5 @@
+{
+  "button": [
+    { "title": "Submit", "html": "<button class=\"button\" type=\"submit\">Send</button>" }
+  ]
+}

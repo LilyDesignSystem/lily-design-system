@@ -18,12 +18,13 @@
 const fs = require("fs");
 const path = require("path");
 
-const top = path.join(__dirname, "..");
+// LILY_ROOT points the generator at another tree (the golden-test fixture, test/generators).
+const top = process.env.LILY_ROOT || path.join(__dirname, "..");
 const read = (p) => fs.readFileSync(path.join(top, p), "utf-8");
 const write = (p, s) => fs.writeFileSync(path.join(top, p), s);
 
 const siteDir = "lilydesignsystem.github.io";
-const { marked } = require(path.join(top, siteDir, "node_modules", "marked"));
+const { marked } = require(path.join(__dirname, "..", siteDir, "node_modules", "marked"));
 
 // Docs prose sometimes quotes a tag without backticks (component descriptions in components.tsv
 // contain things like `<input type="text">`). marked passes raw HTML through, which put a real,

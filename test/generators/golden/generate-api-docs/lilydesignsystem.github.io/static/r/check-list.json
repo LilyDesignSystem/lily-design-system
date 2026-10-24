@@ -1,0 +1,26 @@
+{
+  "slug": "check-list",
+  "name": "CheckList",
+  "description": "a list of checked items",
+  "htmlTag": "ol",
+  "category": "lists",
+  "baseClass": ".check-list",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable",
+  "aria": [
+    "Implicit role"
+  ],
+  "keyboard": [
+    "Tab: Focus it"
+  ],
+  "props": [
+    "`label`: string (required)"
+  ],
+  "related": [],
+  "files": {
+    "html": "lily-design-system-html-headless/components/check-list.html"
+  },
+  "docs": "https://lilydesignsystem.com/components/check-list/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/check-list/AGENTS.md"
+}

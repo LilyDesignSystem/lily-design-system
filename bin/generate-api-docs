@@ -27,7 +27,8 @@ import os
 import re
 import sys
 
-TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# LILY_ROOT points the generator at another tree (the golden-test fixture, test/generators).
+TOP = os.environ.get("LILY_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = os.path.join(TOP, "lilydesignsystem.github.io", "src", "routes", "components")
 BEGIN = "<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->"
 END = "<!-- END generated: canonical contract -->"

@@ -1,0 +1,26 @@
+{
+  "slug": "mark",
+  "name": "Mark",
+  "description": "a highlighted run of text",
+  "htmlTag": "mark",
+  "category": "text",
+  "baseClass": ".mark",
+  "subClasses": [],
+  "interactive": false,
+  "status": "stable",
+  "aria": [
+    "Implicit role"
+  ],
+  "keyboard": [
+    "Tab: Focus it"
+  ],
+  "props": [
+    "`label`: string (required)"
+  ],
+  "related": [],
+  "files": {
+    "html": "lily-design-system-html-headless/components/mark.html"
+  },
+  "docs": "https://lilydesignsystem.com/components/mark/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/mark/AGENTS.md"
+}

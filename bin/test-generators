@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# bin/test-generators — plan P13-T5: golden tests for the generators.
+#
+# Copies test/generators/fixture (a three-component catalogue) to a scratch
+# directory, runs each generator there with LILY_ROOT, and compares the whole
+# resulting tree with test/generators/golden/<generator>/. A generator change
+# that alters its output fails until the goldens are regenerated, on purpose:
+#
+#   bin/test-generators --update-goldens   rewrite the goldens, then review `git diff`
+#
+# Generators covered: generate-api-docs, generate-registries, generate-examples,
+# generate-site-pages (which starts from generate-examples' golden).
+set -euo pipefail
+top="$(cd "$(dirname "$0")/.." && pwd)"
+update=0; [ "${1:-}" = "--update-goldens" ] && update=1
+fail=0
+run() { # name, command...
+  local name="$1"; shift
+  local work; work="$(mktemp -d)"
+  cp -R "$top/test/generators/fixture/." "$work/"
+  # A generator that reads another generator's output starts from that golden.
+  if [ -n "${OVERLAY:-}" ]; then cp -R "$top/test/generators/golden/$OVERLAY/." "$work/"; fi
+  LILY_ROOT="$work" "$@" >/dev/null
+  local golden="$top/test/generators/golden/$name"
+  if [ "$update" = 1 ]; then
+    rm -rf "$golden"; mkdir -p "$golden"; cp -R "$work/." "$golden/"
+    echo "updated goldens: $name"
+  elif diff -r -q "$golden" "$work" >/dev/null 2>&1; then
+    echo "ok   $name"
+  else
+    echo "FAIL $name: output differs from test/generators/golden/$name"
+    diff -r "$golden" "$work" | head -20 || true
+    fail=1
+  fi
+  rm -rf "$work"
+}
+run generate-api-docs "$top/bin/generate-api-docs"
+run generate-registries node "$top/bin/generate-registries"
+run generate-examples node "$top/bin/generate-examples"
+OVERLAY=generate-examples run generate-site-pages node "$top/bin/generate-site-pages"
+exit $fail

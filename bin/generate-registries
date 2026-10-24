@@ -36,7 +36,8 @@
 const fs = require("fs");
 const path = require("path");
 
-const top = path.join(__dirname, "..");
+// LILY_ROOT points the generator at another tree (the golden-test fixture, test/generators).
+const top = process.env.LILY_ROOT || path.join(__dirname, "..");
 const check = process.argv.includes("--check");
 const stale = [];
 const read = (p) => fs.readFileSync(path.join(top, p), "utf-8");
