@@ -82,6 +82,7 @@ The React helpers, one top-level subproject per package since 2026-10-10 (`bin/l
 - [`lily-design-system-react-search-picker`](../lily-design-system-react-search-picker) — `@lilydesignsystem/react-search-picker`
 - [`lily-design-system-react-settings-picker`](../lily-design-system-react-settings-picker) — `@lilydesignsystem/react-settings-picker`
 - [`lily-design-system-react-share-picker`](../lily-design-system-react-share-picker) — `@lilydesignsystem/react-share-picker`
+- [`lily-design-system-react-markdown-editor`](../lily-design-system-react-markdown-editor) — `@lilydesignsystem/react-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
 - [`lily-design-system-react-text-size-picker`](../lily-design-system-react-text-size-picker) — `@lilydesignsystem/react-text-size-picker`
 - [`lily-design-system-react-theme-picker`](../lily-design-system-react-theme-picker) — `@lilydesignsystem/react-theme-picker`
 - [`lily-design-system-react-gantt-chart`](../lily-design-system-react-gantt-chart) — `@lilydesignsystem/react-gantt-chart`
@@ -101,6 +102,7 @@ The Vue helpers, one top-level subproject per package since 2026-10-10 (`bin/lis
 - [`lily-design-system-vue-search-picker`](../lily-design-system-vue-search-picker) — `@lilydesignsystem/vue-search-picker`
 - [`lily-design-system-vue-settings-picker`](../lily-design-system-vue-settings-picker) — `@lilydesignsystem/vue-settings-picker`
 - [`lily-design-system-vue-share-picker`](../lily-design-system-vue-share-picker) — `@lilydesignsystem/vue-share-picker`
+- [`lily-design-system-vue-markdown-editor`](../lily-design-system-vue-markdown-editor) — `@lilydesignsystem/vue-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
 - [`lily-design-system-vue-text-size-picker`](../lily-design-system-vue-text-size-picker) — `@lilydesignsystem/vue-text-size-picker`
 - [`lily-design-system-vue-theme-picker`](../lily-design-system-vue-theme-picker) — `@lilydesignsystem/vue-theme-picker`
 - [`lily-design-system-vue-gantt-chart`](../lily-design-system-vue-gantt-chart) — `@lilydesignsystem/vue-gantt-chart`
@@ -120,6 +122,7 @@ The Angular helpers, one top-level subproject per package since 2026-10-10 (`bin
 - [`lily-design-system-angular-search-picker`](../lily-design-system-angular-search-picker) — `@lilydesignsystem/angular-search-picker`
 - [`lily-design-system-angular-settings-picker`](../lily-design-system-angular-settings-picker) — `@lilydesignsystem/angular-settings-picker`
 - [`lily-design-system-angular-share-picker`](../lily-design-system-angular-share-picker) — `@lilydesignsystem/angular-share-picker`
+- [`lily-design-system-angular-markdown-editor`](../lily-design-system-angular-markdown-editor) — `@lilydesignsystem/angular-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
 - [`lily-design-system-angular-text-size-picker`](../lily-design-system-angular-text-size-picker) — `@lilydesignsystem/angular-text-size-picker`
 - [`lily-design-system-angular-theme-picker`](../lily-design-system-angular-theme-picker) — `@lilydesignsystem/angular-theme-picker`
 - [`lily-design-system-angular-gantt-chart`](../lily-design-system-angular-gantt-chart) — `@lilydesignsystem/angular-gantt-chart`
@@ -139,6 +142,7 @@ The HTML helpers, one top-level subproject per package since 2026-10-10 (`bin/li
 - [`lily-design-system-html-search-picker`](../lily-design-system-html-search-picker) — `@lilydesignsystem/html-search-picker`
 - [`lily-design-system-html-settings-picker`](../lily-design-system-html-settings-picker) — `@lilydesignsystem/html-settings-picker`
 - [`lily-design-system-html-share-picker`](../lily-design-system-html-share-picker) — `@lilydesignsystem/html-share-picker`
+- [`lily-design-system-html-markdown-editor`](../lily-design-system-html-markdown-editor) — `@lilydesignsystem/html-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
 - [`lily-design-system-html-text-size-picker`](../lily-design-system-html-text-size-picker) — `@lilydesignsystem/html-text-size-picker`
 - [`lily-design-system-html-theme-picker`](../lily-design-system-html-theme-picker) — `@lilydesignsystem/html-theme-picker`
 - [`lily-design-system-html-gantt-chart`](../lily-design-system-html-gantt-chart) — `@lilydesignsystem/html-gantt-chart`
@@ -158,6 +162,7 @@ The Web Components helpers, one top-level subproject per package since 2026-10-1
 - [`lily-design-system-web-components-search-picker`](../lily-design-system-web-components-search-picker) — `@lilydesignsystem/web-components-search-picker`
 - [`lily-design-system-web-components-settings-picker`](../lily-design-system-web-components-settings-picker) — `@lilydesignsystem/web-components-settings-picker`
 - [`lily-design-system-web-components-share-picker`](../lily-design-system-web-components-share-picker) — `@lilydesignsystem/web-components-share-picker`
+- [`lily-design-system-web-components-markdown-editor`](../lily-design-system-web-components-markdown-editor) — `@lilydesignsystem/web-components-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
 - [`lily-design-system-web-components-text-size-picker`](../lily-design-system-web-components-text-size-picker) — `@lilydesignsystem/web-components-text-size-picker`
 - [`lily-design-system-web-components-theme-picker`](../lily-design-system-web-components-theme-picker) — `@lilydesignsystem/web-components-theme-picker`
 - [`lily-design-system-web-components-gantt-chart`](../lily-design-system-web-components-gantt-chart) — `@lilydesignsystem/web-components-gantt-chart`
@@ -175,6 +180,7 @@ The Nunjucks helpers, one top-level subproject per package since 2026-10-10 (`bi
 - [`lily-design-system-nunjucks-search-picker`](../lily-design-system-nunjucks-search-picker) — `@lilydesignsystem/nunjucks-search-picker`
 - [`lily-design-system-nunjucks-settings-picker`](../lily-design-system-nunjucks-settings-picker) — `@lilydesignsystem/nunjucks-settings-picker`
 - [`lily-design-system-nunjucks-share-picker`](../lily-design-system-nunjucks-share-picker) — `@lilydesignsystem/nunjucks-share-picker`
+- [`lily-design-system-nunjucks-markdown-editor`](../lily-design-system-nunjucks-markdown-editor) — `@lilydesignsystem/nunjucks-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
 - [`lily-design-system-nunjucks-gantt-chart`](../lily-design-system-nunjucks-gantt-chart) — `@lilydesignsystem/nunjucks-gantt-chart`
 - [`lily-design-system-nunjucks-calendar`](../lily-design-system-nunjucks-calendar) — `@lilydesignsystem/nunjucks-calendar`
 - [`lily-design-system-nunjucks-kanban-board`](../lily-design-system-nunjucks-kanban-board) — `@lilydesignsystem/nunjucks-kanban-board`
@@ -197,6 +203,7 @@ The Blazor helpers, one top-level subproject per package since 2026-10-10 (`bin/
 - [`lily-design-system-blazor-search-picker`](../lily-design-system-blazor-search-picker) — `@lilydesignsystem/blazor-search-picker`
 - [`lily-design-system-blazor-settings-picker`](../lily-design-system-blazor-settings-picker) — `@lilydesignsystem/blazor-settings-picker`
 - [`lily-design-system-blazor-share-picker`](../lily-design-system-blazor-share-picker) — `@lilydesignsystem/blazor-share-picker`
+- [`lily-design-system-blazor-markdown-editor`](../lily-design-system-blazor-markdown-editor) — `LilyDesignSystem.Blazor.MarkdownEditor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
 - [`lily-design-system-blazor-text-size-picker`](../lily-design-system-blazor-text-size-picker) — `@lilydesignsystem/blazor-text-size-picker`
 - [`lily-design-system-blazor-theme-picker`](../lily-design-system-blazor-theme-picker) — `@lilydesignsystem/blazor-theme-picker`
 - [`lily-design-system-blazor-gantt-chart`](../lily-design-system-blazor-gantt-chart) — `@lilydesignsystem/blazor-gantt-chart`

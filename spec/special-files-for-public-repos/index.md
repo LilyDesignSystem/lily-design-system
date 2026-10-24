@@ -14,7 +14,7 @@ tooling that keeps them in sync.
 ## Scope
 
 This topic covers the special top-level files for the repository root and for all
-179 subprojects (the 150 implementation subprojects, the 27 Claude Skills, `lily-design-system-themes` and `lilydesignsystem.github.io`), the copy-versus-generate decision per file, the
+179 subprojects (the 167 implementation subprojects, the 27 Claude Skills, `lily-design-system-themes` and `lilydesignsystem.github.io`), the copy-versus-generate decision per file, the
 link-rewriting rule that makes a copied file correct in its destination, and the
 `bin/sync-special-files` and `bin/test` enforcement.
 
