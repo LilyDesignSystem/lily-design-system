@@ -9,7 +9,7 @@
                          to leave the attribute off — useful for
                          leaf items with no children.
     selected    boolean  aria-selected.
-    current     boolean  aria-current="page".
+    current     boolean  data-current.
     level       number   aria-level for flattened trees (optional).
     text        string
     html        string
@@ -28,7 +28,7 @@
   {%- if not (p.attributes and p.attributes.tabindex != undefined) %} tabindex="-1"{% endif %}
   {%- if p.expanded != undefined %} aria-expanded="{{ 'true' if p.expanded else 'false' }}"{% endif %}
   {%- if p.selected %} aria-selected="true"{% endif %}
-  {%- if p.current %} aria-current="page"{% endif %}
+  {%- if p.current %} data-current{% endif %}
   {%- if p.level %} aria-level="{{ p.level }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}

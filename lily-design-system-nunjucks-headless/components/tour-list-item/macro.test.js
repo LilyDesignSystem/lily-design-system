@@ -7,18 +7,17 @@ describe("tour-list-item", () => {
     expect(document.querySelector("li.tour-list-item")).toBeTruthy();
   });
 
-  it("sets aria-current='step' when current", () => {
+  it("sets data-current when current", () => {
     const { document } = render("tour-list-item", {
       text: "x",
       current: true,
     });
-    expect(document.querySelector("li").getAttribute("aria-current"))
-      .toBe("step");
+    expect(document.querySelector("li").hasAttribute("data-current")).toBe(true);
   });
 
-  it("omits aria-current when current is falsy", () => {
+  it("omits data-current when current is falsy", () => {
     const { document } = render("tour-list-item", { text: "x" });
-    expect(document.querySelector("li").hasAttribute("aria-current")).toBe(false);
+    expect(document.querySelector("li").hasAttribute("data-current")).toBe(false);
   });
 
   it("escapes text", () => {

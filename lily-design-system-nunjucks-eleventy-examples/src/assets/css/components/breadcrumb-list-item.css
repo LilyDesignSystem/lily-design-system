@@ -12,7 +12,7 @@
   color: var(--nhsuk-mid-grey);
 }
 
-.breadcrumb-list-item[aria-current="page"] {
+.breadcrumb-list-item[data-current] {
   color: var(--nhsuk-black);
   font-weight: var(--nhsuk-font-weight-bold);
 }

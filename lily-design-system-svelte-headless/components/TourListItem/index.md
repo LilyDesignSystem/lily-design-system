@@ -1,6 +1,6 @@
 # TourListItem
 
-A single step within a `TourList` guided tour, rendered as a `<li role="group">` with `aria-roledescription="step"`, `aria-current`, and conditional `hidden`/`aria-hidden` based on whether the step is current.
+A single step within a `TourList` guided tour, rendered as a `<li role="group">` with `aria-roledescription="step"`, `data-current`, and conditional `hidden`/`aria-hidden` based on whether the step is current.
 
 ## What it is
 
@@ -10,7 +10,7 @@ A single step within a `TourList` guided tour, rendered as a `<li role="group">`
 
 - Renders `<li class="tour-list-item {className}" role="group" aria-roledescription="step">`.
 - Derives a `fullLabel` — `"{label} (Step N of M)"` when both `stepNumber` and `totalSteps` are provided, otherwise just `label` — and assigns it to `aria-label`.
-- Sets `aria-current="step"` when `current` is true.
+- Sets `data-current` when `current` is true.
 - Sets `aria-hidden="true"` and the HTML `hidden` attribute when `current` is false, so inactive steps are hidden for both sighted and assistive users.
 - Renders the `children` snippet as the step content.
 - Spreads additional HTML attributes onto the `<li>`.
@@ -145,7 +145,7 @@ Import and place inside `TourList` (possibly nested under a `Tour`). Pass a tran
 
 - `role="group"` and `aria-roledescription="step"` identify the element as a tour step.
 - `aria-label` includes the step label and a "Step N of M" suffix when available.
-- `aria-current="step"` marks the active step for assistive technology.
+- `data-current` marks the active step for assistive technology.
 - Inactive steps are hidden with both `hidden` and `aria-hidden="true"` so they are not announced.
 - Consumers should move focus to the current step's content when it becomes active.
 

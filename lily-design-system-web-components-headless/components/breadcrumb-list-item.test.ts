@@ -49,11 +49,12 @@ describe("BreadcrumbListItem (upgrade in place)", () => {
         expect(tags).toEqual(["LI", "LI", "LI"]);
     });
 
-    test("current sets aria-current=page on that <li> only", () => {
+    test("current sets data-current on that <li> only", () => {
         renderTrail();
 
         const items = Array.from(document.querySelectorAll("li.breadcrumb-list-item"));
-        expect(items.map((li) => li.getAttribute("aria-current"))).toEqual([null, null, "page"]);
+        expect(items.map((li) => li.hasAttribute("data-current"))).toEqual([false, false, true]);
+        expect(items.some((li) => li.hasAttribute("aria-current"))).toBe(false);
     });
 
     test("moves the host's children into the <li>", () => {

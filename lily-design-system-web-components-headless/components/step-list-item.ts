@@ -6,7 +6,7 @@
 // Attributes:
 //   status — "waiting" | "in-progress" | "finished" | "error", default
 //     "waiting". Rendered as data-status.
-//   current — presence-based boolean; sets aria-current="step".
+//   current — presence-based boolean; sets data-current.
 //   label — optional; sets aria-label (overrides the default accessible
 //     name from the contained title text).
 //   ...rest — spread onto the <li>.
@@ -27,7 +27,7 @@ export class StepListItem extends HTMLElement {
         const li = document.createElement("li");
         li.className = rootClassName(this, "step-list-item");
         li.setAttribute("data-status", this.getAttribute("status") ?? "waiting");
-        if (this.hasAttribute("current")) li.setAttribute("aria-current", "step");
+        if (this.hasAttribute("current")) li.setAttribute("data-current", "");
         const label = this.getAttribute("label");
         if (label !== null) li.setAttribute("aria-label", label);
         passThroughAttributes(this, li, HANDLED);

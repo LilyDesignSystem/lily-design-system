@@ -59,15 +59,15 @@ describe("TourListItem (upgrade in place)", () => {
         expect(items[1]!.getAttribute("aria-label")).toBe("Features (Step 2 of 2)");
     });
 
-    test("current sets aria-current=step; inactive steps are hidden from AT and layout", () => {
+    test("current sets data-current; inactive steps are hidden from AT and layout", () => {
         renderList();
 
         const items = Array.from(document.querySelectorAll("li.tour-list-item"));
-        expect(items[0]!.getAttribute("aria-current")).toBe("step");
+        expect(items[0]!.hasAttribute("data-current")).toBe(true);
         expect(items[0]!.getAttribute("aria-hidden")).toBeNull();
         expect(items[0]!.hidden).toBe(false);
 
-        expect(items[1]!.getAttribute("aria-current")).toBeNull();
+        expect(items[1]!.hasAttribute("data-current")).toBe(false);
         expect(items[1]!.getAttribute("aria-hidden")).toBe("true");
         expect(items[1]!.hidden).toBe(true);
     });

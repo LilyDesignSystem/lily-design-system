@@ -83,7 +83,7 @@
     <h3>ARIA</h3>
     <ul>
       <li>&lt;li&gt; provides list-item semantics</li>
-      <li>aria-current="step" when current is true</li>
+      <li><code>data-current</code> when <code>current</code> is true; the component sets no <code>aria-current</code></li>
       <li>aria-label set when label prop is provided</li>
       <li>data-status is a CSS hook for status-driven styling</li>
     </ul>

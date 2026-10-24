@@ -56,7 +56,7 @@ describe("TourListItem", () => {
     expect(el.getAttribute("aria-roledescription")).toBe("step");
   });
 
-  test("has aria-current=step when current", () => {
+  test("has data-current when current", () => {
     render(Subject, {
       props: {
         label: "Welcome",
@@ -65,7 +65,9 @@ describe("TourListItem", () => {
       },
     });
     const el = screen.getByRole("group");
-    expect(el.getAttribute("aria-current")).toBe("step");
+    expect(el.hasAttribute("data-current")).toBe(true);
+    // The item marks itself with data-current; aria-current is the consumer's, on the link or text inside.
+    expect(el.hasAttribute("aria-current")).toBe(false);
   });
 
   test("hidden when not current", () => {

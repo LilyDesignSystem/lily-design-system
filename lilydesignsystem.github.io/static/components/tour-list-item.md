@@ -81,7 +81,7 @@ Multi-step tour:
 - `role="group"` -- groups the step content semantically
 - `aria-roledescription="step"` -- identifies the element as a tour step
 - `aria-label` -- provides an accessible name, optionally including "Step N of M"
-- `aria-current="step"` -- indicates the currently active step
+- `data-current` -- indicates the currently active step
 - `aria-hidden="true"` -- hides inactive steps from assistive technology
 - `hidden` -- hides inactive steps from visual rendering
 ## When to Use
@@ -97,7 +97,7 @@ Multi-step tour:
 
 ## Headless
 
-This headless component provides a `<div>` with `role="group"`, `aria-roledescription="step"`, `aria-label` (with optional step progress), `aria-current`, and `hidden`/`aria-hidden` for conditional visibility. The consumer provides all step content, navigation buttons, and all visual styling.
+This headless component provides a `<div>` with `role="group"`, `aria-roledescription="step"`, `aria-label` (with optional step progress), `data-current`, and `hidden`/`aria-hidden` for conditional visibility. The consumer provides all step content, navigation buttons, and all visual styling.
 
 
 ## Styles
@@ -116,6 +116,7 @@ The consumer provides all CSS styling. The component renders with a `.tour-list-
 
 ## Advice
 
+- **Developers**: `current` sets `data-current` on the `<li>` and nothing else; the item sets no `aria-current`. Put `aria-current="step"` on the current tour step's content (the link, or the text when it is not a link), or pass it as a rest prop on the item, so assistive technology announces it.
 - **Designers**: Make the current step visually prominent and clearly indicate progress (e.g., step dots, "Step N of M" text) so users know where they are in the tour.
 - **Developers**: Provide `stepNumber` and `totalSteps` props for accessible step progress labels. Use the `current` prop to control which step is visible.
 

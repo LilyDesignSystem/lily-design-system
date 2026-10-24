@@ -32,17 +32,17 @@ describe("step-list-item", () => {
     }
   });
 
-  it("renders aria-current='step' when current is true", () => {
+  it("renders data-current when current is true", () => {
     const { html } = render("step-list-item", {
       text: "Now",
       current: true,
     });
-    expect(html).toContain('aria-current="step"');
+    expect(html).toContain('data-current');
   });
 
-  it("omits aria-current when current is false", () => {
+  it("omits data-current when current is false", () => {
     const { html } = render("step-list-item", { text: "Cart" });
-    expect(html).not.toContain('aria-current=');
+    expect(html).not.toContain('data-current');
   });
 
   it("renders aria-label when provided", () => {

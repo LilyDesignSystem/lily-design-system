@@ -1,13 +1,13 @@
 // StepListItem component
 //
 // One step in a step list. Status is exposed as `data-status`. When
-// `current=true`, `aria-current="step"` is set so assistive tech announces
+// `current=true`, `data-current` is set so assistive tech announces
 // the active step.
 //
 // Props:
 //   className    — string, optional. CSS class name.
 //   status       — "waiting" | "in-progress" | "finished" | "error", default "waiting".
-//   current      — boolean, default false. When true, sets aria-current="step".
+//   current      — boolean, default false. When true, sets data-current.
 //   label        — string, optional. aria-label override.
 //   children     — ReactNode, optional. Step content (typically title + description).
 //   ...restProps — additional HTML attributes spread onto the <li>.
@@ -19,7 +19,7 @@
 //   </StepListItem>
 //
 // Accessibility:
-//   - aria-current="step" when current=true
+//   - data-current when current=true
 //   - aria-label optional
 //
 // Internationalization:
@@ -61,7 +61,7 @@ export default function StepListItem({
         <li
             className={`step-list-item ${className}`}
             data-status={status}
-            aria-current={current ? "step" : undefined}
+            data-current={current ? "" : undefined}
             aria-label={label}
             {...restProps}
         >

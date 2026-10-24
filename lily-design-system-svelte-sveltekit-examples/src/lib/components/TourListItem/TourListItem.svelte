@@ -40,7 +40,7 @@
     //   - role="group" groups the step content semantically
     //   - aria-roledescription="step" identifies the element as a tour step
     //   - aria-label includes step label and optional "Step N of M" progress
-    //   - aria-current="step" indicates the currently active step
+    //   - data-current indicates the currently active step
     //   - aria-hidden="true" and hidden attribute hide inactive steps
     //
     // Internationalization:
@@ -95,7 +95,7 @@
     role="group"
     aria-roledescription="step"
     aria-label={fullLabel}
-    aria-current={current ? "step" : undefined}
+    data-current={current ? "" : undefined}
     aria-hidden={!current ? "true" : undefined}
     hidden={!current ? true : undefined}
     {...restProps}

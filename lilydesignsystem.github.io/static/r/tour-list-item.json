@@ -12,7 +12,7 @@
     "`role=\"group\"` -- groups the step content semantically",
     "`aria-roledescription=\"step\"` -- identifies the element as a tour step",
     "`aria-label` -- provides an accessible name, optionally including \"Step N of M\"",
-    "`aria-current=\"step\"` -- indicates the currently active step",
+    "`data-current` -- indicates the currently active step",
     "`aria-hidden=\"true\"` -- hides inactive steps from assistive technology",
     "`hidden` -- hides inactive steps from visual rendering"
   ],

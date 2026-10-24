@@ -15,14 +15,14 @@ pattern. See StepList for full usage.
 
 - Renders a semantic `<li class="step-list-item">` element
 - `data-status` reflects the `status` prop (default `"waiting"`)
-- `aria-current="step"` is set when `current` is true
+- `data-current` is set when `current` is true
 - `aria-label` is set when the optional `label` prop is provided
 - Children render the step's title and optional description
 
 ## Props
 
 - `status`: "waiting" | "in-progress" | "finished" | "error" (default: "waiting") -- emitted as data-status
-- `current`: boolean (default: false) -- when true, renders aria-current="step"
+- `current`: boolean (default: false) -- when true, renders `data-current` (not `aria-current`)
 - `label`: string (optional) -- aria-label override
 - `children`: slot -- step content (typically title and description)
 - `...restProps`: any additional HTML attributes
@@ -47,7 +47,7 @@ pattern. See StepList for full usage.
 ## ARIA
 
 - The `<li>` element provides list-item semantics
-- `aria-current="step"` is set when `current` is true
+- `data-current` is set when `current` is true
 - `aria-label` is set when `label` is provided
 - `data-status` is a CSS hook for status-driven styling
 
@@ -75,12 +75,13 @@ distinguish waiting/in-progress/finished/error visual states.
 
 - Verify the component renders an `<li>` element with class `step-list-item`
 - Verify `data-status` reflects the `status` prop (default `"waiting"`)
-- Verify `aria-current="step"` is set when `current` is true and absent when false
+- Verify `data-current` is set when `current` is true and absent when false
 - Verify `aria-label` equals the `label` prop when provided
 - Verify children render inside the list item
 
 ## Advice
 
+- **Developers**: `current` sets `data-current` on the `<li>` and nothing else; the item sets no `aria-current`. Put `aria-current="step"` on the current step's content (the link, or the text when it is not a link), or pass it as a rest prop on the item, so assistive technology announces it.
 - **Designers**: Choose distinct visual treatments per status. Keep step labels short and the optional description specific.
 - **Developers**: Use the `error` status to signal a failed step. Pair `current` with the parent's `current` index for consistent ARIA and CSS state.
 

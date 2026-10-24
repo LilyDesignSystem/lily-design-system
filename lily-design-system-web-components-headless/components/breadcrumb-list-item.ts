@@ -24,7 +24,7 @@
 // one without revisiting that.
 //
 // Attributes:
-//   current — presence-based boolean; sets aria-current="page".
+//   current — presence-based boolean; sets data-current.
 //   ...rest — spread onto the <li>.
 //
 // References:
@@ -43,7 +43,7 @@ export class BreadcrumbListItem extends HTMLElement {
 
         const li = document.createElement("li");
         li.className = rootClassName(this, "breadcrumb-list-item");
-        if (this.hasAttribute("current")) li.setAttribute("aria-current", "page");
+        if (this.hasAttribute("current")) li.setAttribute("data-current", "");
         passThroughAttributes(this, li, HANDLED);
 
         moveChildrenInto(this, li);

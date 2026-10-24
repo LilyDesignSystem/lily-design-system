@@ -1001,7 +1001,7 @@
         color: var(--lily-text-muted);
     }
     /* Final crumb (the current page) — muted because it isn't a link. */
-    :where(.breadcrumb-list-item[aria-current="page"]) {
+    :where(.breadcrumb-list-item[data-current], .breadcrumb-list-item[aria-current="page"]) {
         color: var(--lily-text-muted);
     }
 

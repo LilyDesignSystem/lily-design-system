@@ -2,6 +2,6 @@
   display: block;
 }
 
-.contents-list-item[aria-current="location"] {
+.contents-list-item[data-current] {
   font-weight: var(--nhsuk-font-weight-bold);
 }

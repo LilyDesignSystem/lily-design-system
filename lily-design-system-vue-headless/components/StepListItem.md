@@ -7,12 +7,12 @@ One step in a `StepList` with status of waiting, in progress, finished, or error
 - Headless: no CSS, no styles
 - Renders a native `<li>` (intended as a child of `StepList`'s `<ol>`)
 - Status is exposed as `data-status` for consumer styling
-- When `current` is `true`, sets `aria-current="step"`
+- When `current` is `true`, sets `data-current`
 
 ## Props
 
 - `status`: `"waiting" | "in-progress" | "finished" | "error"` (default `"waiting"`)
-- `current`: boolean (default `false`) — sets `aria-current="step"` when `true`
+- `current`: boolean (default `false`) — sets `data-current` when `true`
 - `label`: string — aria-label override
 - default slot — content (typically a title and optional description)
 - `...$attrs` — additional HTML attributes
@@ -30,7 +30,7 @@ One step in a `StepList` with status of waiting, in progress, finished, or error
 
 ## ARIA
 
-- `aria-current="step"` when `current` is `true`
+- `data-current` when `current` is `true`
 - `aria-label` optional override
 
 ## When to Use
@@ -50,7 +50,7 @@ The component renders a list item with semantic state attributes. Consumers supp
 - Verify the root `step-list-item` class and `<li>` tag
 - Verify default `status="waiting"`
 - Verify `data-status` reflects the status prop
-- Verify `aria-current="step"` when `current` is `true`
+- Verify `data-current` when `current` is `true`
 - Verify `aria-label` pass-through
 
 ## References

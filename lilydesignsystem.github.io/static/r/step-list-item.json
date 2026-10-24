@@ -10,7 +10,7 @@
   "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
   "aria": [
     "<li> provides list-item semantics",
-    "aria-current=\"step\" when current is true",
+    "`data-current` when `current` is true; the component sets no `aria-current`",
     "aria-label set when label prop is provided",
     "data-status is a CSS hook for status-driven styling"
   ],

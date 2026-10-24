@@ -19,7 +19,7 @@
 
 - Renders an `<li>` inside a `TourList`, representing one step of the tour
 - Children include the step content (heading, description, illustration) composed by the consumer
-- The consumer marks the active step using `aria-current="step"` or a class hook for styling
+- The consumer marks the active step using `data-current` or a class hook for styling
 - Spreads `restProps` onto the `<li>`
 
 ## ARIA
@@ -27,7 +27,7 @@
 - `role="group"` -- groups the step content semantically
 - `aria-roledescription="step"` -- identifies the element as a tour step
 - `aria-label` -- provides an accessible name, optionally including "Step N of M"
-- `aria-current="step"` -- indicates the currently active step
+- `data-current` -- indicates the currently active step
 - `aria-hidden="true"` -- hides inactive steps from assistive technology
 - `hidden` -- hides inactive steps from visual rendering
 

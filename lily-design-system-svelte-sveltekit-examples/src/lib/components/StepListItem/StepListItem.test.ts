@@ -61,24 +61,26 @@ describe("StepListItem", () => {
         expect(root.getAttribute("data-status")).toBe("error");
     });
 
-    test("renders aria-current=step when current=true", () => {
+    test("renders data-current when current=true", () => {
         const { container } = render(Subject, { props: {
             current: true,
             children: textSnippet("Step"),
         }});
 
         const root = container.querySelector("li.step-list-item") as HTMLElement;
-        expect(root.getAttribute("aria-current")).toBe("step");
+        expect(root.hasAttribute("data-current")).toBe(true);
+        // The item marks itself with data-current; aria-current is the consumer's, on the link or text inside.
+        expect(root.hasAttribute("aria-current")).toBe(false);
     });
 
-    test("omits aria-current when current=false", () => {
+    test("omits data-current when current=false", () => {
         const { container } = render(Subject, { props: {
             current: false,
             children: textSnippet("Step"),
         }});
 
         const root = container.querySelector("li.step-list-item") as HTMLElement;
-        expect(root.getAttribute("aria-current")).toBeNull();
+        expect(root.hasAttribute("data-current")).toBe(false);
     });
 
     test("applies aria-label override when provided", () => {

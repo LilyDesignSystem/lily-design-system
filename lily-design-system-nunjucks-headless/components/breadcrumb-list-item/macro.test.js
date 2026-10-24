@@ -21,18 +21,17 @@ describe("breadcrumb-list-item", () => {
     expect(document.querySelector("li a")).toBeTruthy();
   });
 
-  it("sets aria-current='page' when params.current is true", () => {
+  it("sets data-current when params.current is true", () => {
     const { document } = render("breadcrumb-list-item", {
       text: "Today",
       current: true,
     });
-    expect(document.querySelector("li").getAttribute("aria-current"))
-      .toBe("page");
+    expect(document.querySelector("li").hasAttribute("data-current")).toBe(true);
   });
 
-  it("omits aria-current when params.current is falsy", () => {
+  it("omits data-current when params.current is falsy", () => {
     const { document } = render("breadcrumb-list-item", { text: "x" });
-    expect(document.querySelector("li").hasAttribute("aria-current")).toBe(false);
+    expect(document.querySelector("li").hasAttribute("data-current")).toBe(false);
   });
 
   it("appends params.classes", () => {

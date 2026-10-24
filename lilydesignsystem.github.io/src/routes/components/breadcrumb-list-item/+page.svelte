@@ -83,7 +83,7 @@
     <h3>ARIA</h3>
     <ul>
       <li>Implicit <code>listitem</code> role from the semantic <code>&lt;li&gt;</code> element</li>
-      <li><code>aria-current="page"</code> -- set when <code>current</code> is true, indicating the user's current location in the breadcrumb trail</li>
+      <li><code>data-current</code> -- set when <code>current</code> is true, indicating the user's current location in the breadcrumb trail</li>
     </ul>
     <h3>Keyboard</h3>
     <ul>

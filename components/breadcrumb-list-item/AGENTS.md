@@ -18,7 +18,7 @@
 ## Key Behaviors
 
 - Renders as a semantic `<li>` element for use inside a breadcrumb `<nav>` / `<ol>` structure
-- Supports `aria-current="page"` via the `current` prop to indicate the active page in the breadcrumb trail
+- Supports `data-current` via the `current` prop to indicate the active page in the breadcrumb trail
 - Content is provided through the children slot, typically an `<a>` link or plain text
 - Passes through all additional HTML attributes via `...restProps`
 - Uses `slot` for children content
@@ -26,7 +26,7 @@
 ## ARIA
 
 - Implicit `listitem` role from the semantic `<li>` element
-- `aria-current="page"` -- set when `current` is true, indicating the user's current location in the breadcrumb trail
+- `data-current` -- set when `current` is true, indicating the user's current location in the breadcrumb trail
 
 ## Keyboard
 

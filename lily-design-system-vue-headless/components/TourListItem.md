@@ -8,7 +8,7 @@ This component is designed to be placed inside a TourList container. The consume
 
 - Renders as a `<div>` with `role="group"` to semantically group step content
 - Uses `aria-roledescription="step"` to identify the element as a step to screen readers
-- Sets `aria-current="step"` on the active step for assistive technology
+- Sets `data-current` on the active step for assistive technology
 - Inactive steps use `hidden` attribute and `aria-hidden="true"` to be fully hidden
 - When `stepNumber` and `totalSteps` are provided, the label includes "Step N of M" progress info
 - Compound component: must be used inside a TourList container
@@ -48,7 +48,7 @@ This component is designed to be placed inside a TourList container. The consume
 - `role="group"` -- groups the step content semantically
 - `aria-roledescription="step"` -- identifies the element as a tour step
 - `aria-label` -- provides an accessible name, optionally including "Step N of M"
-- `aria-current="step"` -- indicates the currently active step
+- `data-current` -- indicates the currently active step
 - `aria-hidden="true"` -- hides inactive steps from assistive technology
 - `hidden` -- hides inactive steps from visual rendering
 

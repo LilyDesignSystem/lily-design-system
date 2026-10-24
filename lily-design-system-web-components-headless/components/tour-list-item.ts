@@ -46,7 +46,7 @@ export class TourListItem extends HTMLElement {
 
         const current = this.hasAttribute("current");
         if (current) {
-            li.setAttribute("aria-current", "step");
+            li.setAttribute("data-current", "");
         } else {
             li.setAttribute("aria-hidden", "true");
             li.hidden = true;

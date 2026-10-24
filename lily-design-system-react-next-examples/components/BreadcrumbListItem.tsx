@@ -2,7 +2,7 @@
 //
 // A single step in a breadcrumb navigation trail. Renders as a semantic <li>
 // element designed to be placed inside a BreadcrumbList component. Supports
-// aria-current="page" to indicate the user's current location. Typically
+// data-current to indicate the user's current location. Typically
 // contains a link for ancestor pages, or plain text for the current page.
 //
 // Props:
@@ -26,7 +26,7 @@
 //
 // Accessibility:
 //   - Implicit listitem role from the semantic <li> element
-//   - aria-current="page" set when current is true, indicating the user's location
+//   - data-current set when current is true, indicating the user's location
 //
 // Internationalization:
 //   - All text comes through children prop; no hardcoded strings
@@ -58,7 +58,7 @@ export default function BreadcrumbListItem({
     return (
         <li
         className={`breadcrumb-list-item ${className}`}
-        aria-current={current ? "page" : undefined}
+        data-current={current ? "" : undefined}
         {...restProps}
         >
         {children}

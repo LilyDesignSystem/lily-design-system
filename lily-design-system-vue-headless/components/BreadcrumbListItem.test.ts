@@ -18,12 +18,14 @@ describe("BreadcrumbListItem", () => {
   test("sets aria-current for current page", () => {
     render(Subject, { props: { current: true,
         "data-testid": "c" }, slots: { default: "Here" } });
-    expect(screen.getByTestId("c").getAttribute("aria-current")).toBe("page");
+    expect(screen.getByTestId("c").hasAttribute("data-current")).toBe(true);
+    // The item marks itself with data-current; aria-current is the consumer's, on the link or text inside.
+    expect(screen.getByTestId("c").hasAttribute("aria-current")).toBe(false);
   });
 
   test("no aria-current when not current", () => {
     render(Subject, { props: { "data-testid": "nc" }, slots: { default: "Link" } });
-    expect(screen.getByTestId("nc").getAttribute("aria-current")).toBeNull();
+    expect(screen.getByTestId("nc").hasAttribute("data-current")).toBe(false);
   });
 
   test("passes through attributes", () => {

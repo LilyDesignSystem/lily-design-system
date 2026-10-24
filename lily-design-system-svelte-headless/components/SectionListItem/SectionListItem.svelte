@@ -20,7 +20,7 @@
     class={`section-list-item ${className}`}
 
 
-    aria-current={current ? "page" : undefined}
+    data-current={current ? "" : undefined}
     {...restProps}
 >
     {@render children?.()}

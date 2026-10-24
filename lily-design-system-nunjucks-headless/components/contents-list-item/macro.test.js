@@ -19,18 +19,17 @@ describe("contents-list-item", () => {
     expect(document.querySelector("li a").textContent).toBe("Section 1");
   });
 
-  it("sets aria-current='location' when current is true", () => {
+  it("sets data-current when current is true", () => {
     const { document } = render("contents-list-item", {
       text: "Here",
       current: true,
     });
-    expect(document.querySelector("li").getAttribute("aria-current"))
-      .toBe("location");
+    expect(document.querySelector("li").hasAttribute("data-current")).toBe(true);
   });
 
-  it("omits aria-current when current is falsy", () => {
+  it("omits data-current when current is falsy", () => {
     const { document } = render("contents-list-item", { text: "x" });
-    expect(document.querySelector("li").hasAttribute("aria-current")).toBe(false);
+    expect(document.querySelector("li").hasAttribute("data-current")).toBe(false);
   });
 
   it("contains no <style> or <script> tags", () => {

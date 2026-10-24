@@ -1,12 +1,12 @@
 # StepListItem
 
-One step in a step list. Status is exposed as `data-status`. When `current=true`, `aria-current="step"` is set so assistive technology announces the active step.
+One step in a step list. Status is exposed as `data-status`. When `current=true`, `data-current` is set for your CSS and scripts. The component sets no `aria-current`: put `aria-current="step"` on the content inside if you want assistive technology to announce the active step.
 
 ## Implementation Notes
 
 - Root element is `<li>` (must be a child of `StepList`'s `<ol>`)
 - `data-status` is one of `"waiting" | "in-progress" | "finished" | "error"`
-- `aria-current="step"` only when `current=true`
+- `data-current` only when `current=true`
 
 ## Props
 
@@ -31,6 +31,6 @@ None at the item level. Interactive children handle their own keyboard.
 
 ## ARIA
 
-- `aria-current="step"` when `current=true`
+- `data-current` when `current=true`
 - `aria-label` from the optional `label` prop
 - `data-status` for consumer CSS styling hooks

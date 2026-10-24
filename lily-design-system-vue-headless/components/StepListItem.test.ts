@@ -50,21 +50,23 @@ describe("StepListItem", () => {
         expect(root.getAttribute("data-status")).toBe("error");
     });
 
-    test("aria-current step when current=true", () => {
+    test("data-current step when current=true", () => {
         const { container } = render(Subject, {
             props: { current: true },
             slots: { default: "Cart" },
         });
 
         const root: HTMLElement = container.firstElementChild as HTMLElement;
-        expect(root.getAttribute("aria-current")).toBe("step");
+        expect(root.hasAttribute("data-current")).toBe(true);
+        // The item marks itself with data-current; aria-current is the consumer's, on the link or text inside.
+        expect(root.hasAttribute("aria-current")).toBe(false);
     });
 
-    test("no aria-current when current=false", () => {
+    test("no data-current when current=false", () => {
         const { container } = render(Subject, { slots: { default: "Cart" } });
 
         const root: HTMLElement = container.firstElementChild as HTMLElement;
-        expect(root.getAttribute("aria-current")).toBeNull();
+        expect(root.hasAttribute("data-current")).toBe(false);
     });
 
     test("applies aria-label when provided", () => {

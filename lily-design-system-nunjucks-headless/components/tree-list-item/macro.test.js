@@ -28,10 +28,9 @@ describe("tree-list-item", () => {
     expect(document.querySelector("li").hasAttribute("aria-expanded")).toBe(false);
   });
 
-  it("sets aria-current='page' when current", () => {
+  it("sets data-current when current", () => {
     const { document } = render("tree-list-item", { text: "x", current: true });
-    expect(document.querySelector("li").getAttribute("aria-current"))
-      .toBe("page");
+    expect(document.querySelector("li").hasAttribute("data-current")).toBe(true);
   });
 
   it("sets aria-selected when selected", () => {

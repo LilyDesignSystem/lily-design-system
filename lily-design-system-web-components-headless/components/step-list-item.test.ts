@@ -49,11 +49,12 @@ describe("StepListItem (upgrade in place)", () => {
         expect(items.map((li) => li.getAttribute("data-status"))).toEqual(["finished", "in-progress", "waiting"]);
     });
 
-    test("aria-current=step is set only when current is present", () => {
+    test("data-current is set only when current is present", () => {
         renderList();
 
         const items = Array.from(document.querySelectorAll("li.step-list-item"));
-        expect(items.map((li) => li.getAttribute("aria-current"))).toEqual([null, "step", null]);
+        expect(items.map((li) => li.hasAttribute("data-current"))).toEqual([false, true, false]);
+        expect(items.some((li) => li.hasAttribute("aria-current"))).toBe(false);
     });
 
     test("aria-label equals the label prop when provided", () => {

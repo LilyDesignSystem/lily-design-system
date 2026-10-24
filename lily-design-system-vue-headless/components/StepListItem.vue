@@ -4,12 +4,12 @@
     //
     // One step in a step list with status of waiting, in progress, finished,
     // or error. Status is exposed as `data-status` for styling. When `current`
-    // is true, `aria-current="step"` is set.
+    // is true, `data-current` is set.
     //
     // Props:
     //   status  — "waiting" | "in-progress" | "finished" | "error",
     //             default "waiting".
-    //   current — boolean, default false. When true, sets aria-current="step".
+    //   current — boolean, default false. When true, sets data-current.
     //   label   — string, optional. aria-label override.
     //   default slot — content (typically title and description).
     //
@@ -17,7 +17,7 @@
     //   <StepListItem status="in-progress" :current="true">Address</StepListItem>
     //
     // Accessibility:
-    //   - aria-current="step" when current=true
+    //   - data-current when current=true
     //   - aria-label optional
     //
     // Internationalization:
@@ -34,7 +34,7 @@
     withDefaults(defineProps<{
         /** Step status. */
         status?: Status;
-        /** When true, renders aria-current="step". */
+        /** When true, renders data-current. */
         current?: boolean;
         /** aria-label override. */
         label?: string;
@@ -51,7 +51,7 @@
     <li
         class="step-list-item"
         :data-status="status"
-        :aria-current="current ? 'step' : undefined"
+        :data-current="current ? '' : undefined"
         :aria-label="label"
     >
         <slot />
