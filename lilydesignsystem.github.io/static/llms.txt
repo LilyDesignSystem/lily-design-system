@@ -48,6 +48,9 @@ actually live.
   is not verified by anything, and how to report a problem.
 - [News](https://lilydesignsystem.com/news/): announcements, release
   highlights, project status, and press contacts.
+- [Live demo (Svelte)](https://lilydesignsystem.com/demo/svelte/): a holy-grail application shell built from Lily components: header
+  navigation and picker bar in nine locales, collapsible icon rails, and a content area showing the data grid, kanban board,
+  Gantt chart, calendar, Markdown editor and Org editor.
 - [Markdown editor](https://lilydesignsystem.com/markdown-editor/): a textarea with a toolbar of rich-text
   buttons that write Markdown, in nine frameworks (not yet published).
 - [Label packs](https://lilydesignsystem.com/label-packs/): ready-made `labels` for the data grid,

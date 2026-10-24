@@ -31,6 +31,7 @@
       "links": [
         { "title": "Accessibility statement", "url": "https://lilydesignsystem.com/accessibility/", "description": "What targeting WCAG 2.2 AAA means here: what is verified, by what, what is not verified by anything, and how to report a problem." },
         { "title": "News", "url": "https://lilydesignsystem.com/news/", "description": "Announcements, release highlights, project status, and press contacts." },
+        { "title": "Live demo (Svelte)", "url": "https://lilydesignsystem.com/demo/svelte/", "description": "A holy-grail application shell built from Lily components: header navigation and picker bar in nine locales, collapsible icon rails, and a content area showing the data grid, kanban board, Gantt chart, calendar, Markdown editor and Org editor." },
         { "title": "Markdown editor", "url": "https://lilydesignsystem.com/markdown-editor/", "description": "A textarea with a toolbar of rich-text buttons that write Markdown, in nine frameworks (not yet published)." },
         { "title": "Label packs", "url": "https://lilydesignsystem.com/label-packs/", "description": "Ready-made labels for the data grid, kanban board, calendar, Gantt chart and filter in 64 locales (63 are unreviewed drafts), and how to load one in every framework." },
         { "title": "Roadmap", "url": "https://lilydesignsystem.com/roadmap/", "description": "What the project is working on and planning next." },

@@ -19,6 +19,9 @@
     return match && match[1] in LOCALE_LABELS ? match[1] : DEFAULT_LOCALE;
   });
 
+  // The /demo/ pages are self-contained apps with their own shell, so they skip the site's header and footer.
+  const bare = $derived(page.url.pathname.startsWith('/demo/'));
+
   const strings = $derived(ui(currentLocale));
 
   const homeHref = $derived(currentLocale === DEFAULT_LOCALE ? '/' : `/${currentLocale}/`);
@@ -43,11 +46,15 @@
   // hook), and LocalePicker's own onChange handles the case where the
   // user switches locale without a full navigation.
   $effect(() => {
+    if (bare) return; // /demo/ pages let their own locale picker set <html lang dir>
     document.documentElement.lang = bcp47Tag(currentLocale);
     document.documentElement.dir = isRtl(currentLocale) ? 'rtl' : 'ltr';
   });
 </script>
 
+{#if bare}
+  {@render children()}
+{:else}
 <a class="skip-link" href="#main">{strings.skipLink}</a>
 
 <header class="site-header">
@@ -91,3 +98,4 @@
     </div>
   </div>
 </footer>
+{/if}
