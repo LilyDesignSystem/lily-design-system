@@ -95,6 +95,14 @@ function buttonNamed(name: string): HTMLButtonElement {
   return Array.from(document.querySelectorAll("button")).find((b) => b.textContent === name) as HTMLButtonElement;
 }
 
+/** The collapse button for a task, found by its state: its chevron points down when open, right when collapsed. */
+function collapseChevron(collapsed: boolean): HTMLButtonElement {
+  const d = collapsed ? "M5 2l6 6-6 6" : "M2 5l6 6 6-6";
+  return Array.from(document.querySelectorAll<HTMLButtonElement>("button.gantt-chart-collapse-button")).find(
+    (b) => b.querySelector("path")?.getAttribute("d") === d,
+  ) as HTMLButtonElement;
+}
+
 // The composed <lily-date-time-picker>'s own footer can ALSO carry a
 // button whose text is "Cancel"/"Confirm" (from DTP_LABELS below), so
 // gantt-chart's own Save/Cancel controls must be queried by class, not
@@ -216,15 +224,17 @@ describe("GanttChart — row hierarchy (§8.5, §8.6)", () => {
   test("§8.6 collapsing a parent removes its descendant rows from the DOM outright", () => {
     mount({ labels: LABELS });
     expect(rows()).toHaveLength(6);
-    const collapseButton = buttonNamed("▾");
+    const collapseButton = collapseChevron(false);
     expect(collapseButton.getAttribute("aria-label")).toBe("Collapse Phase 1");
     expect(collapseButton.getAttribute("aria-expanded")).toBe("true");
     click(collapseButton);
     expect(rows()).toHaveLength(4);
     expect(document.body.textContent).not.toContain("Child A");
-    const expandButton = buttonNamed("▸");
+    const expandButton = collapseChevron(true);
     expect(expandButton.getAttribute("aria-label")).toBe("Expand Phase 1");
     expect(expandButton.getAttribute("aria-expanded")).toBe("false");
+    expect(expandButton.textContent).toBe("");
+    expect(expandButton.querySelector("svg")!.getAttribute("aria-hidden")).toBe("true");
   });
 });
 

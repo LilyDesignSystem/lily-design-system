@@ -1,8 +1,4 @@
 {
-  "web-components/kanban-board class:kanban-board-move-icon": "Open drift, found 2026-10-23 when the check was written: the HTML helper has it, the Web Components port does not; confirm whether it is deliberate or port it",
-  "web-components/gantt-chart class:gantt-chart-collapse-icon": "Open drift, found 2026-10-23 when the check was written: the HTML helper has it, the Web Components port does not; confirm whether it is deliberate or port it",
-  "web-components/gantt-chart class:gantt-chart-end-picker": "Open drift, found 2026-10-23 when the check was written: the HTML helper has it, the Web Components port does not; confirm whether it is deliberate or port it",
-  "web-components/gantt-chart class:gantt-chart-start-picker": "Open drift, found 2026-10-23 when the check was written: the HTML helper has it, the Web Components port does not; confirm whether it is deliberate or port it",
   "alpine/data-grid class:data-grid-avatar": "Alpine helpers are a subset of the Svelte reference; not yet ported",
   "alpine/data-grid class:data-grid-cell-editor": "Alpine helpers are a subset of the Svelte reference; not yet ported",
   "alpine/data-grid class:data-grid-cell-error": "Alpine helpers are a subset of the Svelte reference; not yet ported",

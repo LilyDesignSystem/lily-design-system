@@ -740,6 +740,26 @@ export class GanttChart extends HTMLElement {
 
   // ---- Lifecycle ----
 
+  /** Default collapse-button glyph: a chevron, `aria-hidden`. Override to replace it. */
+  renderCollapseIcon(collapsed: boolean): Node {
+    const NS = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("class", "gantt-chart-collapse-icon");
+    svg.setAttribute("viewBox", "0 0 16 16");
+    svg.setAttribute("width", "0.85rem");
+    svg.setAttribute("height", "0.85rem");
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("fill", "none");
+    svg.setAttribute("stroke", "currentColor");
+    svg.setAttribute("stroke-width", "1.8");
+    svg.setAttribute("stroke-linecap", "round");
+    svg.setAttribute("stroke-linejoin", "round");
+    const path = document.createElementNS(NS, "path");
+    path.setAttribute("d", collapsed ? "M5 2l6 6-6 6" : "M2 5l6 6 6-6");
+    svg.appendChild(path);
+    return svg;
+  }
+
   connectedCallback(): void {
     this.#render();
   }
@@ -1200,6 +1220,7 @@ export class GanttChart extends HTMLElement {
     });
 
     const startPicker = document.createElement("lily-date-time-picker") as DateTimePickerElement;
+    startPicker.className = "gantt-chart-start-picker";
     startPicker.setAttribute("label", this.#labels.startLabel ?? "");
     startPicker.mode = "date";
     startPicker.labels = dateTimePickerLabels;
@@ -1211,6 +1232,7 @@ export class GanttChart extends HTMLElement {
     td.appendChild(startPicker);
 
     const endPicker = document.createElement("lily-date-time-picker") as DateTimePickerElement;
+    endPicker.className = "gantt-chart-end-picker";
     endPicker.setAttribute("label", this.#labels.endLabel ?? "");
     endPicker.mode = "date";
     endPicker.labels = dateTimePickerLabels;
@@ -1760,7 +1782,7 @@ export class GanttChart extends HTMLElement {
         const isCollapsed = this.#collapsed.has(row.task.id);
         collapseButton.setAttribute("aria-expanded", String(!isCollapsed));
         collapseButton.setAttribute("aria-label", this.#labels.collapseButton(row.task, isCollapsed));
-        collapseButton.textContent = isCollapsed ? "▸" : "▾";
+        collapseButton.appendChild(this.renderCollapseIcon(isCollapsed));
         collapseButton.addEventListener("click", () => this.#toggleCollapse(row.task.id));
         rowHeader.appendChild(collapseButton);
       }

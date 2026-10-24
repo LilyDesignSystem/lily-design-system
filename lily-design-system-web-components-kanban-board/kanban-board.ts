@@ -847,6 +847,26 @@ export class KanbanBoard extends HTMLElement {
 
   // ---- Lifecycle ----
 
+  /** Default move-button icon: a swap-arrows SVG, `aria-hidden`, so the accessible name is `labels.moveButton` alone. Override to replace it. */
+  renderMoveButtonIcon(): Node {
+    const NS = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("class", "kanban-board-move-icon");
+    svg.setAttribute("viewBox", "0 0 16 16");
+    svg.setAttribute("width", "1rem");
+    svg.setAttribute("height", "1rem");
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("fill", "none");
+    svg.setAttribute("stroke", "currentColor");
+    svg.setAttribute("stroke-width", "1.6");
+    svg.setAttribute("stroke-linecap", "round");
+    svg.setAttribute("stroke-linejoin", "round");
+    const path = document.createElementNS(NS, "path");
+    path.setAttribute("d", "M2 5h9m0 0-3-3m3 3-3 3M14 11H5m0 0 3-3m-3 3 3 3");
+    svg.appendChild(path);
+    return svg;
+  }
+
   connectedCallback(): void {
     this.#render();
   }
@@ -2292,7 +2312,7 @@ export class KanbanBoard extends HTMLElement {
             buttonHost.setAttribute("aria-haspopup", "listbox");
             buttonHost.setAttribute("aria-expanded", "false");
             buttonHost.setAttribute("aria-controls", this.#moveListId(card.id));
-            buttonHost.textContent = "⇄";
+            buttonHost.appendChild(this.renderMoveButtonIcon());
             buttonHost.addEventListener("click", () => {
               if (this.#openCardId === card.id) this.#closeMoveMenu();
               else this.#openMoveMenu(card);
