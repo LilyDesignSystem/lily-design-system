@@ -51,6 +51,9 @@ EXTRA_TARGETS = {
     "markdown-format.ts": [
         "lily-design-system-nunjucks-markdown-editor/markdown-format.js",
     ],
+    "org-format.ts": [
+        "lily-design-system-nunjucks-org-editor/org-format.js",
+    ],
     "wheel-picker.ts": [
         "lily-design-system-svelte-headless/components/WheelPicker/wheel-picker.ts",
         "lily-design-system-react-headless/components/wheel-picker.ts",
