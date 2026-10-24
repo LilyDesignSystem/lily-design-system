@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>lily-markdown-editor — basic</title>
+  </head>
+  <body>
+    <form>
+      <lily-markdown-editor label="Message" toolbar-label="Formatting" name="body" rows="8" value="Hello **world**"></lily-markdown-editor>
+      <button type="submit">Send</button>
+    </form>
+    <script type="module">
+      import "../dist/index.js";
+      document.querySelector("lily-markdown-editor").labels = {
+        heading: "Heading", bold: "Bold", italic: "Italic", strikethrough: "Strikethrough", code: "Code",
+        link: "Link", quote: "Quote", bulletList: "Bulleted list", numberedList: "Numbered list",
+      };
+    </script>
+  </body>
+</html>
