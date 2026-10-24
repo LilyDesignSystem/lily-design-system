@@ -15,11 +15,11 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@11ty/eleventy": "^3.1.6",
+    "@11ty/eleventy": "^3.1.7",
     "nunjucks": "^3.2.4"
   },
   "devDependencies": {
-    "@axe-core/playwright": "^4.13.0",
+    "@axe-core/playwright": "^4.14.0",
     "@playwright/test": "^1.64.1",
     "http-server": "^14.1.1"
   },
