@@ -65,6 +65,7 @@
     //   - WAI-ARIA Alert and Message Dialogs Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/
 
     import type { Snippet } from "svelte";
+    import { modalDialog } from "../Dialog/modal.js";
 
     let {
         class: className = "",
@@ -95,7 +96,12 @@
 {#if open}
     <dialog
         class={`alert-dialog ${className}`}
-        open
+        use:modalDialog={true}
+        oncancel={(event) => {
+            event.preventDefault();
+            open = false;
+        }}
+        onclose={() => (open = false)}
         role="alertdialog"
         aria-labelledby={titleId}
         aria-describedby={description ? descriptionId : undefined}

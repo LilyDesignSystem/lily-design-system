@@ -8,6 +8,7 @@ This component is useful in applications that need custom file operation interfa
 
 ## Implementation Notes
 
+- Opened with `.showModal()` (always modal): the page behind is inert, focus is trapped and returns to the opener on close; the native `cancel` and `close` events set `open` to false
 - Conditionally renders a `<dialog open>` element only when `open` is true
 - Supports two-way binding on the `open` prop for two-way state binding
 - Uses the native `<dialog>` HTML element with the `open` attribute

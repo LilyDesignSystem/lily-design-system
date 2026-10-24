@@ -3797,3 +3797,140 @@
 :where(a, code) {
     overflow-wrap: anywhere;
 }
+
+/* ============================================================================
+ * Helper packages — layout and look, shared verbatim by all themes.
+ *
+ * The data grid, kanban board, Gantt chart and calendar view are wide by nature.
+ * Each root scrolls sideways inside its own box and its table sizes to its content,
+ * so a narrow screen scrolls the table instead of wrapping every cell to a letter
+ * (the overflow guard above lets cells break anywhere, which is right for prose and
+ * wrong for a table that has a scroller). The toolbar controls of all four helpers
+ * share the data grid's look, every button has a >=24px target (WCAG 2.2 2.5.8), and
+ * the Gantt chart draws its bars from `data-in-range`, a milestone as a diamond and
+ * today as a rule. :where() keeps specificity at zero, so any consumer rule wins.
+ * ========================================================================= */
+
+:where(.data-grid, .kanban-board, .gantt-chart, .calendar-view) {
+    max-inline-size: 100%;
+    overflow-x: auto;
+}
+
+:where(.data-grid table, .kanban-board table, .gantt-chart table, .calendar-view table) {
+    inline-size: max-content;
+    min-inline-size: 100%;
+}
+
+:where(.kanban-board-export, .gantt-chart-export, .gantt-chart-zoom, .calendar-view-export,
+       .calendar-view-toolbar, .calendar-view-nav, .calendar-view-switcher) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--lily-space-sm);
+    align-items: center;
+    margin-block-end: var(--lily-space-sm);
+}
+
+:where(.kanban-board-search, .gantt-chart-search, .calendar-view-search) {
+    padding: var(--lily-space-xs) var(--lily-space-sm);
+    border: var(--border) solid var(--lily-border);
+    border-radius: var(--lily-radius-sm);
+    background-color: var(--lily-surface);
+    color: var(--lily-text);
+    font: inherit;
+    min-block-size: 24px;
+}
+
+:where(.kanban-board-export-button,
+       .kanban-board-add-button,
+       .kanban-board-undo-button,
+       .kanban-board-collapse-button,
+       .kanban-board-lane-toggle,
+       .kanban-board-move-button,
+       .gantt-chart-export-button,
+       .gantt-chart-zoom-in-button,
+       .gantt-chart-zoom-out-button,
+       .gantt-chart-collapse-button,
+       .gantt-chart-collapse-all-button,
+       .gantt-chart-expand-all-button,
+       .gantt-chart-save-button,
+       .gantt-chart-cancel-button,
+       .calendar-view-export-button,
+       .calendar-view-previous-button,
+       .calendar-view-next-button,
+       .calendar-view-today-button,
+       .calendar-view-switcher-button) {
+    padding: var(--lily-space-xs) var(--lily-space-md);
+    border: var(--border) solid var(--lily-border);
+    border-radius: var(--lily-radius-sm);
+    background-color: var(--lily-surface);
+    color: var(--lily-text);
+    font: inherit;
+    cursor: pointer;
+    min-inline-size: 24px;
+    min-block-size: 24px;
+}
+
+:where(.kanban-board-export-button:disabled,
+       .kanban-board-add-button:disabled,
+       .kanban-board-undo-button:disabled,
+       .gantt-chart-export-button:disabled,
+       .gantt-chart-zoom-in-button:disabled,
+       .gantt-chart-zoom-out-button:disabled,
+       .calendar-view-export-button:disabled,
+       .calendar-view-previous-button[aria-disabled="true"],
+       .calendar-view-next-button[aria-disabled="true"]) {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+:where(.calendar-view-switcher-button[aria-pressed="true"]) {
+    background-color: var(--color-base-300);
+    font-weight: 600;
+}
+
+:where(.kanban-board-status, .gantt-chart-status, .calendar-view-status) {
+    margin-block-start: var(--lily-space-sm);
+    font-size: 0.875em;
+    opacity: 0.8;
+}
+
+:where(.calendar-view-event) {
+    display: block;
+    padding: 0 var(--lily-space-xs);
+    border-radius: var(--lily-radius-sm);
+    background-color: color-mix(in srgb, var(--color-primary) 18%, transparent);
+    font-size: 0.75rem;
+}
+
+:where(.gantt-table-th) {
+    min-inline-size: 2rem;
+    padding-inline: 0.25rem;
+    font-size: 0.75rem;
+    text-align: center;
+    white-space: nowrap;
+}
+
+:where(.gantt-table-th[scope="row"], .gantt-table-th:first-child) {
+    min-inline-size: 10rem;
+    padding-inline: var(--lily-space-sm);
+    font-size: inherit;
+    text-align: start;
+    white-space: normal;
+}
+
+:where(.gantt-table-td) {
+    min-block-size: 1.7rem;
+    padding: 0;
+}
+
+:where(.gantt-table-td[data-in-range]) {
+    background-color: var(--color-primary);
+}
+
+:where(.gantt-table-td[data-in-range][data-milestone]) {
+    clip-path: polygon(50% 8%, 92% 50%, 50% 92%, 8% 50%);
+}
+
+:where(.gantt-table-td[data-today]) {
+    border-inline-start: 2px solid var(--color-accent);
+}

@@ -47,6 +47,11 @@ This headless component renders semantic HTML with appropriate ARIA wiring. The 
 
 The component renders with `.section-list-item` as the root class. No default styles are included.
 
+## Advice
+
+- **Developers**: `current` puts `aria-current="page"` on the `<li>`, which is valid, but screen readers announce it most reliably on the link a user lands on. When the item holds a link, also put `aria-current="page"` on that link (as `PaginationListItem` advises), or pass it through as a rest prop on the `<a>` you render. The `<li>` keeps it so the contract is unchanged.
+- **Designers**: Style the current section with more than colour (weight, a marker, or an underline): `[aria-current="page"]` selects both the item and its link.
+
 ## Related components
 
 - `section-list` — parent list

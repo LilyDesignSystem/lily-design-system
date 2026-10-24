@@ -1,2 +1,3 @@
-export * from "./label-pack";
-export * from "./label-pack-nunjucks";
+export * from "./label-pack.js";
+export * from "./label-pack-nunjucks.js";
+export * from "./intl-labels.js";

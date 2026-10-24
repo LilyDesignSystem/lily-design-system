@@ -47,6 +47,7 @@
     //   - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
     //   - MDN dialog element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog
     import type { Snippet } from "svelte";
+    import { modalDialog } from "../Dialog/modal.js";
     let {
         class: className = "",
         label,
@@ -71,7 +72,12 @@
 {#if open}
     <dialog
         class={`file-dialog ${className}`}
-        open
+        use:modalDialog={true}
+        oncancel={(event) => {
+            event.preventDefault();
+            open = false;
+        }}
+        onclose={() => (open = false)}
         tabindex="-1"
         aria-label={label}
         {onkeydown}

@@ -2,8 +2,8 @@ import { readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import type { LabelHelper, LabelPack } from "./label-pack";
-import { nunjucksLabelsFor } from "./label-pack-nunjucks";
+import type { LabelHelper, LabelPack } from "./label-pack.js";
+import { nunjucksLabelsFor } from "./label-pack-nunjucks.js";
 
 const dir = join(dirname(fileURLToPath(import.meta.url)), "label-packs");
 const packs = new Map<string, LabelPack>(

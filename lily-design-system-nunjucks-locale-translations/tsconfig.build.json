@@ -10,6 +10,7 @@
   "include": [
     "index.ts",
     "label-pack.ts",
+    "intl-labels.ts",
     "label-pack-nunjucks.ts"
   ]
 }

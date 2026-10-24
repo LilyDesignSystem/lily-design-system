@@ -19,7 +19,7 @@
  *  - the labels that depend on how the locale writes dates (weekday names, period titles, the Gantt column label) are not in a pack.
  */
 
-import { labelsFor, mergedLabels, type LabelHelper, type LabelPack } from "./label-pack";
+import { labelsFor, mergedLabels, type LabelHelper, type LabelPack } from "./label-pack.js";
 
 export type NunjucksLabels = {
     /** For the macro's `labels` param: JSON-safe, in the helper's own key names and `{token}` names. */

@@ -13,6 +13,19 @@
         children: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    // Always rendered, shown while `open`: as a real modal where the browser has one (see Dialog/modal.ts).
+    let el: HTMLDialogElement | undefined = $state(undefined);
+    $effect(() => {
+        if (!el) return;
+        if (open && !el.open) {
+            if (typeof el.showModal === "function") el.showModal();
+            else el.setAttribute("open", "");
+        } else if (!open && el.open) {
+            if (typeof el.close === "function") el.close();
+            else el.removeAttribute("open");
+        }
+    });
 </script>
 
 <!-- TimeoutDialog.svelte -->
@@ -20,7 +33,7 @@
     class={`timeout-dialog ${className}`}
     role="alertdialog"
     aria-label={label}
-    {open}
+    bind:this={el}
     {...restProps}
 >
     {@render children?.()}

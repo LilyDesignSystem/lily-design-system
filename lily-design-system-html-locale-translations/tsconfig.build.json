@@ -9,6 +9,7 @@
   },
   "include": [
     "index.ts",
-    "label-pack.ts"
+    "label-pack.ts",
+    "intl-labels.ts"
   ]
 }

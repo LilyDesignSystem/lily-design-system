@@ -14,7 +14,7 @@
 
 - Renders a native `<dialog>` element conditionally via conditional rendering
 - Supports two-way binding on the `open` prop with the parent
-- The `open` HTML attribute is set directly on the dialog element (not using `.showModal()`)
+- A modal dialog (`modal`, the default) is opened with `.showModal()`, so the browser makes the page behind it inert, traps focus inside, and gives focus back to the opener when it closes; a non-modal one (`modal={false}`) is shown with the `open` attribute. Where `showModal` does not exist (jsdom) it falls back to the `open` attribute. The native `cancel` and `close` events (Escape, `<form method="dialog">`) set `open` to false
 - `tabindex="-1"` is set on the dialog to ensure it can receive focus and keyboard events
 - Escape key handler sets `open` to false and prevents default browser behavior
 - The `modal` prop controls whether `aria-modal` is set (defaults to true)

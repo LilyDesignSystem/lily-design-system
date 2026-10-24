@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { fillTemplate, labelsFor, SPEC, type LabelHelper, type LabelPack } from "./label-pack";
+import { fillTemplate, labelsFor, SPEC, type LabelHelper, type LabelPack } from "./label-pack.js";
 
 const dir = join(dirname(fileURLToPath(import.meta.url)), "label-packs");
 const files = readdirSync(dir).filter((f) => f.endsWith(".json")).sort();

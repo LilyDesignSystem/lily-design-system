@@ -16,6 +16,7 @@ critical error messages that require acknowledgment.
 
 ## Implementation Notes
 
+- Opened with `.showModal()` (always modal): the page behind is inert, focus is trapped and returns to the opener on close; the native `cancel` and `close` events set `open` to false
 - Uses native HTML `<dialog>` element with the `open` attribute for visibility
 - `role="alertdialog"` distinguishes from regular dialogs -- indicates critical content requiring acknowledgment
 - two-way binding on the `open` prop for dialog visibility
