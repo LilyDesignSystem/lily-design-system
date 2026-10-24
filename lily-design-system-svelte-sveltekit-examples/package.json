@@ -26,7 +26,7 @@
     "svelte": "^5.57.2",
     "svelte-check": "^4.7.7",
     "typescript": "^6.0.3",
-    "vite": "^8.3.4",
+    "vite": "^8.3.5",
     "vitest": "^5.0.5"
   },
   "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
@@ -41,9 +41,9 @@
     "url": "https://github.com/LilyDesignSystem/lily-design-system/issues"
   },
   "dependencies": {
-    "@lilydesignsystem/svelte-locale-picker": "0.2.0",
-    "@lilydesignsystem/svelte-text-size-picker": "0.2.0",
-    "@lilydesignsystem/svelte-theme-picker": "0.2.0"
+    "@lilydesignsystem/svelte-locale-picker": "0.3.1",
+    "@lilydesignsystem/svelte-text-size-picker": "0.3.0",
+    "@lilydesignsystem/svelte-theme-picker": "0.3.0"
   },
   "imports": {
     "#lib": "./src/lib/index.js",
