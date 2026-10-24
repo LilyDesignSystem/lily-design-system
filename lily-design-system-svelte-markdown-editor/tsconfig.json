@@ -23,6 +23,8 @@
     "build.js",
     "vitest-setup.js",
     "examples",
+    "e2e",
+    "playwright.config.ts",
     "docs",
     "**/*.stories.svelte"
   ]

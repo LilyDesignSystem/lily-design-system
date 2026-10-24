@@ -77,6 +77,16 @@ entry in `labels` is not rendered: an unnamed button is worse than no button.
 - **Shortcuts.** `Ctrl`/`Cmd` + `B`, `I` and `K` apply bold, italic and link —
   only when that tool is shown.
 
+## Undo and redo (checked in real browsers)
+
+`npm run test:e2e` runs `e2e/undo.spec.ts` in Chromium, Firefox and WebKit. As of 2026-10-24:
+
+| Engine   | Result |
+| -------- | ------ |
+| Chromium | Passes: a tool, native undo and redo; each tool is its own undo step; typing after a tool undoes separately. |
+| WebKit   | Passes with one difference: it merges consecutive edits into one undo step, so two tools undo together, and undoing after typing also removes the tool just applied. |
+| Firefox  | **Not run.** Playwright's Firefox 157 does not launch on the maintainer's macOS ("Could not find profile folder"); run it elsewhere before relying on it. |
+
 ## Markup
 
 ```html

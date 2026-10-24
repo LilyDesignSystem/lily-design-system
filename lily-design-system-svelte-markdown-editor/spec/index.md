@@ -77,6 +77,8 @@ textarea, decorative icons, supplied names. See [docs/accessibility.md](../docs/
 
 - [x] One test per behaviour clause above (`format.test.ts`, `MarkdownEditor.test.ts`).
 - [x] Mutation-checked: removing the readonly guard or the roving tab stop fails a test.
+- [x] Real-browser undo / redo: `e2e/undo.spec.ts` passes in Chromium and WebKit (WebKit merges consecutive edits into one undo step).
+- [ ] The same spec in Firefox (does not launch on the maintainer's machine).
 - [x] `svelte-check` clean; `npm run build` emits `dist/` with `format.js`.
 - [ ] Ports to the other seven helper catalogs (React, Vue, Angular, HTML,
       Nunjucks, Blazor, Web Components, Alpine) — not started.
