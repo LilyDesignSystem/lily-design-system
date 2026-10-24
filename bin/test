@@ -401,6 +401,8 @@ test_lockfiles_are_tracked
     || err "a published package names a repository other than the monorepo; run bin/check-package-metadata"
 "$top/bin/generate-api-docs" --check >/dev/null 2>&1 \
     || err "site contract sections drift from components/*/AGENTS.md; run bin/generate-api-docs"
+"$top/bin/generate-page-markdown" --check >/dev/null 2>&1 \
+    || err "a site page's .md twin is missing or stale; run bin/generate-page-markdown"
 "$top/bin/extract-site-pages" --check >/dev/null 2>&1 \
     || err "site pages' English sources drift from their routes; run bin/extract-site-pages"
 "$top/bin/check-site-page-translations" >/dev/null 2>&1 \
@@ -423,6 +425,10 @@ test "$dry_before" = "$(git -C "$top" status --porcelain | cksum)" \
     || err "a scaffolder --dry-run changed the working tree"
 "$top/bin/check-generated-files" >/dev/null 2>&1 \
     || err "the Generated files table in AGENTS/lily.md disagrees with bin/; run bin/check-generated-files"
+"$top/bin/check-port-parity" --quiet >/dev/null 2>&1 \
+    || err "a port (Web Components, Alpine) drifted from its reference; run bin/check-port-parity"
+"$top/bin/test-generators" >/dev/null 2>&1 \
+    || err "a generator's output differs from its golden; run bin/test-generators (then --update-goldens if intended)"
 
 if test -s "$ERRFLAG"; then
     >&2 printf %s\\n "bin/test: FAILED"

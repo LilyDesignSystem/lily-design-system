@@ -2426,7 +2426,7 @@ lessons topics. Numbers in the spec were measured 2026-10-22 from shallow clones
   registries, `component-examples` data, `/r/{slug}.json`, `components-categories.tsv`, the sitemap, mirrored example
   components and `shared/` copies. Spec item 1.
   Verify: a script fails when a generator in the table has no `--check`; `bin/test` runs it.
-- [ ] **P13-T2 `.md` twin for every site page.** Today only `/components/{slug}.md` exists. Add twins for the eight main
+- [~] **P13-T2 (English done 2026-10-23: `bin/generate-page-markdown` writes `static/<route>.md` for the 22 text pages, `--check` in `bin/test`, linked from the site `llms.txt` / `llms.json`; the translated pages and the topic index pages have no twin yet; the repo-root `llms.txt` is unchanged) `.md` twin for every site page.** Today only `/components/{slug}.md` exists. Add twins for the eight main
   pages, the translated pages and the topic index pages, and link them from `llms.txt` / `llms.json`. Spec item 2.
   Verify: a drift check fails when a route with an HTML page has no `.md` twin or allow-listed reason.
 - [ ] **P13-T3 One per-component Markdown URL convention.** Choose `/components/{slug}.md` (today) or
@@ -2436,18 +2436,18 @@ lessons topics. Numbers in the spec were measured 2026-10-22 from shallow clones
 - [x] **P13-T4 (done 2026-10-23: all three scaffolders; `bin/test` asserts the tree is unchanged) `--dry-run` on the scaffolders.** `bin/new-component`, `bin/create-component-directory`,
   `bin/create-implementation-directory` list each path and created/overwritten without writing. Spec item 4.
   Verify: a test that a dry run leaves `git status` clean.
-- [ ] **P13-T5 Golden tests for the generators.** A three-component fixture catalogue with golden outputs for
+- [x] **P13-T5 (done 2026-10-23: `bin/test-generators`, a three-component fixture under `test/generators/` and goldens for all four generators (`generate-site-pages` starts from `generate-examples`' golden), in `bin/test`; each generator takes a `LILY_ROOT` override; CI not yet wired beyond `bin/test`) Golden tests for the generators.** A three-component fixture catalogue with golden outputs for
   `bin/generate-registries`, `generate-examples`, `generate-site-pages`, `generate-api-docs`; goldens regenerate only by
   an explicit flag and the diff is reviewed. Spec item 5.
   Verify: the golden tests run in `bin/test` and CI; a deliberate generator change fails them.
-- [~] **P13-T6 (docs done 2026-10-23, Playwright check open: a "Reduced motion" section in `skeleton`, `loading`, `slide-out-drawer`, `scroller`, `scroller-video`, `slider` and `carousel`; the Playwright check is not written) "Reduced motion" sections.** For `carousel`, `slider`, `skeleton`, `slide-out-drawer`, `loading`,
+- [x] **P13-T6 (done 2026-10-24: `e2e/reduced-motion.spec.ts` in the SvelteKit examples runs five demos with `reducedMotion: "reduce"` and asserts content and accessible names, 5 passing; it does not assert the themes stop animating, which is P12-T12. Docs done 2026-10-23: a "Reduced motion" section in `skeleton`, `loading`, `slide-out-drawer`, `scroller`, `scroller-video`, `slider` and `carousel`; "Reduced motion" sections.** For `carousel`, `slider`, `skeleton`, `slide-out-drawer`, `loading`,
   `scroller*`: what to suppress and what must survive (content, focus, order); reduced motion changes how content appears,
   never whether. Spec item 6. Related: P12-T12 (themes honour `data-motion`).
   Verify: Playwright runs three affected demos with `reducedMotion: "reduce"` and asserts content is present.
-- [ ] **P13-T7 `bin/check-port-parity`.** For Web Components (vs HTML) and Alpine (vs Svelte): public names (props, events,
+- [~] **P13-T7 (first cut 2026-10-23: class hooks, custom events and, for Web Components, observed attributes; wired into `bin/test`; Alpine props are not compared yet, and the 141 baseline differences in `bin/check-port-parity.allow.json` carry placeholder reasons to review) `bin/check-port-parity`.** For Web Components (vs HTML) and Alpine (vs Svelte): public names (props, events,
   class hooks) in the reference and missing from the port, with an allow-list and a reason per difference. Spec item 7.
   Verify: runs in `bin/test`; an unlisted difference fails.
-- [ ] **P13-T8 Open-in-assistant recipe.** From sv-chanhdai's `open-in-chat`: a recipe on `menu-picker` or `share-picker`
+- [x] **P13-T8 (done 2026-10-23: recipe in `lily-design-system-svelte-share-picker/index.md`, one test; the other seven `share-picker` ports and the recipes layer from coss-ui-lessons are not touched) Open-in-assistant recipe.** From sv-chanhdai's `open-in-chat`: a recipe on `menu-picker` or `share-picker`
   with consumer-supplied `targets` each having `href(query)`; **no bundled provider URLs** (as `share-picker`). One recipe
   also serves the AI page links in `daisyui-lessons` and Copy Markdown in `coss-ui-lessons`. Spec item 8.
   Verify: the recipe's test asserts real `<a rel="noopener">` links and a URL-encoded query.
@@ -2457,7 +2457,7 @@ lessons topics. Numbers in the spec were measured 2026-10-22 from shallow clones
   `role="status"` / `role="alert"`, reserved width) — chanhdai's `status-button` is the model. Promise handling stays the
   consumer's. Spec items 9 and 12.
   Verify: a test per library that pending keeps focus and a second click does nothing.
-- [ ] **P13-T10 Package-manager tabs recipe.** From `pm-command`: `tabs` + `clipboard-copy-button` + `code`, command strings
+- [~] **P13-T10 (recipe written 2026-10-23 as a Usage example in `clipboard-copy-button`; the docs site's install blocks do not use it yet and the axe sweep is not run) Package-manager tabs recipe.** From `pm-command`: `tabs` + `clipboard-copy-button` + `code`, command strings
   supplied by the page, no new dependency; used by the docs site's install blocks. A recipe, not a catalog component.
   Spec item 10.
   Verify: the install blocks use it and pass the axe sweep.

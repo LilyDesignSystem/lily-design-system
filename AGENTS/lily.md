@@ -241,6 +241,7 @@ exemptions.
 | each headless library's components | `bin/sync-example-components` | the same components inside each example app | `bin/sync-example-components --check` |
 | `shared/*.ts`, `shared/label-packs/*.json` | `bin/sync-shared-modules` | each package's copy of a shared module, and the locale-translations label packs | `bin/sync-shared-modules --check` |
 | the root special files (LICENSE, CONTRIBUTING, …) | `bin/sync-special-files` | the same files in every subproject | `bin/sync-special-files --check` |
+| `src/lib/pages/*/en.html` | `bin/generate-page-markdown` | `static/<route>.md`, one Markdown twin per English text page | `bin/generate-page-markdown --check` |
 | the site's English route pages | `bin/extract-site-pages` | `src/lib/pages/{slug}/en.html` | `bin/extract-site-pages --check` |
 | `src/lib/pages/*` translations | `bin/generate-locale-pages` | `src/routes/<code>/<slug>/+page.svelte` | `bin/generate-locale-pages --check` |
 
@@ -255,6 +256,7 @@ Also copied rather than generated: `bin/sync` rsyncs the root `AGENTS/` and `the
 - [list-components-as-pascal-case](../bin/list-components-as-pascal-case): List components as PascalCase
 - [list-implementations](../bin/list-implementations): List implementation directories
 - [list-helper-packages](../bin/list-helper-packages): List one framework's top-level helper packages in dependency (build) order
+- [check-port-parity](../bin/check-port-parity): Web Components helpers vs the HTML ones, Alpine vs Svelte: class hooks, events and attributes missing from the port, unless allow-listed with a reason
 - [check-generated-files](../bin/check-generated-files): The Generated files table above lists every generator and its `--check`, and none is missing or invented
 - [check-package-metadata](../bin/check-package-metadata): Every published npm/NuGet package names the monorepo as its source repository — packages publish from the monorepo
 - [create-component-directory](../bin/create-component-directory): Scaffold one component directory
@@ -278,6 +280,7 @@ Also copied rather than generated: `bin/sync` rsyncs the root `AGENTS/` and `the
 - [check-coverage](../bin/check-coverage): Coverage drift matrix — per-component file presence across all 7 headless libraries
 - [generate-theme-tokens](../bin/generate-theme-tokens): DTCG token source under themes/tokens/ — extract, generate, drift-check
 - [generate-component-categories](../bin/generate-component-categories): Regenerate components-categories.tsv (per-component HTML tag + category) from components.tsv
+- [generate-page-markdown](../bin/generate-page-markdown): A `.md` twin of each English site text page, drift-checked
 - [generate-api-docs](../bin/generate-api-docs): Canonical-contract sections on the site's component pages, generated from components/*/AGENTS.md — drift-checked
 - [new-component](../bin/new-component): End-to-end scaffolder — one new placeholder component across every layer bin/test verifies
 - [generate-examples](../bin/generate-examples): Usage examples (from the docs) and rendered variants (component-variants.json) for every demonstration page
