@@ -1,0 +1,21 @@
+<!-- org-editor snippet (Alpine.js) -->
+<!--
+  Requires: Alpine.js and the Lily Org editor plugin:
+    import Alpine from "alpinejs";
+    import lilyOrgEditor from "@lilydesignsystem/alpine-org-editor";
+    Alpine.plugin(lilyOrgEditor);
+  `orgEditorOptions` is your own object: { value, label, toolbarLabel, labels, tools, headingLevel, todoKeywords, priorities, today, propertyKey, drawerName, contactProperties, name, rows, placeholder, disabled, readonly, required }.
+  Headless: no CSS, no text. Every name comes from the options; a tool with no entry in `labels` is not rendered.
+-->
+<div class="org-editor" x-data="lilyOrgEditor(orgEditorOptions)">
+  <div class="org-editor-toolbar" role="toolbar" aria-orientation="horizontal" :aria-label="toolbarLabel" :aria-controls="id" @keydown="onToolbarKeydown($event)">
+    <template x-for="(tool, i) in shown" :key="tool">
+      <button class="org-editor-button" type="button" :data-tool="tool" :data-group="group(tool)" :aria-label="labels[tool]" :tabindex="i === activeIndex ? 0 : -1" :disabled="disabled" :aria-disabled="readonly ? 'true' : null" @focus="active = i" @click="run(tool)">
+        <svg class="org-editor-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="1.05rem" height="1.05rem">
+          <path :d="iconPath(tool)"></path>
+        </svg>
+      </button>
+    </template>
+  </div>
+  <textarea class="org-editor-textarea" x-ref="textarea" :id="id" :name="name || null" :rows="rows || null" :placeholder="placeholder || null" :aria-label="label" :disabled="disabled" :readonly="readonly" :required="required" :value="value" @input="onInput($event)" @keydown="onTextKeydown($event)"></textarea>
+</div>
