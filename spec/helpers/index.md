@@ -62,6 +62,7 @@ build order, which CI and `bin/publish-helpers` follow.
 - [`lily-design-system-svelte-search-picker`](../../lily-design-system-svelte-search-picker/) — `@lilydesignsystem/svelte-search-picker`
 - [`lily-design-system-svelte-settings-picker`](../../lily-design-system-svelte-settings-picker/) — `@lilydesignsystem/svelte-settings-picker`
 - [`lily-design-system-svelte-share-picker`](../../lily-design-system-svelte-share-picker/) — `@lilydesignsystem/svelte-share-picker`
+- [`lily-design-system-svelte-markdown-editor`](../../lily-design-system-svelte-markdown-editor/) — `@lilydesignsystem/svelte-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24; Svelte only so far)
 - [`lily-design-system-svelte-text-size-picker`](../../lily-design-system-svelte-text-size-picker/) — `@lilydesignsystem/svelte-text-size-picker`
 - [`lily-design-system-svelte-theme-picker`](../../lily-design-system-svelte-theme-picker/) — `@lilydesignsystem/svelte-theme-picker`
 - [`lily-design-system-svelte-calendar`](../../lily-design-system-svelte-calendar/) — `@lilydesignsystem/svelte-calendar`
