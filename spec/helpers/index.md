@@ -62,8 +62,8 @@ build order, which CI and `bin/publish-helpers` follow.
 - [`lily-design-system-svelte-search-picker`](../../lily-design-system-svelte-search-picker/) — `@lilydesignsystem/svelte-search-picker`
 - [`lily-design-system-svelte-settings-picker`](../../lily-design-system-svelte-settings-picker/) — `@lilydesignsystem/svelte-settings-picker`
 - [`lily-design-system-svelte-share-picker`](../../lily-design-system-svelte-share-picker/) — `@lilydesignsystem/svelte-share-picker`
-- [`lily-design-system-svelte-markdown-editor`](../../lily-design-system-svelte-markdown-editor/) — `@lilydesignsystem/svelte-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24; Svelte only so far)
-- [`lily-design-system-svelte-org-editor`](../../lily-design-system-svelte-org-editor/) — `@lilydesignsystem/svelte-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24; Svelte only so far)
+- [`lily-design-system-svelte-markdown-editor`](../../lily-design-system-svelte-markdown-editor/) — `@lilydesignsystem/svelte-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24; ported to the other eight catalogs the same day)
+- [`lily-design-system-svelte-org-editor`](../../lily-design-system-svelte-org-editor/) — `@lilydesignsystem/svelte-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24; ported to the other eight catalogs the same day)
 - [`lily-design-system-svelte-text-size-picker`](../../lily-design-system-svelte-text-size-picker/) — `@lilydesignsystem/svelte-text-size-picker`
 - [`lily-design-system-svelte-theme-picker`](../../lily-design-system-svelte-theme-picker/) — `@lilydesignsystem/svelte-theme-picker`
 - [`lily-design-system-svelte-calendar`](../../lily-design-system-svelte-calendar/) — `@lilydesignsystem/svelte-calendar`
@@ -86,6 +86,7 @@ packages above. [`bin/list-helper-packages react`](../../bin/list-helper-package
 - [`lily-design-system-react-settings-picker`](../../lily-design-system-react-settings-picker/) — `@lilydesignsystem/react-settings-picker`
 - [`lily-design-system-react-share-picker`](../../lily-design-system-react-share-picker/) — `@lilydesignsystem/react-share-picker`
 - [`lily-design-system-react-markdown-editor`](../../lily-design-system-react-markdown-editor/) — `@lilydesignsystem/react-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
+- [`lily-design-system-react-org-editor`](../../lily-design-system-react-org-editor/) — `@lilydesignsystem/react-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
 - [`lily-design-system-react-text-size-picker`](../../lily-design-system-react-text-size-picker/) — `@lilydesignsystem/react-text-size-picker`
 - [`lily-design-system-react-theme-picker`](../../lily-design-system-react-theme-picker/) — `@lilydesignsystem/react-theme-picker`
 - [`lily-design-system-react-gantt-chart`](../../lily-design-system-react-gantt-chart/) — `@lilydesignsystem/react-gantt-chart`
@@ -108,6 +109,7 @@ packages above. [`bin/list-helper-packages vue`](../../bin/list-helper-packages)
 - [`lily-design-system-vue-settings-picker`](../../lily-design-system-vue-settings-picker/) — `@lilydesignsystem/vue-settings-picker`
 - [`lily-design-system-vue-share-picker`](../../lily-design-system-vue-share-picker/) — `@lilydesignsystem/vue-share-picker`
 - [`lily-design-system-vue-markdown-editor`](../../lily-design-system-vue-markdown-editor/) — `@lilydesignsystem/vue-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
+- [`lily-design-system-vue-org-editor`](../../lily-design-system-vue-org-editor/) — `@lilydesignsystem/vue-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
 - [`lily-design-system-vue-text-size-picker`](../../lily-design-system-vue-text-size-picker/) — `@lilydesignsystem/vue-text-size-picker`
 - [`lily-design-system-vue-theme-picker`](../../lily-design-system-vue-theme-picker/) — `@lilydesignsystem/vue-theme-picker`
 - [`lily-design-system-vue-gantt-chart`](../../lily-design-system-vue-gantt-chart/) — `@lilydesignsystem/vue-gantt-chart`
@@ -130,6 +132,7 @@ packages above. [`bin/list-helper-packages angular`](../../bin/list-helper-packa
 - [`lily-design-system-angular-settings-picker`](../../lily-design-system-angular-settings-picker/) — `@lilydesignsystem/angular-settings-picker`
 - [`lily-design-system-angular-share-picker`](../../lily-design-system-angular-share-picker/) — `@lilydesignsystem/angular-share-picker`
 - [`lily-design-system-angular-markdown-editor`](../../lily-design-system-angular-markdown-editor/) — `@lilydesignsystem/angular-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
+- [`lily-design-system-angular-org-editor`](../../lily-design-system-angular-org-editor/) — `@lilydesignsystem/angular-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
 - [`lily-design-system-angular-text-size-picker`](../../lily-design-system-angular-text-size-picker/) — `@lilydesignsystem/angular-text-size-picker`
 - [`lily-design-system-angular-theme-picker`](../../lily-design-system-angular-theme-picker/) — `@lilydesignsystem/angular-theme-picker`
 - [`lily-design-system-angular-gantt-chart`](../../lily-design-system-angular-gantt-chart/) — `@lilydesignsystem/angular-gantt-chart`
@@ -152,6 +155,7 @@ packages above. [`bin/list-helper-packages html`](../../bin/list-helper-packages
 - [`lily-design-system-html-settings-picker`](../../lily-design-system-html-settings-picker/) — `@lilydesignsystem/html-settings-picker`
 - [`lily-design-system-html-share-picker`](../../lily-design-system-html-share-picker/) — `@lilydesignsystem/html-share-picker`
 - [`lily-design-system-html-markdown-editor`](../../lily-design-system-html-markdown-editor/) — `@lilydesignsystem/html-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
+- [`lily-design-system-html-org-editor`](../../lily-design-system-html-org-editor/) — `@lilydesignsystem/html-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
 - [`lily-design-system-html-text-size-picker`](../../lily-design-system-html-text-size-picker/) — `@lilydesignsystem/html-text-size-picker`
 - [`lily-design-system-html-theme-picker`](../../lily-design-system-html-theme-picker/) — `@lilydesignsystem/html-theme-picker`
 - [`lily-design-system-html-gantt-chart`](../../lily-design-system-html-gantt-chart/) — `@lilydesignsystem/html-gantt-chart`
@@ -174,6 +178,7 @@ packages above. [`bin/list-helper-packages web-components`](../../bin/list-helpe
 - [`lily-design-system-web-components-settings-picker`](../../lily-design-system-web-components-settings-picker/) — `@lilydesignsystem/web-components-settings-picker`
 - [`lily-design-system-web-components-share-picker`](../../lily-design-system-web-components-share-picker/) — `@lilydesignsystem/web-components-share-picker`
 - [`lily-design-system-web-components-markdown-editor`](../../lily-design-system-web-components-markdown-editor/) — `@lilydesignsystem/web-components-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
+- [`lily-design-system-web-components-org-editor`](../../lily-design-system-web-components-org-editor/) — `@lilydesignsystem/web-components-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
 - [`lily-design-system-web-components-text-size-picker`](../../lily-design-system-web-components-text-size-picker/) — `@lilydesignsystem/web-components-text-size-picker`
 - [`lily-design-system-web-components-theme-picker`](../../lily-design-system-web-components-theme-picker/) — `@lilydesignsystem/web-components-theme-picker`
 - [`lily-design-system-web-components-gantt-chart`](../../lily-design-system-web-components-gantt-chart/) — `@lilydesignsystem/web-components-gantt-chart`
@@ -194,6 +199,7 @@ packages above. [`bin/list-helper-packages nunjucks`](../../bin/list-helper-pack
 - [`lily-design-system-nunjucks-settings-picker`](../../lily-design-system-nunjucks-settings-picker/) — `@lilydesignsystem/nunjucks-settings-picker`
 - [`lily-design-system-nunjucks-share-picker`](../../lily-design-system-nunjucks-share-picker/) — `@lilydesignsystem/nunjucks-share-picker`
 - [`lily-design-system-nunjucks-markdown-editor`](../../lily-design-system-nunjucks-markdown-editor/) — `@lilydesignsystem/nunjucks-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
+- [`lily-design-system-nunjucks-org-editor`](../../lily-design-system-nunjucks-org-editor/) — `@lilydesignsystem/nunjucks-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
 - [`lily-design-system-nunjucks-gantt-chart`](../../lily-design-system-nunjucks-gantt-chart/) — `@lilydesignsystem/nunjucks-gantt-chart`
 - [`lily-design-system-nunjucks-calendar`](../../lily-design-system-nunjucks-calendar/) — `@lilydesignsystem/nunjucks-calendar`
 - [`lily-design-system-nunjucks-kanban-board`](../../lily-design-system-nunjucks-kanban-board/) — `@lilydesignsystem/nunjucks-kanban-board`
@@ -219,6 +225,7 @@ packages above. [`bin/list-helper-packages blazor`](../../bin/list-helper-packag
 - [`lily-design-system-blazor-settings-picker`](../../lily-design-system-blazor-settings-picker/) — `@lilydesignsystem/blazor-settings-picker`
 - [`lily-design-system-blazor-share-picker`](../../lily-design-system-blazor-share-picker/) — `@lilydesignsystem/blazor-share-picker`
 - [`lily-design-system-blazor-markdown-editor`](../../lily-design-system-blazor-markdown-editor/) — `LilyDesignSystem.Blazor.MarkdownEditor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
+- [`lily-design-system-blazor-org-editor`](../../lily-design-system-blazor-org-editor/) — `LilyDesignSystem.Blazor.OrgEditor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
 - [`lily-design-system-blazor-text-size-picker`](../../lily-design-system-blazor-text-size-picker/) — `@lilydesignsystem/blazor-text-size-picker`
 - [`lily-design-system-blazor-theme-picker`](../../lily-design-system-blazor-theme-picker/) — `@lilydesignsystem/blazor-theme-picker`
 - [`lily-design-system-blazor-gantt-chart`](../../lily-design-system-blazor-gantt-chart/) — `@lilydesignsystem/blazor-gantt-chart`

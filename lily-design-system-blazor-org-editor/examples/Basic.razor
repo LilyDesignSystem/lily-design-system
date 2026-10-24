@@ -1,0 +1,19 @@
+@* Example 1 — A notes field for Org mode. *@
+@using LilyDesignSystem.Blazor.Helpers
+
+<form>
+    <OrgEditor @bind-Value="_notes" Label="Notes" ToolbarLabel="Formatting" Labels="_labels"
+               TodoKeywords="new[] { "TODO", "NEXT", "DONE" }" Name="notes" Rows="12" />
+    <button type="submit">Save</button>
+    <pre>@_notes</pre>
+</form>
+
+@code {
+    private string _notes = "* Ship the release";
+    private readonly Dictionary<string, string> _labels = new()
+    {
+        ["todo"] = "Task", ["priority"] = "Priority", ["scheduled"] = "Scheduled", ["deadline"] = "Deadline",
+        ["bold"] = "Bold", ["italic"] = "Italic", ["link"] = "Link",
+        ["property"] = "Property", ["drawer"] = "Drawer", ["contact"] = "Contact",
+    };
+}

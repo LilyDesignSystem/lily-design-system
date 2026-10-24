@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <!-- Test project for LilyDesignSystem.Blazor.OrgEditor alone .
+       The tests live next to the component, in ../OrgEditorTests.cs, and are
+       excluded from the published package; they are compiled here instead. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>LilyDesignSystem.Blazor.Helpers.Tests</RootNamespace>
+    <AssemblyName>LilyDesignSystem.Blazor.OrgEditor.Tests</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
+    <PackageReference Include="bunit" Version="1.40.0" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="4.0.1" />
+    <PackageReference Include="coverlet.collector" Version="10.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LilyDesignSystem.Blazor.OrgEditor.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\OrgEditorTests.cs" />
+    <Compile Include="..\OrgFormatTests.cs" />
+  </ItemGroup>
+
+</Project>

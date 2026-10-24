@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+  <head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>org-editor — basic</title></head>
+  <body>
+    <form>
+      <org-editor label="Notes" toolbar-label="Formatting" name="notes" rows="12" value="* Ship the release" todo-keywords="TODO NEXT DONE"></org-editor>
+      <button type="submit">Save</button>
+    </form>
+    <script type="module">
+      import "../dist/index.js";
+      document.querySelector("org-editor").labels = {
+        todo: "Task", priority: "Priority", scheduled: "Scheduled", deadline: "Deadline", bold: "Bold", italic: "Italic", link: "Link",
+        property: "Property", drawer: "Drawer", contact: "Contact",
+      };
+    </script>
+  </body>
+</html>

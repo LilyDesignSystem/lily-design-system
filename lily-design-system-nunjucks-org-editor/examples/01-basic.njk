@@ -1,0 +1,14 @@
+{# Example 1 — Basic usage: the macro, then autoInit() in the browser. #}
+{% from "org-editor.njk" import orgEditor %}
+<form method="post">
+  {{ orgEditor({
+    label: "Notes", toolbarLabel: "Formatting", name: "notes", rows: 12, value: "* Ship the release",
+    todoKeywords: ["TODO", "NEXT", "DONE"],
+    labels: { todo: "Task", priority: "Priority", scheduled: "Scheduled", deadline: "Deadline", bold: "Bold", italic: "Italic", link: "Link", property: "Property", drawer: "Drawer", contact: "Contact" }
+  }) }}
+  <button type="submit">Save</button>
+</form>
+<script type="module">
+  import { autoInit } from "../dist/index.js";
+  autoInit();
+</script>

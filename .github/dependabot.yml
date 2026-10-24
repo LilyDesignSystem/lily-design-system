@@ -83,6 +83,7 @@ updates:
       - "/lily-design-system-angular-settings-picker"
       - "/lily-design-system-angular-share-picker"
       - "/lily-design-system-angular-markdown-editor"
+      - "/lily-design-system-angular-org-editor"
       - "/lily-design-system-angular-text-size-picker"
       - "/lily-design-system-angular-theme-picker"
       - "/lily-design-system-angular-gantt-chart"
@@ -160,6 +161,7 @@ updates:
       - "/lily-design-system-alpine-gantt-chart"
       - "/lily-design-system-alpine-kanban-board"
       - "/lily-design-system-alpine-markdown-editor"
+      - "/lily-design-system-alpine-org-editor"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10
@@ -185,6 +187,7 @@ updates:
       - "/lily-design-system-html-settings-picker"
       - "/lily-design-system-html-share-picker"
       - "/lily-design-system-html-markdown-editor"
+      - "/lily-design-system-html-org-editor"
       - "/lily-design-system-html-text-size-picker"
       - "/lily-design-system-html-theme-picker"
       - "/lily-design-system-html-gantt-chart"
@@ -248,6 +251,7 @@ updates:
       - "/lily-design-system-nunjucks-settings-picker"
       - "/lily-design-system-nunjucks-share-picker"
       - "/lily-design-system-nunjucks-markdown-editor"
+      - "/lily-design-system-nunjucks-org-editor"
       - "/lily-design-system-nunjucks-gantt-chart"
       - "/lily-design-system-nunjucks-calendar"
       - "/lily-design-system-nunjucks-kanban-board"
@@ -315,6 +319,7 @@ updates:
       - "/lily-design-system-react-settings-picker"
       - "/lily-design-system-react-share-picker"
       - "/lily-design-system-react-markdown-editor"
+      - "/lily-design-system-react-org-editor"
       - "/lily-design-system-react-text-size-picker"
       - "/lily-design-system-react-theme-picker"
       - "/lily-design-system-react-gantt-chart"
@@ -490,6 +495,7 @@ updates:
       - "/lily-design-system-vue-settings-picker"
       - "/lily-design-system-vue-share-picker"
       - "/lily-design-system-vue-markdown-editor"
+      - "/lily-design-system-vue-org-editor"
       - "/lily-design-system-vue-text-size-picker"
       - "/lily-design-system-vue-theme-picker"
       - "/lily-design-system-vue-gantt-chart"
@@ -632,6 +638,18 @@ updates:
 
   - package-ecosystem: "nuget"
     directory: "/lily-design-system-blazor-markdown-editor"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "nuget"
+    directory: "/lily-design-system-blazor-org-editor"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10

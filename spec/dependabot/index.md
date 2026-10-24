@@ -11,16 +11,16 @@ Enable GitHub Dependabot .github/dependabot.yml for scheduled update PRs.
   via `gh api -X PUT repos/LilyDesignSystem/lily-design-system/{vulnerability-alerts,automated-security-fixes}`.
   Verified: `GET .../vulnerability-alerts` returns 204 (enabled);
   `GET .../automated-security-fixes` returns `{"enabled":true,"paused":false}`.
-- **[.github/dependabot.yml](../../.github/dependabot.yml)**: 34 `updates`
+- **[.github/dependabot.yml](../../.github/dependabot.yml)**: 35 `updates`
   entries — one `github-actions` entry for `.github/workflows/`, 20 `npm`
   entries (one per pnpm-workspace root; each catalog's `pnpm-workspace.yaml`
   lets one entry cover its nested helper packages, per
   [helpers](../helpers/index.md); the helper-package entries instead list
-  their top-level helper packages under `directories:`, since 2026-10-10), and 11 `nuget` entries (one per `.csproj`
+  their top-level helper packages under `directories:`, since 2026-10-10), and 12 `nuget` entries (one per `.csproj`
   directory — NuGet has no workspace concept to consolidate them the way
   pnpm does). Every entry runs weekly and groups all its updates into a
   single PR (`groups: lily: patterns: ["*"]`), because one PR per outdated
-  package across 34 directories would be dozens of PRs a week for a single
+  package across 35 directories would be dozens of PRs a week for a single
   maintainer.
 - **Scope note**: this covers the canonical monorepo, which since 2026-10-10
   is the only source repository (the per-subproject subtree mirrors were

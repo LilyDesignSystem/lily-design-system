@@ -91,7 +91,7 @@ Headless versions if you want to use components with all your own styles:
 Small, opinionated helper packages for every framework, one top-level
 subproject each.
 Each framework ships ten `*-picker` helpers — 80 packages in all — plus `picker-bar` and the grid-like `data-grid`, `kanban-board`,
-`gantt-chart`, `calendar` and `filter` (151 helper packages in all; the Alpine.js ones cover the data grid, kanban board, calendar and Gantt chart), and each owns one complete interaction end to end:
+`gantt-chart`, `calendar` and `filter` (159 helper packages in all; the Alpine.js ones cover the data grid, kanban board, calendar and Gantt chart), and each owns one complete interaction end to end:
 
 - **theme-picker**, **locale-picker**, **text-size-picker**, **motion-picker**
   own a user preference: selection, DOM application (`data-theme`,

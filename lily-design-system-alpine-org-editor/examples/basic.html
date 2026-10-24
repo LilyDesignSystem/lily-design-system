@@ -1,0 +1,13 @@
+<!-- Example 1 — Basic usage: the plugin, an options object, and snippet.html. -->
+<script type="module">
+  import Alpine from "alpinejs";
+  import lilyOrgEditor from "../dist/index.js";
+  window.Alpine = Alpine;
+  Alpine.plugin(lilyOrgEditor);
+  window.orgEditorOptions = {
+    label: "Notes", toolbarLabel: "Formatting", name: "notes", rows: 12, value: "* Ship the release",
+    todoKeywords: ["TODO", "NEXT", "DONE"],
+    labels: { todo: "Task", priority: "Priority", scheduled: "Scheduled", deadline: "Deadline", bold: "Bold", italic: "Italic", link: "Link", property: "Property", drawer: "Drawer", contact: "Contact" },
+  };
+  Alpine.start();
+</script>
