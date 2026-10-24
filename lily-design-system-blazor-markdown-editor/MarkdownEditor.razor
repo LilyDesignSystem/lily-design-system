@@ -1,0 +1,64 @@
+@namespace LilyDesignSystem.Blazor.Helpers
+
+@*
+    MarkdownEditor — Blazor helper component.
+    A <textarea> with a toolbar of buttons that write Markdown into it. The value is
+    plain text, so it submits with a form and validates. Every name is consumer-supplied.
+
+    The textarea's selection is read, and the edited text applied, through IJSRuntime
+    "eval" from the click handler, so the component is SSR / prerender safe and ships
+    no JS file. Two documented deviations from the Svelte reference, both because Blazor
+    cannot decide preventDefault per key without a script: there are no Ctrl/Cmd+B/I/K
+    shortcuts, and Home / End on the toolbar also scroll the page.
+*@
+
+<div class="@RootClass" @attributes="AdditionalAttributes">
+    <div class="markdown-editor-toolbar"
+         role="toolbar"
+         aria-orientation="horizontal"
+         aria-label="@ToolbarLabel"
+         aria-controls="@TextareaId">
+        @for (var i = 0; i < Shown.Count; i++)
+        {
+            var index = i;
+            var tool = Shown[i];
+            <button class="markdown-editor-button"
+                    type="button"
+                    data-tool="@tool"
+                    aria-label="@Labels[tool]"
+                    tabindex="@(index == ActiveIndex ? 0 : -1)"
+                    disabled="@Disabled"
+                    aria-disabled="@(ReadOnly ? "true" : null)"
+                    @ref="_buttons[index]"
+                    @onfocus="() => _active = index"
+                    @onclick="() => RunAsync(tool)"
+                    @onkeydown="e => OnToolbarKeyDownAsync(e, index)">
+                @if (Icon is not null)
+                {
+                    @Icon(tool)
+                }
+                else
+                {
+                    @* The icon is decorative: the accessible name is the button's aria-label. *@
+                    <svg class="markdown-editor-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"
+                         fill="none" stroke="currentColor" stroke-width="1.6"
+                         stroke-linecap="round" stroke-linejoin="round"
+                         width="1.05rem" height="1.05rem">
+                        <path d="@IconPath(tool)" />
+                    </svg>
+                }
+            </button>
+        }
+    </div>
+    <textarea class="markdown-editor-textarea"
+              id="@TextareaId"
+              name="@Name"
+              rows="@Rows"
+              placeholder="@Placeholder"
+              disabled="@Disabled"
+              readonly="@ReadOnly"
+              required="@Required"
+              aria-label="@Label"
+              value="@Value"
+              @oninput="OnInputAsync"></textarea>
+</div>

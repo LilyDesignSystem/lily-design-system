@@ -1,0 +1,18 @@
+@* Example 1 — Basic usage. *@
+@using LilyDesignSystem.Blazor.Helpers
+
+<form>
+    <MarkdownEditor @bind-Value="_body" Label="Message" ToolbarLabel="Formatting" Labels="_labels" Name="body" Rows="8" />
+    <button type="submit">Send</button>
+    <pre>@_body</pre>
+</form>
+
+@code {
+    private string _body = "Hello **world**";
+    private readonly Dictionary<string, string> _labels = new()
+    {
+        ["heading"] = "Heading", ["bold"] = "Bold", ["italic"] = "Italic", ["strikethrough"] = "Strikethrough",
+        ["code"] = "Code", ["link"] = "Link", ["quote"] = "Quote",
+        ["bulletList"] = "Bulleted list", ["numberedList"] = "Numbered list",
+    };
+}
