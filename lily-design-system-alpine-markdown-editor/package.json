@@ -36,7 +36,7 @@
     "@types/alpinejs": "^3.13.11",
     "jsdom": "^30.1.1",
     "tsup": "^9.0.0",
-    "typescript": "^5.9.3",
+    "typescript": "^7.0.2",
     "vitest": "^5.0.4"
   },
   "keywords": [
