@@ -85,6 +85,32 @@ you write help text or test scripts. Force one path with
 A dismissed sheet ends the interaction — the list does not then pop open,
 which would resurrect UI the user just dismissed.
 
+## Recipe: open this page in an assistant
+
+"Ask an assistant about this page" is the same control as sharing: a list of real links, one per destination, each built from
+the page. Use `share-picker` with `strategy="list"` (the native share sheet has nothing to say here) and put the prompt in
+`text`. Each target turns that prompt into its own URL, so you own the endpoint and its encoding:
+
+```svelte
+<script lang="ts">
+  import SharePicker, { type ShareTarget } from "./lily-design-system-svelte-share-picker/SharePicker.svelte";
+
+  const prompt = `Read ${location.href} so I can ask questions about it.`;
+  // Your assistants, your endpoints: none is bundled.
+  const targets: ShareTarget[] = [
+    { id: "assistant", label: "Assistant", href: (_url, _title, text) => `https://assistant.example/new?q=${encodeURIComponent(text)}` },
+  ];
+</script>
+
+<SharePicker label="Ask an assistant about this page" text={prompt} strategy="list" {targets} />
+```
+
+Which assistants to offer is an editorial and privacy decision (the page URL, and any text in the prompt, goes to a third
+party), so the design system names none and carries no provider URLs. Every destination is a real
+`<a target="_blank" rel="noopener noreferrer">`, so middle-click, open-in-new-tab and copy-link-address work. The same recipe
+serves a "Copy Markdown" or "Open the Markdown" link: point a target at `/components/{slug}.md`. The same links also work
+inside a `menu-picker` panel when the page already has one.
+
 ## Copy to clipboard
 
 Supply `copyLabel` and a copy item appears. There is no default label,
@@ -134,7 +160,7 @@ needing a per-glyph optical correction.
 ## Tests
 
 `npx vitest run @lilydesignsystem/svelte-share-picker` from the catalog
-root — 27 cases, one or more per §7 clause.
+root — 44 cases, one or more per §7 clause.
 
 ---
 

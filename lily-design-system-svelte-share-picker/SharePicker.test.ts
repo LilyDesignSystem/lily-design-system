@@ -143,6 +143,24 @@ describe("SharePicker — markup contract (§7.1–§7.6)", () => {
         );
     });
 
+    test("recipe: an assistant target is a real link carrying the URL-encoded prompt", async () => {
+        const prompt = "Read https://example.test/a?x=1&y=2 so I can ask about it";
+        const assistant: ShareTarget = {
+            id: "assistant",
+            label: "Assistant",
+            href: (_u, _t, text) => `https://assistant.test/new?q=${encodeURIComponent(text)}`,
+        };
+        render(SharePicker, {
+            props: { label: "Ask", targets: [assistant], url: URL_UNDER_TEST, text: prompt, strategy: "list" },
+        });
+        await fireEvent.click(screen.getByRole("button", { name: "Ask" }));
+        const a = document.querySelector<HTMLAnchorElement>(".share-picker-target")!;
+        expect(a.tagName).toBe("A");
+        expect(a.getAttribute("rel")).toContain("noopener");
+        expect(a.getAttribute("href")).toBe(`https://assistant.test/new?q=${encodeURIComponent(prompt)}`);
+        expect(a.getAttribute("href")).not.toContain("&y=2");
+    });
+
     test("§7.5 the copy item renders only when copyLabel is supplied", async () => {
         const { unmount } = render(SharePicker, {
             props: { label: "Share", targets: TARGETS, url: URL_UNDER_TEST },
