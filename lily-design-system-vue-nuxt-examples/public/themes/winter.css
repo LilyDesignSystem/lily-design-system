@@ -2209,6 +2209,7 @@
         .theme-picker,
         .locale-picker,
         .text-size-picker,
+        .time-zone-picker,
         .search-picker,
         .link-picker,
         .menu-picker,
@@ -2224,6 +2225,7 @@
         .theme-picker-button,
         .locale-picker-button,
         .text-size-picker-button,
+        .time-zone-picker-button,
         .search-picker-button,
         .link-picker-button,
         .menu-picker-button,
@@ -2262,6 +2264,7 @@
         .theme-picker-icon,
         .locale-picker-icon,
         .text-size-picker-icon,
+        .time-zone-picker-icon,
         .motion-picker-icon,
         .link-picker-icon,
         .menu-picker-icon,
@@ -2629,6 +2632,7 @@
         .theme-picker-tooltip,
         .locale-picker-tooltip,
         .text-size-picker-tooltip,
+        .time-zone-picker-tooltip,
         .motion-picker-tooltip,
         .link-picker-tooltip,
         .menu-picker-tooltip,
@@ -2656,6 +2660,7 @@
         .theme-picker-tooltip,
         .locale-picker-tooltip,
         .text-size-picker-tooltip,
+        .time-zone-picker-tooltip,
         .motion-picker-tooltip,
         .link-picker-tooltip,
         .menu-picker-tooltip,
@@ -2675,6 +2680,7 @@
         .theme-picker-tooltip,
         .locale-picker-tooltip,
         .text-size-picker-tooltip,
+        .time-zone-picker-tooltip,
         .motion-picker-tooltip,
         .link-picker-tooltip,
         .menu-picker-tooltip,
@@ -2731,6 +2737,7 @@
         .theme-picker-list,
         .locale-picker-list,
         .text-size-picker-list,
+        .time-zone-picker-list,
         .motion-picker-list,
         .link-picker-list,
         .menu-picker-panel,
@@ -2760,6 +2767,7 @@
         .theme-picker-list,
         .locale-picker-list,
         .text-size-picker-list,
+        .time-zone-picker-list,
         .motion-picker-list,
         .link-picker-list,
         .menu-picker-panel,
@@ -2780,6 +2788,7 @@
         :where(.theme-picker) { anchor-name: --lily-theme-picker; }
         :where(.locale-picker) { anchor-name: --lily-locale-picker; }
         :where(.text-size-picker) { anchor-name: --lily-text-size-picker; }
+        :where(.time-zone-picker) { anchor-name: --lily-time-zone-picker; }
         :where(.motion-picker) { anchor-name: --lily-motion-picker; }
         :where(.link-picker) { anchor-name: --lily-link-picker; }
         :where(.menu-picker) { anchor-name: --lily-menu-picker; }
@@ -2789,6 +2798,7 @@
         :where(.theme-picker-list) { position-anchor: --lily-theme-picker; }
         :where(.locale-picker-list) { position-anchor: --lily-locale-picker; }
         :where(.text-size-picker-list) { position-anchor: --lily-text-size-picker; }
+        :where(.time-zone-picker-list) { position-anchor: --lily-time-zone-picker; }
         :where(.motion-picker-list) { position-anchor: --lily-motion-picker; }
         :where(.link-picker-list) { position-anchor: --lily-link-picker; }
         :where(.menu-picker-panel) { position-anchor: --lily-menu-picker; }
@@ -2799,6 +2809,7 @@
             .theme-picker-list,
             .locale-picker-list,
             .text-size-picker-list,
+            .time-zone-picker-list,
             .motion-picker-list,
             .link-picker-list,
             .menu-picker-panel,
@@ -2816,11 +2827,12 @@
         }
     }
 
-    :where(.theme-picker-list, .locale-picker-list, .text-size-picker-list, .motion-picker-list)
+    :where(.theme-picker-list, .locale-picker-list, .text-size-picker-list, .time-zone-picker-list, .motion-picker-list)
         > :where(
             .theme-picker-option,
             .locale-picker-option,
             .text-size-picker-option,
+            .time-zone-picker-option,
             .motion-picker-option
         ) {
         padding: var(--lily-space-xs) var(--lily-space-sm);
@@ -2830,7 +2842,7 @@
 
     /* data-active is the keyboard cursor (aria-activedescendant); focus
        stays on the listbox, so this is the only visible cue for it. */
-    :where(.theme-picker-list, .locale-picker-list, .text-size-picker-list, .motion-picker-list)
+    :where(.theme-picker-list, .locale-picker-list, .text-size-picker-list, .time-zone-picker-list, .motion-picker-list)
         > :where([data-active]) {
         background-color: var(--lily-surface-alt);
         outline: var(--lily-focus-ring);
@@ -2839,7 +2851,7 @@
 
     /* aria-selected marks the applied theme/locale, which is not the
        same thing as the keyboard cursor. Both can be visible at once. */
-    :where(.theme-picker-list, .locale-picker-list, .text-size-picker-list, .motion-picker-list)
+    :where(.theme-picker-list, .locale-picker-list, .text-size-picker-list, .time-zone-picker-list, .motion-picker-list)
         > :where([aria-selected="true"]) {
         font-weight: 600;
         background-color: var(--lily-surface-sunken);
@@ -3934,4 +3946,17 @@
 
 :where(.gantt-table-td[data-today]) {
     border-inline-start: 2px solid var(--color-accent);
+}
+
+/* The time zone picker's options are long ("UTC+10:30 – Lord Howe Daylight Time"): size the list to its widest
+   option up to a cap, then wrap, rather than clipping the name or running off a phone. */
+:where(.time-zone-picker-list) {
+    inline-size: max-content;
+    max-inline-size: min(26rem, 90vw);
+    max-block-size: min(24rem, 70vh);
+    overflow-y: auto;
+}
+
+:where(.time-zone-picker-option) {
+    overflow-wrap: anywhere;
 }

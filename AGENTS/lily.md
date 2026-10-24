@@ -65,6 +65,7 @@ The Svelte helpers (canonical reference) are one top-level subproject per packag
 - [`lily-design-system-svelte-markdown-editor`](../lily-design-system-svelte-markdown-editor) — `@lilydesignsystem/svelte-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24; ported to the other eight catalogs the same day)
 - [`lily-design-system-svelte-org-editor`](../lily-design-system-svelte-org-editor) — `@lilydesignsystem/svelte-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24; ported to the other eight catalogs the same day)
 - [`lily-design-system-svelte-text-size-picker`](../lily-design-system-svelte-text-size-picker) — `@lilydesignsystem/svelte-text-size-picker`
+- [`lily-design-system-svelte-time-zone-picker`](../lily-design-system-svelte-time-zone-picker) — `@lilydesignsystem/svelte-time-zone-picker` — time zones by UTC offset with `Intl` full names (added 2026-10-24; Svelte only)
 - [`lily-design-system-svelte-theme-picker`](../lily-design-system-svelte-theme-picker) — `@lilydesignsystem/svelte-theme-picker`
 - [`lily-design-system-svelte-calendar`](../lily-design-system-svelte-calendar) — `@lilydesignsystem/svelte-calendar`
 - [`lily-design-system-svelte-gantt-chart`](../lily-design-system-svelte-gantt-chart) — `@lilydesignsystem/svelte-gantt-chart`

@@ -2516,6 +2516,9 @@ lessons topics. Numbers in the spec were measured 2026-10-22 from shallow clones
 - [x] **P14-T5 (done 2026-10-24) The `*ListItem` components no longer set `aria-current`.** `BreadcrumbListItem`, `SectionListItem`, `StepListItem` and `TourListItem` (Svelte, React, Vue, Web Components) and the Nunjucks macros for breadcrumb, contents, step, tour and tree now emit `data-current` when `current` is true and nothing else; the consumer puts `aria-current` on the link or text inside, or passes it as a rest prop. Angular, Blazor and Alpine have no `current` prop and are unchanged (the consumer sets the attribute). The 57 themes select the current breadcrumb with `[data-current]` or `[aria-current="page"]`; the Nunjucks example CSS uses `[data-current]`. Reason: `aria-current` on an `<li>` is valid ARIA but is announced most reliably on the link; `data-*` is the repo's mechanism for consumer CSS/JS state. Open: `chat-list-item`'s docs claim a `current` prop that the components do not implement.
   Verify: the three-way tests (`data-current` present, absent, and no `aria-current`) in each catalog.
 
+- [x] **P14-T6 (done 2026-10-24) `svelte-time-zone-picker`.** New helper `@lilydesignsystem/svelte-time-zone-picker` 0.1.0: an icon button (clock) opening an APG listbox of IANA zones, each shown as `UTC±HH:MM – full name` from `Intl` in a required `locale`, ordered by offset on a `date`; applies `data-time-zone`; same shape as `text-size-picker` (tooltip, hidden input, `storageKey`, `onChange`, bindable `open`). Pure logic in `zones.ts`. Themes style it (57, plus a shared width rule). Open: ports to the other eight catalogs, a `picker-bar` slot, a site demo and publishing (npm, not yet published).
+  Verify: `zones.test.ts`, `TimeZonePicker.test.ts` (65 tests), `bin/check-theme`.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

@@ -409,6 +409,7 @@ updates:
       - "/lily-design-system-svelte-share-picker"
       - "/lily-design-system-svelte-markdown-editor"
       - "/lily-design-system-svelte-text-size-picker"
+      - "/lily-design-system-svelte-time-zone-picker"
       - "/lily-design-system-svelte-theme-picker"
       - "/lily-design-system-svelte-calendar"
       - "/lily-design-system-svelte-gantt-chart"

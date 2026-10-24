@@ -62,6 +62,8 @@ The Svelte helpers (canonical reference) are one top-level subproject per packag
 - [`lily-design-system-svelte-search-picker`](../lily-design-system-svelte-search-picker) — `@lilydesignsystem/svelte-search-picker`
 - [`lily-design-system-svelte-settings-picker`](../lily-design-system-svelte-settings-picker) — `@lilydesignsystem/svelte-settings-picker`
 - [`lily-design-system-svelte-share-picker`](../lily-design-system-svelte-share-picker) — `@lilydesignsystem/svelte-share-picker`
+- [`lily-design-system-svelte-markdown-editor`](../lily-design-system-svelte-markdown-editor) — `@lilydesignsystem/svelte-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24; ported to the other eight catalogs the same day)
+- [`lily-design-system-svelte-org-editor`](../lily-design-system-svelte-org-editor) — `@lilydesignsystem/svelte-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24; ported to the other eight catalogs the same day)
 - [`lily-design-system-svelte-text-size-picker`](../lily-design-system-svelte-text-size-picker) — `@lilydesignsystem/svelte-text-size-picker`
 - [`lily-design-system-svelte-theme-picker`](../lily-design-system-svelte-theme-picker) — `@lilydesignsystem/svelte-theme-picker`
 - [`lily-design-system-svelte-calendar`](../lily-design-system-svelte-calendar) — `@lilydesignsystem/svelte-calendar`
@@ -81,6 +83,8 @@ The React helpers, one top-level subproject per package since 2026-10-10 (`bin/l
 - [`lily-design-system-react-search-picker`](../lily-design-system-react-search-picker) — `@lilydesignsystem/react-search-picker`
 - [`lily-design-system-react-settings-picker`](../lily-design-system-react-settings-picker) — `@lilydesignsystem/react-settings-picker`
 - [`lily-design-system-react-share-picker`](../lily-design-system-react-share-picker) — `@lilydesignsystem/react-share-picker`
+- [`lily-design-system-react-markdown-editor`](../lily-design-system-react-markdown-editor) — `@lilydesignsystem/react-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
+- [`lily-design-system-react-org-editor`](../lily-design-system-react-org-editor) — `@lilydesignsystem/react-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
 - [`lily-design-system-react-text-size-picker`](../lily-design-system-react-text-size-picker) — `@lilydesignsystem/react-text-size-picker`
 - [`lily-design-system-react-theme-picker`](../lily-design-system-react-theme-picker) — `@lilydesignsystem/react-theme-picker`
 - [`lily-design-system-react-gantt-chart`](../lily-design-system-react-gantt-chart) — `@lilydesignsystem/react-gantt-chart`
@@ -100,6 +104,8 @@ The Vue helpers, one top-level subproject per package since 2026-10-10 (`bin/lis
 - [`lily-design-system-vue-search-picker`](../lily-design-system-vue-search-picker) — `@lilydesignsystem/vue-search-picker`
 - [`lily-design-system-vue-settings-picker`](../lily-design-system-vue-settings-picker) — `@lilydesignsystem/vue-settings-picker`
 - [`lily-design-system-vue-share-picker`](../lily-design-system-vue-share-picker) — `@lilydesignsystem/vue-share-picker`
+- [`lily-design-system-vue-markdown-editor`](../lily-design-system-vue-markdown-editor) — `@lilydesignsystem/vue-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
+- [`lily-design-system-vue-org-editor`](../lily-design-system-vue-org-editor) — `@lilydesignsystem/vue-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
 - [`lily-design-system-vue-text-size-picker`](../lily-design-system-vue-text-size-picker) — `@lilydesignsystem/vue-text-size-picker`
 - [`lily-design-system-vue-theme-picker`](../lily-design-system-vue-theme-picker) — `@lilydesignsystem/vue-theme-picker`
 - [`lily-design-system-vue-gantt-chart`](../lily-design-system-vue-gantt-chart) — `@lilydesignsystem/vue-gantt-chart`
@@ -119,6 +125,8 @@ The Angular helpers, one top-level subproject per package since 2026-10-10 (`bin
 - [`lily-design-system-angular-search-picker`](../lily-design-system-angular-search-picker) — `@lilydesignsystem/angular-search-picker`
 - [`lily-design-system-angular-settings-picker`](../lily-design-system-angular-settings-picker) — `@lilydesignsystem/angular-settings-picker`
 - [`lily-design-system-angular-share-picker`](../lily-design-system-angular-share-picker) — `@lilydesignsystem/angular-share-picker`
+- [`lily-design-system-angular-markdown-editor`](../lily-design-system-angular-markdown-editor) — `@lilydesignsystem/angular-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
+- [`lily-design-system-angular-org-editor`](../lily-design-system-angular-org-editor) — `@lilydesignsystem/angular-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
 - [`lily-design-system-angular-text-size-picker`](../lily-design-system-angular-text-size-picker) — `@lilydesignsystem/angular-text-size-picker`
 - [`lily-design-system-angular-theme-picker`](../lily-design-system-angular-theme-picker) — `@lilydesignsystem/angular-theme-picker`
 - [`lily-design-system-angular-gantt-chart`](../lily-design-system-angular-gantt-chart) — `@lilydesignsystem/angular-gantt-chart`
@@ -138,6 +146,8 @@ The HTML helpers, one top-level subproject per package since 2026-10-10 (`bin/li
 - [`lily-design-system-html-search-picker`](../lily-design-system-html-search-picker) — `@lilydesignsystem/html-search-picker`
 - [`lily-design-system-html-settings-picker`](../lily-design-system-html-settings-picker) — `@lilydesignsystem/html-settings-picker`
 - [`lily-design-system-html-share-picker`](../lily-design-system-html-share-picker) — `@lilydesignsystem/html-share-picker`
+- [`lily-design-system-html-markdown-editor`](../lily-design-system-html-markdown-editor) — `@lilydesignsystem/html-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
+- [`lily-design-system-html-org-editor`](../lily-design-system-html-org-editor) — `@lilydesignsystem/html-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
 - [`lily-design-system-html-text-size-picker`](../lily-design-system-html-text-size-picker) — `@lilydesignsystem/html-text-size-picker`
 - [`lily-design-system-html-theme-picker`](../lily-design-system-html-theme-picker) — `@lilydesignsystem/html-theme-picker`
 - [`lily-design-system-html-gantt-chart`](../lily-design-system-html-gantt-chart) — `@lilydesignsystem/html-gantt-chart`
@@ -157,6 +167,8 @@ The Web Components helpers, one top-level subproject per package since 2026-10-1
 - [`lily-design-system-web-components-search-picker`](../lily-design-system-web-components-search-picker) — `@lilydesignsystem/web-components-search-picker`
 - [`lily-design-system-web-components-settings-picker`](../lily-design-system-web-components-settings-picker) — `@lilydesignsystem/web-components-settings-picker`
 - [`lily-design-system-web-components-share-picker`](../lily-design-system-web-components-share-picker) — `@lilydesignsystem/web-components-share-picker`
+- [`lily-design-system-web-components-markdown-editor`](../lily-design-system-web-components-markdown-editor) — `@lilydesignsystem/web-components-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
+- [`lily-design-system-web-components-org-editor`](../lily-design-system-web-components-org-editor) — `@lilydesignsystem/web-components-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
 - [`lily-design-system-web-components-text-size-picker`](../lily-design-system-web-components-text-size-picker) — `@lilydesignsystem/web-components-text-size-picker`
 - [`lily-design-system-web-components-theme-picker`](../lily-design-system-web-components-theme-picker) — `@lilydesignsystem/web-components-theme-picker`
 - [`lily-design-system-web-components-gantt-chart`](../lily-design-system-web-components-gantt-chart) — `@lilydesignsystem/web-components-gantt-chart`
@@ -174,6 +186,8 @@ The Nunjucks helpers, one top-level subproject per package since 2026-10-10 (`bi
 - [`lily-design-system-nunjucks-search-picker`](../lily-design-system-nunjucks-search-picker) — `@lilydesignsystem/nunjucks-search-picker`
 - [`lily-design-system-nunjucks-settings-picker`](../lily-design-system-nunjucks-settings-picker) — `@lilydesignsystem/nunjucks-settings-picker`
 - [`lily-design-system-nunjucks-share-picker`](../lily-design-system-nunjucks-share-picker) — `@lilydesignsystem/nunjucks-share-picker`
+- [`lily-design-system-nunjucks-markdown-editor`](../lily-design-system-nunjucks-markdown-editor) — `@lilydesignsystem/nunjucks-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
+- [`lily-design-system-nunjucks-org-editor`](../lily-design-system-nunjucks-org-editor) — `@lilydesignsystem/nunjucks-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
 - [`lily-design-system-nunjucks-gantt-chart`](../lily-design-system-nunjucks-gantt-chart) — `@lilydesignsystem/nunjucks-gantt-chart`
 - [`lily-design-system-nunjucks-calendar`](../lily-design-system-nunjucks-calendar) — `@lilydesignsystem/nunjucks-calendar`
 - [`lily-design-system-nunjucks-kanban-board`](../lily-design-system-nunjucks-kanban-board) — `@lilydesignsystem/nunjucks-kanban-board`
@@ -196,6 +210,8 @@ The Blazor helpers, one top-level subproject per package since 2026-10-10 (`bin/
 - [`lily-design-system-blazor-search-picker`](../lily-design-system-blazor-search-picker) — `@lilydesignsystem/blazor-search-picker`
 - [`lily-design-system-blazor-settings-picker`](../lily-design-system-blazor-settings-picker) — `@lilydesignsystem/blazor-settings-picker`
 - [`lily-design-system-blazor-share-picker`](../lily-design-system-blazor-share-picker) — `@lilydesignsystem/blazor-share-picker`
+- [`lily-design-system-blazor-markdown-editor`](../lily-design-system-blazor-markdown-editor) — `LilyDesignSystem.Blazor.MarkdownEditor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
+- [`lily-design-system-blazor-org-editor`](../lily-design-system-blazor-org-editor) — `LilyDesignSystem.Blazor.OrgEditor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
 - [`lily-design-system-blazor-text-size-picker`](../lily-design-system-blazor-text-size-picker) — `@lilydesignsystem/blazor-text-size-picker`
 - [`lily-design-system-blazor-theme-picker`](../lily-design-system-blazor-theme-picker) — `@lilydesignsystem/blazor-theme-picker`
 - [`lily-design-system-blazor-gantt-chart`](../lily-design-system-blazor-gantt-chart) — `@lilydesignsystem/blazor-gantt-chart`
@@ -241,6 +257,7 @@ exemptions.
 | each headless library's components | `bin/sync-example-components` | the same components inside each example app | `bin/sync-example-components --check` |
 | `shared/*.ts`, `shared/label-packs/*.json` | `bin/sync-shared-modules` | each package's copy of a shared module, and the locale-translations label packs | `bin/sync-shared-modules --check` |
 | the root special files (LICENSE, CONTRIBUTING, …) | `bin/sync-special-files` | the same files in every subproject | `bin/sync-special-files --check` |
+| `src/lib/pages/*/en.html` | `bin/generate-page-markdown` | `static/<route>.md`, one Markdown twin per English text page | `bin/generate-page-markdown --check` |
 | the site's English route pages | `bin/extract-site-pages` | `src/lib/pages/{slug}/en.html` | `bin/extract-site-pages --check` |
 | `src/lib/pages/*` translations | `bin/generate-locale-pages` | `src/routes/<code>/<slug>/+page.svelte` | `bin/generate-locale-pages --check` |
 
@@ -255,6 +272,7 @@ Also copied rather than generated: `bin/sync` rsyncs the root `AGENTS/` and `the
 - [list-components-as-pascal-case](../bin/list-components-as-pascal-case): List components as PascalCase
 - [list-implementations](../bin/list-implementations): List implementation directories
 - [list-helper-packages](../bin/list-helper-packages): List one framework's top-level helper packages in dependency (build) order
+- [check-port-parity](../bin/check-port-parity): Web Components helpers vs the HTML ones, Alpine vs Svelte: class hooks, events and attributes missing from the port, unless allow-listed with a reason
 - [check-generated-files](../bin/check-generated-files): The Generated files table above lists every generator and its `--check`, and none is missing or invented
 - [check-package-metadata](../bin/check-package-metadata): Every published npm/NuGet package names the monorepo as its source repository — packages publish from the monorepo
 - [create-component-directory](../bin/create-component-directory): Scaffold one component directory
@@ -278,6 +296,7 @@ Also copied rather than generated: `bin/sync` rsyncs the root `AGENTS/` and `the
 - [check-coverage](../bin/check-coverage): Coverage drift matrix — per-component file presence across all 7 headless libraries
 - [generate-theme-tokens](../bin/generate-theme-tokens): DTCG token source under themes/tokens/ — extract, generate, drift-check
 - [generate-component-categories](../bin/generate-component-categories): Regenerate components-categories.tsv (per-component HTML tag + category) from components.tsv
+- [generate-page-markdown](../bin/generate-page-markdown): A `.md` twin of each English site text page, drift-checked
 - [generate-api-docs](../bin/generate-api-docs): Canonical-contract sections on the site's component pages, generated from components/*/AGENTS.md — drift-checked
 - [new-component](../bin/new-component): End-to-end scaffolder — one new placeholder component across every layer bin/test verifies
 - [generate-examples](../bin/generate-examples): Usage examples (from the docs) and rendered variants (component-variants.json) for every demonstration page

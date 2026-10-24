@@ -41,7 +41,7 @@ searchable component catalog: https://lilydesignsystem.com/.
 - [AGENTS/citations.md](AGENTS/citations.md): design systems and headless
   libraries Lily learns from.
 - [AGENTS/lily.md](AGENTS/lily.md): the full subproject list (8
-  headless, 8 example, 159 helper packages) and the `bin/` tool reference.
+  headless, 8 example, 160 helper packages) and the `bin/` tool reference.
 
 ## Specification topics (spec/)
 

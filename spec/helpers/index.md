@@ -65,6 +65,7 @@ build order, which CI and `bin/publish-helpers` follow.
 - [`lily-design-system-svelte-markdown-editor`](../../lily-design-system-svelte-markdown-editor/) — `@lilydesignsystem/svelte-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24; ported to the other eight catalogs the same day)
 - [`lily-design-system-svelte-org-editor`](../../lily-design-system-svelte-org-editor/) — `@lilydesignsystem/svelte-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24; ported to the other eight catalogs the same day)
 - [`lily-design-system-svelte-text-size-picker`](../../lily-design-system-svelte-text-size-picker/) — `@lilydesignsystem/svelte-text-size-picker`
+- [`lily-design-system-svelte-time-zone-picker`](../../lily-design-system-svelte-time-zone-picker/) — `@lilydesignsystem/svelte-time-zone-picker` — an icon button opening a listbox of time zones, each `UTC±HH:MM – full name` from `Intl`, ordered by offset (added 2026-10-24; Svelte only so far)
 - [`lily-design-system-svelte-theme-picker`](../../lily-design-system-svelte-theme-picker/) — `@lilydesignsystem/svelte-theme-picker`
 - [`lily-design-system-svelte-calendar`](../../lily-design-system-svelte-calendar/) — `@lilydesignsystem/svelte-calendar`
 - [`lily-design-system-svelte-gantt-chart`](../../lily-design-system-svelte-gantt-chart/) — `@lilydesignsystem/svelte-gantt-chart`
@@ -842,6 +843,7 @@ Each package's `spec/index.md` has the full clauses (kanban §8.95–§8.109, ga
 - [lily-design-system-svelte-theme-picker/](../../lily-design-system-svelte-theme-picker/) — theme-picker contract
 - [lily-design-system-svelte-locale-picker/](../../lily-design-system-svelte-locale-picker/) — locale-picker contract
 - [lily-design-system-svelte-text-size-picker/](../../lily-design-system-svelte-text-size-picker/) — text-size-picker contract
+- [lily-design-system-svelte-time-zone-picker/](../../lily-design-system-svelte-time-zone-picker/spec/index.md) — time-zone-picker contract
 - [lily-design-system-svelte-motion-picker/](../../lily-design-system-svelte-motion-picker/) — motion-picker contract
 - [lily-design-system-svelte-share-picker/](../../lily-design-system-svelte-share-picker/) — share-picker contract
 - [lily-design-system-svelte-search-picker/](../../lily-design-system-svelte-search-picker/) — search-picker contract (canonical spec)
