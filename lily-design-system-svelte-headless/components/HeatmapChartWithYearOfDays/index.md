@@ -1,6 +1,6 @@
 # HeatmapChartWithYearOfDays
 
-A year-of-days heatmap: one cell per day of one year, in week columns and weekday rows. It specialises `HeatmapChart` and adds `year` and `weekStart`; layout contract in [components/heatmap-chart-with-year-of-days](../../components/heatmap-chart-with-year-of-days/index.md).
+A year-of-days heatmap: one cell per day of one year, in week columns and weekday rows. It specialises `HeatmapChart` and adds `year` and `weekStart`; layout contract in [components/heatmap-chart-with-year-of-days](../../../components/heatmap-chart-with-year-of-days/index.md).
 
 ## Canonical documentation
 
