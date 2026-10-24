@@ -78,7 +78,7 @@ const en: UiStrings = {
   home: {
     heroTitle: 'Build web designs better.',
     heroTagline:
-      'Lily is a free, open-source, accessible design system with hundreds of components for seven frameworks.',
+      'Lily is a free, open-source, accessible design system with hundreds of components for nine frameworks.',
     frameworks: 'Supported frameworks',
     tutorials: {
       heading: 'Tutorials',
@@ -2270,7 +2270,7 @@ const pcm: UiStrings = {
   },
   home: {
     heroTitle: 'Build web design well well.',
-    heroTagline: 'Lily na free, open-source, accessible design system wey get hundreds of components for seven frameworks.',
+    heroTagline: 'Lily na free, open-source, accessible design system wey get hundreds of components for nine frameworks.',
     frameworks: 'Frameworks wey we support',
     tutorials: { heading: 'Tutorials', description: 'Learn Lily step by step, for any framework wey you dey use.' },
     components: { heading: 'Components', description: 'Hundreds of components wey you fit use again and again, wey everybody fit use, each one get documentation and demo.' },
