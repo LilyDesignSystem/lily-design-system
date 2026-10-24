@@ -78,6 +78,7 @@ actually live.
 ## Optional
 
 - [Component manifests](https://lilydesignsystem.com/r/index.json): Machine-readable manifest of every component (HTML tag, base and sub-classes, ARIA, keyboard, props, related, per-framework file paths); one /r/{slug}.json each.
+- [Markdown pages](https://lilydesignsystem.com/about.md): every English text page has a `.md` twin next to its route (`/about.md`, `/why.md`, `/accessibility.md`, `/help.md`, `/comparisons.md`, `/tutorials.md`, `/tutorials/{name}.md`, `/examples.md`, `/skills.md`, `/news.md`, `/roadmap.md`, `/locales.md`), and every component has `/components/{slug}.md`.
 - [llms.json](https://lilydesignsystem.com/llms.json): this same
   curated map as structured JSON.
 

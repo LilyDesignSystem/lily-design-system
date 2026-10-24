@@ -1,0 +1,131 @@
+#!/usr/bin/env node
+// bin/generate-page-markdown — plan P13-T2: a `.md` twin for the docs site's text pages.
+//
+// The site's English text pages are extracted to plain HTML (bin/extract-site-pages ->
+// lilydesignsystem.github.io/src/lib/pages/<slug>/en.html). This turns each into Markdown at
+// lilydesignsystem.github.io/static/<route>.md, so /about.md sits next to /about/ and an agent
+// can fetch Markdown instead of HTML. Dependency-free: the pages use a small, fixed tag set.
+//
+// Translated pages (<code>.html) have no twin yet: that is the one allow-listed gap, TRANSLATIONS_PENDING.
+//
+//   bin/generate-page-markdown           write the twins
+//   bin/generate-page-markdown --check   exit 1 if a twin is missing, stale, or has no source
+
+const fs = require("fs");
+const path = require("path");
+
+const top = path.join(__dirname, "..");
+const site = path.join(top, "lilydesignsystem.github.io");
+const pagesDir = path.join(site, "src/lib/pages");
+const outDir = path.join(site, "static");
+const check = process.argv.includes("--check");
+
+const extra = JSON.parse(fs.readFileSync(path.join(site, "src/lib/extra-pages.json"), "utf8"));
+const routeOf = Object.fromEntries(extra.map((e) => [e.slug, e.route]));
+
+const decode = (s) =>
+  s.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&");
+
+// Tokenise into tags and text.
+function tokens(html) {
+  const out = [];
+  const re = /<!--[\s\S]*?-->|<\/?([a-zA-Z][a-zA-Z0-9]*)((?:[^>"']|"[^"]*"|'[^']*')*)>|([^<]+)/g;
+  for (const m of html.matchAll(re)) {
+    if (m[0].startsWith("<!--")) continue;
+    if (m[3] !== undefined) out.push({ text: m[3] });
+    else out.push({ tag: m[1].toLowerCase(), close: m[0][1] === "/", attrs: m[2] });
+  }
+  return out;
+}
+const attr = (attrs, name) => (attrs.match(new RegExp(`\\b${name}="([^"]*)"`)) || [])[1];
+
+function toMarkdown(html) {
+  const out = [];
+  let pre = false, inline = "", listStack = [], href = [], cell = null, rows = [], row = null, tableHead = false;
+  const emit = (s) => (cell !== null ? (cell += s) : (inline += s));
+  const flush = () => {
+    const t = inline.replace(/[ \t\r\n]+/g, " ").trim();
+    if (t) out.push(t);
+    inline = "";
+  };
+  for (const t of tokens(html)) {
+    if (t.text !== undefined) {
+      emit(pre ? t.text : decode(t.text).replace(/[ \t\r\n]+/g, " "));
+      continue;
+    }
+    const { tag, close } = t;
+    if (/^h[1-6]$/.test(tag)) {
+      if (!close) { flush(); inline = "#".repeat(+tag[1]) + " "; } else { flush(); }
+    } else if (tag === "p" || tag === "summary") {
+      flush();
+    } else if (tag === "ul" || tag === "ol") {
+      flush();
+      if (!close) listStack.push({ ordered: tag === "ol", n: 0 }); else listStack.pop();
+    } else if (tag === "li") {
+      flush();
+      if (!close && listStack.length) {
+        const l = listStack[listStack.length - 1];
+        l.n++;
+        inline = "  ".repeat(listStack.length - 1) + (l.ordered ? `${l.n}. ` : "- ");
+      }
+    } else if (tag === "pre") {
+      if (!close) { flush(); pre = true; inline = ""; }
+      else { out.push("```\n" + decode(inline).replace(/\n+$/, "") + "\n```"); inline = ""; pre = false; }
+    } else if (tag === "code") {
+      if (!pre) emit("`");
+    } else if (tag === "strong" || tag === "b") emit("**");
+    else if (tag === "em" || tag === "i") emit("*");
+    else if (tag === "kbd") emit("`");
+    else if (tag === "a") {
+      if (!close) { href.push(attr(t.attrs, "href") || ""); emit("["); }
+      else emit(`](${href.pop()})`);
+    } else if (tag === "br") emit("\n");
+    else if (tag === "table") {
+      if (!close) { flush(); rows = []; } else {
+        if (rows.length) {
+          const w = Math.max(...rows.map((r) => r.length));
+          const line = (r) => "| " + Array.from({ length: w }, (_, i) => r[i] || "").join(" | ") + " |";
+          out.push([line(rows[0]), "| " + Array(w).fill("---").join(" | ") + " |", ...rows.slice(1).map(line)].join("\n"));
+        }
+        rows = [];
+      }
+    } else if (tag === "tr") {
+      if (!close) row = []; else { rows.push(row); row = null; }
+    } else if (tag === "td" || tag === "th") {
+      if (!close) cell = ""; else { row.push(cell.replace(/\|/g, "\\|").replace(/\s+/g, " ").trim()); cell = null; }
+    } else if (["section", "div", "header", "nav", "details", "thead", "tbody"].includes(tag)) {
+      flush();
+    }
+  }
+  flush();
+  // Consecutive list items form one tight list.
+  const isItem = (b) => /^ *(- |\d+\. )/.test(b);
+  let md = "";
+  out.forEach((b, i) => { md += i === 0 ? b : isItem(b) && isItem(out[i - 1]) ? "\n" + b : "\n\n" + b; });
+  return md;
+}
+
+function twin(slug) {
+  const src = fs.readFileSync(path.join(pagesDir, slug, "en.html"), "utf8");
+  const title = (src.match(/<!-- title: (.*?) -->/) || [])[1] || slug;
+  const description = (src.match(/<!-- description: (.*?) -->/) || [])[1] || "";
+  const body = toMarkdown(src);
+  return `<!-- Generated by bin/generate-page-markdown from src/lib/pages/${slug}/en.html — do not edit. -->\n\n` +
+    `Title: ${title}\n\nDescription: ${description}\n\n${body}\n`;
+}
+
+const slugs = fs.readdirSync(pagesDir).filter((d) => fs.existsSync(path.join(pagesDir, d, "en.html"))).sort();
+let bad = 0, wrote = 0;
+const expected = new Set();
+for (const slug of slugs) {
+  const file = `${routeOf[slug] || slug}.md`;
+  expected.add(file);
+  const dest = path.join(outDir, file);
+  const want = twin(slug);
+  const have = fs.existsSync(dest) ? fs.readFileSync(dest, "utf8") : null;
+  if (have === want) continue;
+  if (check) { console.error(`Error: ${file} ${have === null ? "is missing" : "is stale"}; run bin/generate-page-markdown`); bad++; }
+  else { fs.mkdirSync(path.dirname(dest), { recursive: true }); fs.writeFileSync(dest, want); wrote++; }
+}
+console.log(check ? (bad ? `generate-page-markdown: FAILED (${bad})` : `generate-page-markdown: OK (${slugs.length} twins)`) : `generate-page-markdown: ${wrote} written, ${slugs.length - wrote} current`);
+process.exit(bad ? 1 : 0);
