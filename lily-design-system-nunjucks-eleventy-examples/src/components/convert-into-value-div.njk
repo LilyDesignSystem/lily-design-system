@@ -1,0 +1,37 @@
+---
+layout: layouts/component-demo.njk
+title: ConvertIntoValueDiv
+description: the converted value, such as a text input showing the number of euros
+---
+
+{% from "components/convert-into-value-div/macro.njk" import convertIntoValueDiv %}
+
+<h2>Default</h2>
+{{ convertIntoValueDiv({ text: "100 US dollars" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;ConvertDiv label="Currency converter"&gt;
+  &lt;ConvertFromDiv&gt;
+    &lt;ConvertFromValueDiv&gt;
+      &lt;label for="from-value"&gt;Amount&lt;/label&gt;
+      &lt;input id="from-value" type="text" inputmode="decimal" value="100" /&gt;
+    &lt;/ConvertFromValueDiv&gt;
+    &lt;ConvertFromUnitDiv&gt;
+      &lt;label for="from-unit"&gt;From&lt;/label&gt;
+      &lt;select id="from-unit"&gt;&lt;option value="USD"&gt;US dollars&lt;/option&gt;&lt;option value="EUR"&gt;Euros&lt;/option&gt;&lt;/select&gt;
+    &lt;/ConvertFromUnitDiv&gt;
+  &lt;/ConvertFromDiv&gt;
+  &lt;ConvertIntoDiv&gt;
+    &lt;ConvertIntoValueDiv&gt;
+      &lt;label for="into-value"&gt;Converted&lt;/label&gt;
+      &lt;input id="into-value" type="text" inputmode="decimal" value="92.10" readonly /&gt;
+    &lt;/ConvertIntoValueDiv&gt;
+    &lt;ConvertIntoUnitDiv&gt;
+      &lt;label for="into-unit"&gt;Into&lt;/label&gt;
+      &lt;select id="into-unit"&gt;&lt;option value="EUR"&gt;Euros&lt;/option&gt;&lt;option value="USD"&gt;US dollars&lt;/option&gt;&lt;/select&gt;
+    &lt;/ConvertIntoUnitDiv&gt;
+  &lt;/ConvertIntoDiv&gt;
+&lt;/ConvertDiv&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -1,0 +1,32 @@
+{#
+  ConvertFromUnitDiv macro -- the unit to convert from, such as a select box of currencies or lengths.
+
+  A headless part of ConvertDiv. Contract: a plain <div> with the base class and children.
+
+  HTML tag: <div>
+  CSS class: convert-from-unit-div
+
+  Params:
+    id           string   Element id.
+    classes      string   Consumer-provided extra CSS classes.
+    attributes   object   Extra HTML attributes as key/value pairs.
+    html         string   Raw HTML content.
+    text         string   Plain text content (escaped).
+
+  Usage:
+    {% from "components/convert-from-unit-div/macro.njk" import convertFromUnitDiv %}
+    {% call convertFromUnitDiv({  }) %}Content{% endcall %}
+#}
+{%- macro convertFromUnitDiv(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="convert-from-unit-div{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif p.text -%}{{ p.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

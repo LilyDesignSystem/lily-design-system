@@ -1,0 +1,16 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    ConvertIntoValueDiv component
+    A headless part of ConvertDiv: the converted value, such as a text input showing the number of euros.
+    Contract: a plain <div> with the base class and child content.
+    Unmatched attributes spread onto the root.
+*@
+
+<div class="@($"convert-into-value-div {CssClass}".Trim())" @attributes="AdditionalAttributes">@ChildContent</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

@@ -572,3 +572,10 @@ chat-composer	form	forms
 heatmap-chart-with-year-of-days	figure	data-viz
 middle-truncation	span	content
 wheel-picker	div	pickers
+convert-div	div	content
+convert-from-div	div	content
+convert-from-value-div	div	content
+convert-from-unit-div	div	content
+convert-into-div	div	content
+convert-into-value-div	div	content
+convert-into-unit-div	div	content

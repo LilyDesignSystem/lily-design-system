@@ -697,6 +697,13 @@ slug below links to the per-component documentation.
 - [heatmap-chart-with-year-of-days](components/heatmap-chart-with-year-of-days): a heatmap chart of one year of days, one cell per day in week columns and weekday rows
 - [middle-truncation](components/middle-truncation): a string shortened in the middle to fit its width, keeping the start and the end
 - [wheel-picker](components/wheel-picker): a vertical single-select listbox where the selection follows the cursor, for choosing one of a short list by scrolling or typing
+- [convert-div](components/convert-div): a group that converts a value from one unit into another, such as dollars into euros or miles into kilometres
+- [convert-from-div](components/convert-from-div): the source side of a conversion, holding the value and unit to convert from
+- [convert-from-value-div](components/convert-from-value-div): the value to convert from, such as a text input holding the number of dollars
+- [convert-from-unit-div](components/convert-from-unit-div): the unit to convert from, such as a select box of currencies or lengths
+- [convert-into-div](components/convert-into-div): the target side of a conversion, holding the value and unit to convert into
+- [convert-into-value-div](components/convert-into-value-div): the converted value, such as a text input showing the number of euros
+- [convert-into-unit-div](components/convert-into-unit-div): the unit to convert into, such as a select box of currencies or lengths
 
 ## Special-Purpose Identifiers
 

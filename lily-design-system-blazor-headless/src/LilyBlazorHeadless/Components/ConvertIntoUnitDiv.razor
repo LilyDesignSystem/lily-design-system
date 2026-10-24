@@ -1,0 +1,16 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    ConvertIntoUnitDiv component
+    A headless part of ConvertDiv: the unit to convert into, such as a select box of currencies or lengths.
+    Contract: a plain <div> with the base class and child content.
+    Unmatched attributes spread onto the root.
+*@
+
+<div class="@($"convert-into-unit-div {CssClass}".Trim())" @attributes="AdditionalAttributes">@ChildContent</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

@@ -1,0 +1,18 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    ConvertDiv component
+    A headless part of ConvertDiv: a group that converts a value from one unit into another, such as dollars into euros or miles into kilometres.
+    Contract: a plain <div> with the base class and child content; role="group" named by Label.
+    Unmatched attributes spread onto the root.
+*@
+
+<div class="@($"convert-div {CssClass}".Trim())" role="group" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+
+@code {
+    /// <summary>Accessible name of the group (required).</summary>
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

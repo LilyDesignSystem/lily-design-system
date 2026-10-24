@@ -584,4 +584,11 @@ export const LILY_COMPONENTS: LilyComponent[] = [
   { name: "heatmap-chart-with-year-of-days", pascal: "HeatmapChartWithYearOfDays", description: "a heatmap chart of one year of days, one cell per day in week columns and weekday rows", status: "experimental" },
   { name: "middle-truncation", pascal: "MiddleTruncation", description: "a string shortened in the middle to fit its width, keeping the start and the end", status: "experimental" },
   { name: "wheel-picker", pascal: "WheelPicker", description: "a vertical single-select listbox where the selection follows the cursor, for choosing one of a short list by scrolling or typing", status: "experimental" },
+  { name: "convert-div", pascal: "ConvertDiv", description: "a group that converts a value from one unit into another, such as dollars into euros or miles into kilometres", status: "beta" },
+  { name: "convert-from-div", pascal: "ConvertFromDiv", description: "the source side of a conversion, holding the value and unit to convert from", status: "beta" },
+  { name: "convert-from-value-div", pascal: "ConvertFromValueDiv", description: "the value to convert from, such as a text input holding the number of dollars", status: "beta" },
+  { name: "convert-from-unit-div", pascal: "ConvertFromUnitDiv", description: "the unit to convert from, such as a select box of currencies or lengths", status: "beta" },
+  { name: "convert-into-div", pascal: "ConvertIntoDiv", description: "the target side of a conversion, holding the value and unit to convert into", status: "beta" },
+  { name: "convert-into-value-div", pascal: "ConvertIntoValueDiv", description: "the converted value, such as a text input showing the number of euros", status: "beta" },
+  { name: "convert-into-unit-div", pascal: "ConvertIntoUnitDiv", description: "the unit to convert into, such as a select box of currencies or lengths", status: "beta" },
 ];

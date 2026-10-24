@@ -4025,6 +4025,55 @@ export const components: ComponentMeta[] = [
       tag: "div",
       category: "pickers",
   },
+  {
+      slug: "convert-div",
+      name: "ConvertDiv",
+      description: "a group that converts a value from one unit into another, such as dollars into euros or miles into kilometres",
+      tag: "div",
+      category: "content",
+  },
+  {
+      slug: "convert-from-div",
+      name: "ConvertFromDiv",
+      description: "the source side of a conversion, holding the value and unit to convert from",
+      tag: "div",
+      category: "content",
+  },
+  {
+      slug: "convert-from-value-div",
+      name: "ConvertFromValueDiv",
+      description: "the value to convert from, such as a text input holding the number of dollars",
+      tag: "div",
+      category: "content",
+  },
+  {
+      slug: "convert-from-unit-div",
+      name: "ConvertFromUnitDiv",
+      description: "the unit to convert from, such as a select box of currencies or lengths",
+      tag: "div",
+      category: "content",
+  },
+  {
+      slug: "convert-into-div",
+      name: "ConvertIntoDiv",
+      description: "the target side of a conversion, holding the value and unit to convert into",
+      tag: "div",
+      category: "content",
+  },
+  {
+      slug: "convert-into-value-div",
+      name: "ConvertIntoValueDiv",
+      description: "the converted value, such as a text input showing the number of euros",
+      tag: "div",
+      category: "content",
+  },
+  {
+      slug: "convert-into-unit-div",
+      name: "ConvertIntoUnitDiv",
+      description: "the unit to convert into, such as a select box of currencies or lengths",
+      tag: "div",
+      category: "content",
+  },
 ];
 
 /** Category id → display label (plan P6-T5's category filter). */

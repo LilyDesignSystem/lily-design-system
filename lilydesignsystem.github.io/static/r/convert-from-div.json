@@ -1,0 +1,40 @@
+{
+  "slug": "convert-from-div",
+  "name": "ConvertFromDiv",
+  "description": "the source side of a conversion, holding the value and unit to convert from",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".convert-from-div",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all nine headless libraries; not yet exercised in composed flows",
+  "aria": [
+    "No ARIA attributes; the consumer's own label and control carry the name"
+  ],
+  "keyboard": [
+    "None of its own"
+  ],
+  "props": [
+    "`class`: string -- Appended to the base class",
+    "`children`: slot -- The content",
+    "`...restProps`: HTML attributes -- Spread onto the root `<div>`"
+  ],
+  "related": [
+    "convert-div",
+    "convert-from-value-div",
+    "convert-from-unit-div"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/convert-from-div.html",
+    "svelte": "lily-design-system-svelte-headless/components/ConvertFromDiv/ConvertFromDiv.svelte",
+    "react": "lily-design-system-react-headless/components/ConvertFromDiv.tsx",
+    "vue": "lily-design-system-vue-headless/components/ConvertFromDiv.vue",
+    "angular": "lily-design-system-angular-headless/components/ConvertFromDiv.ts",
+    "web-components": "lily-design-system-web-components-headless/components/convert-from-div.ts",
+    "alpine": "lily-design-system-alpine-headless/components/convert-from-div.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/convert-from-div/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ConvertFromDiv.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/convert-from-div/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/convert-from-div/AGENTS.md"
+}

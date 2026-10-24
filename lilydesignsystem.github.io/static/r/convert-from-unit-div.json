@@ -1,0 +1,40 @@
+{
+  "slug": "convert-from-unit-div",
+  "name": "ConvertFromUnitDiv",
+  "description": "the unit to convert from, such as a select box of currencies or lengths",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".convert-from-unit-div",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all nine headless libraries; not yet exercised in composed flows",
+  "aria": [
+    "No ARIA attributes; the consumer's own label and control carry the name"
+  ],
+  "keyboard": [
+    "None of its own"
+  ],
+  "props": [
+    "`class`: string -- Appended to the base class",
+    "`children`: slot -- The content",
+    "`...restProps`: HTML attributes -- Spread onto the root `<div>`"
+  ],
+  "related": [
+    "convert-from-div",
+    "convert-into-unit-div",
+    "select"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/convert-from-unit-div.html",
+    "svelte": "lily-design-system-svelte-headless/components/ConvertFromUnitDiv/ConvertFromUnitDiv.svelte",
+    "react": "lily-design-system-react-headless/components/ConvertFromUnitDiv.tsx",
+    "vue": "lily-design-system-vue-headless/components/ConvertFromUnitDiv.vue",
+    "angular": "lily-design-system-angular-headless/components/ConvertFromUnitDiv.ts",
+    "web-components": "lily-design-system-web-components-headless/components/convert-from-unit-div.ts",
+    "alpine": "lily-design-system-alpine-headless/components/convert-from-unit-div.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/convert-from-unit-div/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ConvertFromUnitDiv.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/convert-from-unit-div/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/convert-from-unit-div/AGENTS.md"
+}

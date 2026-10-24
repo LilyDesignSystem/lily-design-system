@@ -1,0 +1,42 @@
+{
+  "slug": "convert-div",
+  "name": "ConvertDiv",
+  "description": "a group that converts a value from one unit into another, such as dollars into euros or miles into kilometres",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".convert-div",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all nine headless libraries; not yet exercised in composed flows",
+  "aria": [
+    "`role=\"group\"` and `aria-label` from the required `label` prop"
+  ],
+  "keyboard": [
+    "None of its own"
+  ],
+  "props": [
+    "`label`: string (required) -- Accessible name of the group (`aria-label`)",
+    "`class`: string -- Appended to the base class",
+    "`children`: slot -- The content",
+    "`...restProps`: HTML attributes -- Spread onto the root `<div>`"
+  ],
+  "related": [
+    "convert-from-div",
+    "convert-into-div",
+    "form",
+    "field"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/convert-div.html",
+    "svelte": "lily-design-system-svelte-headless/components/ConvertDiv/ConvertDiv.svelte",
+    "react": "lily-design-system-react-headless/components/ConvertDiv.tsx",
+    "vue": "lily-design-system-vue-headless/components/ConvertDiv.vue",
+    "angular": "lily-design-system-angular-headless/components/ConvertDiv.ts",
+    "web-components": "lily-design-system-web-components-headless/components/convert-div.ts",
+    "alpine": "lily-design-system-alpine-headless/components/convert-div.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/convert-div/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ConvertDiv.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/convert-div/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/convert-div/AGENTS.md"
+}

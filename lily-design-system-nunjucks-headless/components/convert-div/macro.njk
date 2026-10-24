@@ -1,0 +1,35 @@
+{#
+  ConvertDiv macro -- a group that converts a value from one unit into another, such as dollars into euros or miles into kilometres.
+
+  A headless part of ConvertDiv. Contract: a plain <div> with the base class and children; role="group" named by label.
+
+  HTML tag: <div>
+  CSS class: convert-div
+
+  Params:
+    label        string   Accessible name of the group (aria-label). Required.
+    id           string   Element id.
+    classes      string   Consumer-provided extra CSS classes.
+    attributes   object   Extra HTML attributes as key/value pairs.
+    html         string   Raw HTML content.
+    text         string   Plain text content (escaped).
+
+  Usage:
+    {% from "components/convert-div/macro.njk" import convertDiv %}
+    {% call convertDiv({ label: "Currency converter" }) %}Content{% endcall %}
+#}
+{%- macro convertDiv(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="convert-div{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="group"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif p.text -%}{{ p.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

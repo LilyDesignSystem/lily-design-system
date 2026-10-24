@@ -2504,3 +2504,31 @@
 /* wheel-picker-option: sub-element of wheel-picker */
 .wheel-picker-option {
 }
+
+/* convert-div: a group that converts a value from one unit into another, such as dollars into euros or miles into kilometres */
+.convert-div {
+}
+
+/* convert-from-div: the source side of a conversion, holding the value and unit to convert from */
+.convert-from-div {
+}
+
+/* convert-from-value-div: the value to convert from, such as a text input holding the number of dollars */
+.convert-from-value-div {
+}
+
+/* convert-from-unit-div: the unit to convert from, such as a select box of currencies or lengths */
+.convert-from-unit-div {
+}
+
+/* convert-into-div: the target side of a conversion, holding the value and unit to convert into */
+.convert-into-div {
+}
+
+/* convert-into-value-div: the converted value, such as a text input showing the number of euros */
+.convert-into-value-div {
+}
+
+/* convert-into-unit-div: the unit to convert into, such as a select box of currencies or lengths */
+.convert-into-unit-div {
+}
