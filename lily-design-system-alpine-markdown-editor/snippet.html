@@ -1,0 +1,21 @@
+<!-- markdown-editor snippet (Alpine.js) -->
+<!--
+  Requires: Alpine.js and the Lily Markdown editor plugin:
+    import Alpine from "alpinejs";
+    import lilyMarkdownEditor from "@lilydesignsystem/alpine-markdown-editor";
+    Alpine.plugin(lilyMarkdownEditor);
+  `markdownEditorOptions` is your own object: { value, label, toolbarLabel, labels, tools, headingLevel, name, rows, placeholder, disabled, readonly, required }.
+  Headless: no CSS, no text. Every name comes from the options; a tool with no entry in `labels` is not rendered.
+-->
+<div class="markdown-editor" x-data="lilyMarkdownEditor(markdownEditorOptions)">
+  <div class="markdown-editor-toolbar" role="toolbar" aria-orientation="horizontal" :aria-label="toolbarLabel" :aria-controls="id" @keydown="onToolbarKeydown($event)">
+    <template x-for="(tool, i) in shown" :key="tool">
+      <button class="markdown-editor-button" type="button" :data-tool="tool" :aria-label="labels[tool]" :tabindex="i === activeIndex ? 0 : -1" :disabled="disabled" :aria-disabled="readonly ? 'true' : null" @focus="active = i" @click="run(tool)">
+        <svg class="markdown-editor-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="1.05rem" height="1.05rem">
+          <path :d="iconPath(tool)"></path>
+        </svg>
+      </button>
+    </template>
+  </div>
+  <textarea class="markdown-editor-textarea" x-ref="textarea" :id="id" :name="name || null" :rows="rows || null" :placeholder="placeholder || null" :aria-label="label" :disabled="disabled" :readonly="readonly" :required="required" :value="value" @input="onInput($event)" @keydown="onTextKeydown($event)"></textarea>
+</div>

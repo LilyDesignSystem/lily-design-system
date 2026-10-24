@@ -1,0 +1,12 @@
+<!-- Example 1 — Basic usage: the plugin, an options object, and snippet.html. -->
+<script type="module">
+  import Alpine from "alpinejs";
+  import lilyMarkdownEditor from "../dist/index.js";
+  window.Alpine = Alpine;
+  Alpine.plugin(lilyMarkdownEditor);
+  window.markdownEditorOptions = {
+    label: "Message", toolbarLabel: "Formatting", name: "body", rows: 8, value: "Hello **world**",
+    labels: { bold: "Bold", italic: "Italic", link: "Link", bulletList: "Bulleted list" },
+  };
+  Alpine.start();
+</script>
