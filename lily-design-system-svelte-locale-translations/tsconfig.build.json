@@ -10,6 +10,7 @@
   "include": [
     "index.ts",
     "label-pack.ts",
-    "intl-labels.ts"
+    "intl-labels.ts",
+    "zone-names.ts"
   ]
 }

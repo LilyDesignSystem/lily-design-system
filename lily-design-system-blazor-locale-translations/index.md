@@ -15,3 +15,15 @@ var pack = LabelPack.FromJson(LocaleTranslations.Json("cy-001"));   // LabelPack
 | `Reviewed(locale)` | Only `en-001` is reviewed; the other 63 are machine drafts, so have a native speaker read one before it ships. |
 
 The packs are the npm package `@lilydesignsystem/locale-translations`'s files (edited in `shared/label-packs/`); this package embeds that copy.
+
+## Time zone names (Unicode CLDR)
+
+The localized display names of IANA time zones, one pack per locale (all 64), for `TimeZonePicker`:
+
+```csharp
+IReadOnlyDictionary<string, (string Standard, string? Daylight)> names = LocaleTranslations.ZoneNames("fr-001");
+// <TimeZonePicker Locale="fr" Names="@names" />
+```
+
+`ZoneNameLocales`, `ZoneNamesJson(locale)` and `ZoneNamesCldrVersion(locale)` are the rest of the API. A zone CLDR has no name for in a language is not in its pack, never filled from another language; Cornish, Scots and Wu have none at all. The CLDR licence notice ships in the package. See [spec/zone-names](../spec/zone-names/index.md).
+

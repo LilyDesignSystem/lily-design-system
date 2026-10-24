@@ -122,22 +122,27 @@ public static class TimeZones
     }
 
     /// <summary>
-    /// The zone's full name at <paramref name="date"/>: the consumer's <paramref name="names"/> entry when given,
-    /// else the platform's own standard or daylight name. .NET has no API for a zone's name in an arbitrary
-    /// locale, so a localized name comes from <paramref name="names"/> (the one deviation from the TypeScript
-    /// catalogs, which read it from <c>Intl</c>).
+    /// The zone's full name at <paramref name="date"/>: the consumer's <paramref name="names"/> entry when given (its
+    /// daylight name while daylight time is in force), else the platform's own standard or daylight name. .NET has no
+    /// API for a zone's name in an arbitrary locale, so a localized name comes from <paramref name="names"/>: the
+    /// Unicode CLDR names in <c>LocaleTranslations.ZoneNames(locale)</c> (the one deviation from the TypeScript
+    /// catalogs, which can also read it from <c>Intl</c>).
     /// </summary>
-    public static string? ZoneName(string id, DateTimeOffset date, IReadOnlyDictionary<string, string>? names = null)
+    public static string? ZoneName(string id, DateTimeOffset date, IReadOnlyDictionary<string, (string Standard, string? Daylight)>? names = null)
     {
-        if (names is not null && names.TryGetValue(id, out var given) && !string.IsNullOrEmpty(given)) return given;
         var tz = Find(id);
+        if (names is not null && names.TryGetValue(id, out var given) && !string.IsNullOrEmpty(given.Standard))
+        {
+            var daylight = tz is not null && tz.IsDaylightSavingTime(date) && !string.IsNullOrEmpty(given.Daylight);
+            return daylight ? given.Daylight : given.Standard;
+        }
         if (tz is null) return null;
         var name = tz.IsDaylightSavingTime(date) ? tz.DaylightName : tz.StandardName;
         return string.IsNullOrEmpty(name) ? null : name;
     }
 
     /// <summary>One zone's entry, or null when the runtime does not know it.</summary>
-    public static ZoneEntry? Info(string id, DateTimeOffset date, IReadOnlyDictionary<string, string>? names = null, Func<ZoneEntry, string>? labelFor = null)
+    public static ZoneEntry? Info(string id, DateTimeOffset date, IReadOnlyDictionary<string, (string Standard, string? Daylight)>? names = null, Func<ZoneEntry, string>? labelFor = null)
     {
         var minutes = OffsetMinutes(id, date);
         if (minutes is null) return null;
@@ -159,7 +164,7 @@ public static class TimeZones
         IEnumerable<string> zones,
         string locale,
         DateTimeOffset date,
-        IReadOnlyDictionary<string, string>? names = null,
+        IReadOnlyDictionary<string, (string Standard, string? Daylight)>? names = null,
         Func<ZoneEntry, string>? labelFor = null)
     {
         var seen = new HashSet<string>();
@@ -194,7 +199,7 @@ public static class TimeZones
     /// Which of <paramref name="zones"/> stands for <paramref name="system"/>: the zone itself when listed, else
     /// the listed zone with the same offset and name (Europe/Berlin → Europe/Paris), else null.
     /// </summary>
-    public static string? MatchZone(string? system, IReadOnlyList<ZoneEntry> zones, DateTimeOffset date, IReadOnlyDictionary<string, string>? names = null)
+    public static string? MatchZone(string? system, IReadOnlyList<ZoneEntry> zones, DateTimeOffset date, IReadOnlyDictionary<string, (string Standard, string? Daylight)>? names = null)
     {
         if (string.IsNullOrEmpty(system)) return null;
         if (zones.Any(z => z.Id == system)) return system;

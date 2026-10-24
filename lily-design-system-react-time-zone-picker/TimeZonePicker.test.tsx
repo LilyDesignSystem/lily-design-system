@@ -158,6 +158,25 @@ describe("options: offsets and full names, ordered by offset", () => {
     });
 });
 
+describe("supplied names (CLDR packs)", () => {
+    const names = { "Asia/Kolkata": "Bharat Standard", "Europe/Paris": ["Paris Standard", "Paris Summer"] } as const;
+
+    test("win over Intl for the zones they name, and the rest stay Intl's", async () => {
+        render(<TimeZonePicker {...({ ...base, names })} />);
+        await flush();
+        const text = options().map((o) => o.textContent!.trim());
+        expect(text).toContain("UTC+05:30 – Bharat Standard");
+        expect(text).toContain("UTC+01:00 – Paris Standard");
+        expect(text).toContain("UTC+09:00 – Japan Standard Time");
+    });
+
+    test("a daylight pair follows the date", async () => {
+        render(<TimeZonePicker {...({ ...base, date: SUMMER, names })} />);
+        await flush();
+        expect(options().map((o) => o.textContent!.trim())).toContain("UTC+02:00 – Paris Summer");
+    });
+});
+
 describe("selection and applying", () => {
     test("choosing a zone sets the value, the hidden input, aria-selected and data-time-zone", async () => {
         render(<TimeZonePicker {...({ ...base, defaultValue: "UTC" })} />);

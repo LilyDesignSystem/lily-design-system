@@ -51,11 +51,12 @@ public partial class TimeZonePicker : ComponentBase
     [Parameter] public DateTimeOffset? Date { get; set; }
 
     /// <summary>
-    /// Full zone names by IANA id, in the reader's language. .NET has no per-locale zone-name API, so this is where
-    /// a localized name comes from (for example built with <c>Intl.DateTimeFormat</c> in the browser, or from
-    /// resource files); a zone without an entry shows the platform's own name.
+    /// Full zone names by IANA id, in the reader's language: <c>(Standard, Daylight)</c>, with a null daylight name for a
+    /// zone that has one name all year. .NET has no per-locale zone-name API, so this is where a localized name comes
+    /// from: the Unicode CLDR names in <c>LocaleTranslations.ZoneNames("fr-001")</c> (package
+    /// <c>LilyDesignSystem.Blazor.LocaleTranslations</c>). A zone without an entry shows the platform's own name.
     /// </summary>
-    [Parameter] public IReadOnlyDictionary<string, string>? Names { get; set; }
+    [Parameter] public IReadOnlyDictionary<string, (string Standard, string? Daylight)>? Names { get; set; }
 
     /// <summary>Builds an option's text from its entry. Default <c>UTC+01:00 – Central European Standard Time</c>.</summary>
     [Parameter] public Func<ZoneEntry, string>? LabelFor { get; set; }

@@ -46,6 +46,7 @@ Vue idioms: `v-model:value` binds the zone and `v-model:open` the popup; a `chan
 | `name`         | `string`                    | no       | `name` of the hidden input (default `"time-zone"`).                                              |
 | `target`       | `HTMLElement \| null`       | no       | Element to receive `data-time-zone`. Default `<html>`.                                           |
 | `labelFor`     | `(zone: ZoneInfo) => string`| no       | Builds an option's text. Default `UTC+01:00 – Central European Standard Time`.                   |
+| `names`        | `ZoneNames`                 | no       | Zone names by IANA id (a name, or `[standard, daylight]`) that win over `Intl`: the CLDR packs, below. |
 | `children`     | `Snippet<[ChildArgs]>`      | no       | Replaces the clock icon.                                                                         |
 | `onChange`     | `(zone: string) => void`    | no       | Called once after a new zone is applied.                                                         |
 | `open`         | `boolean`                   | no       | Is the popup open? Bindable.                                                                     |
@@ -55,6 +56,29 @@ Vue idioms: `v-model:value` binds the zone and `v-model:open` the popup; a `chan
 
 The pure functions are exported too: `orderedZones`, `zoneInfo`, `offsetMinutes`, `formatOffset`, `zoneName`,
 `matchZone`, `systemZone`, `defaultLabel`.
+
+## Zone names from Unicode CLDR
+
+By default the full names come from `Intl`, so they are whatever ICU data the browser or server carries. For the same
+name in every runtime, pass the Unicode CLDR names that `@lilydesignsystem/vue-locale-translations` ships, one pack
+per label-pack locale (all 64), with the pack's own locale tag as the picker's `locale`:
+
+```vue
+<script setup lang="ts">
+import TimeZonePicker from "@lilydesignsystem/vue-time-zone-picker";
+import { zoneNamesFrom } from "@lilydesignsystem/vue-locale-translations";
+import fr from "@lilydesignsystem/vue-locale-translations/zone-names/fr-001";
+const names = zoneNamesFrom(fr);
+</script>
+
+<template>
+  <TimeZonePicker label="Fuseau horaire" locale="fr" :names="names" />
+</template>
+```
+
+A pack names about 425 zones, with the daylight name where a zone has one. A zone CLDR has no name for in that language
+is not in the pack and falls back to `Intl`, never to another language. Cornish, Scots and Wu have no CLDR zone names, so
+their packs are empty. See [spec/zone-names](../spec/zone-names/index.md).
 
 ## Behaviour
 

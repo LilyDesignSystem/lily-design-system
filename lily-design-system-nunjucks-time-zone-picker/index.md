@@ -40,7 +40,7 @@ const zoneOptions = timeZoneOptions({ locale: "en-GB" });
 autoInit();
 ```
 
-Nunjucks idioms: the macro takes one `opts` object (`label`, `locale`, `options` are required; `date`, `value`, `defaultValue`, `storageKey`, `name`, `id`, `open`, `disabled`, `classes`, `attributes` are optional), and a `{% call %}` block replaces the icon. `options` is the output of `timeZoneOptions({ locale, zones?, date?, labelFor? })`, already ordered by offset. The client (`initTimeZonePicker(root, { onChange, target })`, `autoInit()`) returns `{ setZone, setOpen, setDisabled, isOpen, destroy }`. The button does nothing until the client runs.
+Nunjucks idioms: the macro takes one `opts` object (`label`, `locale`, `options` are required; `date`, `value`, `defaultValue`, `storageKey`, `name`, `id`, `open`, `disabled`, `classes`, `attributes` are optional), and a `{% call %}` block replaces the icon. `options` is the output of `timeZoneOptions({ locale, zones?, date?, labelFor?, names? })`, already ordered by offset. The client (`initTimeZonePicker(root, { onChange, target })`, `autoInit()`) returns `{ setZone, setOpen, setDisabled, isOpen, destroy }`. The button does nothing until the client runs.
 
 ## Props
 
@@ -48,6 +48,24 @@ See the idioms above: the macro parameters are the Svelte props, with `options` 
 
 The pure functions are exported too: `orderedZones`, `zoneInfo`, `offsetMinutes`, `formatOffset`, `zoneName`,
 `matchZone`, `systemZone`, `defaultLabel`.
+
+## Zone names from Unicode CLDR
+
+By default the full names come from `Intl`, so they are whatever ICU data the browser or server carries. For the same
+name in every runtime, pass the Unicode CLDR names that `@lilydesignsystem/nunjucks-locale-translations` ships, one pack
+per label-pack locale (all 64), with the pack's own locale tag as the picker's `locale`:
+
+```js
+import { timeZoneOptions } from "@lilydesignsystem/nunjucks-time-zone-picker";
+import { zoneNamesFrom } from "@lilydesignsystem/nunjucks-locale-translations";
+import fr from "@lilydesignsystem/nunjucks-locale-translations/zone-names/fr-001";
+
+const zoneOptions = timeZoneOptions({ locale: "fr", names: zoneNamesFrom(fr) });
+```
+
+A pack names about 425 zones, with the daylight name where a zone has one. A zone CLDR has no name for in that language
+is not in the pack and falls back to `Intl`, never to another language. Cornish, Scots and Wu have no CLDR zone names, so
+their packs are empty. See [spec/zone-names](../spec/zone-names/index.md).
 
 ## Behaviour
 

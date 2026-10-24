@@ -1,10 +1,10 @@
 <script lang="ts" module>
     import type { Snippet } from "svelte";
     import { IconButton, Listbox } from "@lilydesignsystem/svelte-headless";
-    import { DEFAULT_ZONES, type ZoneInfo } from "./zones.js";
+    import { DEFAULT_ZONES, type ZoneInfo, type ZoneNames } from "./zones.js";
 
     export { DEFAULT_ZONES };
-    export type { ZoneInfo };
+    export type { ZoneInfo, ZoneNames };
 
     /** Arguments passed to a custom `children` snippet (the button glyph). */
     export type ChildArgs = {
@@ -41,6 +41,8 @@
         target?: HTMLElement | null;
         /** Builds an option's text from its info. Default: `UTC+01:00 – Central European Standard Time`. */
         labelFor?: (zone: ZoneInfo) => string;
+        /** Zone names by IANA id (one name, or `[standard, daylight]`), which win over `Intl`: from the locale-translations zone-name packs (CLDR) via `zoneNamesFrom()`. */
+        names?: ZoneNames;
         /** Replaces the default clock icon inside the button. */
         children?: Snippet<[ChildArgs]>;
         /** Called after the control applies a new zone. */
@@ -80,6 +82,7 @@
         name = "time-zone",
         target,
         labelFor,
+        names,
         children,
         onChange,
         open = $bindable(false),
@@ -134,9 +137,9 @@
     // The zones as the listbox shows them, ordered by offset. The date is read once when none is given: a picker
     // that re-sorted itself while open would move the option under the pointer.
     const when = untrack(() => date ?? new Date());
-    const infos = $derived(orderedZones(zones, locale, date ?? when, labelFor));
+    const infos = $derived(orderedZones(zones, locale, date ?? when, labelFor, names));
     const ids = $derived(infos.map((z) => z.id));
-    const infoFor = (zone: string) => zoneInfo(zone, locale, date ?? when, labelFor);
+    const infoFor = (zone: string) => zoneInfo(zone, locale, date ?? when, labelFor, names);
 
     // The zone the DOM currently carries. Applying is idempotent: the
     // effect below can run for reasons other than a zone change, and
@@ -301,7 +304,7 @@
                 // The reader's own zone when it is listed (or has a listed twin), else the default, else UTC.
                 initial =
                     defaultValue ??
-                    matchZone(systemZone(), infos, locale, date ?? when) ??
+                    matchZone(systemZone(), infos, locale, date ?? when, names) ??
                     (ids.includes("UTC") ? "UTC" : ids[0]) ??
                     "";
             }

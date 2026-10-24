@@ -17,10 +17,10 @@ import {
   viewChild,
 } from "@angular/core";
 import { IconButton, Listbox } from "@lilydesignsystem/angular-headless";
-import { DEFAULT_ZONES, matchZone, orderedZones, systemZone, zoneInfo, type ZoneInfo } from "./zones.js";
+import { DEFAULT_ZONES, matchZone, orderedZones, systemZone, zoneInfo, type ZoneInfo, type ZoneNames } from "./zones.js";
 
 export { DEFAULT_ZONES };
-export type { ZoneInfo };
+export type { ZoneInfo, ZoneNames };
 
 /** Context passed to a custom icon `<ng-template>` (the button icon). */
 export type ChildArgs = {
@@ -183,6 +183,8 @@ export class TimeZonePicker {
   readonly date = input<Date | undefined>(undefined);
   /** Builds an option's text from its info. Default: `UTC+01:00 – Central European Standard Time`. */
   readonly labelFor = input<((zone: ZoneInfo) => string) | undefined>(undefined);
+  /** Zone names by IANA id (one name, or `[standard, daylight]`), which win over `Intl`: from the locale-translations zone-name packs (CLDR) via `zoneNamesFrom()`. */
+  readonly names = input<ZoneNames | undefined>(undefined);
   readonly value = model<string>("");
   readonly defaultValue = input<string>("");
   readonly storageKey = input<string>("");
@@ -273,10 +275,10 @@ export class TimeZonePicker {
   // that re-sorted itself while open would move the option under the pointer.
   private readonly whenInitial = new Date();
   private readonly when = computed(() => this.date() ?? this.whenInitial);
-  protected readonly infos = computed(() => orderedZones(this.zones(), this.locale(), this.when(), this.labelFor()));
+  protected readonly infos = computed(() => orderedZones(this.zones(), this.locale(), this.when(), this.labelFor(), this.names()));
   protected readonly ids = computed(() => this.infos().map((z) => z.id));
   infoFor(zone: string): ZoneInfo | undefined {
-    return zoneInfo(zone, this.locale(), this.when(), this.labelFor());
+    return zoneInfo(zone, this.locale(), this.when(), this.labelFor(), this.names());
   }
 
   protected readonly childContext = computed(() => {
@@ -318,7 +320,7 @@ export class TimeZonePicker {
           // The reader's own zone when it is listed (or has a listed twin), else UTC, else the first.
           initial =
             dv ||
-            matchZone(systemZone(), this.infos(), this.locale(), this.when()) ||
+            matchZone(systemZone(), this.infos(), this.locale(), this.when(), this.names()) ||
             (ids.includes("UTC") ? "UTC" : ids[0]) ||
             "";
         }

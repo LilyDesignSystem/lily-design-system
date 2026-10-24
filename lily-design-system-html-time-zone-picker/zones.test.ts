@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { DEFAULT_ZONES, defaultLabel, formatOffset, matchZone, offsetMinutes, orderedZones, zoneInfo, zoneName } from "./zones.js";
+import { DEFAULT_ZONES, defaultLabel, formatOffset, isDaylightTime, matchZone, offsetMinutes, orderedZones, zoneInfo, zoneName } from "./zones.js";
 
 // A winter date and a summer date, so daylight saving time is exercised in both hemispheres.
 const WINTER = new Date(Date.UTC(2026, 0, 15, 12, 0, 0));
@@ -133,5 +133,37 @@ describe("matchZone", () => {
     it("is undefined when nothing matches or the zone is unknown", () => {
         expect(matchZone("Nowhere/Land", zones, "en", WINTER)).toBeUndefined();
         expect(matchZone(undefined, zones, "en", WINTER)).toBeUndefined();
+    });
+});
+
+describe("isDaylightTime", () => {
+    it("is true only while daylight time is in force", () => {
+        expect(isDaylightTime("Europe/Paris", SUMMER)).toBe(true);
+        expect(isDaylightTime("Europe/Paris", WINTER)).toBe(false);
+        expect(isDaylightTime("Australia/Sydney", WINTER)).toBe(true);
+        expect(isDaylightTime("Australia/Sydney", SUMMER)).toBe(false);
+    });
+    it("is never true for a zone without daylight time, or an unknown one", () => {
+        expect(isDaylightTime("Asia/Kolkata", SUMMER)).toBe(false);
+        expect(isDaylightTime("UTC", WINTER)).toBe(false);
+        expect(isDaylightTime("Nowhere/Land", WINTER)).toBe(false);
+    });
+});
+
+describe("supplied names", () => {
+    const names = { "Europe/Paris": ["Standard Paris", "Daylight Paris"], "Asia/Kolkata": "Kolkata All Year" } as const;
+    it("win over Intl, and a pair follows daylight time", () => {
+        expect(zoneName("Europe/Paris", "en", WINTER, names)).toBe("Standard Paris");
+        expect(zoneName("Europe/Paris", "en", SUMMER, names)).toBe("Daylight Paris");
+        expect(zoneName("Asia/Kolkata", "en", SUMMER, names)).toBe("Kolkata All Year");
+    });
+    it("leave Intl in charge of a zone they do not name", () => {
+        expect(zoneName("Asia/Tokyo", "en", WINTER, names)).toBe("Japan Standard Time");
+    });
+    it("reach the label, the order and the matching", () => {
+        expect(zoneInfo("Europe/Paris", "en", SUMMER, undefined, names)!.label).toBe("UTC+02:00 – Daylight Paris");
+        const zones = orderedZones(["Asia/Kolkata", "Europe/Paris"], "en", WINTER, undefined, names);
+        expect(zones.map((z) => z.name)).toEqual(["Standard Paris", "Kolkata All Year"]);
+        expect(matchZone("Europe/Berlin", orderedZones(["Europe/Paris"], "en", WINTER, undefined, { ...names, "Europe/Berlin": ["Standard Paris", "x"] }), "en", WINTER, { ...names, "Europe/Berlin": ["Standard Paris", "x"] })).toBe("Europe/Paris");
     });
 });

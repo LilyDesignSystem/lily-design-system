@@ -26,7 +26,7 @@ new Intl.DateTimeFormat(locale, { timeZone: document.documentElement.dataset.tim
 <time-zone-picker label="Time zone" locale="en-GB" storage-key="lily-time-zone"></time-zone-picker>
 ```
 
-HTML idioms: `<time-zone-picker>` is a custom element registered by importing the package. Attributes: `label`, `locale`, `zones` (comma-separated IANA ids), `date` (ISO), `value`, `default-value`, `storage-key`, `name`, `class`, `open`, `disabled`. Properties: `zones`, `date`, `labelFor`, `target`, `open`, `disabled`, and the `infoFor(zone)` method. Events: `timezonechange` (`detail.zone`, once per applied change) and `openchange`. Subclass and override `renderButtonContent()` to replace the icon.
+HTML idioms: `<time-zone-picker>` is a custom element registered by importing the package. Attributes: `label`, `locale`, `zones` (comma-separated IANA ids), `date` (ISO), `value`, `default-value`, `storage-key`, `name`, `class`, `open`, `disabled`. Properties: `zones`, `date`, `labelFor`, `names`, `target`, `open`, `disabled`, and the `infoFor(zone)` method. Events: `timezonechange` (`detail.zone`, once per applied change) and `openchange`. Subclass and override `renderButtonContent()` to replace the icon.
 
 ## Props
 
@@ -34,6 +34,23 @@ See the idioms above; every prop of the Svelte reference is an attribute or a pr
 
 The pure functions are exported too: `orderedZones`, `zoneInfo`, `offsetMinutes`, `formatOffset`, `zoneName`,
 `matchZone`, `systemZone`, `defaultLabel`.
+
+## Zone names from Unicode CLDR
+
+By default the full names come from `Intl`, so they are whatever ICU data the browser or server carries. For the same
+name in every runtime, pass the Unicode CLDR names that `@lilydesignsystem/html-locale-translations` ships, one pack
+per label-pack locale (all 64), with the pack's own locale tag as the picker's `locale`:
+
+```js
+import { zoneNamesFrom } from "@lilydesignsystem/html-locale-translations";
+import fr from "@lilydesignsystem/html-locale-translations/zone-names/fr-001";
+
+document.querySelector("time-zone-picker").names = zoneNamesFrom(fr);
+```
+
+A pack names about 425 zones, with the daylight name where a zone has one. A zone CLDR has no name for in that language
+is not in the pack and falls back to `Intl`, never to another language. Cornish, Scots and Wu have no CLDR zone names, so
+their packs are empty. See [spec/zone-names](../spec/zone-names/index.md).
 
 ## Behaviour
 

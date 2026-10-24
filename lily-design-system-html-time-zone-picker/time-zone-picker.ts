@@ -10,10 +10,10 @@
  */
 
 import { ListboxController } from "@lilydesignsystem/html-headless/components/listbox-controller.js";
-import { DEFAULT_ZONES, matchZone, orderedZones, systemZone, zoneInfo, type ZoneInfo } from "./zones.js";
+import { DEFAULT_ZONES, matchZone, orderedZones, systemZone, zoneInfo, type ZoneInfo, type ZoneNames } from "./zones.js";
 
 export { DEFAULT_ZONES };
-export type { ZoneInfo };
+export type { ZoneInfo, ZoneNames };
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 
@@ -35,6 +35,7 @@ export type TimeZonePickerProps = {
     name?: string;
     target?: HTMLElement | null;
     labelFor?: ((zone: ZoneInfo) => string) | null;
+    names?: ZoneNames | null;
     class?: string;
 };
 
@@ -68,6 +69,7 @@ export class TimeZonePicker extends HTMLElement {
     #date: Date | null = null;
     #whenInitial: Date | null = null;
     #labelFor: ((zone: ZoneInfo) => string) | null = null;
+    #names: ZoneNames | null = null;
     /** Zones as shown, ordered by offset; rebuilt by #compute(). */
     #infos: ZoneInfo[] = [];
     #ids: string[] = [];
@@ -164,9 +166,18 @@ export class TimeZonePicker extends HTMLElement {
         if (this.isConnected) this.#render();
     }
 
+    /** Zone names by IANA id (one name, or `[standard, daylight]`), which win over `Intl`: from the locale-translations zone-name packs (CLDR) via `zoneNamesFrom()`. */
+    get names(): ZoneNames | null {
+        return this.#names;
+    }
+    set names(v: ZoneNames | null) {
+        this.#names = v ?? null;
+        if (this.isConnected) this.#render();
+    }
+
     /** Offset, name and label of any zone, for `renderButtonContent` and consumers. */
     infoFor(zone: string): ZoneInfo | undefined {
-        return zoneInfo(zone, this.locale, this.#when(), this.#labelFor ?? undefined);
+        return zoneInfo(zone, this.locale, this.#when(), this.#labelFor ?? undefined, this.#names ?? undefined);
     }
 
     #when(): Date {
@@ -178,7 +189,7 @@ export class TimeZonePicker extends HTMLElement {
     }
 
     #compute(): void {
-        this.#infos = orderedZones(this.#zones ?? DEFAULT_ZONES, this.locale, this.#when(), this.#labelFor ?? undefined);
+        this.#infos = orderedZones(this.#zones ?? DEFAULT_ZONES, this.locale, this.#when(), this.#labelFor ?? undefined, this.#names ?? undefined);
         this.#ids = this.#infos.map((z) => z.id);
     }
 
@@ -393,7 +404,7 @@ export class TimeZonePicker extends HTMLElement {
             // The reader's own zone when it is listed (or has a listed twin), else UTC, else the first.
             initial =
                 this.defaultValue ||
-                matchZone(systemZone(), this.#infos, this.locale, this.#when()) ||
+                matchZone(systemZone(), this.#infos, this.locale, this.#when(), this.#names ?? undefined) ||
                 (this.#ids.includes("UTC") ? "UTC" : this.#ids[0]) ||
                 "";
         }

@@ -43,6 +43,7 @@ Tooltip behaviour is the same as the other pickers: shown on hover (of the butto
 | `name`         | `string`                     | no       | `"time-zone"`    |
 | `target`       | `HTMLElement \| null`        | no       | `<html>`         |
 | `labelFor`     | `(zone: ZoneInfo) => string` | no       | `defaultLabel`   |
+| `names`        | `ZoneNames`                  | no       | —                |
 | `children`     | `Snippet<[ChildArgs]>`       | no       | clock icon       |
 | `onChange`     | `(zone: string) => void`     | no       | —                |
 | `open`         | `boolean`                    | no       | `false`          |
@@ -61,6 +62,11 @@ Tooltip behaviour is the same as the other pickers: shown on hover (of the butto
   collapse.
 - `DEFAULT_ZONES` is a curated list of 55 ids, one for each common offset and name, from `Pacific/Pago_Pago`
   (UTC−11) to `Pacific/Kiritimati` (UTC+14).
+
+- A `names` entry wins over `Intl`: a string is the name all year, `[standard, daylight]` is chosen by whether daylight
+  time is in force at `date` (the zone's offset is above the lowest it has that year). The CLDR packs in
+  `@lilydesignsystem/*-locale-translations` (`zone-names/<locale>.json`, all 64 label-pack locales) are the intended source;
+  see [spec/zone-names](../../spec/zone-names/index.md). A zone without an entry uses `Intl`.
 
 ## 6. Behaviour
 
@@ -91,6 +97,7 @@ Each is asserted in `TimeZonePicker.test.ts` or `zones.test.ts`.
 - [x] 7.11 Persistence under `storageKey`; a stored zone no longer offered is not restored.
 - [x] 7.12 APG keyboard contract; typeahead over the offset; `Escape` leaves the value unchanged.
 - [x] 7.13 Unknown zones are left out, repeats collapse, an empty list applies nothing.
+- [x] 7.14a `names` win over `Intl` for the zones they name, a daylight pair follows `date`, and the rest stay `Intl`'s.
 - [x] 7.14 `disabled`, `onOpenChange`, `children` icon override, unique ids.
 
 ---

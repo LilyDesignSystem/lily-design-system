@@ -1,9 +1,9 @@
 import * as React from "react";
 import { IconButton, Listbox } from "@lilydesignsystem/react-headless";
-import { DEFAULT_ZONES, matchZone, orderedZones, systemZone, zoneInfo, type ZoneInfo } from "./zones.js";
+import { DEFAULT_ZONES, matchZone, orderedZones, systemZone, zoneInfo, type ZoneInfo, type ZoneNames } from "./zones.js";
 
 export { DEFAULT_ZONES };
-export type { ZoneInfo };
+export type { ZoneInfo, ZoneNames };
 
 /** Default button icon: a bundled clock SVG, replaceable via `children`. */
 
@@ -44,6 +44,8 @@ export type Props = Omit<
     target?: HTMLElement | null;
     /** Builds an option's text from its info. Default: `UTC+01:00 – Central European Standard Time`. */
     labelFor?: (zone: ZoneInfo) => string;
+    /** Zone names by IANA id (one name, or `[standard, daylight]`), which win over `Intl`: from the locale-translations zone-name packs (CLDR) via `zoneNamesFrom()`. */
+    names?: ZoneNames;
     /** Replaces the default clock icon inside the button. */
     children?: (args: ChildArgs) => React.ReactNode;
     /** Called after the control applies a new zone. */
@@ -135,6 +137,7 @@ function resolveInitialZone(
     infos: ZoneInfo[],
     locale: string,
     date: Date,
+    names?: ZoneNames,
 ): string {
     if (value) return value;
     const ids = infos.map((z) => z.id);
@@ -149,7 +152,7 @@ function resolveInitialZone(
     }
     if (defaultValue) return defaultValue;
     // The reader's own zone when it is listed (or has a listed twin), else UTC, else the first.
-    return matchZone(systemZone(), infos, locale, date) ?? (ids.includes("UTC") ? "UTC" : ids[0]) ?? "";
+    return matchZone(systemZone(), infos, locale, date, names) ?? (ids.includes("UTC") ? "UTC" : ids[0]) ?? "";
 }
 
 export function TimeZonePicker({
@@ -163,6 +166,7 @@ export function TimeZonePicker({
     name = "time-zone",
     target,
     labelFor,
+    names,
     children,
     onChange,
     className = "",
@@ -226,9 +230,9 @@ export function TimeZonePicker({
     const whenRef = React.useRef<Date | null>(null);
     if (whenRef.current === null) whenRef.current = new Date();
     const when = date ?? whenRef.current;
-    const infos = React.useMemo(() => orderedZones(zones, locale, when, labelFor), [zones, locale, when, labelFor]);
+    const infos = React.useMemo(() => orderedZones(zones, locale, when, labelFor, names), [zones, locale, when, labelFor, names]);
     const sizes = React.useMemo(() => infos.map((z) => z.id), [infos]);
-    const infoFor = (zone: string) => zoneInfo(zone, locale, when, labelFor);
+    const infoFor = (zone: string) => zoneInfo(zone, locale, when, labelFor, names);
 
     // The zone the DOM currently carries. Applying is idempotent: in
     // controlled mode `setZone` applies straight away and the consumer's
@@ -391,6 +395,7 @@ export function TimeZonePicker({
             infos,
             locale,
             when,
+            names,
         );
         if (!initial) return;
 

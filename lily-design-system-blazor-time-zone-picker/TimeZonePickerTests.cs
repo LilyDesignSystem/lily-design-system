@@ -23,13 +23,13 @@ public class TimeZonePickerTests : TestContext
     // ...and the order the picker must show them in: west to east.
     private static readonly string[] Ordered = { "America/New_York", "UTC", "Europe/Paris", "Asia/Kolkata", "Asia/Tokyo" };
 
-    private static readonly Dictionary<string, string> Names = new()
+    private static readonly Dictionary<string, (string Standard, string? Daylight)> Names = new()
     {
-        ["America/New_York"] = "Eastern Standard Time",
-        ["UTC"] = "Coordinated Universal Time",
-        ["Europe/Paris"] = "Central European Standard Time",
-        ["Asia/Kolkata"] = "India Standard Time",
-        ["Asia/Tokyo"] = "Japan Standard Time",
+        ["America/New_York"] = ("Eastern Standard Time", "Eastern Daylight Time"),
+        ["UTC"] = ("Coordinated Universal Time", null),
+        ["Europe/Paris"] = ("Central European Standard Time", "Central European Summer Time"),
+        ["Asia/Kolkata"] = ("India Standard Time", null),
+        ["Asia/Tokyo"] = ("Japan Standard Time", null),
     };
 
     public TimeZonePickerTests()
@@ -44,7 +44,7 @@ public class TimeZonePickerTests : TestContext
         string label = "Time zone",
         string[]? zones = null,
         DateTimeOffset? date = null,
-        Dictionary<string, string>? names = null)
+        Dictionary<string, (string Standard, string? Daylight)>? names = null)
         => RenderComponent<TimeZonePicker>(p =>
         {
             p.Add(x => x.Label, label)
@@ -117,7 +117,7 @@ public class TimeZonePickerTests : TestContext
     [Fact]
     public void Ordered_Breaks_Ties_By_Name_Then_Id_And_Drops_Unknown_And_Repeated_Zones()
     {
-        var names = new Dictionary<string, string> { ["Europe/Paris"] = "Same", ["Europe/Berlin"] = "Same" };
+        var names = new Dictionary<string, (string Standard, string? Daylight)> { ["Europe/Paris"] = ("Same", null), ["Europe/Berlin"] = ("Same", null) };
         var tie = TimeZones.Ordered(new[] { "Europe/Paris", "Europe/Berlin" }, "en", Winter, names);
         Assert.Equal(new[] { "Europe/Berlin", "Europe/Paris" }, tie.Select(z => z.Id));
         var some = TimeZones.Ordered(new[] { "UTC", "Nowhere/Land", "UTC", "Asia/Tokyo" }, "en", Winter, Names);
@@ -153,7 +153,7 @@ public class TimeZonePickerTests : TestContext
     [Fact]
     public void MatchZone_Finds_The_Listed_Twin_With_The_Same_Offset_And_Name()
     {
-        var names = new Dictionary<string, string>(Names) { ["Europe/Berlin"] = "Central European Standard Time" };
+        var names = new Dictionary<string, (string Standard, string? Daylight)>(Names) { ["Europe/Berlin"] = ("Central European Standard Time", null) };
         var zones = TimeZones.Ordered(Zones, "en", Winter, names);
         Assert.Equal("Europe/Paris", TimeZones.MatchZone("Europe/Berlin", zones, Winter, names));
     }
@@ -255,8 +255,8 @@ public class TimeZonePickerTests : TestContext
     {
         var cut = Render(date: Summer, zones: new[] { "Europe/Paris", "America/New_York" });
         var texts = OptionTexts(cut);
-        Assert.StartsWith("UTC-04:00", texts[0]);
-        Assert.StartsWith("UTC+02:00", texts[1]);
+        Assert.Equal("UTC-04:00 – Eastern Daylight Time", texts[0]);
+        Assert.Equal("UTC+02:00 – Central European Summer Time", texts[1]);
     }
 
     [Fact]
@@ -349,7 +349,7 @@ public class TimeZonePickerTests : TestContext
     public void A_Zone_That_Is_Not_Listed_Is_Matched_To_Its_Listed_Twin()
     {
         JSInterop.Setup<string?>("eval", i => i.Arguments[0]?.ToString()?.Contains("resolvedOptions") == true).SetResult("Europe/Berlin");
-        var names = new Dictionary<string, string>(Names) { ["Europe/Berlin"] = "Central European Standard Time" };
+        var names = new Dictionary<string, (string Standard, string? Daylight)>(Names) { ["Europe/Berlin"] = ("Central European Standard Time", null) };
         Assert.Equal("Europe/Paris", Hidden(Render(names: names)));
     }
 

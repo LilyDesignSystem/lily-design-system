@@ -1,0 +1,146 @@
+#!/usr/bin/env node
+// bin/generate-zone-names: the localized display names of IANA time zones, one pack per label-pack locale.
+//
+// The names are Unicode CLDR's (the `timeZoneNames` / metazone data), read through the ICU that Node ships, so the
+// version of CLDR is whatever `process.versions.cldr` says; it is written into every pack. A zone is named in a pack
+// only when CLDR has a name for it in that language: a zone CLDR has no name for is left out, never given another
+// language's text (the same rule as the label packs), and the picker then falls back to `Intl` or to the offset.
+//
+// Output: shared/zone-names/<locale>.json, same locale tags as shared/label-packs/. Format (compact: many zones share a name):
+//   { "locale": "fr-001", "cldrLocale": "fr", "cldr": "48.0",
+//     "names": ["heure normale d’Europe centrale", "heure d’été d’Europe centrale", ...],
+//     "zones": { "Europe/Paris": [0, 1], "Africa/Abidjan": 2 } }
+// A zone is an index into `names` (one name all year) or [standard, daylight] indexes.
+//
+// Usage:
+//   bin/generate-zone-names           write shared/zone-names/*.json
+//   bin/generate-zone-names --check   exit 1 if a pack is missing, or differs while the CLDR version is the same
+import { readdirSync, readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const top = join(dirname(fileURLToPath(import.meta.url)), "..");
+const check = process.argv.includes("--check");
+const outDir = join(top, "shared", "zone-names");
+const locales = readdirSync(join(top, "shared", "label-packs"))
+  .filter((f) => f.endsWith(".json"))
+  .map((f) => f.slice(0, -5))
+  .sort();
+
+// A pack tag CLDR does not know under that name: Bhojpuri is `bho` in CLDR (`bh` is the retired ISO 639-1 code).
+const CLDR_TAG = { "bh-001": ["bho"] };
+const cldrVersion = process.versions.cldr;
+const zones = Intl.supportedValuesOf("timeZone").filter((z) => !z.startsWith("Etc/"));
+if (!zones.includes("UTC")) zones.push("UTC");
+
+// ICU lists some zones under the id they had before IANA renamed them (`Asia/Calcutta`), and accepts the current id
+// as an alias. People write the current id, so each current id is named too (the legacy one stays).
+const CURRENT_IANA = [
+  "Asia/Kolkata", "Asia/Kathmandu", "Asia/Ho_Chi_Minh", "Asia/Yangon",
+  "America/Argentina/Buenos_Aires", "America/Argentina/Catamarca", "America/Argentina/Cordoba",
+  "America/Argentina/Jujuy", "America/Argentina/Mendoza", "America/Indiana/Indianapolis", "America/Kentucky/Louisville",
+  "Europe/Kyiv", "Atlantic/Faroe", "Pacific/Chuuk", "Pacific/Pohnpei", "America/Nuuk", "Pacific/Kanton", "America/Atikokan",
+];
+for (const id of CURRENT_IANA) {
+  if (zones.includes(id)) continue;
+  try {
+    new Intl.DateTimeFormat("en", { timeZone: id });
+    zones.push(id);
+  } catch {
+    /* this ICU does not know the alias */
+  }
+}
+zones.sort();
+
+// Jan 1 and Jul 1 of one year: between them every zone shows its standard and its daylight offset and name.
+const JAN = new Date(Date.UTC(2026, 0, 1, 12));
+const JUL = new Date(Date.UTC(2026, 6, 1, 12));
+
+function offsetMinutes(zone, date) {
+  const f = new Intl.DateTimeFormat("en-US", { timeZone: zone, hourCycle: "h23", year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric", second: "numeric" });
+  const p = {};
+  for (const part of f.formatToParts(date)) p[part.type] = part.value;
+  return Math.round((Date.UTC(+p.year, +p.month - 1, +p.day, +p.hour, +p.minute, +p.second) - date.getTime()) / 60000);
+}
+
+function part(locale, zone, date, style) {
+  return new Intl.DateTimeFormat(locale, { timeZone: zone, timeZoneName: style })
+    .formatToParts(date)
+    .find((p) => p.type === "timeZoneName")?.value;
+}
+
+/** The first candidate tag ICU has data for (not the default locale standing in for it). */
+function cldrLocale(tag) {
+  const language = tag.split("-")[0];
+  for (const candidate of [tag, language, ...(CLDR_TAG[tag] ?? [])]) {
+    const [supported] = Intl.DateTimeFormat.supportedLocalesOf([candidate], { localeMatcher: "lookup" });
+    if (supported) return supported;
+  }
+  return null;
+}
+
+/** A long name CLDR has: not the localized GMT form ICU falls back to when the locale has no name for the zone. */
+function realName(locale, zone, date) {
+  const name = part(locale, zone, date, "long");
+  if (!name) return null;
+  if (name === part(locale, zone, date, "longOffset")) return null;
+  if (/^(GMT|UTC)[+−-]/.test(name) || name === "GMT") return null;
+  return name;
+}
+
+function build(tag) {
+  const locale = cldrLocale(tag);
+  if (!locale) return { locale: tag, cldrLocale: null, cldr: cldrVersion, names: [], zones: {} };
+  const names = [];
+  const index = new Map();
+  const at = (name) => {
+    if (!index.has(name)) index.set(name, names.push(name) - 1);
+    return index.get(name);
+  };
+  const out = {};
+  for (const zone of zones) {
+    const jan = offsetMinutes(zone, JAN);
+    const jul = offsetMinutes(zone, JUL);
+    const std = jan <= jul ? JAN : JUL;
+    const standard = realName(locale, zone, std);
+    if (!standard) continue;
+    if (jan === jul) {
+      out[zone] = at(standard);
+      continue;
+    }
+    const daylight = realName(locale, zone, std === JAN ? JUL : JAN);
+    out[zone] = daylight && daylight !== standard ? [at(standard), at(daylight)] : at(standard);
+  }
+  return { locale: tag, cldrLocale: locale, cldr: cldrVersion, names, zones: out };
+}
+
+mkdirSync(outDir, { recursive: true });
+let bad = 0;
+for (const tag of locales) {
+  const pack = build(tag);
+  const text = JSON.stringify(pack) + "\n";
+  const file = join(outDir, `${tag}.json`);
+  const covered = Object.keys(pack.zones).length;
+  if (check) {
+    if (!existsSync(file)) {
+      console.log(`missing: ${tag}`);
+      bad++;
+      continue;
+    }
+    const have = JSON.parse(readFileSync(file, "utf8"));
+    if (have.cldr === cldrVersion && readFileSync(file, "utf8") !== text) {
+      console.log(`drift: ${tag}`);
+      bad++;
+    }
+    continue;
+  }
+  writeFileSync(file, text);
+  console.log(`${tag.padEnd(8)} ${String(pack.cldrLocale).padEnd(8)} ${String(covered).padStart(3)}/${zones.length} zones, ${pack.names.length} names, ${text.length} bytes`);
+}
+if (check) {
+  if (bad) {
+    console.log(`${bad} zone-name pack(s) out of date; run bin/generate-zone-names`);
+    process.exit(1);
+  }
+  console.log(`checked: ${locales.length} zone-name packs (CLDR ${cldrVersion})`);
+}

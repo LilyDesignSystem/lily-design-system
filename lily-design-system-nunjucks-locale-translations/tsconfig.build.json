@@ -11,6 +11,7 @@
     "index.ts",
     "label-pack.ts",
     "intl-labels.ts",
+    "zone-names.ts",
     "label-pack-nunjucks.ts"
   ]
 }

@@ -30,7 +30,7 @@ new Intl.DateTimeFormat(locale, { timeZone: document.documentElement.dataset.tim
 
 Blazor idioms: install `LilyDesignSystem.Blazor.TimeZonePicker`; `@bind-Value` and `@bind-Open` bind the zone and the popup, `OnChange` fires once per applied change, `CssClass` adds a class to the root, unmatched attributes land on the root, and `ChildContent` is a `RenderFragment<TimeZonePickerContext>` replacing the icon (`context.InfoFor(context.Value)`). The pure rules are public as the static class `TimeZones` (`Ordered`, `Info`, `OffsetMinutes`, `FormatOffset`, `MatchZone`, `DefaultZones`).
 
-**Deviation from the other catalogs:** .NET has no API for a zone's full name in an arbitrary locale (`Intl` has one; `TimeZoneInfo` does not). Offsets and order are exact (`TimeZoneInfo`), and the name is, in order: the `Names` parameter (a dictionary of IANA id to name, in the reader's language), else the platform's own standard or daylight name. Build `Names` from resource files, or in the browser with `Intl.DateTimeFormat` through JS interop, when the name must be localized. The reader's own zone is read from the browser (`Intl.DateTimeFormat().resolvedOptions().timeZone`), not from the server's `TimeZoneInfo.Local`.
+**Deviation from the other catalogs:** .NET has no API for a zone's full name in an arbitrary locale (`Intl` has one; `TimeZoneInfo` does not). Offsets and order are exact (`TimeZoneInfo`), and the name is, in order: the `Names` parameter (a dictionary of IANA id to `(Standard, Daylight)` name, in the reader's language), else the platform's own standard or daylight name. For a localized name use the Unicode CLDR names that `LilyDesignSystem.Blazor.LocaleTranslations` ships (below). The reader's own zone is read from the browser (`Intl.DateTimeFormat().resolvedOptions().timeZone`), not from the server's `TimeZoneInfo.Local`.
 
 ## Props
 
@@ -40,7 +40,7 @@ Blazor idioms: install `LilyDesignSystem.Blazor.TimeZonePicker`; `@bind-Value` a
 | `Locale`        | `string`                                  | yes      | BCP 47 tag the names are sorted and matched in. No default: the picker never picks a language for you. |
 | `Zones`         | `IReadOnlyList<string>`                   | no       | IANA ids to offer. Default `TimeZones.DefaultZones` (55 zones). Shown by offset, not in the order given. |
 | `Date`          | `DateTimeOffset?`                         | no       | The moment offsets and names are worked out for. Default: now, read once. |
-| `Names`         | `IReadOnlyDictionary<string, string>`     | no       | Full zone names by IANA id, in the reader's language (see the deviation above). |
+| `Names`         | `IReadOnlyDictionary<string, (string Standard, string? Daylight)>` | no | Full zone names by IANA id, in the reader's language: the CLDR names below. |
 | `LabelFor`      | `Func<ZoneEntry, string>`                 | no       | Builds an option's text. Default `UTC+01:00 – Central European Standard Time`. |
 | `Value`         | `string`                                  | no       | Selected IANA id. Bindable (`@bind-Value`). |
 | `DefaultValue`  | `string`                                  | no       | Initial zone when nothing else is supplied. |
@@ -53,6 +53,21 @@ Blazor idioms: install `LilyDesignSystem.Blazor.TimeZonePicker`; `@bind-Value` a
 | `CssClass`      | `string`                                  | no       | Extra CSS class on the root. |
 
 The pure rules are public in the static class `TimeZones`: `Ordered`, `Info`, `OffsetMinutes`, `FormatOffset`, `ZoneName`, `MatchZone`, `DefaultLabel`, `DefaultZones`.
+
+## Zone names from Unicode CLDR
+
+`LilyDesignSystem.Blazor.LocaleTranslations` embeds the Unicode CLDR zone names for every label-pack locale (all 64):
+
+```razor
+@using LilyDesignSystem.Blazor.LocaleTranslations
+
+<TimeZonePicker Label="Fuseau horaire" Locale="fr" Names="@LocaleTranslations.ZoneNames("fr-001")" />
+```
+
+`ZoneNames` gives `(Standard, Daylight)` per zone, with a null daylight name for a zone that has one name all year; the
+daylight name is used while daylight time is in force at the picker's `Date`. A zone CLDR has no name for in that language is
+not in the dictionary and shows the platform's name, never another language's. Cornish, Scots and Wu have no CLDR zone
+names. See [spec/zone-names](../spec/zone-names/index.md).
 
 ## Behaviour
 

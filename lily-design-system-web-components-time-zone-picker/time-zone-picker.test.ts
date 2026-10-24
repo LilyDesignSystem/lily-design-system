@@ -179,6 +179,24 @@ describe("options: offsets and full names, ordered by offset", () => {
   });
 });
 
+describe("supplied names (CLDR packs)", () => {
+  const names = { "Asia/Kolkata": "Bharat Standard", "Europe/Paris": ["Paris Standard", "Paris Summer"] } as const;
+
+  test("win over Intl for the zones they name, and the rest stay Intl's", () => {
+    const el = mount();
+    el.names = names;
+    expect(text()).toContain("UTC+05:30 – Bharat Standard");
+    expect(text()).toContain("UTC+01:00 – Paris Standard");
+    expect(text()).toContain("UTC+09:00 – Japan Standard Time");
+  });
+
+  test("a daylight pair follows the date", () => {
+    const el = mount({ date: SUMMER });
+    el.names = names;
+    expect(text()).toContain("UTC+02:00 – Paris Summer");
+  });
+});
+
 describe("selection and applying", () => {
   test("choosing a zone sets the value, the hidden input, aria-selected and data-time-zone, and closes", () => {
     mount({ "default-value": "UTC" });

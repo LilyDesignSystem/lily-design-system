@@ -265,6 +265,7 @@ exemptions.
 | each headless library's components | `bin/sync-example-components` | the same components inside each example app | `bin/sync-example-components --check` |
 | `shared/*.ts`, `shared/label-packs/*.json` | `bin/sync-shared-modules` | each package's copy of a shared module, and the locale-translations label packs | `bin/sync-shared-modules --check` |
 | the root special files (LICENSE, CONTRIBUTING, …) | `bin/sync-special-files` | the same files in every subproject | `bin/sync-special-files --check` |
+| the Unicode CLDR (through Node's ICU), `shared/label-packs/` locale list | `bin/generate-zone-names` | `shared/zone-names/*.json`, and its copies in the locale-translations packages | `bin/generate-zone-names --check` |
 | `src/lib/pages/*/en.html` | `bin/generate-page-markdown` | `static/<route>.md`, one Markdown twin per English text page | `bin/generate-page-markdown --check` |
 | the site's English route pages | `bin/extract-site-pages` | `src/lib/pages/{slug}/en.html` | `bin/extract-site-pages --check` |
 | `src/lib/pages/*` translations | `bin/generate-locale-pages` | `src/routes/<code>/<slug>/+page.svelte` | `bin/generate-locale-pages --check` |

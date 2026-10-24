@@ -41,10 +41,10 @@ export { DEFAULT_ZONES, defaultLabel, formatOffset, matchZone, offsetMinutes, or
  * Call it where the page is built (an Eleventy global, a filter, a view model) and pass the result to the macro
  * as `options`. `locale` is required: the picker never picks a language for you.
  *
- * @param {{locale: string, zones?: readonly string[], date?: Date, labelFor?: (zone: object) => string}} opts
+ * @param {{locale: string, zones?: readonly string[], date?: Date, labelFor?: (zone: object) => string, names?: Record<string, string | readonly [string, string]>}} opts
  */
-export function timeZoneOptions({ locale, zones = DEFAULT_ZONES, date = new Date(), labelFor }) {
-  return orderedZones(zones, locale, date, labelFor);
+export function timeZoneOptions({ locale, zones = DEFAULT_ZONES, date = new Date(), labelFor, names }) {
+  return orderedZones(zones, locale, date, labelFor, names);
 }
 
 function safeStorageGet(key) {
@@ -409,14 +409,15 @@ export function initTimeZonePicker(root, opts = {}) {
 
   // 4. the reader's own zone, or an offered zone with the same offset and name
   if (!initial) {
-    const infos = options.map((o) => ({
-      id: o.getAttribute("data-value") || "",
-      offsetMinutes: Number(o.getAttribute("data-offset-minutes")),
-      name: o.getAttribute("data-name") || "",
-    }));
     const dateAttr = root.getAttribute("data-lily-time-zone-picker-date");
     const when = dateAttr && !Number.isNaN(new Date(dateAttr).getTime()) ? new Date(dateAttr) : new Date();
-    initial = matchZone(systemZone(), infos, root.getAttribute("data-lily-time-zone-picker-locale") || "", when) || "";
+    const locale = root.getAttribute("data-lily-time-zone-picker-locale") || "";
+    // Twins are told apart by `Intl`'s name for both the reader's zone and each offered one, not by the names on
+    // the page (which may be CLDR names supplied at build time), so the two sides are always compared like for like.
+    const infos = options
+      .map((o) => zoneInfo(o.getAttribute("data-value") || "", locale, when))
+      .filter(Boolean);
+    initial = matchZone(systemZone(), infos, locale, when) || "";
   }
 
   // 5. "UTC" if offered

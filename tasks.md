@@ -2522,6 +2522,9 @@ lessons topics. Numbers in the spec were measured 2026-10-22 from shallow clones
 - [x] **P14-T7 (done 2026-10-24) `time-zone-picker` ports.** React, Vue, Angular, HTML, Web Components, Nunjucks and Blazor ports at 0.1.0 (Alpine has no pickers). The zone logic is one shared module, `shared/zones.ts` (+ `zones.test.ts`), copied by `bin/sync-shared-modules` into each TypeScript package and, stripped, into the Nunjucks one; Blazor re-implements it in C# (`TimeZones`). Deviations, documented in each package: Nunjucks takes `options` built by `timeZoneOptions()` at render time (a macro cannot call `Intl`); Blazor takes zone names from a `Names` dictionary or the platform (no per-locale name API in .NET). Open: not yet published; `picker-bar` slot; site demo.
   Verify: per-package suites (React 64, Vue 60, Angular 37, HTML 61, Web Components 61, Nunjucks 50, Blazor 51), `bin/sync-shared-modules --check`, `bin/check-port-parity`.
 
+- [x] **P14-T8 (done 2026-10-24) CLDR zone names for `time-zone-picker`.** `bin/generate-zone-names` writes `shared/zone-names/<locale>.json` for all 64 label-pack locales from Unicode CLDR 48.0 (Node's ICU): standard and daylight long names for ~425 zones, current IANA ids included; zones CLDR has no name for are left out (Cornish, Scots and Wu are empty, Bhojpuri names only GMT). The packs and the CLDR licence ship in every `*-locale-translations` package (0.4.0; Blazor 0.3.0) with `zoneNamesFrom()` / `LocaleTranslations.ZoneNames()`; all eight pickers take a `names` input that wins over `Intl`, with a daylight pair following the picker's date. Spec: `spec/zone-names`. Open: publish; review the licence text against unicode.org/license.txt; `picker-bar` slot; site demo.
+  Verify: `shared/zone-names.test.ts` (in every locale-translations package), per-picker `names` tests, `bin/generate-zone-names --check`, `bin/sync-shared-modules --check`.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

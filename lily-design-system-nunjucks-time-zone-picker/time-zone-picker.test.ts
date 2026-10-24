@@ -87,6 +87,17 @@ describe("timeZoneOptions", () => {
   });
 });
 
+describe("timeZoneOptions: supplied names (CLDR packs)", () => {
+  const names = { "Asia/Kolkata": "Bharat Standard", "Europe/Paris": ["Paris Standard", "Paris Summer"] } as const;
+
+  test("win over Intl for the zones they name, and a daylight pair follows the date", () => {
+    expect(options({ names }).map((z) => z.label)).toContain("UTC+05:30 – Bharat Standard");
+    expect(options({ names }).map((z) => z.label)).toContain("UTC+01:00 – Paris Standard");
+    expect(options({ names }).map((z) => z.label)).toContain("UTC+09:00 – Japan Standard Time");
+    expect(options({ names, date: SUMMER }).map((z) => z.label)).toContain("UTC+02:00 – Paris Summer");
+  });
+});
+
 describe("macro markup", () => {
   test("a div root with a button controlling a listbox, a tooltip and a hidden input", () => {
     mountIntoBody(renderMacro({}));

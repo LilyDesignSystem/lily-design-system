@@ -1,10 +1,10 @@
 {
   "name": "@lilydesignsystem/web-components-locale-translations",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "engines": {
     "node": ">=26"
   },
-  "description": "Lily Design System - Web Components: per-locale label packs (64 locales) and the loader for the data grid, kanban board, calendar, Gantt chart and filter helpers",
+  "description": "Lily Design System - Web Components: per-locale label packs and CLDR time zone names (64 locales) and the loader for the data grid, kanban board, calendar, Gantt chart and filter helpers",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -12,6 +12,9 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./zone-names/*": {
+      "default": "./zone-names/*.json"
     },
     "./*": {
       "default": "./label-packs/*.json"
@@ -21,6 +24,7 @@
   "files": [
     "dist",
     "label-packs",
+    "zone-names",
     "index.md",
     "README.md"
   ],
@@ -43,7 +47,9 @@
     "labels",
     "translations",
     "accessibility",
-    "web-components"
+    "web-components",
+    "time-zone",
+    "cldr"
   ],
   "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
   "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",

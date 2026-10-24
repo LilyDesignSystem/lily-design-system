@@ -7,7 +7,7 @@
     <RootNamespace>LilyDesignSystem.Blazor.LocaleTranslations</RootNamespace>
     <AssemblyName>LilyDesignSystem.Blazor.LocaleTranslations</AssemblyName>
     <PackageId>LilyDesignSystem.Blazor.LocaleTranslations</PackageId>
-    <Version>0.2.0</Version>
+    <Version>0.3.0</Version>
     <Authors>Joel Parker Henderson</Authors>
     <Description>Lily Design System locale translations for Blazor: the 46 per-locale label packs (data grid, kanban board, calendar, Gantt chart, filter) embedded as resources, with each language's endonym and exonyms. Pairs with LabelPack.FromJson in the helper packages.</Description>
     <PackageProjectUrl>https://lilydesignsystem.com/</PackageProjectUrl>
@@ -27,6 +27,8 @@
   <!-- The packs are edited in shared/ and copied into the npm package; this package embeds that copy, so there is one set of files. -->
   <ItemGroup>
     <EmbeddedResource Include="..\lily-design-system-locale-translations\label-packs\*.json" LogicalName="LocaleTranslations.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="..\lily-design-system-locale-translations\zone-names\*.json" LogicalName="ZoneNames.%(Filename)%(Extension)" />
+    <None Include="..\lily-design-system-locale-translations\zone-names\UNICODE-LICENSE.txt" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>

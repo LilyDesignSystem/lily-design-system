@@ -394,6 +394,8 @@ test_lockfiles_are_tracked
     || err "a Svelte helper's docs are out of step with its props or non-goals; run bin/check-helper-docs"
 "$top/bin/check-label-packs" >/dev/null 2>&1 \
     || err "a label pack in shared/label-packs differs from the English pack (keys or placeholders); run bin/check-label-packs"
+"$top/bin/generate-zone-names" --check >/dev/null 2>&1 \
+    || err "a zone-name pack in shared/zone-names is missing or differs from the CLDR in this Node; run bin/generate-zone-names"
 
 # Packages publish from the monorepo, so every published manifest must
 # name it as its source repository (npm --provenance rejects a mismatch).

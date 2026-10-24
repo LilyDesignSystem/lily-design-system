@@ -55,6 +55,7 @@ coding agents.
 | [search-picker](search-picker/index.md) | The search-picker button / search-form disclosure HTML contract: magnifying-glass icon, ⏎ submit, GET to `/?<text>`. |
 | [date-time-picker](date-time-picker/index.md) | The date-time-picker field + trigger + APG dialog HTML contract, bare glyph 📅︎ — the one picker that is a form control. |
 | [label-packs](label-packs/index.md) | The 64 per-locale label packs for the data grid, kanban, calendar, Gantt and filter, their loaders (TypeScript, Nunjucks, Blazor) and the checks. |
+| [zone-names](zone-names/index.md) | The Unicode CLDR time zone names, one pack per label-pack locale (64), their loaders in every catalog, and how the pickers use them. |
 | [national-identifiers](national-identifiers/index.md) | The 140 national personal identifier components, normalization, validation algorithms. |
 | [trusted-publishing](trusted-publishing/index.md) | OIDC publishing to npm/NuGet: the adoption position, readiness table, checklist. |
 | [free-open-source-funding](free-open-source-funding/index.md) | Funding channels (GitHub Sponsors live, Open Collective planned), terms, and the files that must agree. |

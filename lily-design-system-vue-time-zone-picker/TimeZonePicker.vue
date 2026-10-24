@@ -1,8 +1,8 @@
 <script lang="ts">
-import { DEFAULT_ZONES, matchZone, orderedZones, systemZone, zoneInfo, type ZoneInfo } from "./zones.js";
+import { DEFAULT_ZONES, matchZone, orderedZones, systemZone, zoneInfo, type ZoneInfo, type ZoneNames } from "./zones.js";
 
 export { DEFAULT_ZONES };
-export type { ZoneInfo };
+export type { ZoneInfo, ZoneNames };
 
 /** Arguments passed to the default scoped slot (the button icon). */
 export type SlotArgs = {
@@ -39,6 +39,8 @@ export type Props = {
     target?: HTMLElement | null;
     /** Builds an option's text from its info. Default: `UTC+01:00 – Central European Standard Time`. */
     labelFor?: (zone: ZoneInfo) => string;
+    /** Zone names by IANA id (one name, or `[standard, daylight]`), which win over `Intl`: from the locale-translations zone-name packs (CLDR) via `zoneNamesFrom()`. */
+    names?: ZoneNames;
     /** Disables the button; an open popup closes. The popup's open state is `v-model:open`. */
     disabled?: boolean;
     /** Extra CSS class on the root element. */
@@ -67,6 +69,7 @@ const props = withDefaults(defineProps<Props>(), {
     zones: () => DEFAULT_ZONES as string[],
     date: undefined,
     labelFor: undefined,
+    names: undefined,
     class: "",
 });
 
@@ -160,9 +163,9 @@ const rootEl = ref<HTMLDivElement | null>(null);
 // re-sorted itself while open would move the option under the pointer.
 const whenInitial = new Date();
 const when = computed(() => props.date ?? whenInitial);
-const infos = computed(() => orderedZones(props.zones, props.locale, when.value, props.labelFor));
+const infos = computed(() => orderedZones(props.zones, props.locale, when.value, props.labelFor, props.names));
 const ids = computed(() => infos.value.map((z) => z.id));
-const infoFor = (zone: string) => zoneInfo(zone, props.locale, when.value, props.labelFor);
+const infoFor = (zone: string) => zoneInfo(zone, props.locale, when.value, props.labelFor, props.names);
 
 function applyZone(slug: string): void {
     if (typeof document === "undefined" || !slug) return;
@@ -319,7 +322,7 @@ onMounted(() => {
         // The reader's own zone when it is listed (or has a listed twin), else UTC, else the first.
         initial =
             props.defaultValue ??
-            matchZone(systemZone(), infos.value, props.locale, when.value) ??
+            matchZone(systemZone(), infos.value, props.locale, when.value, props.names) ??
             (ids.value.includes("UTC") ? "UTC" : ids.value[0]) ??
             "";
     }
