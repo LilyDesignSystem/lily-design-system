@@ -85,6 +85,7 @@ updates:
       - "/lily-design-system-angular-markdown-editor"
       - "/lily-design-system-angular-org-editor"
       - "/lily-design-system-angular-text-size-picker"
+      - "/lily-design-system-angular-time-zone-picker"
       - "/lily-design-system-angular-theme-picker"
       - "/lily-design-system-angular-gantt-chart"
       - "/lily-design-system-angular-calendar"
@@ -189,6 +190,7 @@ updates:
       - "/lily-design-system-html-markdown-editor"
       - "/lily-design-system-html-org-editor"
       - "/lily-design-system-html-text-size-picker"
+      - "/lily-design-system-html-time-zone-picker"
       - "/lily-design-system-html-theme-picker"
       - "/lily-design-system-html-gantt-chart"
       - "/lily-design-system-html-calendar"
@@ -258,6 +260,7 @@ updates:
       - "/lily-design-system-nunjucks-locale-picker"
       - "/lily-design-system-nunjucks-motion-picker"
       - "/lily-design-system-nunjucks-text-size-picker"
+      - "/lily-design-system-nunjucks-time-zone-picker"
       - "/lily-design-system-nunjucks-theme-picker"
       - "/lily-design-system-nunjucks-picker-bar"
     schedule:
@@ -321,6 +324,7 @@ updates:
       - "/lily-design-system-react-markdown-editor"
       - "/lily-design-system-react-org-editor"
       - "/lily-design-system-react-text-size-picker"
+      - "/lily-design-system-react-time-zone-picker"
       - "/lily-design-system-react-theme-picker"
       - "/lily-design-system-react-gantt-chart"
       - "/lily-design-system-react-calendar"
@@ -410,6 +414,7 @@ updates:
       - "/lily-design-system-svelte-markdown-editor"
       - "/lily-design-system-svelte-text-size-picker"
       - "/lily-design-system-svelte-time-zone-picker"
+      - "/lily-design-system-svelte-time-zone-picker"
       - "/lily-design-system-svelte-theme-picker"
       - "/lily-design-system-svelte-calendar"
       - "/lily-design-system-svelte-gantt-chart"
@@ -498,6 +503,7 @@ updates:
       - "/lily-design-system-vue-markdown-editor"
       - "/lily-design-system-vue-org-editor"
       - "/lily-design-system-vue-text-size-picker"
+      - "/lily-design-system-vue-time-zone-picker"
       - "/lily-design-system-vue-theme-picker"
       - "/lily-design-system-vue-gantt-chart"
       - "/lily-design-system-vue-calendar"
@@ -674,6 +680,18 @@ updates:
           - "*"
 
   - package-ecosystem: "nuget"
+    directory: "/lily-design-system-blazor-time-zone-picker"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "nuget"
     directory: "/lily-design-system-blazor-theme-picker"
     schedule:
       interval: "weekly"
@@ -701,6 +719,7 @@ updates:
       - "/lily-design-system-blazor-settings-picker/tests"
       - "/lily-design-system-blazor-share-picker/tests"
       - "/lily-design-system-blazor-text-size-picker/tests"
+      - "/lily-design-system-blazor-time-zone-picker/tests"
       - "/lily-design-system-blazor-theme-picker/tests"
       - "/lily-design-system-blazor-gantt-chart/tests"
       - "/lily-design-system-blazor-calendar/tests"

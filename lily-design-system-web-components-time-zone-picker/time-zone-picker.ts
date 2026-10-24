@@ -1,0 +1,870 @@
+/**
+ * `<lily-time-zone-picker>` — Lily Design System HTML helper.
+ *
+ * See `./spec/index.md` for the canonical contract. This file implements
+ * the custom-element class but does NOT register it. The `index.ts`
+ * barrel registers it on import.
+ *
+ * The control is an icon button that opens a dropdown listbox
+ * (WAI-ARIA APG listbox pattern). It is not a native `<select>`.
+ *
+ * Depends on `@lilydesignsystem/web-components-headless`'s
+ * `<lily-icon-button>` for the trigger button, composed in `#render()`
+ * rather than hand-rolled. Imported here (not only from `index.ts`) so
+ * `lily-icon-button` is registered regardless of which module a
+ * consumer (or this package's own tests) imports first.
+ */
+
+import "@lilydesignsystem/web-components-headless";
+import { DEFAULT_ZONES, matchZone, orderedZones, systemZone, zoneInfo, type ZoneInfo } from "./zones.js";
+
+export { DEFAULT_ZONES };
+export type { ZoneInfo };
+
+/** Namespace for building the default button icon's SVG elements. */
+const SVG_NS = "http://www.w3.org/2000/svg";
+
+/** Change-event detail dispatched on every applied zone. */
+export type TimeZonePickerChangeDetail = {
+    /** The applied zone, an IANA id. */
+    zone: string;
+};
+
+/** Mirrors the observed attributes / properties for typing convenience. */
+export type TimeZonePickerProps = {
+    label: string;
+    locale: string;
+    zones?: string[];
+    date?: Date | null;
+    value?: string;
+    defaultValue?: string;
+    storageKey?: string;
+    name?: string;
+    target?: HTMLElement | null;
+    labelFor?: ((zone: ZoneInfo) => string) | null;
+    class?: string;
+};
+
+let uid = 0;
+/** Stable per-instance id prefix; SSR-safe (no Math.random / Date.now). */
+export function nextTimeZonePickerId(): string {
+    uid += 1;
+    return `time-zone-picker-${uid}`;
+}
+
+/** Custom-element class implementing `<lily-time-zone-picker>`. */
+export class TimeZonePicker extends HTMLElement {
+    static get observedAttributes(): string[] {
+        return [
+            "label",
+            "locale",
+            "zones",
+            "date",
+            "value",
+            "default-value",
+            "storage-key",
+            "name",
+            "class",
+            "open",
+            "disabled",
+        ];
+    }
+
+    // Backing storage for properties.
+    #zones: string[] | null = null;
+    #date: Date | null = null;
+    #whenInitial: Date | null = null;
+    #labelFor: ((zone: ZoneInfo) => string) | null = null;
+    /** Zones as shown, ordered by offset; rebuilt by #compute(). */
+    #infos: ZoneInfo[] = [];
+    #ids: string[] = [];
+    #target: HTMLElement | null = null;
+    #initialised = false;
+
+    // Rendered-DOM references. Null until #render() has run.
+    #rootEl: HTMLDivElement | null = null;
+    #inputEl: HTMLInputElement | null = null;
+    #buttonEl: HTMLButtonElement | null = null;
+    #listEl: HTMLUListElement | null = null;
+    #optionEls: HTMLLIElement[] = [];
+
+    // Listbox state.
+    #open = false;
+    /** True while an open comes from outside (the property, the attribute, mounting): state only, focus stays put. */
+    #quietOpen = false;
+    /** True while mounting open: the initial value is not a change, so nothing is reported. */
+    #silentOpen = false;
+
+    /** Called with the new open state whenever it changes; also dispatched as a bubbling `openchange` event. */
+    onOpenChange: ((open: boolean) => void) | undefined;
+    #activeIndex = -1;
+
+    // Stable ids for the button/listbox aria wiring.
+    readonly #baseId = nextTimeZonePickerId();
+
+    // Tooltip: shown while the pointer is over the button or the tooltip
+    // itself (hoverable, WCAG 1.4.13) or while the button has keyboard
+    // focus; Escape dismisses it without moving focus; never shown while
+    // the popup is open, since the popup then explains the control.
+    #tooltipEl: HTMLDivElement | null = null;
+    #hoverButton = false;
+    #hoverTooltip = false;
+    #focusButton = false;
+    #tipDismissed = false;
+
+    // Escape anywhere dismisses a visible tooltip (WCAG 1.4.13: dismissable
+    // without moving pointer or focus), so a hover-only tooltip (focus
+    // elsewhere) still closes. The document listener exists only while
+    // the tooltip is visible; it neither prevents default nor stops
+    // propagation, and never moves focus.
+    #tipDocListening = false;
+    readonly #onTipDocKeydown = (event: KeyboardEvent): void => {
+      if (event.key === "Escape" && this.#tooltipVisible()) {
+        this.#tipDismissed = true;
+        this.#syncTooltip();
+      }
+    };
+    #setTipDocListener(on: boolean): void {
+      if (on === this.#tipDocListening || typeof document === "undefined") return;
+      this.#tipDocListening = on;
+      if (on) document.addEventListener("keydown", this.#onTipDocKeydown);
+      else document.removeEventListener("keydown", this.#onTipDocKeydown);
+    }
+
+    #tooltipVisible(): boolean {
+        return (
+            !this.#open &&
+            !this.#tipDismissed &&
+            (this.#hoverButton || this.#hoverTooltip || this.#focusButton)
+        );
+    }
+
+    /** Write the tooltip's text and `hidden` in place; idempotent. */
+    #syncTooltip(): void {
+        const el = this.#tooltipEl;
+        if (!el) return;
+        if (el.textContent !== this.label) el.textContent = this.label;
+        const hide = !this.#tooltipVisible();
+      this.#setTipDocListener(!hide);
+        if (el.hasAttribute("hidden") !== hide) {
+            if (hide) el.setAttribute("hidden", "");
+            else el.removeAttribute("hidden");
+        }
+    }
+
+    #resetTooltip(): void {
+      this.#setTipDocListener(false);
+        this.#hoverButton = false;
+        this.#hoverTooltip = false;
+        this.#focusButton = false;
+        this.#tipDismissed = false;
+    }
+
+    /** id of the rendered `<div class="time-zone-picker-tooltip">`. */
+    get tooltipId(): string {
+        return `${this.#baseId}-tooltip`;
+    }
+
+    // Typeahead buffer: APG listbox behaviour. Reset after a pause.
+    #typeahead = "";
+    #typeaheadTimer: ReturnType<typeof setTimeout> | undefined;
+
+    #onDocumentClick = (event: MouseEvent): void => {
+        if (!this.#open) return;
+        // Judge the click by its composedPath() snapshot, not by containment
+        // of event.target: opening replaceChildren()s the button content, so
+        // the clicked icon span is already DETACHED when this bubbles back to
+        // the document — a containment check then closed the picker on the
+        // very pointer click that opened it (trusted clicks target the span;
+        // synthetic button.click() targets the button, which is why no test
+        // saw it).
+        if (!event.composedPath().includes(this)) this.closeList(false);
+    };
+
+    // ---- Property accessors ----
+
+    get label(): string {
+        return this.getAttribute("label") ?? "";
+    }
+    set label(v: string) {
+        this.setAttribute("label", v);
+    }
+
+    /** BCP 47 tag the zone names are written in. Required: the picker never picks a language for you. */
+    get locale(): string {
+        return this.getAttribute("locale") ?? "";
+    }
+    set locale(v: string) {
+        this.setAttribute("locale", v);
+    }
+
+    /** IANA zone ids to offer (attribute: comma-separated). Default: DEFAULT_ZONES. Shown ordered by offset. */
+    get zones(): string[] {
+        return [...(this.#zones ?? DEFAULT_ZONES)];
+    }
+    set zones(v: string[]) {
+        this.#zones = Array.isArray(v) ? v.slice() : null;
+        const csv = this.#zones ? this.#zones.join(",") : null;
+        if (this.getAttribute("zones") !== csv) {
+            if (csv === null) this.removeAttribute("zones");
+            else this.setAttribute("zones", csv);
+            return; // attributeChangedCallback will render
+        }
+        this.#render();
+    }
+
+    /** The moment offsets and names are worked out for (attribute: an ISO date or date-time). Default: now, read once. */
+    get date(): Date | null {
+        return this.#date;
+    }
+    set date(v: Date | null) {
+        this.#date = v ?? null;
+        if (this.isConnected) this.#render();
+    }
+
+    /** Builds an option's text from its info. Default: `UTC+01:00 – Central European Standard Time`. */
+    get labelFor(): ((zone: ZoneInfo) => string) | null {
+        return this.#labelFor;
+    }
+    set labelFor(fn: ((zone: ZoneInfo) => string) | null) {
+        this.#labelFor = fn ?? null;
+        if (this.isConnected) this.#render();
+    }
+
+    /** Offset, name and label of any zone, for `renderButtonContent` and consumers. */
+    infoFor(zone: string): ZoneInfo | undefined {
+        return zoneInfo(zone, this.locale, this.#when(), this.#labelFor ?? undefined);
+    }
+
+    #when(): Date {
+        if (this.#date) return this.#date;
+        const attr = this.getAttribute("date");
+        const parsed = attr ? new Date(attr) : null;
+        if (parsed && !Number.isNaN(parsed.getTime())) return parsed;
+        return (this.#whenInitial ??= new Date());
+    }
+
+    #compute(): void {
+        this.#infos = orderedZones(this.#zones ?? DEFAULT_ZONES, this.locale, this.#when(), this.#labelFor ?? undefined);
+        this.#ids = this.#infos.map((z) => z.id);
+    }
+
+    get value(): string {
+        return this.getAttribute("value") ?? "";
+    }
+    set value(v: string) {
+        if (v) this.setAttribute("value", v);
+        else this.removeAttribute("value");
+    }
+
+    get defaultValue(): string {
+        return this.getAttribute("default-value") ?? "";
+    }
+    set defaultValue(v: string) {
+        if (v) this.setAttribute("default-value", v);
+        else this.removeAttribute("default-value");
+    }
+
+    get storageKey(): string {
+        return this.getAttribute("storage-key") ?? "";
+    }
+    set storageKey(v: string) {
+        if (v) this.setAttribute("storage-key", v);
+        else this.removeAttribute("storage-key");
+    }
+
+    get name(): string {
+        return this.getAttribute("name") ?? "time-zone";
+    }
+    set name(v: string) {
+        if (v) this.setAttribute("name", v);
+        else this.removeAttribute("name");
+    }
+
+    get target(): HTMLElement | null {
+        return this.#target;
+    }
+    set target(v: HTMLElement | null) {
+        this.#target = v ?? null;
+    }
+
+    /** Is the popup open? Settable: `true` opens it and `false` closes it, without moving focus. The `open` attribute is the initial state. */
+    get open(): boolean {
+        return this.#open;
+    }
+    set open(value: boolean) {
+        if (!!value === this.#open) return;
+        this.#quietOpen = true;
+        try {
+            if (value) this.openList();
+            else this.closeList(false);
+        } finally {
+            this.#quietOpen = false;
+        }
+    }
+
+    /** Disables the button; an open popup closes. Attribute `disabled`. */
+    get disabled(): boolean {
+        return this.hasAttribute("disabled");
+    }
+    set disabled(value: boolean) {
+        if (value) this.setAttribute("disabled", "");
+        else this.removeAttribute("disabled");
+    }
+
+    #emitOpenChange(open: boolean): void {
+        if (this.#silentOpen) return;
+        this.onOpenChange?.(open);
+        this.dispatchEvent(new CustomEvent<boolean>("openchange", { detail: open, bubbles: true, composed: true }));
+    }
+
+    /** The `open` and `disabled` attributes, applied to the rendered button and popup. */
+    #syncOpenAttributes(name: string): void {
+        if (!this.#buttonEl) return;
+        if (name === "disabled") {
+            this.#buttonEl.disabled = this.disabled;
+            if (this.disabled && this.#open) this.open = false;
+            return;
+        }
+        this.open = this.hasAttribute("open");
+    }
+
+    /** After a render: carry `disabled` onto the button and honour an initial `open` attribute (not reported as a change). */
+    #applyInitialOpen(): void {
+        if (this.#buttonEl) this.#buttonEl.disabled = this.disabled;
+        if (!this.hasAttribute("open") || this.disabled || this.#open) return;
+        this.#silentOpen = true;
+        try {
+            this.open = true;
+        } finally {
+            this.#silentOpen = false;
+        }
+    }
+
+    /** id of the rendered `<ul role="listbox">`. */
+    get listId(): string {
+        return `${this.#baseId}-list`;
+    }
+
+    /** id of the rendered option at `index`. */
+    optionId(index: number): string {
+        return `${this.#baseId}-option-${index}`;
+    }
+
+    // ---- Public, overridable rendering hook ----
+
+    /**
+     * Build the content of the button. The default is a bundled SVG
+     * icon (a clock) wrapped in `aria-hidden="true"` so the
+     * accessible name comes from the button's `aria-label` alone.
+     *
+     * This is the HTML-helper equivalent of the Svelte/React/Vue
+     * `children` snippet: it replaces the icon inside the button, and
+     * has `this.value`, `this.open`, and `this.infoFor(...)` available.
+     * Subclasses may override it. Whatever it returns is placed inside
+     * the button; the button's own aria wiring is not the subclass's to
+     * change.
+     */
+    renderButtonContent(): Node {
+        const svg = document.createElementNS(SVG_NS, "svg");
+        svg.setAttribute("class", "time-zone-picker-icon");
+        svg.setAttribute("viewBox", "0 0 16 16");
+        svg.setAttribute("width", "1.05rem");
+        svg.setAttribute("height", "1.05rem");
+        svg.setAttribute("aria-hidden", "true");
+        svg.setAttribute("fill", "none");
+        svg.setAttribute("stroke", "currentColor");
+        svg.setAttribute("stroke-width", "1.6");
+        svg.setAttribute("stroke-linecap", "round");
+        svg.setAttribute("stroke-linejoin", "round");
+
+        const path = document.createElementNS(SVG_NS, "path");
+        path.setAttribute("d", "M8 2.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11zM8 5v3l2 1.5");
+        svg.appendChild(path);
+
+        return svg;
+    }
+
+    // ---- Lifecycle ----
+
+    connectedCallback(): void {
+        // Pick up the zones from the attribute if it was set via HTML before the JS evaluated.
+        const zonesAttr = this.getAttribute("zones");
+        if (zonesAttr !== null && this.#zones === null) this.#zones = parseCsv(zonesAttr);
+        this.#compute();
+
+        if (!this.#initialised) {
+            this.#initialised = true;
+            this.#resolveInitialValue();
+        }
+        this.#render();
+        document.addEventListener("click", this.#onDocumentClick);
+        if (this.value) this.#applyZone(this.value);
+    }
+
+    attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
+        if (name === "open" || name === "disabled") {
+            this.#syncOpenAttributes(name);
+            return;
+        }
+        switch (name) {
+            case "zones":
+                this.#zones = value === null ? null : parseCsv(value);
+                this.#render();
+                break;
+            case "value":
+                // A value change never rebuilds the DOM: rebuilding while
+                // the listbox is open would destroy focus and the active
+                // descendant. Only the state-carrying attributes change.
+                this.#syncState();
+                if (this.isConnected && value) this.#applyZone(value);
+                break;
+            case "label":
+            case "locale":
+            case "date":
+            case "name":
+            case "class":
+                this.#render();
+                break;
+            // default-value / storage-key don't need a re-render; they
+            // affect the next apply.
+            default:
+                break;
+        }
+    }
+
+    disconnectedCallback(): void {
+        this.#resetTooltip();
+        document.removeEventListener("click", this.#onDocumentClick);
+        clearTimeout(this.#typeaheadTimer);
+        // A re-connected element must apply again: the document root it
+        // returns to need not be the one it left.
+        this.#appliedValue = "";
+    }
+
+    // ---- Behaviour ----
+
+    #resolveInitialValue(): void {
+        let initial = this.value;
+
+        // A stored zone that is no longer offered is not restored.
+        if (!initial && this.storageKey) {
+            try {
+                const stored = localStorage.getItem(this.storageKey) ?? "";
+                if (this.#ids.includes(stored)) initial = stored;
+            } catch {
+                /* ignore */
+            }
+        }
+
+        if (!initial) {
+            // The reader's own zone when it is listed (or has a listed twin), else UTC, else the first.
+            initial =
+                this.defaultValue ||
+                matchZone(systemZone(), this.#infos, this.locale, this.#when()) ||
+                (this.#ids.includes("UTC") ? "UTC" : this.#ids[0]) ||
+                "";
+        }
+
+        if (initial && initial !== this.value) {
+            // Set without triggering re-entry through the change callback.
+            this.setAttribute("value", initial);
+        }
+    }
+
+    // The zone the DOM currently carries. Applying is idempotent: a
+    // zone already applied is a no-op. `attributeChangedCallback` fires
+    // on every `setAttribute("value", …)`, unchanged value included, so
+    // without this a consumer whose `timezonechange` listener mirrors the value
+    // back onto the element re-enters apply forever.
+    #appliedValue = "";
+
+    #applyZone(slug: string): void {
+        if (typeof document === "undefined" || !slug) return;
+        if (slug === this.#appliedValue) return;
+        this.#appliedValue = slug;
+        (this.#target ?? document.documentElement).setAttribute("data-time-zone", slug);
+        if (this.storageKey) {
+            try {
+                localStorage.setItem(this.storageKey, slug);
+            } catch {
+                /* ignore */
+            }
+        }
+        this.dispatchEvent(
+            new CustomEvent<TimeZonePickerChangeDetail>("timezonechange", {
+                detail: { zone: slug },
+                bubbles: true,
+                composed: true,
+            }),
+        );
+    }
+
+    // ---- Open / close ----
+
+    /** Open the listbox. `startIndex` overrides the active option. */
+    openList(startIndex?: number): void {
+        if (this.disabled) return;
+        const selected = this.#ids.indexOf(this.value);
+        // An empty list has no option to activate; -1 keeps
+        // aria-activedescendant off rather than pointing at an id that
+        // does not exist.
+        this.#activeIndex =
+            this.#ids.length === 0
+                ? -1
+                : (startIndex ?? (selected >= 0 ? selected : 0));
+        this.#open = true;
+        this.#emitOpenChange(true);
+        this.#syncState();
+        // Focus moves to the listbox; the active option is conveyed via
+        // aria-activedescendant, per the APG listbox pattern.
+        if (!this.#quietOpen) this.#listEl?.focus({ preventScroll: true });
+        this.#scrollActiveIntoView();
+    }
+
+    /** Close the listbox. Returns focus to the button unless `refocus` is false. */
+    closeList(refocus = true): void {
+        if (!this.#open) return;
+        this.#open = false;
+        this.#emitOpenChange(false);
+        this.#activeIndex = -1;
+        this.#syncState();
+        if (refocus) this.#buttonEl?.focus({ preventScroll: true });
+    }
+
+    #choose(index: number): void {
+        const slug = this.#ids[index];
+        if (slug) this.value = slug;
+        this.closeList();
+    }
+
+    #scrollActiveIntoView(): void {
+        if (this.#activeIndex < 0) return;
+        // jsdom has no scrollIntoView; call it only where it exists.
+        this.#optionEls[this.#activeIndex]?.scrollIntoView?.({ block: "nearest" });
+    }
+
+    #moveActive(delta: number): void {
+        if (this.#ids.length === 0) return;
+        this.#activeIndex = Math.min(
+            Math.max(this.#activeIndex + delta, 0),
+            this.#ids.length - 1,
+        );
+        this.#syncState();
+        this.#scrollActiveIntoView();
+    }
+
+    #setActive(index: number): void {
+        this.#activeIndex = index;
+        this.#syncState();
+        this.#scrollActiveIntoView();
+    }
+
+    #runTypeahead(char: string): void {
+        const lower = char.toLowerCase();
+        // APG listbox typeahead: a single character moves to the NEXT
+        // option starting with it, and repeating that character keeps
+        // cycling. Only a buffer of differing characters refines the
+        // match, and that buffer stays anchored on the active option.
+        const sameCharRun =
+            this.#typeahead === "" ||
+            [...this.#typeahead].every((c) => c === lower);
+        this.#typeahead += lower;
+        clearTimeout(this.#typeaheadTimer);
+        this.#typeaheadTimer = setTimeout(() => {
+            this.#typeahead = "";
+        }, 500);
+        const query = sameCharRun ? lower : this.#typeahead;
+        const anchor = this.#activeIndex < 0 ? 0 : this.#activeIndex;
+        const start = sameCharRun ? anchor + 1 : anchor;
+        // Search forward, wrapping once — typeahead wraps even though the
+        // arrows clamp, or options above the cursor would be untypable.
+        for (let n = 0; n < this.#ids.length; n++) {
+            const i = (start + n) % this.#ids.length;
+            if (this.#infos[i].label.toLowerCase().startsWith(query)) {
+                this.#setActive(i);
+                return;
+            }
+        }
+    }
+
+    #onButtonKeydown = (event: KeyboardEvent): void => {
+        switch (event.key) {
+            case "ArrowDown":
+            case "Enter":
+            case " ":
+                event.preventDefault();
+                this.openList();
+                break;
+            case "ArrowUp":
+                event.preventDefault();
+                this.openList(this.#ids.length - 1);
+                break;
+        }
+    };
+
+    #onListKeydown = (event: KeyboardEvent): void => {
+        switch (event.key) {
+            case "ArrowDown":
+                event.preventDefault();
+                this.#moveActive(1);
+                break;
+            case "ArrowUp":
+                event.preventDefault();
+                this.#moveActive(-1);
+                break;
+            case "Home":
+                event.preventDefault();
+                this.#setActive(0);
+                break;
+            case "End":
+                event.preventDefault();
+                this.#setActive(this.#ids.length - 1);
+                break;
+            case "Enter":
+            case " ":
+                event.preventDefault();
+                if (this.#activeIndex >= 0) this.#choose(this.#activeIndex);
+                break;
+            case "Escape":
+                event.preventDefault();
+                this.closeList();
+                break;
+            case "PageUp":
+                event.preventDefault();
+                this.#moveActive(-10);
+                break;
+            case "PageDown":
+                // ±10, clamped: an APG-optional key for long lists.
+                event.preventDefault();
+                this.#moveActive(10);
+                break;
+            case "Tab":
+                // Tab moves on — but focus goes to the button FIRST,
+                // without cancelling the key. Hiding the focused list
+                // drops focus to <body>, and the browser then computes
+                // the default Tab move from the top of the document, so
+                // tabbing out of an open picker teleported the user to
+                // the page's first tab stop. From the button, the
+                // default Tab lands exactly where leaving the picker
+                // should. Guard the METHOD: jsdom-shaped environments
+                // may lack it.
+                this.#buttonEl?.focus?.({ preventScroll: true });
+                this.closeList(false);
+                break;
+            default:
+                if (
+                    event.key.length === 1 &&
+                    !event.ctrlKey &&
+                    !event.metaKey &&
+                    !event.altKey
+                ) {
+                    this.#runTypeahead(event.key);
+                }
+        }
+    };
+
+    #onRootFocusOut = (event: FocusEvent): void => {
+        const next = event.relatedTarget as Node | null;
+        if (next && this.#rootEl?.contains(next)) return;
+        // Some engines (and jsdom) dispatch focusout with a null
+        // relatedTarget before the new focus target is committed, so
+        // re-check activeElement on the next microtask before closing.
+        queueMicrotask(() => {
+            const active = document.activeElement;
+            if (active && this.#rootEl?.contains(active)) return;
+            this.closeList(false);
+        });
+    };
+
+    // ---- Rendering ----
+
+    /**
+     * Update every state-carrying attribute without rebuilding the DOM:
+     * `aria-expanded`, `hidden`, `aria-activedescendant`, per-option
+     * `aria-selected` / `data-active`, and the hidden input's value.
+     */
+    #syncState(): void {
+        if (!this.#rootEl) return;
+        this.#syncTooltip();
+        const value = this.value;
+
+        if (this.#inputEl) this.#inputEl.value = value;
+
+        if (this.#buttonEl) {
+            this.#buttonEl.setAttribute("aria-expanded", String(this.#open));
+            // Rebuild the button content so an overridden
+            // renderButtonContent() that reads `value` or `open` stays
+            // current. This is what makes the hook behave like the
+            // reactive `children` snippet in the other frameworks.
+            this.#buttonEl.replaceChildren(this.renderButtonContent());
+        }
+
+        if (this.#listEl) {
+            if (this.#open) this.#listEl.removeAttribute("hidden");
+            else this.#listEl.setAttribute("hidden", "");
+
+            if (this.#open && this.#activeIndex >= 0) {
+                this.#listEl.setAttribute(
+                    "aria-activedescendant",
+                    this.optionId(this.#activeIndex),
+                );
+            } else {
+                this.#listEl.removeAttribute("aria-activedescendant");
+            }
+        }
+
+        this.#optionEls.forEach((option, i) => {
+            option.setAttribute("aria-selected", String(this.#ids[i] === value));
+            if (i === this.#activeIndex) option.setAttribute("data-active", "");
+            else option.removeAttribute("data-active");
+        });
+    }
+
+    #render(): void {
+        if (!this.isConnected) return;
+        this.#compute();
+
+        // A structural rebuild cannot preserve focus inside the listbox,
+        // so it closes first.
+        this.#open = false;
+        this.#activeIndex = -1;
+
+        const extraClass = this.getAttribute("class") ?? "";
+        const root = document.createElement("div");
+        root.className = `time-zone-picker ${extraClass}`.trim();
+        root.addEventListener("focusout", this.#onRootFocusOut);
+
+        // The hidden input preserves form participation and the `name`.
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = this.name;
+        input.value = this.value;
+        root.appendChild(input);
+
+        // Composes @lilydesignsystem/web-components-headless's
+        // <lily-icon-button> for the trigger rather than hand-rolling a
+        // <button>. base-class replaces its default "icon-button" class
+        // outright; aria-haspopup/expanded/controls are copied onto the
+        // real inner <button> via that component's passThroughAttributes.
+        // Event listeners aren't copied by it, so click/keydown go on the
+        // host — both bubble up from the real button.
+        const iconButtonHost = document.createElement("lily-icon-button");
+        iconButtonHost.setAttribute("base-class", "time-zone-picker-button");
+        iconButtonHost.setAttribute("label", this.label);
+        iconButtonHost.setAttribute("aria-haspopup", "listbox");
+        iconButtonHost.setAttribute("aria-expanded", "false");
+        iconButtonHost.setAttribute("aria-controls", this.listId);
+        iconButtonHost.appendChild(this.renderButtonContent());
+        iconButtonHost.addEventListener("click", () => {
+            if (this.#open) this.closeList();
+            else this.openList();
+        });
+        iconButtonHost.addEventListener("keydown", this.#onButtonKeydown);
+        root.appendChild(iconButtonHost);
+
+        // Tooltip: a purely visual sibling right after the trigger button. The
+        // same text is already the button's aria-label, so it is deliberately not
+        // wired with aria-describedby (that would announce the name twice).
+        this.#resetTooltip();
+        const tooltip = document.createElement("div");
+        tooltip.className = "time-zone-picker-tooltip";
+        tooltip.setAttribute("role", "tooltip");
+        tooltip.id = this.tooltipId;
+        tooltip.setAttribute("hidden", "");
+        tooltip.textContent = this.label;
+        tooltip.addEventListener("mouseenter", () => {
+            this.#hoverTooltip = true;
+            this.#syncTooltip();
+        });
+        tooltip.addEventListener("mouseleave", () => {
+            this.#hoverTooltip = false;
+            this.#syncTooltip();
+        });
+        this.#tooltipEl = tooltip;
+        // Pointer and focus listeners go on the <lily-icon-button> host: mouseenter
+        // does not bubble but fires on the host itself; focusin/focusout bubble
+        // up from the real inner <button>.
+        iconButtonHost.addEventListener("mouseenter", () => {
+            this.#hoverButton = true;
+            this.#tipDismissed = false;
+            this.#syncTooltip();
+        });
+        iconButtonHost.addEventListener("mouseleave", () => {
+            this.#hoverButton = false;
+            this.#syncTooltip();
+        });
+        iconButtonHost.addEventListener("click", () => {
+            this.#hoverButton = false;
+            this.#syncTooltip();
+        });
+        iconButtonHost.addEventListener("focusin", () => {
+            // Keyboard focus only: a mouse click also focuses the button in
+            // Chromium, and the tooltip should not stick after a click.
+            try {
+                this.#focusButton = this.#buttonEl?.matches(":focus-visible") ?? false;
+            } catch {
+                this.#focusButton = true; // engine without :focus-visible
+            }
+            this.#syncTooltip();
+        });
+        iconButtonHost.addEventListener("focusout", () => {
+            this.#focusButton = false;
+            this.#tipDismissed = false;
+            this.#syncTooltip();
+        });
+        iconButtonHost.addEventListener("keydown", (event: Event) => {
+            if ((event as KeyboardEvent).key === "Escape" && this.#tooltipVisible()) {
+                this.#tipDismissed = true;
+                this.#syncTooltip();
+            }
+        });
+        root.appendChild(tooltip);
+
+        const list = document.createElement("ul");
+        list.className = "time-zone-picker-list";
+        list.id = this.listId;
+        list.setAttribute("role", "listbox");
+        list.setAttribute("aria-label", this.label);
+        list.setAttribute("tabindex", "-1");
+        list.setAttribute("hidden", "");
+        list.addEventListener("keydown", this.#onListKeydown);
+
+        const optionEls: HTMLLIElement[] = [];
+        this.#infos.forEach((zone, i) => {
+            const option = document.createElement("li");
+            option.className = "time-zone-picker-option";
+            option.id = this.optionId(i);
+            option.setAttribute("role", "option");
+            option.setAttribute("aria-selected", String(zone.id === this.value));
+            option.setAttribute("data-offset", zone.offset);
+            option.textContent = zone.label;
+            option.addEventListener("click", () => this.#choose(i));
+            list.appendChild(option);
+            optionEls.push(option);
+        });
+        root.appendChild(list);
+
+        this.#rootEl = root;
+        this.#inputEl = input;
+        this.#listEl = list;
+        this.#optionEls = optionEls;
+
+        this.replaceChildren(root);
+        // <lily-icon-button> only builds its real inner <button> once
+        // connected to a live document, which just happened synchronously
+        // above.
+        this.#buttonEl = iconButtonHost.querySelector("button");
+        this.#applyInitialOpen();
+    }
+}
+
+// ---- Pure helpers (module-local) ----
+
+function parseCsv(s: string): string[] {
+    return s
+        .split(",")
+        .map((p) => p.trim())
+        .filter((p) => p.length > 0);
+}
+

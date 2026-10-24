@@ -1,0 +1,19 @@
+/**
+ * Barrel re-export for `<time-zone-picker>`.
+ *
+ * Importing this module registers the custom element under the tag
+ * name `"time-zone-picker"`. Registration is idempotent — re-imports
+ * do not throw. Consumers who want a different tag name can import the
+ * class directly from `./time-zone-picker` and call
+ * `customElements.define(...)` themselves.
+ */
+
+import { TimeZonePicker, DEFAULT_ZONES, nextTimeZonePickerId } from "./time-zone-picker.js";
+
+export { TimeZonePicker, DEFAULT_ZONES, nextTimeZonePickerId };
+export type { TimeZonePickerProps, TimeZonePickerChangeDetail, ZoneInfo } from "./time-zone-picker.js";
+export { formatOffset, matchZone, offsetMinutes, orderedZones, systemZone, zoneInfo, zoneName, defaultLabel } from "./zones.js";
+
+if (typeof customElements !== "undefined" && !customElements.get("time-zone-picker")) {
+    customElements.define("time-zone-picker", TimeZonePicker);
+}

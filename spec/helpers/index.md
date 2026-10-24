@@ -89,6 +89,7 @@ packages above. [`bin/list-helper-packages react`](../../bin/list-helper-package
 - [`lily-design-system-react-markdown-editor`](../../lily-design-system-react-markdown-editor/) — `@lilydesignsystem/react-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
 - [`lily-design-system-react-org-editor`](../../lily-design-system-react-org-editor/) — `@lilydesignsystem/react-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
 - [`lily-design-system-react-text-size-picker`](../../lily-design-system-react-text-size-picker/) — `@lilydesignsystem/react-text-size-picker`
+- [`lily-design-system-react-time-zone-picker`](../../lily-design-system-react-time-zone-picker/) — `@lilydesignsystem/react-time-zone-picker`
 - [`lily-design-system-react-theme-picker`](../../lily-design-system-react-theme-picker/) — `@lilydesignsystem/react-theme-picker`
 - [`lily-design-system-react-gantt-chart`](../../lily-design-system-react-gantt-chart/) — `@lilydesignsystem/react-gantt-chart`
 - [`lily-design-system-react-calendar`](../../lily-design-system-react-calendar/) — `@lilydesignsystem/react-calendar`
@@ -112,6 +113,7 @@ packages above. [`bin/list-helper-packages vue`](../../bin/list-helper-packages)
 - [`lily-design-system-vue-markdown-editor`](../../lily-design-system-vue-markdown-editor/) — `@lilydesignsystem/vue-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
 - [`lily-design-system-vue-org-editor`](../../lily-design-system-vue-org-editor/) — `@lilydesignsystem/vue-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
 - [`lily-design-system-vue-text-size-picker`](../../lily-design-system-vue-text-size-picker/) — `@lilydesignsystem/vue-text-size-picker`
+- [`lily-design-system-vue-time-zone-picker`](../../lily-design-system-vue-time-zone-picker/) — `@lilydesignsystem/vue-time-zone-picker`
 - [`lily-design-system-vue-theme-picker`](../../lily-design-system-vue-theme-picker/) — `@lilydesignsystem/vue-theme-picker`
 - [`lily-design-system-vue-gantt-chart`](../../lily-design-system-vue-gantt-chart/) — `@lilydesignsystem/vue-gantt-chart`
 - [`lily-design-system-vue-calendar`](../../lily-design-system-vue-calendar/) — `@lilydesignsystem/vue-calendar`
@@ -135,6 +137,7 @@ packages above. [`bin/list-helper-packages angular`](../../bin/list-helper-packa
 - [`lily-design-system-angular-markdown-editor`](../../lily-design-system-angular-markdown-editor/) — `@lilydesignsystem/angular-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
 - [`lily-design-system-angular-org-editor`](../../lily-design-system-angular-org-editor/) — `@lilydesignsystem/angular-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
 - [`lily-design-system-angular-text-size-picker`](../../lily-design-system-angular-text-size-picker/) — `@lilydesignsystem/angular-text-size-picker`
+- [`lily-design-system-angular-time-zone-picker`](../../lily-design-system-angular-time-zone-picker/) — `@lilydesignsystem/angular-time-zone-picker`
 - [`lily-design-system-angular-theme-picker`](../../lily-design-system-angular-theme-picker/) — `@lilydesignsystem/angular-theme-picker`
 - [`lily-design-system-angular-gantt-chart`](../../lily-design-system-angular-gantt-chart/) — `@lilydesignsystem/angular-gantt-chart`
 - [`lily-design-system-angular-calendar`](../../lily-design-system-angular-calendar/) — `@lilydesignsystem/angular-calendar`
@@ -158,6 +161,7 @@ packages above. [`bin/list-helper-packages html`](../../bin/list-helper-packages
 - [`lily-design-system-html-markdown-editor`](../../lily-design-system-html-markdown-editor/) — `@lilydesignsystem/html-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
 - [`lily-design-system-html-org-editor`](../../lily-design-system-html-org-editor/) — `@lilydesignsystem/html-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
 - [`lily-design-system-html-text-size-picker`](../../lily-design-system-html-text-size-picker/) — `@lilydesignsystem/html-text-size-picker`
+- [`lily-design-system-html-time-zone-picker`](../../lily-design-system-html-time-zone-picker/) — `@lilydesignsystem/html-time-zone-picker`
 - [`lily-design-system-html-theme-picker`](../../lily-design-system-html-theme-picker/) — `@lilydesignsystem/html-theme-picker`
 - [`lily-design-system-html-gantt-chart`](../../lily-design-system-html-gantt-chart/) — `@lilydesignsystem/html-gantt-chart`
 - [`lily-design-system-html-calendar`](../../lily-design-system-html-calendar/) — `@lilydesignsystem/html-calendar`
@@ -181,6 +185,7 @@ packages above. [`bin/list-helper-packages web-components`](../../bin/list-helpe
 - [`lily-design-system-web-components-markdown-editor`](../../lily-design-system-web-components-markdown-editor/) — `@lilydesignsystem/web-components-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
 - [`lily-design-system-web-components-org-editor`](../../lily-design-system-web-components-org-editor/) — `@lilydesignsystem/web-components-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
 - [`lily-design-system-web-components-text-size-picker`](../../lily-design-system-web-components-text-size-picker/) — `@lilydesignsystem/web-components-text-size-picker`
+- [`lily-design-system-web-components-time-zone-picker`](../../lily-design-system-web-components-time-zone-picker/) — `@lilydesignsystem/web-components-time-zone-picker`
 - [`lily-design-system-web-components-theme-picker`](../../lily-design-system-web-components-theme-picker/) — `@lilydesignsystem/web-components-theme-picker`
 - [`lily-design-system-web-components-gantt-chart`](../../lily-design-system-web-components-gantt-chart/) — `@lilydesignsystem/web-components-gantt-chart`
 - [`lily-design-system-web-components-calendar`](../../lily-design-system-web-components-calendar/) — `@lilydesignsystem/web-components-calendar`
@@ -207,6 +212,7 @@ packages above. [`bin/list-helper-packages nunjucks`](../../bin/list-helper-pack
 - [`lily-design-system-nunjucks-locale-picker`](../../lily-design-system-nunjucks-locale-picker/) — `@lilydesignsystem/nunjucks-locale-picker`
 - [`lily-design-system-nunjucks-motion-picker`](../../lily-design-system-nunjucks-motion-picker/) — `@lilydesignsystem/nunjucks-motion-picker`
 - [`lily-design-system-nunjucks-text-size-picker`](../../lily-design-system-nunjucks-text-size-picker/) — `@lilydesignsystem/nunjucks-text-size-picker`
+- [`lily-design-system-nunjucks-time-zone-picker`](../../lily-design-system-nunjucks-time-zone-picker/) — `@lilydesignsystem/nunjucks-time-zone-picker`
 - [`lily-design-system-nunjucks-theme-picker`](../../lily-design-system-nunjucks-theme-picker/) — `@lilydesignsystem/nunjucks-theme-picker`
 - [`lily-design-system-nunjucks-picker-bar`](../../lily-design-system-nunjucks-picker-bar/) — `@lilydesignsystem/nunjucks-picker-bar`
 
@@ -228,6 +234,7 @@ packages above. [`bin/list-helper-packages blazor`](../../bin/list-helper-packag
 - [`lily-design-system-blazor-markdown-editor`](../../lily-design-system-blazor-markdown-editor/) — `LilyDesignSystem.Blazor.MarkdownEditor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
 - [`lily-design-system-blazor-org-editor`](../../lily-design-system-blazor-org-editor/) — `LilyDesignSystem.Blazor.OrgEditor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
 - [`lily-design-system-blazor-text-size-picker`](../../lily-design-system-blazor-text-size-picker/) — `@lilydesignsystem/blazor-text-size-picker`
+- [`lily-design-system-blazor-time-zone-picker`](../../lily-design-system-blazor-time-zone-picker/) — `@lilydesignsystem/blazor-time-zone-picker`
 - [`lily-design-system-blazor-theme-picker`](../../lily-design-system-blazor-theme-picker/) — `@lilydesignsystem/blazor-theme-picker`
 - [`lily-design-system-blazor-gantt-chart`](../../lily-design-system-blazor-gantt-chart/) — `@lilydesignsystem/blazor-gantt-chart`
 - [`lily-design-system-blazor-calendar`](../../lily-design-system-blazor-calendar/) — `@lilydesignsystem/blazor-calendar`

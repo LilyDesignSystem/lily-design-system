@@ -1,0 +1,357 @@
+# Changelog — TimeZonePicker (Vue)
+
+All notable changes to this helper are documented in this file. The
+format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
+and the project follows [Semantic Versioning](https://semver.org/).
+
+## 0.3.0 — 2026-10-16
+
+- Added `v-model:open` and `disabled`, ported from the Svelte package's `open`, `onOpenChange` and `disabled` (spec "Open state and disabled"). `update:open` is emitted once for each change the picker makes (the Vue form of `onOpenChange`); `disabled` disables the button and closes an open popup.
+
+## 0.2.0 — 2026-10-04
+
+**Added: hover/keyboard-focus tooltip (minor, additive).** A new
+`<div class="time-zone-picker-tooltip" role="tooltip">` sits right after the icon button, always in the DOM and `hidden` at rest, holding the button's existing `label` text (no new props, no new English text). It is shown while the pointer is over the button or the tooltip (hoverable), or while the button has keyboard focus (`:focus-visible`); `Escape` on the button dismisses it without moving focus; it is never shown while the listbox is open. Not linked with `aria-describedby` (it would duplicate the `aria-label`). New class hook `.time-zone-picker-tooltip`; styling is the theme CSS's. Spec clauses §7.23–§7.28.
+
+**Fixed: tooltip `Escape` now works wherever focus is (WCAG 1.4.13).** While the tooltip is visible a document `keydown` listener dismisses it on `Escape`, so a hover-only tooltip (focus elsewhere) is dismissable too; added only while visible, removed on hide/unmount. Spec clause §7.29.
+
+## 0.1.2 — 2026-10-01
+
+**Fix: dependency range on `@lilydesignsystem/vue-headless` widened
+from `^0.1.0` to `^0.2.0`.** This package composes the headless `IconButton` (plus, for the listbox pickers and
+kanban-board, `Listbox`) with props (`baseClass`, the active-descendant
+`navigation` mode, …) that only exist in
+vue-headless 0.2.0, but `^0.1.0` never resolves to a 0.2.x release,
+so a fresh install got 0.1.0 and those props were dropped: Escape left
+`aria-expanded="true"` and option selection never applied. Found when
+the vue example app's picker e2e tests failed against the published
+packages, and confirmed by forcing vue-headless 0.2.0, which made every
+one pass. The same defect and fix as the Svelte catalog's 0.1.2. No
+source change.
+
+## 0.1.1 — 2026-09-21
+
+**Internal refactor: now depends on `@lilydesignsystem/vue-headless`'s
+`IconButton` and `Listbox` (new `navigation="active-descendant"` mode)
+instead of hand-rolling equivalent markup/keyboard logic — porting the
+same refactor already made to `@lilydesignsystem/svelte-*`.** No
+change to the public API, rendered markup (class names, ids, ARIA
+attributes), or keyboard contract — the full existing test suite
+passes unchanged, run against the refactored component with no test
+edits. `Listbox`/`IconButton` gained `clamp`/`typeahead`/`pageSize`/
+`activate`/`escape`/`tab-out` emits/`baseClass`/`as`/`defineExpose({ el
+})` specifically to make this migration possible without any
+behaviour regression — see `@lilydesignsystem/vue-headless`'s own
+CHANGELOG.
+
+## 0.1.0 — 2026-09-16
+
+**Package renamed: `lily-design-system-vue-time-zone-picker` → `@lilydesignsystem/vue-time-zone-picker`.** npm scoped packages
+are registry-distinct from their unscoped counterparts, so this is a
+new package with no publish history of its own — version reset to
+`0.1.0` per this project's established rename precedent (the July
+2026 `*-select` → `*-picker` rename). No code or behaviour change
+relative to `lily-design-system-vue-time-zone-picker`'s last published version (`0.2.0`);
+its full changelog continues below, now read as history prior to the
+rescope. The old unscoped name is deprecated on the registry (never
+unpublished), pointing consumers here.
+
+---
+
+## 0.2.0 — 2026-09-16
+
+### Changed (BREAKING)
+
+- **Default icon changed from a Unicode glyph to a bundled SVG.** The
+  button's `time-zone-picker-icon` now renders an inline
+  `<svg viewBox="0 0 16 16" aria-hidden="true">` (stroke-drawn "A" design,
+  `stroke="currentColor"`, `stroke-width="1.6"`, round caps/joins,
+  explicit `width="1.05rem" height="1.05rem"`) instead of a text glyph
+  in a `<span>`. Renders identically on every platform and font stack —
+  no missing-glyph risk, no per-glyph optical-scale correction to maintain (the
+  45 root `themes/*.css` files' `--lily-picker-icon-scale` rule is
+  dropped for this icon; an SVG's ink fills its own `viewBox` by
+  construction). The exported glyph constant **`LATIN_CAPITAL_LETTER_A`**
+  (A U+0041) is **removed, not renamed** — there is
+  no longer a single swappable character value to export. `children`
+  still overrides the icon exactly as before.
+
+### Fixed
+
+- **Opening the popup no longer scrolls the page.** The `.focus()`
+  calls this component makes on itself — moving focus onto the open
+  panel, and back to the trigger button on close — now pass
+  `{ preventScroll: true }`. Without it, a popup rendered partly
+  off-screen (the shipped default CSS anchors to the left edge and
+  grows rightward, which overflows a right-aligned header picker
+  unless the consumer adds an `inset-inline-end` override) triggered
+  the browser's default scroll-into-view, which read as the whole page
+  jumping sideways the instant the picker opened.
+
+## 0.1.1 — 2026-08-26
+
+Metadata-only patch; no behaviour change. Ships the corrected package
+metadata to the registry: the project SPDX license menu (`MIT OR
+Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause`) replacing
+the single-license field that contradicted the repository's
+LICENSE.md, `repository`/`homepage`/`bugs` URLs, a named author, and a
+description that says what the package does.
+
+## 0.1.0 — 2026-07-30
+
+First published release. Nothing earlier shipped, so the
+accessibility hardening completed after the initial entry below is
+part of 0.1.0 rather than a later version.
+
+### Pointer-selection close is now part of the contract (2026-07-31)
+
+#### Changed
+
+- **Clicking an option is specified to close the listbox**, not just to
+  select and apply. The behaviour was already correct — and is now
+  asserted: the pointer test checks `aria-expanded="false"` and the
+  list's `hidden` alongside the applied value. Only `Enter` promised the
+  close before, and an untested asymmetry is one refactor away from
+  becoming real: a selection that leaves `aria-expanded="true"` over a
+  hidden list reports an open popup to assistive technology and makes
+  every later click miss the options.
+
+### Accessibility hardening (2026-07-29/30)
+
+#### Changed
+
+- **`Tab` from the open list no longer strands keyboard focus.** The
+  handler hid the list while it had focus; the browser then moved focus
+  to `<body>` and the default Tab restarted from the top of the
+  document. Focus now goes to the trigger button first — without
+  cancelling the key — so the default Tab proceeds from the picker's
+  own position.
+- **Typeahead follows the APG single-character rule.** A single
+  character advances to the *next* matching option, and repeating that
+  character cycles through the matches; only a buffer of differing
+  characters refines the match anchored on the active option.
+  Previously a character that matched the active option went nowhere.
+
+#### Added
+
+- **`PageUp` / `PageDown`** move the active option by ten, clamped —
+  an APG-optional key for long lists.
+
+#### Fixed
+
+- Opening with an empty option list no longer points
+  `aria-activedescendant` at an id that does not exist.
+
+### Initial entry — 2026-07-21
+
+Renamed from `lily-design-system-vue-time-zone-select`, alongside its
+three sibling helpers. Nothing was ever published under the old name, so
+the version resets to 0.1.0 rather than continuing the in-tree 0.2.0.
+
+The rename is full-depth:
+
+- Component and default export: `TimeZonePicker` -> `TimeZonePicker`.
+- Class hooks: `.time-zone-picker*` -> `.time-zone-picker`,
+  `.time-zone-picker-button`, `.time-zone-picker-icon`,
+  `.time-zone-picker-list`, `.time-zone-picker-option`.
+- Data attributes: `data-lily-time-zone-select*` ->
+  `data-lily-time-zone-picker*`. The applied `data-time-zone` attribute
+  is unchanged -- it names the preference, not the helper.
+- Id helper: `nextTextSizeSelectId` -> `nextTimeZonePickerId`.
+
+`sizeName` keeps its name -- it never said "select".
+
+#### The package as it stands
+
+- Headless Vue 3 time-zone picker: an icon button (U+0041 LATIN CAPITAL
+  LETTER A) that opens a WAI-ARIA APG listbox of time-zone slugs.
+- Sets `data-time-zone="{slug}"` on the target element (default
+  `document.documentElement`); the consumer's CSS maps each slug to real
+  typography. Supports WCAG 2.2 1.4.4 (Resize Text) and 1.4.12 (Text
+  Spacing).
+- Optional `localStorage` persistence.
+- Exports `TimeZonePicker`, `sizeName`, `nextTimeZonePickerId`,
+  `LATIN_CAPITAL_LETTER_A`, and the `Props` / `SlotArgs` / `ChildArgs`
+  types.
+- Ships no CSS, fonts, icons, or images. SSR-safe.
+
+## Prior history — released in-tree as `lily-design-system-vue-time-zone-select`
+
+Everything below happened in-tree under the former name, and is
+kept verbatim -- headings demoted one level, old names intact -- so
+the record stays accurate. None of it was published to npm.
+
+#### 0.2.0 — 2026-07-21
+
+##### Changed (BREAKING)
+
+- **The control is no longer a native `<select>`.** It is now an icon
+  button that opens a WAI-ARIA APG listbox, matching `theme-picker`
+  and `locale-picker` — all three helpers are now the same shape. The
+  root element changes from a `<select>` to a
+  `<div>`, both carrying the `time-zone-picker` hook, containing three children:
+  - a hidden `<input type="hidden" name="{name}" value="{value}">`,
+    which preserves form participation;
+  - a `<button type="button" class="time-zone-picker-button"
+aria-label="{label}" aria-haspopup="listbox" aria-expanded
+aria-controls="{listId}">` wrapping
+    `<span class="time-zone-picker-icon" aria-hidden="true">A</span>`;
+  - a `<ul class="time-zone-picker-list" role="listbox"
+aria-label="{label}" tabindex="-1" hidden aria-activedescendant>`
+    of `<li class="time-zone-picker-option" role="option" aria-selected
+data-active>`.
+
+  Consumers selecting `select.time-zone-picker`, reading
+  `selectEl.value`, or styling `option.time-zone-picker-option` must
+  migrate. The active size is read from the `v-model:value` binding,
+  from `data-time-zone` on the target, or from the hidden input.
+
+- **The default slot now replaces the button glyph, not the options.**
+  `SlotArgs` changes from
+  `{ sizes, value, setSize, name, labelFor }` to
+  `{ value, open, labelFor }`. The listbox, its options, the keyboard
+  contract, and the apply lifecycle are component-owned and can no
+  longer be overridden from the slot. Slot content is decorative: the
+  accessible name always comes from `label` via `aria-label`, so slot
+  markup should be `aria-hidden="true"` or text-free, and must not be
+  interactive (it renders inside the `<button>`).
+
+- **Keyboard interaction is now component-implemented** rather than
+  inherited from the platform. Following the APG listbox pattern: on
+  the button, `ArrowDown` / `Enter` / `Space` open with the selected
+  option active and `ArrowUp` opens with the last option active, and
+  opening moves focus to the `<ul>`. On the listbox, `ArrowDown` /
+  `ArrowUp` move the active option and **clamp** rather than wrap,
+  `Home` / `End` jump to the first / last, `Enter` / `Space` commit and
+  refocus the button, `Escape` closes without changing the value, `Tab`
+  closes without stealing focus back, and printable characters run a
+  typeahead over the option labels with a 500 ms buffer reset. Clicking
+  an option selects it; clicking the button again, clicking outside, or
+  moving focus out of the root closes the listbox.
+
+##### Added
+
+- `sizeName(slug)` — exported label resolver that title-cases each
+  hyphen-separated word (`"x-large"` → `"X Large"`). Mirrors
+  `themeName(slug)` on theme-picker and `localeName(code)` on
+  locale-picker. The internal `labelFor` now delegates to it, so the
+  title-casing rule has exactly one implementation.
+- `nextTextSizeSelectId()` — SSR-safe per-instance id generator backed
+  by a module counter (never `Math.random()` / `Date.now()`), used for
+  the listbox and option ids.
+- `LATIN_CAPITAL_LETTER_A` — the default button glyph, `"A"` (U+0041).
+  A plain letter rather than a pictograph, deliberately: U+1F5DB
+  DECREASE FONT SIZE SYMBOL has no real glyph in common font stacks
+  and means _decrease_ rather than _size_.
+- `type ChildArgs` — alias of `SlotArgs`, matching the canonical
+  Svelte helper's type name.
+- All of the above are re-exported from the `index.ts` barrel.
+- New acceptance clauses §7.14–§7.18 in `spec/index.md` with matching
+  tests: the three open keys and the `ArrowUp`-opens-last rule;
+  active-descendant movement, clamping, and `Home` / `End`; commit /
+  cancel / `Tab` semantics and `aria-activedescendant` teardown;
+  typeahead (including wrap-around and modifier-key suppression),
+  option clicks, button re-click, and outside-click close; and the
+  `sizeName` / `labelFor` delegation rule.
+- `docs/accessibility.md` — new in this release; see below.
+- `CHANGELOG.md` — this file.
+
+##### Unchanged
+
+- The whole downstream lifecycle: `data-time-zone` on the target,
+  optional `localStorage` persistence, the `change` and `update:value`
+  events, `v-model:value`, initial-value resolution (`value` > storage
+  > `defaultValue` > `"medium"` > `sizes[0]`), and SSR safety.
+- The no-hardcoded-strings i18n rule.
+
+##### Not added, deliberately
+
+- **No detection prop.** `theme-picker` gained `detectFromSystem` and
+  `locale-picker` has `detectFromNavigator`, but there is no OS
+  "preferred text size" signal exposed to the web — no media query
+  equivalent to `prefers-color-scheme`, no `navigator` field. The
+  resolution chain is therefore the theme-picker chain minus its
+  detection step. Recorded in `spec/index.md` §2 and §8 so it is not
+  re-proposed as an oversight.
+
+##### Accessibility
+
+`docs/accessibility.md` is new and is built around the same three
+tradeoffs documented for `theme-picker` and `locale-picker`:
+
+1. **Icon-only control.** `aria-label` from `label` is the button's
+   entire accessible name; a wrong or untranslated `label` leaves it
+   unnamed, and WCAG 2.5.3 (Label in Name) has no visible text to
+   match against. Noted as sharper here than on the other two helpers:
+   the users most likely to need a time-zone control are the users
+   least well served by a small icon-only target.
+2. **A scripted listbox is less robust than a native `<select>`.** No
+   platform-native screen reader behaviour, no OS picker on touch
+   devices, and uneven real-world `aria-activedescendant` and
+   forms-mode support. APG-conformant and keyboard-complete, but a
+   genuine robustness regression traded for a compact, consistent,
+   styleable control — and the page says plainly that a native
+   `<select>` remains the better choice for some audiences, doubly so
+   for this helper's audience.
+3. **The glyph is font-dependent** — but `"A"` is materially safer
+   than a pictograph: it is present in any font that can render the
+   page at all, renders in the page's own face, and stays monochrome.
+   The residual risk is cosmetic. An SVG recipe for the conventional
+   two-size affordance (small A / large A) is included.
+
+The page also keeps this helper's specific WCAG concern, **1.4.4
+(Resize Text)**, with the two obligations that come with it: size
+typography in relative units or the control does nothing, and test the
+layout at the largest size _combined with_ 200% browser zoom. It states
+that the helper complements browser zoom rather than replacing it, and
+that zoom must never be disabled on the strength of shipping it.
+
+A `.time-zone-picker-status` live-region pattern is documented as the
+default, as on the other two helpers: the closed button shows only a
+glyph, so the active size has no on-screen and no announced
+representation unless the consumer renders one. It has a bonus unique
+to this helper — the status text renders at the selected size, so it
+doubles as a live preview.
+
+#### 0.1.0 — 2026-06-05
+
+Initial release.
+
+##### Added
+
+- `TimeZonePicker.vue` — Vue 3 SFC with `<script setup lang="ts">`.
+  Rendered `<select aria-label="…" name="…">` with one `<option>` per
+  size slug, set `data-time-zone="{slug}"` on the resolved target
+  element (defaulting to `document.documentElement`), optional
+  `storageKey` persistence to `localStorage` with private-mode-safe
+  try/catch, two-way binding via `v-model:value`, a `change` event for
+  post-apply side effects, and a default scoped slot for custom
+  rendering with `{ sizes, value, setSize, name, labelFor }`.
+- `index.ts` barrel re-exporting `default`, `TimeZonePicker`, and the
+  `Props` + `SlotArgs` types.
+- `TimeZonePicker.test.ts` — vitest suite asserting every numbered
+  acceptance criterion in `spec/index.md` §7.
+- `spec/index.md` — spec-driven contract, version 0.1.0.
+
+##### Conventions
+
+- Vue 3 Composition API, `<script setup lang="ts">`.
+- Zero runtime dependencies beyond `vue`.
+- SSR-safe: all DOM writes inside `onMounted` / `watch`.
+- Tested under vitest + jsdom + `@vue/test-utils`.
+
+##### Parity
+
+A direct port of the Svelte canonical
+`lily-design-system-svelte-time-zone-select` v0.1.0.
+
+##### Notes
+
+- The `onChange` callback prop from the Svelte canonical maps to the
+  `change` Vue event. Use `@change="..."` in templates.
+- The `children` snippet from Svelte maps to the default scoped slot
+  in Vue.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

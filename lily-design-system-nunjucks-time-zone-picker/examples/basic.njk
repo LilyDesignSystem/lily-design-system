@@ -1,0 +1,17 @@
+{#
+  Basic usage: a label, the reader's locale and the options built at render time. The picker starts on the
+  reader's own zone (or its listed twin) and sets data-time-zone on <html>.
+  Use the zone where you format dates:  new Intl.DateTimeFormat(locale, { timeZone }).format(date)
+#}
+{% from "@lilydesignsystem/nunjucks-time-zone-picker/template" import timeZonePicker %}
+{{ timeZonePicker({ label: "Time zone", locale: "en-GB", options: zoneOptions, storageKey: "lily-time-zone" }) }}
+<p id="now" aria-live="polite"></p>
+
+<script type="module">
+  import { autoInit } from "@lilydesignsystem/nunjucks-time-zone-picker";
+  autoInit({
+    onChange: (zone) => {
+      document.getElementById("now").textContent = new Intl.DateTimeFormat("en-GB", { timeZone: zone, dateStyle: "medium", timeStyle: "short" }).format(new Date());
+    },
+  });
+</script>

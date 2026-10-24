@@ -54,6 +54,9 @@ EXTRA_TARGETS = {
     "org-format.ts": [
         "lily-design-system-nunjucks-org-editor/org-format.js",
     ],
+    "zones.ts": [
+        "lily-design-system-nunjucks-time-zone-picker/zones.js",
+    ],
     "wheel-picker.ts": [
         "lily-design-system-svelte-headless/components/WheelPicker/wheel-picker.ts",
         "lily-design-system-react-headless/components/wheel-picker.ts",

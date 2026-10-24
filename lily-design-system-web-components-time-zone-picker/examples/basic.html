@@ -1,0 +1,18 @@
+<!--
+  Basic usage: a label and the reader's locale. The zones are the built-in list, ordered by offset; the picker
+  starts on the reader's own zone (or its listed twin) and sets data-time-zone on <html>.
+  Use the zone where you format dates:  new Intl.DateTimeFormat(locale, { timeZone }).format(date)
+-->
+<script type="module">
+  import "@lilydesignsystem/web-components-time-zone-picker";
+</script>
+
+<lily-time-zone-picker id="tz" label="Time zone" locale="en-GB" storage-key="lily-time-zone"></lily-time-zone-picker>
+<p id="now" aria-live="polite"></p>
+
+<script type="module">
+  const show = (zone) => {
+    document.getElementById("now").textContent = new Intl.DateTimeFormat("en-GB", { timeZone: zone, dateStyle: "medium", timeStyle: "short" }).format(new Date());
+  };
+  document.getElementById("tz").addEventListener("timezonechange", (e) => show(e.detail.zone));
+</script>

@@ -1,0 +1,86 @@
+{#
+  TimeZonePicker macro: an icon button that opens a listbox of time zones, each shown as its UTC offset and its
+  full name, ordered by offset.
+
+  HTML tag: <div> (root), <button> + <ul role="listbox">
+  CSS class: time-zone-picker
+  Companion runtime: time-zone-picker.client.js
+
+  Params (single `opts` object):
+    label         string, required. aria-label for the button AND the listbox. The button is icon-only, so this is
+                  the ONLY accessible name it has.
+    options       array, required. The zones to show, already ordered: `[{ id, offsetMinutes, offset, name, label }]`.
+                  Build it where the page is built with `timeZoneOptions({ locale, zones?, date?, labelFor? })`
+                  (exported by the client module): a Nunjucks macro cannot call `Intl`.
+    locale        string, required. The BCP 47 tag the names were written in; the client uses it to find the
+                  reader's own zone among the options.
+    date          string. ISO date the offsets were worked out for (default: unset, the client uses now).
+    value         string. Initial zone (IANA id), emitted as data-lily-time-zone-picker-value for the client.
+    defaultValue  string. Initial zone when nothing else is supplied.
+    storageKey    string. If non-empty, client.js persists to localStorage.
+    name          string. Hidden-input `name` (default "time-zone").
+    id            string. Id prefix for the listbox and its options (default "time-zone-picker-{name}"). Supply
+                  one when rendering two instances that share a `name`.
+    open          boolean. Render the popup open (aria-expanded and no `hidden`); ignored when `disabled`.
+    disabled      boolean. Render the button `disabled`; the popup stays closed.
+    classes       string. Extra CSS classes on the root <div>.
+    attributes    object. Extra HTML attributes spread onto the root.
+
+  Custom icon: call the macro with a `{% call %}` block and the block body replaces the default icon.
+
+  Usage:
+    {% from "./time-zone-picker.njk" import timeZonePicker %}
+    {{ timeZonePicker({
+      label: "Time zone",
+      locale: "en-GB",
+      options: zoneOptions,
+      storageKey: "lily-time-zone"
+    }) }}
+
+  where `zoneOptions = timeZoneOptions({ locale: "en-GB" })`. Then load time-zone-picker.client.js once and call
+  autoInit().
+
+  NOTE: the button does nothing until time-zone-picker.client.js runs. See docs/ssr.md.
+
+  Spec: spec/index.md §4.1 (macro parameters), §4.2 (DOM contract).
+#}
+{%- macro timeZonePicker(opts) -%}
+{%- set name = opts.name | default("time-zone") -%}
+{%- set value = opts.value | default("") -%}
+{%- set storageKey = opts.storageKey | default("") -%}
+{%- set defaultValue = opts.defaultValue | default("") -%}
+{%- set id = opts.id | default("time-zone-picker-" + name) -%}
+{%- set disabled = opts.disabled | default(false) -%}
+{%- set isOpen = (opts.open | default(false)) and not disabled -%}
+{%- set listId = id + "-list" -%}
+{#- Server-side selected resolution. localStorage and the reader's own zone are client-only, so the client may
+    correct this after hydration; the point is that the server markup always marks exactly one option
+    aria-selected (when there are options). -#}
+{%- set ids = [] -%}
+{%- for o in opts.options -%}{%- set _ = ids.push(o.id) -%}{%- endfor -%}
+{%- set fallback = "UTC" if "UTC" in ids else ids[0] -%}
+{%- set wanted = value or defaultValue -%}
+{%- set selected = wanted if wanted in ids else fallback -%}
+<div
+  class="time-zone-picker{% if opts.classes %} {{ opts.classes }}{% endif %}"
+  data-lily-time-zone-picker-root
+  data-lily-time-zone-picker-name="{{ name }}"
+  data-lily-time-zone-picker-storage-key="{{ storageKey }}"
+  data-lily-time-zone-picker-default-value="{{ defaultValue }}"
+  data-lily-time-zone-picker-locale="{{ opts.locale }}"
+  {%- if opts.date %} data-lily-time-zone-picker-date="{{ opts.date }}"{% endif %}
+  {%- if value %} data-lily-time-zone-picker-value="{{ value }}"{% endif %}
+  {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+<input type="hidden" name="{{ name }}" value="{{ selected }}" data-lily-time-zone-picker-input>
+<button type="button" class="time-zone-picker-button" aria-label="{{ opts.label }}" aria-haspopup="listbox" aria-expanded="{{ 'true' if isOpen else 'false' }}" aria-controls="{{ listId }}" data-lily-time-zone-picker-button{% if disabled %} disabled{% endif %}>
+{%- if caller %}{{ caller() }}{% else %}<svg class="time-zone-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="1.05rem" height="1.05rem"><path d="M8 2.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11zM8 5v3l2 1.5"/></svg>{% endif -%}
+</button>
+<div class="time-zone-picker-tooltip" role="tooltip" id="{{ id }}-tooltip" hidden>{{ opts.label }}</div>
+<ul class="time-zone-picker-list" id="{{ listId }}" role="listbox" aria-label="{{ opts.label }}" tabindex="-1"{% if not isOpen %} hidden{% endif %} data-lily-time-zone-picker-list>
+{%- for o in opts.options -%}
+  <li class="time-zone-picker-option" id="{{ id }}-option-{{ loop.index0 }}" role="option" aria-selected="{{ 'true' if o.id == selected else 'false' }}" data-value="{{ o.id }}" data-offset="{{ o.offset }}" data-offset-minutes="{{ o.offsetMinutes }}" data-name="{{ o.name }}">{{ o.label }}</li>
+{%- endfor -%}
+</ul>
+</div>
+{%- endmacro -%}

@@ -1,0 +1,91 @@
+@namespace LilyDesignSystem.Blazor.Helpers
+@using LilyBlazorHeadless.Components
+
+@*
+    TimeZonePicker — Blazor helper component.
+    Single source of truth: spec/index.md (§1–§9).
+
+    Renders an icon button that opens a dropdown listbox of time zones,
+    each shown as its UTC offset and its full name, ordered by offset
+    (WAI-ARIA APG listbox pattern). On every selection it
+    (1) sets data-time-zone on <html>, (2) optionally persists to
+    localStorage, and (3) invokes OnChange / ValueChanged.
+
+    All DOM writes happen through IJSRuntime inside OnAfterRenderAsync,
+    so the component is SSR / prerender safe.
+*@
+
+<div class="@RootClass"
+     @onfocusout="OnRootFocusOutAsync"
+     @onkeydown="OnTipRootKeyDown"
+     @attributes="AdditionalAttributes">
+
+    @* Preserves form participation; the listbox itself is not a form control. *@
+    <input type="hidden" name="@Name" value="@Value" />
+
+    <IconButton @ref="_buttonComponent"
+                disabled="@Disabled"
+                Label="@Label"
+                BaseCssClass="time-zone-picker-button"
+                aria-haspopup="listbox"
+                aria-expanded="@(_open ? "true" : "false")"
+                aria-controls="@ListId"
+                @onclick="OnButtonClickAsync"
+                @onkeydown="OnButtonKeyDownAsync"
+                @onmouseenter="OnTipButtonEnter" @onmouseleave="OnTipButtonLeave"
+                @onmousedown="OnTipButtonMouseDown" @onblur="OnTipButtonBlur"
+                @onfocus="OnTipButtonFocus">
+        @if (ChildContent is not null)
+        {
+            @ChildContent(BuildContext())
+        }
+        else
+        {
+            @* The icon is decorative: the accessible name is the button's
+               aria-label, never the icon itself. Bundled SVG, not a
+               Unicode character (reversed 2026-09-16). *@
+            <svg class="time-zone-picker-icon" viewBox="0 0 16 16" aria-hidden="true"
+                 fill="none" stroke="currentColor" stroke-width="1.6"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 width="1.05rem" height="1.05rem">
+                <path d="M8 2.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11zM8 5v3l2 1.5" />
+            </svg>
+        }
+    </IconButton>
+
+    @* Purely visual: the same text is already the button's aria-label, so it
+       is not wired with aria-describedby (that would announce the name twice).
+       See spec §4.2 "Tooltip". *@
+    <div class="time-zone-picker-tooltip" role="tooltip" id="@TooltipId" hidden="@(!TooltipVisible)"
+         @onkeydown="OnTipRootKeyDown" @onmouseenter="OnTipTooltipEnter" @onmouseleave="OnTipTooltipLeave">@Label</div>
+
+    <Listbox @ref="_listComponent"
+             Label="@Label"
+             BaseCssClass="time-zone-picker-list"
+             id="@ListId"
+             Navigation="active-descendant"
+             Clamp="true"
+             Typeahead="true"
+             PageSize="10"
+             OptionCount="@_infos.Count"
+             OptionId="@OptionId"
+             OptionLabel="@(i => _infos[i].Label)"
+             @bind-ActiveIndex="_activeIndex"
+             hidden="@(!_open)"
+             OnActivate="ChooseAsync"
+             OnEscape="@(() => CloseList())"
+             OnTabOut="@(() => CloseList(false))">
+        @for (var i = 0; i < _infos.Count; i++)
+        {
+            var index = i;
+            var zone = _infos[index];
+            <li class="time-zone-picker-option"
+                id="@OptionId(index)"
+                role="option"
+                aria-selected="@(zone.Id == Value ? "true" : "false")"
+                data-active="@(index == _activeIndex ? "" : null)"
+                data-offset="@zone.Offset"
+                @onclick="() => ChooseAsync(index)">@zone.Label</li>
+        }
+    </Listbox>
+</div>

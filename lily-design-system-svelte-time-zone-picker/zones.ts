@@ -99,7 +99,7 @@ export function offsetMinutes(zone: string, date: Date): number | undefined {
         }
         const p: Record<string, string> = {};
         for (const part of f.formatToParts(date)) p[part.type] = part.value;
-        const wall = Date.UTC(Number(p.year), Number(p.month) - 1, Number(p.day), Number(p.hour), Number(p.minute), Number(p.second));
+        const wall = Date.UTC(Number(p["year"]), Number(p["month"]) - 1, Number(p["day"]), Number(p["hour"]), Number(p["minute"]), Number(p["second"]));
         const instant = Math.floor(date.getTime() / 1000) * 1000;
         return Math.round((wall - instant) / 60000);
     } catch {

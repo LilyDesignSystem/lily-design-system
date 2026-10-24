@@ -1,0 +1,11 @@
+@* Basic usage: a label and the reader's locale. The zones are the built-in list, ordered by offset; the picker
+   starts on the reader's own zone (or its listed twin) and sets data-time-zone on <html>.
+   Use the zone where you format dates:  TimeZoneInfo.FindSystemTimeZoneById(zone) *@
+@using LilyDesignSystem.Blazor.Helpers
+
+<TimeZonePicker Label="Time zone" Locale="en-GB" @bind-Value="zone" StorageKey="lily-time-zone" />
+<p aria-live="polite">@(zone == "" ? "" : TimeZoneInfo.ConvertTime(DateTimeOffset.UtcNow, TimeZoneInfo.FindSystemTimeZoneById(zone)).ToString("g"))</p>
+
+@code {
+    private string zone = "";
+}

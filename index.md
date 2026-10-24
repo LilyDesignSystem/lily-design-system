@@ -91,7 +91,7 @@ Headless versions if you want to use components with all your own styles:
 Small, opinionated helper packages for every framework, one top-level
 subproject each.
 Each framework ships ten `*-picker` helpers — 80 packages in all — plus `picker-bar` and the grid-like `data-grid`, `kanban-board`,
-`gantt-chart`, `calendar` and `filter` (160 helper packages in all; the Alpine.js ones cover the data grid, kanban board, calendar and Gantt chart), and each owns one complete interaction end to end:
+`gantt-chart`, `calendar` and `filter` (167 helper packages in all; the Alpine.js ones cover the data grid, kanban board, calendar and Gantt chart), and each owns one complete interaction end to end:
 
 - **theme-picker**, **locale-picker**, **text-size-picker**, **motion-picker**
   own a user preference: selection, DOM application (`data-theme`,
@@ -128,6 +128,7 @@ Each framework ships ten `*-picker` helpers — 80 packages in all — plus `pic
   - [`settings-picker`](lily-design-system-html-settings-picker)
   - [`share-picker`](lily-design-system-html-share-picker)
   - [`text-size-picker`](lily-design-system-html-text-size-picker)
+  - [`time-zone-picker`](lily-design-system-html-time-zone-picker)
   - [`theme-picker`](lily-design-system-html-theme-picker)
 - Svelte helpers (canonical reference), one top-level subproject per package:
   - [`calendar`](lily-design-system-svelte-calendar)
@@ -163,6 +164,7 @@ Each framework ships ten `*-picker` helpers — 80 packages in all — plus `pic
   - [`settings-picker`](lily-design-system-react-settings-picker)
   - [`share-picker`](lily-design-system-react-share-picker)
   - [`text-size-picker`](lily-design-system-react-text-size-picker)
+  - [`time-zone-picker`](lily-design-system-react-time-zone-picker)
   - [`theme-picker`](lily-design-system-react-theme-picker)
 - Vue helpers, one top-level subproject per package:
   - [`calendar`](lily-design-system-vue-calendar)
@@ -180,6 +182,7 @@ Each framework ships ten `*-picker` helpers — 80 packages in all — plus `pic
   - [`settings-picker`](lily-design-system-vue-settings-picker)
   - [`share-picker`](lily-design-system-vue-share-picker)
   - [`text-size-picker`](lily-design-system-vue-text-size-picker)
+  - [`time-zone-picker`](lily-design-system-vue-time-zone-picker)
   - [`theme-picker`](lily-design-system-vue-theme-picker)
 - Angular helpers, one top-level subproject per package:
   - [`calendar`](lily-design-system-angular-calendar)
@@ -197,6 +200,7 @@ Each framework ships ten `*-picker` helpers — 80 packages in all — plus `pic
   - [`settings-picker`](lily-design-system-angular-settings-picker)
   - [`share-picker`](lily-design-system-angular-share-picker)
   - [`text-size-picker`](lily-design-system-angular-text-size-picker)
+  - [`time-zone-picker`](lily-design-system-angular-time-zone-picker)
   - [`theme-picker`](lily-design-system-angular-theme-picker)
 - Blazor helpers, one top-level subproject per package:
   - [`calendar`](lily-design-system-blazor-calendar)
@@ -214,6 +218,7 @@ Each framework ships ten `*-picker` helpers — 80 packages in all — plus `pic
   - [`settings-picker`](lily-design-system-blazor-settings-picker)
   - [`share-picker`](lily-design-system-blazor-share-picker)
   - [`text-size-picker`](lily-design-system-blazor-text-size-picker)
+  - [`time-zone-picker`](lily-design-system-blazor-time-zone-picker)
   - [`theme-picker`](lily-design-system-blazor-theme-picker)
 - Nunjucks helpers, one top-level subproject per package:
   - [`calendar`](lily-design-system-nunjucks-calendar)
@@ -232,6 +237,7 @@ Each framework ships ten `*-picker` helpers — 80 packages in all — plus `pic
   - [`settings-picker`](lily-design-system-nunjucks-settings-picker)
   - [`share-picker`](lily-design-system-nunjucks-share-picker)
   - [`text-size-picker`](lily-design-system-nunjucks-text-size-picker)
+  - [`time-zone-picker`](lily-design-system-nunjucks-time-zone-picker)
   - [`theme-picker`](lily-design-system-nunjucks-theme-picker)
 - Web Components helpers — an independent copy of the HTML helpers with `lily-*` tags, one top-level subproject per package:
   - [`calendar`](lily-design-system-web-components-calendar)
@@ -249,6 +255,7 @@ Each framework ships ten `*-picker` helpers — 80 packages in all — plus `pic
   - [`settings-picker`](lily-design-system-web-components-settings-picker)
   - [`share-picker`](lily-design-system-web-components-share-picker)
   - [`text-size-picker`](lily-design-system-web-components-text-size-picker)
+  - [`time-zone-picker`](lily-design-system-web-components-time-zone-picker)
   - [`theme-picker`](lily-design-system-web-components-theme-picker)
 
 ## Themes

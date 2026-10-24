@@ -1,0 +1,294 @@
+# Changelog — TimeZonePicker (Nunjucks)
+
+All notable changes to this helper are documented in this file. The
+format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
+and the project follows [Semantic Versioning](https://semver.org/).
+
+## 0.3.0 — 2026-10-16
+
+- Added macro params `open` and `disabled`, client option `onOpenChange`, a bubbling `openchange` event and the client methods `isOpen()`, `setOpen(next)` and `setDisabled(next)`, ported from the Svelte package's `open`, `onOpenChange` and `disabled` (spec "Open state and disabled"). A popup rendered open starts open (and is not reported); `setOpen` changes it from outside without moving focus; `disabled` disables the button and closes an open popup.
+
+## 0.2.0 — 2026-10-04
+
+**Added: picker tooltip (minor, additive).** The macro now renders `<div class="time-zone-picker-tooltip" role="tooltip" id="{id}-tooltip" hidden>{label}</div>` as a sibling right after the icon button — the button's existing `label`, no new macro argument, no new English text, deliberately not linked with `aria-describedby`. The client wires it: shown on pointer hover (over the button or the tooltip itself) or keyboard focus (`:focus-visible`); `Escape` on the button dismisses it without moving focus; never shown while the popup is open; idempotent across repeated init. New class hook `.time-zone-picker-tooltip`; theme CSS for it already ships in `themes/`. Ports the canonical Svelte change.
+
+**Fixed: tooltip Escape now works wherever focus is.** While the tooltip is visible, `client.js` listens for `Escape` on the document (added only while visible, removed on hide, `destroy()` and re-init), so a tooltip shown by pointer hover alone with focus elsewhere can be dismissed (WCAG 1.4.13). It never calls `preventDefault`/`stopPropagation` and never moves focus.
+
+## 0.1.1 — 2026-09-21
+
+**Internal refactor: keyboard/typeahead logic now comes from the new
+`@lilydesignsystem/nunjucks-listbox-behavior` shared module instead of
+being hand-rolled here.** No change to the public API, rendered
+markup, or keyboard contract — the existing test suite passes
+unchanged. Porting the same headless-composition refactor already
+done for the other seven catalogs; the real duplication problem in
+this one was six `*.client.js` files each hand-rolling the same
+~150-line APG listbox implementation with no shared module to point
+them at.
+
+## 0.1.0 — 2026-09-16
+
+**Package renamed: `lily-design-system-nunjucks-time-zone-picker` → `@lilydesignsystem/nunjucks-time-zone-picker`.** npm scoped packages
+are registry-distinct from their unscoped counterparts, so this is a
+new package with no publish history of its own — version reset to
+`0.1.0` per this project's established rename precedent (the July
+2026 `*-select` → `*-picker` rename). No code or behaviour change
+relative to `lily-design-system-nunjucks-time-zone-picker`'s last published version (`0.2.0`);
+its full changelog continues below, now read as history prior to the
+rescope. The old unscoped name is deprecated on the registry (never
+unpublished), pointing consumers here.
+
+---
+
+## 0.2.0 — 2026-09-16
+
+### Changed (BREAKING)
+
+- **Default icon changed from a Unicode glyph to a bundled SVG.** The
+  button's `time-zone-picker-icon` now renders an inline
+  `<svg viewBox="0 0 16 16" aria-hidden="true">` (stroke-drawn "A" design,
+  `stroke="currentColor"`, `stroke-width="1.6"`, round caps/joins,
+  explicit `width="1.05rem" height="1.05rem"`) instead of a text glyph
+  in a `<span>`. Renders identically on every platform and font stack —
+  no missing-glyph risk, no per-glyph optical-scale correction to maintain (the
+  45 root `themes/*.css` files' `--lily-picker-icon-scale` rule is
+  dropped for this icon; an SVG's ink fills its own `viewBox` by
+  construction). The exported glyph constant **`LATIN_CAPITAL_LETTER_A`**
+  (A U+0041) is **removed, not renamed** — there is
+  no longer a single swappable character value to export. `children`
+  still overrides the icon exactly as before.
+
+### Fixed
+
+- **Opening the popup no longer scrolls the page.** The `.focus()`
+  calls this component makes on itself — moving focus onto the open
+  panel, and back to the trigger button on close — now pass
+  `{ preventScroll: true }`. Without it, a popup rendered partly
+  off-screen (the shipped default CSS anchors to the left edge and
+  grows rightward, which overflows a right-aligned header picker
+  unless the consumer adds an `inset-inline-end` override) triggered
+  the browser's default scroll-into-view, which read as the whole page
+  jumping sideways the instant the picker opened.
+
+## 0.1.1 — 2026-08-26
+
+Metadata-only patch; no behaviour change. Ships the corrected package
+metadata to the registry: the project SPDX license menu (`MIT OR
+Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause`) replacing
+the single-license field that contradicted the repository's
+LICENSE.md, `repository`/`homepage`/`bugs` URLs, a named author, and a
+description that says what the package does.
+
+## 0.1.0 — 2026-07-30
+
+First published release. Nothing earlier shipped, so the
+accessibility hardening completed after the initial entry below is
+part of 0.1.0 rather than a later version.
+
+### Pointer-selection close is now part of the contract (2026-07-31)
+
+#### Changed
+
+- **Clicking an option is specified to close the listbox**, not just to
+  select and apply. The behaviour was already correct — and is now
+  asserted: the pointer test checks `aria-expanded="false"` and the
+  list's `hidden` alongside the applied value. Only `Enter` promised the
+  close before, and an untested asymmetry is one refactor away from
+  becoming real: a selection that leaves `aria-expanded="true"` over a
+  hidden list reports an open popup to assistive technology and makes
+  every later click miss the options.
+
+### Idempotent apply (2026-07-31)
+
+#### Fixed
+
+- **Applying the same size twice is now a no-op**, so `onChange` fires
+  once per changed value rather than once per apply. `setSize` on the
+  returned controller is the apply function itself, so a consumer that
+  mirrored the value back from `onChange` re-entered it without limit.
+  Ported from the canonical Svelte helper, which had the same defect
+  through its reactive effect.
+
+### Accessibility hardening (2026-07-29/30)
+
+Accessibility hardening, ported from the canonical Svelte helper.
+
+#### Changed
+
+- **`Tab` from the open list no longer strands keyboard focus.** The
+  handler hid the list while it had focus; the browser then moved focus
+  to `<body>` and the default Tab restarted from the top of the
+  document. Focus now goes to the trigger button first — without
+  cancelling the key — so the default Tab proceeds from the picker's
+  own position.
+- **Typeahead follows the APG single-character rule.** A single
+  character advances to the *next* matching option, and repeating that
+  character cycles through the matches; only a buffer of differing
+  characters refines the match anchored on the active option.
+  Previously a character that matched the active option went nowhere.
+
+#### Added
+
+- **`PageUp` / `PageDown`** move the active option by ten, clamped —
+  an APG-optional key for long lists.
+
+#### Fixed
+
+- Opening with an empty option list no longer points
+  `aria-activedescendant` at an id that does not exist.
+
+### Initial entry — 2026-07-21
+
+First release under the name
+`@lilydesignsystem/nunjucks-time-zone-picker`. The package was renamed
+from `lily-design-system-nunjucks-time-zone-select`; because no release
+has ever been published under the new name, the version restarts at
+0.1.0 rather than continuing the old 0.2.0 line. The rename brings the
+helper into line with its three siblings, all now `*-picker`.
+
+#### The package as it stands
+
+- **`time-zone-picker.njk`** — the `timeZonePicker(opts)` macro.
+  Renders a `<div class="time-zone-picker">` root containing a hidden
+  `<input>`, a glyph-only `<button class="time-zone-picker-button">`
+  (U+0041), and a `<ul class="time-zone-picker-list" role="listbox"
+hidden>` of `<li class="time-zone-picker-option" role="option">`. Ids
+  default to `time-zone-picker-{name}`.
+- **`time-zone-picker.client.js`** — the runtime. Owns open/close,
+  focus, the keyboard contract, `localStorage` persistence, and setting
+  `data-time-zone` on the document root. Exports `initTimeZonePicker`,
+  `autoInit`, `sizeName`, and `LATIN_CAPITAL_LETTER_A`.
+- **DOM hooks** — `data-lily-time-zone-picker-root`, `-name`,
+  `-storage-key`, `-default-value`, `-value`, `-input`, `-button`,
+  `-list`.
+- **`time-zone-picker.test.ts`** — 52 vitest cases mapped onto the
+  clauses of `spec/index.md`.
+
+---
+
+## Prior history — released in-tree as `lily-design-system-nunjucks-time-zone-select`
+
+The entries below record this package's development under its
+former name. Nothing was ever published under the
+`@lilydesignsystem/nunjucks-time-zone-picker` name before 0.1.0 above,
+so these version numbers do not describe releases of the current
+package. They are kept because the DOM contract, keyboard
+behaviour and breaking changes they describe are still the ones
+in force.
+
+### 0.2.0 — 2026-07-21
+
+#### Changed (BREAKING — the control is no longer a `<select>`)
+
+- **The macro no longer renders a native `<select>`.** It renders a
+  `<div>` root containing a hidden `<input>`, a glyph-only `<button>`,
+  and a `<ul role="listbox" hidden>` of `<li role="option">`. This
+  matches `theme-picker` and `locale-picker`, which converted first, so
+  all three helpers in the catalog are now the same shape.
+- **The `name` opt now names the hidden input**, not the `<select>`.
+  Its default is unchanged (`"time-zone"`), and form participation is
+  preserved: the input is pre-filled server-side and mirrored on every
+  apply.
+- **`opts.value` no longer renders as a `selected` option.** It travels
+  on `data-lily-time-zone-picker-value` instead — the same out-of-band
+  mechanism the sibling helpers use to avoid a pre-hydration flash. The
+  macro still marks exactly one `<li>` `aria-selected="true"`.
+- **Class hooks changed.** `.time-zone-picker` remains the root hook,
+  but `.time-zone-picker-option` is now an `<li>`, not an `<option>`,
+  and consumer CSS targeting `select.time-zone-picker` or
+  `option.time-zone-picker-option` must be rewritten. New hooks below.
+- **Consumers must load `time-zone-picker.client.js`.** Previously the
+  macro alone produced a working control and the client.js only added
+  the apply lifecycle. Now the client.js also owns open/close, focus,
+  keyboard, and typeahead — without it the button is inert.
+
+#### Added
+
+- Class hooks: `.time-zone-picker-button`, `.time-zone-picker-icon`,
+  `.time-zone-picker-list`, `.time-zone-picker-option`, plus
+  `[data-active]` (keyboard cursor) and `[aria-selected]` (applied
+  size) state hooks. The package ships no positioning CSS for the open
+  listbox; that is the consumer's job.
+- `id` macro opt, defaulting to `time-zone-picker-{name}`, giving
+  deterministic SSR-safe ids for the listbox and its options. A
+  Nunjucks macro cannot hold an incrementing module counter the way the
+  canonical Svelte helper does, so this parameter is the framework's
+  stable-id mechanism; two instances sharing a `name` need distinct
+  `id`s.
+- `{% call %}` block support: the block body replaces the button's
+  glyph — the Nunjucks equivalent of the canonical helper's `children`.
+  It does not render options.
+- Full WAI-ARIA APG listbox keyboard contract in the client:
+  `ArrowDown` / `ArrowUp` / `Enter` / `Space` open (ArrowUp starts on
+  the last option), focus moves to the list, the cursor is
+  `aria-activedescendant` mirrored to `data-active`, arrows clamp
+  rather than wrap, `Home` / `End` jump, printable characters run
+  typeahead over the rendered labels with a 500 ms buffer, `Enter` /
+  `Space` select and return focus, `Escape` closes without changing the
+  value, `Tab` closes and moves on. Click to select; click outside or
+  focus-out closes.
+- `sizeName(slug)` export — title-cases hyphen-separated words
+  (`"x-large"` → `"X Large"`), mirroring theme-picker's `themeName` and
+  locale-picker's `localeName`. The macro restates the same rule in
+  template syntax rather than delegating: a Nunjucks macro cannot call
+  into an ES module, and exposing it as a filter would force every
+  consumer to register it on their environment. A test holds the two
+  in agreement.
+- `LATIN_CAPITAL_LETTER_A` export — the default button glyph, `"A"`.
+- `docs/accessibility.md` and `docs/ssr.md`, plus
+  `examples/01-basic.njk` demonstrating the control with its status
+  region and a worked type scale.
+
+#### Note on the glyph
+
+The button glyph is `"A"` (U+0041 LATIN CAPITAL LETTER A), not a
+pictograph. U+1F5DB DECREASE FONT SIZE SYMBOL was the first choice but
+has no real glyph in common font stacks — it degrades to a crude bitmap
+shape — and it means _decrease_ rather than _size_. "A" renders in the
+page's own font everywhere, stays monochrome like theme-picker's ◑, and
+is the conventional time-zone affordance. It is materially safer than a
+pictograph against the "glyph may not render" tradeoff: if "A" does not
+render, the page has no readable text at all.
+
+#### Not added, deliberately
+
+- **No detection prop.** Unlike theme-picker's `prefers-color-scheme`
+  and locale-picker's `navigator.languages`, the web platform exposes
+  no OS "preferred text size" signal, so there is nothing to detect.
+
+#### Regression (documented, not fixed)
+
+- **The control no longer works without JavaScript.** The button has no
+  handler and the listbox renders `hidden`, so with JS disabled the
+  user cannot change the text size. The native `<select>` it replaced
+  was fully operable with no JS whatsoever. The pre-filled hidden input
+  keeps form submission working but is not a choice path.
+- This matters more here than in the sibling helpers. A time-zone
+  control exists to satisfy WCAG 1.4.4 (Resize Text), and the users who
+  most need it overlap with the population most likely to be running
+  without working JavaScript. `docs/ssr.md` and `docs/accessibility.md`
+  both say so plainly, and note that browser zoom and the user's own
+  default font size remain the backstop.
+
+#### Unchanged
+
+- `data-time-zone` application, `localStorage` persistence, `onChange`,
+  the `target` opt, and SSR safety.
+- Initial-value resolution order:
+  `value > storage > defaultValue > "medium" > sizes[0]`. Unlike
+  theme-picker, `value` already beat storage here, so there is no
+  precedence reversal and no migration warning.
+- Default option labels title-case the slug per hyphen-word;
+  `sizeLabels` overrides. Typeahead now matches those rendered labels.
+- Zero CSS, zero fonts, zero icons; every user-facing string comes from
+  `opts`.
+
+### 0.1.0 — 2026-07-03
+
+Initial release: a native-`<select>` time-zone helper that sets
+`data-time-zone` on the document root, with optional `localStorage`
+persistence. Born select-based, so it carried no picker migration.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.
