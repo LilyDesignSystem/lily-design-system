@@ -9,27 +9,27 @@ importers:
   .:
     dependencies:
       '@lilydesignsystem/vue-link-picker':
-        specifier: ^0.1.1
-        version: 0.1.1(vue@3.5.44(typescript@5.9.3))
+        specifier: ^0.2.0
+        version: 0.2.0(vue@3.5.44(typescript@5.9.3))
       '@lilydesignsystem/vue-locale-picker':
-        specifier: ^0.2.0
-        version: 0.2.0(vue@3.5.44(typescript@5.9.3))
+        specifier: ^0.3.0
+        version: 0.3.0(vue@3.5.44(typescript@5.9.3))
       '@lilydesignsystem/vue-search-picker':
-        specifier: ^0.1.0
-        version: 0.1.0(vue@3.5.44(typescript@5.9.3))
+        specifier: ^0.2.0
+        version: 0.2.0(vue@3.5.44(typescript@5.9.3))
       '@lilydesignsystem/vue-share-picker':
-        specifier: ^0.2.0
-        version: 0.2.0(vue@3.5.44(typescript@5.9.3))
+        specifier: ^0.3.0
+        version: 0.3.0(vue@3.5.44(typescript@5.9.3))
       '@lilydesignsystem/vue-text-size-picker':
-        specifier: ^0.2.0
-        version: 0.2.0(vue@3.5.44(typescript@5.9.3))
+        specifier: ^0.3.0
+        version: 0.3.0(vue@3.5.44(typescript@5.9.3))
       '@lilydesignsystem/vue-theme-picker':
-        specifier: ^0.2.0
-        version: 0.2.0(vue@3.5.44(typescript@5.9.3))
+        specifier: ^0.3.0
+        version: 0.3.0(vue@3.5.44(typescript@5.9.3))
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: ^6.0.10
-        version: 6.0.10(vite@8.3.4)(vue@3.5.44(typescript@5.9.3))
+        version: 6.0.10(vite@8.3.5)(vue@3.5.44(typescript@5.9.3))
       '@vue/test-utils':
         specifier: ^2.5.1
         version: 2.5.1(@vue/compiler-dom@3.5.44)(@vue/server-renderer@3.5.44)(vue@3.5.44(typescript@5.9.3))
@@ -41,10 +41,10 @@ importers:
         version: 5.9.3
       vite:
         specifier: ^8.3.4
-        version: 8.3.4
+        version: 8.3.5
       vitest:
         specifier: ^5.0.5
-        version: 5.0.5(jsdom@30.1.3)(vite@8.3.4)
+        version: 5.0.5(jsdom@30.1.3)(vite@8.3.5)
       vue:
         specifier: ^3.5.44
         version: 3.5.44(typescript@5.9.3)
@@ -138,44 +138,44 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lilydesignsystem/vue-headless@0.2.0':
-    resolution: {integrity: sha512-R6NWRndpVz7RtPbDK8fTUn6Anrc3RuoMlLJX7VbZDqpN5TqRJOPkbo/NwhIWkBjdhqO44DP/r5MGR3BfpTBVuQ==}
+  '@lilydesignsystem/vue-headless@0.4.0':
+    resolution: {integrity: sha512-CdpabsvwGPVef7R2BQT5xxcmyUeMDEdZXQ1cAdCBwaWSjeXMfUuMKW9itKEExtrCfvEOrqY3vAUX8Ilpx2W4TQ==}
     engines: {node: '=26'}
     peerDependencies:
       vue: ^3.4.0
 
-  '@lilydesignsystem/vue-link-picker@0.1.1':
-    resolution: {integrity: sha512-zDtzMAlkpt4/rGJDIJR6XDySF1GUkdIt95u/GTAVvQNBU51xCGpQDnI1nF4MUz1IzKE4lREMoKMhkT/VQzBYqg==}
+  '@lilydesignsystem/vue-link-picker@0.2.0':
+    resolution: {integrity: sha512-hL9dVU8q8QnNwFBjvTZoRkWNSUpO2WMjcwrkF4a+VCCRFL4hJkbaty37rOzekROt5NToN3PWERxz8uGVomaeeQ==}
     engines: {node: '=26'}
     peerDependencies:
       vue: ^3.0.0
 
-  '@lilydesignsystem/vue-locale-picker@0.2.0':
-    resolution: {integrity: sha512-T0Z0rSv7LmG9Fk1KMGXXPjBwSh5sotJUwWdS/SvJA8hVE1m6NprE5T+RHopPIZkPIqGS22x9mFIdIICKWEwXLA==}
+  '@lilydesignsystem/vue-locale-picker@0.3.0':
+    resolution: {integrity: sha512-ozw+eXZbCUVsdraKNuavvv/6K632vC4dV6LpMyi0a0+UFMhLkLfwUzkajVEr5HJhPgPcdOBmxPnx3LbbKLmWMA==}
     engines: {node: '=26'}
     peerDependencies:
       vue: ^3.0.0
 
-  '@lilydesignsystem/vue-search-picker@0.1.0':
-    resolution: {integrity: sha512-fchpCX6JiOAM/qmk36DnR72mbmPQQJecRFs3A71Ba5euTeDcZqHEMRooeSnqYn758zMvWc1Hx3m44U+G++YlAQ==}
+  '@lilydesignsystem/vue-search-picker@0.2.0':
+    resolution: {integrity: sha512-STfJL3j0uoZW/o7VGhaDIHqe4bgmQ5craDFb7ehRyfV9iIKPhFcHzqW3N283+ZMJDY8DSf5uZ3CX9lGeyszlFA==}
     engines: {node: '=26'}
     peerDependencies:
       vue: ^3.0.0
 
-  '@lilydesignsystem/vue-share-picker@0.2.0':
-    resolution: {integrity: sha512-hCOFb681Px1gv5wjtg6E2+IIme/ZbQ5Py+v8sI/fg0Ne+bcDYd8/nGcyNigHJeba4ct3rdnw2F1/tGtYKlkVRA==}
+  '@lilydesignsystem/vue-share-picker@0.3.0':
+    resolution: {integrity: sha512-grAZUdFmdR/c56EejsP6rVvpkLShJf8/WnX0c5OZX9clCHPCHOyHq7KTs7cPiTgu4ygMqxQn2GgHN+ljMyF0DA==}
     engines: {node: '=26'}
     peerDependencies:
       vue: ^3.0.0
 
-  '@lilydesignsystem/vue-text-size-picker@0.2.0':
-    resolution: {integrity: sha512-zXdngh1arsRyvA0w8w4DH65+F5sTw0TnKCVxTV/QwCe8bcomG2K8pEiw1DmJu1x7NPQQ+fK7aJ1zZ16KlqaIpA==}
+  '@lilydesignsystem/vue-text-size-picker@0.3.0':
+    resolution: {integrity: sha512-W5h2cqyusT2J2fiAY+BZBjlMIrtDrTjuJXCYl3HUHaxlDwVIxZqnNeIJ90oBbtmeJqpR2148h0TgyNbpPNCLaQ==}
     engines: {node: '=26'}
     peerDependencies:
       vue: ^3.0.0
 
-  '@lilydesignsystem/vue-theme-picker@0.2.0':
-    resolution: {integrity: sha512-Y8eZUJm8/8KvpUiYmfbJjLkKDj0N+VeiesxPGWxQLIED3eQaAErTn/4PXM1vznGWfz9s+tRiC+meSRKbT2VQGw==}
+  '@lilydesignsystem/vue-theme-picker@0.3.0':
+    resolution: {integrity: sha512-dqi9UhhhE/o9A/hFmVyEahl3szLK7Fo5qsMA0q55v2ukLgiHOU3HfIlr/ryhSaXs3cFXd6upLxhyw9dg7hoz4Q==}
     engines: {node: '=26'}
     peerDependencies:
       vue: ^3.0.0
@@ -696,13 +696,13 @@ packages:
     resolution: {integrity: sha512-XtuDWVdqTLr3NAxm2ly9/hU6kUsJOgGh1RASzMBbsw6aWCOaQzHdW+QQDfdERjfJ2V5vL5pRPa4RetO9UfivDg==}
     engines: {node: '>=22.19.0'}
 
-  vite@8.3.4:
-    resolution: {integrity: sha512-IftLE8phJhdNRIGNEV4JCCvfNScoZQVfcXaN8TQropWGJtOHcu+iAB9pHcuGvmEb/kddw0LBe/jS8ztdC6xdiQ==}
+  vite@8.3.5:
+    resolution: {integrity: sha512-z1YpjieJ9g0ebTmQpLBv/oq9E3F9EIlOe+7LahW8SrE3LTiG3udBRUXQOlYXP9b+IC2q2phHeVxj9xGlw34OEQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
       '@types/node': ^20.19.0 || >=22.12.0
-      '@vitejs/devtools': ^0.7.1
+      '@vitejs/devtools': ^0.7.1 || ^0.8.0
       esbuild: ^0.27.0 || ^0.28.0
       jiti: '>=1.21.0'
       less: ^4.0.0
@@ -897,39 +897,39 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@lilydesignsystem/vue-headless@0.2.0(vue@3.5.44(typescript@5.9.3))':
+  '@lilydesignsystem/vue-headless@0.4.0(vue@3.5.44(typescript@5.9.3))':
     dependencies:
       aria-query: 5.3.2
       vue: 3.5.44(typescript@5.9.3)
 
-  '@lilydesignsystem/vue-link-picker@0.1.1(vue@3.5.44(typescript@5.9.3))':
+  '@lilydesignsystem/vue-link-picker@0.2.0(vue@3.5.44(typescript@5.9.3))':
     dependencies:
-      '@lilydesignsystem/vue-headless': 0.2.0(vue@3.5.44(typescript@5.9.3))
+      '@lilydesignsystem/vue-headless': 0.4.0(vue@3.5.44(typescript@5.9.3))
       vue: 3.5.44(typescript@5.9.3)
 
-  '@lilydesignsystem/vue-locale-picker@0.2.0(vue@3.5.44(typescript@5.9.3))':
+  '@lilydesignsystem/vue-locale-picker@0.3.0(vue@3.5.44(typescript@5.9.3))':
     dependencies:
-      '@lilydesignsystem/vue-headless': 0.2.0(vue@3.5.44(typescript@5.9.3))
+      '@lilydesignsystem/vue-headless': 0.4.0(vue@3.5.44(typescript@5.9.3))
       vue: 3.5.44(typescript@5.9.3)
 
-  '@lilydesignsystem/vue-search-picker@0.1.0(vue@3.5.44(typescript@5.9.3))':
+  '@lilydesignsystem/vue-search-picker@0.2.0(vue@3.5.44(typescript@5.9.3))':
     dependencies:
-      '@lilydesignsystem/vue-headless': 0.2.0(vue@3.5.44(typescript@5.9.3))
+      '@lilydesignsystem/vue-headless': 0.4.0(vue@3.5.44(typescript@5.9.3))
       vue: 3.5.44(typescript@5.9.3)
 
-  '@lilydesignsystem/vue-share-picker@0.2.0(vue@3.5.44(typescript@5.9.3))':
+  '@lilydesignsystem/vue-share-picker@0.3.0(vue@3.5.44(typescript@5.9.3))':
     dependencies:
-      '@lilydesignsystem/vue-headless': 0.2.0(vue@3.5.44(typescript@5.9.3))
+      '@lilydesignsystem/vue-headless': 0.4.0(vue@3.5.44(typescript@5.9.3))
       vue: 3.5.44(typescript@5.9.3)
 
-  '@lilydesignsystem/vue-text-size-picker@0.2.0(vue@3.5.44(typescript@5.9.3))':
+  '@lilydesignsystem/vue-text-size-picker@0.3.0(vue@3.5.44(typescript@5.9.3))':
     dependencies:
-      '@lilydesignsystem/vue-headless': 0.2.0(vue@3.5.44(typescript@5.9.3))
+      '@lilydesignsystem/vue-headless': 0.4.0(vue@3.5.44(typescript@5.9.3))
       vue: 3.5.44(typescript@5.9.3)
 
-  '@lilydesignsystem/vue-theme-picker@0.2.0(vue@3.5.44(typescript@5.9.3))':
+  '@lilydesignsystem/vue-theme-picker@0.3.0(vue@3.5.44(typescript@5.9.3))':
     dependencies:
-      '@lilydesignsystem/vue-headless': 0.2.0(vue@3.5.44(typescript@5.9.3))
+      '@lilydesignsystem/vue-headless': 0.4.0(vue@3.5.44(typescript@5.9.3))
       vue: 3.5.44(typescript@5.9.3)
 
   '@one-ini/wasm@0.2.1': {}
@@ -992,20 +992,20 @@ snapshots:
 
   '@types/estree@1.0.9': {}
 
-  '@vitejs/plugin-vue@6.0.10(vite@8.3.4)(vue@3.5.44(typescript@5.9.3))':
+  '@vitejs/plugin-vue@6.0.10(vite@8.3.5)(vue@3.5.44(typescript@5.9.3))':
     dependencies:
       '@rolldown/pluginutils': 1.0.1
-      vite: 8.3.4
+      vite: 8.3.5
       vue: 3.5.44(typescript@5.9.3)
 
-  '@vitest/mocker@5.0.5(vite@8.3.4)':
+  '@vitest/mocker@5.0.5(vite@8.3.5)':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
       '@vitest/spy': 5.0.5
       estree-walker: 3.0.3
       magic-string: 1.4.3
     optionalDependencies:
-      vite: 8.3.4
+      vite: 8.3.5
 
   '@vitest/spy@5.0.5': {}
 
@@ -1382,7 +1382,7 @@ snapshots:
 
   undici@8.12.2: {}
 
-  vite@8.3.4:
+  vite@8.3.5:
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.7
@@ -1392,10 +1392,10 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  vitest@5.0.5(jsdom@30.1.3)(vite@8.3.4):
+  vitest@5.0.5(jsdom@30.1.3)(vite@8.3.5):
     dependencies:
       '@types/chai': 5.2.3
-      '@vitest/mocker': 5.0.5(vite@8.3.4)
+      '@vitest/mocker': 5.0.5(vite@8.3.5)
       chai: 6.3.0
       es-module-lexer: 2.3.2
       expect-type: 1.4.0
@@ -1406,7 +1406,7 @@ snapshots:
       tinybench: 6.2.2
       tinyexec: 1.3.1
       tinyglobby: 0.2.17
-      vite: 8.3.4
+      vite: 8.3.5
       why-is-node-running: 3.2.1
     optionalDependencies:
       jsdom: 30.1.3
