@@ -4,8 +4,8 @@ Single source of truth for the `@lilydesignsystem/svelte-markdown-editor` Svelte
 helper. Anything not in this spec is out of scope; anything in this spec must be
 exercised by a test.
 
-Sibling files: `MarkdownEditor.svelte` (implementation), `format.ts` (the pure
-Markdown transforms), `MarkdownEditor.test.ts` and `format.test.ts` (tests),
+Sibling files: `MarkdownEditor.svelte` (implementation), `markdown-markdown-format.ts` (the pure
+Markdown transforms), `MarkdownEditor.test.ts` and `markdown-format.test.ts` (tests),
 `index.ts` (barrel), `index.md` (guide).
 
 ## 1. Goal
@@ -25,7 +25,7 @@ rich-text effects, whose value stays plain Markdown text.
 - **Plain text in, plain text out.** A `<textarea>` keeps form participation,
   `required`, spellcheck, IME, mobile keyboards and screen-reader behaviour for
   free; a `contenteditable` re-implements all of them and rarely gets them right.
-- **Pure core.** All text transformation is in `format.ts`: `(text, selection)`
+- **Pure core.** All text transformation is in `markdown-markdown-format.ts`: `(text, selection)`
   in, `(text, selection)` out. No DOM, so it is exhaustively unit-tested.
 - **Own toolbar, no headless dependency.** The toolbar uses a roving tabindex
   (APG); the headless `ToolBar` leaves every button in the tab order. The package
@@ -75,11 +75,11 @@ textarea, decorative icons, supplied names. See [docs/accessibility.md](../docs/
 
 ## 8. Acceptance criteria
 
-- [x] One test per behaviour clause above (`format.test.ts`, `MarkdownEditor.test.ts`).
+- [x] One test per behaviour clause above (`markdown-format.test.ts`, `MarkdownEditor.test.ts`).
 - [x] Mutation-checked: removing the readonly guard or the roving tab stop fails a test.
 - [x] Real-browser undo / redo: `e2e/undo.spec.ts` passes in Chromium and WebKit (WebKit merges consecutive edits into one undo step).
 - [ ] The same spec in Firefox (does not launch on the maintainer's machine).
-- [x] `svelte-check` clean; `npm run build` emits `dist/` with `format.js`.
+- [x] `svelte-check` clean; `npm run build` emits `dist/` with `markdown-format.js`.
 - [ ] Ports to the other seven helper catalogs (React, Vue, Angular, HTML,
       Nunjucks, Blazor, Web Components, Alpine) — not started.
 - [ ] WCAG 2.2 AAA audit with a real screen reader.

@@ -1,6 +1,6 @@
 <script module lang="ts">
     import type { Snippet } from "svelte";
-    import { TOOL_IDS, type ToolId } from "./format.js";
+    import { TOOL_IDS, type ToolId } from "./markdown-format.js";
 
     export type Labels = Partial<Record<ToolId, string>>;
 
@@ -62,7 +62,7 @@
     // A <textarea> with a toolbar of buttons that write Markdown into it. The
     // value is plain text, so it submits with a form, validates, and works
     // without JavaScript. Every name is consumer-supplied.
-    import { applyTool, type ToolId as Tool } from "./format.js";
+    import { applyTool, type ToolId as Tool } from "./markdown-format.js";
 
     let {
         value = $bindable(""),
