@@ -14,10 +14,10 @@ importers:
     devDependencies:
       '@analogjs/vite-plugin-angular':
         specifier: ^2.8.1
-        version: 2.8.1(05f9312981e19ab37a2e5e07d388789e)
+        version: 2.9.1(05f9312981e19ab37a2e5e07d388789e)
       '@analogjs/vitest-angular':
         specifier: ^2.8.1
-        version: 2.8.1(@analogjs/vite-plugin-angular@2.8.1(05f9312981e19ab37a2e5e07d388789e))(@angular-devkit/architect@0.2202.3(chokidar@5.0.0))(@angular-devkit/schematics@22.2.3(chokidar@5.0.0))(vitest@5.0.5(@types/node@26.6.5)(jsdom@30.1.3(@noble/hashes@1.8.0))(vite@8.3.0(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.1(supports-color@8.1.1))(sass-embedded@1.104.1)(sass@1.104.1)(terser@5.51.2)))(zone.js@0.16.3)
+        version: 2.9.1(@analogjs/vite-plugin-angular@2.9.1(05f9312981e19ab37a2e5e07d388789e))(@angular-devkit/architect@0.2202.3(chokidar@5.0.0))(@angular-devkit/schematics@22.2.3(chokidar@5.0.0))(vitest@5.0.5(@types/node@26.6.5)(jsdom@30.1.3(@noble/hashes@1.8.0))(vite@8.3.0(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.1(supports-color@8.1.1))(sass-embedded@1.104.1)(sass@1.104.1)(terser@5.51.2)))(zone.js@0.16.3)
       '@angular-devkit/build-angular':
         specifier: ^22.2.3
         version: 22.2.3(56e0b7e35e4bb8ddd745e4cff3ea9f75)
@@ -47,7 +47,7 @@ importers:
         version: 22.2.3(@angular/common@22.2.3(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/compiler@22.2.3)(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(@angular/platform-browser@22.2.3(@angular/common@22.2.3(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3)))
       '@storybook/angular':
         specifier: ^10.6.2
-        version: 10.6.2(b334e5421398d3b59c42cb59527cc596)
+        version: 10.6.3(0f060474cbb91a302dd578e284fba7fd)
       '@types/node':
         specifier: ^26.6.5
         version: 26.6.5
@@ -62,7 +62,7 @@ importers:
         version: 7.8.2
       storybook:
         specifier: ^10.6.2
-        version: 10.6.2(react@19.3.1)
+        version: 10.6.3(react@19.3.1)
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -85,8 +85,8 @@ packages:
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
 
-  '@analogjs/vite-plugin-angular@2.8.1':
-    resolution: {integrity: sha512-L0EvbcTF0BlwRNWuCA6QT+3yhQZczPw8nwy6tS3Y0ZvguUbtsLU8+IaNKlL7X1rL0ORVfL7nGlqpBAR6RWMc3A==}
+  '@analogjs/vite-plugin-angular@2.9.1':
+    resolution: {integrity: sha512-3pEU3oZ1xZgck2UDToJdPXxop9W7rUhaoQMcNk1gakgxvVXv14gVX5E9LWcuayZG7D3gu3n7w4qB/mlTCB09KQ==}
     peerDependencies:
       '@angular-devkit/build-angular': ^17.0.0 || ^18.0.0 || ^19.0.0 || ^20.0.0 || ^21.0.0 || ^22.0.0
       '@angular/build': ^18.0.0 || ^19.0.0 || ^20.0.0 || ^21.0.0 || ^22.0.0
@@ -99,8 +99,8 @@ packages:
       vite:
         optional: true
 
-  '@analogjs/vitest-angular@2.8.1':
-    resolution: {integrity: sha512-pZRz+6E/SwAGhQzRF0YlXIaRIw+XLMPwJlG81MW1w8FVLYWObBXX48cOsyGJlHhTLDE8ZKgXZ+JX/+X1QhbEFQ==}
+  '@analogjs/vitest-angular@2.9.1':
+    resolution: {integrity: sha512-grL1ox4SQXBC+zcYr0JkUc7QC6ehAYltW4Fc3stHXSI5czmj5YH06osVwEx2QimsejDsWz/jY8XrS2Nd5mFR9Q==}
     peerDependencies:
       '@analogjs/vite-plugin-angular': '*'
       '@angular-devkit/architect': '>=0.1700.0 < 0.2300.0 || >=0.2200.0 < 0.2300.0'
@@ -2432,8 +2432,8 @@ packages:
     resolution: {integrity: sha512-DY8wv/LtNf3YD/EEoFdER4ihMyw5yywuOQEKasm4d2uBJ5peGIWV3LXJXXqD7b4WVC8xS1eUAjingyWfI9reHw==}
     engines: {node: ^22.22.3 || ^24.15.0 || >=26.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
 
-  '@storybook/angular@10.6.2':
-    resolution: {integrity: sha512-YP/UFARvHsfVZUOTquMW5vDZLeTxQ3zhL3r8xM81fFbw+uxYfe+zwMJpzdGFZ7e3jXHV+cqLj5R7dFd3/SnP6g==}
+  '@storybook/angular@10.6.3':
+    resolution: {integrity: sha512-pbHOUW9b5lo/Si0bJgQ3WlE7X61yEQAsVj8A176Kl0pJlNndOOjvCsB7aDkgDWIV9VdAWWGoz2ArGVbyvDkJTQ==}
     peerDependencies:
       '@angular-devkit/architect': '>=0.1800.0 < 0.2300.0'
       '@angular-devkit/build-angular': '>=18.0.0 < 23.0.0'
@@ -2447,7 +2447,7 @@ packages:
       '@angular/platform-browser': '>=18.0.0 < 23.0.0'
       '@angular/platform-browser-dynamic': '>=18.0.0 < 23.0.0'
       rxjs: ^6.5.3 || ^7.4.0
-      storybook: ^10.6.2
+      storybook: ^10.6.3
       typescript: ^4.9.0 || ^5.0.0 || ^6.0.0
       zone.js: '>=0.14.0'
     peerDependenciesMeta:
@@ -2458,19 +2458,19 @@ packages:
       zone.js:
         optional: true
 
-  '@storybook/builder-webpack5@10.6.2':
-    resolution: {integrity: sha512-rlXEjV1ZH+AKMVvlqUjm+pmimmi0asdGv0kTxNERQPu5Kaer9NmNmyYIUJvBYyeQfAg1KB4OntF3ik71jJl3HA==}
+  '@storybook/builder-webpack5@10.6.3':
+    resolution: {integrity: sha512-ZqXHwkVWqbXQ0fKTArTh+H0Wxp+9e/vcNVME492JA2dTsoMojiF3xaULpoXfsgF1aaYlQ71VQm4U+vl/pZbgRQ==}
     peerDependencies:
-      storybook: ^10.6.2
+      storybook: ^10.6.3
       typescript: '*'
     peerDependenciesMeta:
       typescript:
         optional: true
 
-  '@storybook/core-webpack@10.6.2':
-    resolution: {integrity: sha512-6nEmDApLKSKr6SWWFJUCI4wIAhR91TV7KpoYkegzS04GpJ6gRW0tZjUdGbCJuKt1hepxULtZxSU4pxddAtNoaA==}
+  '@storybook/core-webpack@10.6.3':
+    resolution: {integrity: sha512-RUC/d9vR/0okivlmWSxPnqYDLYoXHSMO74u0mDNI00OD8NN5EFUJXgnoe7pDFb0wdu6EcPgb+quTAIGCWSXXjQ==}
     peerDependencies:
-      storybook: ^10.6.2
+      storybook: ^10.6.3
 
   '@storybook/global@5.0.0':
     resolution: {integrity: sha512-FcOqPAXACP0I3oJ/ws6/rrPT9WGhu915Cg8D02a9YxLo0DE9zI+a9A5gRGvmQ09fiWPukqI8ZAEoQEdWUKMQdQ==}
@@ -2744,6 +2744,11 @@ packages:
 
   ajv-formats@3.0.1:
     resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
+    peerDependencies:
+      ajv: ^8.0.0
+    peerDependenciesMeta:
+      ajv:
+        optional: true
 
   ajv-keywords@3.5.2:
     resolution: {integrity: sha512-5p6WTN0DdTGVQk6VjcEju19IgaHudalcfabD7yhDGeA6bcQnmL+CpveLJq/3hvfwd1aof6L386Ougkx6RfyMIQ==}
@@ -4911,8 +4916,8 @@ packages:
     resolution: {integrity: sha512-eCPu1qRxPVkl5605OTWF8Wz40b4Mf45NY5LQmVPQ599knfs5QhASUm9GbJ5BDMDOXgrnh0wyEdvzmL//YMlw0A==}
     engines: {node: '>=18'}
 
-  storybook@10.6.2:
-    resolution: {integrity: sha512-qHDINMiapxFUxYb+xC3j8u7Y+85X3u+/PlytE/wmnyg+bU0agCW3jUmWP4vIh2MioO2jTK/2B3Lcw6IpRFzQBA==}
+  storybook@10.6.3:
+    resolution: {integrity: sha512-lNBvcZFG44C98KvQHYzfq1O46m+sl94zY1+na5/9E3ihtNMbvpOgYyMFMIcWYUvOMo3OM4q9jzvB73KU20bU8w==}
     hasBin: true
     peerDependencies:
       '@types/react': ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -5484,7 +5489,7 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.13
       '@jridgewell/trace-mapping': 0.3.31
 
-  '@analogjs/vite-plugin-angular@2.8.1(05f9312981e19ab37a2e5e07d388789e)':
+  '@analogjs/vite-plugin-angular@2.9.1(05f9312981e19ab37a2e5e07d388789e)':
     dependencies:
       magic-string: 0.30.21
       obug: 2.2.1
@@ -5498,9 +5503,9 @@ snapshots:
       - '@emnapi/core'
       - '@emnapi/runtime'
 
-  '@analogjs/vitest-angular@2.8.1(@analogjs/vite-plugin-angular@2.8.1(05f9312981e19ab37a2e5e07d388789e))(@angular-devkit/architect@0.2202.3(chokidar@5.0.0))(@angular-devkit/schematics@22.2.3(chokidar@5.0.0))(vitest@5.0.5(@types/node@26.6.5)(jsdom@30.1.3(@noble/hashes@1.8.0))(vite@8.3.0(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.1(supports-color@8.1.1))(sass-embedded@1.104.1)(sass@1.104.1)(terser@5.51.2)))(zone.js@0.16.3)':
+  '@analogjs/vitest-angular@2.9.1(@analogjs/vite-plugin-angular@2.9.1(05f9312981e19ab37a2e5e07d388789e))(@angular-devkit/architect@0.2202.3(chokidar@5.0.0))(@angular-devkit/schematics@22.2.3(chokidar@5.0.0))(vitest@5.0.5(@types/node@26.6.5)(jsdom@30.1.3(@noble/hashes@1.8.0))(vite@8.3.0(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.1(supports-color@8.1.1))(sass-embedded@1.104.1)(sass@1.104.1)(terser@5.51.2)))(zone.js@0.16.3)':
     dependencies:
-      '@analogjs/vite-plugin-angular': 2.8.1(05f9312981e19ab37a2e5e07d388789e)
+      '@analogjs/vite-plugin-angular': 2.9.1(05f9312981e19ab37a2e5e07d388789e)
       '@angular-devkit/architect': 0.2202.3(chokidar@5.0.0)
       '@angular-devkit/schematics': 22.2.3(chokidar@5.0.0)
       vitest: 5.0.5(@types/node@26.6.5)(jsdom@30.1.3(@noble/hashes@1.8.0))(vite@8.3.0(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.1(supports-color@8.1.1))(sass-embedded@1.104.1)(sass@1.104.1)(terser@5.51.2))
@@ -5624,7 +5629,7 @@ snapshots:
   '@angular-devkit/core@22.2.3(chokidar@5.0.0)':
     dependencies:
       ajv: 8.20.0
-      ajv-formats: 3.0.1
+      ajv-formats: 3.0.1(ajv@8.20.0)
       jsonc-parser: 3.3.1
       picomatch: 4.0.7
       rxjs: 7.8.2
@@ -7579,7 +7584,7 @@ snapshots:
     transitivePeerDependencies:
       - chokidar
 
-  '@storybook/angular@10.6.2(b334e5421398d3b59c42cb59527cc596)':
+  '@storybook/angular@10.6.3(0f060474cbb91a302dd578e284fba7fd)':
     dependencies:
       '@angular-devkit/architect': 0.2202.3(chokidar@5.0.0)
       '@angular-devkit/build-angular': 22.2.3(56e0b7e35e4bb8ddd745e4cff3ea9f75)
@@ -7590,10 +7595,10 @@ snapshots:
       '@angular/core': 22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3)
       '@angular/platform-browser': 22.2.3(@angular/common@22.2.3(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))
       '@angular/platform-browser-dynamic': 22.2.3(@angular/common@22.2.3(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/compiler@22.2.3)(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(@angular/platform-browser@22.2.3(@angular/common@22.2.3(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3)))
-      '@storybook/builder-webpack5': 10.6.2(clean-css@5.3.3)(esbuild@0.28.2)(html-minifier-terser@6.1.0)(lightningcss@1.33.0)(postcss@8.5.28)(storybook@10.6.2(react@19.3.1))(typescript@6.0.3)
+      '@storybook/builder-webpack5': 10.6.3(clean-css@5.3.3)(esbuild@0.28.2)(html-minifier-terser@6.1.0)(lightningcss@1.33.0)(postcss@8.5.28)(storybook@10.6.3(react@19.3.1))(typescript@6.0.3)
       '@storybook/global': 5.0.0
       rxjs: 7.8.2
-      storybook: 10.6.2(react@19.3.1)
+      storybook: 10.6.3(react@19.3.1)
       telejson: 8.0.0
       ts-dedent: 2.3.0
       tsconfig-paths-webpack-plugin: 4.2.0
@@ -7622,9 +7627,9 @@ snapshots:
       - uglify-js
       - webpack-cli
 
-  '@storybook/builder-webpack5@10.6.2(clean-css@5.3.3)(esbuild@0.28.2)(html-minifier-terser@6.1.0)(lightningcss@1.33.0)(postcss@8.5.28)(storybook@10.6.2(react@19.3.1))(typescript@6.0.3)':
+  '@storybook/builder-webpack5@10.6.3(clean-css@5.3.3)(esbuild@0.28.2)(html-minifier-terser@6.1.0)(lightningcss@1.33.0)(postcss@8.5.28)(storybook@10.6.3(react@19.3.1))(typescript@6.0.3)':
     dependencies:
-      '@storybook/core-webpack': 10.6.2(storybook@10.6.2(react@19.3.1))
+      '@storybook/core-webpack': 10.6.3(storybook@10.6.3(react@19.3.1))
       case-sensitive-paths-webpack-plugin: 2.4.0
       cjs-module-lexer: 1.4.3
       css-loader: 7.1.5(webpack@5.112.0(clean-css@5.3.3)(esbuild@0.28.2)(html-minifier-terser@6.1.0)(lightningcss@1.33.0)(postcss@8.5.28))
@@ -7633,7 +7638,7 @@ snapshots:
       html-webpack-plugin: 5.6.8(webpack@5.112.0(clean-css@5.3.3)(esbuild@0.28.2)(html-minifier-terser@6.1.0)(lightningcss@1.33.0)(postcss@8.5.28))
       magic-string: 1.4.3
       semver: 7.8.5
-      storybook: 10.6.2(react@19.3.1)
+      storybook: 10.6.3(react@19.3.1)
       style-loader: 4.0.0(webpack@5.112.0(clean-css@5.3.3)(esbuild@0.28.2)(html-minifier-terser@6.1.0)(lightningcss@1.33.0)(postcss@8.5.28))
       terser-webpack-plugin: 5.6.1(clean-css@5.3.3)(esbuild@0.28.2)(html-minifier-terser@6.1.0)(lightningcss@1.33.0)(postcss@8.5.28)(webpack@5.112.0(clean-css@5.3.3)(esbuild@0.28.2)(html-minifier-terser@6.1.0)(lightningcss@1.33.0)(postcss@8.5.28))
       ts-dedent: 2.3.0
@@ -7663,9 +7668,9 @@ snapshots:
       - uglify-js
       - webpack-cli
 
-  '@storybook/core-webpack@10.6.2(storybook@10.6.2(react@19.3.1))':
+  '@storybook/core-webpack@10.6.3(storybook@10.6.3(react@19.3.1))':
     dependencies:
-      storybook: 10.6.2(react@19.3.1)
+      storybook: 10.6.3(react@19.3.1)
       ts-dedent: 2.3.0
 
   '@storybook/global@5.0.0': {}
@@ -7958,8 +7963,8 @@ snapshots:
 
   agent-base@9.0.0: {}
 
-  ajv-formats@3.0.1:
-    dependencies:
+  ajv-formats@3.0.1(ajv@8.20.0):
+    optionalDependencies:
       ajv: 8.20.0
 
   ajv-keywords@3.5.2(ajv@6.15.0):
@@ -10068,7 +10073,7 @@ snapshots:
     dependencies:
       '@types/json-schema': 7.0.15
       ajv: 8.20.0
-      ajv-formats: 3.0.1
+      ajv-formats: 3.0.1(ajv@8.20.0)
       ajv-keywords: 5.1.0(ajv@8.20.0)
 
   selfsigned@5.5.0:
@@ -10187,7 +10192,7 @@ snapshots:
 
   stdin-discarder@0.3.2: {}
 
-  storybook@10.6.2(react@19.3.1):
+  storybook@10.6.3(react@19.3.1):
     dependencies:
       '@storybook/global': 5.0.0
       '@storybook/icons': 2.2.0(react@19.3.1)
@@ -10416,7 +10421,7 @@ snapshots:
       lightningcss: 1.33.0
       picomatch: 4.0.7
       postcss: 8.5.30
-      rolldown: 1.2.8
+      rolldown: 1.2.14
       tinyglobby: 0.2.17
     optionalDependencies:
       '@types/node': 26.6.5
