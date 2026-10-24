@@ -1,6 +1,6 @@
 <script lang="ts">
-  import MarkdownEditor from './vendor/MarkdownEditor.svelte';
-  import OrgEditor from './vendor/OrgEditor.svelte';
+  import MarkdownEditor from '@lilydesignsystem/svelte-markdown-editor';
+  import OrgEditor from '@lilydesignsystem/svelte-org-editor';
   import { addDays, type DemoStrings } from './strings.js';
 
   let { s, kind, today }: { s: DemoStrings; kind: 'markdown-editor' | 'org-editor'; today: string } = $props();

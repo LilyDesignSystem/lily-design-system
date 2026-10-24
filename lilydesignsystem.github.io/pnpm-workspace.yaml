@@ -15,6 +15,9 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - "@sveltejs/adapter-static@4.0.0"
   - "@sveltejs/kit@3.0.0"
-  - "@lilydesignsystem/svelte-link-picker@0.1.0"
-  - "@lilydesignsystem/svelte-link-picker@0.1.1"
+  - "@lilydesignsystem/svelte-link-picker@0.1.0 || 0.1.1"
   - "@lilydesignsystem/svelte-picker-bar@0.3.0"
+  - "@lilydesignsystem/svelte-headless@0.6.1"
+  - "@lilydesignsystem/svelte-locale-translations@0.3.0"
+  - "@lilydesignsystem/svelte-markdown-editor@0.1.0"
+  - "@lilydesignsystem/svelte-org-editor@0.1.0"
