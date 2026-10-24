@@ -93,7 +93,7 @@ no defensible method exists for measuring one.
 | Activity | Level | Notes |
 | --- | --- | --- |
 | Component implementations across the seven frameworks | ai-generated | written in directed sessions against the canonical per-component metadata in `components/{slug}/AGENTS.md`; reviewed and merged by the maintainer |
-| The helper packages and their accessibility behaviour | ai-generated | held to the WAI-ARIA APG patterns cited in [AGENTS/accessibility.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/accessibility.md); the Svelte catalog is canonical and the six ports are derived from it |
+| The helper packages and their accessibility behaviour | ai-generated | held to the WAI-ARIA APG patterns cited in [AGENTS/accessibility.md](AGENTS/accessibility.md); the Svelte catalog is canonical and the six ports are derived from it |
 | Tests, Storybook stories, Playwright specs | ai-generated | held to the same authority as the code they test: expectations cite the spec clause, and §7's attribution rule governs failures |
 | Per-component documentation (571 × `index.md`) | ai-generated | to the structure fixed in [spec/index.md](spec/index.md) §8 |
 | The specification under `spec/`, the `AGENTS/` rules, and this statement | ai-generated | held to the repository's own prose rules; the maintainer sets the positions |
@@ -294,8 +294,8 @@ answered in public, and never silently absorbed.
 
 **Normative for this project** (the documents that bind the practice described
 here): [LICENSE.md](LICENSE.md); [spec/index.md](spec/index.md) and the topic docs
-under `spec/`; [AGENTS.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS.md) and the rule set in `AGENTS/`, in particular
-[headless.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/headless.md), [accessibility.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/accessibility.md),
+under `spec/`; [AGENTS.md](AGENTS.md) and the rule set in `AGENTS/`, in particular
+[headless.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/headless.md), [accessibility.md](AGENTS/accessibility.md),
 [internationalization.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/internationalization.md), and
 [helpers.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/helpers.md); [MAINTAINERS.md](MAINTAINERS.md);
 [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md); [CHANGELOG.md](CHANGELOG.md).

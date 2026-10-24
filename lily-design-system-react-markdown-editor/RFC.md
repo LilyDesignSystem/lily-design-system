@@ -240,7 +240,7 @@ than preference.
 | The headless layer ships **no CSS** | [AGENTS/headless.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/headless.md) |
 | **No hardcoded user-facing strings**, ever, including English defaults | [AGENTS/internationalization.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/internationalization.md) |
 | **No CSS framework dependency** — no Tailwind, DaisyUI, Bootstrap | [AGENTS/headless.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/headless.md) |
-| **Semantic HTML before ARIA** | [AGENTS/accessibility.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/accessibility.md) |
+| **Semantic HTML before ARIA** | [AGENTS/accessibility.md](AGENTS/accessibility.md) |
 | The radio-group picker markup **is not coming back** | [AGENTS/helpers.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/helpers.md) |
 | **Svelte is canonical** for the helper catalogs | [AGENTS/helpers.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/helpers.md) |
 | Components own **no data fetching, routing, persistence, or animation** | [AGENTS/headless.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/headless.md) |

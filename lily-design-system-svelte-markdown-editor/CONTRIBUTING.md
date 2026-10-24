@@ -12,7 +12,7 @@ Two things to know before you start:
 - **There is one maintainer**, unpaid, and no response-time commitment. See
   [MAINTAINERS.md](MAINTAINERS.md).
 - **The specification is the authority.** [spec/](spec/index.md) and the rules in
-  [AGENTS/](https://github.com/LilyDesignSystem/lily-design-system/tree/main/AGENTS) decide what is correct here. A change that disagrees with them
+  [AGENTS/](AGENTS/) decide what is correct here. A change that disagrees with them
   is either a spec change or a bug — say which.
 
 If what you have is an opinion rather than a patch, [RFC.md](RFC.md) is the better
