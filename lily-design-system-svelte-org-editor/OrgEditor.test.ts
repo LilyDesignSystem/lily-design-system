@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
-import OrgModeEditor, { nextOrgModeEditorId } from "./OrgModeEditor.svelte";
+import OrgEditor, { nextOrgEditorId } from "./OrgEditor.svelte";
 import { TOOL_IDS, TOOL_GROUPS } from "./org-format.js";
 
 const labels = {
@@ -31,7 +31,7 @@ const labels = {
 };
 
 function setup(props: Record<string, unknown> = {}) {
-    const utils = render(OrgModeEditor, {
+    const utils = render(OrgEditor, {
         props: { label: "Notes", toolbarLabel: "Formatting", labels, value: "hello world", today: "2026-10-24", ...props },
     });
     const textarea = screen.getByRole("textbox", { name: "Notes" }) as HTMLTextAreaElement;
@@ -48,9 +48,9 @@ const click = (name: string) => userEvent.click(screen.getByRole("button", { nam
 describe("structure", () => {
     it("renders a toolbar and a textarea under the base classes", () => {
         const { container, textarea } = setup();
-        expect(container.querySelector("div.org-mode-editor")).toBeTruthy();
-        expect(screen.getByRole("toolbar", { name: "Formatting" }).className).toContain("org-mode-editor-toolbar");
-        expect(textarea.className).toContain("org-mode-editor-textarea");
+        expect(container.querySelector("div.org-editor")).toBeTruthy();
+        expect(screen.getByRole("toolbar", { name: "Formatting" }).className).toContain("org-editor-toolbar");
+        expect(textarea.className).toContain("org-editor-textarea");
         expect(textarea.tagName).toBe("TEXTAREA");
     });
 
@@ -101,8 +101,8 @@ describe("structure", () => {
 
     it("spreads rest props and the class onto the root", () => {
         const { container } = setup({ class: "mine", "data-x": "1" });
-        const root = container.querySelector(".org-mode-editor")!;
-        expect(root.getAttribute("class")).toBe("org-mode-editor mine");
+        const root = container.querySelector(".org-editor")!;
+        expect(root.getAttribute("class")).toBe("org-editor mine");
         expect(root.getAttribute("data-x")).toBe("1");
     });
 
@@ -113,7 +113,7 @@ describe("structure", () => {
     });
 
     it("ids are unique per editor", () => {
-        expect(nextOrgModeEditorId()).not.toBe(nextOrgModeEditorId());
+        expect(nextOrgEditorId()).not.toBe(nextOrgEditorId());
     });
 });
 

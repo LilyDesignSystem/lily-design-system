@@ -5,7 +5,7 @@
   `.org` file. Org's own words (TODO, SCHEDULED:, :PROPERTIES:) are syntax; only the button names are yours.
 -->
 <script lang="ts">
-  import OrgModeEditor from "../OrgModeEditor.svelte";
+  import OrgEditor from "../OrgEditor.svelte";
 
   let notes = $state("* Ship the release\n** Write the changelog");
 
@@ -19,7 +19,7 @@
 </script>
 
 <form>
-  <OrgModeEditor
+  <OrgEditor
     bind:value={notes}
     label="Notes"
     toolbarLabel="Formatting"

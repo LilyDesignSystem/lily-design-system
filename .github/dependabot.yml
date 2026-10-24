@@ -398,7 +398,7 @@ updates:
       - "/lily-design-system-svelte-locale-picker"
       - "/lily-design-system-svelte-menu-picker"
       - "/lily-design-system-svelte-motion-picker"
-      - "/lily-design-system-svelte-org-mode-editor"
+      - "/lily-design-system-svelte-org-editor"
       - "/lily-design-system-svelte-search-picker"
       - "/lily-design-system-svelte-settings-picker"
       - "/lily-design-system-svelte-share-picker"

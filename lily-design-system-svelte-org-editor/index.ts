@@ -1,5 +1,5 @@
-export { default, default as OrgModeEditor, nextOrgModeEditorId } from "./OrgModeEditor.svelte";
-export type { Props, Labels } from "./OrgModeEditor.svelte";
+export { default, default as OrgEditor, nextOrgEditorId } from "./OrgEditor.svelte";
+export type { Props, Labels } from "./OrgEditor.svelte";
 export {
     applyTool,
     toggleWrap,

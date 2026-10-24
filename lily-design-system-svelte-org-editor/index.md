@@ -1,4 +1,4 @@
-# OrgModeEditor (Svelte helper)
+# OrgEditor (Svelte helper)
 
 A headless Svelte 5 editor for [Emacs Org mode](https://orgmode.org/) text: a `<textarea>` with a toolbar of
 buttons for text effects, headings, **tasks**, priorities, planning dates, **properties**, **drawers** and
@@ -12,14 +12,14 @@ file is the human-readable guide.
 ## Install
 
 ```ts
-import { OrgModeEditor, type Labels } from "./lily-design-system-svelte-org-mode-editor";
+import { OrgEditor, type Labels } from "./lily-design-system-svelte-org-editor";
 ```
 
 ## Quick start
 
 ```svelte
 <script lang="ts">
-  import { OrgModeEditor } from "./lily-design-system-svelte-org-mode-editor";
+  import { OrgEditor } from "./lily-design-system-svelte-org-editor";
 
   let notes = $state("* Ship the release");
   const labels = {
@@ -29,7 +29,7 @@ import { OrgModeEditor, type Labels } from "./lily-design-system-svelte-org-mode
   };
 </script>
 
-<OrgModeEditor bind:value={notes} label="Notes" toolbarLabel="Formatting" {labels} name="notes" rows={12} />
+<OrgEditor bind:value={notes} label="Notes" toolbarLabel="Formatting" {labels} name="notes" rows={12} />
 ```
 
 Every name is a prop, because the component ships no English. A tool with no entry in `labels` is not
@@ -92,14 +92,14 @@ are.
 ## Markup
 
 ```html
-<div class="org-mode-editor {class}">
-  <div class="org-mode-editor-toolbar" role="toolbar" aria-label aria-controls aria-orientation="horizontal">
-    <button class="org-mode-editor-button" type="button" data-tool="todo" data-group="task" aria-label tabindex="0">
-      <svg class="org-mode-editor-icon" aria-hidden="true">…</svg>
+<div class="org-editor {class}">
+  <div class="org-editor-toolbar" role="toolbar" aria-label aria-controls aria-orientation="horizontal">
+    <button class="org-editor-button" type="button" data-tool="todo" data-group="task" aria-label tabindex="0">
+      <svg class="org-editor-icon" aria-hidden="true">…</svg>
     </button>
     …
   </div>
-  <textarea class="org-mode-editor-textarea" aria-label name …></textarea>
+  <textarea class="org-editor-textarea" aria-label name …></textarea>
 </div>
 ```
 
@@ -126,8 +126,8 @@ WebKit pass (WebKit merges consecutive edits into one undo step); Firefox was **
 - **Org mode.** It does not parse Org, fold or cycle visibility, run Babel, build an agenda or export. It writes
   the text that Org reads.
 - **A WYSIWYG editor.** Nothing is rendered in the field.
-- **Styled.** No CSS ships. Target `.org-mode-editor`, `.org-mode-editor-toolbar`, `.org-mode-editor-button`
-  and `.org-mode-editor-textarea`.
+- **Styled.** No CSS ships. Target `.org-editor`, `.org-editor-toolbar`, `.org-editor-button`
+  and `.org-editor-textarea`.
 - **Tables, tags, repeaters, clocking, `CLOSED:` stamps.** Not yet.
 
 ## Related

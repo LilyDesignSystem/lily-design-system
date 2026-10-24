@@ -2,7 +2,7 @@ import { defineConfig } from "vitest/config";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
 import { svelteTesting } from "@testing-library/svelte/vite";
 
-// Standalone test harness for @lilydesignsystem/svelte-org-mode-editor.
+// Standalone test harness for @lilydesignsystem/svelte-org-editor.
 export default defineConfig({
   plugins: [svelte(), svelteTesting()],
   test: {

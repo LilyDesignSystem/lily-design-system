@@ -1,6 +1,6 @@
 // Pure Emacs Org mode formatting for a plain-text selection. No DOM, no strings of its
 // own: given the text, the selection and a few options, return the new text and the new
-// selection. OrgModeEditor.svelte feeds it the textarea's value and selection.
+// selection. OrgEditor.svelte feeds it the textarea's value and selection.
 //
 // Org syntax is not user-interface text: `TODO`, `SCHEDULED:`, `:PROPERTIES:`, `#+BEGIN_QUOTE`
 // and the weekday abbreviation inside `<2026-10-24 Sat>` are what Org itself reads and writes.

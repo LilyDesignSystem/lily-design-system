@@ -1,10 +1,10 @@
-# OrgModeEditor — Specification
+# OrgEditor — Specification
 
-Single source of truth for the `@lilydesignsystem/svelte-org-mode-editor` Svelte helper. Anything not in this
+Single source of truth for the `@lilydesignsystem/svelte-org-editor` Svelte helper. Anything not in this
 spec is out of scope; anything in this spec must be exercised by a test.
 
-Sibling files: `OrgModeEditor.svelte` (implementation), `org-format.ts` (the pure Org transforms, copied from
-`shared/org-format.ts` — never edit the copy), `org-format.test.ts` and `OrgModeEditor.test.ts` (tests),
+Sibling files: `OrgEditor.svelte` (implementation), `org-format.ts` (the pure Org transforms, copied from
+`shared/org-format.ts` — never edit the copy), `org-format.test.ts` and `OrgEditor.test.ts` (tests),
 `e2e/undo.spec.ts` (real browsers), `index.ts` (barrel), `index.md` (guide).
 
 ## 1. Goal
@@ -37,16 +37,16 @@ effects, tasks, priorities, planning, properties, drawers and contacts, whose va
 
 ## 4. Public API
 
-See [index.md § Props](../index.md#props). Exports: `OrgModeEditor` (default), `nextOrgModeEditorId`, the
+See [index.md § Props](../index.md#props). Exports: `OrgEditor` (default), `nextOrgEditorId`, the
 transforms (`applyTool`, `toggleWrap`, `toggleHeading`, `shiftHeadings`, `toggleList`, `cycleCheckbox`,
 `toggleBlock`, `cycleTodo`, `cyclePriority`, `togglePlanning`, `addProperty`, `insertContact`, `insertLink`,
 `insertTimestamp`, `dayStamp`, `localToday`), `TOOL_IDS`, `TOOL_GROUPS`, `WRAP_MARKERS`, and the types.
 
 ## 5. Markup and class hooks
 
-Root `<div class="org-mode-editor {class}">` holding `<div class="org-mode-editor-toolbar" role="toolbar">` of
-`<button class="org-mode-editor-button" type="button" data-tool data-group>` (each with an
-`<svg class="org-mode-editor-icon" aria-hidden>`), then `<textarea class="org-mode-editor-textarea">`.
+Root `<div class="org-editor {class}">` holding `<div class="org-editor-toolbar" role="toolbar">` of
+`<button class="org-editor-button" type="button" data-tool data-group>` (each with an
+`<svg class="org-editor-icon" aria-hidden>`), then `<textarea class="org-editor-textarea">`.
 
 ## 6. Behaviour
 
@@ -82,7 +82,7 @@ See [docs/accessibility.md](../docs/accessibility.md).
 
 ## 8. Acceptance criteria
 
-- [x] One test per behaviour clause (`org-format.test.ts`, `OrgModeEditor.test.ts`).
+- [x] One test per behaviour clause (`org-format.test.ts`, `OrgEditor.test.ts`).
 - [x] Mutation-checked: breaking the keyword cycle, planning removal and the planning-line offset each fails a test.
 - [x] Real-browser undo / redo: `e2e/undo.spec.ts` passes in Chromium and WebKit.
 - [ ] The same spec in Firefox (does not launch on the maintainer's machine).

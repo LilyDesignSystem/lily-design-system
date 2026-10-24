@@ -49,9 +49,9 @@
     };
 
     let counter = 0;
-    export function nextOrgModeEditorId(): string {
+    export function nextOrgEditorId(): string {
         counter += 1;
-        return `org-mode-editor-${counter}`;
+        return `org-editor-${counter}`;
     }
 
     /** Stroke icons on a shared 16x16 grid, drawn in `currentColor`. */
@@ -83,7 +83,7 @@
 </script>
 
 <script lang="ts">
-    // OrgModeEditor component
+    // OrgEditor component
     //
     // A <textarea> with a toolbar of buttons that write Emacs Org mode into it: text
     // effects, headings, tasks, priorities, planning, properties, drawers and contacts.
@@ -105,7 +105,7 @@
         drawerName,
         contactProperties,
         name,
-        id = nextOrgModeEditorId(),
+        id = nextOrgEditorId(),
         rows,
         placeholder,
         disabled = false,
@@ -193,12 +193,12 @@
     }
 </script>
 
-<!-- OrgModeEditor.svelte -->
-<div class={`org-mode-editor ${className}`} {...restProps}>
+<!-- OrgEditor.svelte -->
+<div class={`org-editor ${className}`} {...restProps}>
     <!-- The toolbar is a composite widget: its buttons hold the tab stop (roving tabindex), the container handles their bubbled arrow keys. -->
     <!-- svelte-ignore a11y_interactive_supports_focus -->
     <div
-        class="org-mode-editor-toolbar"
+        class="org-editor-toolbar"
         role="toolbar"
         aria-label={toolbarLabel}
         aria-controls={id}
@@ -208,7 +208,7 @@
     >
         {#each shown as tool, i (tool)}
             <button
-                class="org-mode-editor-button"
+                class="org-editor-button"
                 type="button"
                 data-tool={tool}
                 data-group={TOOL_GROUPS[tool]}
@@ -223,7 +223,7 @@
                     {@render icon(tool)}
                 {:else}
                     <svg
-                        class="org-mode-editor-icon"
+                        class="org-editor-icon"
                         viewBox="0 0 16 16"
                         aria-hidden="true"
                         focusable="false"
@@ -242,7 +242,7 @@
         {/each}
     </div>
     <textarea
-        class="org-mode-editor-textarea"
+        class="org-editor-textarea"
         {id}
         {name}
         {rows}

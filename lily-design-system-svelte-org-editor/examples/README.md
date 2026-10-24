@@ -1,4 +1,4 @@
-# Examples — OrgModeEditor
+# Examples — OrgEditor
 
 | File | Shows |
 | ---- | ----- |
