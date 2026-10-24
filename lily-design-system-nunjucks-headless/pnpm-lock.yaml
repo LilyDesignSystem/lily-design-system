@@ -14,19 +14,19 @@ importers:
     devDependencies:
       '@storybook/html-vite':
         specifier: ^10.6.2
-        version: 10.6.2(storybook@10.6.2(react@19.3.1))(vite@8.3.4(esbuild@0.28.2))
+        version: 10.6.3(storybook@10.6.3(react@19.3.1))(vite@8.3.5(esbuild@0.28.2))
       jsdom:
         specifier: ^30.1.3
         version: 30.1.3
       storybook:
         specifier: ^10.6.2
-        version: 10.6.2(react@19.3.1)
+        version: 10.6.3(react@19.3.1)
       vite:
         specifier: ^8.3.4
-        version: 8.3.4(esbuild@0.28.2)
+        version: 8.3.5(esbuild@0.28.2)
       vitest:
         specifier: ^5.0.5
-        version: 5.0.5(jsdom@30.1.3)(vite@8.3.4(esbuild@0.28.2))
+        version: 5.0.5(jsdom@30.1.3)(vite@8.3.5(esbuild@0.28.2))
 
 packages:
 
@@ -628,25 +628,25 @@ packages:
   '@rolldown/pluginutils@1.0.1':
     resolution: {integrity: sha512-2j9bGt5Jh8hj+vPtgzPtl72j0yRxHAyumoo6TNfAjsLB04UtpSvPbPcDcBMxz7n+9CYB0c1GxQFxYRg2jimqGw==}
 
-  '@storybook/builder-vite@10.6.2':
-    resolution: {integrity: sha512-SzeQEGjvybdhP2coF4aIX6JX/7rZTrQCpRU3vAEO/R98Vr3xM8jdg7a3nvt91TeF/P8iWqljLIpaDjTdk2r/sQ==}
+  '@storybook/builder-vite@10.6.3':
+    resolution: {integrity: sha512-1+WCZZg/fPxxyHDB5sFKniFt9/4RFUIzoNqMujv+BLRROM+gQeyUHvdvoyZOZ51+P8ee+/PgnNKHjsTupV+nOA==}
     peerDependencies:
-      storybook: ^10.6.2
+      storybook: ^10.6.3
       vite: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
 
   '@storybook/global@5.0.0':
     resolution: {integrity: sha512-FcOqPAXACP0I3oJ/ws6/rrPT9WGhu915Cg8D02a9YxLo0DE9zI+a9A5gRGvmQ09fiWPukqI8ZAEoQEdWUKMQdQ==}
 
-  '@storybook/html-vite@10.6.2':
-    resolution: {integrity: sha512-s/YvQ6LpO/VdKQIEYMgwfpadsLolEAcpdBnL32FRyf2oo9T29MWHXTDQ4FL9FRcsdfgezvT3fgGkclMWhksO/Q==}
+  '@storybook/html-vite@10.6.3':
+    resolution: {integrity: sha512-a4k+EVYJNC56rhlnrTwF5vEZNUdNNAp1ukVWd5Bz3R208hXow7ZQOTpH1ZsgVp0pblEZQQuS9WItCs8PqZxZZQ==}
     peerDependencies:
-      storybook: ^10.6.2
+      storybook: ^10.6.3
       vite: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
 
-  '@storybook/html@10.6.2':
-    resolution: {integrity: sha512-iGDnL8nhnFXS6ns4hMq5u1kYzrVZgRSaN5FIL06uOnxwJ6zeABKHVeUTfvgtoxaAfB+Zag7FClr5f1tSub8oig==}
+  '@storybook/html@10.6.3':
+    resolution: {integrity: sha512-J1Oyj1sD/TKsX8eOWFGFXJydxsLyIlbqj9/YlXLYdkB6L/YjGrALaVsQbGcIHvF+6x78DIwNDPdaMwZW+8boRg==}
     peerDependencies:
-      storybook: ^10.6.2
+      storybook: ^10.6.3
 
   '@storybook/icons@2.2.0':
     resolution: {integrity: sha512-FpUB/xizIrV1ILhCIYFo+TtQNN9YEoLjfcnAW0JtOXL+BcM2aisSysI0B54JMWDnljriXySBHgN6ps4s9lb75A==}
@@ -1084,8 +1084,8 @@ packages:
   std-env@4.3.0:
     resolution: {integrity: sha512-OtU/EgQ1kIm5KwqQpBC6ZEMXrZRui11w8zgfTWp8cdO9B8OaPsbA8bTHO2P+HNo1VlUTGMVBwPhydu6poeXiag==}
 
-  storybook@10.6.2:
-    resolution: {integrity: sha512-qHDINMiapxFUxYb+xC3j8u7Y+85X3u+/PlytE/wmnyg+bU0agCW3jUmWP4vIh2MioO2jTK/2B3Lcw6IpRFzQBA==}
+  storybook@10.6.3:
+    resolution: {integrity: sha512-lNBvcZFG44C98KvQHYzfq1O46m+sl94zY1+na5/9E3ihtNMbvpOgYyMFMIcWYUvOMo3OM4q9jzvB73KU20bU8w==}
     hasBin: true
     peerDependencies:
       '@types/react': ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -1157,13 +1157,13 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
-  vite@8.3.4:
-    resolution: {integrity: sha512-IftLE8phJhdNRIGNEV4JCCvfNScoZQVfcXaN8TQropWGJtOHcu+iAB9pHcuGvmEb/kddw0LBe/jS8ztdC6xdiQ==}
+  vite@8.3.5:
+    resolution: {integrity: sha512-z1YpjieJ9g0ebTmQpLBv/oq9E3F9EIlOe+7LahW8SrE3LTiG3udBRUXQOlYXP9b+IC2q2phHeVxj9xGlw34OEQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
       '@types/node': ^20.19.0 || >=22.12.0
-      '@vitejs/devtools': ^0.7.1
+      '@vitejs/devtools': ^0.7.1 || ^0.8.0
       esbuild: ^0.27.0 || ^0.28.0
       jiti: '>=1.21.0'
       less: ^4.0.0
@@ -1653,25 +1653,25 @@ snapshots:
 
   '@rolldown/pluginutils@1.0.1': {}
 
-  '@storybook/builder-vite@10.6.2(storybook@10.6.2(react@19.3.1))(vite@8.3.4(esbuild@0.28.2))':
+  '@storybook/builder-vite@10.6.3(storybook@10.6.3(react@19.3.1))(vite@8.3.5(esbuild@0.28.2))':
     dependencies:
-      storybook: 10.6.2(react@19.3.1)
+      storybook: 10.6.3(react@19.3.1)
       ts-dedent: 2.3.0
-      vite: 8.3.4(esbuild@0.28.2)
+      vite: 8.3.5(esbuild@0.28.2)
 
   '@storybook/global@5.0.0': {}
 
-  '@storybook/html-vite@10.6.2(storybook@10.6.2(react@19.3.1))(vite@8.3.4(esbuild@0.28.2))':
+  '@storybook/html-vite@10.6.3(storybook@10.6.3(react@19.3.1))(vite@8.3.5(esbuild@0.28.2))':
     dependencies:
-      '@storybook/builder-vite': 10.6.2(storybook@10.6.2(react@19.3.1))(vite@8.3.4(esbuild@0.28.2))
-      '@storybook/html': 10.6.2(storybook@10.6.2(react@19.3.1))
-      storybook: 10.6.2(react@19.3.1)
-      vite: 8.3.4(esbuild@0.28.2)
+      '@storybook/builder-vite': 10.6.3(storybook@10.6.3(react@19.3.1))(vite@8.3.5(esbuild@0.28.2))
+      '@storybook/html': 10.6.3(storybook@10.6.3(react@19.3.1))
+      storybook: 10.6.3(react@19.3.1)
+      vite: 8.3.5(esbuild@0.28.2)
 
-  '@storybook/html@10.6.2(storybook@10.6.2(react@19.3.1))':
+  '@storybook/html@10.6.3(storybook@10.6.3(react@19.3.1))':
     dependencies:
       '@storybook/global': 5.0.0
-      storybook: 10.6.2(react@19.3.1)
+      storybook: 10.6.3(react@19.3.1)
       ts-dedent: 2.3.0
 
   '@storybook/icons@2.2.0(react@19.3.1)':
@@ -1726,14 +1726,14 @@ snapshots:
       chai: 5.3.3
       tinyrainbow: 2.0.0
 
-  '@vitest/mocker@5.0.5(vite@8.3.4(esbuild@0.28.2))':
+  '@vitest/mocker@5.0.5(vite@8.3.5(esbuild@0.28.2))':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
       '@vitest/spy': 5.0.5
       estree-walker: 3.0.3
       magic-string: 1.4.3
     optionalDependencies:
-      vite: 8.3.4(esbuild@0.28.2)
+      vite: 8.3.5(esbuild@0.28.2)
 
   '@vitest/pretty-format@3.2.4':
     dependencies:
@@ -2132,7 +2132,7 @@ snapshots:
 
   std-env@4.3.0: {}
 
-  storybook@10.6.2(react@19.3.1):
+  storybook@10.6.3(react@19.3.1):
     dependencies:
       '@storybook/global': 5.0.0
       '@storybook/icons': 2.2.0(react@19.3.1)
@@ -2199,7 +2199,7 @@ snapshots:
     dependencies:
       react: 19.3.1
 
-  vite@8.3.4(esbuild@0.28.2):
+  vite@8.3.5(esbuild@0.28.2):
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.7
@@ -2210,10 +2210,10 @@ snapshots:
       esbuild: 0.28.2
       fsevents: 2.3.3
 
-  vitest@5.0.5(jsdom@30.1.3)(vite@8.3.4(esbuild@0.28.2)):
+  vitest@5.0.5(jsdom@30.1.3)(vite@8.3.5(esbuild@0.28.2)):
     dependencies:
       '@types/chai': 5.2.3
-      '@vitest/mocker': 5.0.5(vite@8.3.4(esbuild@0.28.2))
+      '@vitest/mocker': 5.0.5(vite@8.3.5(esbuild@0.28.2))
       chai: 6.3.0
       es-module-lexer: 2.3.2
       expect-type: 1.4.0
@@ -2224,7 +2224,7 @@ snapshots:
       tinybench: 6.2.2
       tinyexec: 1.3.1
       tinyglobby: 0.2.17
-      vite: 8.3.4(esbuild@0.28.2)
+      vite: 8.3.5(esbuild@0.28.2)
       why-is-node-running: 3.2.1
     optionalDependencies:
       jsdom: 30.1.3
