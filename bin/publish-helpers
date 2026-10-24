@@ -90,14 +90,14 @@ publish_npm_package_inner() {
     printf '%s\n' "$output"
     return 0
   else
-    status=$?
+    rc=$?
     printf '%s\n' "$output"
     if printf '%s' "$output" | grep -q "You cannot publish over the previously published versions"; then
       echo "    (already published at this version -- skipped, same as NuGet --skip-duplicate)"
       return 0
     fi
-    echo "    publish FAILED (exit $status) -- aborting; this is not the already-published case" >&2
-    return "$status"
+    echo "    publish FAILED (exit $rc) -- aborting; this is not the already-published case" >&2
+    return "$rc"
   fi
 }
 
