@@ -48,6 +48,9 @@ EXTRA_TARGETS = {
         "lily-design-system-alpine-headless/middle-truncation.js",
         "lily-design-system-html-headless/components/middle-truncation.html",
     ],
+    "markdown-format.ts": [
+        "lily-design-system-nunjucks-markdown-editor/markdown-format.js",
+    ],
     "wheel-picker.ts": [
         "lily-design-system-svelte-headless/components/WheelPicker/wheel-picker.ts",
         "lily-design-system-react-headless/components/wheel-picker.ts",

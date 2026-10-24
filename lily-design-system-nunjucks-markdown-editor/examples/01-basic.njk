@@ -1,0 +1,13 @@
+{# Example 1 — Basic usage: the macro, then autoInit() in the browser. #}
+{% from "markdown-editor.njk" import markdownEditor %}
+<form method="post">
+  {{ markdownEditor({
+    label: "Message", toolbarLabel: "Formatting", name: "body", rows: 8, value: "Hello **world**",
+    labels: { bold: "Bold", italic: "Italic", link: "Link", bulletList: "Bulleted list" }
+  }) }}
+  <button type="submit">Send</button>
+</form>
+<script type="module">
+  import { autoInit } from "../dist/index.js";
+  autoInit();
+</script>
