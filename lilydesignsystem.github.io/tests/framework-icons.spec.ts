@@ -5,7 +5,7 @@ import { test, expect, type Page } from '@playwright/test';
 const LABELS = ['Svelte', 'React', 'Vue', 'Angular', 'Blazor', 'Nunjucks', 'Alpine', 'HTML', 'Web'];
 
 // Home pages that render the row: the English home and a locale home (LocaleHome.svelte).
-const PAGES = ['/', '/cy-gb/'];
+const PAGES = ['/', '/cy-gb/', '/en-us/'];
 
 async function rowBoxes(page: Page) {
   const links = page.locator('.framework-icon-row .framework-icon-link');
