@@ -1,0 +1,111 @@
+#!/usr/bin/env node
+// bin/check-port-parity — plan P13-T7: the "port in step" drift report.
+//
+// Two ports have a reference they must track and nothing ports between them
+// automatically:
+//   - Web Components helpers  vs  the HTML helpers   (same package name)
+//   - Alpine helpers          vs  the Svelte helpers (the four grid-like ones)
+// For each pair this lists the public names present in the reference and
+// missing from the port: class hooks, custom events, and (Web Components)
+// observed attributes. A difference is allowed only when
+// bin/check-port-parity.allow.json names it with a reason. An unlisted
+// difference fails; an allow-list entry that no longer matches a difference
+// also fails, so the list cannot rot.
+//
+// Usage: bin/check-port-parity [--quiet]
+//        bin/check-port-parity --baseline   print an allow-list for the current
+//                                           differences (edit the reasons!)
+
+const fs = require("fs");
+const path = require("path");
+
+const top = path.join(__dirname, "..");
+const quiet = process.argv.includes("--quiet");
+const allow = JSON.parse(fs.readFileSync(path.join(__dirname, "check-port-parity.allow.json"), "utf-8"));
+
+const SOURCE_EXT = /\.(ts|svelte|html)$/;
+const SKIP = /(\.test\.|\.spec\.|\.stories\.|^vitest|^build\.|\.d\.ts$)/;
+
+function sources(dir) {
+  const full = path.join(top, dir);
+  if (!fs.existsSync(full)) return [];
+  return fs
+    .readdirSync(full)
+    .filter((f) => SOURCE_EXT.test(f) && !SKIP.test(f))
+    .map((f) => fs.readFileSync(path.join(full, f), "utf-8"));
+}
+
+// Strip comments so prose that mentions a class does not count as using it.
+const code = (s) => s.replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:])\/\/.*$/gm, "$1").replace(/<!--[\s\S]*?-->/g, "");
+
+function classHooks(texts, base) {
+  const re = new RegExp(`(?<![\\w-])${base}(?:-[a-z0-9]+)*(?![\\w-])`, "g");
+  const out = new Set();
+  for (const t of texts) for (const m of code(t).replace(/(?<![\w-])lily-/g, "").matchAll(re)) out.add(m[0]);
+  return out;
+}
+
+function events(texts) {
+  const out = new Set();
+  for (const t of texts)
+    for (const m of code(t).matchAll(/new CustomEvent\(\s*["'`]([\w-]+)["'`]/g)) out.add(m[1]);
+  return out;
+}
+
+function observed(texts) {
+  const out = new Set();
+  for (const t of texts) {
+    const m = code(t).match(/observedAttributes[^{]*\{\s*return\s*\[([\s\S]*?)\]/);
+    if (m) for (const a of m[1].matchAll(/["']([\w-]+)["']/g)) out.add(a[1]);
+  }
+  return out;
+}
+
+const PAIRS = [];
+const helpers = require("child_process").execFileSync(path.join(__dirname, "list-helper-packages"), ["html"], { encoding: "utf-8" }).split("\n").filter(Boolean);
+for (const pkg of helpers) {
+  const name = pkg.slice("lily-design-system-html-".length);
+  if (fs.existsSync(path.join(top, `lily-design-system-web-components-${name}`)))
+    PAIRS.push({ id: `web-components/${name}`, ref: pkg, port: `lily-design-system-web-components-${name}`, base: name, attrs: true });
+}
+for (const name of ["data-grid", "kanban-board", "calendar", "gantt-chart"])
+  PAIRS.push({ id: `alpine/${name}`, ref: `lily-design-system-svelte-${name}`, port: `lily-design-system-alpine-${name}`, base: name, attrs: false });
+
+const baseline = {};
+const used = new Set();
+let failures = 0;
+for (const p of PAIRS) {
+  const r = sources(p.ref), q = sources(p.port);
+  const kinds = [
+    ["class", classHooks(r, p.base), classHooks(q, p.base)],
+    ["event", events(r), events(q)],
+  ];
+  if (p.attrs) kinds.push(["attribute", observed(r), observed(q)]);
+  const missing = [];
+  for (const [kind, a, b] of kinds) for (const n of [...a].sort()) if (!b.has(n)) missing.push(`${kind}:${n}`);
+  const bad = [];
+  for (const m of missing) {
+    const key = `${p.id} ${m}`;
+    baseline[key] = p.id.startsWith("alpine/") ? "Alpine helpers are a subset of the Svelte reference; not yet ported" : "TODO: reason";
+    if (allow[key]) used.add(key);
+    else bad.push(m);
+  }
+  failures += bad.length;
+  if (!process.argv.includes("--baseline") && (bad.length || !quiet)) console.log(`${bad.length ? "FAIL" : "ok  "} ${p.id}: ${missing.length} missing, ${missing.length - bad.length} allowed`);
+  if (!process.argv.includes("--baseline")) for (const m of bad) console.log(`       missing from port: ${m}`);
+}
+if (process.argv.includes("--baseline")) {
+  console.log(JSON.stringify(baseline, null, 2));
+  process.exit(0);
+}
+for (const key of Object.keys(allow)) {
+  if (!used.has(key)) {
+    console.log(`FAIL stale allow-list entry (no such difference): ${key}`);
+    failures++;
+  }
+}
+if (failures) {
+  console.log(`\n${failures} unlisted difference(s). Port the name, or add it with a reason to bin/check-port-parity.allow.json.`);
+  process.exit(1);
+}
+console.log(`port parity: ${PAIRS.length} pairs, no unlisted differences`);
