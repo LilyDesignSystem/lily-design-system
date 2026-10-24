@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://lilydesignsystem.com/</loc><lastmod>2026-10-23</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://lilydesignsystem.com/</loc><lastmod>2026-10-24</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://lilydesignsystem.com/about/</loc><lastmod>2026-10-07</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://lilydesignsystem.com/accessibility/</loc><lastmod>2026-10-16</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/ar-001/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
@@ -119,7 +119,7 @@
   <url><loc>https://lilydesignsystem.com/bn-001/tutorials/vue/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/bn-001/why/</loc><lastmod>2026-10-07</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/comparisons/</loc><lastmod>2026-10-07</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/</loc><lastmod>2026-10-23</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/</loc><lastmod>2026-10-24</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://lilydesignsystem.com/components/accordion-checkbox/</loc><lastmod>2026-10-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/accordion-link/</loc><lastmod>2026-10-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/accordion-list/</loc><lastmod>2026-10-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -2115,6 +2115,7 @@
   <url><loc>https://lilydesignsystem.com/lv-lv/tutorials/theming/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/lv-lv/tutorials/vue/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/lv-lv/why/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://lilydesignsystem.com/markdown-editor/</loc><lastmod>2026-10-24</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/mr-001/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/mr-001/about/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/mr-001/accessibility/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>

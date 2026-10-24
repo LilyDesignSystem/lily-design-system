@@ -48,6 +48,8 @@ actually live.
   is not verified by anything, and how to report a problem.
 - [News](https://lilydesignsystem.com/news/): announcements, release
   highlights, project status, and press contacts.
+- [Markdown editor](https://lilydesignsystem.com/markdown-editor/): a textarea with a toolbar of rich-text
+  buttons that write Markdown, in nine frameworks (not yet published).
 - [Label packs](https://lilydesignsystem.com/label-packs/): ready-made `labels` for the data grid,
   kanban board, calendar, Gantt chart and filter in 64 locales (63 are unreviewed drafts), and how
   to load one in every framework.
