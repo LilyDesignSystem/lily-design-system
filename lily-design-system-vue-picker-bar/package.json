@@ -27,12 +27,12 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@lilydesignsystem/vue-link-picker": "^0.1.1",
-    "@lilydesignsystem/vue-locale-picker": "^0.2.0",
-    "@lilydesignsystem/vue-search-picker": "^0.1.0",
-    "@lilydesignsystem/vue-share-picker": "^0.2.0",
-    "@lilydesignsystem/vue-text-size-picker": "^0.2.0",
-    "@lilydesignsystem/vue-theme-picker": "^0.2.0"
+    "@lilydesignsystem/vue-link-picker": "^0.2.0",
+    "@lilydesignsystem/vue-locale-picker": "^0.3.1",
+    "@lilydesignsystem/vue-search-picker": "^0.2.0",
+    "@lilydesignsystem/vue-share-picker": "^0.3.0",
+    "@lilydesignsystem/vue-text-size-picker": "^0.3.0",
+    "@lilydesignsystem/vue-theme-picker": "^0.3.0"
   },
   "peerDependencies": {
     "vue": "^3.0.0"
