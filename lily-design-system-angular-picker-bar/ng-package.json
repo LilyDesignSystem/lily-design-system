@@ -10,6 +10,7 @@
     "@lilydesignsystem/angular-theme-picker",
     "@lilydesignsystem/angular-locale-picker",
     "@lilydesignsystem/angular-text-size-picker",
+    "@lilydesignsystem/angular-time-zone-picker",
     "@lilydesignsystem/angular-share-picker"
   ]
 }
