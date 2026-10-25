@@ -36,21 +36,21 @@ importers:
         specifier: ^0.5.0
         version: 0.5.0(@lilydesignsystem/svelte-headless@0.6.1(svelte@5.57.2))(svelte@5.57.2)
       '@lilydesignsystem/svelte-share-picker':
-        specifier: ^0.2.0
-        version: 0.2.0(svelte@5.57.2)
+        specifier: ^0.3.0
+        version: 0.3.0(svelte@5.57.2)
     devDependencies:
       '@playwright/test':
         specifier: ^1.64.1
         version: 1.64.1
       '@sveltejs/adapter-static':
         specifier: ^4.0.0
-        version: 4.0.0(@sveltejs/kit@3.1.0(@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.2)(vite@8.3.4))(svelte@5.57.2)(typescript@6.0.3)(vite@8.3.4))
+        version: 4.0.0(@sveltejs/kit@3.1.0(@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.2)(vite@8.3.5))(svelte@5.57.2)(typescript@6.0.3)(vite@8.3.5))
       '@sveltejs/kit':
         specifier: ^3.1.0
-        version: 3.1.0(@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.2)(vite@8.3.4))(svelte@5.57.2)(typescript@6.0.3)(vite@8.3.4)
+        version: 3.1.0(@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.2)(vite@8.3.5))(svelte@5.57.2)(typescript@6.0.3)(vite@8.3.5)
       '@sveltejs/vite-plugin-svelte':
         specifier: ^7.3.1
-        version: 7.3.1(svelte@5.57.2)(vite@8.3.4)
+        version: 7.3.1(svelte@5.57.2)(vite@8.3.5)
       marked:
         specifier: ^18.1.1
         version: 18.1.1
@@ -64,8 +64,8 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
       vite:
-        specifier: ^8.3.4
-        version: 8.3.4
+        specifier: ^8.3.5
+        version: 8.3.5
 
 packages:
 
@@ -114,6 +114,12 @@ packages:
 
   '@lilydesignsystem/svelte-headless@0.2.0':
     resolution: {integrity: sha512-xaCVY+qX2Aznb2wGtJhEIMCSeP04N/EZMZbjuOEllpMb3vow5yb/hH1pUybZwic/2HMCEp6zjuI9dSY7gKnRig==}
+    engines: {node: '=26'}
+    peerDependencies:
+      svelte: ^5.0.0
+
+  '@lilydesignsystem/svelte-headless@0.4.0':
+    resolution: {integrity: sha512-zrHBMmliIK6ic+eKH4ZE0AJ+kWnAf5su1SRv7AlU2YcEx4Q3hm0MruApaIjgOAc2UxjJjT2UBIldw2y40CVURQ==}
     engines: {node: '=26'}
     peerDependencies:
       svelte: ^5.0.0
@@ -173,6 +179,12 @@ packages:
 
   '@lilydesignsystem/svelte-share-picker@0.2.0':
     resolution: {integrity: sha512-/W+yda4IEfEhaMWdEh4kVvHUQKz/pbFtuaoxgOZMg65JhMcKjWeis9J3OHQ69o5LIK+AFxFhDCqDh/g/8gSDGQ==}
+    engines: {node: '=26'}
+    peerDependencies:
+      svelte: ^5.0.0
+
+  '@lilydesignsystem/svelte-share-picker@0.3.0':
+    resolution: {integrity: sha512-fdGoLcLpabO8vv63ePAnjJRP9U0Wjb1EXuTxHPDmHqJQ0PCezxzRlQ+mpTIxHlaqZ0T1SjtQasai6JkjQDsE5w==}
     engines: {node: '=26'}
     peerDependencies:
       svelte: ^5.0.0
@@ -589,13 +601,13 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  vite@8.3.4:
-    resolution: {integrity: sha512-IftLE8phJhdNRIGNEV4JCCvfNScoZQVfcXaN8TQropWGJtOHcu+iAB9pHcuGvmEb/kddw0LBe/jS8ztdC6xdiQ==}
+  vite@8.3.5:
+    resolution: {integrity: sha512-z1YpjieJ9g0ebTmQpLBv/oq9E3F9EIlOe+7LahW8SrE3LTiG3udBRUXQOlYXP9b+IC2q2phHeVxj9xGlw34OEQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
       '@types/node': ^20.19.0 || >=22.12.0
-      '@vitejs/devtools': ^0.7.1
+      '@vitejs/devtools': ^0.7.1 || ^0.8.0
       esbuild: ^0.27.0 || ^0.28.0
       jiti: '>=1.21.0'
       less: ^4.0.0
@@ -691,6 +703,11 @@ snapshots:
       aria-query: 5.3.2
       svelte: 5.57.2
 
+  '@lilydesignsystem/svelte-headless@0.4.0(svelte@5.57.2)':
+    dependencies:
+      aria-query: 5.3.2
+      svelte: 5.57.2
+
   '@lilydesignsystem/svelte-headless@0.6.1(svelte@5.57.2)':
     dependencies:
       aria-query: 5.3.2
@@ -742,6 +759,11 @@ snapshots:
   '@lilydesignsystem/svelte-share-picker@0.2.0(svelte@5.57.2)':
     dependencies:
       '@lilydesignsystem/svelte-headless': 0.2.0(svelte@5.57.2)
+      svelte: 5.57.2
+
+  '@lilydesignsystem/svelte-share-picker@0.3.0(svelte@5.57.2)':
+    dependencies:
+      '@lilydesignsystem/svelte-headless': 0.4.0(svelte@5.57.2)
       svelte: 5.57.2
 
   '@lilydesignsystem/svelte-text-size-picker@0.2.0(svelte@5.57.2)':
@@ -820,15 +842,15 @@ snapshots:
     dependencies:
       acorn: 8.19.0
 
-  '@sveltejs/adapter-static@4.0.0(@sveltejs/kit@3.1.0(@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.2)(vite@8.3.4))(svelte@5.57.2)(typescript@6.0.3)(vite@8.3.4))':
+  '@sveltejs/adapter-static@4.0.0(@sveltejs/kit@3.1.0(@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.2)(vite@8.3.5))(svelte@5.57.2)(typescript@6.0.3)(vite@8.3.5))':
     dependencies:
-      '@sveltejs/kit': 3.1.0(@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.2)(vite@8.3.4))(svelte@5.57.2)(typescript@6.0.3)(vite@8.3.4)
+      '@sveltejs/kit': 3.1.0(@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.2)(vite@8.3.5))(svelte@5.57.2)(typescript@6.0.3)(vite@8.3.5)
 
-  '@sveltejs/kit@3.1.0(@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.2)(vite@8.3.4))(svelte@5.57.2)(typescript@6.0.3)(vite@8.3.4)':
+  '@sveltejs/kit@3.1.0(@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.2)(vite@8.3.5))(svelte@5.57.2)(typescript@6.0.3)(vite@8.3.5)':
     dependencies:
       '@rolldown/pluginutils': 1.0.1
       '@standard-schema/spec': 1.1.0
-      '@sveltejs/vite-plugin-svelte': 7.3.1(svelte@5.57.2)(vite@8.3.4)
+      '@sveltejs/vite-plugin-svelte': 7.3.1(svelte@5.57.2)(vite@8.3.5)
       cookie: 2.0.1
       devalue: 5.9.4
       esm-env: 1.2.2
@@ -836,20 +858,20 @@ snapshots:
       mrmime: 2.0.1
       sirv: 3.0.2
       svelte: 5.57.2
-      vite: 8.3.4
+      vite: 8.3.5
     optionalDependencies:
       typescript: 6.0.3
 
   '@sveltejs/load-config@0.2.3': {}
 
-  '@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.2)(vite@8.3.4)':
+  '@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.2)(vite@8.3.5)':
     dependencies:
       deepmerge: 4.3.1
       magic-string: 1.4.3
       obug: 2.2.1
       svelte: 5.57.2
-      vite: 8.3.4
-      vitefu: 1.1.3(vite@8.3.4)
+      vite: 8.3.5
+      vitefu: 1.1.3(vite@8.3.5)
 
   '@types/estree@1.0.9': {}
 
@@ -1054,7 +1076,7 @@ snapshots:
 
   typescript@6.0.3: {}
 
-  vite@8.3.4:
+  vite@8.3.5:
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.7
@@ -1064,8 +1086,8 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  vitefu@1.1.3(vite@8.3.4):
+  vitefu@1.1.3(vite@8.3.5):
     optionalDependencies:
-      vite: 8.3.4
+      vite: 8.3.5
 
   zimmerframe@1.1.5: {}
