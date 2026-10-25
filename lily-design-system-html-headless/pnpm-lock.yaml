@@ -27,8 +27,8 @@ importers:
         specifier: ^10.1.0
         version: 10.1.0
       chromedriver:
-        specifier: ^155.0.2
-        version: 155.0.2(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1)
+        specifier: ^156.0.0
+        version: 156.0.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1)
       storybook:
         specifier: ^10.6.3
         version: 10.6.3(react@19.3.1)
@@ -37,7 +37,7 @@ importers:
         version: 8.3.5(@types/node@22.20.5)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)
       wdio-chromedriver-service:
         specifier: ^8.1.1
-        version: 8.1.1(@wdio/types@10.1.0)(chromedriver@155.0.2(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(supports-color@8.1.1)(webdriverio@10.1.0(proxy-agent@8.0.2(supports-color@8.1.1))(supports-color@8.1.1))
+        version: 8.1.1(@wdio/types@10.1.0)(chromedriver@156.0.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(supports-color@8.1.1)(webdriverio@10.1.0(proxy-agent@8.0.2(supports-color@8.1.1))(supports-color@8.1.1))
 
 packages:
 
@@ -1169,8 +1169,8 @@ packages:
     resolution: {integrity: sha512-TQMmc3w+5AxjpL8iIiwebF73dRDF4fBIieAqGn9RGCWaEVwQ6Fb2cGe31Yns0RRIzii5goJ1Y7xbMwo1TxMplw==}
     engines: {node: '>= 20.19.0'}
 
-  chromedriver@155.0.2:
-    resolution: {integrity: sha512-IcQx0Q/VnGkMot7fAGQf8h9N1b4+KiHJleDGt97ECNP2jIXc5/FM1/kNpmBckO5pNKP5z0BceZIEJ37iIB1Fog==}
+  chromedriver@156.0.0:
+    resolution: {integrity: sha512-C1YDo5DHMNdQ5w5i4lz9htZ7ZQPnLTkQcnaQio8NKN1nPudJXhervWf9rr1othlT58QGTNVLhDDjp9Jel0kQLQ==}
     engines: {node: '>=22'}
     hasBin: true
 
@@ -3588,7 +3588,7 @@ snapshots:
     dependencies:
       readdirp: 5.1.1
 
-  chromedriver@155.0.2(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1):
+  chromedriver@156.0.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1):
     dependencies:
       '@testim/chrome-version': 1.1.4
       adm-zip: 0.6.1
@@ -4871,7 +4871,7 @@ snapshots:
       defaults: 1.0.4
     optional: true
 
-  wdio-chromedriver-service@8.1.1(@wdio/types@10.1.0)(chromedriver@155.0.2(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(supports-color@8.1.1)(webdriverio@10.1.0(proxy-agent@8.0.2(supports-color@8.1.1))(supports-color@8.1.1)):
+  wdio-chromedriver-service@8.1.1(@wdio/types@10.1.0)(chromedriver@156.0.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(supports-color@8.1.1)(webdriverio@10.1.0(proxy-agent@8.0.2(supports-color@8.1.1))(supports-color@8.1.1)):
     dependencies:
       '@wdio/logger': 8.38.0
       fs-extra: 11.4.1
@@ -4880,7 +4880,7 @@ snapshots:
       webdriverio: 10.1.0(proxy-agent@8.0.2(supports-color@8.1.1))(supports-color@8.1.1)
     optionalDependencies:
       '@wdio/types': 10.1.0
-      chromedriver: 155.0.2(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1)
+      chromedriver: 156.0.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
 
