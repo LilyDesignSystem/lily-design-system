@@ -24,8 +24,8 @@ importers:
         specifier: ^0.8.1
         version: 0.8.1(@lilydesignsystem/svelte-headless@0.6.1(svelte@5.57.2))(svelte@5.57.2)
       '@lilydesignsystem/svelte-locale-translations':
-        specifier: ^0.3.0
-        version: 0.3.0
+        specifier: ^0.4.0
+        version: 0.4.0
       '@lilydesignsystem/svelte-markdown-editor':
         specifier: ^0.1.0
         version: 0.1.0(svelte@5.57.2)
@@ -33,8 +33,8 @@ importers:
         specifier: ^0.1.0
         version: 0.1.0(svelte@5.57.2)
       '@lilydesignsystem/svelte-picker-bar':
-        specifier: ^0.4.0
-        version: 0.4.0(svelte@5.57.2)
+        specifier: ^0.5.0
+        version: 0.5.0(@lilydesignsystem/svelte-headless@0.6.1(svelte@5.57.2))(svelte@5.57.2)
       '@lilydesignsystem/svelte-share-picker':
         specifier: ^0.2.0
         version: 0.2.0(svelte@5.57.2)
@@ -143,8 +143,8 @@ packages:
     peerDependencies:
       svelte: ^5.0.0
 
-  '@lilydesignsystem/svelte-locale-translations@0.3.0':
-    resolution: {integrity: sha512-D8KT0Ay9LlKKH3sMTF5Oe3mb7bhuk8KIdRZT3qdgrneY04mcKeida8CIiVz56ClO+QJ57Z+ZbkRO7nIY/QqVLw==}
+  '@lilydesignsystem/svelte-locale-translations@0.4.0':
+    resolution: {integrity: sha512-7M8w2biBcU7A4D1jk+fXT4eynsvOsVg25SyU5gViN1k4q4pL3Ym9yUHguEcp9eTRRlEYrDgHPf2NENe2IOOjVA==}
     engines: {node: '>=26'}
 
   '@lilydesignsystem/svelte-markdown-editor@0.1.0':
@@ -159,9 +159,9 @@ packages:
     peerDependencies:
       svelte: ^5.0.0
 
-  '@lilydesignsystem/svelte-picker-bar@0.4.0':
-    resolution: {integrity: sha512-XT8c3U2Fw29Vzl+EFXIFT4d9SWMS/HdXXJiPK3Mx7FEvlnXxWd7pHNVZkDyWGUx9Oaw3M2j4jf6nrizt9atoxQ==}
-    engines: {node: '=26'}
+  '@lilydesignsystem/svelte-picker-bar@0.5.0':
+    resolution: {integrity: sha512-9dbiHbmVGHBBJZdHtO2BPaT/AHf0Y1ela0X4tMp8X0PXu7JhK9aQBZKWIKQmeqkgyaRjcxx4t7up58O4PEoY1Q==}
+    engines: {node: '>=26'}
     peerDependencies:
       svelte: ^5.0.0
 
@@ -187,6 +187,13 @@ packages:
     resolution: {integrity: sha512-PVMB0K/RXsFGb8LxnW5D6ghHW1nhp2g/hr6NYnvYtuI7jz2GUsOo4TEgr7k75QaA7V0XNSq0m+kj0Lr2WTgvWA==}
     engines: {node: '=26'}
     peerDependencies:
+      svelte: ^5.0.0
+
+  '@lilydesignsystem/svelte-time-zone-picker@0.2.0':
+    resolution: {integrity: sha512-o8+bKLYlRykhqYnErSq2ap2PGRvZlT27Sk2xt6l8WZvP/7TA94r3Jfb0+H9RxT0sFYPs/2L++dJ9Zs1gScfqig==}
+    engines: {node: '>=26'}
+    peerDependencies:
+      '@lilydesignsystem/svelte-headless': '>=0.4.0 <1.0.0'
       svelte: ^5.0.0
 
   '@oxc-project/types@0.154.0':
@@ -704,7 +711,7 @@ snapshots:
       '@lilydesignsystem/svelte-headless': 0.2.0(svelte@5.57.2)
       svelte: 5.57.2
 
-  '@lilydesignsystem/svelte-locale-translations@0.3.0': {}
+  '@lilydesignsystem/svelte-locale-translations@0.4.0': {}
 
   '@lilydesignsystem/svelte-markdown-editor@0.1.0(svelte@5.57.2)':
     dependencies:
@@ -714,7 +721,7 @@ snapshots:
     dependencies:
       svelte: 5.57.2
 
-  '@lilydesignsystem/svelte-picker-bar@0.4.0(svelte@5.57.2)':
+  '@lilydesignsystem/svelte-picker-bar@0.5.0(@lilydesignsystem/svelte-headless@0.6.1(svelte@5.57.2))(svelte@5.57.2)':
     dependencies:
       '@lilydesignsystem/svelte-link-picker': 0.1.1(svelte@5.57.2)
       '@lilydesignsystem/svelte-locale-picker': 0.2.0(svelte@5.57.2)
@@ -722,7 +729,10 @@ snapshots:
       '@lilydesignsystem/svelte-share-picker': 0.2.0(svelte@5.57.2)
       '@lilydesignsystem/svelte-text-size-picker': 0.2.0(svelte@5.57.2)
       '@lilydesignsystem/svelte-theme-picker': 0.2.0(svelte@5.57.2)
+      '@lilydesignsystem/svelte-time-zone-picker': 0.2.0(@lilydesignsystem/svelte-headless@0.6.1(svelte@5.57.2))(svelte@5.57.2)
       svelte: 5.57.2
+    transitivePeerDependencies:
+      - '@lilydesignsystem/svelte-headless'
 
   '@lilydesignsystem/svelte-search-picker@0.1.0(svelte@5.57.2)':
     dependencies:
@@ -742,6 +752,11 @@ snapshots:
   '@lilydesignsystem/svelte-theme-picker@0.2.0(svelte@5.57.2)':
     dependencies:
       '@lilydesignsystem/svelte-headless': 0.2.0(svelte@5.57.2)
+      svelte: 5.57.2
+
+  '@lilydesignsystem/svelte-time-zone-picker@0.2.0(@lilydesignsystem/svelte-headless@0.6.1(svelte@5.57.2))(svelte@5.57.2)':
+    dependencies:
+      '@lilydesignsystem/svelte-headless': 0.6.1(svelte@5.57.2)
       svelte: 5.57.2
 
   '@oxc-project/types@0.154.0': {}
