@@ -1,5 +1,7 @@
 # PickerBar — Specification (Nunjucks)
 
+> **Time zone picker (0.5.0).** Pass `labels.timeZone` and `timeZoneProps: { locale, options }`, where `options = timeZoneOptions({ locale })` from `@lilydesignsystem/nunjucks-time-zone-picker` is built where the page is built (and `names` there for CLDR names) to add a `time-zone-picker` — time zones by UTC offset with their full names — right after the locale picker. It renders only when both the label and the locale are given. To name the text sizes in the reader's language pass `sizeLabels` through the text-size props (`textSizeLabels(pack)` / `LocaleTranslations.TextSizeLabels(locale)` from the locale-translations package).
+
 Single source of truth for the `@lilydesignsystem/nunjucks-picker-bar`
 Nunjucks helper. Ports [the Svelte package's
 spec](../../lily-design-system-svelte-picker-bar/spec/index.md)

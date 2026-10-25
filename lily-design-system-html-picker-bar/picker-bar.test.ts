@@ -37,6 +37,8 @@ function mount(overrides: Record<string, unknown> = {}): PickerBar {
   if ("searchProps" in overrides)
     el.searchProps = overrides.searchProps as object;
   if ("themeProps" in overrides) el.themeProps = overrides.themeProps as object;
+  if ("timeZoneProps" in overrides)
+    el.timeZoneProps = overrides.timeZoneProps as object;
   if ("textSizeProps" in overrides)
     el.textSizeProps = overrides.textSizeProps as object;
   if ("class" in overrides) el.setAttribute("class", overrides.class as string);
@@ -277,5 +279,34 @@ describe("PickerBar — link-picker wiring (§L1–§L4)", () => {
     const el = mount({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
     expect(el.querySelectorAll(".link-picker-list a[href]")).toHaveLength(4);
     expect(el.querySelector('.link-picker-list [role="menuitem"]')).toBeNull();
+  });
+});
+
+describe("picker-bar — time-zone-picker wiring (§T1–§T4)", () => {
+  const TZ = { locale: "en", zones: ["UTC", "Europe/London"], date: new Date("2026-01-15T12:00:00Z") };
+  const WITH = { ...LABELS, timeZone: "Time zone" };
+
+  test("§T1 a time-zone-picker renders after the locale-picker when `labels.timeZone` and `timeZoneProps.locale` are given", () => {
+    const el = mount({ labels: WITH, timeZoneProps: TZ });
+    const kids = Array.from(el.querySelector(".picker-bar")!.children).map((c) => c.localName);
+    expect(kids).toEqual(["search-picker", "theme-picker", "locale-picker", "time-zone-picker", "text-size-picker", "share-picker"]);
+    expect(el.querySelector(".time-zone-picker-button")!.getAttribute("aria-label")).toBe("Time zone");
+  });
+
+  test("§T2 no time-zone-picker without labels.timeZone or without a locale", () => {
+    for (const extra of [{}, { timeZoneProps: TZ }, { labels: WITH }]) {
+      document.body.innerHTML = "";
+      expect(mount(extra).querySelector("time-zone-picker")).toBeNull();
+    }
+  });
+
+  test("§T3 `timeZoneProps` reaches the time-zone-picker (zones)", () => {
+    const el = mount({ labels: WITH, timeZoneProps: TZ });
+    expect(el.querySelectorAll(".time-zone-picker-option")).toHaveLength(2);
+  });
+
+  test("§T4 `textSizeProps.sizeLabels` names the sizes", () => {
+    const el = mount({ textSizeProps: { sizeLabels: { largest: "el más grande" } } });
+    expect(el.textContent).toContain("el más grande");
   });
 });

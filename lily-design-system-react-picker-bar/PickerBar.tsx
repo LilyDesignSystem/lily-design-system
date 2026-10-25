@@ -9,6 +9,9 @@ import LocalePicker, {
 import TextSizePicker, {
   type Props as TextSizePickerProps,
 } from "@lilydesignsystem/react-text-size-picker";
+import TimeZonePicker, {
+  type Props as TimeZonePickerProps,
+} from "@lilydesignsystem/react-time-zone-picker";
 import SharePicker, {
   type Props as SharePickerProps,
   type ShareTarget,
@@ -122,6 +125,11 @@ export type PickerBarLabels = {
   locale: string;
   /** Accessible name for the text-size picker's button and listbox. */
   textSize: string;
+  /**
+   * Accessible name for the time-zone picker's button and listbox. Needed only when
+   * `timeZoneProps.locale` is supplied; the time-zone picker renders only when both are present.
+   */
+  timeZone?: string;
   /** Accessible name for the share picker's button and list. */
   share: string;
 };
@@ -151,6 +159,12 @@ export type Props = Omit<React.HTMLAttributes<HTMLDivElement>, "children"> & {
   /** Extra LocalePicker props, spread after this bar's own. */
   localeProps?: Partial<Omit<LocalePickerProps, "locales">>;
 
+  /**
+   * Extra TimeZonePicker props, spread after this bar's own. `locale` (the language that names and sorts
+   * the zones) is required for the time-zone picker to render, which sits after the locale picker.
+   */
+  timeZoneProps?: Partial<Omit<TimeZonePickerProps, "label">>;
+
   /** Available size slugs. Defaults to {@link DEFAULT_SIZES}. */
   sizes?: string[];
   /** Extra TextSizePicker props, spread after this bar's own. */
@@ -175,6 +189,7 @@ export function PickerBar({
   themeProps = {},
   locales,
   localeProps = {},
+  timeZoneProps = {},
   sizes = DEFAULT_SIZES,
   textSizeProps = {},
   shareTargets = [],
@@ -200,6 +215,12 @@ export function PickerBar({
         {...themeProps}
       />
       <LocalePicker label={labels.locale} locales={locales} {...localeProps} />
+      {labels.timeZone && timeZoneProps.locale ? (
+        <TimeZonePicker
+          {...(timeZoneProps as TimeZonePickerProps)}
+          label={labels.timeZone}
+        />
+      ) : null}
       <TextSizePicker
         label={labels.textSize}
         sizes={sizes}

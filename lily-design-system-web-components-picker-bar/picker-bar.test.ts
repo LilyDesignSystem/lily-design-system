@@ -40,6 +40,7 @@ type MountOptions = {
   searchProps?: Record<string, unknown>;
   themeProps?: Record<string, unknown>;
   textSizeProps?: Record<string, unknown>;
+  timeZoneProps?: Record<string, unknown>;
   class?: string;
   attrs?: Record<string, string>;
 };
@@ -58,6 +59,7 @@ function mount(opts: MountOptions = {}): PickerBar {
   if (opts.linkProps) el.linkProps = opts.linkProps as never;
   if (opts.searchProps) el.searchProps = opts.searchProps as never;
   if (opts.themeProps) el.themeProps = opts.themeProps as never;
+  if (opts.timeZoneProps) el.timeZoneProps = opts.timeZoneProps as never;
   if (opts.textSizeProps) el.textSizeProps = opts.textSizeProps as never;
   document.body.appendChild(el);
   return el;
@@ -330,5 +332,36 @@ describe("lily-picker-bar — link-picker wiring (§L1–§L4)", () => {
     const el = mount({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
     expect(el.querySelectorAll(".link-picker-list a[href]")).toHaveLength(4);
     expect(el.querySelector('.link-picker-list [role="menuitem"]')).toBeNull();
+  });
+});
+
+describe("lily-picker-bar — time-zone-picker wiring (§T1–§T4)", () => {
+  const TZ = { locale: "en", zones: ["UTC", "Europe/London"], date: new Date("2026-01-15T12:00:00Z") };
+  const WITH = { ...LABELS, timeZone: "Time zone" };
+
+  test("§T1 a lily-time-zone-picker renders after the locale picker when `labels.timeZone` and `timeZoneProps.locale` are given", () => {
+    const el = mount({ labels: WITH, timeZoneProps: TZ });
+    const kids = Array.from(el.querySelector(".picker-bar")!.children).map((c) => c.localName);
+    expect(kids).toEqual(["lily-search-picker", "lily-theme-picker", "lily-locale-picker", "lily-time-zone-picker", "lily-text-size-picker", "lily-share-picker"]);
+    expect(el.querySelector(".time-zone-picker-button")!.getAttribute("aria-label")).toBe("Time zone");
+  });
+
+  test("§T2 no time-zone picker without labels.timeZone or without a locale", () => {
+    for (const extra of [{}, { timeZoneProps: TZ }, { labels: WITH }]) {
+      document.body.innerHTML = "";
+      expect(mount(extra).querySelector("lily-time-zone-picker")).toBeNull();
+    }
+  });
+
+  test("§T3 `timeZoneProps` reaches the time-zone picker (zones), also when set after mount", () => {
+    const el = mount({ labels: WITH });
+    expect(el.querySelector("lily-time-zone-picker")).toBeNull();
+    el.timeZoneProps = TZ as never;
+    expect(el.querySelectorAll(".time-zone-picker-option")).toHaveLength(2);
+  });
+
+  test("§T4 `textSizeProps.sizeLabels` names the sizes", () => {
+    const el = mount({ textSizeProps: { sizeLabels: { largest: "el más grande" } } });
+    expect(el.textContent).toContain("el más grande");
   });
 });

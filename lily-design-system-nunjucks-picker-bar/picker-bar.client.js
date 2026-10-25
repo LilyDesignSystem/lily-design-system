@@ -33,6 +33,10 @@ import {
   autoInit as autoInitTextSizePicker,
 } from "@lilydesignsystem/nunjucks-text-size-picker";
 import {
+  initTimeZonePicker,
+  autoInit as autoInitTimeZonePicker,
+} from "@lilydesignsystem/nunjucks-time-zone-picker";
+import {
   initSharePicker,
   autoInit as autoInitSharePicker,
 } from "@lilydesignsystem/nunjucks-share-picker";
@@ -126,7 +130,7 @@ export const DEFAULT_SIZES = [
  * rendered one.
  *
  * @param {HTMLElement} root
- * @param {{linkProps?: object, searchProps?: object, themeProps?: object, localeProps?: object, textSizeProps?: object, shareProps?: object}=} opts
+ * @param {{linkProps?: object, searchProps?: object, themeProps?: object, localeProps?: object, timeZoneProps?: object, textSizeProps?: object, shareProps?: object}=} opts
  */
 export function initPickerBar(root, opts = {}) {
   if (!root) {
@@ -135,6 +139,7 @@ export function initPickerBar(root, opts = {}) {
       search: null,
       theme: null,
       locale: null,
+      timeZone: null,
       textSize: null,
       share: null,
     };
@@ -144,6 +149,7 @@ export function initPickerBar(root, opts = {}) {
     searchProps = {},
     themeProps = {},
     localeProps = {},
+    timeZoneProps = {},
     textSizeProps = {},
     shareProps = {},
   } = opts;
@@ -152,6 +158,7 @@ export function initPickerBar(root, opts = {}) {
   const searchRoot = root.querySelector("[data-lily-search-picker-root]");
   const themeRoot = root.querySelector("[data-lily-theme-picker-root]");
   const localeRoot = root.querySelector("[data-lily-locale-picker-root]");
+  const timeZoneRoot = root.querySelector("[data-lily-time-zone-picker-root]");
   const textSizeRoot = root.querySelector(
     "[data-lily-text-size-picker-root]",
   );
@@ -162,6 +169,7 @@ export function initPickerBar(root, opts = {}) {
     search: searchRoot ? initSearchPicker(searchRoot, searchProps) : null,
     theme: themeRoot ? initThemePicker(themeRoot, themeProps) : null,
     locale: localeRoot ? initLocalePicker(localeRoot, localeProps) : null,
+    timeZone: timeZoneRoot ? initTimeZonePicker(timeZoneRoot, timeZoneProps) : null,
     textSize: textSizeRoot
       ? initTextSizePicker(textSizeRoot, textSizeProps)
       : null,
@@ -172,7 +180,7 @@ export function initPickerBar(root, opts = {}) {
 /**
  * Find every `[data-lily-picker-bar-root]` and wire it.
  *
- * @param {{linkProps?: object, searchProps?: object, themeProps?: object, localeProps?: object, textSizeProps?: object, shareProps?: object}=} opts
+ * @param {{linkProps?: object, searchProps?: object, themeProps?: object, localeProps?: object, timeZoneProps?: object, textSizeProps?: object, shareProps?: object}=} opts
  * @returns {Array<ReturnType<typeof initPickerBar>>}
  */
 export function autoInit(opts = {}) {

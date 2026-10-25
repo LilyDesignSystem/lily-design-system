@@ -9,6 +9,12 @@ import { ThemePicker } from "@lilydesignsystem/angular-theme-picker";
 import { LocalePicker } from "@lilydesignsystem/angular-locale-picker";
 import { TextSizePicker } from "@lilydesignsystem/angular-text-size-picker";
 import {
+  TimeZonePicker,
+  DEFAULT_ZONES,
+  type ZoneInfo,
+  type ZoneNames,
+} from "@lilydesignsystem/angular-time-zone-picker";
+import {
   SharePicker,
   type ShareEvent,
   type ShareStrategy,
@@ -120,6 +126,11 @@ export type PickerBarLabels = {
   locale: string;
   /** Accessible name for the text-size picker's button and listbox. */
   textSize: string;
+  /**
+   * Accessible name for the time-zone picker's button and listbox. Needed only when
+   * `timeZoneLocale` is supplied; the time-zone picker renders only when both are present.
+   */
+  timeZone?: string;
   /** Accessible name for the share picker's button and list. */
   share: string;
 };
@@ -141,7 +152,7 @@ export type PickerBarLabels = {
 @Component({
   selector: "lily-picker-bar",
   standalone: true,
-  imports: [LinkPicker, SearchPicker, ThemePicker, LocalePicker, TextSizePicker, SharePicker],
+  imports: [LinkPicker, SearchPicker, ThemePicker, LocalePicker, TextSizePicker, TimeZonePicker, SharePicker],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="picker-bar {{ className() }}">
@@ -187,6 +198,21 @@ export type PickerBarLabels = {
         [applyDir]="localeApplyDir()"
         [localeLabels]="localeLabels()"
       />
+      @if (labels().timeZone && timeZoneLocale()) {
+        <lily-time-zone-picker
+          [label]="labels().timeZone!"
+          [locale]="timeZoneLocale()!"
+          [zones]="timeZones()"
+          [date]="timeZoneDate()"
+          [labelFor]="timeZoneLabelFor()"
+          [names]="timeZoneNames()"
+          [(value)]="timeZoneValue"
+          [defaultValue]="timeZoneDefaultValue()"
+          [storageKey]="timeZoneStorageKey()"
+          [name]="timeZoneName()"
+          [target]="timeZoneTarget()"
+        />
+      }
       <lily-text-size-picker
         [label]="labels().textSize"
         [sizes]="sizes()"
@@ -267,6 +293,26 @@ export class PickerBar {
   readonly localeTarget = input<HTMLElement | null>(null);
   readonly localeApplyDir = input<boolean>(true);
   readonly localeLabels = input<Record<string, string>>({});
+
+  // --- time-zone-picker ---
+  /**
+   * The language that names and sorts the zones (BCP 47, e.g. `fr`). The time-zone picker, which sits
+   * after the locale picker, renders only when this and `labels().timeZone` are both given.
+   */
+  readonly timeZoneLocale = input<string | undefined>(undefined);
+  /** IANA zone ids on offer. Defaults to the picker's own 55. */
+  readonly timeZones = input<readonly string[]>(DEFAULT_ZONES);
+  /** The date the offsets are computed for (daylight time). Defaults to now. */
+  readonly timeZoneDate = input<Date | undefined>(undefined);
+  readonly timeZoneLabelFor = input<((zone: ZoneInfo) => string) | undefined>(undefined);
+  /** CLDR zone names, e.g. `zoneNamesFrom(pack)` from the locale-translations package. */
+  readonly timeZoneNames = input<ZoneNames | undefined>(undefined);
+  /** Two-way bindable current IANA zone id. */
+  readonly timeZoneValue = model<string>("");
+  readonly timeZoneDefaultValue = input<string>("");
+  readonly timeZoneStorageKey = input<string>("");
+  readonly timeZoneName = input<string>("time-zone");
+  readonly timeZoneTarget = input<HTMLElement | null>(null);
 
   // --- text-size-picker ---
   /** Available size slugs. Defaults to {@link DEFAULT_SIZES}. */

@@ -30,6 +30,7 @@
 {% from "lily-design-system-nunjucks-theme-picker/dist/theme-picker.njk" import themePicker %}
 {% from "lily-design-system-nunjucks-locale-picker/dist/locale-picker.njk" import localePicker %}
 {% from "lily-design-system-nunjucks-text-size-picker/dist/text-size-picker.njk" import textSizePicker %}
+{% from "lily-design-system-nunjucks-time-zone-picker/dist/time-zone-picker.njk" import timeZonePicker %}
 {% from "lily-design-system-nunjucks-share-picker/dist/share-picker.njk" import sharePicker %}
 {#
   All 57 Lily reference theme slugs (see `themes/` at the repo root),
@@ -73,7 +74,7 @@
 {#
   Params (single `opts` object):
     labels        — object, required: { link?, search, searchInput,
-                    searchSubmit, theme, locale, textSize, share }.
+                    searchSubmit, theme, locale, timeZone?, textSize, share }.
                     `link` names the link picker's button and list and is
                     needed only when `links` is supplied.
                     The seven accessible names: `search` names the
@@ -95,6 +96,11 @@
                     no catalog default exists.
     themes        — array<string>. Defaults to DEFAULT_THEMES (above).
     sizes         — array<string>. Defaults to DEFAULT_SIZES (above).
+    timeZoneProps — object. The time-zone picker, rendered after the locale picker only when this has `locale`
+                    and `options` AND `labels.timeZone` is set. `options` is built where the page is built with
+                    `timeZoneOptions({ locale, zones?, date?, labelFor?, names? })` from
+                    @lilydesignsystem/nunjucks-time-zone-picker (a macro cannot call `Intl`); the rest are
+                    time-zone-picker opts (date, value, defaultValue, storageKey, name, id, classes, attributes).
     shareTargets  — array<object>. Forwarded to share-picker's `targets`
                     (default []). See share-picker.njk for the object
                     shape — `href` is an already-resolved string, not a
@@ -148,6 +154,7 @@
 {%- set searchProps = opts.searchProps | default({}) -%}
 {%- set themeProps = opts.themeProps | default({}) -%}
 {%- set localeProps = opts.localeProps | default({}) -%}
+{%- set timeZoneProps = opts.timeZoneProps | default({}) -%}
 {%- set textSizeProps = opts.textSizeProps | default({}) -%}
 {%- set shareProps = opts.shareProps | default({}) -%}
 <div
@@ -206,6 +213,21 @@
   classes: localeProps.classes,
   attributes: localeProps.attributes
 }) }}
+{%- if opts.labels.timeZone and timeZoneProps.locale and timeZoneProps.options %}
+{{ timeZonePicker({
+  label: opts.labels.timeZone,
+  locale: timeZoneProps.locale,
+  options: timeZoneProps.options,
+  date: timeZoneProps.date,
+  value: timeZoneProps.value,
+  defaultValue: timeZoneProps.defaultValue,
+  storageKey: timeZoneProps.storageKey,
+  name: timeZoneProps.name,
+  id: timeZoneProps.id,
+  classes: timeZoneProps.classes,
+  attributes: timeZoneProps.attributes
+}) }}
+{%- endif %}
 {{ textSizePicker({
   label: opts.labels.textSize,
   sizes: sizes,

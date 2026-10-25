@@ -6,7 +6,7 @@
 
     A thin composition wrapper: renders LinkPicker (only when Links and Labels.Link are
     given, leftmost), SearchPicker, ThemePicker,
-    LocalePicker, TextSizePicker, and SharePicker — in that order — from their own published sibling
+    LocalePicker, TimeZonePicker (only when Labels.TimeZone and TimeZoneLocale are given), TextSizePicker, and SharePicker — in that order — from their own published sibling
     packages, referenced as ordinary project/package references, not
     vendored source — in one page-header row. Introduces no lifecycle
     of its own beyond two pre-wired defaults (DefaultThemes,
@@ -35,6 +35,13 @@
     <LocalePicker Label="@Labels.Locale"
                   Locales="@Locales"
                   @attributes="LocaleAttributes" />
+
+    @if (!string.IsNullOrEmpty(Labels.TimeZone) && !string.IsNullOrEmpty(TimeZoneLocale))
+    {
+        <TimeZonePicker Label="@Labels.TimeZone"
+                        Locale="@TimeZoneLocale"
+                        @attributes="TimeZoneAttributes" />
+    }
 
     <TextSizePicker Label="@Labels.TextSize"
                      Sizes="@Sizes"

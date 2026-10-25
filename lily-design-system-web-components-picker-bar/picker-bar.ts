@@ -26,12 +26,14 @@ import "@lilydesignsystem/web-components-search-picker";
 import "@lilydesignsystem/web-components-theme-picker";
 import "@lilydesignsystem/web-components-locale-picker";
 import "@lilydesignsystem/web-components-text-size-picker";
+import "@lilydesignsystem/web-components-time-zone-picker";
 import "@lilydesignsystem/web-components-share-picker";
 
 import type { LinkPicker, LinkPickerProps, LinkItem } from "@lilydesignsystem/web-components-link-picker";
 import type { SearchPicker, SearchPickerProps } from "@lilydesignsystem/web-components-search-picker";
 import type { ThemePicker, ThemePickerProps } from "@lilydesignsystem/web-components-theme-picker";
 import type { LocalePicker, LocalePickerProps } from "@lilydesignsystem/web-components-locale-picker";
+import type { TimeZonePicker, TimeZonePickerProps } from "@lilydesignsystem/web-components-time-zone-picker";
 import type { TextSizePicker, TextSizePickerProps } from "@lilydesignsystem/web-components-text-size-picker";
 import type {
   SharePicker,
@@ -141,6 +143,11 @@ export type PickerBarLabels = {
   locale: string;
   /** Accessible name for the text-size picker's button and listbox. */
   textSize: string;
+  /**
+   * Accessible name for the time-zone picker's button and listbox. Needed only when
+   * `timeZoneProps.locale` is supplied; the time-zone picker renders only when both are present.
+   */
+  timeZone?: string;
   /** Accessible name for the share picker's button and list. */
   share: string;
 };
@@ -178,6 +185,8 @@ export type PickerBarProps = {
   /** Property-only extra `<lily-locale-picker>` config, applied after the bar's own. */
   localeProps?: Partial<Omit<LocalePickerProps, "locales" | "label">>;
   sizes?: string[];
+  /** Property-only extra `<lily-time-zone-picker>` config; `locale` (names and sorts the zones) is required for it to render, after the locale picker. */
+  timeZoneProps?: Partial<Omit<TimeZonePickerProps, "label">>;
   /** Property-only extra `<lily-text-size-picker>` config, applied after the bar's own. */
   textSizeProps?: Partial<Omit<TextSizePickerProps, "sizes" | "label">>;
   /** Property-only — `ShareTarget.href` is a function. */
@@ -211,6 +220,7 @@ export class PickerBar extends HTMLElement {
   #themeProps: Partial<ThemePickerProps> = {};
   #localeProps: Partial<LocalePickerProps> = {};
   #textSizeProps: Partial<TextSizePickerProps> = {};
+  #timeZoneProps: Partial<TimeZonePickerProps> = {};
   #shareProps: Partial<SharePickerProps> = {};
 
   #built = false;
@@ -220,6 +230,7 @@ export class PickerBar extends HTMLElement {
   #themeEl: ThemePicker | null = null;
   #localeEl: LocalePicker | null = null;
   #textSizeEl: TextSizePicker | null = null;
+  #timeZoneEl: TimeZonePicker | null = null;
   #shareEl: SharePicker | null = null;
 
   // ---- Property accessors ----
@@ -277,6 +288,7 @@ export class PickerBar extends HTMLElement {
   set labels(v: PickerBarLabels) {
     this.#labels = v ?? { ...DEFAULT_LABELS };
     this.#syncLink();
+    this.#syncTimeZone();
     if (this.#searchEl) {
       this.#searchEl.label = this.#labels.search;
       this.#searchEl.inputLabel = this.#labels.searchInput;
@@ -363,6 +375,34 @@ export class PickerBar extends HTMLElement {
   set localeProps(v: Partial<LocalePickerProps>) {
     this.#localeProps = v ?? {};
     if (this.#localeEl) Object.assign(this.#localeEl, this.#localeProps);
+  }
+
+  get timeZoneProps(): Partial<TimeZonePickerProps> {
+    return { ...this.#timeZoneProps };
+  }
+  set timeZoneProps(v: Partial<TimeZonePickerProps>) {
+    this.#timeZoneProps = v ?? {};
+    this.#syncTimeZone();
+  }
+
+  /** The time-zone picker exists only with `labels.timeZone` and `timeZoneProps.locale`; it sits just after the locale picker. */
+  #syncTimeZone(): void {
+    if (!this.#rootEl) return;
+    const wanted = !!this.#labels.timeZone && !!this.#timeZoneProps.locale;
+    if (!wanted) {
+      this.#timeZoneEl?.remove();
+      this.#timeZoneEl = null;
+      return;
+    }
+    // The picker renders (and throws) without a locale, so give it one before the label and before it is connected.
+    const el = this.#timeZoneEl ?? (document.createElement("lily-time-zone-picker") as TimeZonePicker);
+    el.locale = this.#timeZoneProps.locale as string;
+    Object.assign(el, this.#timeZoneProps);
+    el.label = this.#labels.timeZone as string;
+    if (!this.#timeZoneEl) {
+      this.#timeZoneEl = el;
+      this.#rootEl.insertBefore(el, this.#textSizeEl);
+    }
   }
 
   get textSizeProps(): Partial<TextSizePickerProps> {
@@ -493,6 +533,8 @@ export class PickerBar extends HTMLElement {
     this.#textSizeEl = textSizeEl;
     this.#shareEl = shareEl;
     this.#linkEl = null;
+    this.#timeZoneEl = null;
     this.#syncLink();
+    this.#syncTimeZone();
   }
 }

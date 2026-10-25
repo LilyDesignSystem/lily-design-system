@@ -11,7 +11,7 @@
   import { goto } from '$app/navigation';
   import PickerBar from '@lilydesignsystem/svelte-picker-bar';
   import type { ShareTarget } from '@lilydesignsystem/svelte-share-picker';
-  import type { LabelPack } from '@lilydesignsystem/svelte-locale-translations';
+  import { textSizeLabels, zoneNamesFrom, type LabelPack, type ZoneNamePack } from '@lilydesignsystem/svelte-locale-translations';
   import {
     GrailLayout,
     GrailLayoutTopHeader,
@@ -42,10 +42,22 @@
     Object.entries(packFiles).map(([path, pack]) => [path.slice(path.lastIndexOf('/') + 1, -'.json'.length), pack])
   ) as Record<string, LabelPack>;
 
+  // The Unicode CLDR time zone names for the same languages.
+  const zoneFiles = import.meta.glob<ZoneNamePack>(
+    '/node_modules/@lilydesignsystem/svelte-locale-translations/zone-names/{en,zh,hi,ar,cy,es,fr,de}-001.json',
+    { eager: true, import: 'default' }
+  );
+  const zonePacks = Object.fromEntries(
+    Object.entries(zoneFiles).map(([path, zp]) => [path.slice(path.lastIndexOf('/') + 1, -'.json'.length), zp])
+  ) as Record<string, ZoneNamePack>;
+
   let locale = $state<DemoLocale>('en-001');
   const s = $derived(STRINGS[locale]);
   // Each locale uses the pack for its language: cy-gb the Welsh pack, en-gb the English one.
   const pack = $derived(packs[packKey(locale)]);
+  const zoneNames = $derived(zoneNamesFrom(zonePacks[packKey(locale)]));
+  // The BCP 47 tag that sorts and names the zones: the language, or en-GB.
+  const zoneLocale = $derived(locale === 'en-gb' ? 'en-GB' : locale.split('-')[0]);
 
   // "Today" is read once on the client, so the sample dates (and the SSR HTML) never disagree.
   let today = $state('');
@@ -130,6 +142,7 @@
         link: s.pickers.link,
         theme: s.pickers.theme,
         locale: s.pickers.locale,
+        timeZone: s.pickers.timeZone,
         textSize: s.pickers.textSize,
         share: s.pickers.share,
         search: s.pickers.search,
@@ -149,7 +162,8 @@
         storageKey: 'lily-demo-locale',
         onChange: (code: string) => (locale = code as DemoLocale)
       }}
-      textSizeProps={{ storageKey: 'lily-site-text-size' }}
+      timeZoneProps={{ locale: zoneLocale, names: zoneNames, storageKey: 'lily-site-time-zone' }}
+      textSizeProps={{ storageKey: 'lily-site-text-size', sizeLabels: textSizeLabels(pack) }}
       {shareTargets}
       shareProps={{ title: 'Lily Design System™', copyLabel: s.pickers.copyLink, copiedLabel: s.pickers.copied, copyFailedLabel: s.pickers.copyFailed }}
     />

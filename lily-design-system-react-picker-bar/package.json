@@ -1,10 +1,10 @@
 {
   "name": "@lilydesignsystem/react-picker-bar",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "engines": {
     "node": ">=26"
   },
-  "description": "Lily Design System React picker bar: composes link-picker (optional), search-picker, theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row. Headless, SSR-safe, no CSS.",
+  "description": "Lily Design System React picker bar: composes link-picker (optional), search-picker, theme-picker, locale-picker, time-zone-picker (optional), text-size-picker, and share-picker into one page-header row. Headless, SSR-safe, no CSS.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -32,6 +32,7 @@
     "@lilydesignsystem/react-search-picker": "^0.1.0",
     "@lilydesignsystem/react-share-picker": "^0.2.0",
     "@lilydesignsystem/react-text-size-picker": "^0.2.0",
+    "@lilydesignsystem/react-time-zone-picker": "^0.1.0",
     "@lilydesignsystem/react-theme-picker": "^0.2.0"
   },
   "peerDependencies": {

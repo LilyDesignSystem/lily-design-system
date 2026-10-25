@@ -18,6 +18,7 @@ import "@lilydesignsystem/html-link-picker";
 import "@lilydesignsystem/html-search-picker";
 import "@lilydesignsystem/html-theme-picker";
 import "@lilydesignsystem/html-locale-picker";
+import "@lilydesignsystem/html-time-zone-picker";
 import "@lilydesignsystem/html-text-size-picker";
 import "@lilydesignsystem/html-share-picker";
 
@@ -38,6 +39,10 @@ import type {
   LocalePicker,
   LocalePickerProps,
 } from "@lilydesignsystem/html-locale-picker";
+import type {
+  TimeZonePicker,
+  TimeZonePickerProps,
+} from "@lilydesignsystem/html-time-zone-picker";
 import type {
   TextSizePicker,
   TextSizePickerProps,
@@ -152,6 +157,11 @@ export type PickerBarLabels = {
   locale: string;
   /** Accessible name for the text-size picker's button and listbox. */
   textSize: string;
+  /**
+   * Accessible name for the time-zone picker's button and listbox. Needed only when
+   * `timeZoneProps.locale` is supplied; the time-zone picker renders only when both are present.
+   */
+  timeZone?: string;
   /** Accessible name for the share picker's button and list. */
   share: string;
 };
@@ -183,6 +193,7 @@ export type ThemePickerExtra = Partial<
   Omit<ThemePickerProps, "label" | "themesUrl" | "themes">
 >;
 export type LocalePickerExtra = Partial<Omit<LocalePickerProps, "label" | "locales">>;
+export type TimeZonePickerExtra = Partial<Omit<TimeZonePickerProps, "label">>;
 export type TextSizePickerExtra = Partial<
   Omit<TextSizePickerProps, "label" | "sizes">
 >;
@@ -200,6 +211,8 @@ export type PickerBarProps = {
   themeProps?: ThemePickerExtra;
   locales: string[];
   localeProps?: LocalePickerExtra;
+  /** `locale` (the language that names and sorts the zones) is required for the time-zone picker, after the locale picker, to render. */
+  timeZoneProps?: TimeZonePickerExtra;
   sizes?: string[];
   textSizeProps?: TextSizePickerExtra;
   shareTargets?: ShareTarget[];
@@ -227,6 +240,7 @@ export class PickerBar extends HTMLElement {
   #searchProps: SearchPickerExtra = {};
   #themeProps: ThemePickerExtra = {};
   #localeProps: LocalePickerExtra = {};
+  #timeZoneProps: TimeZonePickerExtra = {};
   #textSizeProps: TextSizePickerExtra = {};
   #shareProps: SharePickerExtra = {};
 
@@ -236,6 +250,7 @@ export class PickerBar extends HTMLElement {
   #searchPickerEl: SearchPicker | null = null;
   #themePickerEl: ThemePicker | null = null;
   #localePickerEl: LocalePicker | null = null;
+  #timeZonePickerEl: TimeZonePicker | null = null;
   #textSizePickerEl: TextSizePicker | null = null;
   #sharePickerEl: SharePicker | null = null;
 
@@ -343,6 +358,14 @@ export class PickerBar extends HTMLElement {
     this.#render();
   }
 
+  get timeZoneProps(): TimeZonePickerExtra {
+    return this.#timeZoneProps;
+  }
+  set timeZoneProps(v: TimeZonePickerExtra) {
+    this.#timeZoneProps = v ?? {};
+    this.#render();
+  }
+
   get textSizeProps(): TextSizePickerExtra {
     return this.#textSizeProps;
   }
@@ -374,6 +397,10 @@ export class PickerBar extends HTMLElement {
   /** The rendered `<locale-picker>` instance, once connected. */
   get localePicker(): LocalePicker | null {
     return this.#localePickerEl;
+  }
+  /** The rendered `<time-zone-picker>` instance, once connected (null without a label and locale). */
+  get timeZonePicker(): TimeZonePicker | null {
+    return this.#timeZonePickerEl;
   }
   /** The rendered `<text-size-picker>` instance, once connected. */
   get textSizePicker(): TextSizePicker | null {
@@ -467,6 +494,16 @@ export class PickerBar extends HTMLElement {
     Object.assign(localeEl, this.#localeProps);
     root.appendChild(localeEl);
 
+    let timeZoneEl: TimeZonePicker | null = null;
+    if (this.#labels.timeZone && this.#timeZoneProps.locale) {
+      timeZoneEl = document.createElement("time-zone-picker") as TimeZonePicker;
+      // The picker renders without a locale, so give it one before the label.
+      timeZoneEl.locale = this.#timeZoneProps.locale;
+      Object.assign(timeZoneEl, this.#timeZoneProps);
+      timeZoneEl.label = this.#labels.timeZone;
+      root.appendChild(timeZoneEl);
+    }
+
     const textSizeEl = document.createElement(
       "text-size-picker",
     ) as TextSizePicker;
@@ -492,6 +529,7 @@ export class PickerBar extends HTMLElement {
     this.#searchPickerEl = searchEl;
     this.#themePickerEl = themeEl;
     this.#localePickerEl = localeEl;
+    this.#timeZonePickerEl = timeZoneEl;
     this.#textSizePickerEl = textSizeEl;
     this.#sharePickerEl = shareEl;
   }

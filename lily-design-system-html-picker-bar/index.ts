@@ -17,6 +17,7 @@ export type {
   SearchPickerExtra,
   ThemePickerExtra,
   LocalePickerExtra,
+  TimeZonePickerExtra,
   TextSizePickerExtra,
   SharePickerExtra,
   ShareTarget,

@@ -29,6 +29,9 @@ importers:
       '@lilydesignsystem/web-components-theme-picker':
         specifier: ^0.2.0
         version: 0.2.0
+      '@lilydesignsystem/web-components-time-zone-picker':
+        specifier: ^0.1.0
+        version: 0.1.0
     devDependencies:
       jsdom:
         specifier: ^30.1.1
@@ -298,6 +301,10 @@ packages:
   '@lilydesignsystem/web-components-theme-picker@0.2.0':
     resolution: {integrity: sha512-ry3oAF4M2P6VfuxeJmySWOjfA/4wM+S2OZ48kPY8hRyMX5B1878seLg88P6uCtDElE4Gl3n52C9myBdFyP5tVA==}
     engines: {node: '=26'}
+
+  '@lilydesignsystem/web-components-time-zone-picker@0.1.0':
+    resolution: {integrity: sha512-JDyu8VZFTUr5IUQvJmg1oJhpZgaqN7cYvgI3Kb3gUwIubodsN3IYpiMT/AuaCR5C5s6TzsnI+H6QVgaH4Z4FKw==}
+    engines: {node: '>=26'}
 
   '@napi-rs/lzma-linux-x64-gnu@1.5.1':
     resolution: {integrity: sha512-oTXEIha4SsuXdTA4Iyskj0kpdx2yVXdhd75c2v3xGrHFfVMsbhTPZU/nMPL4sWKo4pBHm3aucLaqGlF696dTyQ==}
@@ -1435,6 +1442,10 @@ snapshots:
       '@lilydesignsystem/web-components-headless': 0.1.0
 
   '@lilydesignsystem/web-components-theme-picker@0.2.0':
+    dependencies:
+      '@lilydesignsystem/web-components-headless': 0.1.0
+
+  '@lilydesignsystem/web-components-time-zone-picker@0.1.0':
     dependencies:
       '@lilydesignsystem/web-components-headless': 0.1.0
 

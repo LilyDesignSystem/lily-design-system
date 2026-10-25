@@ -2,6 +2,8 @@
 
 > **Link picker (0.3.0).** Pass `links` (and `labels.link`) to add a `link-picker` — a home icon opening the page links your app defines — as the leftmost icon. It renders only when both are given.
 
+> **Time zone picker (0.5.0).** Set `labels.timeZone` and `timeZoneProps = { locale: "fr" }` (plus any `<lily-time-zone-picker>` property, e.g. `names`) to add a `time-zone-picker` — time zones by UTC offset with their full names — right after the locale picker. It renders only when both the label and the locale are given. To name the text sizes in the reader's language pass `sizeLabels` through the text-size props (`textSizeLabels(pack)` / `LocaleTranslations.TextSizeLabels(locale)` from the locale-translations package).
+
 A single page-header row that composes five of the Lily
 [`*-picker` helpers](../index.md) — search, theme, locale, text size,
 and share, in that order — with two catalog-wide defaults pre-wired,

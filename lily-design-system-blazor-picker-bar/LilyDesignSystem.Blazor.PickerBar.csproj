@@ -7,7 +7,7 @@
     <RootNamespace>LilyDesignSystem.Blazor.Helpers</RootNamespace>
     <AssemblyName>LilyDesignSystem.Blazor.PickerBar</AssemblyName>
     <PackageId>LilyDesignSystem.Blazor.PickerBar</PackageId>
-    <Version>0.4.0</Version>
+    <Version>0.5.0</Version>
     <Authors>Joel Parker Henderson</Authors>
     <Description>Lily Design System Blazor picker bar: composes link-picker (optional), search-picker, theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row. Headless, SSR-safe, no CSS.</Description>
     <PackageProjectUrl>https://lilydesignsystem.com/</PackageProjectUrl>
@@ -66,6 +66,7 @@
     <ProjectReference Include="..\lily-design-system-blazor-theme-picker\LilyDesignSystem.Blazor.ThemePicker.csproj" />
     <ProjectReference Include="..\lily-design-system-blazor-locale-picker\LilyDesignSystem.Blazor.LocalePicker.csproj" />
     <ProjectReference Include="..\lily-design-system-blazor-text-size-picker\LilyDesignSystem.Blazor.TextSizePicker.csproj" />
+    <ProjectReference Include="..\lily-design-system-blazor-time-zone-picker\LilyDesignSystem.Blazor.TimeZonePicker.csproj" />
     <ProjectReference Include="..\lily-design-system-blazor-share-picker\LilyDesignSystem.Blazor.SharePicker.csproj" />
   </ItemGroup>
 

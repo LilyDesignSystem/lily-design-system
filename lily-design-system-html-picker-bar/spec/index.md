@@ -1,5 +1,7 @@
 # PickerBar — Specification (HTML helper)
 
+> **Time zone picker (0.5.0).** Set `labels.timeZone` and `timeZoneProps = { locale: "fr" }` (plus any `<time-zone-picker>` property, e.g. `names`) to add a `time-zone-picker` — time zones by UTC offset with their full names — right after the locale picker. It renders only when both the label and the locale are given. To name the text sizes in the reader's language pass `sizeLabels` through the text-size props (`textSizeLabels(pack)` / `LocaleTranslations.TextSizeLabels(locale)` from the locale-translations package).
+
 Canonical contract ported from `@lilydesignsystem/svelte-picker-bar`
 (see that package's `spec/index.md`, the reference for every framework
 port). This file follows its § numbering.

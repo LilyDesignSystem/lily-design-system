@@ -5,6 +5,8 @@
     import SharePicker from "@lilydesignsystem/svelte-share-picker";
     import SearchPicker from "@lilydesignsystem/svelte-search-picker";
     import LinkPicker from "@lilydesignsystem/svelte-link-picker";
+    import TimeZonePicker from "@lilydesignsystem/svelte-time-zone-picker";
+    import type { Props as TimeZonePickerProps } from "@lilydesignsystem/svelte-time-zone-picker";
     import type { Props as ThemePickerProps } from "@lilydesignsystem/svelte-theme-picker";
     import type { Props as LocalePickerProps } from "@lilydesignsystem/svelte-locale-picker";
     import type { Props as TextSizePickerProps } from "@lilydesignsystem/svelte-text-size-picker";
@@ -119,6 +121,11 @@
         locale: string;
         /** Accessible name for the text-size picker's button and listbox. */
         textSize: string;
+        /**
+         * Accessible name for the time-zone picker's button and listbox. Needed only when
+         * `timeZoneProps.locale` is supplied; the time-zone picker renders only when both are present.
+         */
+        timeZone?: string;
         /** Accessible name for the share picker's button and list. */
         share: string;
     };
@@ -151,6 +158,12 @@
         /** Extra LocalePicker props, spread after this bar's own. */
         localeProps?: Partial<Omit<LocalePickerProps, "locales">>;
 
+        /**
+         * Extra TimeZonePicker props, spread after this bar's own. `locale` (the language that names and sorts
+         * the zones) is required for the time-zone picker to render, which sits after the locale picker.
+         */
+        timeZoneProps?: Partial<Omit<TimeZonePickerProps, "label">>;
+
         /** Available size slugs. Defaults to {@link DEFAULT_SIZES}. */
         sizes?: string[];
         /** Extra TextSizePicker props, spread after this bar's own. */
@@ -180,6 +193,7 @@
         themeProps = {},
         locales,
         localeProps = {},
+        timeZoneProps = {},
         sizes = DEFAULT_SIZES,
         textSizeProps = {},
         shareTargets = [],
@@ -205,6 +219,13 @@
         {...themeProps}
     />
     <LocalePicker label={labels.locale} {locales} {...localeProps} />
+    {#if labels.timeZone && timeZoneProps.locale}
+        <TimeZonePicker
+            label={labels.timeZone}
+            locale={timeZoneProps.locale}
+            {...timeZoneProps}
+        />
+    {/if}
     <TextSizePicker
         label={labels.textSize}
         {sizes}

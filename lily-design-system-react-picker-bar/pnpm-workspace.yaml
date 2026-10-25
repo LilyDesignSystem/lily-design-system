@@ -8,5 +8,7 @@ allowBuilds:
 # elsewhere in the tree -- two copies. vite's own peer range
 # (^0.27.0 || ^0.28.0) already accepts 0.28.x, so pinning everyone
 # to one patched version is safe.
+minimumReleaseAgeExclude:
+  - "@lilydesignsystem/react-time-zone-picker@0.1.0"
 overrides:
   esbuild: "0.28.2"

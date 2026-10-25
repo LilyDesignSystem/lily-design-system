@@ -342,4 +342,63 @@ public class PickerBarTests : TestContext
         Assert.Equal(4, cut.FindAll(".link-picker-list a[href]").Count);
         Assert.Empty(cut.FindAll(".link-picker-list [role=menuitem]"));
     }
+
+    // =================================================================
+    // TimeZonePicker wiring — §T1–§T3
+    // =================================================================
+
+    private static readonly PickerBarLabels LabelsWithTimeZone = new()
+    {
+        Search = "Search this site",
+        SearchInput = "Search terms",
+        SearchSubmit = "Search",
+        Theme = "Theme",
+        Locale = "Language",
+        TimeZone = "Time zone",
+        TextSize = "Text size",
+        Share = "Share",
+    };
+
+    [Fact]
+    public void Section_T1_TimeZonePicker_Renders_After_The_Locale_Picker_When_Label_And_Locale_Are_Given()
+    {
+        var cut = RenderComponent<PickerBar>(p =>
+        {
+            p.Add(x => x.Labels, LabelsWithTimeZone);
+            p.Add(x => x.ThemesUrl, ThemesUrl);
+            p.Add(x => x.Locales, Locales);
+            p.Add(x => x.TimeZoneLocale, "en");
+        });
+        var kinds = cut.FindAll(".picker-bar > div").Select(d => d.ClassList.First()).ToArray();
+        Assert.Equal(new[] { "search-picker", "theme-picker", "locale-picker", "time-zone-picker", "text-size-picker", "share-picker" }, kinds);
+        Assert.Equal("Time zone", cut.Find(".time-zone-picker-button").GetAttribute("aria-label"));
+    }
+
+    [Fact]
+    public void Section_T2_No_TimeZonePicker_Without_Label_Or_Locale()
+    {
+        Assert.Empty(RenderBar().FindAll(".time-zone-picker"));
+        Assert.Empty(RenderBar(p => p.Add(x => x.TimeZoneLocale, "en")).FindAll(".time-zone-picker"));
+        var noLocale = RenderComponent<PickerBar>(p =>
+        {
+            p.Add(x => x.Labels, LabelsWithTimeZone);
+            p.Add(x => x.ThemesUrl, ThemesUrl);
+            p.Add(x => x.Locales, Locales);
+        });
+        Assert.Empty(noLocale.FindAll(".time-zone-picker"));
+    }
+
+    [Fact]
+    public void Section_T3_TimeZoneAttributes_Reach_The_TimeZonePicker()
+    {
+        var cut = RenderComponent<PickerBar>(p =>
+        {
+            p.Add(x => x.Labels, LabelsWithTimeZone);
+            p.Add(x => x.ThemesUrl, ThemesUrl);
+            p.Add(x => x.Locales, Locales);
+            p.Add(x => x.TimeZoneLocale, "en");
+            p.Add(x => x.TimeZoneAttributes, new Dictionary<string, object> { ["Zones"] = new[] { "UTC", "Europe/London" } });
+        });
+        Assert.Equal(2, cut.FindAll(".time-zone-picker-option").Count);
+    }
 }

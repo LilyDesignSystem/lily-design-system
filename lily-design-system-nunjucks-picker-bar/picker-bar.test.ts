@@ -10,6 +10,7 @@ import {
   DEFAULT_THEMES,
   DEFAULT_SIZES,
 } from "./picker-bar.client.js";
+import { timeZoneOptions } from "@lilydesignsystem/nunjucks-time-zone-picker";
 
 // ---------------------------------------------------------------------
 // Nunjucks env that can resolve both "./picker-bar.njk" (this package)
@@ -388,5 +389,38 @@ describe("pickerBar — link-picker wiring (§L1–§L4)", () => {
     const { root } = setup({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
     expect(root.querySelectorAll(".link-picker-list a[href]")).toHaveLength(4);
     expect(root.querySelector('.link-picker-list [role="menuitem"]')).toBeNull();
+  });
+});
+
+describe("PickerBar — time-zone-picker wiring (§T1–§T4)", () => {
+  const WITH = { ...LABELS, timeZone: "Time zone" };
+  const TZ = () => ({
+    locale: "en",
+    options: timeZoneOptions({ locale: "en", zones: ["UTC", "Europe/London"], date: new Date("2026-01-15T12:00:00Z") }),
+  });
+
+  test("§T1 a time-zone-picker renders after the locale-picker when `labels.timeZone` and `timeZoneProps` are given", () => {
+    const { root } = setup({ labels: WITH, timeZoneProps: TZ() });
+    const kids = Array.from(root.children).map((c) => c.className.split(" ")[0]);
+    expect(kids).toEqual(["search-picker", "theme-picker", "locale-picker", "time-zone-picker", "text-size-picker", "share-picker"]);
+    expect(root.querySelector(".time-zone-picker-button")!.getAttribute("aria-label")).toBe("Time zone");
+  });
+
+  test("§T2 no time-zone-picker without labels.timeZone or without locale and options", () => {
+    for (const extra of [{}, { timeZoneProps: TZ() }, { labels: WITH }, { labels: WITH, timeZoneProps: { locale: "en" } }]) {
+      const { root } = setup(extra);
+      expect(root.querySelector(".time-zone-picker")).toBeNull();
+    }
+  });
+
+  test("§T3 the options reach the list, and the client wires it", () => {
+    const { root, controller } = setup({ labels: WITH, timeZoneProps: TZ() });
+    expect(root.querySelectorAll(".time-zone-picker-option")).toHaveLength(2);
+    expect(controller.timeZone).not.toBeNull();
+  });
+
+  test("§T4 `textSizeProps.sizeLabels` names the sizes", () => {
+    const { root } = setup({ textSizeProps: { sizeLabels: { largest: "el más grande" } } });
+    expect(root.textContent).toContain("el más grande");
   });
 });

@@ -35,6 +35,10 @@ public sealed record PickerBarLabels
     /// <summary>Accessible name for the locale picker's button and listbox.</summary>
     public required string Locale { get; init; }
 
+    /// <summary>Accessible name for the time-zone picker's button and listbox. Needed only when
+    /// <c>TimeZoneLocale</c> is supplied; the time-zone picker renders only when both are present.</summary>
+    public string? TimeZone { get; init; }
+
     /// <summary>Accessible name for the text-size picker's button and listbox.</summary>
     public required string TextSize { get; init; }
 
@@ -175,6 +179,15 @@ public partial class PickerBar : ComponentBase
 
     /// <summary>Extra LocalePicker parameters, splatted after this bar's own.</summary>
     [Parameter] public Dictionary<string, object>? LocaleAttributes { get; set; }
+
+    /// <summary>
+    /// The language that names and sorts the zones (BCP 47, e.g. <c>fr</c>). The time-zone picker, which sits
+    /// after the locale picker, renders only when this and <c>Labels.TimeZone</c> are both given.
+    /// </summary>
+    [Parameter] public string? TimeZoneLocale { get; set; }
+
+    /// <summary>Extra TimeZonePicker parameters (<c>Names</c> from <c>LocaleTranslations.ZoneNames</c>, <c>Zones</c>, <c>Date</c>, …), splatted after this bar's own.</summary>
+    [Parameter] public Dictionary<string, object>? TimeZoneAttributes { get; set; }
 
     /// <summary>Available size slugs. Defaults to <see cref="DefaultSizes"/>.</summary>
     [Parameter] public IReadOnlyList<string> Sizes { get; set; } = DefaultSizes;

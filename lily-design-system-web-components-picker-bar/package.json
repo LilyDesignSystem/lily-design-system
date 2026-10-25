@@ -1,6 +1,6 @@
 {
   "name": "@lilydesignsystem/web-components-picker-bar",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "engines": {
     "node": ">=26"
   },
@@ -32,6 +32,7 @@
     "@lilydesignsystem/web-components-theme-picker": "^0.2.0",
     "@lilydesignsystem/web-components-locale-picker": "^0.2.0",
     "@lilydesignsystem/web-components-text-size-picker": "^0.2.0",
+    "@lilydesignsystem/web-components-time-zone-picker": "^0.1.0",
     "@lilydesignsystem/web-components-share-picker": "^0.2.0"
   },
   "devDependencies": {

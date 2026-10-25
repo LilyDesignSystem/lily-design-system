@@ -3,6 +3,8 @@ import ThemePicker from "@lilydesignsystem/vue-theme-picker";
 import LocalePicker from "@lilydesignsystem/vue-locale-picker";
 import TextSizePicker from "@lilydesignsystem/vue-text-size-picker";
 import SharePicker from "@lilydesignsystem/vue-share-picker";
+import TimeZonePicker from "@lilydesignsystem/vue-time-zone-picker";
+import type { Props as TimeZonePickerProps } from "@lilydesignsystem/vue-time-zone-picker";
 import LinkPicker from "@lilydesignsystem/vue-link-picker";
 import SearchPicker from "@lilydesignsystem/vue-search-picker";
 import type { Props as ThemePickerProps } from "@lilydesignsystem/vue-theme-picker";
@@ -119,6 +121,11 @@ export type PickerBarLabels = {
     locale: string;
     /** Accessible name for the text-size picker's button and listbox. */
     textSize: string;
+    /**
+     * Accessible name for the time-zone picker's button and listbox. Needed only when
+     * `timeZoneProps.locale` is supplied; the time-zone picker renders only when both are present.
+     */
+    timeZone?: string;
     /** Accessible name for the share picker's button and list. */
     share: string;
 };
@@ -152,6 +159,12 @@ export type Props = {
     /** Extra LocalePicker props, bound after this bar's own. */
     localeProps?: Partial<Omit<LocalePickerProps, "label" | "locales" | "class">>;
 
+    /**
+     * Extra TimeZonePicker props, bound after this bar's own. `locale` (the language that names and sorts
+     * the zones) is required for the time-zone picker to render, which sits after the locale picker.
+     */
+    timeZoneProps?: Partial<Omit<TimeZonePickerProps, "label" | "class">>;
+
     /** Available size slugs. Defaults to {@link DEFAULT_SIZES}. */
     sizes?: string[];
     /** Extra TextSizePicker props, bound after this bar's own. */
@@ -177,6 +190,7 @@ const props = withDefaults(defineProps<Props>(), {
     themes: () => DEFAULT_THEMES,
     themeProps: () => ({}),
     localeProps: () => ({}),
+    timeZoneProps: () => ({}),
     sizes: () => DEFAULT_SIZES,
     textSizeProps: () => ({}),
     shareTargets: () => [],
@@ -229,6 +243,12 @@ const emit = defineEmits<{
             :locales="locales"
             v-bind="localeProps"
             @change="(value: string) => emit('locale-change', value)"
+        />
+        <TimeZonePicker
+            v-if="labels.timeZone && timeZoneProps.locale"
+            v-bind="timeZoneProps"
+            :locale="timeZoneProps.locale"
+            :label="labels.timeZone"
         />
         <TextSizePicker
             :label="labels.textSize"

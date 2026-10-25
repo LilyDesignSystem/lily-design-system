@@ -26,6 +26,9 @@ importers:
       '@lilydesignsystem/vue-theme-picker':
         specifier: ^0.2.0
         version: 0.2.0(vue@3.5.44(typescript@5.9.3))
+      '@lilydesignsystem/vue-time-zone-picker':
+        specifier: ^0.1.0
+        version: 0.1.0(vue@3.5.44(typescript@5.9.3))
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: ^6.0.10
@@ -144,6 +147,12 @@ packages:
     peerDependencies:
       vue: ^3.4.0
 
+  '@lilydesignsystem/vue-headless@0.5.1':
+    resolution: {integrity: sha512-3WkJkzc5JUMKa1HmUssmWckY9oJPH4ZbyKzDH6szCXjdSle7QBZ3n71B8RiTb7gr8owU3T853hQIK5qDLB/kEw==}
+    engines: {node: '=26'}
+    peerDependencies:
+      vue: ^3.4.0
+
   '@lilydesignsystem/vue-link-picker@0.1.1':
     resolution: {integrity: sha512-zDtzMAlkpt4/rGJDIJR6XDySF1GUkdIt95u/GTAVvQNBU51xCGpQDnI1nF4MUz1IzKE4lREMoKMhkT/VQzBYqg==}
     engines: {node: '=26'}
@@ -177,6 +186,12 @@ packages:
   '@lilydesignsystem/vue-theme-picker@0.2.0':
     resolution: {integrity: sha512-Y8eZUJm8/8KvpUiYmfbJjLkKDj0N+VeiesxPGWxQLIED3eQaAErTn/4PXM1vznGWfz9s+tRiC+meSRKbT2VQGw==}
     engines: {node: '=26'}
+    peerDependencies:
+      vue: ^3.0.0
+
+  '@lilydesignsystem/vue-time-zone-picker@0.1.0':
+    resolution: {integrity: sha512-EKKg+TjlWsYBzULzFWqXKHv/21SySA/wpTBI+t/lG0pSRf5BQKWqCz/KanQ2yTsKchthCVlNKjaBw1xC8zsgZQ==}
+    engines: {node: '>=26'}
     peerDependencies:
       vue: ^3.0.0
 
@@ -902,6 +917,11 @@ snapshots:
       aria-query: 5.3.2
       vue: 3.5.44(typescript@5.9.3)
 
+  '@lilydesignsystem/vue-headless@0.5.1(vue@3.5.44(typescript@5.9.3))':
+    dependencies:
+      aria-query: 5.3.2
+      vue: 3.5.44(typescript@5.9.3)
+
   '@lilydesignsystem/vue-link-picker@0.1.1(vue@3.5.44(typescript@5.9.3))':
     dependencies:
       '@lilydesignsystem/vue-headless': 0.2.0(vue@3.5.44(typescript@5.9.3))
@@ -930,6 +950,11 @@ snapshots:
   '@lilydesignsystem/vue-theme-picker@0.2.0(vue@3.5.44(typescript@5.9.3))':
     dependencies:
       '@lilydesignsystem/vue-headless': 0.2.0(vue@3.5.44(typescript@5.9.3))
+      vue: 3.5.44(typescript@5.9.3)
+
+  '@lilydesignsystem/vue-time-zone-picker@0.1.0(vue@3.5.44(typescript@5.9.3))':
+    dependencies:
+      '@lilydesignsystem/vue-headless': 0.5.1(vue@3.5.44(typescript@5.9.3))
       vue: 3.5.44(typescript@5.9.3)
 
   '@one-ini/wasm@0.2.1': {}

@@ -39,7 +39,7 @@ export type DemoStrings = {
   aside: { title: string; body: string; tipsTitle: string; tips: string[] };
   footer: string;
   pickers: {
-    link: string; theme: string; locale: string; textSize: string; share: string; search: string;
+    link: string; theme: string; locale: string; timeZone: string; textSize: string; share: string; search: string;
     searchInput: string; searchSubmit: string; copyLink: string; copied: string; copyFailed: string;
   };
   links: { home: string; components: string; help: string };
@@ -71,7 +71,7 @@ const en: DemoStrings = {
     tips: ['Tab into a grid, then use the arrow keys.', 'Switch to Arabic to see the layout mirror.', 'Pick another theme: the same markup, a different look.']
   },
   footer: 'Unreviewed machine translations; a native speaker should check the wording.',
-  pickers: { link: 'Pages', theme: 'Theme', locale: 'Language', textSize: 'Text size', share: 'Share', search: 'Search', searchInput: 'Search terms', searchSubmit: 'Search', copyLink: 'Copy link', copied: 'Link copied', copyFailed: 'Could not copy' },
+  pickers: { link: 'Pages', theme: 'Theme', locale: 'Language', timeZone: 'Time zone', textSize: 'Text size', share: 'Share', search: 'Search', searchInput: 'Search terms', searchSubmit: 'Search', copyLink: 'Copy link', copied: 'Link copied', copyFailed: 'Could not copy' },
   links: { home: 'Home', components: 'Components', help: 'Help' },
   statuses: { todo: 'To do', doing: 'In progress', done: 'Done' },
   tasks: ['Write the spec', 'Design the layout', 'Build the grid', 'Review accessibility', 'Translate labels', 'Ship the release'],
@@ -103,7 +103,7 @@ const zh: DemoStrings = {
     tips: ['按 Tab 进入表格，再用方向键移动。', '切换到阿拉伯语，查看布局镜像。', '换一个主题：同样的标记，不同的外观。']
   },
   footer: '机器翻译，尚未审校；请母语者核对措辞。',
-  pickers: { link: '页面', theme: '主题', locale: '语言', textSize: '文字大小', share: '分享', search: '搜索', searchInput: '搜索词', searchSubmit: '搜索', copyLink: '复制链接', copied: '链接已复制', copyFailed: '无法复制' },
+  pickers: { link: '页面', theme: '主题', locale: '语言', timeZone: '时区', textSize: '文字大小', share: '分享', search: '搜索', searchInput: '搜索词', searchSubmit: '搜索', copyLink: '复制链接', copied: '链接已复制', copyFailed: '无法复制' },
   links: { home: '首页', components: '组件', help: '帮助' },
   statuses: { todo: '待办', doing: '进行中', done: '已完成' },
   tasks: ['撰写规范', '设计布局', '构建表格', '审查无障碍', '翻译标签', '发布版本'],
@@ -135,7 +135,7 @@ const hi: DemoStrings = {
     tips: ['Tab से ग्रिड में जाएँ, फिर तीर कुंजियाँ इस्तेमाल करें।', 'लेआउट का प्रतिबिंब देखने के लिए अरबी चुनें।', 'कोई और थीम चुनें: वही मार्कअप, अलग रूप।']
   },
   footer: 'अनसमीक्षित मशीनी अनुवाद; किसी मातृभाषी को शब्दों की जाँच करनी चाहिए।',
-  pickers: { link: 'पृष्ठ', theme: 'थीम', locale: 'भाषा', textSize: 'पाठ का आकार', share: 'साझा करें', search: 'खोजें', searchInput: 'खोज शब्द', searchSubmit: 'खोजें', copyLink: 'लिंक कॉपी करें', copied: 'लिंक कॉपी हो गया', copyFailed: 'कॉपी नहीं हो सका' },
+  pickers: { link: 'पृष्ठ', theme: 'थीम', locale: 'भाषा', timeZone: 'समय क्षेत्र', textSize: 'पाठ का आकार', share: 'साझा करें', search: 'खोजें', searchInput: 'खोज शब्द', searchSubmit: 'खोजें', copyLink: 'लिंक कॉपी करें', copied: 'लिंक कॉपी हो गया', copyFailed: 'कॉपी नहीं हो सका' },
   links: { home: 'होम', components: 'घटक', help: 'सहायता' },
   statuses: { todo: 'करना है', doing: 'प्रगति में', done: 'पूरा' },
   tasks: ['विनिर्देश लिखें', 'लेआउट डिज़ाइन करें', 'ग्रिड बनाएँ', 'पहुँच-योग्यता की समीक्षा करें', 'लेबल अनुवाद करें', 'संस्करण जारी करें'],
@@ -167,7 +167,7 @@ const ar: DemoStrings = {
     tips: ['انتقل إلى الجدول بمفتاح Tab ثم استخدم مفاتيح الأسهم.', 'اختر العربية لترى انعكاس التخطيط.', 'اختر سمة أخرى: نفس الترميز بمظهر مختلف.']
   },
   footer: 'ترجمة آلية غير مراجعة؛ ينبغي أن يراجع متحدث أصلي الصياغة.',
-  pickers: { link: 'الصفحات', theme: 'السمة', locale: 'اللغة', textSize: 'حجم النص', share: 'مشاركة', search: 'بحث', searchInput: 'كلمات البحث', searchSubmit: 'بحث', copyLink: 'نسخ الرابط', copied: 'تم نسخ الرابط', copyFailed: 'تعذّر النسخ' },
+  pickers: { link: 'الصفحات', theme: 'السمة', locale: 'اللغة', timeZone: 'المنطقة الزمنية', textSize: 'حجم النص', share: 'مشاركة', search: 'بحث', searchInput: 'كلمات البحث', searchSubmit: 'بحث', copyLink: 'نسخ الرابط', copied: 'تم نسخ الرابط', copyFailed: 'تعذّر النسخ' },
   links: { home: 'الرئيسية', components: 'المكوّنات', help: 'المساعدة' },
   statuses: { todo: 'للتنفيذ', doing: 'قيد التنفيذ', done: 'مكتمل' },
   tasks: ['كتابة المواصفات', 'تصميم التخطيط', 'بناء الجدول', 'مراجعة إمكانية الوصول', 'ترجمة التسميات', 'إصدار النسخة'],
@@ -199,7 +199,7 @@ const cy: DemoStrings = {
     tips: ["Defnyddiwch Tab i fynd i'r grid, yna'r bysellau saeth.", "Newidiwch i'r Arabeg i weld y cynllun yn adlewyrchu.", "Dewiswch thema arall: yr un marcio, golwg wahanol."]
   },
   footer: "Cyfieithiadau peirianyddol heb eu hadolygu; dylai siaradwr brodorol wirio'r geiriad.",
-  pickers: { link: "Tudalennau", theme: "Thema", locale: "Iaith", textSize: "Maint y testun", share: "Rhannu", search: "Chwilio", searchInput: "Termau chwilio", searchSubmit: "Chwilio", copyLink: "Copïo'r cyswllt", copied: "Cyswllt wedi'i gopïo", copyFailed: "Methwyd copïo" },
+  pickers: { link: "Tudalennau", theme: "Thema", locale: "Iaith", timeZone: "Parth amser", textSize: "Maint y testun", share: "Rhannu", search: "Chwilio", searchInput: "Termau chwilio", searchSubmit: "Chwilio", copyLink: "Copïo'r cyswllt", copied: "Cyswllt wedi'i gopïo", copyFailed: "Methwyd copïo" },
   links: { home: "Cartref", components: "Cydrannau", help: "Cymorth" },
   statuses: { todo: "I'w wneud", doing: "Ar y gweill", done: "Wedi'i gwblhau" },
   tasks: ["Ysgrifennu'r fanyleb", "Dylunio'r cynllun", "Adeiladu'r grid", "Adolygu hygyrchedd", "Cyfieithu labeli", "Cyhoeddi'r fersiwn"],
@@ -231,7 +231,7 @@ const es: DemoStrings = {
     tips: ["Pulsa Tab para entrar en una cuadrícula y usa las teclas de flecha.", "Cambia al árabe para ver cómo se refleja el diseño.", "Elige otro tema: el mismo marcado, otro aspecto."]
   },
   footer: "Traducciones automáticas sin revisar; un hablante nativo debería comprobar la redacción.",
-  pickers: { link: "Páginas", theme: "Tema", locale: "Idioma", textSize: "Tamaño del texto", share: "Compartir", search: "Buscar", searchInput: "Términos de búsqueda", searchSubmit: "Buscar", copyLink: "Copiar enlace", copied: "Enlace copiado", copyFailed: "No se pudo copiar" },
+  pickers: { link: "Páginas", theme: "Tema", locale: "Idioma", timeZone: "Zona horaria", textSize: "Tamaño del texto", share: "Compartir", search: "Buscar", searchInput: "Términos de búsqueda", searchSubmit: "Buscar", copyLink: "Copiar enlace", copied: "Enlace copiado", copyFailed: "No se pudo copiar" },
   links: { home: "Inicio", components: "Componentes", help: "Ayuda" },
   statuses: { todo: "Por hacer", doing: "En curso", done: "Hecho" },
   tasks: ["Redactar la especificación", "Diseñar la disposición", "Construir la cuadrícula", "Revisar la accesibilidad", "Traducir las etiquetas", "Publicar la versión"],
@@ -263,7 +263,7 @@ const fr: DemoStrings = {
     tips: ["Entrez dans une grille avec Tab, puis utilisez les touches fléchées.", "Passez à l'arabe pour voir la mise en page se refléter.", "Choisissez un autre thème : le même balisage, un autre aspect."]
   },
   footer: "Traductions automatiques non relues ; un locuteur natif devrait vérifier la formulation.",
-  pickers: { link: "Pages", theme: "Thème", locale: "Langue", textSize: "Taille du texte", share: "Partager", search: "Rechercher", searchInput: "Termes de recherche", searchSubmit: "Rechercher", copyLink: "Copier le lien", copied: "Lien copié", copyFailed: "Copie impossible" },
+  pickers: { link: "Pages", theme: "Thème", locale: "Langue", timeZone: "Fuseau horaire", textSize: "Taille du texte", share: "Partager", search: "Rechercher", searchInput: "Termes de recherche", searchSubmit: "Rechercher", copyLink: "Copier le lien", copied: "Lien copié", copyFailed: "Copie impossible" },
   links: { home: "Accueil", components: "Composants", help: "Aide" },
   statuses: { todo: "À faire", doing: "En cours", done: "Terminé" },
   tasks: ["Rédiger la spécification", "Concevoir la mise en page", "Construire la grille", "Vérifier l'accessibilité", "Traduire les libellés", "Publier la version"],
@@ -295,7 +295,7 @@ const de: DemoStrings = {
     tips: ["Mit Tab in eine Tabelle wechseln, dann die Pfeiltasten benutzen.", "Wechseln Sie zu Arabisch, um die gespiegelte Anordnung zu sehen.", "Wählen Sie ein anderes Theme: dasselbe Markup, ein anderes Aussehen."]
   },
   footer: "Ungeprüfte maschinelle Übersetzungen; ein Muttersprachler sollte den Wortlaut prüfen.",
-  pickers: { link: "Seiten", theme: "Theme", locale: "Sprache", textSize: "Textgröße", share: "Teilen", search: "Suchen", searchInput: "Suchbegriffe", searchSubmit: "Suchen", copyLink: "Link kopieren", copied: "Link kopiert", copyFailed: "Kopieren nicht möglich" },
+  pickers: { link: "Seiten", theme: "Theme", locale: "Sprache", timeZone: "Zeitzone", textSize: "Textgröße", share: "Teilen", search: "Suchen", searchInput: "Suchbegriffe", searchSubmit: "Suchen", copyLink: "Link kopieren", copied: "Link kopiert", copyFailed: "Kopieren nicht möglich" },
   links: { home: "Startseite", components: "Komponenten", help: "Hilfe" },
   statuses: { todo: "Offen", doing: "In Arbeit", done: "Erledigt" },
   tasks: ["Spezifikation schreiben", "Layout entwerfen", "Tabelle bauen", "Barrierefreiheit prüfen", "Beschriftungen übersetzen", "Version veröffentlichen"],

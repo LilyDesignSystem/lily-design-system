@@ -331,3 +331,36 @@ describe("PickerBar — link-picker wiring (§L1–§L4)", () => {
     expect(w.find('.link-picker-list [role="menuitem"]').exists()).toBe(false);
   });
 });
+
+describe("PickerBar — time-zone-picker wiring (§T1–§T4)", () => {
+  const TZ = { locale: "en", zones: ["UTC", "Europe/London"], date: new Date("2026-01-15T12:00:00Z") };
+  const WITH = { ...LABELS, timeZone: "Time zone" };
+
+  test("§T1 a time-zone picker renders after the locale picker when `labels.timeZone` and `timeZoneProps.locale` are given", async () => {
+    const wrapper = build({ labels: WITH, timeZoneProps: TZ });
+    await flush();
+    const children = Array.from(wrapper.element.children).map((c) => c.className.split(" ")[0]);
+    expect(children).toEqual(["search-picker", "theme-picker", "locale-picker", "time-zone-picker", "text-size-picker", "share-picker"]);
+    expect(wrapper.find("button.time-zone-picker-button").attributes("aria-label")).toBe("Time zone");
+  });
+
+  test("§T2 no time-zone picker without labels.timeZone or without a locale", async () => {
+    for (const extra of [{}, { timeZoneProps: TZ }, { labels: WITH }]) {
+      const wrapper = build(extra);
+      await flush();
+      expect(wrapper.find(".time-zone-picker").exists()).toBe(false);
+    }
+  });
+
+  test("§T3 `timeZoneProps` reaches TimeZonePicker (zones)", async () => {
+    const wrapper = build({ labels: WITH, timeZoneProps: TZ });
+    await flush();
+    expect(wrapper.findAll(".time-zone-picker-option")).toHaveLength(2);
+  });
+
+  test("§T4 `textSizeProps.sizeLabels` names the sizes", async () => {
+    const wrapper = build({ textSizeProps: { sizeLabels: { largest: "el más grande" } } });
+    await flush();
+    expect(wrapper.text()).toContain("el más grande");
+  });
+});

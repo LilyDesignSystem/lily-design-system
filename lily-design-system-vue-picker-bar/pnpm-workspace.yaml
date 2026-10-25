@@ -4,3 +4,5 @@ allowBuilds:
   sharp: true
   unrs-resolver: true
   better-sqlite3: true
+minimumReleaseAgeExclude:
+  - "@lilydesignsystem/vue-time-zone-picker@0.1.0"
