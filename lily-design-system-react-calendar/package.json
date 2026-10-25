@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@lilydesignsystem/react-date-time-picker": "^0.2.0",
-    "@lilydesignsystem/react-headless": "^0.5.0"
+    "@lilydesignsystem/react-headless": "^0.5.1"
   },
   "peerDependencies": {
     "react": ">=18",

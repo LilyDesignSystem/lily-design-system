@@ -9,7 +9,7 @@ importers:
   .:
     devDependencies:
       '@lilydesignsystem/svelte-headless':
-        specifier: ^0.5.0
+        specifier: ^0.5.1
         version: 0.5.1(svelte@5.57.2)
       '@sveltejs/package':
         specifier: ^3.0.1
@@ -36,7 +36,7 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
       vite:
-        specifier: ^8.3.4
+        specifier: ^8.3.5
         version: 8.3.5
       vitest:
         specifier: ^5.0.5

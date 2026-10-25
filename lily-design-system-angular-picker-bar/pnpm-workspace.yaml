@@ -6,3 +6,8 @@ allowBuilds:
   nx: true
 minimumReleaseAgeExclude:
   - '@lilydesignsystem/angular-time-zone-picker@0.1.0'
+
+# @angular/build pins vite exactly (8.3.0 in 22.2.4), below the 8.3.3 security fix;
+# drop this override once @angular/build ships a patched vite.
+overrides:
+  vite: "8.3.5"

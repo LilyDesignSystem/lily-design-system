@@ -32,8 +32,8 @@
     "@lilydesignsystem/vue-search-picker": "^0.1.0",
     "@lilydesignsystem/vue-share-picker": "^0.2.0",
     "@lilydesignsystem/vue-text-size-picker": "^0.2.0",
-    "@lilydesignsystem/vue-time-zone-picker": "^0.1.0",
-    "@lilydesignsystem/vue-theme-picker": "^0.2.0"
+    "@lilydesignsystem/vue-theme-picker": "^0.2.0",
+    "@lilydesignsystem/vue-time-zone-picker": "^0.1.0"
   },
   "peerDependencies": {
     "vue": "^3.0.0"
@@ -43,7 +43,7 @@
     "@vue/test-utils": "^2.5.1",
     "jsdom": "^30.1.3",
     "typescript": "^5.9.3",
-    "vite": "^8.3.4",
+    "vite": "^8.3.5",
     "vitest": "^5.0.5",
     "vue": "^3.5.44",
     "vue-tsc": "^3.3.13"

@@ -42,6 +42,11 @@ def names():
         return [line.split("\t")[1] for line in f if line.strip()]
 
 
+def slugs():
+    with open(os.path.join(TOP, "components.tsv")) as f:
+        return [line.split("\t")[0] for line in f if line.strip()]
+
+
 def pairs():
     """Yield (source, destination, transform) for every file that should be mirrored."""
     for name in names():
@@ -70,6 +75,17 @@ def pairs():
                 if os.path.isfile(src):
                     transform = ("](../../", "](" + "../" * (2 + depth)) if suffix == ".md" and depth else None
                     yield src, os.path.join(TOP, example, name + suffix), transform
+        # A component may import a companion module named for its slug
+        # (middle-truncation.ts, wheel-picker.ts); the copy needs it too.
+        slug = slugs()[names().index(name)]
+        for lib, example in (
+            ("lily-design-system-react-headless/components", "lily-design-system-react-next-examples/components"),
+            ("lily-design-system-vue-headless/components", "lily-design-system-vue-nuxt-examples/components"),
+            ("lily-design-system-angular-headless/components", "lily-design-system-angular-examples/src/app/components"),
+        ):
+            src = os.path.join(TOP, lib, slug + ".ts")
+            if os.path.isfile(src):
+                yield src, os.path.join(TOP, example, slug + ".ts"), None
         # The Nuxt example keeps copies of some of the library's tests in its own
         # tests/components/, importing the component from ../../components/.
         src = os.path.join(TOP, "lily-design-system-vue-headless/components", name + ".test.ts")

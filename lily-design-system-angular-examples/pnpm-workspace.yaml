@@ -14,6 +14,7 @@ minimumReleaseAgeExclude:
 # (^0.27.0 || ^0.28.0) already accepts 0.28.x, so pinning everyone
 # to one patched version is safe.
 overrides:
+  vite: "8.3.5"
   esbuild: "0.28.2"
   # js-yaml 3 (via front-matter) needs argparse only for its own CLI, which
   # nothing here runs; dropping it drops sprintf-js, which has no patched

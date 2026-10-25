@@ -9,6 +9,7 @@ allowBuilds:
 # the only thing sockjs uses -- is stable across the 8-11 line, so
 # overriding straight to the patched major is safe.
 overrides:
+  vite: "8.3.5"
   uuid: "11.1.1"
   # @storybook/builder-webpack5 (latest 10.6.1) still requires
   # webpack-dev-middleware@^6.1.2, and the 6.x line never received the
