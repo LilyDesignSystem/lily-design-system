@@ -12,30 +12,30 @@ importers:
   .:
     dependencies:
       '@lilydesignsystem/html-link-picker':
-        specifier: ^0.1.0
-        version: 0.1.1
+        specifier: ^0.2.0
+        version: 0.2.0
       '@lilydesignsystem/html-locale-picker':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.3.1
+        version: 0.3.1
       '@lilydesignsystem/html-search-picker':
-        specifier: ^0.1.0
-        version: 0.1.0
+        specifier: ^0.2.0
+        version: 0.2.0
       '@lilydesignsystem/html-share-picker':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.3.0
+        version: 0.3.0
       '@lilydesignsystem/html-text-size-picker':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.3.0
+        version: 0.3.0
       '@lilydesignsystem/html-theme-picker':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.3.0
+        version: 0.3.0
       '@lilydesignsystem/html-time-zone-picker':
         specifier: ^0.1.0
         version: 0.1.0
     devDependencies:
       jsdom:
         specifier: ^30.1.1
-        version: 30.1.2
+        version: 30.1.3
       tsup:
         specifier: ^9.0.0
         version: 9.0.0(postcss@8.5.28)(typescript@5.9.3)
@@ -44,7 +44,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^5.0.4
-        version: 5.0.5(jsdom@30.1.2)(vite@8.3.1(esbuild@0.28.2))
+        version: 5.0.5(jsdom@30.1.3)(vite@8.3.1(esbuild@0.28.2))
 
 packages:
 
@@ -52,8 +52,8 @@ packages:
     resolution: {integrity: sha512-1t1U8Cm3RBl9vh3RAZhjkPaduzLSvQJRToRrxpGR/eDRW99mOREleuu+mWfiFa795bUzjwht7NgphCKTs2ianQ==}
     engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
-  '@asamuzakjp/dom-selector@9.2.4':
-    resolution: {integrity: sha512-YnVzxDxLaqL0t7Q4wfcgHZjg55Wm6y5EaO7Bhu3q9J7wq/8iw3PhsnWiOQhYekx4VexnbkgWpTT6n+QIV7kczw==}
+  '@asamuzakjp/dom-selector@10.0.4':
+    resolution: {integrity: sha512-A6f1nKy99I6tyoK82U6kBHvQQZmdHmTmPzJYPY/0eaOW0r8/qPmEOwjGHs+hL/vCgOwQTupu4LT1XtXNUuDruA==}
     engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
   '@bramus/specificity@2.4.2':
@@ -274,36 +274,36 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lilydesignsystem/html-headless@0.3.0':
-    resolution: {integrity: sha512-vUpwR6BKC7KxwMy39BsFWumNSHYvWGIyVC3HiON1cdGDNRxuuE0vX5/l4YizOwx2uxkS4+hTqoO/Ad/SqVos8A==}
+  '@lilydesignsystem/html-headless@0.6.0':
+    resolution: {integrity: sha512-LJumPCelgvYkmfM0o/FEpuK+g6m+ixmCbppU0l9o2A/jttL5OZY713qFk6aC63xWTTN3tAtpsl+383Umof4btw==}
     engines: {node: '=26'}
 
   '@lilydesignsystem/html-headless@0.7.0':
     resolution: {integrity: sha512-JwskdWnIVy9LRHrW6yT5gqzru1+HdVdWIBDvy2F5F2+zxja9o3VhAWNtdx4d/IhxqOwDO37nmdWAI4mXrJQeZQ==}
     engines: {node: '=26'}
 
-  '@lilydesignsystem/html-link-picker@0.1.1':
-    resolution: {integrity: sha512-ylg0ZeBXC5CaGV13TDT2Kumas2ViiPQmpx/PXoIjXyJJjBN2bFRQjZrtusOgtBO425I7Ax1grzjKmTgfHKSpBA==}
+  '@lilydesignsystem/html-link-picker@0.2.0':
+    resolution: {integrity: sha512-zXmNbRbkmVGkQghk/iomR3oNqDjK+x3fFEIwOWsdTR+/rNbq1jXcNl2mzYHSLaB4fEiCaReew43Xf9UlGV42tw==}
     engines: {node: '=26'}
 
-  '@lilydesignsystem/html-locale-picker@0.2.0':
-    resolution: {integrity: sha512-72Ef8fA3++kJRD/CXAxIAdXovn3d9+cSdMByg1MM0D9KcbtIKyZAaxQ2kAJK4UyH6oeOkq3belgHjEnn1XbeCA==}
+  '@lilydesignsystem/html-locale-picker@0.3.1':
+    resolution: {integrity: sha512-btbBsUP8HNXBPt+PAC/MN2HkfD/RdDR1XtfcPz3w+gZx9dnMIUhY/9FsChtuwBewDhmf9k4Q+59Uizfp/X9ulw==}
+    engines: {node: '>=26'}
+
+  '@lilydesignsystem/html-search-picker@0.2.0':
+    resolution: {integrity: sha512-P5TzjFuff4psO6cuB9GbtGhZHaHiTWJ3Tq6WodAbTmcYoke1dwtPGR420ASgbt1QXD86rAnXPhZ8c5bveTnWtA==}
     engines: {node: '=26'}
 
-  '@lilydesignsystem/html-search-picker@0.1.0':
-    resolution: {integrity: sha512-SIBHCkSPy0NL0F+iivflQu1iKgZfj169mmbxcitMV3sv3GXfXYnuLRZsHCqdzVWzBDo21qytaIWZP2B6+UPEAg==}
+  '@lilydesignsystem/html-share-picker@0.3.0':
+    resolution: {integrity: sha512-GruZs1m2bojNQb/h0pnUVdRMs1AnXMFFyQyVrIiQCZ64pRm62NNrH//4eCmCptrRemm1417u/YNn5boUNAaphg==}
     engines: {node: '=26'}
 
-  '@lilydesignsystem/html-share-picker@0.2.0':
-    resolution: {integrity: sha512-/OtfBGBdvGDy9sGeIRHo/3cuAS1JRmQf41J6JK/IXilKF0P4ytrJOG/w3iOaKUH0GkksmqyfEWtExo85RPFaig==}
+  '@lilydesignsystem/html-text-size-picker@0.3.0':
+    resolution: {integrity: sha512-nPG4RLQoHJqY3+wirXwENd7wgV1XjvimMADOYv72Fib2YEb5Xn0jXL4o+2HDcafRWlg0luBgxUnBCFHxewkErQ==}
     engines: {node: '=26'}
 
-  '@lilydesignsystem/html-text-size-picker@0.2.0':
-    resolution: {integrity: sha512-p2dpBrGpBlGbjkNYWGZMqK9me6d4RehGUEv4o8O15YNXN0WRJBpg9MOyBbhkYuhd2GMGy9DT3Zx4SzFub1d2OA==}
-    engines: {node: '=26'}
-
-  '@lilydesignsystem/html-theme-picker@0.2.0':
-    resolution: {integrity: sha512-XORLKPwrBQLhDe3l3j9LQaCu30+l3QZRfNmckobC6yCY0KfVNhZ2IyOXcvC4AzNL8IAAIKsL/9Qrr91j+Ef4AA==}
+  '@lilydesignsystem/html-theme-picker@0.3.0':
+    resolution: {integrity: sha512-XBXL/b3KmR3sHfI+rsDpFOuu9oYr9oDrAUG9xHPF/kSC56vuic9dr5j9u1bXom6gr47gNotenEmMsNot2fo0Cw==}
     engines: {node: '=26'}
 
   '@lilydesignsystem/html-time-zone-picker@0.1.0':
@@ -824,8 +824,8 @@ packages:
     resolution: {integrity: sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==}
     engines: {node: '>=10'}
 
-  jsdom@30.1.2:
-    resolution: {integrity: sha512-0FFE/jE1rppmVfUrJUgxqXjcwolZYIGtAgj1pTussMhNZxIxi7W/PvfWaMNroGi2B36X1IKHbexpZ9DhkoOPiQ==}
+  jsdom@30.1.3:
+    resolution: {integrity: sha512-hQMUPvRgN7KxsfIytDQji7bimuJeRQa6Qo5+iuiZQk5CafeRxLIA10/cG5YCBFNpD9RO3oqIiN4CO1Y44kxqXg==}
     engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
     peerDependencies:
       canvas: ^3.2.3
@@ -1069,10 +1069,6 @@ packages:
     resolution: {integrity: sha512-exgYmnmL/sJpR3upZfXG5PoatXQii55xAiXGXzY+sROLZ/Y+SLcp9PgJNI9Vz37HpQ74WvDcLT8eqm+kV3FzrA==}
     engines: {node: '>=16'}
 
-  tr46@6.0.0:
-    resolution: {integrity: sha512-bLVMLPtstlZ4iMQHpFHTR7GAGj2jxi8Dg0s2h2MafAE4uSWF98FC/3MomU51iQAMf8/qDUbKWf5GxuvvVcXEhw==}
-    engines: {node: '>=20'}
-
   tr46@7.0.0:
     resolution: {integrity: sha512-BcDSDW+SIGWVOns1Zm6Yg91q9AEj7eaID0QDY9oIqJD1A8dscNwMcl9Sms2DeuWCNov1X0/oXanHGYQBSLwZsg==}
     engines: {node: ^22.14.0 || >=24.0.0}
@@ -1111,8 +1107,8 @@ packages:
   ufo@1.6.4:
     resolution: {integrity: sha512-JFNbkD1Svwe0KvGi8GOeLcP4kAWQ609twvCdcHxq1oSL8svv39ZuSvajcD8B+5D0eL4+s1Is2D/O6KN3qcTeRA==}
 
-  undici@8.11.2:
-    resolution: {integrity: sha512-u4UB2/IrKdU6lFxumHmmo1a3fCQO5tzQllRorfoRS63txhrB7xTpSn1PftwC4qEHkOaqP95fCWW4lJzwErwzhQ==}
+  undici@8.12.3:
+    resolution: {integrity: sha512-+fdndUTwBP86cVjihTp21hZHo7d6oj1c/47XPA3lL8mM0XHs+C4EkcjmgRsFnFk2f/UONGDy9ItBItmXsLOQHw==}
     engines: {node: '>=22.19.0'}
 
   vite@8.3.1:
@@ -1211,10 +1207,6 @@ packages:
     resolution: {integrity: sha512-sXcNcHOC51uPGF0P/D4NVtrkjSU2fNsm9iog4ZvZJsL3rjoDAzXZhkm2MWt1y+PUdggKAYVoMAIYcs78wJ51Cw==}
     engines: {node: '>=20'}
 
-  whatwg-url@17.1.2:
-    resolution: {integrity: sha512-TEZA+Zqxin7Jjsm2cjRohCmen5awh+hT6Zi3VZdqZlNRk7zvOI/9WpBFg/DWlA56bWnzwm6DuB8NS0EsxQH9uQ==}
-    engines: {node: ^22.14.0 || >=24.0.0}
-
   whatwg-url@17.2.0:
     resolution: {integrity: sha512-IhLIHNcBrzIixC5XXsbr4DxdjajyA5vQ5RwGZMtrUp+GbtE5Nrsge9QKau7jXrC0aTXLYGV0xiW7Tb4YS2aomw==}
     engines: {node: ^22.14.0 || >=24.0.0}
@@ -1241,7 +1233,7 @@ snapshots:
       '@csstools/css-tokenizer': 4.0.2
       lru-cache: 11.5.3
 
-  '@asamuzakjp/dom-selector@9.2.4':
+  '@asamuzakjp/dom-selector@10.0.4':
     dependencies:
       bidi-js: 1.1.0
       css-tree: 3.2.1
@@ -1370,27 +1362,27 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@lilydesignsystem/html-headless@0.3.0': {}
+  '@lilydesignsystem/html-headless@0.6.0': {}
 
   '@lilydesignsystem/html-headless@0.7.0': {}
 
-  '@lilydesignsystem/html-link-picker@0.1.1': {}
+  '@lilydesignsystem/html-link-picker@0.2.0': {}
 
-  '@lilydesignsystem/html-locale-picker@0.2.0':
+  '@lilydesignsystem/html-locale-picker@0.3.1':
     dependencies:
-      '@lilydesignsystem/html-headless': 0.3.0
+      '@lilydesignsystem/html-headless': 0.7.0
 
-  '@lilydesignsystem/html-search-picker@0.1.0': {}
+  '@lilydesignsystem/html-search-picker@0.2.0': {}
 
-  '@lilydesignsystem/html-share-picker@0.2.0': {}
+  '@lilydesignsystem/html-share-picker@0.3.0': {}
 
-  '@lilydesignsystem/html-text-size-picker@0.2.0':
+  '@lilydesignsystem/html-text-size-picker@0.3.0':
     dependencies:
-      '@lilydesignsystem/html-headless': 0.3.0
+      '@lilydesignsystem/html-headless': 0.6.0
 
-  '@lilydesignsystem/html-theme-picker@0.2.0':
+  '@lilydesignsystem/html-theme-picker@0.3.0':
     dependencies:
-      '@lilydesignsystem/html-headless': 0.3.0
+      '@lilydesignsystem/html-headless': 0.6.0
 
   '@lilydesignsystem/html-time-zone-picker@0.1.0':
     dependencies:
@@ -1655,7 +1647,7 @@ snapshots:
   data-urls@8.0.0:
     dependencies:
       whatwg-mimetype: 5.0.0
-      whatwg-url: 17.1.2
+      whatwg-url: 17.2.0
     transitivePeerDependencies:
       - '@noble/hashes'
 
@@ -1725,10 +1717,10 @@ snapshots:
 
   joycon@3.1.1: {}
 
-  jsdom@30.1.2:
+  jsdom@30.1.3:
     dependencies:
       '@asamuzakjp/css-color': 7.1.3
-      '@asamuzakjp/dom-selector': 9.2.4
+      '@asamuzakjp/dom-selector': 10.0.4
       '@bramus/specificity': 2.4.2
       '@csstools/css-syntax-patches-for-csstree': 1.1.15(css-tree@3.2.1)
       '@exodus/bytes': 1.16.0
@@ -1741,7 +1733,7 @@ snapshots:
       parse5: 8.0.1
       saxes: 6.0.0
       tough-cookie: 6.0.2
-      undici: 8.11.2
+      undici: 8.12.3
       w3c-xmlserializer: 6.0.0
       webidl-conversions: 8.0.1
       whatwg-mimetype: 5.0.0
@@ -2004,10 +1996,6 @@ snapshots:
     dependencies:
       tldts: 7.4.16
 
-  tr46@6.0.0:
-    dependencies:
-      punycode: 2.3.1
-
   tr46@7.0.0:
     dependencies:
       punycode: 2.3.1
@@ -2047,7 +2035,7 @@ snapshots:
 
   ufo@1.6.4: {}
 
-  undici@8.11.2: {}
+  undici@8.12.3: {}
 
   vite@8.3.1(esbuild@0.28.2):
     dependencies:
@@ -2060,7 +2048,7 @@ snapshots:
       esbuild: 0.28.2
       fsevents: 2.3.3
 
-  vitest@5.0.5(jsdom@30.1.2)(vite@8.3.1(esbuild@0.28.2)):
+  vitest@5.0.5(jsdom@30.1.3)(vite@8.3.1(esbuild@0.28.2)):
     dependencies:
       '@types/chai': 5.2.3
       '@vitest/mocker': 5.0.5(vite@8.3.1(esbuild@0.28.2))
@@ -2077,7 +2065,7 @@ snapshots:
       vite: 8.3.1(esbuild@0.28.2)
       why-is-node-running: 3.2.1
     optionalDependencies:
-      jsdom: 30.1.2
+      jsdom: 30.1.3
     transitivePeerDependencies:
       - msw
 
@@ -2088,14 +2076,6 @@ snapshots:
   webidl-conversions@8.0.1: {}
 
   whatwg-mimetype@5.0.0: {}
-
-  whatwg-url@17.1.2:
-    dependencies:
-      '@exodus/bytes': 1.16.0
-      tr46: 6.0.0
-      webidl-conversions: 8.0.1
-    transitivePeerDependencies:
-      - '@noble/hashes'
 
   whatwg-url@17.2.0:
     dependencies:

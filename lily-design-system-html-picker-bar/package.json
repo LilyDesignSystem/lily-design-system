@@ -27,13 +27,13 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@lilydesignsystem/html-link-picker": "^0.1.0",
-    "@lilydesignsystem/html-search-picker": "^0.1.0",
-    "@lilydesignsystem/html-theme-picker": "^0.2.0",
-    "@lilydesignsystem/html-locale-picker": "^0.2.0",
-    "@lilydesignsystem/html-text-size-picker": "^0.2.0",
+    "@lilydesignsystem/html-link-picker": "^0.2.0",
+    "@lilydesignsystem/html-search-picker": "^0.2.0",
+    "@lilydesignsystem/html-theme-picker": "^0.3.0",
+    "@lilydesignsystem/html-locale-picker": "^0.3.1",
+    "@lilydesignsystem/html-text-size-picker": "^0.3.0",
     "@lilydesignsystem/html-time-zone-picker": "^0.1.0",
-    "@lilydesignsystem/html-share-picker": "^0.2.0"
+    "@lilydesignsystem/html-share-picker": "^0.3.0"
   },
   "devDependencies": {
     "jsdom": "^30.1.1",
