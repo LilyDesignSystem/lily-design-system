@@ -9,23 +9,23 @@ importers:
   .:
     dependencies:
       '@lilydesignsystem/vue-link-picker':
-        specifier: ^0.1.1
-        version: 0.1.1(vue@3.5.44(typescript@5.9.3))
+        specifier: ^0.2.0
+        version: 0.2.0(vue@3.5.44(typescript@5.9.3))
       '@lilydesignsystem/vue-locale-picker':
-        specifier: ^0.2.0
-        version: 0.2.0(vue@3.5.44(typescript@5.9.3))
+        specifier: ^0.3.1
+        version: 0.3.1(vue@3.5.44(typescript@5.9.3))
       '@lilydesignsystem/vue-search-picker':
-        specifier: ^0.1.0
-        version: 0.1.0(vue@3.5.44(typescript@5.9.3))
+        specifier: ^0.2.0
+        version: 0.2.0(vue@3.5.44(typescript@5.9.3))
       '@lilydesignsystem/vue-share-picker':
-        specifier: ^0.2.0
-        version: 0.2.0(vue@3.5.44(typescript@5.9.3))
+        specifier: ^0.3.0
+        version: 0.3.0(vue@3.5.44(typescript@5.9.3))
       '@lilydesignsystem/vue-text-size-picker':
-        specifier: ^0.2.0
-        version: 0.2.0(vue@3.5.44(typescript@5.9.3))
+        specifier: ^0.3.0
+        version: 0.3.0(vue@3.5.44(typescript@5.9.3))
       '@lilydesignsystem/vue-theme-picker':
-        specifier: ^0.2.0
-        version: 0.2.0(vue@3.5.44(typescript@5.9.3))
+        specifier: ^0.3.0
+        version: 0.3.0(vue@3.5.44(typescript@5.9.3))
       '@lilydesignsystem/vue-time-zone-picker':
         specifier: ^0.1.0
         version: 0.1.0(vue@3.5.44(typescript@5.9.3))
@@ -69,6 +69,10 @@ packages:
     resolution: {integrity: sha512-snZbO7MEDOof+hvNa97EjEY7qD7h2kwvQr5AJC3ZhQudKW5dnej6k3kP9NQV88hJwaS8vDqRLFo9rivLEhle2g==}
     engines: {node: '>=6.9.0'}
 
+  '@babel/helper-string-parser@7.29.7':
+    resolution: {integrity: sha512-Pb5ijPrZ89GDH8223L4UP8i6QApWxs04RbPQJTeWDV0/keR2E36MeKnyr6LYmUUvqRRI+Iv87SuF1W6ErINzYw==}
+    engines: {node: '>=6.9.0'}
+
   '@babel/helper-validator-identifier@7.29.7':
     resolution: {integrity: sha512-qehxGkRj55h/ff8EMaJ+cYhyaKlHIxqYDn682wQD7RNp9UujOQsHog2uS0r2vzr4pW+sXf90NeeayjcNaX3fFg==}
     engines: {node: '>=6.9.0'}
@@ -78,8 +82,17 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
+  '@babel/parser@7.29.9':
+    resolution: {integrity: sha512-CjXrNHTnvqBVqHgdBysY3vk2T8tpJHb5/RMeHJBTyVa9xgugCB0CJTx/3oO8RV2QRQP391RWpB7D6hLjm8V9uA==}
+    engines: {node: '>=6.0.0'}
+    hasBin: true
+
   '@babel/types@7.29.11':
     resolution: {integrity: sha512-WCsemW40Cpc6gouC1SrY6PBaZ+oLRlEVY9XBvZBI7il/HyUrb2nJ505wE1MHEFyDZNnrWDEuy4jL50WVHfTTSQ==}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/types@7.29.8':
+    resolution: {integrity: sha512-Vj1jF3cPfxg7OAfoI7QnVKLoILlm2JF9pnVHrX8qx7AHMiYWT+NDAA7jChlNgRS4WTLc/fD1lXLmPixluj+3Gg==}
     engines: {node: '>=6.9.0'}
 
   '@bramus/specificity@2.4.3':
@@ -141,8 +154,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lilydesignsystem/vue-headless@0.2.0':
-    resolution: {integrity: sha512-R6NWRndpVz7RtPbDK8fTUn6Anrc3RuoMlLJX7VbZDqpN5TqRJOPkbo/NwhIWkBjdhqO44DP/r5MGR3BfpTBVuQ==}
+  '@lilydesignsystem/vue-headless@0.4.0':
+    resolution: {integrity: sha512-CdpabsvwGPVef7R2BQT5xxcmyUeMDEdZXQ1cAdCBwaWSjeXMfUuMKW9itKEExtrCfvEOrqY3vAUX8Ilpx2W4TQ==}
     engines: {node: '=26'}
     peerDependencies:
       vue: ^3.4.0
@@ -153,38 +166,38 @@ packages:
     peerDependencies:
       vue: ^3.4.0
 
-  '@lilydesignsystem/vue-link-picker@0.1.1':
-    resolution: {integrity: sha512-zDtzMAlkpt4/rGJDIJR6XDySF1GUkdIt95u/GTAVvQNBU51xCGpQDnI1nF4MUz1IzKE4lREMoKMhkT/VQzBYqg==}
+  '@lilydesignsystem/vue-link-picker@0.2.0':
+    resolution: {integrity: sha512-hL9dVU8q8QnNwFBjvTZoRkWNSUpO2WMjcwrkF4a+VCCRFL4hJkbaty37rOzekROt5NToN3PWERxz8uGVomaeeQ==}
     engines: {node: '=26'}
     peerDependencies:
       vue: ^3.0.0
 
-  '@lilydesignsystem/vue-locale-picker@0.2.0':
-    resolution: {integrity: sha512-T0Z0rSv7LmG9Fk1KMGXXPjBwSh5sotJUwWdS/SvJA8hVE1m6NprE5T+RHopPIZkPIqGS22x9mFIdIICKWEwXLA==}
+  '@lilydesignsystem/vue-locale-picker@0.3.1':
+    resolution: {integrity: sha512-/z1aXzJOF7ShOPQydZiFB8NKtg8QEXAfkrPE8FGnS6nOpMKI5S640HHyL0/AV8R9COyzKTGIZURKg5Xq60JFDA==}
+    engines: {node: '>=26'}
+    peerDependencies:
+      vue: ^3.0.0
+
+  '@lilydesignsystem/vue-search-picker@0.2.0':
+    resolution: {integrity: sha512-STfJL3j0uoZW/o7VGhaDIHqe4bgmQ5craDFb7ehRyfV9iIKPhFcHzqW3N283+ZMJDY8DSf5uZ3CX9lGeyszlFA==}
     engines: {node: '=26'}
     peerDependencies:
       vue: ^3.0.0
 
-  '@lilydesignsystem/vue-search-picker@0.1.0':
-    resolution: {integrity: sha512-fchpCX6JiOAM/qmk36DnR72mbmPQQJecRFs3A71Ba5euTeDcZqHEMRooeSnqYn758zMvWc1Hx3m44U+G++YlAQ==}
+  '@lilydesignsystem/vue-share-picker@0.3.0':
+    resolution: {integrity: sha512-grAZUdFmdR/c56EejsP6rVvpkLShJf8/WnX0c5OZX9clCHPCHOyHq7KTs7cPiTgu4ygMqxQn2GgHN+ljMyF0DA==}
     engines: {node: '=26'}
     peerDependencies:
       vue: ^3.0.0
 
-  '@lilydesignsystem/vue-share-picker@0.2.0':
-    resolution: {integrity: sha512-hCOFb681Px1gv5wjtg6E2+IIme/ZbQ5Py+v8sI/fg0Ne+bcDYd8/nGcyNigHJeba4ct3rdnw2F1/tGtYKlkVRA==}
+  '@lilydesignsystem/vue-text-size-picker@0.3.0':
+    resolution: {integrity: sha512-W5h2cqyusT2J2fiAY+BZBjlMIrtDrTjuJXCYl3HUHaxlDwVIxZqnNeIJ90oBbtmeJqpR2148h0TgyNbpPNCLaQ==}
     engines: {node: '=26'}
     peerDependencies:
       vue: ^3.0.0
 
-  '@lilydesignsystem/vue-text-size-picker@0.2.0':
-    resolution: {integrity: sha512-zXdngh1arsRyvA0w8w4DH65+F5sTw0TnKCVxTV/QwCe8bcomG2K8pEiw1DmJu1x7NPQQ+fK7aJ1zZ16KlqaIpA==}
-    engines: {node: '=26'}
-    peerDependencies:
-      vue: ^3.0.0
-
-  '@lilydesignsystem/vue-theme-picker@0.2.0':
-    resolution: {integrity: sha512-Y8eZUJm8/8KvpUiYmfbJjLkKDj0N+VeiesxPGWxQLIED3eQaAErTn/4PXM1vznGWfz9s+tRiC+meSRKbT2VQGw==}
+  '@lilydesignsystem/vue-theme-picker@0.3.0':
+    resolution: {integrity: sha512-dqi9UhhhE/o9A/hFmVyEahl3szLK7Fo5qsMA0q55v2ukLgiHOU3HfIlr/ryhSaXs3cFXd6upLxhyw9dg7hoz4Q==}
     engines: {node: '=26'}
     peerDependencies:
       vue: ^3.0.0
@@ -862,15 +875,26 @@ snapshots:
 
   '@babel/helper-string-parser@7.29.11': {}
 
+  '@babel/helper-string-parser@7.29.7': {}
+
   '@babel/helper-validator-identifier@7.29.7': {}
 
   '@babel/parser@7.29.11':
     dependencies:
       '@babel/types': 7.29.11
 
+  '@babel/parser@7.29.9':
+    dependencies:
+      '@babel/types': 7.29.8
+
   '@babel/types@7.29.11':
     dependencies:
       '@babel/helper-string-parser': 7.29.11
+      '@babel/helper-validator-identifier': 7.29.7
+
+  '@babel/types@7.29.8':
+    dependencies:
+      '@babel/helper-string-parser': 7.29.7
       '@babel/helper-validator-identifier': 7.29.7
 
   '@bramus/specificity@2.4.3':
@@ -912,7 +936,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@lilydesignsystem/vue-headless@0.2.0(vue@3.5.44(typescript@5.9.3))':
+  '@lilydesignsystem/vue-headless@0.4.0(vue@3.5.44(typescript@5.9.3))':
     dependencies:
       aria-query: 5.3.2
       vue: 3.5.44(typescript@5.9.3)
@@ -922,34 +946,34 @@ snapshots:
       aria-query: 5.3.2
       vue: 3.5.44(typescript@5.9.3)
 
-  '@lilydesignsystem/vue-link-picker@0.1.1(vue@3.5.44(typescript@5.9.3))':
+  '@lilydesignsystem/vue-link-picker@0.2.0(vue@3.5.44(typescript@5.9.3))':
     dependencies:
-      '@lilydesignsystem/vue-headless': 0.2.0(vue@3.5.44(typescript@5.9.3))
+      '@lilydesignsystem/vue-headless': 0.4.0(vue@3.5.44(typescript@5.9.3))
       vue: 3.5.44(typescript@5.9.3)
 
-  '@lilydesignsystem/vue-locale-picker@0.2.0(vue@3.5.44(typescript@5.9.3))':
+  '@lilydesignsystem/vue-locale-picker@0.3.1(vue@3.5.44(typescript@5.9.3))':
     dependencies:
-      '@lilydesignsystem/vue-headless': 0.2.0(vue@3.5.44(typescript@5.9.3))
+      '@lilydesignsystem/vue-headless': 0.5.1(vue@3.5.44(typescript@5.9.3))
       vue: 3.5.44(typescript@5.9.3)
 
-  '@lilydesignsystem/vue-search-picker@0.1.0(vue@3.5.44(typescript@5.9.3))':
+  '@lilydesignsystem/vue-search-picker@0.2.0(vue@3.5.44(typescript@5.9.3))':
     dependencies:
-      '@lilydesignsystem/vue-headless': 0.2.0(vue@3.5.44(typescript@5.9.3))
+      '@lilydesignsystem/vue-headless': 0.4.0(vue@3.5.44(typescript@5.9.3))
       vue: 3.5.44(typescript@5.9.3)
 
-  '@lilydesignsystem/vue-share-picker@0.2.0(vue@3.5.44(typescript@5.9.3))':
+  '@lilydesignsystem/vue-share-picker@0.3.0(vue@3.5.44(typescript@5.9.3))':
     dependencies:
-      '@lilydesignsystem/vue-headless': 0.2.0(vue@3.5.44(typescript@5.9.3))
+      '@lilydesignsystem/vue-headless': 0.4.0(vue@3.5.44(typescript@5.9.3))
       vue: 3.5.44(typescript@5.9.3)
 
-  '@lilydesignsystem/vue-text-size-picker@0.2.0(vue@3.5.44(typescript@5.9.3))':
+  '@lilydesignsystem/vue-text-size-picker@0.3.0(vue@3.5.44(typescript@5.9.3))':
     dependencies:
-      '@lilydesignsystem/vue-headless': 0.2.0(vue@3.5.44(typescript@5.9.3))
+      '@lilydesignsystem/vue-headless': 0.4.0(vue@3.5.44(typescript@5.9.3))
       vue: 3.5.44(typescript@5.9.3)
 
-  '@lilydesignsystem/vue-theme-picker@0.2.0(vue@3.5.44(typescript@5.9.3))':
+  '@lilydesignsystem/vue-theme-picker@0.3.0(vue@3.5.44(typescript@5.9.3))':
     dependencies:
-      '@lilydesignsystem/vue-headless': 0.2.0(vue@3.5.44(typescript@5.9.3))
+      '@lilydesignsystem/vue-headless': 0.4.0(vue@3.5.44(typescript@5.9.3))
       vue: 3.5.44(typescript@5.9.3)
 
   '@lilydesignsystem/vue-time-zone-picker@0.1.0(vue@3.5.44(typescript@5.9.3))':
@@ -1050,7 +1074,7 @@ snapshots:
 
   '@vue/compiler-core@3.5.44':
     dependencies:
-      '@babel/parser': 7.29.11
+      '@babel/parser': 7.29.9
       '@vue/shared': 3.5.44
       entities: 7.0.1
       estree-walker: 2.0.2
