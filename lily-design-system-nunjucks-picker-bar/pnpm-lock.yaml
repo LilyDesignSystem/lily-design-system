@@ -12,23 +12,23 @@ importers:
   .:
     dependencies:
       '@lilydesignsystem/nunjucks-link-picker':
-        specifier: ^0.1.1
-        version: 0.1.1
+        specifier: ^0.2.0
+        version: 0.2.0
       '@lilydesignsystem/nunjucks-locale-picker':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.3.1
+        version: 0.3.1
       '@lilydesignsystem/nunjucks-search-picker':
-        specifier: ^0.1.0
-        version: 0.1.0
+        specifier: ^0.2.0
+        version: 0.2.0
       '@lilydesignsystem/nunjucks-share-picker':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.3.0
+        version: 0.3.0
       '@lilydesignsystem/nunjucks-text-size-picker':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.3.0
+        version: 0.3.0
       '@lilydesignsystem/nunjucks-theme-picker':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.3.0
+        version: 0.3.0
       '@lilydesignsystem/nunjucks-time-zone-picker':
         specifier: ^0.1.0
         version: 0.1.0
@@ -277,32 +277,32 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lilydesignsystem/nunjucks-link-picker@0.1.1':
-    resolution: {integrity: sha512-yiizFmiP4LwVxXwgv+K0JxVG/qtObCNmAWBIkV16paC9xLX85BFZx5iV9f9Leop13d8HATS7ncNMxILmFeqsCg==}
+  '@lilydesignsystem/nunjucks-link-picker@0.2.0':
+    resolution: {integrity: sha512-hGIL3tJxTySwOFbyFOX+d/CCuPalFpeitc/tug9xLOg+bhjmGM2KxIRCV3FFCe3CCldkvZv3GCIuf76L6rwG/Q==}
     engines: {node: '=26'}
 
   '@lilydesignsystem/nunjucks-listbox-behavior@0.1.0':
     resolution: {integrity: sha512-DaFmhvthcVR3I7Q6qDeywdNr2qSjLqJZId6/dA6eZOgrdMu/ozvqxXQkgVO4FeMnrK5c+Dk89M0cxyuixLRvFA==}
     engines: {node: '=26'}
 
-  '@lilydesignsystem/nunjucks-locale-picker@0.2.0':
-    resolution: {integrity: sha512-8NVJKBxYe6nHEBUj/Zork7yTcwXfz38Uyq6B6HSDcFK/tPWld22w2b6hI1JLlMvkJYu5LQ4kO/AXq7HaVL87lA==}
+  '@lilydesignsystem/nunjucks-locale-picker@0.3.1':
+    resolution: {integrity: sha512-M73BlRY2vAvruBUW7JvSffxOvrognhePPVDC8mOGiQI1rqTjA1VQiHByybQp7YlBR7wRm5+BQrQvg7sG6sRHkA==}
+    engines: {node: '>=26'}
+
+  '@lilydesignsystem/nunjucks-search-picker@0.2.0':
+    resolution: {integrity: sha512-g7SCSfS+XQVO14m1ksdEqYnIUXPzvaFz+QzCs+3L7g86gG6pQHqpBUPH7MyjQcgPoh9DRY5tXLq/LvBf6s91yw==}
     engines: {node: '=26'}
 
-  '@lilydesignsystem/nunjucks-search-picker@0.1.0':
-    resolution: {integrity: sha512-F/OOM2aFMo140Ecy0vGmQo0ktHcjL45pyqKDF6BoI/VNdjjg/TW1qLCV7FrW7m7DTJvJnquRxrMZkLap35qUVw==}
+  '@lilydesignsystem/nunjucks-share-picker@0.3.0':
+    resolution: {integrity: sha512-mWgR/6O84eTCJWDubkZjtUBp40v3O+o5dKCMzcU0yLzWQb2HhPztt64ejbYi3kie2Oq7iFERbpmq3bwgIe8bXQ==}
     engines: {node: '=26'}
 
-  '@lilydesignsystem/nunjucks-share-picker@0.2.0':
-    resolution: {integrity: sha512-HNQMOhZZ0GlrvbAzBm8FKup8j3VwnaAUKJymGumIG8o/myAfHgXvcbrW3dWLzkmXb4K0iMtbqgRe3/kX8N4frA==}
+  '@lilydesignsystem/nunjucks-text-size-picker@0.3.0':
+    resolution: {integrity: sha512-gP/aBKPAk75WeVtJdawhptBMJn2Awu/+rMpaRcOjeSQy1d0UNmnlA03abaN+MAjCuHYmTj+fmdbUOwBohyXABg==}
     engines: {node: '=26'}
 
-  '@lilydesignsystem/nunjucks-text-size-picker@0.2.0':
-    resolution: {integrity: sha512-/fTn5qFZIDAsH4O5Tkph+rwjNZJjYVLPrrNZHUbQvV9WbPaVYYdx5co+iH/P4CE5XMe9ysddW6z3NVTT81S9pQ==}
-    engines: {node: '=26'}
-
-  '@lilydesignsystem/nunjucks-theme-picker@0.2.0':
-    resolution: {integrity: sha512-r2B2rnX2sLw0euuvQIQVNT8qrs/1U97tcegOSzvwR/bePRbi/aZwOKAa5ZZvZMHHzfmjgpKrizWt9Ez7AtRQwA==}
+  '@lilydesignsystem/nunjucks-theme-picker@0.3.0':
+    resolution: {integrity: sha512-VL1k6S7Q8imK/oft9z7bKG3FnkEToLVS3A3ekuewPJHiTv6uKsUZqsxZgpycRAU80A5YPSV3lwwcR2zpyfDgig==}
     engines: {node: '=26'}
 
   '@lilydesignsystem/nunjucks-time-zone-picker@0.1.0':
@@ -1238,23 +1238,23 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@lilydesignsystem/nunjucks-link-picker@0.1.1': {}
+  '@lilydesignsystem/nunjucks-link-picker@0.2.0': {}
 
   '@lilydesignsystem/nunjucks-listbox-behavior@0.1.0': {}
 
-  '@lilydesignsystem/nunjucks-locale-picker@0.2.0':
+  '@lilydesignsystem/nunjucks-locale-picker@0.3.1':
     dependencies:
       '@lilydesignsystem/nunjucks-listbox-behavior': 0.1.0
 
-  '@lilydesignsystem/nunjucks-search-picker@0.1.0': {}
+  '@lilydesignsystem/nunjucks-search-picker@0.2.0': {}
 
-  '@lilydesignsystem/nunjucks-share-picker@0.2.0': {}
+  '@lilydesignsystem/nunjucks-share-picker@0.3.0': {}
 
-  '@lilydesignsystem/nunjucks-text-size-picker@0.2.0':
+  '@lilydesignsystem/nunjucks-text-size-picker@0.3.0':
     dependencies:
       '@lilydesignsystem/nunjucks-listbox-behavior': 0.1.0
 
-  '@lilydesignsystem/nunjucks-theme-picker@0.2.0':
+  '@lilydesignsystem/nunjucks-theme-picker@0.3.0':
     dependencies:
       '@lilydesignsystem/nunjucks-listbox-behavior': 0.1.0
 
