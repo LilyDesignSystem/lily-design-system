@@ -12,23 +12,23 @@ importers:
   .:
     dependencies:
       '@lilydesignsystem/html-link-picker':
-        specifier: ^0.1.1
-        version: 0.1.1
+        specifier: ^0.2.0
+        version: 0.2.0
       '@lilydesignsystem/html-locale-picker':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.3.1
+        version: 0.3.1
       '@lilydesignsystem/html-search-picker':
-        specifier: ^0.1.0
-        version: 0.1.0
+        specifier: ^0.2.0
+        version: 0.2.0
       '@lilydesignsystem/html-share-picker':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.3.0
+        version: 0.3.0
       '@lilydesignsystem/html-text-size-picker':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.3.0
+        version: 0.3.0
       '@lilydesignsystem/html-theme-picker':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.3.0
+        version: 0.3.0
       '@lilydesignsystem/html-time-zone-picker':
         specifier: ^0.1.0
         version: 0.1.0
@@ -274,36 +274,36 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lilydesignsystem/html-headless@0.3.0':
-    resolution: {integrity: sha512-vUpwR6BKC7KxwMy39BsFWumNSHYvWGIyVC3HiON1cdGDNRxuuE0vX5/l4YizOwx2uxkS4+hTqoO/Ad/SqVos8A==}
+  '@lilydesignsystem/html-headless@0.6.0':
+    resolution: {integrity: sha512-LJumPCelgvYkmfM0o/FEpuK+g6m+ixmCbppU0l9o2A/jttL5OZY713qFk6aC63xWTTN3tAtpsl+383Umof4btw==}
     engines: {node: '=26'}
 
   '@lilydesignsystem/html-headless@0.7.0':
     resolution: {integrity: sha512-JwskdWnIVy9LRHrW6yT5gqzru1+HdVdWIBDvy2F5F2+zxja9o3VhAWNtdx4d/IhxqOwDO37nmdWAI4mXrJQeZQ==}
     engines: {node: '=26'}
 
-  '@lilydesignsystem/html-link-picker@0.1.1':
-    resolution: {integrity: sha512-ylg0ZeBXC5CaGV13TDT2Kumas2ViiPQmpx/PXoIjXyJJjBN2bFRQjZrtusOgtBO425I7Ax1grzjKmTgfHKSpBA==}
+  '@lilydesignsystem/html-link-picker@0.2.0':
+    resolution: {integrity: sha512-zXmNbRbkmVGkQghk/iomR3oNqDjK+x3fFEIwOWsdTR+/rNbq1jXcNl2mzYHSLaB4fEiCaReew43Xf9UlGV42tw==}
     engines: {node: '=26'}
 
-  '@lilydesignsystem/html-locale-picker@0.2.0':
-    resolution: {integrity: sha512-72Ef8fA3++kJRD/CXAxIAdXovn3d9+cSdMByg1MM0D9KcbtIKyZAaxQ2kAJK4UyH6oeOkq3belgHjEnn1XbeCA==}
+  '@lilydesignsystem/html-locale-picker@0.3.1':
+    resolution: {integrity: sha512-btbBsUP8HNXBPt+PAC/MN2HkfD/RdDR1XtfcPz3w+gZx9dnMIUhY/9FsChtuwBewDhmf9k4Q+59Uizfp/X9ulw==}
+    engines: {node: '>=26'}
+
+  '@lilydesignsystem/html-search-picker@0.2.0':
+    resolution: {integrity: sha512-P5TzjFuff4psO6cuB9GbtGhZHaHiTWJ3Tq6WodAbTmcYoke1dwtPGR420ASgbt1QXD86rAnXPhZ8c5bveTnWtA==}
     engines: {node: '=26'}
 
-  '@lilydesignsystem/html-search-picker@0.1.0':
-    resolution: {integrity: sha512-SIBHCkSPy0NL0F+iivflQu1iKgZfj169mmbxcitMV3sv3GXfXYnuLRZsHCqdzVWzBDo21qytaIWZP2B6+UPEAg==}
+  '@lilydesignsystem/html-share-picker@0.3.0':
+    resolution: {integrity: sha512-GruZs1m2bojNQb/h0pnUVdRMs1AnXMFFyQyVrIiQCZ64pRm62NNrH//4eCmCptrRemm1417u/YNn5boUNAaphg==}
     engines: {node: '=26'}
 
-  '@lilydesignsystem/html-share-picker@0.2.0':
-    resolution: {integrity: sha512-/OtfBGBdvGDy9sGeIRHo/3cuAS1JRmQf41J6JK/IXilKF0P4ytrJOG/w3iOaKUH0GkksmqyfEWtExo85RPFaig==}
+  '@lilydesignsystem/html-text-size-picker@0.3.0':
+    resolution: {integrity: sha512-nPG4RLQoHJqY3+wirXwENd7wgV1XjvimMADOYv72Fib2YEb5Xn0jXL4o+2HDcafRWlg0luBgxUnBCFHxewkErQ==}
     engines: {node: '=26'}
 
-  '@lilydesignsystem/html-text-size-picker@0.2.0':
-    resolution: {integrity: sha512-p2dpBrGpBlGbjkNYWGZMqK9me6d4RehGUEv4o8O15YNXN0WRJBpg9MOyBbhkYuhd2GMGy9DT3Zx4SzFub1d2OA==}
-    engines: {node: '=26'}
-
-  '@lilydesignsystem/html-theme-picker@0.2.0':
-    resolution: {integrity: sha512-XORLKPwrBQLhDe3l3j9LQaCu30+l3QZRfNmckobC6yCY0KfVNhZ2IyOXcvC4AzNL8IAAIKsL/9Qrr91j+Ef4AA==}
+  '@lilydesignsystem/html-theme-picker@0.3.0':
+    resolution: {integrity: sha512-XBXL/b3KmR3sHfI+rsDpFOuu9oYr9oDrAUG9xHPF/kSC56vuic9dr5j9u1bXom6gr47gNotenEmMsNot2fo0Cw==}
     engines: {node: '=26'}
 
   '@lilydesignsystem/html-time-zone-picker@0.1.0':
@@ -1219,27 +1219,27 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@lilydesignsystem/html-headless@0.3.0': {}
+  '@lilydesignsystem/html-headless@0.6.0': {}
 
   '@lilydesignsystem/html-headless@0.7.0': {}
 
-  '@lilydesignsystem/html-link-picker@0.1.1': {}
+  '@lilydesignsystem/html-link-picker@0.2.0': {}
 
-  '@lilydesignsystem/html-locale-picker@0.2.0':
+  '@lilydesignsystem/html-locale-picker@0.3.1':
     dependencies:
-      '@lilydesignsystem/html-headless': 0.3.0
+      '@lilydesignsystem/html-headless': 0.7.0
 
-  '@lilydesignsystem/html-search-picker@0.1.0': {}
+  '@lilydesignsystem/html-search-picker@0.2.0': {}
 
-  '@lilydesignsystem/html-share-picker@0.2.0': {}
+  '@lilydesignsystem/html-share-picker@0.3.0': {}
 
-  '@lilydesignsystem/html-text-size-picker@0.2.0':
+  '@lilydesignsystem/html-text-size-picker@0.3.0':
     dependencies:
-      '@lilydesignsystem/html-headless': 0.3.0
+      '@lilydesignsystem/html-headless': 0.6.0
 
-  '@lilydesignsystem/html-theme-picker@0.2.0':
+  '@lilydesignsystem/html-theme-picker@0.3.0':
     dependencies:
-      '@lilydesignsystem/html-headless': 0.3.0
+      '@lilydesignsystem/html-headless': 0.6.0
 
   '@lilydesignsystem/html-time-zone-picker@0.1.0':
     dependencies:
