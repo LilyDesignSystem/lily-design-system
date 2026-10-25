@@ -88,7 +88,7 @@ Or skip hand-writing CSS entirely — link one of the 45 ready-made themes and t
 
 - The repo's tests run real browsers: `pnpm install && pnpm test` (WebDriverIO).
 - Storybook for every component: `pnpm run storybook`.
-- The [HTML+CSS+JS example app](/examples/) shows all 571 components styled, searchable, and demoed.
+- The [HTML+CSS+JS example app](/examples/) shows all 581 components styled, searchable, and demoed.
 
 ## Next steps
 

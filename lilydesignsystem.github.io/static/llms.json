@@ -1,12 +1,12 @@
 {
   "name": "Lily Design System",
   "trademark": "Lily™ and Lily Design System™ are trademarks.",
-  "summary": "Free, open-source, headless design system: a canonical catalog of 571 accessible components implemented across seven frameworks (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks), paired with fully styled example apps that demonstrate the same catalog end to end.",
+  "summary": "Free, open-source, headless design system: a canonical catalog of 581 accessible components implemented across seven frameworks (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks), paired with fully styled example apps that demonstrate the same catalog end to end.",
   "description": "This is the public documentation site. Every link below is a page on this site unless marked otherwise; the github_repository links go to the canonical source monorepo, where the specification, design-principle rules, and every framework implementation actually live.",
   "site": "https://lilydesignsystem.com/",
   "github_repository": "https://github.com/LilyDesignSystem/lily-design-system",
   "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
-  "component_count": 571,
+  "component_count": 581,
   "sections": [
     {
       "title": "Start here",
@@ -20,7 +20,7 @@
     {
       "title": "Components and examples",
       "links": [
-        { "title": "Components", "url": "https://lilydesignsystem.com/components/", "description": "The full searchable catalog of all 571 components, each linking to its own /components/{slug}/ detail page (description, usage, props, ARIA, keyboard, references)." },
+        { "title": "Components", "url": "https://lilydesignsystem.com/components/", "description": "The full searchable catalog of all 581 components, each linking to its own /components/{slug}/ detail page (description, usage, props, ARIA, keyboard, references)." },
         { "title": "Tutorials", "url": "https://lilydesignsystem.com/tutorials/", "description": "Step-by-step guides for HTML, Svelte, React, Vue, Angular, Blazor, and Nunjucks, each under /tutorials/{framework}/." },
         { "title": "Examples", "url": "https://lilydesignsystem.com/examples/", "description": "Worked example apps showing how to style Lily components in every supported framework." },
         { "title": "Comparisons", "url": "https://lilydesignsystem.com/comparisons/", "description": "How Lily compares with other design systems on headlessness, framework coverage, accessibility, and license." }
@@ -36,7 +36,7 @@
         { "title": "Label packs", "url": "https://lilydesignsystem.com/label-packs/", "description": "Ready-made labels for the data grid, kanban board, calendar, Gantt chart and filter in 64 locales (63 are unreviewed drafts), and how to load one in every framework." },
         { "title": "Roadmap", "url": "https://lilydesignsystem.com/roadmap/", "description": "What the project is working on and planning next." },
         { "title": "Lily + Figma", "url": "https://lilydesignsystem.com/lily-figma/", "description": "There is no maintained Lily Figma library or plugin; the 57 reference themes' design tokens are published in DTCG format and can be imported into Figma today with an existing community plugin." },
-        { "title": "Lily + Claude Code", "url": "https://lilydesignsystem.com/skills/", "description": "26 Claude Skills — general, per-framework umbrella, and per-subproject headless/helpers — give Claude Code a curated, loadable entry point into Lily; how to add one, and links to all 26." }
+        { "title": "Lily + Claude Code", "url": "https://lilydesignsystem.com/skills/", "description": "27 Claude Skills — general, per-framework umbrella, and per-subproject headless/helpers — give Claude Code a curated, loadable entry point into Lily; how to add one, and links to all 26." }
       ]
     },
     {
@@ -44,8 +44,8 @@
       "links": [
         { "title": "spec/index.md", "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/index.md", "description": "The specification: vision, scope, architecture, naming conventions, composition patterns, acceptance criteria, roadmap." },
         { "title": "AGENTS.md", "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS.md", "description": "Binding design-principle rules for AI coding agents." },
-        { "title": "components.tsv", "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components.tsv", "description": "The canonical 571-component catalog (slug, PascalCase name, description)." },
-        { "title": "Canonical monorepo", "url": "https://github.com/LilyDesignSystem/lily-design-system", "description": "All 172 subprojects (144 implementation subprojects: 8 headless, 7 example, 129 helper packages; plus 26 Claude Skills), the bin/ tooling, and full change history." }
+        { "title": "components.tsv", "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components.tsv", "description": "The canonical 581-component catalog (slug, PascalCase name, description)." },
+        { "title": "Canonical monorepo", "url": "https://github.com/LilyDesignSystem/lily-design-system", "description": "All 211 subprojects (184 implementation subprojects: 9 headless, 8 example, 167 helper packages; plus 27 Claude Skills), the bin/ tooling, and full change history." }
       ]
     },
     {

@@ -23,7 +23,7 @@ git clone https://github.com/LilyDesignSystem/lily-design-system
 cd lily-design-system/lily-design-system-svelte-headless
 pnpm install
 pnpm test        # vitest — thousands of component cases
-pnpm run storybook   # browse all 571 components
+pnpm run storybook   # browse all 581 components
 ```
 
 Components live in `src/lib/components/&#123;Name&#125;/`, one directory per component with the `.svelte` file, its tests, its stories, and its docs side by side. Copy the directories you need into your app, or depend on the repo and import directly.

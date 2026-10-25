@@ -23,7 +23,7 @@ git clone https://github.com/LilyDesignSystem/lily-design-system
 cd lily-design-system/lily-design-system-vue-headless
 pnpm install
 pnpm test        # vitest + @testing-library/vue
-pnpm run storybook   # browse all 571 components
+pnpm run storybook   # browse all 581 components
 ```
 
 Components are flat files in `components/` — `Button.vue`, `TextInput.vue` — each with its test, story, and docs alongside. Copy the files you need, or vendor the repo.

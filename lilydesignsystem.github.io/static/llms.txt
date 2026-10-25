@@ -1,6 +1,6 @@
 # Lily Design System™
 
-> Free, open-source, headless design system: a canonical catalog of 571
+> Free, open-source, headless design system: a canonical catalog of 581
 > accessible components implemented across seven frameworks (HTML, Svelte,
 > React, Vue, Angular, Blazor, Nunjucks), paired with fully styled example
 > apps that demonstrate the same catalog end to end.
@@ -28,7 +28,7 @@ actually live.
 ## Components and examples
 
 - [Components](https://lilydesignsystem.com/components/): the full
-  searchable catalog of all 571 components, each linking to its own
+  searchable catalog of all 581 components, each linking to its own
   `/components/{slug}/` detail page (description, usage, props, ARIA,
   keyboard, references).
 - [Tutorials](https://lilydesignsystem.com/tutorials/): step-by-step
@@ -63,7 +63,7 @@ actually live.
   design tokens are published in DTCG format and can be imported into
   Figma today with an existing community plugin.
 - [Lily + Claude Code](https://lilydesignsystem.com/skills/):
-  26 Claude Skills — general, per-framework umbrella, and per-subproject
+  27 Claude Skills — general, per-framework umbrella, and per-subproject
   headless/helpers — give Claude Code a curated, loadable entry point
   into Lily; how to add one, and links to all 26.
 
@@ -75,9 +75,9 @@ actually live.
 - [AGENTS.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS.md):
   binding design-principle rules for AI coding agents.
 - [components.tsv](https://github.com/LilyDesignSystem/lily-design-system/blob/main/components.tsv):
-  the canonical 571-component catalog (slug, PascalCase name, description).
+  the canonical 581-component catalog (slug, PascalCase name, description).
 - [Canonical monorepo](https://github.com/LilyDesignSystem/lily-design-system):
-  all 172 subprojects (144 implementation subprojects — 8 headless, 7 example, 129 helper packages — plus 26 Claude Skills),
+  all 211 subprojects (184 implementation subprojects — 9 headless, 8 example, 167 helper packages — plus 27 Claude Skills),
   the `bin/` tooling, and full change history.
 
 ## Optional

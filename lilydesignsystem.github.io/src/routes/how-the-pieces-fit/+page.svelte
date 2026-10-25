@@ -18,7 +18,7 @@
   <h2>The layers</h2>
   <ul>
     <li>
-      <strong>Catalog</strong> — 571 named components in
+      <strong>Catalog</strong> — 581 named components in
       <code>components.tsv</code>, each with a slug, a root HTML element, ARIA
       and a keyboard contract. It is the shared vocabulary every other layer
       is built from. Reach for it to learn what exists and what it is called.

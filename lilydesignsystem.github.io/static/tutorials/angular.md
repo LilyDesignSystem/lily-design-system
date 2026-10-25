@@ -22,7 +22,7 @@ You need git, Node 22 or later, and pnpm 10 or later. Any Angular 20 project wor
 git clone https://github.com/LilyDesignSystem/lily-design-system
 cd lily-design-system/lily-design-system-angular-headless
 pnpm install
-pnpm test        # vitest + TestBed, all 571 components
+pnpm test        # vitest + TestBed, all 581 components
 pnpm run build-storybook
 ```
 

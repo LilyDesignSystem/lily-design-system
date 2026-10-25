@@ -23,7 +23,7 @@ git clone https://github.com/LilyDesignSystem/lily-design-system
 cd lily-design-system/lily-design-system-react-headless
 pnpm install
 pnpm test        # vitest + @testing-library/react
-pnpm run storybook   # browse all 571 components
+pnpm run storybook   # browse all 581 components
 ```
 
 Components are flat files in `components/` — `Button.tsx`, `TextInput.tsx` — each with its test, story, and docs alongside. Copy the files you need into your app, or vendor the repo and import from it.

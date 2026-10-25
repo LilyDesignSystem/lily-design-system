@@ -18,7 +18,7 @@ Because every component carries a stable class hook and pure structure, your sty
 
 - **Accessible by default.** WCAG 2.2 AAA is the target for every component. Patterns follow the WAI-ARIA Authoring Practices; every interactive component is keyboard-operable with a documented contract; the example apps hold a clean axe-core baseline.
 - **Internationalizable by construction.** Every user-facing string — each label, error, and announcement — is a prop with stable names across frameworks, so translation flows naturally. RTL and bidirectional text inherit from your `dir`. Locale-aware components take the locale as a prop, always explicitly.
-- **One catalog, eight frameworks.** The same 571 components (536 as native Web Components) with the same class hooks and prop conventions in HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, and Web Components. Your CSS and your team's knowledge transfer across stacks.
+- **One catalog, eight frameworks.** The same 581 components (546 as native Web Components) with the same class hooks and prop conventions in HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, and Web Components. Your CSS and your team's knowledge transfer across stacks.
 - **CSS-strategy agnostic.** One stable kebab-case class per component root. Semantic CSS, Tailwind utilities, CSS-in-JS, or one of the 57 ready-made themes — Lily welcomes them all and stays gracefully out of the way.
 - **Free, forever, on your terms.** Open source under your choice of BSD, MIT, Apache-2.0, GPL-2.0, or GPL-3.0. No pro tier, no seat licenses, no telemetry.
 

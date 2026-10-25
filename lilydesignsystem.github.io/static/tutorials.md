@@ -110,5 +110,5 @@ Give users control of theme, language, text size, motion, search, page links, sh
 ## After the tutorials
 
 - Browse the [component catalog](/components/) — every component documents its props, ARIA contract, and keyboard behaviour.
-- Clone an [example app](/examples/) to see all 571 components styled and working together — the CSS targets the same class hooks you just used, so copy any of it into your project and adjust it as you wish.
+- Clone an [example app](/examples/) to see all 581 components styled and working together — the CSS targets the same class hooks you just used, so copy any of it into your project and adjust it as you wish.
 - Questions? The [help page](/help/) has answers, an FAQ, and ways to reach a friendly human. And if a tutorial could be clearer, [tell us](https://github.com/LilyDesignSystem) — we'll gladly improve it.

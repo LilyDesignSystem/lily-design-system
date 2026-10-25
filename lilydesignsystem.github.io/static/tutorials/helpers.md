@@ -234,7 +234,7 @@ Each package has its own spec, tests mapped to the spec clauses, runnable exampl
 
 ## Next steps
 
-- [Component catalog](/components/) — the full 571-component reference.
+- [Component catalog](/components/) — the full 581-component reference.
 - [Help](/help/) — troubleshooting and FAQ.
 - [Why Lily](/why/) — and how to support the project.
 

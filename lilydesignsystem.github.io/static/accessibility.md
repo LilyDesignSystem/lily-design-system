@@ -11,7 +11,7 @@ The word *targets* is deliberate. This page says precisely what is verified, by 
 ## Verified, continuously
 
 - Every component's canonical semantic element, ARIA attributes, and class hooks — asserted by per-framework unit suites (15,000+ cases across seven frameworks).
-- Every one of the 571 component demo pages in the SvelteKit example app is axe-clean (WCAG 2.0/2.1 A+AA and 2.2 AA rule sets) — the full-catalog sweep, first baselined 2026-08-27 and re-run 2026-10-06 — plus per-app baselines on home, catalog, and composed routes in all seven example apps.
+- Every one of the 581 component demo pages in the SvelteKit example app is axe-clean (WCAG 2.0/2.1 A+AA and 2.2 AA rule sets) — the full-catalog sweep, first baselined 2026-08-27 and re-run 2026-10-06 — plus per-app baselines on home, catalog, and composed routes in all seven example apps.
 - Keyboard contracts per interactive component, documented in each component's canonical metadata and exercised by the suites; the helper packages additionally run real-browser Playwright specs.
 - WCAG 2.2 target-size floors and overflow guards in all 57 themes; skip-link, landmarks, and no horizontal overflow at four viewports per app; `lang`/`dir` application including the RTL flip.
 

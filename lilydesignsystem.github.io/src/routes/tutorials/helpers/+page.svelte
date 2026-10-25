@@ -321,7 +321,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker
 
   <h2>Next steps</h2>
   <ul>
-    <li><a href="/components/">Component catalog</a> — the full 571-component reference.</li>
+    <li><a href="/components/">Component catalog</a> — the full 581-component reference.</li>
     <li><a href="/help/">Help</a> — troubleshooting and FAQ.</li>
     <li><a href="/why/">Why Lily</a> — and how to support the project.</li>
   </ul>
