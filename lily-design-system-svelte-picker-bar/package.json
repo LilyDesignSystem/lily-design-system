@@ -1,6 +1,6 @@
 {
   "name": "@lilydesignsystem/svelte-picker-bar",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "engines": {
     "node": ">=26"
   },
@@ -28,18 +28,20 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@lilydesignsystem/svelte-link-picker": "^0.1.1",
-    "@lilydesignsystem/svelte-locale-picker": "^0.2.0",
-    "@lilydesignsystem/svelte-search-picker": "^0.1.0",
-    "@lilydesignsystem/svelte-share-picker": "^0.2.0",
-    "@lilydesignsystem/svelte-text-size-picker": "^0.2.0",
-    "@lilydesignsystem/svelte-theme-picker": "^0.2.0",
+    "@lilydesignsystem/svelte-link-picker": "^0.2.0",
+    "@lilydesignsystem/svelte-locale-picker": "^0.3.1",
+    "@lilydesignsystem/svelte-search-picker": "^0.2.0",
+    "@lilydesignsystem/svelte-share-picker": "^0.3.0",
+    "@lilydesignsystem/svelte-text-size-picker": "^0.3.0",
+    "@lilydesignsystem/svelte-theme-picker": "^0.3.0",
     "@lilydesignsystem/svelte-time-zone-picker": "^0.2.0"
   },
   "peerDependencies": {
+    "@lilydesignsystem/svelte-headless": ">=0.4.0 <1.0.0",
     "svelte": "^5.0.0"
   },
   "devDependencies": {
+    "@lilydesignsystem/svelte-headless": "^0.6.1",
     "@sveltejs/package": "^3.0.1",
     "@sveltejs/vite-plugin-svelte": "^7.3.1",
     "@testing-library/svelte": "^5.4.2",

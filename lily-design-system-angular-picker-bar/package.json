@@ -1,17 +1,17 @@
 {
   "name": "@lilydesignsystem/angular-picker-bar",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "engines": {
     "node": ">=26"
   },
   "description": "Lily Design System Angular picker bar: composes link-picker (optional), search-picker, theme-picker, locale-picker, time-zone-picker (optional), text-size-picker, and share-picker into one page-header row. Headless, SSR-safe, no CSS.",
   "dependencies": {
-    "@lilydesignsystem/angular-link-picker": "^0.1.2",
-    "@lilydesignsystem/angular-locale-picker": "^0.2.0",
-    "@lilydesignsystem/angular-search-picker": "^0.1.0",
-    "@lilydesignsystem/angular-share-picker": "^0.2.0",
-    "@lilydesignsystem/angular-text-size-picker": "^0.2.0",
-    "@lilydesignsystem/angular-theme-picker": "^0.2.0",
+    "@lilydesignsystem/angular-link-picker": "^0.2.0",
+    "@lilydesignsystem/angular-locale-picker": "^0.3.1",
+    "@lilydesignsystem/angular-search-picker": "^0.2.0",
+    "@lilydesignsystem/angular-share-picker": "^0.3.0",
+    "@lilydesignsystem/angular-text-size-picker": "^0.3.0",
+    "@lilydesignsystem/angular-theme-picker": "^0.3.0",
     "@lilydesignsystem/angular-time-zone-picker": "^0.1.0"
   },
   "peerDependencies": {

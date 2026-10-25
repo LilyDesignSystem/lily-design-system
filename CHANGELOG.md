@@ -9,6 +9,19 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Dependency sweep and `picker-bar` 0.5.1 — 2026-10-25
+
+All 165 `pnpm-lock.yaml` files were re-locked (minor and patch only), clearing the 30 open Dependabot alerts (`@vitest/mocker`, `fast-uri`,
+`vite`, `serialize-javascript`, and others). `vite` is overridden to 8.3.5 in the 21 Angular workspaces, because `@angular/build` pins 8.3.0
+exactly; drop the override once it ships a patched vite. The `serialize-javascript` override is now 7.1.3.
+
+`@lilydesignsystem/{svelte,react,vue,angular,html,web-components,nunjucks}-picker-bar` 0.5.1: their `@lilydesignsystem/*` ranges were stale
+(`^0.2.0` cannot reach 0.3.0 on a `0.x` caret), so each pulled older pickers; now `link ^0.2.0`, `locale ^0.3.1`, `search ^0.2.0`, `share`, `text-size`
+and `theme ^0.3.0`. `svelte-picker-bar` also declares the `@lilydesignsystem/svelte-headless` peer its `locale-picker` and `time-zone-picker` already needed.
+`angular-headless` 0.7.1 exports the seven `Convert*Div` components. `bin/sync-example-components` now also mirrors a component's companion
+module (`middle-truncation.ts`, `wheel-picker.ts`), which the Angular, React Next and Vue Nuxt examples were missing; `bin/publish-headless` no
+longer aborts on the first already-published package.
+
 ## HeatmapChartWithYearOfDays, MiddleTruncation, WheelPicker — 2026-10-23
 
 - Three components in all nine headless catalogs (catalog 574): `heatmap-chart-with-year-of-days` (a year of days in week columns), `middle-truncation` (full text kept in the accessibility tree), `wheel-picker` (a single-select listbox, selection follows the cursor). Pure logic in `shared/` (`year-of-days-layout.ts`, `middle-truncation.ts`, `wheel-picker.ts`), written into component folders by `bin/sync-shared-modules`.
