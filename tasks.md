@@ -11,9 +11,9 @@ Rules for the executing agent:
   also exit 0 at the end of every session.
 - Follow `AGENTS/*.md` binding rules. Svelte subprojects are canonical;
   implement there first, then port to the other frameworks.
-- The helpers are ten `*-picker` packages (`motion-picker` joined 2026-09-03, `search-picker` 2026-10-02,
-  `link-picker` 2026-10-07, `menu-picker` and `settings-picker` 2026-10-08) plus `picker-bar` and the grid-like
-  `data-grid`, `kanban-board`, `gantt-chart`, `calendar` and `filter` (129 packages across eight catalogs); `*-select` naming is obsolete.
+- The helpers are eleven `*-picker` packages (`motion-picker` joined 2026-09-03, `search-picker` 2026-10-02,
+  `link-picker` 2026-10-07, `menu-picker` and `settings-picker` 2026-10-08, `time-zone-picker` 2026-10-24) plus `picker-bar` and the grid-like
+  `data-grid`, `kanban-board`, `gantt-chart`, `calendar` and `filter` (167 packages across nine catalogs); `*-select` naming is obsolete.
 - Run `bin/sync-special-files` after touching any root special file.
 - Reference completed task IDs in commit messages. When a task changes
   something the spec claims, update `spec/index.md` (and the relevant
