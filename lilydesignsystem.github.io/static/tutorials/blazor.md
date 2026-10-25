@@ -66,7 +66,7 @@ Style the class hooks — `.button`, `.text-input`, `.label`, `.field` — in `a
 
 ## Step 5 — See it all working
 
-The [Blazor Web example app](/examples/) shows the full catalog styled and demoed, with Playwright e2e tests:
+The [Blazor Web example app](https://lilydesignsystem.com/examples/) shows the full catalog styled and demoed, with Playwright e2e tests:
 
 ```
 git clone https://github.com/LilyDesignSystem/lily-design-system
@@ -76,8 +76,8 @@ dotnet run --project src/LilyBlazorWebExamples
 
 ## Next steps
 
-- [Theming](/tutorials/theming/) — runtime switching with the Blazor theme-picker helper (a Razor class library on NuGet).
-- [Preference helpers](/tutorials/helpers/) — language and text size.
-- [Component catalog](/components/) — props, ARIA, and keyboard per component.
+- [Theming](https://lilydesignsystem.com/tutorials/theming/) — runtime switching with the Blazor theme-picker helper (a Razor class library on NuGet).
+- [Preference helpers](https://lilydesignsystem.com/tutorials/helpers/) — language and text size.
+- [Component catalog](https://lilydesignsystem.com/components/) — props, ARIA, and keyboard per component.
 
-Questions along the way? The [help page](/help/#troubleshooting) is full of answers — and if a step could be clearer, [tell us](https://github.com/LilyDesignSystem) and we'll gladly improve the tutorial.
+Questions along the way? The [help page](https://lilydesignsystem.com/help/#troubleshooting) is full of answers — and if a step could be clearer, [tell us](https://github.com/LilyDesignSystem) and we'll gladly improve the tutorial.

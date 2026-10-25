@@ -6,7 +6,7 @@ Description: Get started with Lily: install the headless package for your framew
 
 # Getting started with Lily
 
-Pick a framework, clone the monorepo and open its headless library or example app, and start composing your own pages. Prefer a guided path? Start with the [tutorials](/tutorials/).
+Pick a framework, clone the monorepo and open its headless library or example app, and start composing your own pages. Prefer a guided path? Start with the [tutorials](https://lilydesignsystem.com/tutorials/).
 
 **On this page:**
 
@@ -164,7 +164,7 @@ The set covers:
 - **Vendor-inspired** — Adobe Spectrum, Mozilla Protocol.
 - **General purpose** — light, dark, nord, dracula, wireframe, and thirty-odd more.
 
-Theme selectors use `:where(...)`, so your own CSS always wins on specificity. Pair them with the `theme-picker` helper below for runtime switching, or follow the [theming tutorial](/tutorials/theming/).
+Theme selectors use `:where(...)`, so your own CSS always wins on specificity. Pair them with the `theme-picker` helper below for runtime switching, or follow the [theming tutorial](https://lilydesignsystem.com/tutorials/theming/).
 
 ## Preference helpers
 
@@ -184,7 +184,7 @@ git clone https://github.com/LilyDesignSystem/lily-design-system
 cd lily-design-system/lily-design-system-svelte-theme-picker
 ```
 
-The Svelte catalog is the canonical reference; React, Vue, Angular, HTML, Nunjucks, Web Components, and Blazor ports match it contract-for-contract. See the [helpers tutorial](/tutorials/helpers/).
+The Svelte catalog is the canonical reference; React, Vue, Angular, HTML, Nunjucks, Web Components, and Blazor ports match it contract-for-contract. See the [helpers tutorial](https://lilydesignsystem.com/tutorials/helpers/).
 
 ## Accessibility
 
@@ -224,7 +224,7 @@ Tests use **Vitest's built-in matchers only** — never `jest-dom` matchers. Thi
 
 ## AI agents
 
-This site publishes [llms.txt](/llms.txt) and [llms.json](/llms.json) at its root — a curated map of its most important pages, for any tool that follows the [llms.txt convention](https://llmstxt.org).
+This site publishes [llms.txt](https://lilydesignsystem.com/llms.txt) and [llms.json](https://lilydesignsystem.com/llms.json) at its root — a curated map of its most important pages, for any tool that follows the [llms.txt convention](https://llmstxt.org).
 
 The canonical monorepo additionally ships two [Claude Skills](https://code.claude.com/docs/en/skills): `lily-design-system-skill`, a general-purpose skill covering Lily's concepts, terminology, and composition patterns for anyone building with the system, and `lily-design-system-maintainer-skill`, a technical skill covering the monorepo's required-files layout and tooling for anyone working on it. Both live at the root of the [canonical monorepo](https://github.com/LilyDesignSystem/lily-design-system).
 
@@ -232,7 +232,7 @@ The canonical monorepo additionally ships two [Claude Skills](https://code.claud
 
 A component renders but looks unstyled
 
-That's headless working as intended — no CSS ships with the component. Either write CSS against the component's kebab-case class (shown on every [catalog page](/components/)) or link one of the [57 ready-made themes](#themes).
+That's headless working as intended — no CSS ships with the component. Either write CSS against the component's kebab-case class (shown on every [catalog page](https://lilydesignsystem.com/components/)) or link one of the [57 ready-made themes](#themes).
 
 My CSS doesn't seem to apply over a theme
 
@@ -278,11 +278,11 @@ Open issues and PRs at [github.com/LilyDesignSystem/lily-design-system](https://
 
 Why headless instead of styled?
 
-Pre-styled components are convenient — until they don't match your brand. Headless components are slightly more work up front but give you total control over the visual design. The example apps and the 57 themes show ways to style them; you can take those or replace them entirely. The longer argument is on [Why Lily](/why/).
+Pre-styled components are convenient — until they don't match your brand. Headless components are slightly more work up front but give you total control over the visual design. The example apps and the 57 themes show ways to style them; you can take those or replace them entirely. The longer argument is on [Why Lily](https://lilydesignsystem.com/why/).
 
 Why so many components?
 
-Lily aims to cover the patterns most apps need without forcing you to build them from scratch — including deep cuts like national identifier inputs and editorial scrollytelling. The catalog draws from a dozen established design systems plus original work — see [About](/about/).
+Lily aims to cover the patterns most apps need without forcing you to build them from scratch — including deep cuts like national identifier inputs and editorial scrollytelling. The catalog draws from a dozen established design systems plus original work — see [About](https://lilydesignsystem.com/about/).
 
 Can I use Lily with Tailwind?
 

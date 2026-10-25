@@ -80,7 +80,7 @@ Per-instance tweaks go through the `class` prop, which appends to the base hook:
 
 ## Step 5 — See it all working
 
-The [SvelteKit example app](/examples/) is the same catalog fully styled, with live demos, Playwright e2e tests, and an axe-core accessibility baseline:
+The [SvelteKit example app](https://lilydesignsystem.com/examples/) is the same catalog fully styled, with live demos, Playwright e2e tests, and an axe-core accessibility baseline:
 
 ```
 git clone https://github.com/LilyDesignSystem/lily-design-system
@@ -90,8 +90,8 @@ pnpm install && pnpm run dev
 
 ## Next steps
 
-- [Theming](/tutorials/theming/) — runtime switching with the Svelte theme-picker helper.
-- [Preference helpers](/tutorials/helpers/) — language and text size.
-- [Component catalog](/components/) — props, ARIA, and keyboard per component.
+- [Theming](https://lilydesignsystem.com/tutorials/theming/) — runtime switching with the Svelte theme-picker helper.
+- [Preference helpers](https://lilydesignsystem.com/tutorials/helpers/) — language and text size.
+- [Component catalog](https://lilydesignsystem.com/components/) — props, ARIA, and keyboard per component.
 
-Questions along the way? The [help page](/help/#troubleshooting) is full of answers — and if a step could be clearer, [tell us](https://github.com/LilyDesignSystem) and we'll gladly improve the tutorial.
+Questions along the way? The [help page](https://lilydesignsystem.com/help/#troubleshooting) is full of answers — and if a step could be clearer, [tell us](https://github.com/LilyDesignSystem) and we'll gladly improve the tutorial.

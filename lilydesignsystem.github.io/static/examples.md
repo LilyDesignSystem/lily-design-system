@@ -94,4 +94,4 @@ Open the relevant example app, navigate to `/components/<name>`, and copy the ma
 
 Pair any of the example apps with their corresponding *headless* package — those publish the same components without any CSS, ready for your own design tokens.
 
-[Browse the catalog →](/components/) [Read the setup guide](/help/)
+[Browse the catalog →](https://lilydesignsystem.com/components/) [Read the setup guide](https://lilydesignsystem.com/help/)

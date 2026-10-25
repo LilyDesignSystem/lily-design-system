@@ -37,20 +37,20 @@ Lily ships 57 standalone reference themes that target its class hooks directly: 
 
 ## How Lily compares
 
-We keep an honest, component-by-component [comparison against other design systems](/comparisons/) — styled and headless, commercial and public-sector. Where another library is a better fit for you, the comparison will show it; Lily learns from all of them and cites its inspirations in the open.
+We keep an honest, component-by-component [comparison against other design systems](https://lilydesignsystem.com/comparisons/) — styled and headless, commercial and public-sector. Where another library is a better fit for you, the comparison will show it; Lily learns from all of them and cites its inspirations in the open.
 
 ## Who's behind it
 
-Lily is a young, independent open-source project that welcomes collaboration, guidance, and feedback — see [About](/about/) for the story and the inspirations. Everything — the specification, the tests, the roadmap, even the audit tooling — is in the open at [github.com/LilyDesignSystem](https://github.com/LilyDesignSystem).
+Lily is a young, independent open-source project that welcomes collaboration, guidance, and feedback — see [About](https://lilydesignsystem.com/about/) for the story and the inspirations. Everything — the specification, the tests, the roadmap, even the audit tooling — is in the open at [github.com/LilyDesignSystem](https://github.com/LilyDesignSystem).
 
 ## Help Lily grow
 
 If Lily is useful to you, the most valuable things you can do:
 
-- **Star and share.** Star the [main repo](https://github.com/LilyDesignSystem/lily-design-system) and show a colleague the [catalog](/components/) — awareness is the scarcest resource a young project has.
+- **Star and share.** Star the [main repo](https://github.com/LilyDesignSystem/lily-design-system) and show a colleague the [catalog](https://lilydesignsystem.com/components/) — awareness is the scarcest resource a young project has.
 - **Build something and tell us.** Real-world usage reports — what worked, what could be smoother — shape the roadmap more than anything else.
-- **Audit accessibility.** Screen-reader passes (VoiceOver, NVDA, JAWS) on the [example apps](/examples/) are gold; file what you find.
+- **Audit accessibility.** Screen-reader passes (VoiceOver, NVDA, JAWS) on the [example apps](https://lilydesignsystem.com/examples/) are gold; file what you find.
 - **Contribute a theme or a translation.** Both are self-contained, well-scoped first contributions.
 - **Share what you find, with a minimal reproduction,** on the GitHub repository, or email [joel@joelparkerhenderson.com](mailto:joel@joelparkerhenderson.com).
 
-[Start the tutorial](/tutorials/) [Star on GitHub](https://github.com/LilyDesignSystem)
+[Start the tutorial](https://lilydesignsystem.com/tutorials/) [Star on GitHub](https://github.com/LilyDesignSystem)

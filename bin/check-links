@@ -37,6 +37,8 @@ SYNCED = re.compile(
     # at render time (src/lib/render-doc.ts), so they are not expected to
     # resolve from the copy location.
     r"|^lilydesignsystem\.github\.io/src/lib/content/"
+    # Generator test fixtures hold deliberately unresolvable links.
+    r"|^test/generators/"
 )
 files = [f for f in files if not SYNCED.match(f)]
 

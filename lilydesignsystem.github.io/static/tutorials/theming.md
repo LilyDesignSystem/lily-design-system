@@ -14,7 +14,7 @@ An app whose entire look the user can change — starting with one linked styles
 
 ## Before you start
 
-Finish the [framework tutorial](/tutorials/) for your stack first, so you have a small Lily form to theme. Everything here works in all seven frameworks; code samples show Svelte and plain HTML.
+Finish the [framework tutorial](https://lilydesignsystem.com/tutorials/) for your stack first, so you have a small Lily form to theme. Everything here works in all seven frameworks; code samples show Svelte and plain HTML.
 
 ## Step 1 — Link a ready-made theme
 
@@ -79,7 +79,7 @@ The helper performs all DOM writes inside the framework's mount/effect lifecycle
 
 ## Next steps
 
-- [Preference helpers](/tutorials/helpers/) — the same pattern for language, text size, sharing, and date/time entry.
-- Contribute a theme — each is one standalone stylesheet targeting the class hooks; see [contributing](/help/#contributing).
+- [Preference helpers](https://lilydesignsystem.com/tutorials/helpers/) — the same pattern for language, text size, sharing, and date/time entry.
+- Contribute a theme — each is one standalone stylesheet targeting the class hooks; see [contributing](https://lilydesignsystem.com/help/#contributing).
 
-Questions along the way? The [help page](/help/#troubleshooting) is full of answers — and if a step could be clearer, [tell us](https://github.com/LilyDesignSystem) and we'll gladly improve the tutorial.
+Questions along the way? The [help page](https://lilydesignsystem.com/help/#troubleshooting) is full of answers — and if a step could be clearer, [tell us](https://github.com/LilyDesignSystem) and we'll gladly improve the tutorial.

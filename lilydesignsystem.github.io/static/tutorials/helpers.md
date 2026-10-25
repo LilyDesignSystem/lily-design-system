@@ -6,7 +6,7 @@ Description: Add user language and text-size preferences with Lily's locale-pick
 
 # Preference helpers
 
-Seven small packages per framework, each owning one user job end to end, plus a bar that assembles five of them. You've met [theme-picker](/tutorials/theming/); here are locale-picker, text-size-picker and motion-picker (preferences), share-picker and search-picker (actions), date-time-picker (a form value), and picker-bar.
+Seven small packages per framework, each owning one user job end to end, plus a bar that assembles five of them. You've met [theme-picker](https://lilydesignsystem.com/tutorials/theming/); here are locale-picker, text-size-picker and motion-picker (preferences), share-picker and search-picker (actions), date-time-picker (a form value), and picker-bar.
 
 ## What you'll build
 
@@ -14,7 +14,7 @@ A settings panel where users pick their language and text size — choices that 
 
 ## Before you start
 
-Finish the [framework tutorial](/tutorials/) for your stack. The samples below are Svelte; the React, Vue, Angular, HTML, Nunjucks, and Blazor helpers match contract-for-contract.
+Finish the [framework tutorial](https://lilydesignsystem.com/tutorials/) for your stack. The samples below are Svelte; the React, Vue, Angular, HTML, Nunjucks, and Blazor helpers match contract-for-contract.
 
 ## The shape they share
 
@@ -234,8 +234,8 @@ Each package has its own spec, tests mapped to the spec clauses, runnable exampl
 
 ## Next steps
 
-- [Component catalog](/components/) — the full 581-component reference.
-- [Help](/help/) — troubleshooting and FAQ.
-- [Why Lily](/why/) — and how to support the project.
+- [Component catalog](https://lilydesignsystem.com/components/) — the full 581-component reference.
+- [Help](https://lilydesignsystem.com/help/) — troubleshooting and FAQ.
+- [Why Lily](https://lilydesignsystem.com/why/) — and how to support the project.
 
-Questions along the way? The [help page](/help/#troubleshooting) is full of answers — and if a step could be clearer, [tell us](https://github.com/LilyDesignSystem) and we'll gladly improve the tutorial.
+Questions along the way? The [help page](https://lilydesignsystem.com/help/#troubleshooting) is full of answers — and if a step could be clearer, [tell us](https://github.com/LilyDesignSystem) and we'll gladly improve the tutorial.

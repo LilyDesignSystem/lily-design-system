@@ -132,9 +132,14 @@ test.describe('/components search filters', () => {
     test.skip(countAfterTwoFilters === 0, 'no picker-button component in the "pickers" category currently');
 
     await page.getByLabel('Filter components').fill('star');
+    // Wait for the search to take effect: "count <= before" is already true before
+    // Blazor re-renders, so poll until every remaining link matches the query.
     await expect(async () => {
-      const count = await page.locator('.component-index-list-item a').count();
-      expect(count).toBeLessThanOrEqual(countAfterTwoFilters);
+      const found = await page
+        .locator('.component-index-list-item a')
+        .evaluateAll((as) => as.map((a) => a.getAttribute('href') ?? ''));
+      expect(found.length).toBeLessThanOrEqual(countAfterTwoFilters);
+      expect(found.every((h) => h.includes('star'))).toBe(true);
     }).toPass({ timeout: 10_000 });
 
     const items = page.locator('.component-index-list-item a');

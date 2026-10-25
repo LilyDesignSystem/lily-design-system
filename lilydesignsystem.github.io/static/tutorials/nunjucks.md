@@ -68,7 +68,7 @@ Style the hooks — `.button`, `.text-input`, `.label`, `.field` — in your sty
 
 ## Step 5 — See it all working
 
-The [Nunjucks + Eleventy example app](/examples/) builds the full catalog as a static site with per-component demo pages:
+The [Nunjucks + Eleventy example app](https://lilydesignsystem.com/examples/) builds the full catalog as a static site with per-component demo pages:
 
 ```
 git clone https://github.com/LilyDesignSystem/lily-design-system
@@ -78,8 +78,8 @@ pnpm install && pnpm run dev
 
 ## Next steps
 
-- [Theming](/tutorials/theming/) — including the Eleventy cookie pattern for flash-free SSR theme switching.
-- [Preference helpers](/tutorials/helpers/) — language and text size.
-- [Component catalog](/components/) — props, ARIA, and keyboard per component.
+- [Theming](https://lilydesignsystem.com/tutorials/theming/) — including the Eleventy cookie pattern for flash-free SSR theme switching.
+- [Preference helpers](https://lilydesignsystem.com/tutorials/helpers/) — language and text size.
+- [Component catalog](https://lilydesignsystem.com/components/) — props, ARIA, and keyboard per component.
 
-Questions along the way? The [help page](/help/#troubleshooting) is full of answers — and if a step could be clearer, [tell us](https://github.com/LilyDesignSystem) and we'll gladly improve the tutorial.
+Questions along the way? The [help page](https://lilydesignsystem.com/help/#troubleshooting) is full of answers — and if a step could be clearer, [tell us](https://github.com/LilyDesignSystem) and we'll gladly improve the tutorial.

@@ -429,6 +429,8 @@ test "$dry_before" = "$(git -C "$top" status --porcelain | cksum)" \
     || err "the Generated files table in AGENTS/lily.md disagrees with bin/; run bin/check-generated-files"
 "$top/bin/check-port-parity" --quiet >/dev/null 2>&1 \
     || err "a port (Web Components, Alpine) drifted from its reference; run bin/check-port-parity"
+"$top/bin/check-links" >/dev/null 2>&1 \
+    || err "a relative markdown link does not resolve; run bin/check-links"
 "$top/bin/test-generators" >/dev/null 2>&1 \
     || err "a generator's output differs from its golden; run bin/test-generators (then --update-goldens if intended)"
 

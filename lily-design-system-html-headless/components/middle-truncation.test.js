@@ -30,7 +30,7 @@ describe('MiddleTruncation', function() {
   });
 
   it('should shorten the visual text in the middle, keeping the end', async function() {
-    await browser.waitUntil(async () => (await $('.middle-truncation')).getAttribute('data-truncated') !== null);
+    await browser.waitUntil(async () => (await (await $('.middle-truncation')).getAttribute('data-truncated')) !== null);
     const shown = await (await $('.middle-truncation-visual')).getProperty('textContent');
     expect(shown).toContain('…');
     expect(shown.endsWith('-3.pdf')).toBe(true);

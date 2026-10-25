@@ -22,8 +22,8 @@ New to headless components? You're in the right place — each tutorial explains
 
 1. **Your first component** (~5 minutes) — pick your framework below, get the code, and render a Button.
 2. **Compose and style** (~5 minutes) — build a labelled form and style it against the kebab-case class hooks (part of each framework tutorial).
-3. **Theme it** (~15 minutes) — swap your hand-written CSS for one of the 57 ready-made themes, then let users switch at runtime: [theming tutorial](/tutorials/theming/).
-4. **Respect preferences** (~15 minutes) — add language and text-size selection with the preference helpers: [helpers tutorial](/tutorials/helpers/).
+3. **Theme it** (~15 minutes) — swap your hand-written CSS for one of the 57 ready-made themes, then let users switch at runtime: [theming tutorial](https://lilydesignsystem.com/tutorials/theming/).
+4. **Respect preferences** (~15 minutes) — add language and text-size selection with the preference helpers: [helpers tutorial](https://lilydesignsystem.com/tutorials/helpers/).
 
 ## Pick your framework
 
@@ -35,7 +35,7 @@ Copy semantic HTML with the class hooks and go — a browser and an editor are a
 
 ~10 minutes · easiest start
 
-](/tutorials/html/) [
+](https://lilydesignsystem.com/tutorials/html/) [
 
 ### Svelte
 
@@ -43,7 +43,7 @@ Svelte 5 runes, snippets, and `bind:value` two-way binding.
 
 ~10 minutes
 
-](/tutorials/svelte/) [
+](https://lilydesignsystem.com/tutorials/svelte/) [
 
 ### React
 
@@ -51,7 +51,7 @@ Function components with `value` + `onChange` and rest-prop spread.
 
 ~10 minutes
 
-](/tutorials/react/) [
+](https://lilydesignsystem.com/tutorials/react/) [
 
 ### Vue
 
@@ -59,7 +59,7 @@ Vue 3 single-file components with `v-model` support.
 
 ~10 minutes
 
-](/tutorials/vue/) [
+](https://lilydesignsystem.com/tutorials/vue/) [
 
 ### Angular
 
@@ -67,7 +67,7 @@ Angular standalone components with signal inputs and `[(value)]`.
 
 ~10 minutes
 
-](/tutorials/angular/) [
+](https://lilydesignsystem.com/tutorials/angular/) [
 
 ### Blazor
 
@@ -75,7 +75,7 @@ Razor components with parameters, `ChildContent`, and bUnit tests.
 
 ~10 minutes
 
-](/tutorials/blazor/) [
+](https://lilydesignsystem.com/tutorials/blazor/) [
 
 ### Nunjucks
 
@@ -83,9 +83,9 @@ Server-rendered macros for Eleventy and any Node templating pipeline.
 
 ~10 minutes
 
-](/tutorials/nunjucks/)
+](https://lilydesignsystem.com/tutorials/nunjucks/)
 
-Torn between them? Start with [HTML](/tutorials/html/) — it teaches the class-hook contract every other framework shares, and it runs straight from a file.
+Torn between them? Start with [HTML](https://lilydesignsystem.com/tutorials/html/) — it teaches the class-hook contract every other framework shares, and it runs straight from a file.
 
 ## Go deeper
 
@@ -97,7 +97,7 @@ Link one of 57 ready-made themes — NHS, GOV.UK, USWDS, light, dark, and more �
 
 ~15 minutes
 
-](/tutorials/theming/) [
+](https://lilydesignsystem.com/tutorials/theming/) [
 
 ### Preference helpers
 
@@ -105,10 +105,10 @@ Give users control of theme, language, text size, motion, search, page links, sh
 
 ~15 minutes
 
-](/tutorials/helpers/)
+](https://lilydesignsystem.com/tutorials/helpers/)
 
 ## After the tutorials
 
-- Browse the [component catalog](/components/) — every component documents its props, ARIA contract, and keyboard behaviour.
-- Clone an [example app](/examples/) to see all 581 components styled and working together — the CSS targets the same class hooks you just used, so copy any of it into your project and adjust it as you wish.
-- Questions? The [help page](/help/) has answers, an FAQ, and ways to reach a friendly human. And if a tutorial could be clearer, [tell us](https://github.com/LilyDesignSystem) — we'll gladly improve it.
+- Browse the [component catalog](https://lilydesignsystem.com/components/) — every component documents its props, ARIA contract, and keyboard behaviour.
+- Clone an [example app](https://lilydesignsystem.com/examples/) to see all 581 components styled and working together — the CSS targets the same class hooks you just used, so copy any of it into your project and adjust it as you wish.
+- Questions? The [help page](https://lilydesignsystem.com/help/) has answers, an FAQ, and ways to reach a friendly human. And if a tutorial could be clearer, [tell us](https://github.com/LilyDesignSystem) — we'll gladly improve it.

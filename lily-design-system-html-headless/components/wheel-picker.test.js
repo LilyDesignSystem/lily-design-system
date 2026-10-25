@@ -26,8 +26,8 @@ describe('WheelPicker', function() {
   });
 
   it('should move the selection with the arrow keys, skipping a disabled option', async function() {
-    const list = await $('.wheel-picker-list');
-    await list.click();
+    // Focus, don't click: a click lands on whichever option is under the pointer and selects it.
+    await browser.execute(() => document.querySelector('.wheel-picker-list').focus());
     await browser.keys(['ArrowDown']);
     expect(await (await $('[role=option][aria-selected=true]')).getText()).toBe('March');
     await browser.keys(['ArrowDown']);

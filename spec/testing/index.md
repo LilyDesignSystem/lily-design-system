@@ -30,7 +30,7 @@ Re-run 2026-10-25 (all suites green; 581 components), except `html-headless` (We
 | blazor-headless    | bUnit        | 2,191 cases                                    |
 | nunjucks-headless  | vitest       | 3,533 cases across 582 spec files              |
 | web-components-headless | vitest  | 3,280 cases across 547 spec files (546 components + `index.test.ts`, which pins the registered-element count and drives the built `dist/`) |
-| html-headless      | WebdriverIO  | 572 spec files (571 components + the shared `listbox-controller` spec), all passing in real headless Chrome 154 on 2026-10-06 with a matching chromedriver (`wdio.conf.js` must not fall back to a download in a sandbox: point `wdio:chromedriverOptions.binary` at a cached driver). Earlier note, kept for the record: browser run not re-executed — corrected 2026-09-02, plan P7-T12: the 2026-09-01 note blaming this sandbox's network egress was wrong. The real, now-fixed cause was `pnpm-workspace.yaml`'s `chromedriver`/`edgedriver`/`geckodriver`/`esbuild` entries carrying the literal placeholder text `"set this to true or false"` — and, separately, this file being gitignored here and in 9 other subprojects rather than committed — both of which blocked those packages' install-time driver-download postinstall scripts under pnpm 11 (`ERR_PNPM_IGNORED_BUILDS`). With both fixed, `pnpm install` now downloads chromedriver cleanly and the suite starts; a full `wdio run` still can't complete in this specific interactive sandbox because it receives an unexplained SIGINT within seconds every time, reproducible even for a single spec file with no other load — a harness-level limitation, not a network block or a Lily defect) |
+| html-headless      | WebdriverIO  | 572 spec files (571 components + the shared `listbox-controller` spec), all passing in real headless Chrome 154 on 2026-10-06 (2026-10-25: 583 spec files in Chrome 155, 581 passed on the full run, then the two failures, `middle-truncation` and `wheel-picker`, were test bugs, fixed and passing: a `waitUntil` that was always true, and a `click()` on the list that selected the option under the pointer) with a matching chromedriver (`wdio.conf.js` must not fall back to a download in a sandbox: point `wdio:chromedriverOptions.binary` at a cached driver). Earlier note, kept for the record: browser run not re-executed — corrected 2026-09-02, plan P7-T12: the 2026-09-01 note blaming this sandbox's network egress was wrong. The real, now-fixed cause was `pnpm-workspace.yaml`'s `chromedriver`/`edgedriver`/`geckodriver`/`esbuild` entries carrying the literal placeholder text `"set this to true or false"` — and, separately, this file being gitignored here and in 9 other subprojects rather than committed — both of which blocked those packages' install-time driver-download postinstall scripts under pnpm 11 (`ERR_PNPM_IGNORED_BUILDS`). With both fixed, `pnpm install` now downloads chromedriver cleanly and the suite starts; a full `wdio run` still can't complete in this specific interactive sandbox because it receives an unexplained SIGINT within seconds every time, reproducible even for a single spec file with no other load — a harness-level limitation, not a network block or a Lily defect) |
 
 Beyond the per-library suites: `bin/check-class-names` (every implementation carries its slug as the first
 token of a class list — run by `bin/test` and CI), and the **docs site's** Playwright suite
@@ -52,19 +52,19 @@ Six of seven full-catalog headless libraries ship Storybook (the Web Components 
 
 ## Playwright e2e on example apps
 
-Re-verified 2026-09-02 (plan P1-T6); every app is a fresh full-suite run, not a restamp. Grown substantially since the 2026-08-26 snapshot as rtl-demo, theme-switching, site-preferences, and (svelte-sveltekit) a full 491-page axe-catalog sweep landed. Two real defects were found and fixed in the course of this sweep — see §11.4 acceptance criteria and CHANGELOG.md — rather than being restamped over.
+Re-run in full 2026-10-25 for six of the seven apps (SvelteKit's full suite was not re-run; only its `axe-catalog.spec.ts` sweep was, below). Earlier: 2026-09-02 (plan P1-T6), every app a fresh full-suite run, not a restamp. Grown substantially since the 2026-08-26 snapshot as rtl-demo, theme-switching, site-preferences, and (svelte-sveltekit) a full 491-page axe-catalog sweep landed. Two real defects were found and fixed in the course of this sweep — see §11.4 acceptance criteria and CHANGELOG.md — rather than being restamped over.
 
 | App                          | Specs (spec/index.md §11.4) |
 | ---------------------------- | --------------------- |
 | svelte-sveltekit-examples    | 1,897 (includes the 90-shot `visual-regression.spec.ts` baseline, plan P7-T5) |
-| react-next-examples          | 1,319                 |
-| vue-nuxt-examples            | 1,319                 |
-| blazor-web-examples          | 1,327                 |
-| html-css-js-examples         | 903                   |
-| nunjucks-eleventy-examples   | 1,293 (2026-10-11: `e2e/component-pages.spec.ts` visits every page in `components.tsv`; built and run by CI's `eleventy-example` job) |
-| angular-examples             | 1,574 (491 per-component pages × 3 assertions, axe on every top-level and composed route, responsive sweep) |
+| react-next-examples          | 1,319 (2026-10-25: 1,318 on the full run; the RTL radio-group test failed once and passed 3 of 3 alone: flaky, not changed) |
+| vue-nuxt-examples            | 1,319 (2026-10-25, all passing) |
+| blazor-web-examples          | 1,327 (2026-10-25: 1,326 on the full run; the search-intersection test had a race and now waits for the filtered list; 5/5 on four reruns) |
+| html-css-js-examples         | 903 (2026-10-25, all passing) |
+| nunjucks-eleventy-examples   | 1,313 (2026-10-25, after `pnpm build`: the suite serves the git-ignored `_site`, and a stale one 404ed the ten newest components) (1,293 on 2026-10-11: `e2e/component-pages.spec.ts` visits every page in `components.tsv`; built and run by CI's `eleventy-example` job) |
+| angular-examples             | 1,574 (2026-10-25, all passing) (491 per-component pages × 3 assertions, axe on every top-level and composed route, responsive sweep) |
 
-Total: 9,542 specs, all green (9,007 on 2026-09-02; the Eleventy row was re-run 2026-10-11).
+Total: 9,652 specs (1,897 SvelteKit, not re-run 2026-10-25, plus 7,755 in the other six; 9,542 before the Eleventy and catalog growth, 9,007 on 2026-09-02).
 
 ## Helper catalog test counts
 
@@ -91,7 +91,7 @@ its labels record from every pack. See [label-packs](../label-packs/index.md).
 
 ## axe-core accessibility baseline
 
-axe-core / Playwright integration runs across all seven example apps. Rule set: WCAG 2.0 A+AA, 2.1 A+AA, 2.2 AA (spec/index.md §11.5). Re-verified 2026-09-02 (plan P1-T6) — angular-examples added to the table (already covered by its own 1,542-spec suite, just not previously listed here); nunjucks-eleventy-examples grew from 17 routes to 31 as it gained composed-page coverage.
+axe-core / Playwright integration runs across all seven example apps. Rule set: WCAG 2.0 A+AA, 2.1 A+AA, 2.2 AA (spec/index.md §11.5). Re-verified 2026-10-25 for the six apps whose full suites ran (they include the axe specs), 2026-09-02 for SvelteKit's 31/31 route baseline (plan P1-T6) — angular-examples added to the table (already covered by its own 1,542-spec suite, just not previously listed here); nunjucks-eleventy-examples grew from 17 routes to 31 as it gained composed-page coverage.
 
 | App                          | Clean | Status       |
 | ---------------------------- | ----- | ------------ |

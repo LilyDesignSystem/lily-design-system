@@ -88,12 +88,12 @@ Or skip hand-writing CSS entirely — link one of the 45 ready-made themes and t
 
 - The repo's tests run real browsers: `pnpm install && pnpm test` (WebDriverIO).
 - Storybook for every component: `pnpm run storybook`.
-- The [HTML+CSS+JS example app](/examples/) shows all 581 components styled, searchable, and demoed.
+- The [HTML+CSS+JS example app](https://lilydesignsystem.com/examples/) shows all 581 components styled, searchable, and demoed.
 
 ## Next steps
 
-- [Theming](/tutorials/theming/) — runtime theme switching with theme-picker.
-- [Preference helpers](/tutorials/helpers/) — language and text size.
-- [Component catalog](/components/) — the full reference.
+- [Theming](https://lilydesignsystem.com/tutorials/theming/) — runtime theme switching with theme-picker.
+- [Preference helpers](https://lilydesignsystem.com/tutorials/helpers/) — language and text size.
+- [Component catalog](https://lilydesignsystem.com/components/) — the full reference.
 
-Questions along the way? The [help page](/help/#troubleshooting) is full of answers — and if a step could be clearer, [tell us](https://github.com/LilyDesignSystem) and we'll gladly improve the tutorial.
+Questions along the way? The [help page](https://lilydesignsystem.com/help/#troubleshooting) is full of answers — and if a step could be clearer, [tell us](https://github.com/LilyDesignSystem) and we'll gladly improve the tutorial.

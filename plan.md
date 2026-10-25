@@ -83,9 +83,7 @@ Earlier snapshots are kept in `CHANGELOG.md` and `spec/history/`.
   excluded). `bin/check-coverage` reports no drift.
 - **Subprojects**: 213 top-level directories — 184 implementation subprojects (9 headless including Alpine.js, 8 example
   apps, 167 helper packages, one each since 2026-10-10), 27 Claude Skills, 9 `locale-translations` packages,
-  `lily-design-system-themes` and the docs site. `bin/check-links` reports 86 broken links, none in hand-written docs:
-  76 are site-route links (`/tutorials/`, …) in the generated `lilydesignsystem.github.io/static/*.md` twins and 10 are
-  in `test/generators/` fixtures; `bin/test` does not run it.
+  `lily-design-system-themes` and the docs site. `bin/check-links` is clean (15,180 markdown files) and runs in `bin/test` (2026-10-25: the site's `.md` twins now carry absolute URLs, and generator fixtures are skipped).
 - **Helper packages** (167): in every framework, the eleven `*-picker`s (the time-zone picker joined 2026-10-24), `picker-bar`, `data-grid`, `kanban-board`,
   `gantt-chart`, `calendar` and `filter` (Nunjucks also has `listbox-behavior`). The grid-like helpers are at the
   same feature level in all eight catalogs for what carries a label: typed fields, inline editing with undo/redo,
@@ -425,7 +423,7 @@ command run against the working tree; nothing is carried over from earlier secti
     April–September 2026; only the first is referenced (by `bin/generate-registries`). → P12-T15.
 12. **Lessons backlog is not in `tasks.md`.** The bootstrap (10 items), daisyUI (11), ShardsUI (4) and coss (items 1,
     4, 5, 6 still open) topics each list planned work that has no task ID, so it cannot be scheduled or closed. → P12-T16.
-13. **`bin/check-links` fails today (26 broken links)** in the `/components/{slug}.md` copies added by `c25bfe528`;
+13. **`bin/check-links` failed (26 broken links, later 86; fixed 2026-10-25 and now run by `bin/test`)** in the `/components/{slug}.md` copies added by `c25bfe528`;
     `bin/test` still passed because it does not run `bin/check-links`, contrary to "Current state" above. → P12-T17.
 
 ### Advice, in priority order

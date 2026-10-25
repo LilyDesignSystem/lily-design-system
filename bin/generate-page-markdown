@@ -19,6 +19,9 @@ const site = path.join(top, "lilydesignsystem.github.io");
 const pagesDir = path.join(site, "src/lib/pages");
 const outDir = path.join(site, "static");
 const check = process.argv.includes("--check");
+// A twin is read away from its page (GitHub, a crawler), so a site-root link such as /help/ is made absolute.
+const ORIGIN = "https://lilydesignsystem.com";
+const absolute = (h) => (/^\/(?!\/)/.test(h) ? ORIGIN + h : h);
 
 const extra = JSON.parse(fs.readFileSync(path.join(site, "src/lib/extra-pages.json"), "utf8"));
 const routeOf = Object.fromEntries(extra.map((e) => [e.slug, e.route]));
@@ -78,7 +81,7 @@ function toMarkdown(html) {
     else if (tag === "kbd") emit("`");
     else if (tag === "a") {
       if (!close) { href.push(attr(t.attrs, "href") || ""); emit("["); }
-      else emit(`](${href.pop()})`);
+      else emit(`](${absolute(href.pop())})`);
     } else if (tag === "br") emit("\n");
     else if (tag === "table") {
       if (!close) { flush(); rows = []; } else {

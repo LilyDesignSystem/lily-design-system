@@ -6,4 +6,4 @@ Description: Announcements, release highlights, project status, and press contac
 
 # Announcements and status
 
-Rendered from the repository's canonical [NEWS.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/NEWS.md) at build time — the engineering record behind it is the [changelog](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md), and the forward plan is the [roadmap](/roadmap/).
+Rendered from the repository's canonical [NEWS.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/NEWS.md) at build time — the engineering record behind it is the [changelog](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md), and the forward plan is the [roadmap](https://lilydesignsystem.com/roadmap/).
