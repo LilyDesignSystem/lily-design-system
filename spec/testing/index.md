@@ -52,11 +52,11 @@ Six of seven full-catalog headless libraries ship Storybook (the Web Components 
 
 ## Playwright e2e on example apps
 
-Re-run in full 2026-10-25 for six of the seven apps (SvelteKit's full suite was not re-run; only its `axe-catalog.spec.ts` sweep was, below). Earlier: 2026-09-02 (plan P1-T6), every app a fresh full-suite run, not a restamp. Grown substantially since the 2026-08-26 snapshot as rtl-demo, theme-switching, site-preferences, and (svelte-sveltekit) a full 491-page axe-catalog sweep landed. Two real defects were found and fixed in the course of this sweep — see §11.4 acceptance criteria and CHANGELOG.md — rather than being restamped over.
+Re-run in full 2026-10-25 for all seven apps. Earlier: 2026-09-02 (plan P1-T6), every app a fresh full-suite run, not a restamp. Grown substantially since the 2026-08-26 snapshot as rtl-demo, theme-switching, site-preferences, and (svelte-sveltekit) a full 491-page axe-catalog sweep landed. Two real defects were found and fixed in the course of this sweep — see §11.4 acceptance criteria and CHANGELOG.md — rather than being restamped over.
 
 | App                          | Specs (spec/index.md §11.4) |
 | ---------------------------- | --------------------- |
-| svelte-sveltekit-examples    | 1,897 (includes the 90-shot `visual-regression.spec.ts` baseline, plan P7-T5) |
+| svelte-sveltekit-examples    | 1,992 (2026-10-25: 1,984 on the full run, plus 8 fixed afterwards and passing: five `reduced-motion.spec.ts` tests that looked for the docs site's `.component-example-rendered` wrapper instead of `main .card`, and three `calendar-table` baselines of the 90-shot `visual-regression.spec.ts` (plan P7-T5) re-recorded after the auto-sized table columns shifted about 10 px) |
 | react-next-examples          | 1,319 (2026-10-25: 1,318 on the full run; the RTL radio-group test failed once and passed 3 of 3 alone: flaky, not changed) |
 | vue-nuxt-examples            | 1,319 (2026-10-25, all passing) |
 | blazor-web-examples          | 1,327 (2026-10-25: 1,326 on the full run; the search-intersection test had a race and now waits for the filtered list; 5/5 on four reruns) |
@@ -64,7 +64,7 @@ Re-run in full 2026-10-25 for six of the seven apps (SvelteKit's full suite was 
 | nunjucks-eleventy-examples   | 1,313 (2026-10-25, after `pnpm build`: the suite serves the git-ignored `_site`, and a stale one 404ed the ten newest components) (1,293 on 2026-10-11: `e2e/component-pages.spec.ts` visits every page in `components.tsv`; built and run by CI's `eleventy-example` job) |
 | angular-examples             | 1,574 (2026-10-25, all passing) (491 per-component pages × 3 assertions, axe on every top-level and composed route, responsive sweep) |
 
-Total: 9,652 specs (1,897 SvelteKit, not re-run 2026-10-25, plus 7,755 in the other six; 9,542 before the Eleventy and catalog growth, 9,007 on 2026-09-02).
+Total: 9,747 specs (1,992 SvelteKit plus 7,755 in the other six; 9,542 before the Eleventy and catalog growth, 9,007 on 2026-09-02).
 
 ## Helper catalog test counts
 
