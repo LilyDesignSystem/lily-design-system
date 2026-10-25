@@ -58,7 +58,7 @@ ported to all seven other catalogs the same day) is a
 `<div class="picker-bar {class}">` that renders `link-picker` (a home icon
 opening the app's page links — the **leftmost** icon, added 2026-10-07, only
 when the app passes `links` and `labels.link`), `search-picker`
-(next, added 2026-10-02), `theme-picker`, `locale-picker`,
+(next, added 2026-10-02), `theme-picker`, `locale-picker`, `time-zone-picker` (optional, after locale; 0.5.0, 2026-10-25: only when `labels.timeZone` and a time-zone locale are given),
 `text-size-picker`, and `share-picker` — each depended on as a real
 npm package, not vendored — in that order, with
 two defaults pre-wired: `themes` defaults to all 57 root `themes/`

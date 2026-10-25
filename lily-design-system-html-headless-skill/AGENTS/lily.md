@@ -71,160 +71,19 @@ The Svelte helpers (canonical reference) are one top-level subproject per packag
 - [`lily-design-system-svelte-gantt-chart`](../lily-design-system-svelte-gantt-chart) — `@lilydesignsystem/svelte-gantt-chart`
 - [`lily-design-system-svelte-picker-bar`](../lily-design-system-svelte-picker-bar) — `@lilydesignsystem/svelte-picker-bar`
 
-The React helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages react`):
+The other seven catalogs mirror the Svelte list one package per subproject, named `lily-design-system-<framework>-<package>` and published as `@lilydesignsystem/<framework>-<package>` (Blazor: `LilyDesignSystem.Blazor.<Package>` on NuGet). Do not hand-maintain per-framework lists here; ask the script, which prints them in dependency (build) order:
 
-- [`lily-design-system-react-data-grid`](../lily-design-system-react-data-grid) — `@lilydesignsystem/react-data-grid`
-- [`lily-design-system-react-date-time-picker`](../lily-design-system-react-date-time-picker) — `@lilydesignsystem/react-date-time-picker`
-- [`lily-design-system-react-filter`](../lily-design-system-react-filter) — `@lilydesignsystem/react-filter`
-- [`lily-design-system-react-kanban-board`](../lily-design-system-react-kanban-board) — `@lilydesignsystem/react-kanban-board`
-- [`lily-design-system-react-link-picker`](../lily-design-system-react-link-picker) — `@lilydesignsystem/react-link-picker`
-- [`lily-design-system-react-locale-picker`](../lily-design-system-react-locale-picker) — `@lilydesignsystem/react-locale-picker`
-- [`lily-design-system-react-menu-picker`](../lily-design-system-react-menu-picker) — `@lilydesignsystem/react-menu-picker`
-- [`lily-design-system-react-motion-picker`](../lily-design-system-react-motion-picker) — `@lilydesignsystem/react-motion-picker`
-- [`lily-design-system-react-search-picker`](../lily-design-system-react-search-picker) — `@lilydesignsystem/react-search-picker`
-- [`lily-design-system-react-settings-picker`](../lily-design-system-react-settings-picker) — `@lilydesignsystem/react-settings-picker`
-- [`lily-design-system-react-share-picker`](../lily-design-system-react-share-picker) — `@lilydesignsystem/react-share-picker`
-- [`lily-design-system-react-markdown-editor`](../lily-design-system-react-markdown-editor) — `@lilydesignsystem/react-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
-- [`lily-design-system-react-org-editor`](../lily-design-system-react-org-editor) — `@lilydesignsystem/react-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
-- [`lily-design-system-react-text-size-picker`](../lily-design-system-react-text-size-picker) — `@lilydesignsystem/react-text-size-picker`
-- [`lily-design-system-react-time-zone-picker`](../lily-design-system-react-time-zone-picker) — `@lilydesignsystem/react-time-zone-picker` — time zones by UTC offset with full names (added 2026-10-24)
-- [`lily-design-system-react-theme-picker`](../lily-design-system-react-theme-picker) — `@lilydesignsystem/react-theme-picker`
-- [`lily-design-system-react-gantt-chart`](../lily-design-system-react-gantt-chart) — `@lilydesignsystem/react-gantt-chart`
-- [`lily-design-system-react-calendar`](../lily-design-system-react-calendar) — `@lilydesignsystem/react-calendar`
-- [`lily-design-system-react-picker-bar`](../lily-design-system-react-picker-bar) — `@lilydesignsystem/react-picker-bar`
+| Framework | List its packages |
+| --------- | ----------------- |
+| React | `bin/list-helper-packages react` |
+| Vue | `bin/list-helper-packages vue` |
+| Angular | `bin/list-helper-packages angular` |
+| HTML | `bin/list-helper-packages html` |
+| Web Components | `bin/list-helper-packages web-components` |
+| Nunjucks | `bin/list-helper-packages nunjucks` |
+| Blazor | `bin/list-helper-packages blazor` |
 
-The Vue helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages vue`):
-
-- [`lily-design-system-vue-data-grid`](../lily-design-system-vue-data-grid) — `@lilydesignsystem/vue-data-grid`
-- [`lily-design-system-vue-date-time-picker`](../lily-design-system-vue-date-time-picker) — `@lilydesignsystem/vue-date-time-picker`
-- [`lily-design-system-vue-filter`](../lily-design-system-vue-filter) — `@lilydesignsystem/vue-filter`
-- [`lily-design-system-vue-kanban-board`](../lily-design-system-vue-kanban-board) — `@lilydesignsystem/vue-kanban-board`
-- [`lily-design-system-vue-link-picker`](../lily-design-system-vue-link-picker) — `@lilydesignsystem/vue-link-picker`
-- [`lily-design-system-vue-locale-picker`](../lily-design-system-vue-locale-picker) — `@lilydesignsystem/vue-locale-picker`
-- [`lily-design-system-vue-menu-picker`](../lily-design-system-vue-menu-picker) — `@lilydesignsystem/vue-menu-picker`
-- [`lily-design-system-vue-motion-picker`](../lily-design-system-vue-motion-picker) — `@lilydesignsystem/vue-motion-picker`
-- [`lily-design-system-vue-search-picker`](../lily-design-system-vue-search-picker) — `@lilydesignsystem/vue-search-picker`
-- [`lily-design-system-vue-settings-picker`](../lily-design-system-vue-settings-picker) — `@lilydesignsystem/vue-settings-picker`
-- [`lily-design-system-vue-share-picker`](../lily-design-system-vue-share-picker) — `@lilydesignsystem/vue-share-picker`
-- [`lily-design-system-vue-markdown-editor`](../lily-design-system-vue-markdown-editor) — `@lilydesignsystem/vue-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
-- [`lily-design-system-vue-org-editor`](../lily-design-system-vue-org-editor) — `@lilydesignsystem/vue-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
-- [`lily-design-system-vue-text-size-picker`](../lily-design-system-vue-text-size-picker) — `@lilydesignsystem/vue-text-size-picker`
-- [`lily-design-system-vue-time-zone-picker`](../lily-design-system-vue-time-zone-picker) — `@lilydesignsystem/vue-time-zone-picker` — time zones by UTC offset with full names (added 2026-10-24)
-- [`lily-design-system-vue-theme-picker`](../lily-design-system-vue-theme-picker) — `@lilydesignsystem/vue-theme-picker`
-- [`lily-design-system-vue-gantt-chart`](../lily-design-system-vue-gantt-chart) — `@lilydesignsystem/vue-gantt-chart`
-- [`lily-design-system-vue-calendar`](../lily-design-system-vue-calendar) — `@lilydesignsystem/vue-calendar`
-- [`lily-design-system-vue-picker-bar`](../lily-design-system-vue-picker-bar) — `@lilydesignsystem/vue-picker-bar`
-
-The Angular helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages angular`):
-
-- [`lily-design-system-angular-data-grid`](../lily-design-system-angular-data-grid) — `@lilydesignsystem/angular-data-grid`
-- [`lily-design-system-angular-date-time-picker`](../lily-design-system-angular-date-time-picker) — `@lilydesignsystem/angular-date-time-picker`
-- [`lily-design-system-angular-filter`](../lily-design-system-angular-filter) — `@lilydesignsystem/angular-filter`
-- [`lily-design-system-angular-kanban-board`](../lily-design-system-angular-kanban-board) — `@lilydesignsystem/angular-kanban-board`
-- [`lily-design-system-angular-link-picker`](../lily-design-system-angular-link-picker) — `@lilydesignsystem/angular-link-picker`
-- [`lily-design-system-angular-locale-picker`](../lily-design-system-angular-locale-picker) — `@lilydesignsystem/angular-locale-picker`
-- [`lily-design-system-angular-menu-picker`](../lily-design-system-angular-menu-picker) — `@lilydesignsystem/angular-menu-picker`
-- [`lily-design-system-angular-motion-picker`](../lily-design-system-angular-motion-picker) — `@lilydesignsystem/angular-motion-picker`
-- [`lily-design-system-angular-search-picker`](../lily-design-system-angular-search-picker) — `@lilydesignsystem/angular-search-picker`
-- [`lily-design-system-angular-settings-picker`](../lily-design-system-angular-settings-picker) — `@lilydesignsystem/angular-settings-picker`
-- [`lily-design-system-angular-share-picker`](../lily-design-system-angular-share-picker) — `@lilydesignsystem/angular-share-picker`
-- [`lily-design-system-angular-markdown-editor`](../lily-design-system-angular-markdown-editor) — `@lilydesignsystem/angular-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
-- [`lily-design-system-angular-org-editor`](../lily-design-system-angular-org-editor) — `@lilydesignsystem/angular-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
-- [`lily-design-system-angular-text-size-picker`](../lily-design-system-angular-text-size-picker) — `@lilydesignsystem/angular-text-size-picker`
-- [`lily-design-system-angular-time-zone-picker`](../lily-design-system-angular-time-zone-picker) — `@lilydesignsystem/angular-time-zone-picker` — time zones by UTC offset with full names (added 2026-10-24)
-- [`lily-design-system-angular-theme-picker`](../lily-design-system-angular-theme-picker) — `@lilydesignsystem/angular-theme-picker`
-- [`lily-design-system-angular-gantt-chart`](../lily-design-system-angular-gantt-chart) — `@lilydesignsystem/angular-gantt-chart`
-- [`lily-design-system-angular-calendar`](../lily-design-system-angular-calendar) — `@lilydesignsystem/angular-calendar`
-- [`lily-design-system-angular-picker-bar`](../lily-design-system-angular-picker-bar) — `@lilydesignsystem/angular-picker-bar`
-
-The HTML helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages html`):
-
-- [`lily-design-system-html-data-grid`](../lily-design-system-html-data-grid) — `@lilydesignsystem/html-data-grid`
-- [`lily-design-system-html-date-time-picker`](../lily-design-system-html-date-time-picker) — `@lilydesignsystem/html-date-time-picker`
-- [`lily-design-system-html-filter`](../lily-design-system-html-filter) — `@lilydesignsystem/html-filter`
-- [`lily-design-system-html-kanban-board`](../lily-design-system-html-kanban-board) — `@lilydesignsystem/html-kanban-board`
-- [`lily-design-system-html-link-picker`](../lily-design-system-html-link-picker) — `@lilydesignsystem/html-link-picker`
-- [`lily-design-system-html-locale-picker`](../lily-design-system-html-locale-picker) — `@lilydesignsystem/html-locale-picker`
-- [`lily-design-system-html-menu-picker`](../lily-design-system-html-menu-picker) — `@lilydesignsystem/html-menu-picker`
-- [`lily-design-system-html-motion-picker`](../lily-design-system-html-motion-picker) — `@lilydesignsystem/html-motion-picker`
-- [`lily-design-system-html-search-picker`](../lily-design-system-html-search-picker) — `@lilydesignsystem/html-search-picker`
-- [`lily-design-system-html-settings-picker`](../lily-design-system-html-settings-picker) — `@lilydesignsystem/html-settings-picker`
-- [`lily-design-system-html-share-picker`](../lily-design-system-html-share-picker) — `@lilydesignsystem/html-share-picker`
-- [`lily-design-system-html-markdown-editor`](../lily-design-system-html-markdown-editor) — `@lilydesignsystem/html-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
-- [`lily-design-system-html-org-editor`](../lily-design-system-html-org-editor) — `@lilydesignsystem/html-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
-- [`lily-design-system-html-text-size-picker`](../lily-design-system-html-text-size-picker) — `@lilydesignsystem/html-text-size-picker`
-- [`lily-design-system-html-time-zone-picker`](../lily-design-system-html-time-zone-picker) — `@lilydesignsystem/html-time-zone-picker` — time zones by UTC offset with full names (added 2026-10-24)
-- [`lily-design-system-html-theme-picker`](../lily-design-system-html-theme-picker) — `@lilydesignsystem/html-theme-picker`
-- [`lily-design-system-html-gantt-chart`](../lily-design-system-html-gantt-chart) — `@lilydesignsystem/html-gantt-chart`
-- [`lily-design-system-html-calendar`](../lily-design-system-html-calendar) — `@lilydesignsystem/html-calendar`
-- [`lily-design-system-html-picker-bar`](../lily-design-system-html-picker-bar) — `@lilydesignsystem/html-picker-bar`
-
-The Web Components helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages web-components`):
-
-- [`lily-design-system-web-components-data-grid`](../lily-design-system-web-components-data-grid) — `@lilydesignsystem/web-components-data-grid`
-- [`lily-design-system-web-components-date-time-picker`](../lily-design-system-web-components-date-time-picker) — `@lilydesignsystem/web-components-date-time-picker`
-- [`lily-design-system-web-components-filter`](../lily-design-system-web-components-filter) — `@lilydesignsystem/web-components-filter`
-- [`lily-design-system-web-components-kanban-board`](../lily-design-system-web-components-kanban-board) — `@lilydesignsystem/web-components-kanban-board`
-- [`lily-design-system-web-components-link-picker`](../lily-design-system-web-components-link-picker) — `@lilydesignsystem/web-components-link-picker`
-- [`lily-design-system-web-components-locale-picker`](../lily-design-system-web-components-locale-picker) — `@lilydesignsystem/web-components-locale-picker`
-- [`lily-design-system-web-components-menu-picker`](../lily-design-system-web-components-menu-picker) — `@lilydesignsystem/web-components-menu-picker`
-- [`lily-design-system-web-components-motion-picker`](../lily-design-system-web-components-motion-picker) — `@lilydesignsystem/web-components-motion-picker`
-- [`lily-design-system-web-components-search-picker`](../lily-design-system-web-components-search-picker) — `@lilydesignsystem/web-components-search-picker`
-- [`lily-design-system-web-components-settings-picker`](../lily-design-system-web-components-settings-picker) — `@lilydesignsystem/web-components-settings-picker`
-- [`lily-design-system-web-components-share-picker`](../lily-design-system-web-components-share-picker) — `@lilydesignsystem/web-components-share-picker`
-- [`lily-design-system-web-components-markdown-editor`](../lily-design-system-web-components-markdown-editor) — `@lilydesignsystem/web-components-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
-- [`lily-design-system-web-components-org-editor`](../lily-design-system-web-components-org-editor) — `@lilydesignsystem/web-components-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
-- [`lily-design-system-web-components-text-size-picker`](../lily-design-system-web-components-text-size-picker) — `@lilydesignsystem/web-components-text-size-picker`
-- [`lily-design-system-web-components-time-zone-picker`](../lily-design-system-web-components-time-zone-picker) — `@lilydesignsystem/web-components-time-zone-picker` — time zones by UTC offset with full names (added 2026-10-24)
-- [`lily-design-system-web-components-theme-picker`](../lily-design-system-web-components-theme-picker) — `@lilydesignsystem/web-components-theme-picker`
-- [`lily-design-system-web-components-gantt-chart`](../lily-design-system-web-components-gantt-chart) — `@lilydesignsystem/web-components-gantt-chart`
-- [`lily-design-system-web-components-calendar`](../lily-design-system-web-components-calendar) — `@lilydesignsystem/web-components-calendar`
-- [`lily-design-system-web-components-picker-bar`](../lily-design-system-web-components-picker-bar) — `@lilydesignsystem/web-components-picker-bar`
-
-The Nunjucks helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages nunjucks`):
-
-- [`lily-design-system-nunjucks-data-grid`](../lily-design-system-nunjucks-data-grid) — `@lilydesignsystem/nunjucks-data-grid`
-- [`lily-design-system-nunjucks-date-time-picker`](../lily-design-system-nunjucks-date-time-picker) — `@lilydesignsystem/nunjucks-date-time-picker`
-- [`lily-design-system-nunjucks-filter`](../lily-design-system-nunjucks-filter) — `@lilydesignsystem/nunjucks-filter`
-- [`lily-design-system-nunjucks-link-picker`](../lily-design-system-nunjucks-link-picker) — `@lilydesignsystem/nunjucks-link-picker`
-- [`lily-design-system-nunjucks-listbox-behavior`](../lily-design-system-nunjucks-listbox-behavior) — `@lilydesignsystem/nunjucks-listbox-behavior`
-- [`lily-design-system-nunjucks-menu-picker`](../lily-design-system-nunjucks-menu-picker) — `@lilydesignsystem/nunjucks-menu-picker`
-- [`lily-design-system-nunjucks-search-picker`](../lily-design-system-nunjucks-search-picker) — `@lilydesignsystem/nunjucks-search-picker`
-- [`lily-design-system-nunjucks-settings-picker`](../lily-design-system-nunjucks-settings-picker) — `@lilydesignsystem/nunjucks-settings-picker`
-- [`lily-design-system-nunjucks-share-picker`](../lily-design-system-nunjucks-share-picker) — `@lilydesignsystem/nunjucks-share-picker`
-- [`lily-design-system-nunjucks-markdown-editor`](../lily-design-system-nunjucks-markdown-editor) — `@lilydesignsystem/nunjucks-markdown-editor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
-- [`lily-design-system-nunjucks-org-editor`](../lily-design-system-nunjucks-org-editor) — `@lilydesignsystem/nunjucks-org-editor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
-- [`lily-design-system-nunjucks-gantt-chart`](../lily-design-system-nunjucks-gantt-chart) — `@lilydesignsystem/nunjucks-gantt-chart`
-- [`lily-design-system-nunjucks-calendar`](../lily-design-system-nunjucks-calendar) — `@lilydesignsystem/nunjucks-calendar`
-- [`lily-design-system-nunjucks-kanban-board`](../lily-design-system-nunjucks-kanban-board) — `@lilydesignsystem/nunjucks-kanban-board`
-- [`lily-design-system-nunjucks-locale-picker`](../lily-design-system-nunjucks-locale-picker) — `@lilydesignsystem/nunjucks-locale-picker`
-- [`lily-design-system-nunjucks-motion-picker`](../lily-design-system-nunjucks-motion-picker) — `@lilydesignsystem/nunjucks-motion-picker`
-- [`lily-design-system-nunjucks-text-size-picker`](../lily-design-system-nunjucks-text-size-picker) — `@lilydesignsystem/nunjucks-text-size-picker`
-- [`lily-design-system-nunjucks-time-zone-picker`](../lily-design-system-nunjucks-time-zone-picker) — `@lilydesignsystem/nunjucks-time-zone-picker` — time zones by UTC offset with full names (added 2026-10-24)
-- [`lily-design-system-nunjucks-theme-picker`](../lily-design-system-nunjucks-theme-picker) — `@lilydesignsystem/nunjucks-theme-picker`
-- [`lily-design-system-nunjucks-picker-bar`](../lily-design-system-nunjucks-picker-bar) — `@lilydesignsystem/nunjucks-picker-bar`
-
-The Blazor helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages blazor`):
-
-- [`lily-design-system-blazor-data-grid`](../lily-design-system-blazor-data-grid) — `LilyDesignSystem.Blazor.DataGrid`
-- [`lily-design-system-blazor-date-time-picker`](../lily-design-system-blazor-date-time-picker) — `@lilydesignsystem/blazor-date-time-picker`
-- [`lily-design-system-blazor-filter`](../lily-design-system-blazor-filter) — `LilyDesignSystem.Blazor.Filter`
-- [`lily-design-system-blazor-kanban-board`](../lily-design-system-blazor-kanban-board) — `@lilydesignsystem/blazor-kanban-board`
-- [`lily-design-system-blazor-link-picker`](../lily-design-system-blazor-link-picker) — `@lilydesignsystem/blazor-link-picker`
-- [`lily-design-system-blazor-locale-picker`](../lily-design-system-blazor-locale-picker) — `@lilydesignsystem/blazor-locale-picker`
-- [`lily-design-system-blazor-menu-picker`](../lily-design-system-blazor-menu-picker) — `@lilydesignsystem/blazor-menu-picker`
-- [`lily-design-system-blazor-motion-picker`](../lily-design-system-blazor-motion-picker) — `@lilydesignsystem/blazor-motion-picker`
-- [`lily-design-system-blazor-search-picker`](../lily-design-system-blazor-search-picker) — `@lilydesignsystem/blazor-search-picker`
-- [`lily-design-system-blazor-settings-picker`](../lily-design-system-blazor-settings-picker) — `@lilydesignsystem/blazor-settings-picker`
-- [`lily-design-system-blazor-share-picker`](../lily-design-system-blazor-share-picker) — `@lilydesignsystem/blazor-share-picker`
-- [`lily-design-system-blazor-markdown-editor`](../lily-design-system-blazor-markdown-editor) — `LilyDesignSystem.Blazor.MarkdownEditor` — a Markdown editor: a textarea with a toolbar of rich-text buttons that write Markdown (added 2026-10-24)
-- [`lily-design-system-blazor-org-editor`](../lily-design-system-blazor-org-editor) — `LilyDesignSystem.Blazor.OrgEditor` — an Emacs Org editor: a textarea with a toolbar for text effects, tasks, priorities, planning, properties, drawers and contacts (added 2026-10-24)
-- [`lily-design-system-blazor-text-size-picker`](../lily-design-system-blazor-text-size-picker) — `@lilydesignsystem/blazor-text-size-picker`
-- [`lily-design-system-blazor-time-zone-picker`](../lily-design-system-blazor-time-zone-picker) — `@lilydesignsystem/blazor-time-zone-picker` — time zones by UTC offset with full names (added 2026-10-24)
-- [`lily-design-system-blazor-theme-picker`](../lily-design-system-blazor-theme-picker) — `@lilydesignsystem/blazor-theme-picker`
-- [`lily-design-system-blazor-gantt-chart`](../lily-design-system-blazor-gantt-chart) — `@lilydesignsystem/blazor-gantt-chart`
-- [`lily-design-system-blazor-calendar`](../lily-design-system-blazor-calendar) — `@lilydesignsystem/blazor-calendar`
-- [`lily-design-system-blazor-picker-bar`](../lily-design-system-blazor-picker-bar) — `@lilydesignsystem/blazor-picker-bar`
+Nunjucks also ships `nunjucks-listbox-behavior`. Alpine ships only `alpine-{data-grid,kanban-board,calendar,gantt-chart}`. Port gaps are allow-listed with reasons in `bin/check-port-parity`.
 
 ## Reference themes
 
@@ -265,6 +124,7 @@ exemptions.
 | each headless library's components | `bin/sync-example-components` | the same components inside each example app | `bin/sync-example-components --check` |
 | `shared/*.ts`, `shared/label-packs/*.json` | `bin/sync-shared-modules` | each package's copy of a shared module, and the locale-translations label packs | `bin/sync-shared-modules --check` |
 | the root special files (LICENSE, CONTRIBUTING, …) | `bin/sync-special-files` | the same files in every subproject | `bin/sync-special-files --check` |
+| the Unicode CLDR (through Node's ICU), `shared/label-packs/` locale list | `bin/generate-zone-names` | `shared/zone-names/*.json`, and its copies in the locale-translations packages | `bin/generate-zone-names --check` |
 | `src/lib/pages/*/en.html` | `bin/generate-page-markdown` | `static/<route>.md`, one Markdown twin per English text page | `bin/generate-page-markdown --check` |
 | the site's English route pages | `bin/extract-site-pages` | `src/lib/pages/{slug}/en.html` | `bin/extract-site-pages --check` |
 | `src/lib/pages/*` translations | `bin/generate-locale-pages` | `src/routes/<code>/<slug>/+page.svelte` | `bin/generate-locale-pages --check` |
