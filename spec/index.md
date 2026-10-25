@@ -60,7 +60,7 @@ coding agents.
 | [trusted-publishing](trusted-publishing/index.md) | OIDC publishing to npm/NuGet: the adoption position, readiness table, checklist. |
 | [free-open-source-funding](free-open-source-funding/index.md) | Funding channels (GitHub Sponsors live, Open Collective planned), terms, and the files that must agree. |
 | [special-files-for-public-repos](special-files-for-public-repos/index.md) | The top-level files every subproject carries, copy-vs-generate, the sync tooling. |
-| [dependabot](dependabot/index.md) | Repo-level security updates: the grouped-weekly-PR `.github/dependabot.yml`, 36 entries. |
+| [dependabot](dependabot/index.md) | Repo-level security updates: the grouped-weekly-PR `.github/dependabot.yml`, 40 entries. |
 | [node-current-version](node-current-version/index.md) | The Node 26 requirement: `engines.node` across all `package.json` files and `deploy.yml`. |
 | [agent-skills](agent-skills/index.md) | The `lily-design-system-skill` (end-user) and `lily-design-system-maintainer-skill` (maintainer) Claude Skills, what each covers, and the naming-split retirement. |
 | [llms-json-and-llms-txt](llms-json-and-llms-txt/index.md) | The root and docs-site `llms.txt`/`llms.json` AI guidance files, the llms.txt convention, and why the two pairs' links differ. |
