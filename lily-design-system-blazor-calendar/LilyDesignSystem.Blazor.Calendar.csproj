@@ -46,7 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.14" />
   </ItemGroup>
 
   <!-- Real dependencies, not vendored markup: the headless CalendarTable        family (matching data-grid's/kanban-board's relationship to their

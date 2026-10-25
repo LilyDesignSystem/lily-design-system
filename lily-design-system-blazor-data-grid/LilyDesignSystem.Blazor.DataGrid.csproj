@@ -46,7 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.14" />
   </ItemGroup>
 
   <!-- A real dependency on the headless catalog's DataTable family — "depend on, don't vendor". ProjectReference rather than
