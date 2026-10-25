@@ -27,13 +27,13 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@lilydesignsystem/react-link-picker": "^0.1.1",
-    "@lilydesignsystem/react-locale-picker": "^0.2.0",
-    "@lilydesignsystem/react-search-picker": "^0.1.0",
-    "@lilydesignsystem/react-share-picker": "^0.2.0",
-    "@lilydesignsystem/react-text-size-picker": "^0.2.0",
+    "@lilydesignsystem/react-link-picker": "^0.2.0",
+    "@lilydesignsystem/react-locale-picker": "^0.3.1",
+    "@lilydesignsystem/react-search-picker": "^0.2.0",
+    "@lilydesignsystem/react-share-picker": "^0.3.0",
+    "@lilydesignsystem/react-text-size-picker": "^0.3.0",
     "@lilydesignsystem/react-time-zone-picker": "^0.1.0",
-    "@lilydesignsystem/react-theme-picker": "^0.2.0"
+    "@lilydesignsystem/react-theme-picker": "^0.3.0"
   },
   "peerDependencies": {
     "react": ">=18",
