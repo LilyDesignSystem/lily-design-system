@@ -2,13 +2,13 @@ import { readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { fillTemplate, labelsFor, SPEC, type LabelHelper, type LabelPack } from "./label-pack.js";
+import { fillTemplate, labelsFor, SPEC, textSizeLabels, type LabelHelper, type LabelPack } from "./label-pack.js";
 
 const dir = join(dirname(fileURLToPath(import.meta.url)), "label-packs");
 const files = readdirSync(dir).filter((f) => f.endsWith(".json")).sort();
 const packs = new Map<string, LabelPack>(files.map((f) => [f.replace(/\.json$/, ""), JSON.parse(readFileSync(join(dir, f), "utf8")) as LabelPack]));
 const english = packs.get("en-001")!;
-const SECTIONS = ["common", "data-grid", "kanban-board", "calendar", "gantt-chart", "filter"] as const;
+const SECTIONS = ["common", "data-grid", "kanban-board", "calendar", "gantt-chart", "filter", "text-size"] as const;
 const HELPERS: LabelHelper[] = ["data-grid", "kanban-board", "calendar", "gantt-chart", "filter"];
 
 /** Every leaf string of a pack with its path, e.g. `data-grid.sortAnnouncement.ascending`. */
@@ -110,3 +110,21 @@ function pickSelect(pack: LabelPack, helper: LabelHelper, key: string): string {
     const own = (pack[helper] ?? {})[key] ?? (pack.common ?? {})[key];
     return Object.keys(own as Record<string, string>)[0];
 }
+
+describe("textSizeLabels", () => {
+    const SIZES = ["largest", "larger", "large", "normal", "small", "smaller", "smallest"];
+    it("gives the seven sizes in every pack, all different", () => {
+        for (const [locale, pack] of packs) {
+            const labels = textSizeLabels(pack);
+            expect(Object.keys(labels), locale).toEqual(SIZES);
+            if (locale !== "pcm-001" && locale !== "sco-001") expect(new Set(Object.values(labels)).size, locale).toBe(7);
+        }
+    });
+    it("reads English and Spanish as specified", () => {
+        expect(Object.values(textSizeLabels(packs.get("en-001")!))).toEqual(SIZES);
+        expect(textSizeLabels(packs.get("es-001")!).largest).toBe("el más grande");
+    });
+    it("omits a size the pack lacks", () => {
+        expect(textSizeLabels({ locale: "xx", reviewed: false })).toEqual({});
+    });
+});

@@ -53,7 +53,7 @@ app remembers.
 | `storageKey`   | `string`                 | no       | If set, persist the slug to `localStorage`.            |
 | `name`         | `string`                 | no       | `name` of the `<select>` (default `"text-size"`).      |
 | `target`       | `HTMLElement \| null`    | no       | Element to receive `data-text-size`. Default `<html>`. |
-| `sizeLabels`   | `Record<string,string>`  | no       | Pretty labels per slug.                                |
+| `sizeLabels`   | `Record<string,string>`  | no       | Pretty labels per slug; `textSizeLabels(pack)` from `@lilydesignsystem/svelte-locale-translations` gives all seven in any of 64 languages. |
 | `onChange`     | `(size: string) => void` | no       | Called after a new size is applied.                    |
 | `class`        | `string`                 | no       | Extra CSS class on the root `<select>`.                |
 

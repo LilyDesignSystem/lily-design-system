@@ -230,5 +230,14 @@
     "ruleRemoved": "Syarat {n} dialih keluar",
     "groupAdded": "Kumpulan, aras {depth}, ditambah",
     "groupRemoved": "Kumpulan, aras {depth}, dialih keluar"
+  },
+  "text-size": {
+    "largest": "terbesar",
+    "larger": "lebih besar",
+    "large": "besar",
+    "normal": "biasa",
+    "small": "kecil",
+    "smaller": "lebih kecil",
+    "smallest": "terkecil"
   }
 }

@@ -274,5 +274,14 @@
     "ruleRemoved": "अट {n} काढली",
     "groupAdded": "गट, स्तर {depth}, जोडला",
     "groupRemoved": "गट, स्तर {depth}, काढला"
+  },
+  "text-size": {
+    "largest": "सर्वात मोठा",
+    "larger": "अधिक मोठा",
+    "large": "मोठा",
+    "normal": "सामान्य",
+    "small": "लहान",
+    "smaller": "अधिक लहान",
+    "smallest": "सर्वात लहान"
   }
 }

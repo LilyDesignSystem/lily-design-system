@@ -38,6 +38,8 @@ export type LabelPack = {
     calendar?: Record<string, LabelTemplate | Record<string, string>>;
     "gantt-chart"?: Record<string, LabelTemplate | Record<string, string>>;
     filter?: Record<string, LabelTemplate | Record<string, string>>;
+    /** The text-size-picker's seven size names (`largest` … `smallest`), plain strings. */
+    "text-size"?: Record<string, string>;
 };
 
 /** Per helper: function label -> the names of its arguments (see the header comment). A key not listed here is a plain string. */
@@ -234,4 +236,14 @@ export function packKeys(helper: LabelHelper, pack: LabelPack): string[] {
         ...Object.fromEntries(Object.entries(pack.common ?? {}).filter(([key]) => COMMON_FOR[helper].includes(key))),
         ...(pack[helper] ?? {}),
     });
+}
+
+/**
+ * The text-size-picker's `sizeLabels` for a pack: `{ largest: "el más grande", …, smallest: "el más pequeño" }`.
+ * A size the pack lacks is omitted, so the picker shows its own default label for it, never another language's.
+ */
+export function textSizeLabels(pack: LabelPack): Record<string, string> {
+    const out: Record<string, string> = {};
+    for (const [size, label] of Object.entries(pack["text-size"] ?? {})) if (typeof label === "string" && label !== "") out[size] = label;
+    return out;
 }

@@ -230,5 +230,14 @@
     "ruleRemoved": "Dem remove condition {n}",
     "groupAdded": "Dem add group, level {depth}",
     "groupRemoved": "Dem remove group, level {depth}"
+  },
+  "text-size": {
+    "largest": "di biggest",
+    "larger": "bigger",
+    "large": "big",
+    "normal": "normal",
+    "small": "small",
+    "smaller": "smaller",
+    "smallest": "di smallest"
   }
 }

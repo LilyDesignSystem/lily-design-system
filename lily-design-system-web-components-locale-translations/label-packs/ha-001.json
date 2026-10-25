@@ -274,5 +274,14 @@
     "ruleRemoved": "An cire sharaɗi na {n}",
     "groupAdded": "An ƙara rukuni, mataki na {depth}",
     "groupRemoved": "An cire rukuni, mataki na {depth}"
+  },
+  "text-size": {
+    "largest": "mafi girma",
+    "larger": "ya fi girma",
+    "large": "babba",
+    "normal": "na al’ada",
+    "small": "ƙarami",
+    "smaller": "ya fi ƙanƙanta",
+    "smallest": "mafi ƙanƙanta"
   }
 }

@@ -274,5 +274,14 @@
     "ruleRemoved": "شرط {n} ہٹائی گئی",
     "groupAdded": "گروپ، سطح {depth}، شامل کیا گیا",
     "groupRemoved": "گروپ، سطح {depth}، ہٹایا گیا"
+  },
+  "text-size": {
+    "largest": "سب سے بڑا",
+    "larger": "زیادہ بڑا",
+    "large": "بڑا",
+    "normal": "معمولی",
+    "small": "چھوٹا",
+    "smaller": "زیادہ چھوٹا",
+    "smallest": "سب سے چھوٹا"
   }
 }

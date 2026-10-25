@@ -274,5 +274,14 @@
     "ruleRemoved": "Uvjet {n} uklonjen",
     "groupAdded": "Skupina, razina {depth}, dodana",
     "groupRemoved": "Skupina, razina {depth}, uklonjena"
+  },
+  "text-size": {
+    "largest": "najveći",
+    "larger": "veći",
+    "large": "velik",
+    "normal": "normalan",
+    "small": "malen",
+    "smaller": "manji",
+    "smallest": "najmanji"
   }
 }

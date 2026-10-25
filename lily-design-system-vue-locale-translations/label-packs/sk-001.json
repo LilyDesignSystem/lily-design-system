@@ -274,5 +274,14 @@
     "ruleRemoved": "Podmienka {n} odstránená",
     "groupAdded": "Skupina, úroveň {depth}, pridaná",
     "groupRemoved": "Skupina, úroveň {depth}, odstránená"
+  },
+  "text-size": {
+    "largest": "najväčší",
+    "larger": "väčší",
+    "large": "veľký",
+    "normal": "normálny",
+    "small": "malý",
+    "smaller": "menší",
+    "smallest": "najmenší"
   }
 }

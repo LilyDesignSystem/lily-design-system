@@ -230,5 +230,14 @@
     "ruleRemoved": "תנאי {n} הוסר",
     "groupAdded": "קבוצה, רמה {depth}, נוספה",
     "groupRemoved": "קבוצה, רמה {depth}, הוסרה"
+  },
+  "text-size": {
+    "largest": "הגדול ביותר",
+    "larger": "גדול יותר",
+    "large": "גדול",
+    "normal": "רגיל",
+    "small": "קטן",
+    "smaller": "קטן יותר",
+    "smallest": "הקטן ביותר"
   }
 }

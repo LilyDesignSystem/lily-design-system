@@ -50,6 +50,14 @@ the packs as a package (not done yet).
 | Nunjucks | `nunjucksLabelsFor(helper, pack, { view })` returns `{ macro, client }`: `macro` is the JSON-safe `labels` for the macro in the helper's own names and tokens (two-state labels split in two); `client` is the same pack as functions for `initX(root, { labels })`. An export announcement shows `csv` / `tsv` / `xlsx` in lower case (the helper's contract). |
 | Blazor | `LabelPack.FromJson(json)` then `ToDataGridLabels()`, `ToKanbanLabels()`, `ToCalendarLabels()`, `ToGanttLabels()`, `ToFilterLabels()`. Loading the JSON is the app's job. A missing key leaves the label `null`; the filter's required labels throw. |
 
+## Text size names
+
+Every pack also has a `text-size` section: the text-size-picker's seven names (`largest`, `larger`, `large`, `normal`,
+`small`, `smaller`, `smallest`) in the pack's language, e.g. Spanish `el más grande … el más pequeño`. `textSizeLabels(pack)`
+returns them as the picker's `sizeLabels` (Blazor: `LocaleTranslations.TextSizeLabels(locale)` for `SizeLabels`); a size a
+pack lacks is omitted, never filled from another language. Like the rest of the pack they are unreviewed machine drafts
+(English excepted), and Cornish, Scots and Bhojpuri are lowest confidence.
+
 ## Locales
 
 `ar bg bh bn cs cy da de el en es et eu fa fi fr ga gu ha hi hr hu id it ja jv ko lt lv mr mt nl pa pl pt ro ru sk sl sv ta te tr ur vi zh`,

@@ -274,5 +274,14 @@
     "ruleRemoved": "Baineadh coinníoll {n}",
     "groupAdded": "Cuireadh grúpa, leibhéal {depth}, leis",
     "groupRemoved": "Baineadh grúpa, leibhéal {depth}"
+  },
+  "text-size": {
+    "largest": "is mó",
+    "larger": "níos mó",
+    "large": "mór",
+    "normal": "gnáth",
+    "small": "beag",
+    "smaller": "níos lú",
+    "smallest": "is lú"
   }
 }

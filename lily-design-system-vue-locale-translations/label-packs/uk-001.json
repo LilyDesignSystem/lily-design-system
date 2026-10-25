@@ -230,5 +230,14 @@
     "ruleRemoved": "Умову {n} видалено",
     "groupAdded": "Групу, рівень {depth}, додано",
     "groupRemoved": "Групу, рівень {depth}, видалено"
+  },
+  "text-size": {
+    "largest": "найбільший",
+    "larger": "більший",
+    "large": "великий",
+    "normal": "звичайний",
+    "small": "малий",
+    "smaller": "менший",
+    "smallest": "найменший"
   }
 }

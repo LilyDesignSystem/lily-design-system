@@ -230,5 +230,14 @@
     "ruleRemoved": "Betingelse {n} fjernet",
     "groupAdded": "Gruppe, nivå {depth}, lagt til",
     "groupRemoved": "Gruppe, nivå {depth}, fjernet"
+  },
+  "text-size": {
+    "largest": "størst",
+    "larger": "større",
+    "large": "stor",
+    "normal": "normal",
+    "small": "liten",
+    "smaller": "mindre",
+    "smallest": "minst"
   }
 }

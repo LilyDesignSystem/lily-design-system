@@ -274,5 +274,14 @@
     "ruleRemoved": "Villkor {n} har tagits bort",
     "groupAdded": "Grupp, nivå {depth}, har lagts till",
     "groupRemoved": "Grupp, nivå {depth}, har tagits bort"
+  },
+  "text-size": {
+    "largest": "störst",
+    "larger": "större",
+    "large": "stor",
+    "normal": "normal",
+    "small": "liten",
+    "smaller": "mindre",
+    "smallest": "minst"
   }
 }

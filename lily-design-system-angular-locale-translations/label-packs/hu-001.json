@@ -274,5 +274,14 @@
     "ruleRemoved": "{n}. feltétel eltávolítva",
     "groupAdded": "Csoport, {depth}. szint, hozzáadva",
     "groupRemoved": "Csoport, {depth}. szint, eltávolítva"
+  },
+  "text-size": {
+    "largest": "legnagyobb",
+    "larger": "nagyobb",
+    "large": "nagy",
+    "normal": "normál",
+    "small": "kicsi",
+    "smaller": "kisebb",
+    "smallest": "legkisebb"
   }
 }

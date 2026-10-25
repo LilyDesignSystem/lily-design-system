@@ -230,5 +230,14 @@
     "ruleRemoved": "已移除條件 {n}",
     "groupAdded": "已加群組,第 {depth} 層",
     "groupRemoved": "已移除群組,第 {depth} 層"
+  },
+  "text-size": {
+    "largest": "最大",
+    "larger": "較大",
+    "large": "大",
+    "normal": "正常",
+    "small": "細",
+    "smaller": "較細",
+    "smallest": "最細"
   }
 }

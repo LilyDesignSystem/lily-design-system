@@ -21,6 +21,14 @@ All eight catalogs have their own package so you install the one that matches yo
 
 The `labels` for each helper, plus `locale`, `reviewed`, `direction`, `endonym` and `exonyms` (the language's name in itself and in each other pack's language; none yet for Bhojpuri). Only English (`en-001`) is reviewed; the other 63 are machine drafts, so check `pack.reviewed` and have a native speaker read one, screen-reader wording especially, before it ships in a product. A key a pack lacks leaves that label unset, never another language. Dates stay out of packs: use `Intl`.
 
+## Text size names
+
+Every pack also has a `text-size` section: the text-size-picker's seven names (`largest`, `larger`, `large`, `normal`,
+`small`, `smaller`, `smallest`) in the pack's language, e.g. Spanish `el más grande … el más pequeño`. `textSizeLabels(pack)`
+returns them as the picker's `sizeLabels` (Blazor: `LocaleTranslations.TextSizeLabels(locale)` for `SizeLabels`); a size a
+pack lacks is omitted, never filled from another language. Like the rest of the pack they are unreviewed machine drafts
+(English excepted), and Cornish, Scots and Bhojpuri are lowest confidence.
+
 ## Time zone names (Unicode CLDR)
 
 The localized display names of IANA time zones, one pack per locale (all 64), for the time zone pickers:

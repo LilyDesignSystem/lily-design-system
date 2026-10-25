@@ -274,5 +274,14 @@
     "ruleRemoved": "Bedingung {n} entfernt",
     "groupAdded": "Gruppe, Ebene {depth}, hinzugefügt",
     "groupRemoved": "Gruppe, Ebene {depth}, entfernt"
+  },
+  "text-size": {
+    "largest": "am größten",
+    "larger": "größer",
+    "large": "groß",
+    "normal": "normal",
+    "small": "klein",
+    "smaller": "kleiner",
+    "smallest": "am kleinsten"
   }
 }

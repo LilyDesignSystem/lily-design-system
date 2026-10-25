@@ -230,5 +230,14 @@
     "ruleRemoved": "Inalis ang kondisyon {n}",
     "groupAdded": "Idinagdag ang grupo, antas {depth}",
     "groupRemoved": "Inalis ang grupo, antas {depth}"
+  },
+  "text-size": {
+    "largest": "pinakamalaki",
+    "larger": "mas malaki",
+    "large": "malaki",
+    "normal": "karaniwan",
+    "small": "maliit",
+    "smaller": "mas maliit",
+    "smallest": "pinakamaliit"
   }
 }

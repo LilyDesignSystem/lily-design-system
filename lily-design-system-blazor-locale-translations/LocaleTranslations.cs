@@ -40,6 +40,16 @@ public static class LocaleTranslations
     /// <summary>Has a native speaker checked the pack?</summary>
     public static bool Reviewed(string locale) => (bool?)Parse(locale)["reviewed"] ?? false;
 
+    /// <summary>The text-size-picker's seven size names (<c>largest</c> … <c>smallest</c>) for <c>SizeLabels</c>; a size the pack lacks is omitted.</summary>
+    public static IReadOnlyDictionary<string, string> TextSizeLabels(string locale)
+    {
+        var result = new Dictionary<string, string>();
+        if (Parse(locale)["text-size"] is JsonObject sizes)
+            foreach (var (size, label) in sizes)
+                if ((string?)label is { Length: > 0 } text) result[size] = text;
+        return result;
+    }
+
     // -----------------------------------------------------------------
     // Time zone names (Unicode CLDR). One pack per label-pack locale; see zone-names in index.md.
     // -----------------------------------------------------------------

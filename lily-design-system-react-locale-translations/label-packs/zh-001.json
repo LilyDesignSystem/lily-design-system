@@ -274,5 +274,14 @@
     "ruleRemoved": "已移除条件 {n}",
     "groupAdded": "已添加分组，第 {depth} 级",
     "groupRemoved": "已移除分组，第 {depth} 级"
+  },
+  "text-size": {
+    "largest": "最大",
+    "larger": "较大",
+    "large": "大",
+    "normal": "标准",
+    "small": "小",
+    "smaller": "较小",
+    "smallest": "最小"
   }
 }

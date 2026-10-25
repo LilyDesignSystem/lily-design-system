@@ -274,5 +274,14 @@
     "ruleRemoved": "Kondisi {n} wis dibusak",
     "groupAdded": "Klompok, tingkat {depth}, wis ditambahake",
     "groupRemoved": "Klompok, tingkat {depth}, wis dibusak"
+  },
+  "text-size": {
+    "largest": "paling gedhé",
+    "larger": "luwih gedhé",
+    "large": "gedhé",
+    "normal": "normal",
+    "small": "cilik",
+    "smaller": "luwih cilik",
+    "smallest": "paling cilik"
   }
 }

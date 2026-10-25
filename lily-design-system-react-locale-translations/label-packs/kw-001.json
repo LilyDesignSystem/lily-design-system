@@ -230,5 +230,14 @@
     "ruleRemoved": "Kondysyon {n} dihenys",
     "groupAdded": "Bagas, gradh {depth}, keworrys",
     "groupRemoved": "Bagas, gradh {depth}, dihenys"
+  },
+  "text-size": {
+    "largest": "an brassa",
+    "larger": "brassa",
+    "large": "bras",
+    "normal": "normal",
+    "small": "byghan",
+    "smaller": "byghanna",
+    "smallest": "an byghanna"
   }
 }

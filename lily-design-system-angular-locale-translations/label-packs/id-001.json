@@ -274,5 +274,14 @@
     "ruleRemoved": "Kondisi {n} dihapus",
     "groupAdded": "Grup, tingkat {depth}, ditambahkan",
     "groupRemoved": "Grup, tingkat {depth}, dihapus"
+  },
+  "text-size": {
+    "largest": "terbesar",
+    "larger": "lebih besar",
+    "large": "besar",
+    "normal": "normal",
+    "small": "kecil",
+    "smaller": "lebih kecil",
+    "smallest": "terkecil"
   }
 }

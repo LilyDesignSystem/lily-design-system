@@ -5,6 +5,13 @@ namespace LilyDesignSystem.Blazor.LocaleTranslations.Tests;
 public class LocaleTranslationsTests
 {
     [Fact]
+    public void TextSizeLabels_has_all_seven_sizes_in_every_pack()
+    {
+        Assert.Equal("el más grande", LocaleTranslations.TextSizeLabels("es-001")["largest"]);
+        Assert.All(LocaleTranslations.Locales, l => Assert.Equal(7, LocaleTranslations.TextSizeLabels(l).Count));
+    }
+
+    [Fact]
     public void Embeds_all_64_packs() => Assert.Equal(64, LocaleTranslations.Locales.Count);
 
     [Fact]

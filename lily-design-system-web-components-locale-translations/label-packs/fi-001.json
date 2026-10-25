@@ -274,5 +274,14 @@
     "ruleRemoved": "Ehto {n} poistettu",
     "groupAdded": "Ryhmä, taso {depth}, lisätty",
     "groupRemoved": "Ryhmä, taso {depth}, poistettu"
+  },
+  "text-size": {
+    "largest": "suurin",
+    "larger": "suurempi",
+    "large": "suuri",
+    "normal": "normaali",
+    "small": "pieni",
+    "smaller": "pienempi",
+    "smallest": "pienin"
   }
 }

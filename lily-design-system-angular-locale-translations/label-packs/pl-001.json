@@ -274,5 +274,14 @@
     "ruleRemoved": "Usunięto warunek {n}",
     "groupAdded": "Dodano grupę, poziom {depth}",
     "groupRemoved": "Usunięto grupę, poziom {depth}"
+  },
+  "text-size": {
+    "largest": "największy",
+    "larger": "większy",
+    "large": "duży",
+    "normal": "normalny",
+    "small": "mały",
+    "smaller": "mniejszy",
+    "smallest": "najmniejszy"
   }
 }

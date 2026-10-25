@@ -274,5 +274,14 @@
     "ruleRemoved": "Sąlyga {n} pašalinta",
     "groupAdded": "Grupė, {depth} lygis, pridėta",
     "groupRemoved": "Grupė, {depth} lygis, pašalinta"
+  },
+  "text-size": {
+    "largest": "didžiausias",
+    "larger": "didesnis",
+    "large": "didelis",
+    "normal": "įprastas",
+    "small": "mažas",
+    "smaller": "mažesnis",
+    "smallest": "mažiausias"
   }
 }

@@ -230,5 +230,14 @@
     "ruleRemoved": "Sharti {n} limeondolewa",
     "groupAdded": "Kikundi, ngazi {depth}, kimeongezwa",
     "groupRemoved": "Kikundi, ngazi {depth}, kimeondolewa"
+  },
+  "text-size": {
+    "largest": "kubwa kabisa",
+    "larger": "kubwa zaidi",
+    "large": "kubwa",
+    "normal": "kawaida",
+    "small": "ndogo",
+    "smaller": "ndogo zaidi",
+    "smallest": "ndogo kabisa"
   }
 }

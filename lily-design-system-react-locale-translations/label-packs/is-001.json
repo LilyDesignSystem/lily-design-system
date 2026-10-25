@@ -230,5 +230,14 @@
     "ruleRemoved": "Skilyrði {n} fjarlægt",
     "groupAdded": "Hópi, stig {depth}, bætt við",
     "groupRemoved": "Hópur, stig {depth}, fjarlægður"
+  },
+  "text-size": {
+    "largest": "stærst",
+    "larger": "stærra",
+    "large": "stórt",
+    "normal": "venjulegt",
+    "small": "lítið",
+    "smaller": "minna",
+    "smallest": "minnst"
   }
 }

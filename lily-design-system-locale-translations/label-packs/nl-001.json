@@ -274,5 +274,14 @@
     "ruleRemoved": "Voorwaarde {n} verwijderd",
     "groupAdded": "Groep, niveau {depth}, toegevoegd",
     "groupRemoved": "Groep, niveau {depth}, verwijderd"
+  },
+  "text-size": {
+    "largest": "grootst",
+    "larger": "groter",
+    "large": "groot",
+    "normal": "normaal",
+    "small": "klein",
+    "smaller": "kleiner",
+    "smallest": "kleinst"
   }
 }

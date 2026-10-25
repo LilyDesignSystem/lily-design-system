@@ -230,5 +230,14 @@
     "ruleRemoved": "បានដកលក្ខខណ្ឌ {n} ចេញ",
     "groupAdded": "បានបន្ថែមក្រុម កម្រិត {depth}",
     "groupRemoved": "បានដកក្រុមចេញ កម្រិត {depth}"
+  },
+  "text-size": {
+    "largest": "ធំបំផុត",
+    "larger": "ធំជាង",
+    "large": "ធំ",
+    "normal": "ធម្មតា",
+    "small": "តូច",
+    "smaller": "តូចជាង",
+    "smallest": "តូចបំផុត"
   }
 }

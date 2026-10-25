@@ -275,5 +275,14 @@
     "ruleRemoved": "शर्त {n} हटावल गइल",
     "groupAdded": "समूह, स्तर {depth}, जोड़ल गइल",
     "groupRemoved": "समूह, स्तर {depth}, हटावल गइल"
+  },
+  "text-size": {
+    "largest": "सबसे बड़ा",
+    "larger": "अउरी बड़ा",
+    "large": "बड़ा",
+    "normal": "सामान्य",
+    "small": "छोट",
+    "smaller": "अउरी छोट",
+    "smallest": "सबसे छोट"
   }
 }

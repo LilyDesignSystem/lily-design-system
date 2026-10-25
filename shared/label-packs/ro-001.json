@@ -274,5 +274,14 @@
     "ruleRemoved": "Condiția {n} a fost eliminată",
     "groupAdded": "Grupul, nivelul {depth}, a fost adăugat",
     "groupRemoved": "Grupul, nivelul {depth}, a fost eliminat"
+  },
+  "text-size": {
+    "largest": "cel mai mare",
+    "larger": "mai mare",
+    "large": "mare",
+    "normal": "normal",
+    "small": "mic",
+    "smaller": "mai mic",
+    "smallest": "cel mai mic"
   }
 }

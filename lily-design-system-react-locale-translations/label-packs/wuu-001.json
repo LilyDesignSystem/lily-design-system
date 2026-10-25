@@ -230,5 +230,14 @@
     "ruleRemoved": "删脱条件 {n}",
     "groupAdded": "加好分组,第 {depth} 层",
     "groupRemoved": "删脱分组,第 {depth} 层"
+  },
+  "text-size": {
+    "largest": "最大",
+    "larger": "較大",
+    "large": "大",
+    "normal": "正常",
+    "small": "小",
+    "smaller": "較小",
+    "smallest": "最小"
   }
 }

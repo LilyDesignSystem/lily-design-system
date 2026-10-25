@@ -230,5 +230,14 @@
     "ruleRemoved": "ເອົາເງື່ອນໄຂ {n} ອອກແລ້ວ",
     "groupAdded": "ເພີ່ມກຸ່ມ, ລະດັບ {depth}, ແລ້ວ",
     "groupRemoved": "ເອົາກຸ່ມ, ລະດັບ {depth}, ອອກແລ້ວ"
+  },
+  "text-size": {
+    "largest": "ໃຫຍ່ທີ່ສຸດ",
+    "larger": "ໃຫຍ່ຂຶ້ນ",
+    "large": "ໃຫຍ່",
+    "normal": "ປົກກະຕິ",
+    "small": "ນ້ອຍ",
+    "smaller": "ນ້ອຍລົງ",
+    "smallest": "ນ້ອຍທີ່ສຸດ"
   }
 }

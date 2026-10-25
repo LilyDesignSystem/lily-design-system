@@ -274,5 +274,14 @@
     "ruleRemoved": "షరతు {n} తీసివేయబడింది",
     "groupAdded": "సమూహం, స్థాయి {depth}, జోడించబడింది",
     "groupRemoved": "సమూహం, స్థాయి {depth}, తీసివేయబడింది"
+  },
+  "text-size": {
+    "largest": "అతి పెద్ద",
+    "larger": "మరింత పెద్ద",
+    "large": "పెద్ద",
+    "normal": "సాధారణ",
+    "small": "చిన్న",
+    "smaller": "మరింత చిన్న",
+    "smallest": "అతి చిన్న"
   }
 }

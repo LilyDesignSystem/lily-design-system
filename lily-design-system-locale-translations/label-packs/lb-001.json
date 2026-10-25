@@ -230,5 +230,14 @@
     "ruleRemoved": "Bedingung {n} ewechgeholl",
     "groupAdded": "Grupp, Niveau {depth}, derbäigesat",
     "groupRemoved": "Grupp, Niveau {depth}, ewechgeholl"
+  },
+  "text-size": {
+    "largest": "am gréissten",
+    "larger": "méi grouss",
+    "large": "grouss",
+    "normal": "normal",
+    "small": "kleng",
+    "smaller": "méi kleng",
+    "smallest": "am klengsten"
   }
 }

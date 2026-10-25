@@ -275,5 +275,14 @@
     "ruleRemoved": "Condition {n} removed",
     "groupAdded": "Group, level {depth}, added",
     "groupRemoved": "Group, level {depth}, removed"
+  },
+  "text-size": {
+    "largest": "largest",
+    "larger": "larger",
+    "large": "large",
+    "normal": "normal",
+    "small": "small",
+    "smaller": "smaller",
+    "smallest": "smallest"
   }
 }

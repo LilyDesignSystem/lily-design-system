@@ -274,5 +274,14 @@
     "ruleRemoved": "શરત {n} દૂર કરાઈ",
     "groupAdded": "જૂથ, સ્તર {depth}, ઉમેરાયું",
     "groupRemoved": "જૂથ, સ્તર {depth}, દૂર કરાયું"
+  },
+  "text-size": {
+    "largest": "સૌથી મોટું",
+    "larger": "વધુ મોટું",
+    "large": "મોટું",
+    "normal": "સામાન્ય",
+    "small": "નાનું",
+    "smaller": "વધુ નાનું",
+    "smallest": "સૌથી નાનું"
   }
 }

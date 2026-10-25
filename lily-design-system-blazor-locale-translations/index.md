@@ -16,6 +16,14 @@ var pack = LabelPack.FromJson(LocaleTranslations.Json("cy-001"));   // LabelPack
 
 The packs are the npm package `@lilydesignsystem/locale-translations`'s files (edited in `shared/label-packs/`); this package embeds that copy.
 
+## Text size names
+
+Every pack also has a `text-size` section: the text-size-picker's seven names (`largest`, `larger`, `large`, `normal`,
+`small`, `smaller`, `smallest`) in the pack's language, e.g. Spanish `el más grande … el más pequeño`. `textSizeLabels(pack)`
+returns them as the picker's `sizeLabels` (Blazor: `LocaleTranslations.TextSizeLabels(locale)` for `SizeLabels`); a size a
+pack lacks is omitted, never filled from another language. Like the rest of the pack they are unreviewed machine drafts
+(English excepted), and Cornish, Scots and Bhojpuri are lowest confidence.
+
 ## Time zone names (Unicode CLDR)
 
 The localized display names of IANA time zones, one pack per locale (all 64), for `TimeZonePicker`:

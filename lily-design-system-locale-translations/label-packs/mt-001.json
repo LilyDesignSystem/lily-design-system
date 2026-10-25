@@ -274,5 +274,14 @@
     "ruleRemoved": "Il-kundizzjoni {n} tneħħiet",
     "groupAdded": "Il-grupp, livell {depth}, ġie miżjud",
     "groupRemoved": "Il-grupp, livell {depth}, tneħħa"
+  },
+  "text-size": {
+    "largest": "l-akbar",
+    "larger": "akbar",
+    "large": "kbir",
+    "normal": "normali",
+    "small": "żgħir",
+    "smaller": "iżgħar",
+    "smallest": "l-iżgħar"
   }
 }

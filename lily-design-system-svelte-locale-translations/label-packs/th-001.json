@@ -230,5 +230,14 @@
     "ruleRemoved": "ลบเงื่อนไข {n} แล้ว",
     "groupAdded": "เพิ่มกลุ่ม ระดับ {depth} แล้ว",
     "groupRemoved": "ลบกลุ่ม ระดับ {depth} แล้ว"
+  },
+  "text-size": {
+    "largest": "ใหญ่ที่สุด",
+    "larger": "ใหญ่กว่า",
+    "large": "ใหญ่",
+    "normal": "ปกติ",
+    "small": "เล็ก",
+    "smaller": "เล็กกว่า",
+    "smallest": "เล็กที่สุด"
   }
 }

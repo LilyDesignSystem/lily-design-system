@@ -274,5 +274,14 @@
     "ruleRemoved": "শর্ত {n} সরানো হয়েছে",
     "groupAdded": "গোষ্ঠী, স্তর {depth}, যোগ করা হয়েছে",
     "groupRemoved": "গোষ্ঠী, স্তর {depth}, সরানো হয়েছে"
+  },
+  "text-size": {
+    "largest": "সবচেয়ে বড়",
+    "larger": "আরও বড়",
+    "large": "বড়",
+    "normal": "স্বাভাবিক",
+    "small": "ছোট",
+    "smaller": "আরও ছোট",
+    "smallest": "সবচেয়ে ছোট"
   }
 }

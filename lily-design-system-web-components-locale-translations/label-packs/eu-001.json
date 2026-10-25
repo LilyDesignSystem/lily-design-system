@@ -274,5 +274,14 @@
     "ruleRemoved": "{n}. baldintza kendu da",
     "groupAdded": "Taldea, {depth}. maila, gehitu da",
     "groupRemoved": "Taldea, {depth}. maila, kendu da"
+  },
+  "text-size": {
+    "largest": "handiena",
+    "larger": "handiagoa",
+    "large": "handia",
+    "normal": "normala",
+    "small": "txikia",
+    "smaller": "txikiagoa",
+    "smallest": "txikiena"
   }
 }

@@ -274,5 +274,14 @@
     "ruleRemoved": "شرط {n} حذف شد",
     "groupAdded": "گروه، سطح {depth}، اضافه شد",
     "groupRemoved": "گروه، سطح {depth}، حذف شد"
+  },
+  "text-size": {
+    "largest": "بزرگ‌ترین",
+    "larger": "بزرگ‌تر",
+    "large": "بزرگ",
+    "normal": "عادی",
+    "small": "کوچک",
+    "smaller": "کوچک‌تر",
+    "smallest": "کوچک‌ترین"
   }
 }

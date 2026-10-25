@@ -274,5 +274,14 @@
     "ruleRemoved": "शर्त {n} हटाई गई",
     "groupAdded": "समूह, स्तर {depth}, जोड़ा गया",
     "groupRemoved": "समूह, स्तर {depth}, हटाया गया"
+  },
+  "text-size": {
+    "largest": "सबसे बड़ा",
+    "larger": "और बड़ा",
+    "large": "बड़ा",
+    "normal": "सामान्य",
+    "small": "छोटा",
+    "smaller": "और छोटा",
+    "smallest": "सबसे छोटा"
   }
 }

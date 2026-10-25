@@ -274,5 +274,14 @@
     "ruleRemoved": "Đã xóa điều kiện {n}",
     "groupAdded": "Đã thêm nhóm, cấp {depth}",
     "groupRemoved": "Đã xóa nhóm, cấp {depth}"
+  },
+  "text-size": {
+    "largest": "lớn nhất",
+    "larger": "lớn hơn",
+    "large": "lớn",
+    "normal": "bình thường",
+    "small": "nhỏ",
+    "smaller": "nhỏ hơn",
+    "smallest": "nhỏ nhất"
   }
 }

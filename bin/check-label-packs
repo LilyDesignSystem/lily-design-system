@@ -16,7 +16,7 @@ const fs = require("fs");
 const path = require("path");
 
 const dir = path.join(__dirname, "..", "shared", "label-packs");
-const SECTIONS = ["common", "data-grid", "kanban-board", "calendar", "gantt-chart", "filter"];
+const SECTIONS = ["common", "data-grid", "kanban-board", "calendar", "gantt-chart", "filter", "text-size"];
 const files = fs.readdirSync(dir).filter((f) => f.endsWith(".json")).sort();
 const leaves = (pack) => {
   const out = new Map();

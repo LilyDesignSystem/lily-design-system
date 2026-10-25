@@ -274,5 +274,14 @@
     "ruleRemoved": "ਸ਼ਰਤ {n} ਹਟਾਈ ਗਈ",
     "groupAdded": "ਸਮੂਹ, ਪੱਧਰ {depth}, ਜੋੜਿਆ ਗਿਆ",
     "groupRemoved": "ਸਮੂਹ, ਪੱਧਰ {depth}, ਹਟਾਇਆ ਗਿਆ"
+  },
+  "text-size": {
+    "largest": "ਸਭ ਤੋਂ ਵੱਡਾ",
+    "larger": "ਹੋਰ ਵੱਡਾ",
+    "large": "ਵੱਡਾ",
+    "normal": "ਆਮ",
+    "small": "ਛੋਟਾ",
+    "smaller": "ਹੋਰ ਛੋਟਾ",
+    "smallest": "ਸਭ ਤੋਂ ਛੋਟਾ"
   }
 }

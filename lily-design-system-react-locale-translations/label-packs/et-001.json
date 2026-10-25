@@ -274,5 +274,14 @@
     "ruleRemoved": "Tingimus {n} eemaldatud",
     "groupAdded": "Rühm, tase {depth}, lisatud",
     "groupRemoved": "Rühm, tase {depth}, eemaldatud"
+  },
+  "text-size": {
+    "largest": "suurim",
+    "larger": "suurem",
+    "large": "suur",
+    "normal": "tavaline",
+    "small": "väike",
+    "smaller": "väiksem",
+    "smallest": "väikseim"
   }
 }

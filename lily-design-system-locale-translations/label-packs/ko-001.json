@@ -274,5 +274,14 @@
     "ruleRemoved": "조건 {n}을(를) 삭제했습니다",
     "groupAdded": "그룹, {depth}단계를 추가했습니다",
     "groupRemoved": "그룹, {depth}단계를 삭제했습니다"
+  },
+  "text-size": {
+    "largest": "가장 크게",
+    "larger": "더 크게",
+    "large": "크게",
+    "normal": "보통",
+    "small": "작게",
+    "smaller": "더 작게",
+    "smallest": "가장 작게"
   }
 }

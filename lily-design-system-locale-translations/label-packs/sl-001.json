@@ -274,5 +274,14 @@
     "ruleRemoved": "Pogoj {n} odstranjen",
     "groupAdded": "Skupina, raven {depth}, dodana",
     "groupRemoved": "Skupina, raven {depth}, odstranjena"
+  },
+  "text-size": {
+    "largest": "največji",
+    "larger": "večji",
+    "large": "velik",
+    "normal": "običajen",
+    "small": "majhen",
+    "smaller": "manjši",
+    "smallest": "najmanjši"
   }
 }

@@ -230,5 +230,14 @@
     "ruleRemoved": "Chaidh cumha {n} a thoirt air falbh",
     "groupAdded": "Chaidh buidheann, ìre {depth}, a chur ris",
     "groupRemoved": "Chaidh buidheann, ìre {depth}, a thoirt air falbh"
+  },
+  "text-size": {
+    "largest": "as motha",
+    "larger": "nas motha",
+    "large": "mòr",
+    "normal": "àbhaisteach",
+    "small": "beag",
+    "smaller": "nas lugha",
+    "smallest": "as lugha"
   }
 }

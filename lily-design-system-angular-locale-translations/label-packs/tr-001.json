@@ -274,5 +274,14 @@
     "ruleRemoved": "{n}. koşul kaldırıldı",
     "groupAdded": "Grup, düzey {depth}, eklendi",
     "groupRemoved": "Grup, düzey {depth}, kaldırıldı"
+  },
+  "text-size": {
+    "largest": "en büyük",
+    "larger": "daha büyük",
+    "large": "büyük",
+    "normal": "normal",
+    "small": "küçük",
+    "smaller": "daha küçük",
+    "smallest": "en küçük"
   }
 }

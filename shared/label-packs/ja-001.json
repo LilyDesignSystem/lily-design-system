@@ -274,5 +274,14 @@
     "ruleRemoved": "条件 {n} を削除しました",
     "groupAdded": "グループ、レベル {depth} を追加しました",
     "groupRemoved": "グループ、レベル {depth} を削除しました"
+  },
+  "text-size": {
+    "largest": "最大",
+    "larger": "より大きい",
+    "large": "大",
+    "normal": "標準",
+    "small": "小",
+    "smaller": "より小さい",
+    "smallest": "最小"
   }
 }
