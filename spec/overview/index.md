@@ -34,8 +34,8 @@ The headless layer is the contract; the example layer is the proof. Adopters can
 
 **In scope**
 
-- A canonical catalog of **571 components** (`components.tsv`).
-- **Seven full-catalog headless component libraries**: HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — plus an eighth (Web Components) at its full achievable scope since 2026-09-06: 536 of 571 (as of 2026-10-06), the remaining 35 permanently excluded by a real architectural limitation, not backlog.
+- A canonical catalog of **581 components** (`components.tsv`).
+- **Seven full-catalog headless component libraries**: HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — plus an eighth (Web Components) at its full achievable scope since 2026-09-06: 546 of 581 (as of 2026-10-25), the remaining 35 permanently excluded by a real architectural limitation, not backlog.
 - **Seven example applications**: HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js, Angular Analog, Blazor Web, Nunjucks Eleventy.
 - A CSS style-sheet template (`css-style-sheet-template.css`) declaring every component class hook.
 - Per-component documentation under `components/{slug}/`.
@@ -56,7 +56,7 @@ The headless layer is the contract; the example layer is the proof. Adopters can
 
 | Fact | Value |
 | --- | --- |
-| Canonical components | 571 |
+| Canonical components | 581 |
 | Headless libraries | 7 (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks) |
 | Example applications | 7 (HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js, Angular Analog, Blazor Web, Nunjucks Eleventy) |
 | Accessibility target | WCAG 2.2 AAA; WAI-ARIA APG 1.2 |
@@ -76,8 +76,8 @@ The headless layer is the contract; the example layer is the proof. Adopters can
 
 ## Acceptance criteria
 
-- [x] Canonical component list defines exactly 571 components in `components.tsv`.
-- [x] All 7 full-catalog headless subprojects exist and implement the full catalog; the Web Components catalog states its own 536/571 scope rather than claiming parity.
+- [x] Canonical component list defines exactly 581 components in `components.tsv`.
+- [x] All 7 full-catalog headless subprojects exist and implement the full catalog; the Web Components catalog states its own 546/581 scope rather than claiming parity.
 - [x] All 7 example subprojects exist and implement the full catalog.
 - [x] The headless layer bundles no stylesheets, fonts, images, or icons.
 - [ ] No component embeds a hardcoded user-facing string.

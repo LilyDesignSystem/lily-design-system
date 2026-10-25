@@ -1,6 +1,6 @@
 # Lily Design System™
 
-> Free, open-source, headless design system: a canonical catalog of 571
+> Free, open-source, headless design system: a canonical catalog of 581
 > accessible components implemented across seven frameworks (HTML, Svelte,
 > React, Vue, Angular, Blazor, Nunjucks) plus Web Components and Alpine.js catalogs, paired
 > with fully styled example apps that demonstrate the same catalog end to end.
@@ -18,7 +18,7 @@ searchable component catalog: https://lilydesignsystem.com/.
 - [AGENTS.md](AGENTS.md): binding design-principle rules; loads every file
   under `AGENTS/`.
 - [README.md](README.md): human-readable project overview.
-- [components.tsv](components.tsv): the canonical 571-component catalog —
+- [components.tsv](components.tsv): the canonical 581-component catalog —
   one row per component: slug, PascalCase name, description.
 - [CHANGELOG.md](CHANGELOG.md): full change history, with the reasoning
   behind each change.
@@ -35,7 +35,7 @@ searchable component catalog: https://lilydesignsystem.com/.
   forbidden-literal list, the 57 reference theme stylesheets.
 - [AGENTS/components.md](AGENTS/components.md): suffix-to-HTML-element
   mapping, compound name-family patterns, composition templates.
-- [AGENTS/helpers.md](AGENTS/helpers.md): the ten picker helpers
+- [AGENTS/helpers.md](AGENTS/helpers.md): the eleven picker helpers
   (theme, locale, text-size, motion, share, search, link, menu, settings, date-time), picker-bar,
   the tooltip contract, the label packs and the grid-like helper rules.
 - [AGENTS/citations.md](AGENTS/citations.md): design systems and headless
@@ -47,13 +47,13 @@ searchable component catalog: https://lilydesignsystem.com/.
 
 - [spec/architecture/index.md](spec/architecture/index.md): monorepo
   layout, the git-subtree model, required files per subproject/component.
-- [spec/components/index.md](spec/components/index.md): the 571-component
+- [spec/components/index.md](spec/components/index.md): the 581-component
   catalog in depth, per-component documentation requirements.
 - [spec/testing/index.md](spec/testing/index.md): per-framework test
   suites, Storybook coverage, Playwright e2e, axe, responsive sweep.
 - [spec/national-identifiers/index.md](spec/national-identifiers/index.md):
   the 140 national personal identifier components, validation algorithms.
-- [spec/helpers/index.md](spec/helpers/index.md): the ten `*-picker`
+- [spec/helpers/index.md](spec/helpers/index.md): the eleven `*-picker`
   helper contracts in full, picker-bar, the tooltip contract, and the data-grid,
   kanban-board, gantt-chart, calendar and filter contracts.
 - [spec/label-packs/index.md](spec/label-packs/index.md): the 64 per-locale
@@ -78,7 +78,7 @@ searchable component catalog: https://lilydesignsystem.com/.
 - [lily-design-system-svelte-sveltekit-examples](lily-design-system-svelte-sveltekit-examples/index.md):
   fully styled reference app for the same catalog.
 - [Svelte helper packages](spec/helpers/index.md#svelte-helper-packages):
-  the canonical helpers, one top-level subproject each — the ten pickers,
+  the canonical helpers, one top-level subproject each — the eleven pickers,
   picker-bar, data-grid, kanban-board, gantt-chart, calendar, filter.
 - The remaining headless, example and helper subprojects (React, Vue,
   Angular, Blazor, HTML, Nunjucks, Web Components) follow the same

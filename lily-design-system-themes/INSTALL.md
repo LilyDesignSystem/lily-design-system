@@ -1,6 +1,6 @@
 # Install
 
-This is the 45 reference theme stylesheets, packaged for npm.
+This is the 57 reference theme stylesheets, packaged for npm.
 
 Its source is the `lily-design-system-themes/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.

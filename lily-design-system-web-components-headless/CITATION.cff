@@ -20,7 +20,7 @@ identifiers:
 repository-code: 'https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless'
 url: 'https://lilydesignsystem.com/'
 abstract: >-
-  This is the Web Components headless component library: its full achievable scope (536 of the 571 components as of 2026-10-06; the other 35 are permanently excluded by a real architectural limitation), unstyled and accessible.
+  This is the Web Components headless component library: its full achievable scope (546 of the 581 components as of 2026-10-25; the other 35 are permanently excluded by a real architectural limitation), unstyled and accessible.
   It is one subproject of Lily Design System, a free open-source headless
   design system whose canonical catalog of 571 components is implemented
   across eight frameworks. Its source is the lily-design-system-web-components-headless directory

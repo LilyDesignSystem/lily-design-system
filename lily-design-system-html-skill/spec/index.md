@@ -10,7 +10,7 @@ umbrella layer.
 ## 1. Role in the ecosystem
 
 A Claude Skill that ties together the three real plain-HTML subprojects in
-this monorepo — the full-catalog (571/571) headless component library
+this monorepo — the full-catalog (581/581) headless component library
 ([`@lilydesignsystem/html-headless`](../../lily-design-system-html-headless/)),
 the six `*-picker` helper web components
 ([the HTML helper packages](../../spec/helpers/index.md#html-helper-packages)),
@@ -57,7 +57,7 @@ sibling on the Web Components side is
   own page markup/CSS — this skill describes the example app's contract,
   it does not ship or reimplement it.
 - The separate Web Components catalogs' own conventions and scope (native
-  custom elements, its full achievable scope, 536/571 headless slice) — that
+  custom elements, its full achievable scope, 546/581 headless slice) — that
   pair has its own umbrella skill, `lily-design-system-web-components-skill`,
   and its own `-headless-skill` / `-helpers-skill` siblings.
 

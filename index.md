@@ -27,7 +27,7 @@ see the modular specification docs under [spec/](spec/index.md).
 
 ## How the pieces fit
 
-Lily is a stack of layers, each owning one job: the **catalog** (571 named components, `components.tsv`), **headless** libraries (the catalog as unstyled, accessible components in nine frameworks), **helpers** (packages that own a whole interaction: pickers, data grid, kanban board, calendar, Gantt chart, filter), **themes** (57 stylesheets), **examples** (styled apps, one per framework) and **skills** (instructions for AI agents). Which one to reach for: the site page [How the pieces fit](https://lilydesignsystem.com/how-the-pieces-fit/).
+Lily is a stack of layers, each owning one job: the **catalog** (581 named components, `components.tsv`), **headless** libraries (the catalog as unstyled, accessible components in nine frameworks), **helpers** (packages that own a whole interaction: pickers, data grid, kanban board, calendar, Gantt chart, filter), **themes** (57 stylesheets), **examples** (styled apps, one per framework) and **skills** (instructions for AI agents). Which one to reach for: the site page [How the pieces fit](https://lilydesignsystem.com/how-the-pieces-fit/).
 
 ## AI agent support
 
@@ -83,14 +83,14 @@ Headless versions if you want to use components with all your own styles:
 - [Angular headless](lily-design-system-angular-headless)
 - [Blazor headless](lily-design-system-blazor-headless)
 - [Nunjucks headless](lily-design-system-nunjucks-headless)
-- [Web Components headless](lily-design-system-web-components-headless) — an 8th catalog at its full achievable scope (536 of 571; the remaining 35 are permanently excluded, not backlog)
-- [Alpine.js headless](lily-design-system-alpine-headless) — a 9th catalog, added 2026-10-21: all 571 components as annotated HTML snippets plus one Alpine plugin (`@lilydesignsystem/alpine-headless`, not yet published), with its own [example app](lily-design-system-alpine-examples) and four helpers: the data grid, kanban board, calendar and Gantt chart
+- [Web Components headless](lily-design-system-web-components-headless) — an 8th catalog at its full achievable scope (546 of 581; the remaining 35 are permanently excluded, not backlog)
+- [Alpine.js headless](lily-design-system-alpine-headless) — a 9th catalog, added 2026-10-21: all 581 components as annotated HTML snippets plus one Alpine plugin (`@lilydesignsystem/alpine-headless`, not yet published), with its own [example app](lily-design-system-alpine-examples) and four helpers: the data grid, kanban board, calendar and Gantt chart
 
 ## Helpers
 
 Small, opinionated helper packages for every framework, one top-level
 subproject each.
-Each framework ships ten `*-picker` helpers — 80 packages in all — plus `picker-bar` and the grid-like `data-grid`, `kanban-board`,
+Each framework ships eleven `*-picker` helpers — 88 packages in all — plus `picker-bar` and the grid-like `data-grid`, `kanban-board`,
 `gantt-chart`, `calendar` and `filter` (167 helper packages in all; the Alpine.js ones cover the data grid, kanban board, calendar and Gantt chart), and each owns one complete interaction end to end:
 
 - **theme-picker**, **locale-picker**, **text-size-picker**, **motion-picker**

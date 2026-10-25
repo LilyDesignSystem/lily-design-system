@@ -1,12 +1,12 @@
 {
   "name": "Lily Design System",
   "trademark": "Lily™ and Lily Design System™ are trademarks.",
-  "summary": "Free, open-source, headless design system: a canonical catalog of 571 accessible components implemented across seven frameworks (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks) plus Web Components and Alpine.js catalogs, paired with fully styled example apps that demonstrate the same catalog end to end.",
+  "summary": "Free, open-source, headless design system: a canonical catalog of 581 accessible components implemented across seven frameworks (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks) plus Web Components and Alpine.js catalogs, paired with fully styled example apps that demonstrate the same catalog end to end.",
   "description": "This is the canonical monorepo. The living specification is spec/, entered via spec/index.md; binding design-principle rules for AI coding agents live in AGENTS.md and AGENTS/*.md. Public documentation and the searchable component catalog are published at the documentation_site URL below.",
   "canonical_repository": "https://github.com/LilyDesignSystem/lily-design-system",
   "documentation_site": "https://lilydesignsystem.com/",
   "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
-  "component_count": 571,
+  "component_count": 581,
   "sections": [
     {
       "title": "Start here",
@@ -29,7 +29,7 @@
         {
           "title": "components.tsv",
           "url": "components.tsv",
-          "description": "The canonical 571-component catalog: one row per component (slug, PascalCase name, description)."
+          "description": "The canonical 581-component catalog: one row per component (slug, PascalCase name, description)."
         },
         {
           "title": "CHANGELOG.md",
@@ -94,7 +94,7 @@
         {
           "title": "spec/components/index.md",
           "url": "spec/components/index.md",
-          "description": "The 571-component catalog in depth; per-component documentation requirements."
+          "description": "The 581-component catalog in depth; per-component documentation requirements."
         },
         {
           "title": "spec/testing/index.md",
@@ -159,7 +159,7 @@
         {
           "title": "Svelte helper packages",
           "url": "spec/helpers/index.md#svelte-helper-packages",
-          "description": "The canonical helpers, one top-level subproject each: the ten pickers, picker-bar, data-grid, kanban-board, gantt-chart, calendar, filter."
+          "description": "The canonical helpers, one top-level subproject each: the eleven pickers, picker-bar, data-grid, kanban-board, gantt-chart, calendar, filter."
         },
         {
           "title": "lily-design-system-skill",

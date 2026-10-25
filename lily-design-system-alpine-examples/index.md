@@ -1,6 +1,6 @@
 # Lily Design System™ — Alpine.js Examples
 
-A static example site for the [Alpine.js headless catalog](../lily-design-system-alpine-headless/): every one of the 571
+A static example site for the [Alpine.js headless catalog](../lily-design-system-alpine-headless/): every one of the 581
 components with a live demo and its markup, plus demo pages for the four Alpine helpers — the
 [data grid](../lily-design-system-alpine-data-grid/), [kanban board](../lily-design-system-alpine-kanban-board/),
 [calendar](../lily-design-system-alpine-calendar/) and [Gantt chart](../lily-design-system-alpine-gantt-chart/). No framework

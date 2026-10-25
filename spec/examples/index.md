@@ -34,7 +34,7 @@ Every example subproject ships these three routes.
 | Route                | Purpose                                                                                  |
 | -------------------- | ---------------------------------------------------------------------------------------- |
 | `/`                  | Home page welcoming the visitor, explaining the project, linking to the index and demos. |
-| `/components`        | Components index listing all 571 catalog entries; searchable / filterable; links to each detail page. |
+| `/components`        | Components index listing all 581 catalog entries; searchable / filterable; links to each detail page. |
 | `/components/{slug}` | One detail page per component: renders a single component (not a grid), shows a usable demo, and surfaces canonical metadata (description, props, ARIA, keyboard, references). |
 
 ## Composed-page demos

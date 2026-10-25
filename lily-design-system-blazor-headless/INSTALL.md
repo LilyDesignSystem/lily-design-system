@@ -1,6 +1,6 @@
 # Install
 
-This is the Blazor headless component library: all 571 catalog components, unstyled and accessible.
+This is the Blazor headless component library: all 581 catalog components, unstyled and accessible.
 
 Its source is the `lily-design-system-blazor-headless/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.

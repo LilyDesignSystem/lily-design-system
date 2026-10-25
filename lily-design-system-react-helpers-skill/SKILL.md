@@ -129,7 +129,7 @@ with lag in calendar or working days) ships in the Svelte Gantt package.
 
 ## When NOT this skill
 
-- For the headless component library itself — the 571-component
+- For the headless component library itself — the 581-component
   catalog, JSX usage, `className`, controlled-prop patterns for
   ordinary components — use `lily-design-system-react-headless-skill`
   instead.

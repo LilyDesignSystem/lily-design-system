@@ -126,7 +126,7 @@ with lag in calendar or working days) ships in the Svelte Gantt package.
 
 ## When this isn't the right skill
 
-- **The headless component catalog itself** (the 571-component library
+- **The headless component catalog itself** (the 581-component library
   these helpers sit alongside) — use
   [`lily-design-system-html-headless-skill`](../lily-design-system-html-headless-skill/).
 - **General Lily concepts** not specific to the HTML helpers idiom — use

@@ -21,7 +21,7 @@ and the open questions that need a maintainer decision.
 
 ### Explicitly out of scope
 
-- Catalog parity: ShardsUI has 35 components, Lily 571.
+- Catalog parity: ShardsUI has 35 components, Lily 581.
 - Copying ShardsUI's beta API churn; Lily's stable sub-class rule stays.
 - Portals and JavaScript positioning: Lily's popups are positioned by
   consumer CSS (the themes use CSS anchor positioning).

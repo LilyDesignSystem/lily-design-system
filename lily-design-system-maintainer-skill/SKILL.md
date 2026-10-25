@@ -22,7 +22,7 @@ the canonical monorepo with `spec/index.md` as the living specification and
   `lily-design-system-` prefix, which is exactly what `bin/list-implementations` and
   `bin/sync-special-files` scope on. Beside them: 27 Claude Skills, `lily-design-system-themes` and
   `lilydesignsystem.github.io` (172 subprojects in all).
-- **571 component directories** under `components/{slug}/`.
+- **581 component directories** under `components/{slug}/`.
 - **Root canon**: `components.tsv` (the catalog), `css-style-sheet-template.css`
   (one class hook per component), `AGENTS/*.md` (design-principle rules,
   loaded into every subproject's own `AGENTS.md` via `@AGENTS/{file}.md`),

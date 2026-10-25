@@ -14,7 +14,7 @@ reach for; it does not restate any of their contracts in full.
 
 - **[`lily-design-system-blazor-headless`](../lily-design-system-blazor-headless/)**
   — the Razor class library you actually depend on. Ships the full
-  571-component catalog (0/571 drift in `bin/check-coverage`, 2026-10-06) as unstyled Razor components: semantic HTML, ARIA, focus
+  581-component catalog (0/581 drift in `bin/check-coverage`, 2026-10-25) as unstyled Razor components: semantic HTML, ARIA, focus
   management, keyboard behaviour, no CSS. Published to nuget.org as
   `LilyDesignSystem.Blazor.Headless` (namespace `LilyBlazorHeadless.Components`).
   Reach for this when you need a component itself — `Button`, `TextInput`,
@@ -141,7 +141,7 @@ app in practice.
   and the `IJSRuntime`/SSR implementation pattern in full — use
   [`lily-design-system-blazor-helpers-skill`](../lily-design-system-blazor-helpers-skill/).
 - For framework-agnostic Lily concepts (what "headless" means, the
-  571-component catalog at large, naming conventions, cross-framework
+  581-component catalog at large, naming conventions, cross-framework
   composition patterns) — use
   [`lily-design-system-skill`](../lily-design-system-skill/) instead; it
   doesn't restate Blazor's own idioms, and this skill doesn't restate its

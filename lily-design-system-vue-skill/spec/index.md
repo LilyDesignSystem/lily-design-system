@@ -11,7 +11,7 @@ eighteen-skill plan this subproject implements one part of.
 An **umbrella** Claude Skill for Vue: it ties together the three real Vue
 subprojects in this monorepo —
 [`@lilydesignsystem/vue-headless`](../../lily-design-system-vue-headless/)
-(the 571-component catalog as unstyled `.vue` SFCs),
+(the 581-component catalog as unstyled `.vue` SFCs),
 [the Vue helper packages](../../spec/helpers/index.md#vue-helper-packages)
 (the six `*-picker` packages), and
 [`lily-design-system-vue-nuxt-examples`](../../lily-design-system-vue-nuxt-examples/)

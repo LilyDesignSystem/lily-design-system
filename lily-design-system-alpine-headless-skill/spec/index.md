@@ -9,7 +9,7 @@ tiers.
 
 A Claude Skill that explains how to consume
 [`@lilydesignsystem/alpine-headless`](../../lily-design-system-alpine-headless/),
-the ninth headless catalog (added 2026-10-21): all 571 components as
+the ninth headless catalog (added 2026-10-21): all 581 components as
 annotated HTML snippets plus one Alpine plugin. It is content, not a
 component implementation. Its siblings are the framework-specific
 `*-headless-skill` packages; unlike most there is no `alpine-helpers-skill`

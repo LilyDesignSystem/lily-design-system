@@ -2,7 +2,7 @@
 
 ## Status
 
-Initial scaffold landed 2026-05-28; the library has since been fully verified and published. As of 2026-10-06 it ships all 571 catalog components (571 `.ts` + `.spec.ts` + `.stories.ts` triplets plus docs), version 0.5.0 on npm as `@lilydesignsystem/angular-headless`, with a peer range of Angular `>=20 <23` (the example app runs Angular 22). The "Plan" and "Tasks" checklists below are the original scaffold-era ones, now updated to current state.
+Initial scaffold landed 2026-05-28; the library has since been fully verified and published. As of 2026-10-06 it ships all 581 catalog components (581 `.ts` + `.spec.ts` + `.stories.ts` triplets plus docs), version 0.5.0 on npm as `@lilydesignsystem/angular-headless`, with a peer range of Angular `>=20 <23` (the example app runs Angular 22). The "Plan" and "Tasks" checklists below are the original scaffold-era ones, now updated to current state.
 
 ## 2026-09-01 — wrapper-host attribute-selector migration (0.3.0, breaking)
 
@@ -23,7 +23,7 @@ through the input, never as a competing static attribute), and why the
 parent containers (`*List`, `*Table`, `*TableHead`, `Select`) were left
 on the element selector.
 
-Verification: `vitest run` 571/571 files, 1011/1011 tests;
+Verification: `vitest run` 581/581 files, 1011/1011 tests;
 `ng-packagr` build clean; `lily-design-system-angular-examples`
 (vendored copy kept identical, same as every other change to this
 library) builds, prerenders 507 pages, and its full Playwright suite
@@ -60,7 +60,7 @@ Based on the Angular 2026 research summary:
 
 ```
 lily-design-system-angular-headless/
-├── components/                — 571 × 4 files (.ts, .spec.ts, .stories.ts, .md)
+├── components/                — 581 × 4 files (.ts, .spec.ts, .stories.ts, .md)
 │   ├── Accordion*.ts          — standalone component
 │   ├── Accordion*.spec.ts     — vitest + TestBed test
 │   ├── Accordion*.md          — per-component doc
@@ -79,7 +79,7 @@ lily-design-system-angular-headless/
 
 - [x] Decide on Angular version target — Angular 20 baseline (peer range extended to `<23`).
 - [x] Set up build infra (package.json, tsconfig, ng-package, vitest).
-- [x] Generate the component scaffold (now 571 components) from templates.
+- [x] Generate the component scaffold (now 581 components) from templates.
 - [x] Index barrel that re-exports every component.
 - [x] Run `pnpm install` end-to-end.
 - [x] Verify `vitest run` passes (every component has a spec; see `spec/testing` in the root spec for counts).

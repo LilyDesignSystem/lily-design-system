@@ -20,7 +20,7 @@ identifiers:
 repository-code: 'https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-themes'
 url: 'https://lilydesignsystem.com/'
 abstract: >-
-  This is the 45 reference theme stylesheets, packaged for npm.
+  This is the 57 reference theme stylesheets, packaged for npm.
   It is one subproject of Lily Design System, a free open-source headless
   design system whose canonical catalog of 571 components is implemented
   across eight frameworks. Its source is the lily-design-system-themes directory

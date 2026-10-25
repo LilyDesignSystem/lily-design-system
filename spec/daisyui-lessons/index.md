@@ -182,7 +182,7 @@ Lily's `llms.txt` is a curated link map by design
   files: `llms-rules.md` (the assistant-facing rules: base class first, text
   is a prop, never hard-code strings, prefer the most specific element, use
   the suffix table, `data-color` once-per-page guidance, no inline styles)
-  and one `llms-components-{category}.md` per category, because 571 entries
+  and one `llms-components-{category}.md` per category, because 581 entries
   will not fit in one file the way daisyUI's 68 do. Each entry: summary, tag,
   base class, props, required ARIA, a one-line **Use when** and **Not when**
   (from the existing When to Use / When Not to Use bullets), and a placeholder
@@ -249,7 +249,7 @@ checkbox styled as a button needs an `aria-label`.
 ### 11. Integrations, and a playground
 
 daisyUI lists about 40 install guides (Next.js, Vite, Vue, Laravel, Rails, …)
-and has a Playground. Lily has nine per-framework tutorials and the 571-page
+and has a Playground. Lily has nine per-framework tutorials and the 581-page
 example apps.
 
 - **Deliverable (a):** short install guides for the server-rendered hosts that
@@ -286,7 +286,7 @@ alone. Each needs a real ARIA contract to qualify, per the root spec:
 | `theme-controller` checkbox (a CSS-only theme switch) | Cannot persist the choice or satisfy the picker's listbox contract; `theme-picker` stays |
 | Aura, Hover 3D, Text Rotate | Decorative motion; the consumer's |
 | "88% fewer class names" as a claim | Lily's classes are hooks, not styling; the comparison does not apply |
-| One-file `llms.txt` holding every component | Does not scale to 571; item 7 splits by category |
+| One-file `llms.txt` holding every component | Does not scale to 581; item 7 splits by category |
 
 ## Acceptance criteria
 

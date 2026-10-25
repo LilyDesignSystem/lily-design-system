@@ -103,7 +103,7 @@ topic specs.
 
 sv-chanhdai serves one `llms.txt` per component from its `docs.md`, so an
 agent reads one component's contract without the whole catalogue. Lily's
-single `llms.txt` links 571 components; its per-component `.md` copies exist
+single `llms.txt` links 581 components; its per-component `.md` copies exist
 but are not announced in a per-component convention.
 
 - **Deliverable:** decide between `/components/{slug}.md` (today) and
@@ -294,7 +294,7 @@ even-split strategies are an enum.
   read-only MCP server; committing a project config that points at it is the
   small follow-up, once the server exists.
 - **A "registry stats" file.** chanhdai.com emits `registry-stats.json`
-  (total and count by type). Lily's counts (571, 536, 133 packages…) are
+  (total and count by type). Lily's counts (581, 536, 133 packages…) are
   hand-written across `AGENTS/`, the spec and the site; a generated
   `stats.json` consumed by those pages would end the count drift, but it is a
   larger change than one item.

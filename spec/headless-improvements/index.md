@@ -37,7 +37,7 @@ The helpers sit on the headless table families (`DataTable`, `CalendarTable`, `K
 | --- | --- |
 | `Mark` | the highlighted-match `<mark>` in search results |
 | `SearchInput` | the hand-written `<input type="search">` + Escape-to-clear in four helpers (add `onclear` / Escape handling to `SearchInput` first) |
-| `Tooltip` | the tooltip each of the ten pickers builds itself |
+| `Tooltip` | the tooltip each of the eleven pickers builds itself |
 | `PaginationNav` / `PaginationList` | the data grid's footer |
 | `EmptyState` | the data grid's empty row, the kanban empty-column text |
 | `Editable` / `EditableForm` | the cell editors (Escape cancels, Enter commits, IME-safe) |
@@ -73,7 +73,7 @@ Adoption needs checking against each helper's accessibility behaviour; where a h
 - **Done 2026-10-17 (Svelte) — `Mark` and `SearchInput` adopted.** The data grid, kanban board, Gantt chart and calendar render their search field with the headless `SearchInput` and a highlighted match with `Mark`. The `search-input` and `mark` base classes join the existing `*-search` / `*-match` hooks; all 57 themes already style them, so the helpers' search fields now match the rest of the system. The other seven frameworks adopt them as their helpers are ported.
 - **Done 2026-10-17 — `PaginationNav` adopted in the data grid (Svelte, React).** With `labels.pagination` the pager is a labelled `<nav>` landmark (it was an unnamed `<div>`); optional, so existing bundles are unaffected.
 - **Checked and held back — each needs the headless component improved first, as the note warned:**
-  - `Tooltip` renders nothing until `visible`; the ten pickers keep a `hidden` sibling in the DOM (the documented contract, and what the themes and tests rely on). `Tooltip` needs a mode that renders hidden before a picker can use it.
+  - `Tooltip` renders nothing until `visible`; the eleven pickers keep a `hidden` sibling in the DOM (the documented contract, and what the themes and tests rely on). `Tooltip` needs a mode that renders hidden before a picker can use it.
   - `EmptyState` is a `<div>`; the data grid's empty state is a table cell (`role="gridcell"` inside a row) and the kanban's is a `<span>` in a card slot, so a `<div>` would break the table structure for no gain.
   - `Editable` is plain text only: no IME guard (Enter confirming a candidate would commit), no `validate` / `aria-invalid`, no commit on blur, no typed editors — the data grid's cell editor does all of these, so `Editable` needs them first.
   - `DataFilterForm` is a `<form role="search">` wrapper; the `svelte-filter` builder is a `role="group"` with many buttons, and a `<form>` would make any button without `type="button"` submit. Adopting it means deciding the builder is a search form, which is a design call, not a swap.

@@ -23,7 +23,7 @@
 
 A Claude Skill explaining how to consume
 [`@lilydesignsystem/alpine-headless`](../lily-design-system-alpine-headless/),
-the Alpine.js implementation of Lily's canonical catalog: 571 of 571
+the Alpine.js implementation of Lily's canonical catalog: 581 of 581
 components as snippets, 83 of them with hand-written `Alpine.data`
 behaviour, and the four Alpine helpers and the example app built on it. It ships no components of its own.
 

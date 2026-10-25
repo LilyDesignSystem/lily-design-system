@@ -237,7 +237,7 @@ version switcher (v6 alpha, 5.3, 4.6, …), and an "Optimize" page.
 
 - **Deliverable (a):** one **minimal starter** per framework family (about ten
   files: the headless package, one theme, a layout with a skip link and the
-  picker bar) distinct from the 571-page example apps, so a new project does
+  picker bar) distinct from the 581-page example apps, so a new project does
   not begin by deleting an example.
 - **Deliverable (b):** a docs-site version switcher once the first 1.0 is cut;
   until then, state the version on every page. Not before 1.0.

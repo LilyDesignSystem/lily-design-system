@@ -20,7 +20,7 @@ identifiers:
 repository-code: 'https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-headless'
 url: 'https://lilydesignsystem.com/'
 abstract: >-
-  This is the Blazor headless component library: all 571 catalog components, unstyled and accessible.
+  This is the Blazor headless component library: all 581 catalog components, unstyled and accessible.
   It is one subproject of Lily Design System, a free open-source headless
   design system whose canonical catalog of 571 components is implemented
   across eight frameworks. Its source is the lily-design-system-blazor-headless directory

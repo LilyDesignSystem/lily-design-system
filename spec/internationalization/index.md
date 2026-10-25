@@ -117,7 +117,7 @@ the binding rules are:
   translated page only when it exists (otherwise it stays on the English page), and `bin/check-site-page-translations` applies the same
   structure, code-sample and not-English checks wherever one is present. `news`, `roadmap` and `locales` are **intro-only**: the translation
   covers the intro section, and what follows (the rendered NEWS.md and plan.md, and the list of languages from `LocaleList.svelte`) is
-  generated at build time — the NEWS.md and plan.md text stays English. Every language has all fourteen. Still English-only everywhere: the 571
+  generated at build time — the NEWS.md and plan.md text stays English. Every language has all fourteen. Still English-only everywhere: the 581
   component docs. The English page numbers are copied as written (the tutorials say "45 themes" where the repository now has 57).
 - **Labels are endonyms** — each language's own name (`Cymraeg`, `Français`, `العربية`) — except where a language has several
   regional locales: then the label adds the region after a dash (`English - Great Britain`, `Cymraeg - Prydain Fawr`), never an

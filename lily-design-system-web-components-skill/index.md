@@ -1,7 +1,7 @@
 # Lily Design System™ — Web Components Skill
 
 A Claude Skill ([`SKILL.md`](SKILL.md)) that ties together the two real
-native-Web-Components subprojects in this monorepo — the (536/571, its full achievable scope)
+native-Web-Components subprojects in this monorepo — the (546/581, its full achievable scope)
 headless custom-element catalog and the six-helper `<lily-*-picker>`
 catalog — and helps an agent decide which one a given request actually
 needs.

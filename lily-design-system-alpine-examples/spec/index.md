@@ -6,7 +6,7 @@ Living specification. Project-wide rules: [root spec](../../spec/index.md); the 
 
 ### In scope
 
-- A static site of 578 pages: home, the components index, one page per catalog component (571), the helpers index and four helper pages.
+- A static site of 578 pages: home, the components index, one page per catalog component (581), the helpers index and four helper pages.
 - Live demos of every component under real Alpine; the shipped snippet shown unchanged beneath each.
 - Demo pages for `alpine-data-grid`, `alpine-kanban-board`, `alpine-calendar` and `alpine-gantt-chart`.
 - A theme selector over the root `themes/` that persists in `localStorage`.
@@ -20,7 +20,7 @@ Living specification. Project-wide rules: [root spec](../../spec/index.md); the 
 
 ## 2. Acceptance criteria
 
-- [x] `/`, `/components`, `/components/{slug}` exist and are generated for all 571 components.
+- [x] `/`, `/components`, `/components/{slug}` exist and are generated for all 581 components.
 - [x] Every demo mounts under Alpine in jsdom with no error, keeps its base class and has no empty `aria-label`.
 - [x] Skip link first, header / nav / main / footer landmarks, `lang`, on every page.
 - [x] Chromium + axe (WCAG 2.2 AA): all 578 pages clean, except one named reference-theme finding.

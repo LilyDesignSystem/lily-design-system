@@ -70,7 +70,7 @@ footer are applied to:
 | ----- | ----------- |
 | Top-level docs | [AGENTS.md](../AGENTS.md), [CHANGELOG.md](../CHANGELOG.md), [index.md](../index.md) (`README.md` symlinks to it), [spec/index.md](index.md) |
 | Spec topic docs | every `spec/**/*.md` (this file included) |
-| Subproject + component docs | every `index.md` across all 23 implementation subprojects, the 27 skills, the 571 component directories, and `lilydesignsystem.github.io` |
+| Subproject + component docs | every `index.md` across all 23 implementation subprojects, the 27 skills, the 581 component directories, and `lilydesignsystem.github.io` |
 | Reference docs | every `docs/**/*.md` (e.g. the helper packages' guides) |
 
 **Rendered pages** — the footer is placed once in each app's shared layout so it

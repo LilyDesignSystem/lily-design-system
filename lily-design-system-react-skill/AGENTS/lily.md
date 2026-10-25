@@ -4,14 +4,14 @@ Living specification: [spec/index.md](../spec/index.md)
 
 [CSS style sheet template](../css-style-sheet-template.css)
 
-Canonical component list: [components.tsv](../components.tsv) — 571 components.
+Canonical component list: [components.tsv](../components.tsv) — 581 components.
 
 ## Subprojects for headless components
 
-The seven framework pairs below are the canonical, full-catalog (571/571)
+The seven framework pairs below are the canonical, full-catalog (581/581)
 headless libraries. An 8th headless catalog joined 2026-09-03:
 [Lily Design System: Web Components headless](../lily-design-system-web-components-headless)
-ships its full achievable scope as of 2026-10-06: 536 of the 571
+ships its full achievable scope as of 2026-10-25: 546 of the 581
 components as native custom elements (no framework runtime). The other 35
 are permanently excluded by a real architectural limitation (table
 sub-elements and interactive `*ListItem` families — no wrapper-host-safe
@@ -21,7 +21,7 @@ backlog. See its own `spec/index.md` for the architecture decisions
 and the exact scope.
 
 A 9th, [Lily Design System: Alpine.js headless](../lily-design-system-alpine-headless)
-(added 2026-10-21, unpublished), covers all 571 components as annotated HTML
+(added 2026-10-21, unpublished), covers all 581 components as annotated HTML
 snippets (`components/{slug}.html`) plus one Alpine plugin (`lily-alpine.js`)
 that owns state and keyboard behaviour: 488 static, 83 with an `Alpine.data`
 behaviour. Its example app is [`lily-design-system-alpine-examples`](../lily-design-system-alpine-examples); its helpers are `lily-design-system-alpine-{data-grid,kanban-board,calendar,gantt-chart}` (`@lilydesignsystem/alpine-*`), each a subset of its Svelte reference. See its `spec/index.md`.
@@ -46,7 +46,7 @@ behaviour. Its example app is [`lily-design-system-alpine-examples`](../lily-des
 
 ## Subprojects for framework helpers
 
-Each framework ships ten `*-picker` helpers — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker (added 2026-10-02), link-picker (added 2026-10-07: a home icon opening the page links the app defines), menu-picker and settings-picker (added 2026-10-08: a hamburger / a cog opening a dropdown of whatever the app provides), date-time-picker. The first six are an icon button that opens a popup; none is a native `<select>` any more. `date-time-picker` is the exception: a form control, so it pairs a typeable text field with its trigger and opens an APG date-picker dialog. Svelte is the canonical reference; the other seven are idiom ports. Every framework's helpers are one top-level subproject per package (below), since 2026-10-10.
+Each framework ships eleven `*-picker` helpers — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker (added 2026-10-02), link-picker (added 2026-10-07: a home icon opening the page links the app defines), menu-picker and settings-picker (added 2026-10-08: a hamburger / a cog opening a dropdown of whatever the app provides), time-zone-picker (added 2026-10-24: time zones by UTC offset, named by Unicode CLDR in 64 languages), date-time-picker. The first seven are an icon button that opens a popup; none is a native `<select>` any more. `date-time-picker` is the exception: a form control, so it pairs a typeable text field with its trigger and opens an APG date-picker dialog. Svelte is the canonical reference; the other seven are idiom ports. Every framework's helpers are one top-level subproject per package (below), since 2026-10-10.
 
 
 The Svelte helpers (canonical reference) are one top-level subproject per package, since 2026-10-10 (the data grid since 2026-10-09); the `lily-design-system-svelte-helpers` catalog that held them is gone. `bin/list-helper-packages svelte` lists them in build order:

@@ -162,7 +162,7 @@ with lag in calendar or working days) ships in the Svelte Gantt package.
 
 ## When NOT this skill
 
-- Questions about the 571-component headless macro catalog itself
+- Questions about the 581-component headless macro catalog itself
   (`Button`, `BreadcrumbNav`, `DataTable`, …) — use
   `lily-design-system-nunjucks-headless-skill`.
 - General Lily concepts, terminology, or the headless-vs-example split

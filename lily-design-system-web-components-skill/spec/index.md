@@ -27,7 +27,7 @@ app, no helper packages of its own.
 
 - `SKILL.md` — the skill: the two-subproject map
   (`@lilydesignsystem/web-components-headless`, its full achievable scope,
-  536/571 native-custom-element catalog; the Web Components helper packages,
+  546/581 native-custom-element catalog; the Web Components helper packages,
   `<lily-*-picker>` and the rest, one top-level subproject each), a decision guide for
   which one a given request needs, the real and current absence of a Web
   Components example application, the distinction from the plain-HTML
@@ -80,7 +80,7 @@ to run beyond `bin/test`'s required-files checks.
       that names concrete trigger phrases, per Claude Skill authoring
       practice.
 - [x] `SKILL.md` maps both real Web Components subprojects accurately
-      (the 536/571 headless catalog; the full six-helper
+      (the 546/581 headless catalog; the full six-helper
       `<lily-*-picker>` catalog) without restating either sibling skill's
       deep contract.
 - [x] `SKILL.md` states plainly, and does not paper over, the absence of
@@ -96,7 +96,7 @@ to run beyond `bin/test`'s required-files checks.
 ## 5. Related topics
 
 - [../../lily-design-system-web-components-headless-skill/spec/index.md](../../lily-design-system-web-components-headless-skill/spec/index.md) —
-  the deep contract for the Web Components headless catalog (536/571,
+  the deep contract for the Web Components headless catalog (546/581,
   its full achievable scope) this skill points at rather than restates.
 - [../../lily-design-system-web-components-helpers-skill/spec/index.md](../../lily-design-system-web-components-helpers-skill/spec/index.md) —
   the deep contract for the six-helper `<lily-*-picker>` catalog this

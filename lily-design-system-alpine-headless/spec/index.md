@@ -10,7 +10,7 @@ A ninth framework family alongside HTML, Svelte, React, Vue, Angular, Blazor, Nu
 
 ### In scope
 
-- `lily-design-system-alpine-headless`, **571 of 571 components** (488 static, 83 with Alpine behaviour), each with a snippet, a vitest test and a Storybook story.
+- `lily-design-system-alpine-headless`, **581 of 581 components** (488 static, 83 with Alpine behaviour), each with a snippet, a vitest test and a Storybook story.
 - The Alpine plugin `lily-alpine.js`.
 
 ### Explicitly out of scope (later passes)
@@ -58,7 +58,7 @@ Each follows the WAI-ARIA APG pattern and the matching `components/{slug}/AGENTS
 ## 5. Acceptance criteria
 
 - [x] Package scaffolded with the required files (`index.md`, `README.md` symlink, `AGENTS.md`, `spec/index.md`) and synced special files.
-- [x] 571 components, each with snippet, test and story. Static components are tested for element, base class and role only.
+- [x] 581 components, each with snippet, test and story. Static components are tested for element, base class and role only.
 - [x] `pnpm test` passes (1,313 tests).
 - [x] Registered in `bin/sync-special-files`, CI and Dependabot.
 - [x] Every behavioural component has a hand-written `Alpine.data` behaviour and tests that bite (spot-checked by mutation).
