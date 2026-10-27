@@ -99,7 +99,7 @@ function generateStory(componentName, storyPrefix, props) {
 
   const hasArgs = Object.keys(args).length > 0;
   const argsLine = hasArgs
-    ? `  args={${JSON.stringify(args).replace(/"/g, "'")}}`
+    ? `  args={${JSON.stringify(args).replace(/'/g, "\\'").replace(/"/g, "'")}}`
     : '';
 
   if (props.hasChildren) {

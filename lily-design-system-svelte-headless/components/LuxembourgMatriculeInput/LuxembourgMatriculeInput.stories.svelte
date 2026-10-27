@@ -11,5 +11,5 @@
 <Story
   name="Default"
   tags={['autodocs', '!dev']}
-  args={{'label':'Numéro d'Identification Nationale (Matricule) Input'}}
+  args={{'label':'Numéro d\'Identification Nationale (Matricule) Input'}}
 />
