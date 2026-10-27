@@ -79,6 +79,7 @@
     data-trigger-char={triggerChar}
     {...restProps}
 >
+    <!-- svelte-ignore a11y_role_has_required_aria_props (aria-expanded is set but aria-controls is not: the consumer supplies the suggestion list, so it has no id of ours to point at; known gap) -->
     <input
         class="mentions-input-control"
         type="text"

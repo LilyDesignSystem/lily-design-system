@@ -63,6 +63,7 @@
 </script>
 
 <!-- Splitter.svelte -->
+<!-- svelte-ignore a11y_no_noninteractive_tabindex (a focusable separator is the WAI-ARIA window splitter pattern) -->
 <div
     class={`splitter ${className}`}
     role="separator"

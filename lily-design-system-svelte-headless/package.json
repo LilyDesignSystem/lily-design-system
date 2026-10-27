@@ -11,7 +11,7 @@
     "test": "vitest run",
     "test:ui": "vitest --ui",
     "test:watch": "vitest",
-    "check": "svelte-check --tsconfig ./tsconfig.check.json"
+    "check": "svelte-check --tsconfig ./tsconfig.check.json --fail-on-warnings"
   },
   "repository": {
     "type": "git",
