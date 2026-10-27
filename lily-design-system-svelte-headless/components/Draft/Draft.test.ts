@@ -4,14 +4,14 @@ import Draft from "./Draft.svelte";
 
 describe("Draft", () => {
     test("renders with content", () => {
-        render(Draft, { props: { label: "Test" } });
+        render(Draft, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("draft");
     });
 
     test("exposes status via data-status", () => {
-        render(Draft, { props: { label: "Q1 report", status: "review" } });
+        render(Draft, { props: { label: "Q1 report", status: "review" } as any });
         const el = screen.getByLabelText("Q1 report");
         expect(el.getAttribute("data-status")).toBe("review");
     });

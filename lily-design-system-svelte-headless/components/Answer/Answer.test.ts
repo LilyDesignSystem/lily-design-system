@@ -4,7 +4,7 @@ import Answer from "./Answer.svelte";
 
 describe("Answer", () => {
     test("renders with content", () => {
-        render(Answer, { props: { label: "Test" } });
+        render(Answer, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("answer");

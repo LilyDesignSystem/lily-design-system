@@ -4,7 +4,7 @@ import MockupPhonePortrait from "./MockupPhonePortrait.svelte";
 
 describe("MockupPhonePortrait", () => {
     test("renders with content", () => {
-        render(MockupPhonePortrait, { props: { label: "Test" } });
+        render(MockupPhonePortrait, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("mockup-phone-portrait");

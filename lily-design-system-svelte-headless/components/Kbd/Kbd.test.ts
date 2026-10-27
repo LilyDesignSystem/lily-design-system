@@ -4,7 +4,7 @@ import Kbd from "./Kbd.svelte";
 
 describe("Kbd", () => {
     test("renders a native <kbd> element with content", () => {
-        render(Kbd, { props: { label: "Test" } });
+        render(Kbd, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.tagName).toBe("KBD");

@@ -4,7 +4,7 @@ import BreadcrumbLink from "./BreadcrumbLink.svelte";
 
 describe("BreadcrumbLink", () => {
     test("renders with content", () => {
-        render(BreadcrumbLink, { props: { label: "Test" } });
+        render(BreadcrumbLink, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("breadcrumb-link");

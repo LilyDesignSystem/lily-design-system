@@ -4,7 +4,7 @@ import Comment from "./Comment.svelte";
 
 describe("Comment", () => {
     test("renders with content", () => {
-        render(Comment, { props: { label: "Test" } });
+        render(Comment, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("comment");

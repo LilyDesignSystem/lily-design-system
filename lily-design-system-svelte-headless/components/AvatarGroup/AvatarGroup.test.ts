@@ -4,7 +4,7 @@ import AvatarGroup from "./AvatarGroup.svelte";
 
 describe("AvatarGroup", () => {
     test("renders with content", () => {
-        render(AvatarGroup, { props: { label: "Test" } });
+        render(AvatarGroup, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("avatar-group");

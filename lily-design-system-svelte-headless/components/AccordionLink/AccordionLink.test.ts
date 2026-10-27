@@ -4,7 +4,7 @@ import AccordionLink from "./AccordionLink.svelte";
 
 describe("AccordionLink", () => {
     test("renders with content", () => {
-        render(AccordionLink, { props: { label: "Test" } });
+        render(AccordionLink, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("accordion-link");

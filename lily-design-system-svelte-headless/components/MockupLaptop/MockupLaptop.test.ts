@@ -4,7 +4,7 @@ import MockupLaptop from "./MockupLaptop.svelte";
 
 describe("MockupLaptop", () => {
     test("renders with content", () => {
-        render(MockupLaptop, { props: { label: "Test" } });
+        render(MockupLaptop, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("mockup-laptop");

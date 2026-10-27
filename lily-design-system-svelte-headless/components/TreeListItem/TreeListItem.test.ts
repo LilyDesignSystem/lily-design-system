@@ -5,14 +5,14 @@ import TreeListItem from "./TreeListItem.svelte";
 
 describe("TreeListItem", () => {
     test("renders with content", () => {
-        render(TreeListItem, { props: { label: "Test" } });
+        render(TreeListItem, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("tree-list-item");
     });
 
     test("is a focusable li role=treeitem (tabindex=-1) so TreeList's arrow keys can focus it", () => {
-        const { container } = render(TreeListItem, { props: { label: "Test", children: () => {} } });
+        const { container } = render(TreeListItem, { props: { label: "Test", children: (() => {}) as any } });
         const el = container.querySelector(".tree-list-item") as HTMLElement;
         expect(el.tagName).toBe("LI");
         expect(el.getAttribute("role")).toBe("treeitem");
@@ -20,7 +20,7 @@ describe("TreeListItem", () => {
     });
 
     test("a consumer tabindex overrides the default (roving tabindex: the active item is 0)", () => {
-        const { container } = render(TreeListItem, { props: { label: "Test", tabindex: "0", children: () => {} } });
+        const { container } = render(TreeListItem, { props: { label: "Test", tabindex: "0", children: (() => {}) as any } });
         expect(container.querySelector(".tree-list-item")?.getAttribute("tabindex")).toBe("0");
     });
 });

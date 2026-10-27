@@ -4,7 +4,7 @@ import TreeLink from "./TreeLink.svelte";
 
 describe("TreeLink", () => {
     test("renders with content", () => {
-        render(TreeLink, { props: { label: "Test" } });
+        render(TreeLink, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("tree-link");

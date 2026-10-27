@@ -4,7 +4,7 @@ import Citation from "./Citation.svelte";
 
 describe("Citation", () => {
     test("renders with content", () => {
-        render(Citation, { props: { label: "Test" } });
+        render(Citation, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("citation");

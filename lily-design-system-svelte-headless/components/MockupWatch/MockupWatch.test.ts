@@ -4,7 +4,7 @@ import MockupWatch from "./MockupWatch.svelte";
 
 describe("MockupWatch", () => {
     test("renders with content", () => {
-        render(MockupWatch, { props: { label: "Test" } });
+        render(MockupWatch, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("mockup-watch");

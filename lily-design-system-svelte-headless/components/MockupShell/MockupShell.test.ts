@@ -4,7 +4,7 @@ import MockupShell from "./MockupShell.svelte";
 
 describe("MockupShell", () => {
     test("renders with content", () => {
-        render(MockupShell, { props: { label: "Test" } });
+        render(MockupShell, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("mockup-shell");

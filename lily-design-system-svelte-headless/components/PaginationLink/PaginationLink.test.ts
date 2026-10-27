@@ -4,7 +4,7 @@ import PaginationLink from "./PaginationLink.svelte";
 
 describe("PaginationLink", () => {
     test("renders with content", () => {
-        render(PaginationLink, { props: { label: "Test" } });
+        render(PaginationLink, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("pagination-link");

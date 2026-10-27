@@ -4,7 +4,7 @@ import BannerBox from "./BannerBox.svelte";
 
 describe("BannerBox", () => {
     test("renders with content", () => {
-        render(BannerBox, { props: { label: "Test" } });
+        render(BannerBox, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("banner-box");

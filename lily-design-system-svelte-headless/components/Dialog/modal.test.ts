@@ -23,8 +23,8 @@ beforeEach(() => {
     close = vi.fn(function (this: HTMLDialogElement) {
         this.removeAttribute("open");
     });
-    proto.showModal = showModal;
-    proto.close = close;
+    proto.showModal = showModal as unknown as typeof proto.showModal;
+    proto.close = close as unknown as typeof proto.close;
 });
 
 afterEach(() => {

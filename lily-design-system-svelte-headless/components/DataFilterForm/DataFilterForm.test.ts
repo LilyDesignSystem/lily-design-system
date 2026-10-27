@@ -14,7 +14,7 @@ function textSnippet(text: string) {
 function buttonSnippet(label: string, type: string = "submit") {
   return (($$anchor: Comment) => {
     const btn = document.createElement("button");
-    btn.type = type;
+    btn.type = type as HTMLButtonElement["type"];
     btn.textContent = label;
     $$anchor.before(btn);
   }) as any;
