@@ -23,6 +23,7 @@
   "scripts": {
     "build": "node build.mjs",
     "test": "vitest run",
+    "check": "vue-tsc --noEmit -p tsconfig.lib.json",
     "test:watch": "vitest",
     "prepublishOnly": "npm run build"
   },
