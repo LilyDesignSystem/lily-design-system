@@ -4,7 +4,7 @@ import DigitalObjectIdentifierLink from "./DigitalObjectIdentifierLink.svelte";
 
 describe("DigitalObjectIdentifierLink", () => {
     test("renders with content", () => {
-        render(DigitalObjectIdentifierLink, { props: { label: "Test" } });
+        render(DigitalObjectIdentifierLink, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("digital-object-identifier-link");

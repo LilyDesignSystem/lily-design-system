@@ -4,7 +4,7 @@ import Diff from "./Diff.svelte";
 
 describe("Diff", () => {
     test("renders with content", () => {
-        render(Diff, { props: { label: "Test" } });
+        render(Diff, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("diff");

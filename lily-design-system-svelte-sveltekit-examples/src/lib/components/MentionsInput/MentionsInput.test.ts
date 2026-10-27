@@ -22,6 +22,15 @@ describe("MentionsInput", () => {
         expect(root).toBeTruthy();
     });
 
+    test("aria-controls on the input points at the suggestions panel's id", () => {
+        const { container } = render(Subject, { props: { label: "Comment" } });
+
+        const input = screen.getByRole("combobox");
+        const panel = container.querySelector(".mentions-input-suggestions") as HTMLElement;
+        expect(panel.id).toBeTruthy();
+        expect(input.getAttribute("aria-controls")).toBe(panel.id);
+    });
+
     test("inner input has combobox role and aria attributes", () => {
         render(Subject, { props: {
             label: "Comment",

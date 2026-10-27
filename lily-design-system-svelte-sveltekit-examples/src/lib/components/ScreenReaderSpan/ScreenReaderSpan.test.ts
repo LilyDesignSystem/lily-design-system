@@ -4,7 +4,7 @@ import ScreenReaderSpan from "./ScreenReaderSpan.svelte";
 
 describe("ScreenReaderSpan", () => {
     test("renders with content", () => {
-        render(ScreenReaderSpan, { props: { label: "Test" } });
+        render(ScreenReaderSpan, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("screen-reader-span");

@@ -13,7 +13,7 @@
   tags={['autodocs', '!dev']}
   args={{}}
 >
-  {#snippet children(isVisible)}
+  {#snippet children(isVisible: boolean)}
     <p>Visible: {isVisible}</p>
   {/snippet}
 </Story>

@@ -24,7 +24,7 @@
     //
     // Accessibility:
     //   - Inner input has role="combobox", aria-haspopup="listbox",
-    //     aria-expanded, aria-autocomplete="list".
+    //     aria-expanded, aria-autocomplete="list", aria-controls (the panel's id).
     //
     // Internationalization:
     //   - All text content (label, placeholder, value) is consumer-supplied.
@@ -36,6 +36,10 @@
     // References:
     //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
     //   - Ant Design Mentions: https://ant.design/components/mentions
+
+    import { useId } from "vue";
+
+    const suggestionsId = `${useId()}-suggestions`;
 
     withDefaults(defineProps<{
         /** Accessible label (REQUIRED). */
@@ -76,6 +80,7 @@
             role="combobox"
             :aria-label="label"
             aria-haspopup="listbox"
+            :aria-controls="suggestionsId"
             :aria-expanded="expanded"
             aria-autocomplete="list"
             :value="value"
@@ -85,6 +90,7 @@
         >
         <div
             class="mentions-input-suggestions"
+            :id="suggestionsId"
             :hidden="!expanded"
         >
             <slot />

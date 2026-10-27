@@ -4,7 +4,7 @@ import Question from "./Question.svelte";
 
 describe("Question", () => {
     test("renders with content", () => {
-        render(Question, { props: { label: "Test" } });
+        render(Question, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("question");

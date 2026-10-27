@@ -23,7 +23,7 @@
 //
 // Accessibility:
 //   - The inner input has role="combobox", aria-haspopup="listbox",
-//     aria-expanded, aria-autocomplete="list".
+//     aria-expanded, aria-autocomplete="list", aria-controls (the panel's id).
 //
 // Internationalization:
 //   - All user-facing strings (label, placeholder) are consumer-supplied.
@@ -35,7 +35,7 @@
 // References:
 //   - Ant Design Mentions: https://ant.design/components/mentions
 
-import React from "react";
+import React, { useId } from "react";
 
 export interface MentionsInputProps {
     className?: string;
@@ -70,6 +70,7 @@ export default function MentionsInput({
     children,
     ...restProps
 }: MentionsInputProps) {
+    const suggestionsId = `${useId()}-suggestions`;
     return (
         <div
             className={`mentions-input ${className}`}
@@ -82,6 +83,7 @@ export default function MentionsInput({
                 role="combobox"
                 aria-label={label}
                 aria-haspopup="listbox"
+                aria-controls={suggestionsId}
                 aria-expanded={expanded}
                 aria-autocomplete="list"
                 value={value}
@@ -90,7 +92,7 @@ export default function MentionsInput({
                 onInput={onInput}
                 onChange={() => {}}
             />
-            <div className="mentions-input-suggestions" hidden={!expanded}>
+            <div className="mentions-input-suggestions" id={suggestionsId} hidden={!expanded}>
                 {children}
             </div>
         </div>

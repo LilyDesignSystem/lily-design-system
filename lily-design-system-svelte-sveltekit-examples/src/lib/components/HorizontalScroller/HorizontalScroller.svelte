@@ -41,6 +41,7 @@
 </script>
 
 <!-- HorizontalScroller.svelte -->
+<!-- svelte-ignore a11y_no_noninteractive_tabindex (a scrollable region must be keyboard-focusable (axe scrollable-region-focusable)) -->
 <div
     bind:this={scrollerEl}
     class={`horizontal-scroller ${className}`}

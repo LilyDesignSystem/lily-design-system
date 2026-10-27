@@ -4,7 +4,7 @@ import Tile from "./Tile.svelte";
 
 describe("Tile", () => {
     test("renders with content", () => {
-        render(Tile, { props: { label: "Test" } });
+        render(Tile, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("tile");

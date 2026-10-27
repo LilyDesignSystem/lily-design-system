@@ -99,7 +99,7 @@ describe("PinInputDiv", () => {
 function inForm(props: Record<string, unknown>): HTMLFormElement {
     const form = document.createElement("form");
     document.body.appendChild(form);
-    render(Subject, { target: form, props });
+    render(Subject, { target: form, props: props as any });
     return form;
 }
 

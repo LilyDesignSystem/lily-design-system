@@ -17,6 +17,19 @@ describe("MentionsInput", () => {
         expect(input.getAttribute("aria-label")).toBe("Comment");
     });
 
+    test("aria-controls on the input points at the suggestions panel's id", () => {
+        const { container } = render(
+            <Subject label="Comment">
+                <ul>x</ul>
+            </Subject>
+        );
+
+        const input: HTMLElement = screen.getByRole("combobox");
+        const panel = container.querySelector(".mentions-input-suggestions") as HTMLElement;
+        expect(panel.id).toBeTruthy();
+        expect(input.getAttribute("aria-controls")).toBe(panel.id);
+    });
+
     test("applies the mentions-input root class", () => {
         const { container } = render(
             <Subject label="C">

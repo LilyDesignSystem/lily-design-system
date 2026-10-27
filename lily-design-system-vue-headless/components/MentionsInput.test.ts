@@ -14,6 +14,15 @@ describe("MentionsInput", () => {
         expect(root.classList.contains("mentions-input")).toBe(true);
     });
 
+    test("aria-controls on the input points at the suggestions panel's id", () => {
+        const { container } = render(Subject, { props: { label: "Reply" } });
+
+        const input = container.querySelector("input") as HTMLElement;
+        const panel = container.querySelector(".mentions-input-suggestions") as HTMLElement;
+        expect(panel.id).toBeTruthy();
+        expect(input.getAttribute("aria-controls")).toBe(panel.id);
+    });
+
     test("default trigger char is @", () => {
         const { container } = render(Subject, { props: { label: "Reply" } });
 

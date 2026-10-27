@@ -22,6 +22,15 @@ describe("MentionsInput", () => {
         expect(host.className).toBe("mentions-input");
     });
 
+    test("aria-controls on the input points at the suggestions panel's id", () => {
+        const host = render('<lily-mentions-input label="Comment"></lily-mentions-input>');
+
+        const input = host.querySelector("input") as HTMLInputElement;
+        const panel = host.querySelector(".mentions-input-suggestions") as HTMLElement;
+        expect(panel.id).toBeTruthy();
+        expect(input.getAttribute("aria-controls")).toBe(panel.id);
+    });
+
     test("defaults data-trigger-char to @", () => {
         const host = render('<lily-mentions-input label="Comment"></lily-mentions-input>');
 

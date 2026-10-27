@@ -72,6 +72,7 @@
 </script>
 
 <!-- CheckboxGroup.svelte -->
+<!-- svelte-ignore a11y_no_redundant_roles (explicit role=group is part of the documented contract) -->
 <fieldset
     class={`checkbox-group ${className}`}
     role="group"

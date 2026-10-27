@@ -4,7 +4,7 @@ import DialGroup from "./DialGroup.svelte";
 
 describe("DialGroup", () => {
     test("renders with content", () => {
-        render(DialGroup, { props: { label: "Test" } });
+        render(DialGroup, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("dial-group");

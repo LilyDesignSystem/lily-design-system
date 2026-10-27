@@ -82,7 +82,7 @@
     </ul>
     <h3>ARIA</h3>
     <ul>
-      <li>Input has role="combobox", aria-haspopup="listbox", aria-expanded, aria-autocomplete="list"</li>
+      <li>Input has role="combobox", aria-haspopup="listbox", aria-expanded, aria-autocomplete="list", and aria-controls pointing at the suggestions panel's id (generated: React/Vue/Svelte <code>useId</code>, Web Components <code>nextId</code>; Nunjucks <code>&#123;id&#125;-suggestions</code>, default <code>mentions-input-suggestions</code>). The Angular and Blazor ports are minimal stubs without the panel and do not yet implement the combobox pattern</li>
       <li>aria-label is the input's accessible name (required)</li>
       <li>Consumer listbox uses role="listbox" with role="option" children</li>
     </ul>

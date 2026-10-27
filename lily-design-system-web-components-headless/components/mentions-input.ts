@@ -25,7 +25,7 @@
 //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 //   - Ant Design Mentions: https://ant.design/components/mentions
 
-import { applySelfClassName, moveChildrenInto } from "../lib/dom-utils.js";
+import { applySelfClassName, moveChildrenInto, nextId } from "../lib/dom-utils.js";
 
 export class MentionsInput extends HTMLElement {
     static get observedAttributes(): string[] {
@@ -49,6 +49,8 @@ export class MentionsInput extends HTMLElement {
 
         const suggestions = document.createElement("div");
         suggestions.className = "mentions-input-suggestions";
+        suggestions.id = nextId("lily-mentions-input-suggestions");
+        input.setAttribute("aria-controls", suggestions.id);
         moveChildrenInto(this, suggestions);
 
         this.appendChild(input);

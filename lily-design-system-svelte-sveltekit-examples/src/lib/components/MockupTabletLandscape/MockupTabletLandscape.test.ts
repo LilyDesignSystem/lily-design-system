@@ -4,7 +4,7 @@ import MockupTabletLandscape from "./MockupTabletLandscape.svelte";
 
 describe("MockupTabletLandscape", () => {
     test("renders with content", () => {
-        render(MockupTabletLandscape, { props: { label: "Test" } });
+        render(MockupTabletLandscape, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("mockup-tablet-landscape");

@@ -8,7 +8,7 @@
 </script>
 
 <Story name="Default" tags={["autodocs", "!dev"]}>
-    <ChatComposer label="ChatComposer example">
+    <ChatComposer label="Message" sendLabel="Send" stopLabel="Stop">
         <span>ChatComposer example</span>
     </ChatComposer>
 </Story>

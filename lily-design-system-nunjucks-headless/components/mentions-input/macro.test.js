@@ -15,6 +15,14 @@ describe("mentions-input", () => {
     ).toBe("@");
   });
 
+  it("aria-controls on the input points at the suggestions panel's id", () => {
+    const { document } = render("mentions-input", { label: "Comment", id: "c" });
+    const input = document.querySelector("input");
+    const panel = document.querySelector(".mentions-input-suggestions");
+    expect(panel.id).toBe("c-suggestions");
+    expect(input.getAttribute("aria-controls")).toBe("c-suggestions");
+  });
+
   it("respects a custom triggerChar", () => {
     const { document } = render("mentions-input", {
       label: "Comment",

@@ -4,7 +4,7 @@ import MockupWindow from "./MockupWindow.svelte";
 
 describe("MockupWindow", () => {
     test("renders with content", () => {
-        render(MockupWindow, { props: { label: "Test" } });
+        render(MockupWindow, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("mockup-window");

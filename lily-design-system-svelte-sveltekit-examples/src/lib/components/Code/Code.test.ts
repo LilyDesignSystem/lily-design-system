@@ -4,7 +4,7 @@ import Code from "./Code.svelte";
 
 describe("Code", () => {
     test("renders with content", () => {
-        render(Code, { props: { label: "Test" } });
+        render(Code, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("code");

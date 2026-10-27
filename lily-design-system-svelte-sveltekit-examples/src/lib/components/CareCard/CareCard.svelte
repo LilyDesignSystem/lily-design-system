@@ -69,6 +69,7 @@
 </script>
 
 <!-- CareCard.svelte -->
+<!-- svelte-ignore a11y_no_redundant_roles (explicit role keeps the landmark when a wrapper host changes the tag) -->
 <section
     class={`care-card ${className}`}
     role="region"

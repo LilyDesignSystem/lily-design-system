@@ -150,6 +150,7 @@
         {label}
     </button>
     {#if open}
+        <!-- svelte-ignore a11y_interactive_supports_focus (the menu container is not a tab stop: items carry tabindex=-1 and onMenuKeydown moves focus to them) -->
         <div
             role="menu"
             aria-label={label}

@@ -10,19 +10,19 @@ function snippet(text: string) {
 
 describe("HeroHeadline", () => {
     test("renders a div with class hero-headline", () => {
-        const { container } = render(Subject, { label: "x", children: snippet("content") });
+        const { container } = render(Subject, { label: "x", children: snippet("content") } as any);
         const root = container.querySelector(".hero-headline");
         expect(root).toBeTruthy();
         expect(root?.tagName).toBe("DIV");
     });
 
     test("renders children content", () => {
-        const { container } = render(Subject, { label: "x", children: snippet("content") });
+        const { container } = render(Subject, { label: "x", children: snippet("content") } as any);
         expect(container.textContent).toContain("content");
     });
 
     test("applies aria-label from label prop", () => {
-        const { container } = render(Subject, { label: "Hello", children: snippet("x") });
+        const { container } = render(Subject, { label: "Hello", children: snippet("x") } as any);
         const root = container.querySelector(".hero-headline");
         expect(root?.getAttribute("aria-label")).toBe("Hello");
     });

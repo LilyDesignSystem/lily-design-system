@@ -24,7 +24,8 @@
     //
     // Accessibility:
     //   - <input role="combobox"> with aria-haspopup="listbox", aria-expanded,
-    //     aria-autocomplete="list", aria-label.
+    //     aria-autocomplete="list", aria-label, and aria-controls pointing at the
+    //     suggestions panel's generated id.
     //
     // Internationalization:
     //   - label, placeholder, triggerChar all come through props.
@@ -71,6 +72,9 @@
         children?: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    const uid = $props.id();
+    const suggestionsId = `${uid}-suggestions`;
 </script>
 
 <!-- MentionsInput.svelte -->
@@ -85,6 +89,7 @@
         role="combobox"
         aria-label={label}
         aria-haspopup="listbox"
+        aria-controls={suggestionsId}
         aria-expanded={expanded}
         aria-autocomplete="list"
         {value}
@@ -92,7 +97,7 @@
         {disabled}
         {oninput}
     />
-    <div class="mentions-input-suggestions" hidden={!expanded}>
+    <div class="mentions-input-suggestions" id={suggestionsId} hidden={!expanded}>
         {#if children}{@render children?.()}{/if}
     </div>
 </div>

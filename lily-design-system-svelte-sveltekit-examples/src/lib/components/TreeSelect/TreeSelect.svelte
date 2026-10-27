@@ -70,6 +70,7 @@
 </script>
 
 <!-- TreeSelect.svelte -->
+<!-- svelte-ignore a11y_role_supports_aria_props (aria-multiselectable is not valid on a combobox; kept as the documented multiple-mode signal; known gap) -->
 <div
     class={`tree-select ${className}`}
     role="combobox"

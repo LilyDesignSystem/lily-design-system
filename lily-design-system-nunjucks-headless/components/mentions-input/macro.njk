@@ -36,6 +36,7 @@
 #}
 {%- macro mentionsInput(params) -%}
 {%- set p = params | default({}) -%}
+{%- set suggestionsId = (p.id | default('mentions-input')) ~ '-suggestions' -%}
 <div
   class="mentions-input{% if p.classes %} {{ p.classes }}{% endif %}"
   data-trigger-char="{{ p.triggerChar | default('@') }}"
@@ -47,6 +48,7 @@
     role="combobox"
     aria-haspopup="listbox"
     aria-autocomplete="list"
+    aria-controls="{{ suggestionsId }}"
     aria-expanded="{{ 'true' if p.expanded else 'false' }}"
     {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
     value="{{ p.value | default('') }}"
@@ -57,6 +59,7 @@
   >
   <div
     class="mentions-input-suggestions"
+    id="{{ suggestionsId }}"
     {%- if not p.expanded %} hidden{% endif %}
   >
     {%- if p.html -%}{{ p.html | safe }}

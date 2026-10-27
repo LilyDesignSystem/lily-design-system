@@ -4,7 +4,7 @@ import CurrencyInput from "./CurrencyInput.svelte";
 
 describe("CurrencyInput", () => {
     test("renders with content", () => {
-        render(CurrencyInput, { props: { label: "Test" } });
+        render(CurrencyInput, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("currency-input");

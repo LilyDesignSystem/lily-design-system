@@ -69,6 +69,7 @@
 </script>
 
 <!-- ScrollArea.svelte -->
+<!-- svelte-ignore a11y_no_noninteractive_tabindex (a scrollable region must be keyboard-focusable (axe scrollable-region-focusable)) -->
 <div
     class={`scroll-area ${className}`}
     role="region"

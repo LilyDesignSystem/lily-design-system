@@ -4,7 +4,7 @@ import MockupBrowser from "./MockupBrowser.svelte";
 
 describe("MockupBrowser", () => {
     test("renders with content", () => {
-        render(MockupBrowser, { props: { label: "Test" } });
+        render(MockupBrowser, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("mockup-browser");

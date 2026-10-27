@@ -4,7 +4,7 @@ import TimerButton from "./TimerButton.svelte";
 
 describe("TimerButton", () => {
     test("renders with content", () => {
-        render(TimerButton, { props: { label: "Test" } });
+        render(TimerButton, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("timer-button");

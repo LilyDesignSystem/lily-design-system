@@ -4,7 +4,7 @@ import TreeMenu from "./TreeMenu.svelte";
 
 describe("TreeMenu", () => {
     test("renders with content", () => {
-        render(TreeMenu, { props: { label: "Test" } });
+        render(TreeMenu, { props: { label: "Test" } as any });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("tree-menu");

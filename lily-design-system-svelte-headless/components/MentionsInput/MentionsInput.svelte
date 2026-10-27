@@ -24,7 +24,8 @@
     //
     // Accessibility:
     //   - <input role="combobox"> with aria-haspopup="listbox", aria-expanded,
-    //     aria-autocomplete="list", aria-label.
+    //     aria-autocomplete="list", aria-label, and aria-controls pointing at the
+    //     suggestions panel's generated id.
     //
     // Internationalization:
     //   - label, placeholder, triggerChar all come through props.
@@ -71,6 +72,9 @@
         children?: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    const uid = $props.id();
+    const suggestionsId = `${uid}-suggestions`;
 </script>
 
 <!-- MentionsInput.svelte -->
@@ -79,13 +83,13 @@
     data-trigger-char={triggerChar}
     {...restProps}
 >
-    <!-- svelte-ignore a11y_role_has_required_aria_props (aria-expanded is set but aria-controls is not: the consumer supplies the suggestion list, so it has no id of ours to point at; known gap) -->
     <input
         class="mentions-input-control"
         type="text"
         role="combobox"
         aria-label={label}
         aria-haspopup="listbox"
+        aria-controls={suggestionsId}
         aria-expanded={expanded}
         aria-autocomplete="list"
         {value}
@@ -93,7 +97,7 @@
         {disabled}
         {oninput}
     />
-    <div class="mentions-input-suggestions" hidden={!expanded}>
+    <div class="mentions-input-suggestions" id={suggestionsId} hidden={!expanded}>
         {#if children}{@render children?.()}{/if}
     </div>
 </div>

@@ -34,10 +34,11 @@
         role="combobox"
         aria-label="Comment"
         aria-haspopup="listbox"
+        aria-controls="mentions-input-suggestions-1"
         aria-expanded="false"
         aria-autocomplete="list"
       />
-      <div class="mentions-input-suggestions" hidden>
+      <div class="mentions-input-suggestions" id="mentions-input-suggestions-1" hidden>
         … Consumer-provided listbox of mention candidates …
       </div>
     </div>
@@ -54,12 +55,13 @@
     role="combobox"
     aria-label=""
     aria-haspopup="listbox"
+    aria-controls="mentions-input-suggestions-1"
     aria-expanded="false"
     aria-autocomplete="list"
   />
 
   <!-- The suggestions panel. Hidden until the trigger character is typed. -->
-  <div class="mentions-input-suggestions" hidden>
+  <div class="mentions-input-suggestions" id="mentions-input-suggestions-1" hidden>
     <!-- Consumer provides the suggestions (typically a listbox) -->
   </div>
 </div>
