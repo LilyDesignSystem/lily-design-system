@@ -368,7 +368,7 @@ describe("<share-picker> — copy to clipboard (§7.7–§7.10)", () => {
     const clip = stubClipboard();
     const seen: SharePickerUrlDetail[] = [];
     document.body.addEventListener("copy", (e) => {
-      seen.push((e as CustomEvent<SharePickerUrlDetail>).detail);
+      seen.push((e as unknown as CustomEvent<SharePickerUrlDetail>).detail);
     });
     mount({ label: "Share", url: URL_UNDER_TEST, "copy-label": "Copy link" });
     await flush();
@@ -447,7 +447,7 @@ describe("<share-picker> — native share sheet (§7.11–§7.14)", () => {
     const onNativeShare = vi.fn();
     const seen: SharePickerUrlDetail[] = [];
     document.body.addEventListener("nativeshare", (e) => {
-      seen.push((e as CustomEvent<SharePickerUrlDetail>).detail);
+      seen.push((e as unknown as CustomEvent<SharePickerUrlDetail>).detail);
     });
     const el = mount({
       label: "Share",

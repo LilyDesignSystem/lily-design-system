@@ -91,7 +91,7 @@ jobs:
         run: |
           for d in $(bin/list-helper-packages ${{ matrix.framework }}); do
             echo "::group::$d"
-            ( cd "$d" && pnpm install --frozen-lockfile && pnpm run build && pnpm run test )
+            ( cd "$d" && pnpm install --frozen-lockfile && pnpm run build && pnpm run --if-present check && pnpm run test )
             echo "::endgroup::"
           done
 

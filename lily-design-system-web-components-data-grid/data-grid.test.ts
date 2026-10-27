@@ -268,7 +268,7 @@ describe("virtualization, persistence, export, types", () => {
     const onExport = vi.fn(() => false);
     mount({ onExport });
     click(grid.querySelector("[data-grid-export-format=csv]")!);
-    const file = onExport.mock.calls[0][0] as { filename: string; rowCount: number; blob: Blob };
+    const file = (onExport.mock.calls as unknown as unknown[][])[0][0] as { filename: string; rowCount: number; blob: Blob };
     expect(file.filename).toBe("data-grid.csv");
     expect(file.rowCount).toBe(3);
     const text = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await file.blob.arrayBuffer());

@@ -25,6 +25,7 @@
   "scripts": {
     "build": "node build.js",
     "test": "vitest run",
+    "check": "tsc --noEmit",
     "test:watch": "vitest",
     "prepublishOnly": "npm run build"
   },

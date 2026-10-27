@@ -17,6 +17,7 @@
   "scripts": {
     "build": "ng-packagr -p ng-package.json -c tsconfig.lib.json",
     "test": "vitest run",
+    "check": "tsc --noEmit",
     "test:watch": "vitest",
     "prepublishOnly": "echo 'Publish from dist/: npm run build && cd dist && npm publish' >&2 && exit 1"
   },

@@ -249,7 +249,7 @@ export function createDataGrid(options: DataGridOptions) {
         },
 
         // ---- export -----------------------------------------------------------------------------------------------
-        exportRows(scope: "page" | "filtered" | "selected" | "all" = this.exportScope): GridRow[] {
+        exportRows(this: any, scope: "page" | "filtered" | "selected" | "all" = this.exportScope): GridRow[] {
             if (scope === "all") return this.rows;
             if (scope === "page") return this.pageRows;
             if (scope === "selected") return this.sortedRows.filter((r: GridRow) => this.isSelected(this.id(r)));
