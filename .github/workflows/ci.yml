@@ -123,7 +123,7 @@ jobs:
         working-directory: ${{ matrix.catalog }}
         run: pnpm install --frozen-lockfile
       - name: Typecheck
-        # Libraries without a `check` script (html, nunjucks, alpine) are skipped; see tasks.md P12-T1.
+        # Libraries without a `check` script are skipped; see tasks.md P12-T1.
         working-directory: ${{ matrix.catalog }}
         run: pnpm run --if-present check
       - name: Test
@@ -146,6 +146,9 @@ jobs:
       - name: Install
         working-directory: lily-design-system-html-headless
         run: pnpm install --frozen-lockfile
+      - name: Typecheck
+        working-directory: lily-design-system-html-headless
+        run: pnpm run check
       - name: Test (491 WebDriverIO specs, headless Chrome)
         working-directory: lily-design-system-html-headless
         run: pnpm test
