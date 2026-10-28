@@ -12,8 +12,8 @@ importers:
   .:
     dependencies:
       '@lilydesignsystem/angular-headless':
-        specifier: ^0.6.0
-        version: 0.6.0(@angular/common@22.2.3(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
+        specifier: ^0.7.1
+        version: 0.7.1(@angular/common@22.2.3(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
     devDependencies:
       '@analogjs/vite-plugin-angular':
         specifier: ^2.9.2
@@ -573,9 +573,9 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lilydesignsystem/angular-headless@0.6.0':
-    resolution: {integrity: sha512-CueXX+XMZUY2qQM0Amv4uzrSafzkrY6tdJ0yXwAgIvJEPWjshmWYkXPJyJiwjc+xLzyfbWwrU2pHtDsKUn0SYg==}
-    engines: {node: '=26'}
+  '@lilydesignsystem/angular-headless@0.7.1':
+    resolution: {integrity: sha512-G8jdO4W8U/wVG62m2rT3X6bRKt0awJgC0Ung3VbmlXLub+8LP6hH1/7gmnz/YwF2cqokZuusS1kzFS2Uo0utaA==}
+    engines: {node: '>=26'}
     peerDependencies:
       '@angular/common': '>=20.0.0 <23.0.0'
       '@angular/core': '>=20.0.0 <23.0.0'
@@ -3106,7 +3106,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@lilydesignsystem/angular-headless@0.6.0(@angular/common@22.2.3(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)':
+  '@lilydesignsystem/angular-headless@0.7.1(@angular/common@22.2.3(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)':
     dependencies:
       '@angular/common': 22.2.3(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
       '@angular/core': 22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3)

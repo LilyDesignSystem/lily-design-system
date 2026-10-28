@@ -7,7 +7,7 @@
   "description": "Lily Design System Angular 20 calendar: a week, four-week and month calendar composing the headless CalendarTable family plus the sibling date-time-picker's civil-date arithmetic. Headless, SSR-safe, no CSS.",
   "dependencies": {
     "@lilydesignsystem/angular-date-time-picker": "^0.2.0",
-    "@lilydesignsystem/angular-headless": "^0.6.0"
+    "@lilydesignsystem/angular-headless": "^0.7.1"
   },
   "peerDependencies": {
     "@angular/common": ">=20.0.0 <23.0.0",
