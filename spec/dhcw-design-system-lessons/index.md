@@ -10,8 +10,8 @@ class prefix, Sass tokens named `$nhswales-*`, and ships every component as HTML
 
 This is the second DHCW source Lily has read. The earlier one, the `nhsw-component-library` repository, is what the two
 Wales themes track today (see [theme](../theme/index.md) and the themes' "Upstream tracked" lines). The new site publishes
-**different link colours** from that baseline (item 1), which is the most concrete finding. Nothing here is built yet: each
-item is an open acceptance criterion below.
+**different link colours** from that baseline (item 1), which is the most concrete finding. All eight items were implemented on
+2026-10-28; see Decisions and Implementation status below.
 
 ## Scope
 
@@ -212,25 +212,51 @@ Where DHCW has something Lily does not (and where Lily's version should adopt a 
   root layout), and a design system that sets a cookie it does not have to is a poor example.
 - **Figma-first prototyping.** Lily's reference is the working example apps.
 
-## Open questions
+## Decisions
 
-1. **Overflow navigation (item 2).** A mode on `navigation-menu` (`data-overflow`), or a new `overflow-nav` component? A mode
-   keeps the catalog count down; a component keeps the headless contract clear.
-2. **`patient-banner` (item 3).** A component, or a documented composition only? And does the `-banner` suffix map to
-   `<section>`, or does the suffix table need a new row?
-3. **AAA exceptions (item 1).** Follow DHCW's link colours and record the shortfall in the theme header, or darken them.
+Decided 2026-10-28 and implemented the same day.
+
+1. **Overflow navigation (item 2): a mode on `navigation-menu`**, not a new component. `overflow` (default false) publishes
+   `data-overflow="true"`; `moreLabel` is required and carries no English. One framework-free module,
+   `shared/overflow-navigation.ts`, does the measuring with a `ResizeObserver` on the list.
+2. **Patient banner (item 3): a documented composition**, in `medical-banner`'s docs and `AGENTS/components.md`. No component
+   is added; it is not named `patient-header` because the suffix table maps `-header` to `<header>`.
+3. **AAA exceptions (item 1): follow DHCW for the link roles, darken only the delete button.** Link `#005AA8` is 6.94:1 (AA, not
+   AAA) and is recorded in the theme token description; the delete fill is mixed 20 percent towards black (8.2:1).
+
+## Implementation status
+
+| Item | State                                                                                                                                                                                                              |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1    | Done. Both Wales themes: link, hover, visited, active; delete button; "Upstream tracked" names this site.                                                                                                          |
+| 2    | Done in Svelte, React, Vue, Angular, Web Components, Nunjucks (markup only), HTML (documented), Blazor (JS interop), Alpine. Verified in Chromium with real layout: 6 items fit at 1200px, 4 at 420px, 3 at 320px. |
+| 3    | Done as a composition.                                                                                                                                                                                             |
+| 4    | Done in the docs. The `/settings-page` demo is not changed: it is a per-app page with no generator.                                                                                                                |
+| 5    | Done. 2.4.11 is a required commitment; every theme ends with a pinned "Focus not obscured" section; one spec per app, run on six of seven.                                                                         |
+| 6    | Done. A 30 percent pseudo-locale (`lang="cy"`) at 320px in every app's `responsive.spec.ts`; it found and fixed real overflow (see below). Run on six of seven.                                                    |
+| 7    | Done in the docs.                                                                                                                                                                                                  |
+| 8    | Done in the docs.                                                                                                                                                                                                  |
+
+What the text-expansion sweep found, all fixed in the apps' own stylesheets or routes: long unbreakable words reached 322 to 346px
+at a 320px viewport (`overflow-wrap: anywhere` is now on each app's `body`); two fixed two-column grids in the SvelteKit app
+(`/page-layout`, `/task-management`); and the Angular suffix filter select grew past the viewport (`max-width: 100%`).
+
+**Not verified:** the Nunjucks Eleventy example (its build is broken independently, so its new specs and its `page.css` fix have
+never run); Firefox and WebKit (only Chromium ran); a Playwright case for the overflow navigation (the SvelteKit demo page
+renders static demo HTML, not the component); the Blazor overflow interop in a browser. The `networkidle` wait in the sweep specs
+timed out once on the html-css-js app and passed on two reruns.
 
 ## Acceptance criteria
 
-- [ ] 1. Link, hover, visited and active in both Wales themes match the site; the headers name the source and date.
-- [ ] 2. The overflow-navigation shape is decided and specified, with the 320px no-script case tested.
-- [ ] 3. The patient banner is a documented composition (or a component), with the naming rule settled.
-- [ ] 4. The summary-card composition and its four rules are in the docs.
-- [ ] 5. 2.4.11 is in the accessibility rules, the themes set `scroll-padding` for fixed bars, and each example app tests it.
-- [ ] 6. The responsive sweep runs a 30-percent text-expansion fixture with `lang="cy"` at 320px.
-- [ ] 7. `warning-callout` documents its limits and the hidden-prefix pattern.
-- [ ] 8. `button`'s Advice states that duplicate submission is a server concern shown by the pending contract.
-- [ ] The open questions are decided, or recorded as declined.
+- [x] 1. Link, hover, visited and active in both Wales themes match the site; the headers name the source and date.
+- [x] 2. The overflow-navigation shape is decided and specified, with the 320px no-script case tested.
+- [x] 3. The patient banner is a documented composition (or a component), with the naming rule settled.
+- [x] 4. The summary-card composition and its four rules are in the docs.
+- [x] 5. 2.4.11 is in the accessibility rules, the themes set `scroll-padding` for fixed bars, and each example app tests it.
+- [x] 6. The responsive sweep runs a 30-percent text-expansion fixture with `lang="cy"` at 320px.
+- [x] 7. `warning-callout` documents its limits and the hidden-prefix pattern.
+- [x] 8. `button`'s Advice states that duplicate submission is a server concern shown by the pending contract.
+- [x] The open questions are decided, or recorded as declined.
 
 ## Related topics
 

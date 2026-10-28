@@ -107,7 +107,7 @@ export function setupOverflowNavigation(root: HTMLElement): OverflowNavigation |
         }
     };
 
-    const onClick = (): void => setOpen(moreList.hidden);
+    const onClick = (): void => setOpen(Boolean(moreList.hidden));
     const onKeydown = (event: KeyboardEvent): void => {
         if (event.key === "Escape" && !moreList.hidden) {
             event.stopPropagation();
