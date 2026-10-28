@@ -23,6 +23,8 @@ value is used verbatim — useful for custom track lists.
 - `html` — string. Raw HTML content (rendered via `| safe`).
 - `columns` — number | string. Column count or
   `grid-template-columns` value. Default `12`.
+- `minColumnWidth` — string. A CSS length. Fluid mode: the template is
+  `repeat(auto-fit, minmax(min(W, 100%), 1fr))` and wins over `columns`.
 - `gap` — string. Gap CSS value. Default `"1rem"`.
 - `label` — string. Optional `aria-label`.
 - `id` — string.
@@ -48,6 +50,14 @@ value is used verbatim — useful for custom track lists.
   <aside>Side</aside>
 {% endcall %}
 ```
+
+```njk
+{% call grid({ minColumnWidth: "12rem" }) %}
+  <div>One</div><div>Two</div>
+{% endcall %}
+```
+
+In a 120px container this is one column with no overflow (the `min(W, 100%)` cap).
 
 ## Accessibility
 

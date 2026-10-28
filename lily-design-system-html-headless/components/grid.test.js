@@ -28,4 +28,10 @@ describe('Grid', function() {
     expect(style).toContain('grid-template-columns');
     expect(style).toContain('gap');
   });
+
+  it('should document the fluid minColumnWidth template', async function() {
+    const text = require('fs').readFileSync(path.resolve(__dirname, 'grid.html'), 'utf8');
+    expect(text).toContain('repeat(auto-fit, minmax(min(12rem, 100%), 1fr))');
+    expect(text).toContain('data-min-column-width');
+  });
 });

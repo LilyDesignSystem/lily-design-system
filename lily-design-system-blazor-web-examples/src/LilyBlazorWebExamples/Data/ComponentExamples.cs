@@ -220,7 +220,7 @@ public static class ComponentExamples
         ["grail-layout-right-aside"] = new("razor", "<GrailLayoutRightAside>\n    Content\n</GrailLayoutRightAside>\n", new List<ExampleVariant> {  }),
         ["grail-layout-top-header"] = new("razor", "<GrailLayoutTopHeader>\n    Content\n</GrailLayoutTopHeader>\n", new List<ExampleVariant> {  }),
         ["graphic-block"] = new("html", "<GraphicBlock\n  title=\"Global Temperature Anomaly\"\n  description=\"Average land-ocean temperature index, 1880-2025\"\n  notes=\"Source: NASA GISS\"\n  label=\"Line chart showing global temperature anomaly rising from -0.2°C in 1880 to +1.2°C in 2025\"\n>\n  <canvas id=\"temperature-chart\"></canvas>\n</GraphicBlock>\n", new List<ExampleVariant> {  }),
-        ["grid"] = new("razor", "<Grid>\n    Content\n</Grid>\n", new List<ExampleVariant> {  }),
+        ["grid"] = new("razor", "<Grid>\n    Content\n</Grid>\n\n<Grid MinColumnWidth=\"12rem\">\n    Cards (one column in a 120px container, no overflow)\n</Grid>\n", new List<ExampleVariant> {  }),
         ["hamburger-menu"] = new("razor", "<HamburgerMenu>\n    Content\n</HamburgerMenu>\n", new List<ExampleVariant> {  }),
         ["header"] = new("razor", "<Header>\n    Content\n</Header>\n", new List<ExampleVariant> {  }),
         ["headline"] = new("razor", "<Headline>\n    Content\n</Headline>\n", new List<ExampleVariant> {  }),

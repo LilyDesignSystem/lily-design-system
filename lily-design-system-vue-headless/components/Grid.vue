@@ -10,6 +10,8 @@
     // Props:
     //   columns — number | string, default 12. When a number, generates equal
     //             columns; when a string, used as grid-template-columns directly.
+    //   minColumnWidth — string, optional CSS length. When set, the template is
+    //             repeat(auto-fit, minmax(min(<W>, 100%), 1fr)) and wins over `columns`.
     //   gap     — string, default "1rem".
     //   default slot. Grid items.
     //   ...restProps — additional HTML attributes spread onto the <div>.
@@ -51,6 +53,8 @@
     const props = withDefaults(defineProps<{
         /** Number of columns or custom template string. */
         columns?: number | string;
+        /** CSS length: fit as many columns as fit, each at least this wide. Wins over `columns`. */
+        minColumnWidth?: string;
         /** Gap CSS value. */
         gap?: string;
     }>(), {
@@ -59,6 +63,9 @@
     });
 
     const gridTemplateColumns = computed(() => {
+        if (props.minColumnWidth) {
+            return `repeat(auto-fit, minmax(min(${props.minColumnWidth}, 100%), 1fr))`;
+        }
         if (typeof props.columns === "number") {
             return `repeat(${props.columns}, minmax(0, 1fr))`;
         }
@@ -72,6 +79,7 @@
     <div
         class="grid"
         :data-columns="columns"
+        :data-min-column-width="minColumnWidth || undefined"
         :style="{
             display: 'grid',
             gridTemplateColumns: gridTemplateColumns,

@@ -5,9 +5,19 @@
     a CSS grid layout container with configurable columns and gap
 *@
 
-<div class="@($"grid {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"grid {CssClass}".Trim())" aria-label="@Label" data-columns="@Columns" data-min-column-width="@(string.IsNullOrEmpty(MinColumnWidth) ? null : MinColumnWidth)" style="@Style" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
+    /// <summary>Number of equal columns ("3") OR a custom grid-template-columns string.</summary>
+    [Parameter] public string Columns { get; set; } = "12";
+    /// <summary>CSS length: fit as many columns as fit, each at least this wide. Wins over Columns.</summary>
+    [Parameter] public string MinColumnWidth { get; set; } = "";
+    [Parameter] public string Gap { get; set; } = "1rem";
+    public string GridTemplateColumns =>
+        !string.IsNullOrEmpty(MinColumnWidth) ? $"repeat(auto-fit, minmax(min({MinColumnWidth}, 100%), 1fr))"
+        : int.TryParse(Columns, out var n) ? $"repeat({n}, minmax(0, 1fr))"
+        : Columns;
+    private string Style => $"display: grid; grid-template-columns: {GridTemplateColumns}; gap: {Gap};";
     [Parameter] public string Label { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";

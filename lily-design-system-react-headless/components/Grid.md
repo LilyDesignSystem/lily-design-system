@@ -6,11 +6,13 @@ A CSS grid layout container with a configurable column count or a custom `grid-t
 
 - Inline style applies `display: grid`, `grid-template-columns`, and `gap`
 - `data-columns` attribute exposed for consumer CSS hooks
+- `minColumnWidth` (CSS length), when set, generates `repeat(auto-fit, minmax(min(W, 100%), 1fr))` and wins over `columns`; `data-min-column-width` mirrors it
 - Default columns value is `12`
 
 ## Props
 
 - `columns`: `number | string` (default: `12`)
+- `minColumnWidth`: string (optional) -- fluid mode: as many columns as fit, each at least this wide
 - `gap`: string (default: `"1rem"`) -- CSS gap value
 - `children`: ReactNode (required) -- grid items
 - `...restProps`: Any additional HTML attributes passed to the `<div>`
@@ -30,6 +32,9 @@ A CSS grid layout container with a configurable column count or a custom `grid-t
   <aside>Right</aside>
 </Grid>
 ```
+
+Fluid: `<Grid minColumnWidth="12rem">` collapses to one column in a 120px container
+(the `min(W, 100%)` cap prevents overflow) and fills a wide one with 12rem-plus columns.
 
 ## Keyboard Interactions
 

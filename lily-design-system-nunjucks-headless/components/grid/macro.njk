@@ -13,6 +13,9 @@
     html         string         Raw HTML content (rendered via `| safe`).
     columns      number|string  Column count or grid-template-columns
                                 value. Default 12.
+    minColumnWidth string       CSS length. When set, template is
+                                repeat(auto-fit, minmax(min(W, 100%), 1fr))
+                                and wins over columns.
     gap          string         Gap CSS value. Default "1rem".
     label        string         Optional aria-label.
     id           string
@@ -28,7 +31,10 @@
 {%- macro grid(params) -%}
 {%- set columns = params.columns | default(12) -%}
 {%- set gap = params.gap | default("1rem") -%}
-{%- if columns is number -%}
+{%- set minColumnWidth = params.minColumnWidth -%}
+{%- if minColumnWidth -%}
+  {%- set template = "repeat(auto-fit, minmax(min(" + minColumnWidth + ", 100%), 1fr))" -%}
+{%- elif columns is number -%}
   {%- set template = "repeat(" + columns + ", minmax(0, 1fr))" -%}
 {%- else -%}
   {%- set template = columns -%}
@@ -36,6 +42,7 @@
 <div
   class="grid{% if params.classes %} {{ params.classes }}{% endif %}"
   data-columns="{{ columns }}"
+  {%- if minColumnWidth %} data-min-column-width="{{ minColumnWidth }}"{% endif %}
   style="display: grid; grid-template-columns: {{ template }}; gap: {{ gap }};"
   {%- if params.id %} id="{{ params.id }}"{% endif %}
   {%- if params.label %} aria-label="{{ params.label }}"{% endif %}

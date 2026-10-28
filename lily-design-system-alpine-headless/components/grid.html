@@ -7,6 +7,10 @@
   Keyboard: None (passive element)
   Accessibility: None — purely structural layout container
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+
+  Fluid mode: for as many columns as fit, each at least W wide, use
+    grid-template-columns: repeat(auto-fit, minmax(min(W, 100%), 1fr));
+    with data-min-column-width="W" (e.g. 12rem). It replaces the column count.
 -->
 
 <div

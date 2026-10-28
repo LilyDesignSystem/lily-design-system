@@ -54,4 +54,19 @@ describe("Grid", () => {
 
         expect(host.getAttribute("style")).toBeNull();
     });
+
+    test("min-column-width exposes the fluid template as a custom property", () => {
+        const host = render('<lily-grid min-column-width="120px" columns="3"></lily-grid>');
+
+        expect(host.getAttribute("data-min-column-width")).toBe("120px");
+        expect(host.style.getPropertyValue("--grid-template-columns")).toBe(
+            "repeat(auto-fit, minmax(min(120px, 100%), 1fr))",
+        );
+    });
+
+    test("without min-column-width no custom property is set", () => {
+        const host = render('<lily-grid columns="3"></lily-grid>');
+
+        expect(host.style.getPropertyValue("--grid-template-columns")).toBe("");
+    });
 });

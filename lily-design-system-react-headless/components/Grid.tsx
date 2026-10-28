@@ -8,6 +8,8 @@
 // Props:
 //   className — string, optional. CSS class name.
 //   columns   — number | string, default 12.
+//   minColumnWidth — string, optional. CSS length; when set, template is
+//             repeat(auto-fit, minmax(min(<W>, 100%), 1fr)) and wins over `columns`.
 //   gap       — string, default "1rem". CSS gap value.
 //   children  — ReactNode, required. Grid items.
 //   ...restProps — additional HTML attributes spread onto the <div>.
@@ -48,6 +50,8 @@ export interface GridProps {
     className?: string;
     /** Number of equal columns OR custom grid-template-columns string */
     columns?: number | string;
+    /** CSS length: fit as many columns as fit, each at least this wide. Wins over `columns`. */
+    minColumnWidth?: string;
     /** Gap between cells (CSS value) */
     gap?: string;
     /** Grid items */
@@ -58,18 +62,22 @@ export interface GridProps {
 export default function Grid({
     className = "",
     columns = 12,
+    minColumnWidth,
     gap = "1rem",
     children,
     ...restProps
 }: GridProps) {
     const gridTemplateColumns: string =
-        typeof columns === "number"
+        minColumnWidth
+            ? `repeat(auto-fit, minmax(min(${minColumnWidth}, 100%), 1fr))`
+            : typeof columns === "number"
             ? `repeat(${columns}, minmax(0, 1fr))`
             : columns;
     return (
         <div
         className={`grid ${className}`}
         data-columns={String(columns)}
+        data-min-column-width={minColumnWidth || undefined}
         style={{ display: "grid", gridTemplateColumns, gap }}
         {...restProps}
         >

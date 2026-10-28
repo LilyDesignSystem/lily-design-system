@@ -16,6 +16,7 @@
   ],
   "props": [
     "`columns`: number | string (default: 12) -- column count or grid-template-columns value",
+    "`minColumnWidth`: string (optional CSS length) -- fluid mode; replaces `columns` when set",
     "`gap`: string (default: \"1rem\") -- gap CSS value",
     "`children`: slot -- laid-out content",
     "`...restProps`: any additional HTML attributes"

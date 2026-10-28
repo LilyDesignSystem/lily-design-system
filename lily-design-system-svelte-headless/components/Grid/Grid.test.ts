@@ -89,4 +89,29 @@ describe("Grid", () => {
         expect(root.className).toContain("grid");
         expect(root.className).toContain("extra");
     });
+
+    test("minColumnWidth generates a fluid auto-fit template", () => {
+        const { container } = render(Subject, { props: {
+            minColumnWidth: "12rem",
+            children: textSnippet("Fluid"),
+        }});
+
+        const root = container.querySelector(".grid") as HTMLElement;
+        expect(root.getAttribute("style")).toContain(
+            "repeat(auto-fit, minmax(min(12rem, 100%), 1fr))",
+        );
+        expect(root.getAttribute("data-min-column-width")).toBe("12rem");
+    });
+
+    test("minColumnWidth wins over columns", () => {
+        const { container } = render(Subject, { props: {
+            columns: 3,
+            minColumnWidth: "120px",
+            children: textSnippet("Fluid"),
+        }});
+
+        const style = (container.querySelector(".grid") as HTMLElement).getAttribute("style");
+        expect(style).toContain("min(120px, 100%)");
+        expect(style).not.toContain("repeat(3,");
+    });
 });

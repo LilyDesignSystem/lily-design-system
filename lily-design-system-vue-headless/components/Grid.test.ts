@@ -75,4 +75,19 @@ describe("Grid", () => {
         const el: HTMLElement = screen.getByTestId("g");
         expect(el.getAttribute("id")).toBe("main-grid");
     });
+
+    test("minColumnWidth generates a fluid auto-fit template", () => {
+        render(Subject, { props: { minColumnWidth: "12rem", "data-testid": "g" }, slots: { default: "Hello" } });
+
+        const el: HTMLElement = screen.getByTestId("g");
+        expect(el.style.gridTemplateColumns).toBe("repeat(auto-fit, minmax(min(12rem, 100%), 1fr))");
+        expect(el.getAttribute("data-min-column-width")).toBe("12rem");
+    });
+
+    test("minColumnWidth wins over columns", () => {
+        render(Subject, { props: { columns: 3, minColumnWidth: "120px", "data-testid": "g" }, slots: { default: "Hello" } });
+
+        const el: HTMLElement = screen.getByTestId("g");
+        expect(el.style.gridTemplateColumns).toContain("min(120px, 100%)");
+    });
 });

@@ -58,4 +58,24 @@ describe("grid", () => {
     const { html } = render("grid", {});
     expect(html).not.toContain("<script");
   });
+
+  it("minColumnWidth generates a fluid auto-fit template", () => {
+    const { document } = render("grid", { minColumnWidth: "12rem" });
+    const el = document.querySelector("div.grid");
+    expect(el.getAttribute("data-min-column-width")).toBe("12rem");
+    expect(el.getAttribute("style")).toContain(
+      "grid-template-columns: repeat(auto-fit, minmax(min(12rem, 100%), 1fr))");
+  });
+
+  it("minColumnWidth wins over columns", () => {
+    const { document } = render("grid", { columns: 3, minColumnWidth: "120px" });
+    const style = document.querySelector("div.grid").getAttribute("style");
+    expect(style).toContain("min(120px, 100%)");
+    expect(style).not.toContain("repeat(3,");
+  });
+
+  it("omits data-min-column-width when unset", () => {
+    const { document } = render("grid", {});
+    expect(document.querySelector("div.grid").hasAttribute("data-min-column-width")).toBe(false);
+  });
 });
