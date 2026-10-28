@@ -16,6 +16,7 @@ It explicitly does **not** cover: the example apps' full stylesheets (see [examp
 - **Tokens flatten to custom properties.** The theme is a flat object whose keys flatten into `--theme-{path}` CSS custom properties via `ThemeProvider`; consumer CSS reads `var(--theme-color-primary)`, `var(--theme-space-md)`, etc.
 - **`base` reflects to `data-theme`.** `ThemeProvider` accepts a `base` prop (`"light" | "dark"`); it is reflected as `data-theme` on the wrapper. High-contrast is an additional `data-theme` value layered the same way.
 - **`display: contents` is the only allowed inline style** on `ThemeProvider`, alongside the CSS custom properties it sets as variables — so the provider sets tokens without introducing a layout box.
+- **Focus not obscured.** Every theme ends with the same pinned "Focus not obscured" section (WCAG 2.2 SC 2.4.11): `:where(html) { scroll-padding-block: var(--lily-fixed-bar-block-start, 0px) var(--lily-fixed-bar-block-end, 0px); }`. A fixed bar sets those two custom properties on the root to its height; `bin/check-theme` rule 12 requires the section in any theme that uses `position: fixed|sticky`, and rule 5 pins its text.
 - **Headless components only set ARIA, semantic structure, class hooks, and `data-*` attributes** — never literal visual values.
 
 ## Reference palette (default examples)
@@ -225,6 +226,7 @@ Editorial / scrollytelling primitives use CSS custom properties for column width
 - [x] Theme tokens are a flat object flattening to `--theme-{path}` custom properties.
 - [x] `ThemeProvider` reflects `base` to `data-theme` and uses only `display: contents` plus CSS-variable inline styles.
 - [x] Light / dark / high-contrast variants are selected via `data-theme` values, not component logic.
+- [x] All 57 themes carry the pinned "Focus not obscured" section (`scroll-padding-block` from `--lily-fixed-bar-block-start` / `-end`).
 - [x] Editorial column widths use the `--content-width-*` convention set by `article-layout` and read by `content-block`.
 
 ## Related topics

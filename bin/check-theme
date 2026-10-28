@@ -51,6 +51,11 @@ Asserts the contracts a theme stylesheet must honour (plan P3-T5):
      `rem`, so the value never falls below a size that follows the viewer's
      font size (spec/responsive, plan P15-T9).
 
+  12. Focus Not Obscured (WCAG 2.2 SC 2.4.11). A theme that uses
+     `position: fixed|sticky` sets `scroll-padding-block` from
+     `--lily-fixed-bar-block-start` / `-end`; the shared "Focus not obscured"
+     section (rule 5) carries it, so every theme does.
+
 Exits non-zero listing every violation. Wired into bin/test.
 
 `bin/check-theme --contrast` (plan P10-T4) is a separate, report-only pass:
@@ -107,6 +112,7 @@ SHARED_SECTIONS = (
     "Overflow guards",
     "Helper packages — layout and look",
     "Container queries",
+    "Focus not obscured",
 )
 
 
@@ -394,6 +400,13 @@ def main() -> int:
         for m in re.finditer(r"clamp\(\s*([^,]+?)\s*,", css):
             if not re.fullmatch(r"[\d.]+rem", m.group(1)):
                 errors.append(f"{base}: clamp() floor {m.group(1)!r} is not a rem value")
+
+        # 12. fixed or sticky bars cannot hide the focused control (WCAG 2.4.11):
+        # a theme that fixes anything to the viewport must carry the pinned
+        # "Focus not obscured" section (all do; rule 5 pins its text)
+        if re.search(r"position\s*:\s*(fixed|sticky)", css) and \
+           not re.search(r"scroll-padding-block\s*:\s*var\(--lily-fixed-bar-block-start", css):
+            errors.append(f"{base}: has position: fixed|sticky but no scroll-padding-block from --lily-fixed-bar-block-start/-end (WCAG 2.4.11)")
 
         # 8. a query needs a container: without container-type it never matches
         if "@container" in css and "container-type" not in css:

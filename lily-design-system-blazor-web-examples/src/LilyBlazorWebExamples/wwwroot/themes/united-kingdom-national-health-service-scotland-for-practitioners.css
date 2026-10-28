@@ -4375,3 +4375,28 @@
         padding-inline: 0.5rem;
     }
 }
+
+/* ============================================================================
+ * Focus not obscured — shared verbatim by all themes.
+ *
+ * WCAG 2.2 SC 2.4.11 (Focus Not Obscured, Minimum): a focused control is never
+ * entirely hidden by author-created content, such as a bar fixed to the top or
+ * bottom of the viewport. The browser scrolls a focused control into view, but
+ * only as far as the edge of the viewport, which is where a fixed bar sits.
+ * `scroll-padding` moves that edge in by the bar's height.
+ *
+ * Contract: whatever fixes a bar to the viewport (sticky-promo-banner, a
+ * theme's or an app's own fixed header, a mobile bottom navigation) sets the
+ * bar's height on the root element:
+ *
+ *     --lily-fixed-bar-block-start: 4rem;   (a bar fixed at the top)
+ *     --lily-fixed-bar-block-end:   3rem;   (a bar fixed at the bottom)
+ *
+ * With both bars, set both. The defaults are 0px, so a page without a fixed bar
+ * is unchanged. Specificity is zero (`:where`), so an app's own
+ * `scroll-padding` wins.
+ * ========================================================================= */
+
+:where(html) {
+    scroll-padding-block: var(--lily-fixed-bar-block-start, 0px) var(--lily-fixed-bar-block-end, 0px);
+}
