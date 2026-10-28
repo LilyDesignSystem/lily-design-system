@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("LuxembourgMatriculeView", () => {
     test("renders a native span with the correct class", () => {
-        const host = render('<lily-luxembourg-matricule-view label="Numéro d\'Identification Nationale (Matricule)" value="1980010112345"></lily-luxembourg-matricule-view>');
+        const host = render(
+            '<lily-luxembourg-matricule-view label="Numéro d\'Identification Nationale (Matricule)" value="1980010112345"></lily-luxembourg-matricule-view>',
+        );
 
         const span = host.querySelector("span") as HTMLSpanElement;
         expect(span).not.toBeNull();
@@ -25,13 +27,19 @@ describe("LuxembourgMatriculeView", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-luxembourg-matricule-view label="Numéro d\'Identification Nationale (Matricule)" value="1980010112345"></lily-luxembourg-matricule-view>');
+        const host = render(
+            '<lily-luxembourg-matricule-view label="Numéro d\'Identification Nationale (Matricule)" value="1980010112345"></lily-luxembourg-matricule-view>',
+        );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Numéro d\'Identification Nationale (Matricule)");
+        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
+            "Numéro d'Identification Nationale (Matricule)",
+        );
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
-        const host = render('<lily-luxembourg-matricule-view label="Numéro d\'Identification Nationale (Matricule)" value="1980010112345"></lily-luxembourg-matricule-view>') as unknown as LuxembourgMatriculeView;
+        const host = render(
+            '<lily-luxembourg-matricule-view label="Numéro d\'Identification Nationale (Matricule)" value="1980010112345"></lily-luxembourg-matricule-view>',
+        ) as unknown as LuxembourgMatriculeView;
 
         expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("1980010112345");
         expect(host.value).toBe("1980010112345");
@@ -42,7 +50,9 @@ describe("LuxembourgMatriculeView", () => {
     });
 
     test("has role=text so the identifier announces as a single unit", () => {
-        const host = render('<lily-luxembourg-matricule-view label="Numéro d\'Identification Nationale (Matricule)" value="1980010112345"></lily-luxembourg-matricule-view>');
+        const host = render(
+            '<lily-luxembourg-matricule-view label="Numéro d\'Identification Nationale (Matricule)" value="1980010112345"></lily-luxembourg-matricule-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });

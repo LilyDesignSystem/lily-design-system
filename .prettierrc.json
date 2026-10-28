@@ -14,6 +14,13 @@
       "options": {
         "parser": "svelte"
       }
+    },
+    {
+      "files": "lily-design-system-angular-*/**/*.ts",
+      "options": {
+        "embeddedLanguageFormatting": "off",
+        "tabWidth": 2
+      }
     }
   ],
   "plugins": ["prettier-plugin-svelte"],
