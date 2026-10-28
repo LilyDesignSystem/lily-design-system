@@ -659,6 +659,14 @@ details.faq-item p { margin-top: 0.75rem; }
      visible title text; the link keeps its aria-label, so the
      accessible name is unaffected. */
   .site-brand-name { display: none; }
+  /* Reflow at 320px (WCAG 1.4.10): the row wraps instead of overflowing, with
+     the nav on its own full-width row (it still scrolls sideways inside itself)
+     and the pickers allowed to wrap. Wrapping adds no overflow, so a picker's
+     absolutely positioned listbox is unaffected (see the note on
+     .site-header-inner). */
+  .site-header-inner { flex-wrap: wrap; padding-inline: 1rem; }
+  .site-nav { order: 3; flex: 1 1 100%; }
+  .site-preferences { flex-wrap: wrap; justify-content: flex-end; }
 }
 
 /* Reduced motion */
