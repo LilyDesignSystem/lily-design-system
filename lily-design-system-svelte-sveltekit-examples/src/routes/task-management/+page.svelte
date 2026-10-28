@@ -192,7 +192,9 @@
     <Separator />
 
     <h2>Guidelines</h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: var(--nhs-space-4);">
+    <div
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: var(--nhs-space-4);"
+    >
         <div>
             <h3>Do</h3>
             <DoList>
