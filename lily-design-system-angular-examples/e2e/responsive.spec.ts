@@ -85,7 +85,11 @@ const reflowRoutes = routes;
 const grailRoute = "/components/grail-layout";
 const LONG_STRING = "Abcdefghij".repeat(6); // 60 characters, no break opportunity
 
-async function expectReflowAssertions(page: import("@playwright/test").Page, route: string, label: string) {
+async function expectReflowAssertions(
+    page: import("@playwright/test").Page,
+    route: string,
+    label: string,
+) {
     await page.goto(route);
     await expect(page.getByRole("link", { name: /skip to main content/i })).toBeAttached();
     await expect(page.getByRole("main").first()).toBeVisible();
@@ -121,9 +125,15 @@ test.describe("responsive: 60-character unbroken string at 320px (P15-T6)", () =
                 const wrap = document.createElement("div");
                 wrap.setAttribute("data-test-fixture", "long-string");
                 wrap.innerHTML =
-                    '<ol class="summary-list"><li class="summary-list-item"><span>Reference</span> <strong>' + text + "</strong></li></ol>" +
+                    '<ol class="summary-list"><li class="summary-list-item"><span>Reference</span> <strong>' +
+                    text +
+                    "</strong></li></ol>" +
                     '<table class="data-table" aria-label="Long string"><thead class="data-table-head"><tr class="data-table-row"><th class="data-table-th">Name</th><th class="data-table-th">Value</th></tr></thead>' +
-                    '<tbody class="data-table-body"><tr class="data-table-row"><td class="data-table-td">' + text + '</td><td class="data-table-td">' + text + "</td></tr></tbody></table>";
+                    '<tbody class="data-table-body"><tr class="data-table-row"><td class="data-table-td">' +
+                    text +
+                    '</td><td class="data-table-td">' +
+                    text +
+                    "</td></tr></tbody></table>";
                 host.prepend(wrap);
             }, LONG_STRING);
             await expect(page.locator("[data-test-fixture] .summary-list")).toBeVisible();
@@ -150,9 +160,13 @@ for (const width of [320, 768, 1280]) {
                     "grail-layout-bottom-footer",
                 ];
                 const root = document.querySelector(".grail-layout")!;
-                const els = names.flatMap((n) => Array.from(root.querySelectorAll("." + n)).slice(0, 1));
+                const els = names.flatMap((n) =>
+                    Array.from(root.querySelectorAll("." + n)).slice(0, 1),
+                );
                 // document order, independent of the order of `names`
-                els.sort((x, y) => (x.compareDocumentPosition(y) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
+                els.sort((x, y) =>
+                    x.compareDocumentPosition(y) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1,
+                );
                 return els.map((el) => {
                     const r = el.getBoundingClientRect();
                     return {
@@ -178,7 +192,8 @@ for (const width of [320, 768, 1280]) {
                 const sameRowToRight = b.top < a.bottom - 1 && b.left >= a.right - 1;
                 expect(
                     below || sameRowToRight,
-                    `${b.cls} is visually before ${a.cls} at ${width}px: ` + JSON.stringify({ a, b }),
+                    `${b.cls} is visually before ${a.cls} at ${width}px: ` +
+                        JSON.stringify({ a, b }),
                 ).toBe(true);
             }
         });

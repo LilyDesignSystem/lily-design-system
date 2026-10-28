@@ -84,15 +84,32 @@ describe("Grid", () => {
     });
 
     test("minColumnWidth generates a fluid auto-fit template", () => {
-        render(<Subject minColumnWidth="12rem" data-testid="g">Inner</Subject>);
+        render(
+            <Subject
+                minColumnWidth="12rem"
+                data-testid="g"
+            >
+                Inner
+            </Subject>,
+        );
 
         const el: HTMLElement = screen.getByTestId("g");
-        expect(el.style.gridTemplateColumns).toBe("repeat(auto-fit, minmax(min(12rem, 100%), 1fr))");
+        expect(el.style.gridTemplateColumns).toBe(
+            "repeat(auto-fit, minmax(min(12rem, 100%), 1fr))",
+        );
         expect(el.getAttribute("data-min-column-width")).toBe("12rem");
     });
 
     test("minColumnWidth wins over columns", () => {
-        render(<Subject columns={3} minColumnWidth="120px" data-testid="g">Inner</Subject>);
+        render(
+            <Subject
+                columns={3}
+                minColumnWidth="120px"
+                data-testid="g"
+            >
+                Inner
+            </Subject>,
+        );
 
         const el: HTMLElement = screen.getByTestId("g");
         expect(el.style.gridTemplateColumns).toContain("min(120px, 100%)");

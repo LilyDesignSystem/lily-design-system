@@ -107,10 +107,12 @@ describe("Grid", () => {
     });
 
     test("minColumnWidth generates a fluid auto-fit template", () => {
-        const { container } = render(Subject, { props: {
-            minColumnWidth: "12rem",
-            children: textSnippet("Fluid"),
-        }});
+        const { container } = render(Subject, {
+            props: {
+                minColumnWidth: "12rem",
+                children: textSnippet("Fluid"),
+            },
+        });
 
         const root = container.querySelector(".grid") as HTMLElement;
         expect(root.getAttribute("style")).toContain(
@@ -120,11 +122,13 @@ describe("Grid", () => {
     });
 
     test("minColumnWidth wins over columns", () => {
-        const { container } = render(Subject, { props: {
-            columns: 3,
-            minColumnWidth: "120px",
-            children: textSnippet("Fluid"),
-        }});
+        const { container } = render(Subject, {
+            props: {
+                columns: 3,
+                minColumnWidth: "120px",
+                children: textSnippet("Fluid"),
+            },
+        });
 
         const style = (container.querySelector(".grid") as HTMLElement).getAttribute("style");
         expect(style).toContain("min(120px, 100%)");

@@ -88,51 +88,61 @@ for (const vp of viewports) {
 // ---------------------------------------------------------------------------
 
 const reflowRoutes = routes;
-const grailRoute = '/components/grail-layout';
-const LONG_STRING = 'Abcdefghij'.repeat(6); // 60 characters, no break opportunity
+const grailRoute = "/components/grail-layout";
+const LONG_STRING = "Abcdefghij".repeat(6); // 60 characters, no break opportunity
 
-async function expectReflowAssertions(page: import('@playwright/test').Page, route: string, label: string) {
+async function expectReflowAssertions(
+    page: import("@playwright/test").Page,
+    route: string,
+    label: string,
+) {
     await page.goto(route);
-    await expect(page.getByRole('link', { name: /skip to main content/i })).toBeAttached();
-    await expect(page.getByRole('main').first()).toBeVisible();
-    await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible();
+    await expect(page.getByRole("link", { name: /skip to main content/i })).toBeAttached();
+    await expect(page.getByRole("main").first()).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 }).first()).toBeVisible();
     await expectNoHorizontalOverflow(page, `${label}${route}`);
 }
 
-test.describe('responsive: reflow 320 (320x256, WCAG 1.4.10)', () => {
+test.describe("responsive: reflow 320 (320x256, WCAG 1.4.10)", () => {
     test.use({ viewport: { width: 320, height: 256 } });
     for (const route of reflowRoutes) {
         test(route, async ({ page }) => {
-            await expectReflowAssertions(page, route, 'reflow-320');
+            await expectReflowAssertions(page, route, "reflow-320");
         });
     }
 });
 
-test.describe('responsive: 400% zoom emulation (320x256 at deviceScaleFactor 4, WCAG 1.4.4)', () => {
+test.describe("responsive: 400% zoom emulation (320x256 at deviceScaleFactor 4, WCAG 1.4.4)", () => {
     test.use({ viewport: { width: 320, height: 256 }, deviceScaleFactor: 4 });
     for (const route of reflowRoutes) {
         test(route, async ({ page }) => {
-            await expectReflowAssertions(page, route, 'zoom-400');
+            await expectReflowAssertions(page, route, "zoom-400");
         });
     }
 });
 
-test.describe('responsive: 60-character unbroken string at 320px (P15-T6)', () => {
+test.describe("responsive: 60-character unbroken string at 320px (P15-T6)", () => {
     test.use({ viewport: { width: 320, height: 568 } });
     for (const route of [reflowRoutes[0], grailRoute]) {
         test(`summary-list and data-table on ${route}`, async ({ page }) => {
             await page.goto(route);
             await page.evaluate((text) => {
-                const host = document.querySelector('main') ?? document.body;
-                const wrap = document.createElement('div');
-                wrap.setAttribute('data-test-fixture', 'long-string');
+                const host = document.querySelector("main") ?? document.body;
+                const wrap = document.createElement("div");
+                wrap.setAttribute("data-test-fixture", "long-string");
                 wrap.innerHTML =
-                    '<ol class="summary-list"><li class="summary-list-item"><span>Reference</span> <strong>' + text + '</strong></li></ol>' +
+                    '<ol class="summary-list"><li class="summary-list-item"><span>Reference</span> <strong>' +
+                    text +
+                    "</strong></li></ol>" +
                     '<table class="data-table" aria-label="Long string"><thead class="data-table-head"><tr class="data-table-row"><th class="data-table-th">Name</th><th class="data-table-th">Value</th></tr></thead>' +
-                    '<tbody class="data-table-body"><tr class="data-table-row"><td class="data-table-td">' + text + '</td><td class="data-table-td">' + text + '</td></tr></tbody></table>';
+                    '<tbody class="data-table-body"><tr class="data-table-row"><td class="data-table-td">' +
+                    text +
+                    '</td><td class="data-table-td">' +
+                    text +
+                    "</td></tr></tbody></table>";
                 host.prepend(wrap);
             }, LONG_STRING);
-            await expect(page.locator('[data-test-fixture] .summary-list')).toBeVisible();
+            await expect(page.locator("[data-test-fixture] .summary-list")).toBeVisible();
             await expectNoHorizontalOverflow(page, `long-string${route}`);
         });
     }
@@ -145,20 +155,24 @@ for (const width of [320, 768, 1280]) {
         test.use({ viewport: { width, height: 800 } });
         test(`DOM order equals visual order on ${grailRoute}`, async ({ page }) => {
             await page.goto(grailRoute);
-            const found = await page.locator('.grail-layout').count();
+            const found = await page.locator(".grail-layout").count();
             test.skip(found === 0, `no .grail-layout rendered on ${grailRoute} in this app`);
             const regions = await page.evaluate(() => {
                 const names = [
-                    'grail-layout-top-header',
-                    'grail-layout-left-aside',
-                    'grail-layout-center-main',
-                    'grail-layout-right-aside',
-                    'grail-layout-bottom-footer',
+                    "grail-layout-top-header",
+                    "grail-layout-left-aside",
+                    "grail-layout-center-main",
+                    "grail-layout-right-aside",
+                    "grail-layout-bottom-footer",
                 ];
-                const root = document.querySelector('.grail-layout')!;
-                const els = names.flatMap((n) => Array.from(root.querySelectorAll('.' + n)).slice(0, 1));
+                const root = document.querySelector(".grail-layout")!;
+                const els = names.flatMap((n) =>
+                    Array.from(root.querySelectorAll("." + n)).slice(0, 1),
+                );
                 // document order, independent of the order of `names`
-                els.sort((x, y) => (x.compareDocumentPosition(y) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
+                els.sort((x, y) =>
+                    x.compareDocumentPosition(y) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1,
+                );
                 return els.map((el) => {
                     const r = el.getBoundingClientRect();
                     return {
@@ -171,11 +185,11 @@ for (const width of [320, 768, 1280]) {
                 });
             });
             expect(regions.map((r) => r.cls)).toEqual([
-                'grail-layout-top-header',
-                'grail-layout-left-aside',
-                'grail-layout-center-main',
-                'grail-layout-right-aside',
-                'grail-layout-bottom-footer',
+                "grail-layout-top-header",
+                "grail-layout-left-aside",
+                "grail-layout-center-main",
+                "grail-layout-right-aside",
+                "grail-layout-bottom-footer",
             ]);
             for (let i = 1; i < regions.length; i++) {
                 const a = regions[i - 1];
@@ -184,7 +198,8 @@ for (const width of [320, 768, 1280]) {
                 const sameRowToRight = b.top < a.bottom - 1 && b.left >= a.right - 1;
                 expect(
                     below || sameRowToRight,
-                    `${b.cls} is visually before ${a.cls} at ${width}px: ` + JSON.stringify({ a, b }),
+                    `${b.cls} is visually before ${a.cls} at ${width}px: ` +
+                        JSON.stringify({ a, b }),
                 ).toBe(true);
             }
         });

@@ -67,7 +67,10 @@ Custom track sizes:
 Fluid card grid (two modes: fixed `columns`, or fluid `minColumnWidth`):
 
 ```html
-<Grid minColumnWidth="12rem" gap="1rem">
+<Grid
+  minColumnWidth="12rem"
+  gap="1rem"
+>
   <Card>One</Card>
   <Card>Two</Card>
   <Card>Three</Card>
@@ -133,7 +136,7 @@ Consumers may target `.grid` for responsive column overrides:
 ## Advice
 
 - **Designers**: Pick a small column count (3, 4, 6, 12) for predictable alignment. Reserve custom track strings for layouts where fixed-width sidebars or asymmetric tracks are required.
-- **Developers**: Use the numeric `columns` API when the count must be fixed; use `minColumnWidth` when the count should follow the container (cards, galleries).  Drop down to the string API only when you need fixed tracks or named lines.
+- **Developers**: Use the numeric `columns` API when the count must be fixed; use `minColumnWidth` when the count should follow the container (cards, galleries). Drop down to the string API only when you need fixed tracks or named lines.
 
 ## Related components
 
