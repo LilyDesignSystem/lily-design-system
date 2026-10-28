@@ -51,15 +51,38 @@
 <LocalePicker
     label="Language"
     locales={[
-        "en", "en_US", "en_GB", "fr", "fr_CA", "es", "es_419", "de",
-        "zh_Hans", "zh_Hant", "ja", "ko", "ar", "he", "fa", "ur",
-        "hi", "bn", "pt", "pt_BR", "ru", "tr", "vi",
+        "en",
+        "en_US",
+        "en_GB",
+        "fr",
+        "fr_CA",
+        "es",
+        "es_419",
+        "de",
+        "zh_Hans",
+        "zh_Hant",
+        "ja",
+        "ko",
+        "ar",
+        "he",
+        "fa",
+        "ur",
+        "hi",
+        "bn",
+        "pt",
+        "pt_BR",
+        "ru",
+        "tr",
+        "vi",
     ]}
     bind:value={locale}
     storageKey="app-locale"
     detectFromNavigator
 />
 
-<p class="locale-picker-status" aria-live="polite">
+<p
+    class="locale-picker-status"
+    aria-live="polite"
+>
     Active language: {localeName(locale)} (<code>{locale}</code>)
 </p>

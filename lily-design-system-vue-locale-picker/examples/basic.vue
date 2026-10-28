@@ -59,9 +59,14 @@ const locale = ref("en");
         v-model:value="locale"
     />
 
-    <p class="locale-picker-status" aria-live="polite">
+    <p
+        class="locale-picker-status"
+        aria-live="polite"
+    >
         Current language: {{ localeName(locale) }}
     </p>
 
-    <p>Selected locale: <code>{{ locale }}</code></p>
+    <p>
+        Selected locale: <code>{{ locale }}</code>
+    </p>
 </template>

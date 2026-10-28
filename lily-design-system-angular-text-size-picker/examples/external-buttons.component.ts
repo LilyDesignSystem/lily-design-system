@@ -20,11 +20,7 @@
     and the state must be readable by assistive technology, not just
     visible as a highlight (WCAG 1.4.1: no colour-only meaning).
 */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  signal,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
 import { TextSizePicker, sizeName } from "../text-size-picker.component";
 
 @Component({

@@ -39,8 +39,7 @@
     let filteredServices = $derived(
         allServices.filter((s) => {
             const matchesSearch =
-                !searchQuery ||
-                s.name.toLowerCase().includes(searchQuery.toLowerCase());
+                !searchQuery || s.name.toLowerCase().includes(searchQuery.toLowerCase());
             const matchesStatus = !statusFilter || s.status === statusFilter;
             return matchesSearch && matchesStatus;
         }),
@@ -66,9 +65,7 @@
     ];
     let filteredSuggestions = $derived(
         comboValue
-            ? suggestions.filter((s) =>
-                  s.toLowerCase().includes(comboValue.toLowerCase()),
-              )
+            ? suggestions.filter((s) => s.toLowerCase().includes(comboValue.toLowerCase()))
             : suggestions,
     );
 </script>
@@ -84,12 +81,18 @@
 
     <h2>Search</h2>
     <Field label="Search services">
-        <SearchInput label="Search by service name" bind:value={searchQuery} />
+        <SearchInput
+            label="Search by service name"
+            bind:value={searchQuery}
+        />
     </Field>
 
     <h2>Filter by Status</h2>
     <Field label="Status">
-        <Select label="Filter by status" bind:value={statusFilter}>
+        <Select
+            label="Filter by status"
+            bind:value={statusFilter}
+        >
             <Option value="">All statuses</Option>
             <Option value="Available">Available</Option>
             <Option value="Limited">Limited</Option>
@@ -112,7 +115,10 @@
     </TagGroup>
 
     <div style="margin-top: var(--nhs-space-3);">
-        <TagInput label="Add a filter tag" onadd={addTag} />
+        <TagInput
+            label="Add a filter tag"
+            onadd={addTag}
+        />
     </div>
 
     <h2>Combobox</h2>
@@ -154,7 +160,10 @@
     <h2>Results</h2>
     <p><Badge>{filteredServices.length}</Badge> services found</p>
 
-    <DataTable label="Services" caption="Hospital services directory">
+    <DataTable
+        label="Services"
+        caption="Hospital services directory"
+    >
         <DataTableHead>
             <DataTableRow>
                 <th>Service</th>

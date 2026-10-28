@@ -64,17 +64,7 @@ import { LocalePicker, bcp47LocaleTag } from "../locale-picker.component";
   `,
 })
 export class NhsStyleExample {
-  readonly locales = [
-    "en",
-    "cy",
-    "gd",
-    "ga",
-    "fr",
-    "pl",
-    "ur",
-    "bn",
-    "zh_Hant",
-  ];
+  readonly locales = ["en", "cy", "gd", "ga", "fr", "pl", "ur", "bn", "zh_Hant"];
 
   // Endonyms — each language in its own script.
   readonly NATIVE: Record<string, string> = {

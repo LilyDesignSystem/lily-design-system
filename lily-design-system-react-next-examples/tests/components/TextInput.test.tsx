@@ -20,19 +20,34 @@ describe("TextInput", () => {
     test("calls onChange with new value", async () => {
         const handleChange = vi.fn();
         const user = userEvent.setup();
-        render(<TextInput label="Name" onChange={handleChange} />);
+        render(
+            <TextInput
+                label="Name"
+                onChange={handleChange}
+            />,
+        );
         await user.type(screen.getByLabelText("Name"), "A");
         expect(handleChange).toHaveBeenCalledWith("A");
     });
 
     test("can be disabled", () => {
-        render(<TextInput label="Name" disabled />);
+        render(
+            <TextInput
+                label="Name"
+                disabled
+            />,
+        );
         const input = screen.getByLabelText("Name") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("can be required", () => {
-        render(<TextInput label="Name" required />);
+        render(
+            <TextInput
+                label="Name"
+                required
+            />,
+        );
         const input = screen.getByLabelText("Name") as HTMLInputElement;
         expect(input.required).toBe(true);
     });

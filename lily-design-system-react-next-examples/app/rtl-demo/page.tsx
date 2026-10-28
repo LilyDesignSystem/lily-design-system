@@ -81,13 +81,14 @@ const currentPage = 2;
 
 export default function RtlDemoPage() {
     const [name, setName] = useState("");
-    const [contactMethod, setContactMethod] = useState<"email" | "phone">(
-        "email",
-    );
+    const [contactMethod, setContactMethod] = useState<"email" | "phone">("email");
     const [agreeTerms, setAgreeTerms] = useState(false);
 
     return (
-        <div dir="rtl" lang="ar">
+        <div
+            dir="rtl"
+            lang="ar"
+        >
             <Header label="ترويسة الموقع">
                 <div className="page-wrapper">
                     <h1>عرض توضيحي للكتابة من اليمين إلى اليسار</h1>
@@ -105,16 +106,13 @@ export default function RtlDemoPage() {
                         <BreadcrumbListItem>
                             <a href="/components">الإعدادات</a>
                         </BreadcrumbListItem>
-                        <BreadcrumbListItem current>
-                            الملف الشخصي
-                        </BreadcrumbListItem>
+                        <BreadcrumbListItem current>الملف الشخصي</BreadcrumbListItem>
                     </BreadcrumbList>
                 </BreadcrumbNav>
 
                 <InsetText>
-                    هذه صفحة تجريبية لاختبار الاتجاه من اليمين إلى اليسار.
-                    جميع المكوّنات هنا بلا تنسيق مسبق؛ التنسيق البصري كله من
-                    هذا التطبيق.
+                    هذه صفحة تجريبية لاختبار الاتجاه من اليمين إلى اليسار. جميع المكوّنات هنا بلا
+                    تنسيق مسبق؛ التنسيق البصري كله من هذا التطبيق.
                 </InsetText>
 
                 <h2>جدول الموظفين</h2>
@@ -152,7 +150,10 @@ export default function RtlDemoPage() {
                 </PaginationNav>
 
                 <h2>نموذج التواصل</h2>
-                <Form label="نموذج التواصل" noValidate>
+                <Form
+                    label="نموذج التواصل"
+                    noValidate
+                >
                     <Field label="الاسم الكامل">
                         <TextInput
                             label="الاسم الكامل"

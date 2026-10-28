@@ -43,8 +43,14 @@
         .sort((a, b) => b.count - a.count)
         .concat(
             suffixCounts.has(STANDALONE_ID)
-                ? [{ id: STANDALONE_ID, label: SUFFIX_LABEL[STANDALONE_ID], count: suffixCounts.get(STANDALONE_ID) ?? 0 }]
-                : []
+                ? [
+                      {
+                          id: STANDALONE_ID,
+                          label: SUFFIX_LABEL[STANDALONE_ID],
+                          count: suffixCounts.get(STANDALONE_ID) ?? 0,
+                      },
+                  ]
+                : [],
         );
 
     let filtered = $derived(
@@ -79,7 +85,10 @@
     <BackLink href="/">Back to examples</BackLink>
 
     <div class="field">
-        <label class="label" for="search">Filter components</label>
+        <label
+            class="label"
+            for="search">Filter components</label
+        >
         <input
             id="search"
             type="search"
@@ -90,8 +99,15 @@
     </div>
 
     <div class="field">
-        <label class="label" for="category-filter">Category</label>
-        <select id="category-filter" class="select" bind:value={categoryFilter}>
+        <label
+            class="label"
+            for="category-filter">Category</label
+        >
+        <select
+            id="category-filter"
+            class="select"
+            bind:value={categoryFilter}
+        >
             <option value="">All categories ({components.length})</option>
             {#each categoryOptions as opt (opt.id)}
                 <option value={opt.id}>{opt.label} ({opt.count})</option>
@@ -100,8 +116,15 @@
     </div>
 
     <div class="field">
-        <label class="label" for="suffix-filter">Suffix pattern</label>
-        <select id="suffix-filter" class="select" bind:value={suffixFilter}>
+        <label
+            class="label"
+            for="suffix-filter">Suffix pattern</label
+        >
+        <select
+            id="suffix-filter"
+            class="select"
+            bind:value={suffixFilter}
+        >
             <option value="">All suffix patterns ({components.length})</option>
             {#each suffixOptions as opt (opt.id)}
                 <option value={opt.id}>{opt.label} ({opt.count})</option>
@@ -111,7 +134,11 @@
 
     {#if search || categoryFilter || suffixFilter}
         <p>
-            <button type="button" class="button" onclick={resetFilters}>Clear filters</button>
+            <button
+                type="button"
+                class="button"
+                onclick={resetFilters}>Clear filters</button
+            >
         </p>
     {/if}
 

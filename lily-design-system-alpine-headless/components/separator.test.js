@@ -5,16 +5,15 @@ import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("hr.separator");
 
-
 describe("Separator", () => {
-  it("renders the element with its base class", async () => {
-    await mount("separator");
-    expect(el()).not.toBeNull();
-    expect(el().classList.contains("separator")).toBe(true);
-  });
+    it("renders the element with its base class", async () => {
+        await mount("separator");
+        expect(el()).not.toBeNull();
+        expect(el().classList.contains("separator")).toBe(true);
+    });
 
-  it("uses the hr element", async () => {
-    await mount("separator");
-    expect(el().tagName.toLowerCase()).toBe("hr");
-  });
+    it("uses the hr element", async () => {
+        await mount("separator");
+        expect(el().tagName.toLowerCase()).toBe("hr");
+    });
 });

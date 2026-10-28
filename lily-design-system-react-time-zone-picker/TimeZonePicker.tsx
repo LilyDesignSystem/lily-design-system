@@ -1,6 +1,14 @@
 import * as React from "react";
 import { IconButton, Listbox } from "@lilydesignsystem/react-headless";
-import { DEFAULT_ZONES, matchZone, orderedZones, systemZone, zoneInfo, type ZoneInfo, type ZoneNames } from "./zones.js";
+import {
+    DEFAULT_ZONES,
+    matchZone,
+    orderedZones,
+    systemZone,
+    zoneInfo,
+    type ZoneInfo,
+    type ZoneNames,
+} from "./zones.js";
 
 export { DEFAULT_ZONES };
 export type { ZoneInfo, ZoneNames };
@@ -74,10 +82,7 @@ export type Props = Omit<
  * control. Purely visual: the text is the button's own aria-label, so it
  * is deliberately not linked with aria-describedby.
  */
-function usePickerTooltip(
-    buttonRef: React.RefObject<HTMLButtonElement | null>,
-    open: boolean,
-) {
+function usePickerTooltip(buttonRef: React.RefObject<HTMLButtonElement | null>, open: boolean) {
     const [hoverButton, setHoverButton] = React.useState(false);
     const [hoverTooltip, setHoverTooltip] = React.useState(false);
     const [focusButton, setFocusButton] = React.useState(false);
@@ -152,7 +157,11 @@ function resolveInitialZone(
     }
     if (defaultValue) return defaultValue;
     // The reader's own zone when it is listed (or has a listed twin), else UTC, else the first.
-    return matchZone(systemZone(), infos, locale, date, names) ?? (ids.includes("UTC") ? "UTC" : ids[0]) ?? "";
+    return (
+        matchZone(systemZone(), infos, locale, date, names) ??
+        (ids.includes("UTC") ? "UTC" : ids[0]) ??
+        ""
+    );
 }
 
 export function TimeZonePicker({
@@ -180,9 +189,7 @@ export function TimeZonePicker({
 
     // Internal state for uncontrolled mode. Starts empty; resolved
     // in the first effect after mount (SSR-safe).
-    const [internalValue, setInternalValue] = React.useState<string>(
-        isControlled ? value : "",
-    );
+    const [internalValue, setInternalValue] = React.useState<string>(isControlled ? value : "");
 
     // Mirror the controlled prop into a single read path so the render
     // branch is uniform.
@@ -205,16 +212,16 @@ export function TimeZonePicker({
     const onOpenChangeRef = React.useRef(onOpenChange);
     onOpenChangeRef.current = onOpenChange;
     const setOpen = React.useCallback(
-      (next: boolean): void => {
-        if (next === openRef.current) return;
-        openRef.current = next;
-        if (openProp === undefined) setOpenInner(next);
-        onOpenChangeRef.current?.(next);
-      },
-      [openProp],
+        (next: boolean): void => {
+            if (next === openRef.current) return;
+            openRef.current = next;
+            if (openProp === undefined) setOpenInner(next);
+            onOpenChangeRef.current?.(next);
+        },
+        [openProp],
     );
     React.useEffect(() => {
-      if (disabled && openRaw) setOpen(false);
+        if (disabled && openRaw) setOpen(false);
     }, [disabled, openRaw, setOpen]);
     const [activeIndex, setActiveIndex] = React.useState(-1);
 
@@ -230,7 +237,10 @@ export function TimeZonePicker({
     const whenRef = React.useRef<Date | null>(null);
     if (whenRef.current === null) whenRef.current = new Date();
     const when = date ?? whenRef.current;
-    const infos = React.useMemo(() => orderedZones(zones, locale, when, labelFor, names), [zones, locale, when, labelFor, names]);
+    const infos = React.useMemo(
+        () => orderedZones(zones, locale, when, labelFor, names),
+        [zones, locale, when, labelFor, names],
+    );
     const sizes = React.useMemo(() => infos.map((z) => z.id), [infos]);
     const infoFor = (zone: string) => zoneInfo(zone, locale, when, labelFor, names);
 
@@ -245,10 +255,7 @@ export function TimeZonePicker({
         if (typeof document === "undefined" || !slug) return;
         if (slug === appliedRef.current) return;
         appliedRef.current = slug;
-        (target ?? document.documentElement).setAttribute(
-            "data-time-zone",
-            slug,
-        );
+        (target ?? document.documentElement).setAttribute("data-time-zone", slug);
         if (storageKey) {
             try {
                 localStorage.setItem(storageKey, slug);
@@ -280,11 +287,7 @@ export function TimeZonePicker({
         // An empty list has no option to activate; -1 keeps
         // aria-activedescendant off rather than pointing at an id that
         // does not exist.
-        setActiveIndex(
-            sizes.length === 0
-                ? -1
-                : (startIndex ?? (selected >= 0 ? selected : 0)),
-        );
+        setActiveIndex(sizes.length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0)));
         setOpen(true);
     }
 
@@ -321,9 +324,7 @@ export function TimeZonePicker({
         closeList(false);
     }
 
-    function onButtonKeyDown(
-        event: React.KeyboardEvent<HTMLButtonElement>,
-    ): void {
+    function onButtonKeyDown(event: React.KeyboardEvent<HTMLButtonElement>): void {
         switch (event.key) {
             case "ArrowDown":
             case "Enter":
@@ -430,7 +431,11 @@ export function TimeZonePicker({
             onBlur={onRootBlur}
             {...restProps}
         >
-            <input type="hidden" name={name} value={currentValue ?? ""} />
+            <input
+                type="hidden"
+                name={name}
+                value={currentValue ?? ""}
+            />
 
             <IconButton
                 disabled={disabled}

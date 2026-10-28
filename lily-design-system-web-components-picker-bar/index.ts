@@ -13,9 +13,6 @@ import { PickerBar, DEFAULT_THEMES, DEFAULT_SIZES } from "./picker-bar.js";
 export { PickerBar, DEFAULT_THEMES, DEFAULT_SIZES };
 export type { PickerBarProps, PickerBarLabels } from "./picker-bar.js";
 
-if (
-    typeof customElements !== "undefined" &&
-    !customElements.get("lily-picker-bar")
-) {
+if (typeof customElements !== "undefined" && !customElements.get("lily-picker-bar")) {
     customElements.define("lily-picker-bar", PickerBar);
 }

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<textarea
   class="text-area-input"
@@ -7,9 +7,9 @@ const html = `<textarea
 </textarea>`;
 
 const meta = {
-  title: 'Headless/TextAreaInput',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/TextAreaInput",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

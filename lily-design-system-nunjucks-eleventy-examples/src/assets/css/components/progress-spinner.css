@@ -9,9 +9,13 @@
 }
 
 @keyframes progress-spinner-spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .progress-spinner { animation-duration: 3s; }
+  .progress-spinner {
+    animation-duration: 3s;
+  }
 }

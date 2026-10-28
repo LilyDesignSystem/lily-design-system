@@ -4,7 +4,11 @@
  * At the bottom of the scroll range the last section wins (a short last section
  * never reaches the line); before the first section, the first.
  */
-export declare function activeSectionIndex(tops: number[], offset: number, atBottom: boolean): number;
+export declare function activeSectionIndex(
+    tops: number[],
+    offset: number,
+    atBottom: boolean,
+): number;
 /** The in-page `<a href="#id">` links inside `nav`. */
 export declare function contentsLinks(nav: Element): HTMLAnchorElement[];
 export declare function contentsLinkId(link: Element): string;

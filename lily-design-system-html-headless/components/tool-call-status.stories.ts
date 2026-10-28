@@ -1,11 +1,11 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<span class="tool-call-status" data-status="running">Running</span>`;
 
 const meta = {
-  title: 'Headless/ToolCallStatus',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/ToolCallStatus",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

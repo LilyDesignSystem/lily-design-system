@@ -41,10 +41,7 @@
     applies.
 */
 import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
-import {
-  TextSizePicker,
-  TextSizePickerIcon,
-} from "../text-size-picker.component";
+import { TextSizePicker, TextSizePickerIcon } from "../text-size-picker.component";
 
 @Component({
   selector: "example-custom-rendering",

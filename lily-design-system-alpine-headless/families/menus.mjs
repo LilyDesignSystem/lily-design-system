@@ -8,18 +8,20 @@ const press = `const press = async (target, key, init = {}) => {
 };`;
 
 const rovingMenu = (slug, role, horizontal, itemClass) => {
-  const next = horizontal ? "ArrowRight" : "ArrowDown", prev = horizontal ? "ArrowLeft" : "ArrowUp";
-  return {
-    tag: "div", keyboard: `${next}/${prev} move focus (wrapping), Home/End jump; one item is in the tab order`,
-    aria: `role="${role}" with aria-label; items are role="menuitem" with roving tabindex`,
-    markup: `<div class="${slug}" role="${role}" aria-label="" x-data="lilyMenu('${horizontal ? "horizontal" : "vertical"}')" x-bind="menu">
+    const next = horizontal ? "ArrowRight" : "ArrowDown",
+        prev = horizontal ? "ArrowLeft" : "ArrowUp";
+    return {
+        tag: "div",
+        keyboard: `${next}/${prev} move focus (wrapping), Home/End jump; one item is in the tab order`,
+        aria: `role="${role}" with aria-label; items are role="menuitem" with roving tabindex`,
+        markup: `<div class="${slug}" role="${role}" aria-label="" x-data="lilyMenu('${horizontal ? "horizontal" : "vertical"}')" x-bind="menu">
   <button class="${itemClass}" x-bind="item('one')"><!-- Consumer provides label --></button>
   <button class="${itemClass}" x-bind="item('two')"><!-- Consumer provides label --></button>
   <button class="${itemClass}" x-bind="item('three')"><!-- Consumer provides label --></button>
 </div>`,
-    sel: `div.${slug}`,
-    extra: `const items = () => [...document.querySelectorAll(".${itemClass}")];\n${press}`,
-    test: `
+        sel: `div.${slug}`,
+        extra: `const items = () => [...document.querySelectorAll(".${itemClass}")];\n${press}`,
+        test: `
   it('is role="${role}" with one tabbable menuitem', async () => {
     await mount("${slug}");
     expect(el().getAttribute("role")).toBe("${role}");
@@ -49,7 +51,7 @@ const rovingMenu = (slug, role, horizontal, itemClass) => {
     await press(items()[0], "${horizontal ? "ArrowDown" : "ArrowRight"}");
     expect(document.activeElement).toBe(items()[0]);
   });`,
-  };
+    };
 };
 
 // Tests shared by every lilyDropdownMenu-shaped component.
@@ -114,12 +116,13 @@ const dropdownTests = (slug, trigger, menu, item) => `
   });`;
 
 export default {
-  menu: rovingMenu("menu", "menu", false, "menu-item"),
-  "menu-bar": rovingMenu("menu-bar", "menubar", true, "menu-bar-item"),
-  "dropdown-menu": {
-    tag: "div", keyboard: "Enter/Space/ArrowDown open, arrows move, Escape closes",
-    aria: 'trigger: aria-haspopup="menu" + aria-expanded; popup: role="menu"; items: role="menuitem"',
-    markup: `<div class="dropdown-menu" x-data="lilyDropdownMenu(false)" x-bind="root">
+    menu: rovingMenu("menu", "menu", false, "menu-item"),
+    "menu-bar": rovingMenu("menu-bar", "menubar", true, "menu-bar-item"),
+    "dropdown-menu": {
+        tag: "div",
+        keyboard: "Enter/Space/ArrowDown open, arrows move, Escape closes",
+        aria: 'trigger: aria-haspopup="menu" + aria-expanded; popup: role="menu"; items: role="menuitem"',
+        markup: `<div class="dropdown-menu" x-data="lilyDropdownMenu(false)" x-bind="root">
   <button class="dropdown-menu-trigger" x-bind="trigger" aria-controls="dropdown-menu-1"><!-- Consumer provides trigger label --></button>
   <div class="dropdown-menu-popup" id="dropdown-menu-1" aria-label="" x-bind="menu">
     <button class="dropdown-menu-item" x-bind="item"><!-- Consumer provides label --></button>
@@ -127,13 +130,19 @@ export default {
     <button class="dropdown-menu-item" x-bind="item"><!-- Consumer provides label --></button>
   </div>
 </div>`,
-    sel: "div.dropdown-menu",
-    test: dropdownTests("dropdown-menu", ".dropdown-menu-trigger", ".dropdown-menu-popup", ".dropdown-menu-item"),
-  },
-  "split-button": {
-    tag: "div", keyboard: "Tab: primary then trigger; the trigger behaves as a dropdown-menu trigger",
-    aria: 'role="group" with aria-label; menu trigger: aria-haspopup="menu", aria-expanded, its own aria-label',
-    markup: `<div class="split-button" role="group" aria-label="" x-data="lilyDropdownMenu(false)" x-bind="root">
+        sel: "div.dropdown-menu",
+        test: dropdownTests(
+            "dropdown-menu",
+            ".dropdown-menu-trigger",
+            ".dropdown-menu-popup",
+            ".dropdown-menu-item",
+        ),
+    },
+    "split-button": {
+        tag: "div",
+        keyboard: "Tab: primary then trigger; the trigger behaves as a dropdown-menu trigger",
+        aria: 'role="group" with aria-label; menu trigger: aria-haspopup="menu", aria-expanded, its own aria-label',
+        markup: `<div class="split-button" role="group" aria-label="" x-data="lilyDropdownMenu(false)" x-bind="root">
   <button class="split-button-primary" type="button"><!-- Consumer provides primary label --></button>
   <button class="split-button-menu-trigger" x-bind="trigger" aria-label="" aria-controls="split-button-menu-1">
     <!-- Consumer optionally provides a chevron icon -->
@@ -143,19 +152,28 @@ export default {
     <button class="split-button-menu-item" x-bind="item"><!-- Consumer provides label --></button>
   </div>
 </div>`,
-    sel: "div.split-button",
-    test: `
+        sel: "div.split-button",
+        test:
+            `
   it('is a role="group" with a primary button before the trigger', async () => {
     await mount("split-button");
     expect(el().getAttribute("role")).toBe("group");
     const kids = [...el().children].map((c) => c.className);
     expect(kids.slice(0, 2)).toEqual(["split-button-primary", "split-button-menu-trigger"]);
-  });` + dropdownTests("split-button", ".split-button-menu-trigger", ".split-button-menu", ".split-button-menu-item"),
-  },
-  "action-group": {
-    tag: "div", keyboard: "Tab through the actions; the overflow trigger behaves as a dropdown-menu trigger",
-    aria: 'role="group" with aria-label; overflow trigger: aria-haspopup="menu", aria-expanded, aria-controls',
-    markup: `<div class="action-group" role="group" aria-label="" x-data="lilyDropdownMenu(false)" x-bind="root">
+  });` +
+            dropdownTests(
+                "split-button",
+                ".split-button-menu-trigger",
+                ".split-button-menu",
+                ".split-button-menu-item",
+            ),
+    },
+    "action-group": {
+        tag: "div",
+        keyboard:
+            "Tab through the actions; the overflow trigger behaves as a dropdown-menu trigger",
+        aria: 'role="group" with aria-label; overflow trigger: aria-haspopup="menu", aria-expanded, aria-controls',
+        markup: `<div class="action-group" role="group" aria-label="" x-data="lilyDropdownMenu(false)" x-bind="root">
   <button type="button"><!-- Consumer provides a visible action --></button>
   <button class="action-group-overflow-trigger" x-bind="trigger" aria-label="" aria-controls="action-group-overflow-1">…</button>
   <div class="action-group-overflow-menu" id="action-group-overflow-1" aria-label="" x-bind="menu">
@@ -163,28 +181,36 @@ export default {
     <button class="action-group-overflow-item" x-bind="item"><!-- Consumer provides label --></button>
   </div>
 </div>`,
-    sel: "div.action-group",
-    test: `
+        sel: "div.action-group",
+        test:
+            `
   it('is a role="group"', async () => {
     await mount("action-group");
     expect(el().getAttribute("role")).toBe("group");
-  });` + dropdownTests("action-group", ".action-group-overflow-trigger", ".action-group-overflow-menu", ".action-group-overflow-item"),
-  },
-  "context-menu": {
-    tag: "div", keyboard: "Right click, ContextMenu key or Shift+F10 opens; arrows move; Escape closes",
-    aria: 'role="menu" with aria-label; items: role="menuitem"; position is exposed as --context-menu-x / --context-menu-y',
-    markup: `<div x-data="lilyContextMenu()">
+  });` +
+            dropdownTests(
+                "action-group",
+                ".action-group-overflow-trigger",
+                ".action-group-overflow-menu",
+                ".action-group-overflow-item",
+            ),
+    },
+    "context-menu": {
+        tag: "div",
+        keyboard: "Right click, ContextMenu key or Shift+F10 opens; arrows move; Escape closes",
+        aria: 'role="menu" with aria-label; items: role="menuitem"; position is exposed as --context-menu-x / --context-menu-y',
+        markup: `<div x-data="lilyContextMenu()">
   <div class="context-menu-target" tabindex="0" x-bind="target"><!-- Consumer provides the region that owns the menu --></div>
   <div class="context-menu" aria-label="" x-bind="menu">
     <button class="context-menu-item" x-bind="item"><!-- Consumer provides label --></button>
     <button class="context-menu-item" x-bind="item"><!-- Consumer provides label --></button>
   </div>
 </div>`,
-    sel: "div.context-menu",
-    extra: `const target = () => document.querySelector(".context-menu-target");
+        sel: "div.context-menu",
+        extra: `const target = () => document.querySelector(".context-menu-target");
 const items = () => [...document.querySelectorAll(".context-menu-item")];
 ${press}`,
-    test: `
+        test: `
   it('is a hidden role="menu"', async () => {
     await mount("context-menu");
     expect(el().getAttribute("role")).toBe("menu");
@@ -224,11 +250,12 @@ ${press}`,
     items()[1].click(); await tick();
     expect(el().hidden).toBe(true);
   });`,
-  },
-  "hamburger-menu": {
-    tag: "div", keyboard: "Enter or Space toggles; Tab moves into the navigation when open",
-    aria: 'button: aria-expanded + aria-controls; navigation region: role="navigation" with aria-label, hidden while closed',
-    markup: `<div class="hamburger-menu" x-data="lilyCollapsible(false)" x-bind="root">
+    },
+    "hamburger-menu": {
+        tag: "div",
+        keyboard: "Enter or Space toggles; Tab moves into the navigation when open",
+        aria: 'button: aria-expanded + aria-controls; navigation region: role="navigation" with aria-label, hidden while closed',
+        markup: `<div class="hamburger-menu" x-data="lilyCollapsible(false)" x-bind="root">
   <button class="hamburger-menu-button" x-bind="trigger" aria-label="" aria-controls="hamburger-menu-nav-1">
     <!-- Consumer provides the icon -->
   </button>
@@ -236,7 +263,7 @@ ${press}`,
     <!-- Consumer provides navigation content -->
   </nav>
 </div>`,
-    test: `
+        test: `
   const button = () => document.querySelector(".hamburger-menu-button");
   const nav = () => document.querySelector(".hamburger-menu-nav");
   it("starts closed with a hidden navigation", async () => {
@@ -252,21 +279,24 @@ ${press}`,
     expect(nav().hidden).toBe(false);
     button().click(); await tick();
     expect(nav().hidden).toBe(true);
-  });`, sel: "div.hamburger-menu",
-  },
-  "float-button": {
-    tag: "button", keyboard: "Tab to focus, Enter or Space to activate",
-    aria: "native button; aria-label names it; position is data-position plus the contract's structural inline style",
-    markup: `<button class="float-button" type="button" aria-label="" data-position="bottom-right"
+  });`,
+        sel: "div.hamburger-menu",
+    },
+    "float-button": {
+        tag: "button",
+        keyboard: "Tab to focus, Enter or Space to activate",
+        aria: "native button; aria-label names it; position is data-position plus the contract's structural inline style",
+        markup: `<button class="float-button" type="button" aria-label="" data-position="bottom-right"
         style="position: fixed; bottom: 1rem; right: 1rem;">
   <!-- Consumer provides icon content (SVG, emoji, or glyph) -->
 </button>`,
-    test: `
+        test: `
   it("is a button fixed to its corner", async () => {
     await mount("float-button");
     expect(el().type).toBe("button");
     expect(el().getAttribute("data-position")).toBe("bottom-right");
     expect(el().style.position).toBe("fixed");
-  });`, sel: "button.float-button",
-  },
+  });`,
+        sel: "button.float-button",
+    },
 };

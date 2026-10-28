@@ -1,7 +1,20 @@
 import { describe, expect, it } from "vitest";
-import { EMPTY_HISTORY, HISTORY_LIMIT, historyKey, recordEdit, redoEdit, undoEdit, type EditRecord } from "./edit-history";
+import {
+    EMPTY_HISTORY,
+    HISTORY_LIMIT,
+    historyKey,
+    recordEdit,
+    redoEdit,
+    undoEdit,
+    type EditRecord,
+} from "./edit-history";
 
-const rec = (n: number): EditRecord => ({ ownerId: "t1", fieldId: "cost", value: n + 1, previous: n });
+const rec = (n: number): EditRecord => ({
+    ownerId: "t1",
+    fieldId: "cost",
+    value: n + 1,
+    previous: n,
+});
 
 describe("edit history", () => {
     it("starts empty and undoes nothing", () => {

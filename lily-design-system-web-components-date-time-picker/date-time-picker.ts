@@ -336,10 +336,7 @@ export function formatIsoTime(time: CivilTime): string {
 }
 
 /** Pull the date and time halves out of a mode-appropriate ISO value. */
-export function splitValue(
-    value: string,
-    mode: DateTimeMode,
-): { date: string; time: string } {
+export function splitValue(value: string, mode: DateTimeMode): { date: string; time: string } {
     if (!value) return { date: "", time: "" };
     if (mode === "time") {
         return { date: "", time: parseIsoTime(value) ? value : "" };
@@ -375,13 +372,48 @@ function regionOf(locale?: string): string {
 }
 
 const SUNDAY_FIRST_REGIONS = new Set([
-    "AR", "BR", "CA", "CL", "CO", "DO", "GT", "HK", "IL", "IN", "JP",
-    "KR", "MO", "MX", "PE", "PH", "PK", "TH", "TW", "US", "VE", "ZA",
+    "AR",
+    "BR",
+    "CA",
+    "CL",
+    "CO",
+    "DO",
+    "GT",
+    "HK",
+    "IL",
+    "IN",
+    "JP",
+    "KR",
+    "MO",
+    "MX",
+    "PE",
+    "PH",
+    "PK",
+    "TH",
+    "TW",
+    "US",
+    "VE",
+    "ZA",
 ]);
 
 const SATURDAY_FIRST_REGIONS = new Set([
-    "AE", "AF", "BH", "DJ", "DZ", "EG", "IQ", "IR", "JO", "KW", "LY",
-    "OM", "QA", "SA", "SD", "SY", "YE",
+    "AE",
+    "AF",
+    "BH",
+    "DJ",
+    "DZ",
+    "EG",
+    "IQ",
+    "IR",
+    "JO",
+    "KW",
+    "LY",
+    "OM",
+    "QA",
+    "SA",
+    "SD",
+    "SY",
+    "YE",
 ]);
 
 /**
@@ -418,11 +450,7 @@ export function firstDayOfWeekFor(locale?: string): number {
  *
  * Fixed height on purpose — see `spec/index.md` §3.
  */
-export function monthMatrix(
-    year: number,
-    month: number,
-    firstDayOfWeek: number,
-): string[][] {
+export function monthMatrix(year: number, month: number, firstDayOfWeek: number): string[][] {
     const first = formatIsoDate({ year, month, day: 1 });
     const lead = (weekdayOf(first) - firstDayOfWeek + 7) % 7;
     const start = addDays(first, -lead);
@@ -484,7 +512,9 @@ export function numericFieldOrder(locale?: string): ("day" | "month" | "year")[]
         }).formatToParts(new Date(Date.UTC(2021, 4, 6)));
         const order = parts
             .map((p) => p.type)
-            .filter((t): t is "day" | "month" | "year" => t === "day" || t === "month" || t === "year");
+            .filter(
+                (t): t is "day" | "month" | "year" => t === "day" || t === "month" || t === "year",
+            );
         if (order.length === 3) return order;
     } catch {
         // Fall through.
@@ -718,16 +748,16 @@ export class DateTimePicker extends HTMLElement {
     // propagation, and never moves focus.
     #tipDocListening = false;
     readonly #onTipDocKeydown = (event: KeyboardEvent): void => {
-      if (event.key === "Escape" && this.#tooltipVisible()) {
-        this.#tipDismissed = true;
-        this.#syncTooltip();
-      }
+        if (event.key === "Escape" && this.#tooltipVisible()) {
+            this.#tipDismissed = true;
+            this.#syncTooltip();
+        }
     };
     #setTipDocListener(on: boolean): void {
-      if (on === this.#tipDocListening || typeof document === "undefined") return;
-      this.#tipDocListening = on;
-      if (on) document.addEventListener("keydown", this.#onTipDocKeydown);
-      else document.removeEventListener("keydown", this.#onTipDocKeydown);
+        if (on === this.#tipDocListening || typeof document === "undefined") return;
+        this.#tipDocListening = on;
+        if (on) document.addEventListener("keydown", this.#onTipDocKeydown);
+        else document.removeEventListener("keydown", this.#onTipDocKeydown);
     }
 
     #tooltipVisible(): boolean {
@@ -744,7 +774,7 @@ export class DateTimePicker extends HTMLElement {
         if (!el) return;
         if (el.textContent !== this.label) el.textContent = this.label;
         const hide = !this.#tooltipVisible();
-      this.#setTipDocListener(!hide);
+        this.#setTipDocListener(!hide);
         if (el.hasAttribute("hidden") !== hide) {
             if (hide) el.setAttribute("hidden", "");
             else el.removeAttribute("hidden");
@@ -752,7 +782,7 @@ export class DateTimePicker extends HTMLElement {
     }
 
     #resetTooltip(): void {
-      this.#setTipDocListener(false);
+        this.#setTipDocListener(false);
         this.#hoverButton = false;
         this.#hoverTooltip = false;
         this.#focusButton = false;
@@ -1150,8 +1180,7 @@ export class DateTimePicker extends HTMLElement {
             this.#initialZone = this.timeZone;
             this.#today = todayIso();
             const anchor =
-                parseIsoDate(splitValue(this.value, this.mode).date) ??
-                parseIsoDate(this.#today);
+                parseIsoDate(splitValue(this.value, this.mode).date) ?? parseIsoDate(this.#today);
             if (anchor) {
                 this.#viewYear = anchor.year;
                 this.#viewMonth = anchor.month;
@@ -1573,10 +1602,15 @@ export class DateTimePicker extends HTMLElement {
                 return;
             }
 
-            const parsed = this.#parseInput ? this.#parseInput(text) : this.#parseTypedForMode(text);
+            const parsed = this.#parseInput
+                ? this.#parseInput(text)
+                : this.#parseTypedForMode(text);
             const parsedDate = parsed ? splitValue(parsed, this.mode).date : "";
             const outOfBounds =
-                parsed !== null && this.#usesDate() && parsedDate !== "" && this.#dayDisabled(parsedDate);
+                parsed !== null &&
+                this.#usesDate() &&
+                parsedDate !== "" &&
+                this.#dayDisabled(parsedDate);
 
             if (!parsed || outOfBounds) {
                 // Parseable-but-out-of-bounds gets the same outcome as
@@ -1869,10 +1903,7 @@ export class DateTimePicker extends HTMLElement {
             // for the assistive technologies that read aria-describedby
             // but not the newer aria-errormessage.
             const announceInvalid = this.#invalid && Boolean(this.#labels.invalid);
-            const describedBy = [
-                this.describedBy,
-                announceInvalid ? this.#statusId : undefined,
-            ]
+            const describedBy = [this.describedBy, announceInvalid ? this.#statusId : undefined]
                 .filter(Boolean)
                 .join(" ");
             if (describedBy) this.#fieldEl.setAttribute("aria-describedby", describedBy);
@@ -1888,9 +1919,7 @@ export class DateTimePicker extends HTMLElement {
             // Empty while valid: the region must exist before it has
             // content, because a live region born with its message is
             // routinely not announced at all.
-            this.#statusEl.textContent = this.#invalid
-                ? (this.#labels.invalid ?? "")
-                : "";
+            this.#statusEl.textContent = this.#invalid ? (this.#labels.invalid ?? "") : "";
         }
 
         if (this.#hiddenEl) {
@@ -2089,7 +2118,9 @@ export class DateTimePicker extends HTMLElement {
         iconButtonHost.setAttribute("aria-controls", this.dialogId);
         if (this.disabled || this.readonly) iconButtonHost.setAttribute("disabled", "");
         iconButtonHost.appendChild(this.renderButtonContent());
-        iconButtonHost.addEventListener("click", () => (this.#open ? this.#closeDialog() : this.openDialog()));
+        iconButtonHost.addEventListener("click", () =>
+            this.#open ? this.#closeDialog() : this.openDialog(),
+        );
         fieldWrap.appendChild(iconButtonHost);
 
         // Tooltip: a purely visual sibling right after the trigger button. The
@@ -2384,7 +2415,9 @@ export class DateTimePicker extends HTMLElement {
             minuteSelect = document.createElement("select");
             minuteSelect.className = "date-time-picker-minute";
             minuteSelect.id = this.#minuteId;
-            minuteSelect.addEventListener("change", () => this.#setMinute(Number(minuteSelect!.value)));
+            minuteSelect.addEventListener("change", () =>
+                this.#setMinute(Number(minuteSelect!.value)),
+            );
             timeWrap.appendChild(minuteSelect);
 
             if (this.hour12) {

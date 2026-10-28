@@ -5,16 +5,15 @@ import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("div.progress-bar");
 
-
 describe("ProgressBar", () => {
-  it("renders the element with its base class", async () => {
-    await mount("progress-bar");
-    expect(el()).not.toBeNull();
-    expect(el().classList.contains("progress-bar")).toBe(true);
-  });
+    it("renders the element with its base class", async () => {
+        await mount("progress-bar");
+        expect(el()).not.toBeNull();
+        expect(el().classList.contains("progress-bar")).toBe(true);
+    });
 
-  it("uses the div element", async () => {
-    await mount("progress-bar");
-    expect(el().tagName.toLowerCase()).toBe("div");
-  });
+    it("uses the div element", async () => {
+        await mount("progress-bar");
+        expect(el().tagName.toLowerCase()).toBe("div");
+    });
 });

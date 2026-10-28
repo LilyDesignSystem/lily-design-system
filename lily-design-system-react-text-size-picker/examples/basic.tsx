@@ -60,7 +60,10 @@ export function BasicExample() {
                 onChange={setSize}
             />
 
-            <p className="text-size-picker-status" aria-live="polite">
+            <p
+                className="text-size-picker-status"
+                aria-live="polite"
+            >
                 Text size: {sizeName(size)}
             </p>
         </>

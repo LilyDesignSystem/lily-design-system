@@ -43,6 +43,4 @@ import { Banner } from "../components/Banner";
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class SettingsPagePage {
-
-}
+export default class SettingsPagePage {}

@@ -13,7 +13,7 @@ test.describe("component page: go-to-previous-section", () => {
 
   test("renders the H1 with the component name", async ({ page }) => {
     await expect(
-      page.getByRole("heading", { level: 1, name: new RegExp("^GoToPreviousSection$") })
+      page.getByRole("heading", { level: 1, name: new RegExp("^GoToPreviousSection$") }),
     ).toBeVisible();
   });
 

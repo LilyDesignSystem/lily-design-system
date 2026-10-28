@@ -63,7 +63,10 @@ function labelFor(slug: string): string {
         v-model:value="theme"
     />
 
-    <p class="theme-picker-status" aria-live="polite">
+    <p
+        class="theme-picker-status"
+        aria-live="polite"
+    >
         Active theme: {{ labelFor(theme) }}
     </p>
 </template>

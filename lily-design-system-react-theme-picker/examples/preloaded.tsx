@@ -33,11 +33,7 @@
 import { useEffect } from "react";
 import { ThemePicker } from "../ThemePicker";
 
-const PRELOAD = [
-    "/assets/themes/light.css",
-    "/assets/themes/dark.css",
-    "/assets/themes/abyss.css",
-];
+const PRELOAD = ["/assets/themes/light.css", "/assets/themes/dark.css", "/assets/themes/abyss.css"];
 
 function injectPreload() {
     PRELOAD.forEach((href) => {

@@ -13,11 +13,11 @@
   ./sveltekit-cookie/ for a server-resolved alternative.
 -->
 <script lang="ts">
-  import TextSizePicker from "../TextSizePicker.svelte";
+    import TextSizePicker from "../TextSizePicker.svelte";
 </script>
 
 <TextSizePicker
-  label="Text size"
-  sizes={["small", "medium", "large", "x-large"]}
-  storageKey="my-app:text-size"
+    label="Text size"
+    sizes={["small", "medium", "large", "x-large"]}
+    storageKey="my-app:text-size"
 />

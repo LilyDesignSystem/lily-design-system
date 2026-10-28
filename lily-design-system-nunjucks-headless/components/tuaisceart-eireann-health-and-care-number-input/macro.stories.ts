@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<input
   class="tuaisceart-eireann-health-and-care-number-input"
@@ -13,9 +13,9 @@ const html = `<input
   spellcheck="false">`;
 
 const meta = {
-  title: 'Headless/TuaisceartEireannHealthAndCareNumberInput',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/TuaisceartEireannHealthAndCareNumberInput",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

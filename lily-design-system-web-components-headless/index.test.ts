@@ -15,7 +15,9 @@ import { describe, expect, test } from "vitest";
 
 const SLUGS = fs
     .readdirSync(path.join(__dirname, "components"))
-    .filter((name) => name.endsWith(".ts") && !name.endsWith(".test.ts") && !name.includes(".stories."))
+    .filter(
+        (name) => name.endsWith(".ts") && !name.endsWith(".test.ts") && !name.includes(".stories."),
+    )
     .map((name) => name.slice(0, -".ts".length));
 
 describe("dist/index.js (built package entry point)", () => {
@@ -23,7 +25,10 @@ describe("dist/index.js (built package entry point)", () => {
         await import("./dist/index.js");
 
         for (const slug of SLUGS) {
-            expect(customElements.get(`lily-${slug}`), `lily-${slug} should be defined`).toBeTruthy();
+            expect(
+                customElements.get(`lily-${slug}`),
+                `lily-${slug} should be defined`,
+            ).toBeTruthy();
         }
         // The full achievable catalog as of 2026-09-22: 491 canonical
         // components minus the 35 permanently excluded by the wrapper-host

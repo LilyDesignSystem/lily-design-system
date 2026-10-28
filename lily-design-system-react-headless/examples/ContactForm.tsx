@@ -57,18 +57,27 @@ export default function ContactForm() {
     }
 
     return (
-        <Form label="Contact us" onSubmit={handleSubmit}>
+        <Form
+            label="Contact us"
+            onSubmit={handleSubmit}
+        >
             {Object.keys(errors).length > 0 && (
                 <ErrorSummary title="Please fix the following errors">
                     <ul>
                         {Object.entries(errors).map(([field, msg]) => (
-                            <li key={field}><a href={`#${field}`}>{msg}</a></li>
+                            <li key={field}>
+                                <a href={`#${field}`}>{msg}</a>
+                            </li>
                         ))}
                     </ul>
                 </ErrorSummary>
             )}
 
-            <Field label="Full name" required error={errors.name}>
+            <Field
+                label="Full name"
+                required
+                error={errors.name}
+            >
                 <TextInput
                     label="Full name"
                     value={data.name}
@@ -78,7 +87,11 @@ export default function ContactForm() {
                 />
             </Field>
 
-            <Field label="Email address" required error={errors.email}>
+            <Field
+                label="Email address"
+                required
+                error={errors.email}
+            >
                 <EmailInput
                     label="Email address"
                     value={data.email}
@@ -101,7 +114,11 @@ export default function ContactForm() {
                 </Select>
             </Field>
 
-            <Field label="Message" required error={errors.message}>
+            <Field
+                label="Message"
+                required
+                error={errors.message}
+            >
                 <TextAreaInput
                     label="Message"
                     value={data.message}

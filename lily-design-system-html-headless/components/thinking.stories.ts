@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<details class="thinking" data-streaming="true" aria-busy="true">
   <summary class="thinking-summary">Thinking</summary>
@@ -8,9 +8,9 @@ const html = `<details class="thinking" data-streaming="true" aria-busy="true">
 </details>`;
 
 const meta = {
-  title: 'Headless/Thinking',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/Thinking",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

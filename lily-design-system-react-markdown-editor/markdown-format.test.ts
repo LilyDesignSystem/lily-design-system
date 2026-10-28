@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { applyTool, insertLink, toggleLines, toggleWrap } from "./markdown-format.js";
 
-const sel = (text: string, a: number, b: number) => (e: { text: string; start: number; end: number }) => ({ t: e.text, s: text.slice(e.start, e.end) });
+const sel =
+    (text: string, a: number, b: number) => (e: { text: string; start: number; end: number }) => ({
+        t: e.text,
+        s: text.slice(e.start, e.end),
+    });
 
 describe("toggleWrap", () => {
     it("wraps the selection and keeps it selected", () => {

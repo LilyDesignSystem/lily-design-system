@@ -16,10 +16,7 @@
 -->
 <script setup lang="ts">
 import { ref, computed, type Ref } from "vue";
-import LocalePicker, {
-    isRtlLocale,
-    bcp47LocaleTag,
-} from "../LocalePicker.vue";
+import LocalePicker, { isRtlLocale, bcp47LocaleTag } from "../LocalePicker.vue";
 
 // In real Nuxt 3 code, useCookie and useHead are auto-imported and
 // useCookie<T>() returns a Ref<T> that round-trips between server
@@ -33,9 +30,7 @@ declare const useCookie: <T>(
         maxAge?: number;
     },
 ) => Ref<T>;
-declare const useHead: (meta: {
-    htmlAttrs?: { lang?: unknown; dir?: unknown };
-}) => void;
+declare const useHead: (meta: { htmlAttrs?: { lang?: unknown; dir?: unknown } }) => void;
 
 // Real Nuxt 3 usage:
 //   const locale = useCookie<string>("locale", { default: () => "en" });
@@ -50,9 +45,7 @@ const locale =
         : ref("en");
 
 const langTag = computed(() => bcp47LocaleTag(locale.value));
-const direction = computed(() =>
-    isRtlLocale(locale.value) ? "rtl" : "ltr",
-);
+const direction = computed(() => (isRtlLocale(locale.value) ? "rtl" : "ltr"));
 
 // Renders <html lang="…" dir="…"> in the SSR response so the page
 // arrives with the right values from the very first byte.
@@ -68,7 +61,9 @@ if (typeof useHead === "function") {
         v-model:value="locale"
     />
 
-    <p>Selected locale: <code>{{ locale }}</code></p>
+    <p>
+        Selected locale: <code>{{ locale }}</code>
+    </p>
 
     <!--
     Companion files (place in your Nuxt 3 app):
@@ -127,5 +122,4 @@ if (typeof useHead === "function") {
         event.node.res.statusCode = 204;
         return null;
     });
--->
-</template>
+--></template>

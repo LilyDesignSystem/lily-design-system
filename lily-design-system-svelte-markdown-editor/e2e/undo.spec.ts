@@ -27,7 +27,10 @@ test("a tool applies, then native undo takes it back, then redo reapplies it", a
     await expect(ta).toHaveValue("**hello** world");
 });
 
-test("two tools undo back to the start (one step each; WebKit merges them into one)", async ({ page, browserName }) => {
+test("two tools undo back to the start (one step each; WebKit merges them into one)", async ({
+    page,
+    browserName,
+}) => {
     const ta = await selectWord(page);
     await page.getByRole("button", { name: "Bold" }).click();
     await page.getByRole("button", { name: "Italic" }).click();
@@ -55,14 +58,21 @@ test("the shortcut path undoes the same way", async ({ page }) => {
 test("the formatted text stays selected after a tool, so tools stack", async ({ page }) => {
     const ta = await selectWord(page);
     await page.getByRole("button", { name: "Bold" }).click();
-    const sel = await ta.evaluate((el: HTMLTextAreaElement) => el.value.slice(el.selectionStart, el.selectionEnd));
+    const sel = await ta.evaluate((el: HTMLTextAreaElement) =>
+        el.value.slice(el.selectionStart, el.selectionEnd),
+    );
     expect(sel).toBe("hello");
 });
 
-test("typing after a tool, undo removes the typing (WebKit also removes the tool: it merges the two)", async ({ page, browserName }) => {
+test("typing after a tool, undo removes the typing (WebKit also removes the tool: it merges the two)", async ({
+    page,
+    browserName,
+}) => {
     const ta = await selectWord(page);
     await page.getByRole("button", { name: "Bold" }).click();
-    await ta.evaluate((el: HTMLTextAreaElement) => el.setSelectionRange(el.value.length, el.value.length));
+    await ta.evaluate((el: HTMLTextAreaElement) =>
+        el.setSelectionRange(el.value.length, el.value.length),
+    );
     await page.keyboard.type("!");
     await expect(ta).toHaveValue("**hello** world!");
     await page.keyboard.press(UNDO);

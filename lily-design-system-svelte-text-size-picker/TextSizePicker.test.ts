@@ -136,9 +136,7 @@ describe("TextSizePicker — keyboard contract (APG listbox)", () => {
 
     test("§7.14 ArrowUp opens with the last option active", async () => {
         const { list } = await openWith("ArrowUp");
-        expect(list.getAttribute("aria-activedescendant")).toBe(
-            list.children[SIZES.length - 1].id,
-        );
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[SIZES.length - 1].id);
     });
 
     test("§7.15 arrows move the active descendant and clamp", async () => {
@@ -154,9 +152,7 @@ describe("TextSizePicker — keyboard contract (APG listbox)", () => {
     test("§7.15 Home and End jump to the first and last option", async () => {
         const { list } = await openWith("ArrowDown");
         await fireEvent.keyDown(list, { key: "End" });
-        expect(list.getAttribute("aria-activedescendant")).toBe(
-            list.children[SIZES.length - 1].id,
-        );
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[SIZES.length - 1].id);
         await fireEvent.keyDown(list, { key: "Home" });
         expect(list.getAttribute("aria-activedescendant")).toBe(list.children[0].id);
     });
@@ -219,14 +215,8 @@ describe("TextSizePicker — application (§7.6–§7.10)", () => {
         // would be invisible to a consumer reading the DOM: a stale
         // aria-expanded over a hidden list makes every later click miss
         // the options.
-        expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe(
-            "false",
-        );
-        expect(
-            document
-                .querySelector(".text-size-picker-list")!
-                .hasAttribute("hidden"),
-        ).toBe(true);
+        expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe("false");
+        expect(document.querySelector(".text-size-picker-list")!.hasAttribute("hidden")).toBe(true);
     });
 
     test("§7.9 persists to localStorage and reads back on a fresh mount", async () => {
@@ -304,10 +294,7 @@ describe("TextSizePicker — spread + custom children (§7.12–§7.13)", () => 
 });
 
 describe("TextSizePicker — accessibility hardening (§7.14–§7.17)", () => {
-    async function openPicker(
-        sizes: string[] = SIZES,
-        extra: Record<string, unknown> = {},
-    ) {
+    async function openPicker(sizes: string[] = SIZES, extra: Record<string, unknown> = {}) {
         render(TextSizePicker, {
             props: { label: "Text size", sizes, ...extra },
         });
@@ -320,8 +307,7 @@ describe("TextSizePicker — accessibility hardening (§7.14–§7.17)", () => {
         };
     }
 
-    const active = (list: HTMLElement) =>
-        list.querySelector("[data-active]")?.textContent?.trim();
+    const active = (list: HTMLElement) => list.querySelector("[data-active]")?.textContent?.trim();
 
     test("§7.14 Tab from the open list puts focus on the button before closing", async () => {
         const { button, list } = await openPicker();
@@ -348,10 +334,7 @@ describe("TextSizePicker — accessibility hardening (§7.14–§7.17)", () => {
     });
 
     test("§7.16 PageUp and PageDown move the cursor by ten, clamped", async () => {
-        const many = Array.from(
-            { length: 25 },
-            (_, i) => `s${String(i).padStart(2, "0")}`,
-        );
+        const many = Array.from({ length: 25 }, (_, i) => `s${String(i).padStart(2, "0")}`);
         const { list } = await openPicker(many);
         await fireEvent.keyDown(list, { key: "PageDown" });
         expect(active(list)).toBe("S10");
@@ -413,10 +396,9 @@ describe("TextSizePicker — focus never scrolls the page (§7.19)", () => {
 
         await fireEvent.click(screen.getByRole("button"));
         await flush();
-        await fireEvent.keyDown(
-            document.querySelector(".text-size-picker-list") as HTMLElement,
-            { key: "Tab" },
-        );
+        await fireEvent.keyDown(document.querySelector(".text-size-picker-list") as HTMLElement, {
+            key: "Tab",
+        });
         expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
 
         focusSpy.mockRestore();
@@ -426,7 +408,7 @@ describe("TextSizePicker — focus never scrolls the page (§7.19)", () => {
 describe("TextSizePicker — tooltip (§7.20–§7.25)", () => {
     function setup() {
         render(TextSizePicker, { props: { label: "Text size", sizes: SIZES } });
-        const button = document.querySelector(".text-size-picker-button" ) as HTMLButtonElement;
+        const button = document.querySelector(".text-size-picker-button") as HTMLButtonElement;
         const tip = document.querySelector(".text-size-picker-tooltip") as HTMLElement;
         return { button, tip };
     }
@@ -555,15 +537,21 @@ describe("TextSizePicker — tooltip (§7.20–§7.25)", () => {
 describe("TextSizePicker — open state and disabled (§open)", () => {
     test("open starts the popup open (aria-expanded) without calling onOpenChange", async () => {
         const onOpenChange = vi.fn();
-        render(TextSizePicker, { props: { ...{ label: "Text size", sizes: SIZES }, open: true, onOpenChange } });
+        render(TextSizePicker, {
+            props: { ...{ label: "Text size", sizes: SIZES }, open: true, onOpenChange },
+        });
         await flush();
-        expect(screen.getByRole("button", { name: "Text size" }).getAttribute("aria-expanded")).toBe("true");
+        expect(
+            screen.getByRole("button", { name: "Text size" }).getAttribute("aria-expanded"),
+        ).toBe("true");
         expect(onOpenChange).not.toHaveBeenCalled();
     });
 
     test("onOpenChange fires once for each open and close by the user", async () => {
         const onOpenChange = vi.fn();
-        render(TextSizePicker, { props: { ...{ label: "Text size", sizes: SIZES }, onOpenChange } });
+        render(TextSizePicker, {
+            props: { ...{ label: "Text size", sizes: SIZES }, onOpenChange },
+        });
         const button = screen.getByRole("button", { name: "Text size" });
         await fireEvent.click(button);
         await flush();
@@ -576,7 +564,9 @@ describe("TextSizePicker — open state and disabled (§open)", () => {
 
     test("disabled disables the button and it cannot open", async () => {
         const onOpenChange = vi.fn();
-        render(TextSizePicker, { props: { ...{ label: "Text size", sizes: SIZES }, disabled: true, onOpenChange } });
+        render(TextSizePicker, {
+            props: { ...{ label: "Text size", sizes: SIZES }, disabled: true, onOpenChange },
+        });
         const button = screen.getByRole("button", { name: "Text size" }) as HTMLButtonElement;
         expect(button.disabled).toBe(true);
         await fireEvent.click(button);
@@ -586,9 +576,12 @@ describe("TextSizePicker — open state and disabled (§open)", () => {
     });
 
     test("disabled closes a popup that was open", async () => {
-        render(TextSizePicker, { props: { ...{ label: "Text size", sizes: SIZES }, open: true, disabled: true } });
+        render(TextSizePicker, {
+            props: { ...{ label: "Text size", sizes: SIZES }, open: true, disabled: true },
+        });
         await flush();
-        expect(screen.getByRole("button", { name: "Text size" }).getAttribute("aria-expanded")).toBe("false");
+        expect(
+            screen.getByRole("button", { name: "Text size" }).getAttribute("aria-expanded"),
+        ).toBe("false");
     });
 });
-

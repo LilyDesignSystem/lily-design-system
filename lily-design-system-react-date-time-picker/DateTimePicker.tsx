@@ -235,10 +235,7 @@ export type Props = Omit<React.HTMLAttributes<HTMLDivElement>, "children" | "onC
  * control. Purely visual: the text is the button's own aria-label, so it
  * is deliberately not linked with aria-describedby.
  */
-function usePickerTooltip(
-    buttonRef: React.RefObject<HTMLButtonElement | null>,
-    open: boolean,
-) {
+function usePickerTooltip(buttonRef: React.RefObject<HTMLButtonElement | null>, open: boolean) {
     const [hoverButton, setHoverButton] = React.useState(false);
     const [hoverTooltip, setHoverTooltip] = React.useState(false);
     const [focusButton, setFocusButton] = React.useState(false);
@@ -408,10 +405,7 @@ export function formatIsoTime(time: CivilTime): string {
 }
 
 /** Pull the date and time halves out of a mode-appropriate ISO value. */
-export function splitValue(
-    value: string,
-    mode: DateTimeMode,
-): { date: string; time: string } {
+export function splitValue(value: string, mode: DateTimeMode): { date: string; time: string } {
     if (!value) return { date: "", time: "" };
     if (mode === "time") {
         return { date: "", time: parseIsoTime(value) ? value : "" };
@@ -447,13 +441,48 @@ function regionOf(locale?: string): string {
 }
 
 const SUNDAY_FIRST_REGIONS = new Set([
-    "AR", "BR", "CA", "CL", "CO", "DO", "GT", "HK", "IL", "IN", "JP",
-    "KR", "MO", "MX", "PE", "PH", "PK", "TH", "TW", "US", "VE", "ZA",
+    "AR",
+    "BR",
+    "CA",
+    "CL",
+    "CO",
+    "DO",
+    "GT",
+    "HK",
+    "IL",
+    "IN",
+    "JP",
+    "KR",
+    "MO",
+    "MX",
+    "PE",
+    "PH",
+    "PK",
+    "TH",
+    "TW",
+    "US",
+    "VE",
+    "ZA",
 ]);
 
 const SATURDAY_FIRST_REGIONS = new Set([
-    "AE", "AF", "BH", "DJ", "DZ", "EG", "IQ", "IR", "JO", "KW", "LY",
-    "OM", "QA", "SA", "SD", "SY", "YE",
+    "AE",
+    "AF",
+    "BH",
+    "DJ",
+    "DZ",
+    "EG",
+    "IQ",
+    "IR",
+    "JO",
+    "KW",
+    "LY",
+    "OM",
+    "QA",
+    "SA",
+    "SD",
+    "SY",
+    "YE",
 ]);
 
 /**
@@ -517,7 +546,9 @@ export function monthNames(locale?: string): { long: string[]; short: string[] }
     const build = (month: "long" | "short") => {
         try {
             const fmt = new Intl.DateTimeFormat(locale, { month, timeZone: "UTC" });
-            return Array.from({ length: 12 }, (_, i) => fmt.format(new Date(Date.UTC(2021, i, 15))));
+            return Array.from({ length: 12 }, (_, i) =>
+                fmt.format(new Date(Date.UTC(2021, i, 15))),
+            );
         } catch {
             return [];
         }
@@ -560,7 +591,9 @@ export function numericFieldOrder(locale?: string): ("day" | "month" | "year")[]
         }).formatToParts(new Date(Date.UTC(2021, 4, 6)));
         const order = parts
             .map((p) => p.type)
-            .filter((t): t is "day" | "month" | "year" => t === "day" || t === "month" || t === "year");
+            .filter(
+                (t): t is "day" | "month" | "year" => t === "day" || t === "month" || t === "year",
+            );
         if (order.length === 3) return order;
     } catch {
         // Fall through.
@@ -920,9 +953,8 @@ export function DateTimePicker({
      * not the newer `aria-errormessage`.
      */
     const fieldDescribedBy =
-        [describedBy, invalid && labels.invalid ? statusId : undefined]
-            .filter(Boolean)
-            .join(" ") || undefined;
+        [describedBy, invalid && labels.invalid ? statusId : undefined].filter(Boolean).join(" ") ||
+        undefined;
 
     /** Accessible name for one day cell, e.g. "Sunday 1 March 2026". */
     function dayLabel(isoDate: string): string {
@@ -961,8 +993,13 @@ export function DateTimePicker({
         const d = new Date(Date.UTC(2021, 7, 1 + ((weekStart + i) % 7)));
         try {
             weekdays.push({
-                short: new Intl.DateTimeFormat(locale, { weekday: "short", timeZone: "UTC" }).format(d),
-                long: new Intl.DateTimeFormat(locale, { weekday: "long", timeZone: "UTC" }).format(d),
+                short: new Intl.DateTimeFormat(locale, {
+                    weekday: "short",
+                    timeZone: "UTC",
+                }).format(d),
+                long: new Intl.DateTimeFormat(locale, { weekday: "long", timeZone: "UTC" }).format(
+                    d,
+                ),
             });
         } catch {
             weekdays.push({ short: "", long: "" });
@@ -1523,10 +1560,7 @@ export function DateTimePicker({
             // is exempt because its own handler already toggles. Close
             // without moving focus: the user has already put it
             // somewhere.
-            if (
-                dialogRef.current?.contains(target) ||
-                buttonRef.current?.contains(target)
-            ) {
+            if (dialogRef.current?.contains(target) || buttonRef.current?.contains(target)) {
                 return;
             }
             closeDialog(false);
@@ -1546,9 +1580,17 @@ export function DateTimePicker({
             data-time-zone={currentZone || undefined}
             {...restProps}
         >
-            <input type="hidden" name={name} value={currentValue} />
+            <input
+                type="hidden"
+                name={name}
+                value={currentValue}
+            />
             {labels.timeZone !== undefined && (
-                <input type="hidden" name={`${name}-time-zone`} value={currentZone} />
+                <input
+                    type="hidden"
+                    name={`${name}-time-zone`}
+                    value={currentZone}
+                />
             )}
 
             <div className="date-time-picker-field">
@@ -1589,7 +1631,10 @@ export function DateTimePicker({
                     {children ? (
                         children({ value: currentValue, open, display })
                     ) : (
-                        <span className="date-time-picker-icon" aria-hidden="true">
+                        <span
+                            className="date-time-picker-icon"
+                            aria-hidden="true"
+                        >
                             {CALENDAR}
                         </span>
                     )}
@@ -1612,7 +1657,11 @@ export function DateTimePicker({
                 // that appears at the same moment as its message is
                 // routinely not announced at all. Empty while the field
                 // is valid.
-                <span className="date-time-picker-status" id={statusId} role="status">
+                <span
+                    className="date-time-picker-status"
+                    id={statusId}
+                    role="status"
+                >
                     {invalid ? labels.invalid : ""}
                 </span>
             )}
@@ -1634,7 +1683,10 @@ export function DateTimePicker({
                     // dialog's aria-describedby. Visible by default; a
                     // consumer who wants it screen-reader-only hides it
                     // with their own CSS.
-                    <p className="date-time-picker-instructions" id={instructionsId}>
+                    <p
+                        className="date-time-picker-instructions"
+                        id={instructionsId}
+                    >
                         {labels.instructions}
                     </p>
                 )}
@@ -1677,7 +1729,11 @@ export function DateTimePicker({
                             result of the user's own keypress, so it should
                             reach a screen reader without interrupting
                             anything. */}
-                        <span className="date-time-picker-period" id={periodId} aria-live="polite">
+                        <span
+                            className="date-time-picker-period"
+                            id={periodId}
+                            aria-live="polite"
+                        >
                             {periodText}
                         </span>
 
@@ -1721,7 +1777,10 @@ export function DateTimePicker({
                     never guesses one from the runtime. */}
                 {labels.timeZone !== undefined && (
                     <div className="date-time-picker-time-zone">
-                        <label className="date-time-picker-time-zone-label" htmlFor={timeZoneId}>
+                        <label
+                            className="date-time-picker-time-zone-label"
+                            htmlFor={timeZoneId}
+                        >
                             {labels.timeZone}
                         </label>
                         <select
@@ -1732,7 +1791,10 @@ export function DateTimePicker({
                         >
                             <option value=""></option>
                             {zoneOptions.map((zone) => (
-                                <option key={zone} value={zone}>
+                                <option
+                                    key={zone}
+                                    value={zone}
+                                >
                                     {timeZoneLabels[zone] ?? zone}
                                 </option>
                             ))}
@@ -1754,7 +1816,11 @@ export function DateTimePicker({
                         <thead>
                             <tr>
                                 {showWeekNumbers && (
-                                    <th className="date-time-picker-week-heading" scope="col" abbr={labels.week}>
+                                    <th
+                                        className="date-time-picker-week-heading"
+                                        scope="col"
+                                        abbr={labels.week}
+                                    >
                                         {labels.week}
                                     </th>
                                 )}
@@ -1777,7 +1843,10 @@ export function DateTimePicker({
                             {weeks.map((week) => (
                                 <tr key={week[0]}>
                                     {showWeekNumbers && (
-                                        <th className="date-time-picker-week" scope="row">
+                                        <th
+                                            className="date-time-picker-week"
+                                            scope="row"
+                                        >
                                             {isoWeek(week[0])}
                                         </th>
                                     )}
@@ -1787,7 +1856,11 @@ export function DateTimePicker({
                                         const isSelected = isoDate === pendingDate;
                                         const isDisabled = dayDisabled(isoDate);
                                         return (
-                                            <td key={isoDate} role="gridcell" aria-selected={isSelected}>
+                                            <td
+                                                key={isoDate}
+                                                role="gridcell"
+                                                aria-selected={isSelected}
+                                            >
                                                 {/* aria-disabled, not `disabled`: a
                                                     vetoed day must stay focusable so
                                                     the roving cursor can land on it
@@ -1802,7 +1875,9 @@ export function DateTimePicker({
                                                     type="button"
                                                     className="date-time-picker-day"
                                                     data-date={isoDate}
-                                                    data-outside={parsed?.month !== viewMonth ? "" : undefined}
+                                                    data-outside={
+                                                        parsed?.month !== viewMonth ? "" : undefined
+                                                    }
                                                     data-today={isToday ? "" : undefined}
                                                     data-selected={isSelected ? "" : undefined}
                                                     data-disabled={isDisabled ? "" : undefined}
@@ -1825,7 +1900,10 @@ export function DateTimePicker({
 
                 {usesTime && (
                     <div className="date-time-picker-time">
-                        <label className="date-time-picker-time-label" htmlFor={hourId}>
+                        <label
+                            className="date-time-picker-time-label"
+                            htmlFor={hourId}
+                        >
                             {labels.hour}
                         </label>
                         <select
@@ -1835,13 +1913,19 @@ export function DateTimePicker({
                             onChange={(event) => setHour(Number(event.target.value))}
                         >
                             {hourOptions.map((option) => (
-                                <option key={option.value} value={option.value}>
+                                <option
+                                    key={option.value}
+                                    value={option.value}
+                                >
                                     {option.label}
                                 </option>
                             ))}
                         </select>
 
-                        <label className="date-time-picker-time-label" htmlFor={minuteId}>
+                        <label
+                            className="date-time-picker-time-label"
+                            htmlFor={minuteId}
+                        >
                             {labels.minute}
                         </label>
                         <select
@@ -1851,7 +1935,10 @@ export function DateTimePicker({
                             onChange={(event) => setMinute(Number(event.target.value))}
                         >
                             {minuteOptions.map((minute) => (
-                                <option key={minute} value={minute}>
+                                <option
+                                    key={minute}
+                                    value={minute}
+                                >
                                     {pad(minute)}
                                 </option>
                             ))}
@@ -1859,7 +1946,10 @@ export function DateTimePicker({
 
                         {clock12 && (
                             <>
-                                <label className="date-time-picker-time-label" htmlFor={meridiemId}>
+                                <label
+                                    className="date-time-picker-time-label"
+                                    htmlFor={meridiemId}
+                                >
                                     {labels.meridiem}
                                 </label>
                                 <select
@@ -1897,14 +1987,26 @@ export function DateTimePicker({
 
                 <div className="date-time-picker-footer">
                     {labels.clear && (
-                        <button type="button" className="date-time-picker-clear" onClick={clear}>
+                        <button
+                            type="button"
+                            className="date-time-picker-clear"
+                            onClick={clear}
+                        >
                             {labels.clear}
                         </button>
                     )}
-                    <button type="button" className="date-time-picker-cancel" onClick={() => closeDialog()}>
+                    <button
+                        type="button"
+                        className="date-time-picker-cancel"
+                        onClick={() => closeDialog()}
+                    >
                         {labels.cancel}
                     </button>
-                    <button type="button" className="date-time-picker-confirm" onClick={() => commit()}>
+                    <button
+                        type="button"
+                        className="date-time-picker-confirm"
+                        onClick={() => commit()}
+                    >
                         {labels.confirm}
                     </button>
                 </div>

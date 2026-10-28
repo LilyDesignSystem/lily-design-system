@@ -69,9 +69,7 @@ function stubNativeShare(behaviour: "resolve" | "reject" = "resolve") {
     configurable: true,
     value: (data: any) => {
       calls.push(data);
-      return behaviour === "resolve"
-        ? Promise.resolve()
-        : Promise.reject(new Error("AbortError"));
+      return behaviour === "resolve" ? Promise.resolve() : Promise.reject(new Error("AbortError"));
     },
   });
   return {
@@ -91,9 +89,7 @@ function stubNativeShare(behaviour: "resolve" | "reject" = "resolve") {
 let fixtures: ComponentFixture<unknown>[] = [];
 
 /** Create + render a SharePicker with the supplied inputs. */
-function mount(
-  inputs: Record<string, unknown> = {},
-): ComponentFixture<SharePicker> {
+function mount(inputs: Record<string, unknown> = {}): ComponentFixture<SharePicker> {
   const fixture = TestBed.createComponent(SharePicker);
   fixture.componentRef.setInput("label", "Share");
   fixture.componentRef.setInput("targets", TARGETS);
@@ -106,10 +102,7 @@ function mount(
   return fixture;
 }
 
-function q<T extends Element>(
-  fixture: ComponentFixture<unknown>,
-  sel: string,
-): T {
+function q<T extends Element>(fixture: ComponentFixture<unknown>, sel: string): T {
   return fixture.nativeElement.querySelector(sel) as T;
 }
 
@@ -129,9 +122,7 @@ function links(fixture: ComponentFixture<unknown>): HTMLAnchorElement[] {
 
 function items(fixture: ComponentFixture<unknown>): HTMLElement[] {
   return Array.from(
-    fixture.nativeElement.querySelectorAll(
-      ".share-picker-target, .share-picker-copy",
-    ),
+    fixture.nativeElement.querySelectorAll(".share-picker-target, .share-picker-copy"),
   ) as HTMLElement[];
 }
 
@@ -140,11 +131,7 @@ function status(fixture: ComponentFixture<unknown>): HTMLElement {
 }
 
 /** Dispatch a bubbling keydown and re-render. */
-function press(
-  fixture: ComponentFixture<unknown>,
-  target: HTMLElement,
-  key: string,
-): void {
+function press(fixture: ComponentFixture<unknown>, target: HTMLElement, key: string): void {
   target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true }));
   fixture.detectChanges();
 }
@@ -266,9 +253,7 @@ describe("SharePicker — markup contract (§4.2, §7.1–§7.6)", () => {
   test("§7.3 destinations sit in .share-picker-list-item children", async () => {
     const fixture = mount();
     await clickSettled(fixture, trigger(fixture));
-    const li = fixture.nativeElement.querySelectorAll(
-      ".share-picker-list-item",
-    );
+    const li = fixture.nativeElement.querySelectorAll(".share-picker-list-item");
     expect(li.length).toBe(2);
     expect((li[0] as HTMLElement).tagName).toBe("LI");
   });
@@ -298,9 +283,7 @@ describe("SharePicker — markup contract (§4.2, §7.1–§7.6)", () => {
       ],
     });
     await clickSettled(fixture, trigger(fixture));
-    expect(links(fixture)[0].getAttribute("href")).toBe(
-      "https://x.test/?t=Body",
-    );
+    expect(links(fixture)[0].getAttribute("href")).toBe("https://x.test/?t=Body");
   });
 
   test("§7.5 no copy item renders when copyLabel is absent", async () => {
@@ -415,9 +398,7 @@ describe("SharePicker — native share sheet (§7.11–§7.14)", () => {
     const shared = vi.fn();
     fixture.componentInstance.nativeShare.subscribe(shared);
     await clickSettled(fixture, trigger(fixture));
-    expect(nat.calls).toEqual([
-      { url: URL_UNDER_TEST, title: "Hello", text: "Body" },
-    ]);
+    expect(nat.calls).toEqual([{ url: URL_UNDER_TEST, title: "Hello", text: "Body" }]);
     expect(shared).toHaveBeenCalledWith(URL_UNDER_TEST);
     // The list must NOT also open.
     expect(list(fixture).hasAttribute("hidden")).toBe(true);
@@ -529,8 +510,7 @@ describe("SharePicker — keyboard and dismissal (§7.15–§7.19)", () => {
     const all = items(fixture);
     // Exactly `all.length` presses from the first item: clamping lands on
     // the last item, wrapping would land back on the first.
-    for (let i = 0; i < all.length; i++)
-      press(fixture, list(fixture), "ArrowDown");
+    for (let i = 0; i < all.length; i++) press(fixture, list(fixture), "ArrowDown");
     expect(document.activeElement).toBe(all[all.length - 1]);
   });
 
@@ -570,10 +550,7 @@ describe("SharePicker — keyboard and dismissal (§7.15–§7.19)", () => {
     const shared = vi.fn();
     fixture.componentInstance.share.subscribe(shared);
     await clickSettled(fixture, trigger(fixture));
-    await clickSettled(
-      fixture,
-      q<HTMLElement>(fixture, '[data-target-id="linkedin"]'),
-    );
+    await clickSettled(fixture, q<HTMLElement>(fixture, '[data-target-id="linkedin"]'));
     expect(shared).toHaveBeenCalledWith({
       targetId: "linkedin",
       url: URL_UNDER_TEST,
@@ -624,17 +601,13 @@ describe("SharePicker — url resolution (§7.20–§7.21)", () => {
   test("§7.20 an explicit url input wins", async () => {
     const fixture = mount();
     await clickSettled(fixture, trigger(fixture));
-    expect(links(fixture)[0].getAttribute("href")).toContain(
-      encodeURIComponent(URL_UNDER_TEST),
-    );
+    expect(links(fixture)[0].getAttribute("href")).toContain(encodeURIComponent(URL_UNDER_TEST));
   });
 
   test("§7.21 with no url input it falls back to the current page URL", async () => {
     const fixture = mount({ url: "" });
     await clickSettled(fixture, trigger(fixture));
-    expect(links(fixture)[0].getAttribute("href")).toContain(
-      encodeURIComponent(location.href),
-    );
+    expect(links(fixture)[0].getAttribute("href")).toContain(encodeURIComponent(location.href));
   });
 
   test("§7.21 the resolved url is what share reports", async () => {
@@ -642,10 +615,7 @@ describe("SharePicker — url resolution (§7.20–§7.21)", () => {
     const shared = vi.fn();
     fixture.componentInstance.share.subscribe(shared);
     await clickSettled(fixture, trigger(fixture));
-    await clickSettled(
-      fixture,
-      q<HTMLElement>(fixture, '[data-target-id="mastodon"]'),
-    );
+    await clickSettled(fixture, q<HTMLElement>(fixture, '[data-target-id="mastodon"]'));
     expect(shared).toHaveBeenCalledWith({
       targetId: "mastodon",
       url: location.href,
@@ -685,9 +655,7 @@ describe("SharePicker — custom icon template (§7.22)", () => {
     const custom = q<HTMLElement>(fixture, '[data-testid="custom"]');
     expect(custom).toBeTruthy();
     // The custom template replaces the default SVG icon inside the trigger.
-    expect(custom.closest("button")?.className).toContain(
-      "share-picker-button",
-    );
+    expect(custom.closest("button")?.className).toContain("share-picker-button");
     expect(q(fixture, ".share-picker-icon")).toBeNull();
     expect(custom.getAttribute("data-open")).toBe("false");
     expect(custom.getAttribute("data-url")).toBe(URL_UNDER_TEST);
@@ -698,11 +666,9 @@ describe("SharePicker — custom icon template (§7.22)", () => {
     fixture.detectChanges();
     fixtures.push(fixture);
     await clickSettled(fixture, trigger(fixture));
-    expect(
-      q<HTMLElement>(fixture, '[data-testid="custom"]').getAttribute(
-        "data-open",
-      ),
-    ).toBe("true");
+    expect(q<HTMLElement>(fixture, '[data-testid="custom"]').getAttribute("data-open")).toBe(
+      "true",
+    );
   });
 });
 
@@ -862,14 +828,19 @@ describe("share-picker — tooltip (§7.26–§7.31)", () => {
 describe("SharePicker — open state and disabled", () => {
   function build(extra: Record<string, unknown> = {}): ComponentFixture<SharePicker> {
     const fixture = TestBed.createComponent(SharePicker);
-    for (const [key, value] of Object.entries({ ...{ label: "Share", targets: TARGETS, url: URL_UNDER_TEST }, ...extra })) {
+    for (const [key, value] of Object.entries({
+      ...{ label: "Share", targets: TARGETS, url: URL_UNDER_TEST },
+      ...extra,
+    })) {
       fixture.componentRef.setInput(key, value);
     }
     fixture.detectChanges();
     return fixture;
   }
   const button = (f: ComponentFixture<unknown>) =>
-    f.nativeElement.querySelector(".share-picker-button button, button.share-picker-button") as HTMLButtonElement;
+    f.nativeElement.querySelector(
+      ".share-picker-button button, button.share-picker-button",
+    ) as HTMLButtonElement;
   const settle = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
 
   test("open starts the popup open without emitting openChange", async () => {
@@ -915,4 +886,3 @@ describe("SharePicker — open state and disabled", () => {
     expect(button(fixture).getAttribute("aria-expanded")).toBe("false");
   });
 });
-

@@ -28,14 +28,14 @@
 const TYPEAHEAD_RESET_MS = 500;
 
 function optionsOf(list) {
-  return Array.from(list.querySelectorAll('[role="option"]'));
+    return Array.from(list.querySelectorAll('[role="option"]'));
 }
 
 /** jsdom and older browsers do not always implement scrollIntoView. */
 function scrollIntoViewIfPossible(el) {
-  if (el && typeof el.scrollIntoView === "function") {
-    el.scrollIntoView({ block: "nearest" });
-  }
+    if (el && typeof el.scrollIntoView === "function") {
+        el.scrollIntoView({ block: "nearest" });
+    }
 }
 
 /**
@@ -59,138 +59,137 @@ function scrollIntoViewIfPossible(el) {
  * }}
  */
 export function createListboxKeyboard(list, config = {}) {
-  const {
-    clamp = false,
-    typeahead: typeaheadEnabled = false,
-    pageSize = 10,
-    onActivate,
-    onEscape,
-    onTabOut,
-  } = config;
+    const {
+        clamp = false,
+        typeahead: typeaheadEnabled = false,
+        pageSize = 10,
+        onActivate,
+        onEscape,
+        onTabOut,
+    } = config;
 
-  let activeIndex = -1;
-  let typeahead = "";
-  let typeaheadTimer;
+    let activeIndex = -1;
+    let typeahead = "";
+    let typeaheadTimer;
 
-  function setActive(index) {
-    const options = optionsOf(list);
-    activeIndex = index;
-    options.forEach((o, i) => {
-      if (i === index) o.setAttribute("data-active", "");
-      else o.removeAttribute("data-active");
-    });
-    if (index >= 0 && options[index]) {
-      list.setAttribute("aria-activedescendant", options[index].id);
-      scrollIntoViewIfPossible(options[index]);
-    } else {
-      list.removeAttribute("aria-activedescendant");
-    }
-  }
-
-  function moveActive(delta) {
-    const options = optionsOf(list);
-    if (options.length === 0) return;
-    const next = activeIndex + delta;
-    const result = clamp
-      ? Math.min(Math.max(next, 0), options.length - 1)
-      : ((next % options.length) + options.length) % options.length;
-    setActive(result);
-  }
-
-  function runTypeahead(char) {
-    const options = optionsOf(list);
-    if (options.length === 0) return;
-    const labels = options.map((o) => (o.textContent || "").trim());
-    const lower = char.toLowerCase();
-    // APG listbox typeahead: a single character moves to the NEXT
-    // option starting with it, and repeating that character keeps
-    // cycling. Only a buffer of differing characters refines the
-    // match, and that buffer stays anchored on the active option.
-    const sameCharRun =
-      typeahead === "" || Array.from(typeahead).every((c) => c === lower);
-    typeahead += lower;
-    clearTimeout(typeaheadTimer);
-    typeaheadTimer = setTimeout(() => {
-      typeahead = "";
-    }, TYPEAHEAD_RESET_MS);
-    const query = sameCharRun ? lower : typeahead;
-    const anchor = activeIndex < 0 ? 0 : activeIndex;
-    const start = sameCharRun ? anchor + 1 : anchor;
-    // Search forward, wrapping once — typeahead wraps even though the
-    // arrows clamp, or options above the cursor would be untypable.
-    for (let n = 0; n < options.length; n++) {
-      const i = (start + n) % options.length;
-      if (labels[i].toLowerCase().startsWith(query)) {
-        setActive(i);
-        return;
-      }
-    }
-  }
-
-  function onKeydown(event) {
-    switch (event.key) {
-      case "ArrowDown":
-        event.preventDefault();
-        moveActive(1);
-        break;
-      case "ArrowUp":
-        event.preventDefault();
-        moveActive(-1);
-        break;
-      case "Home":
-        event.preventDefault();
-        setActive(optionsOf(list).length ? 0 : -1);
-        break;
-      case "End":
-        event.preventDefault();
-        setActive(optionsOf(list).length - 1);
-        break;
-      case "Enter":
-      case " ":
-        event.preventDefault();
-        if (activeIndex >= 0 && typeof onActivate === "function") {
-          onActivate(activeIndex);
-        }
-        break;
-      case "Escape":
-        event.preventDefault();
-        if (typeof onEscape === "function") onEscape();
-        break;
-      case "PageUp":
-        event.preventDefault();
-        moveActive(-pageSize);
-        break;
-      case "PageDown":
-        event.preventDefault();
-        moveActive(pageSize);
-        break;
-      case "Tab":
-        // Not prevented: the consumer's onTabOut (e.g. moving focus to a
-        // trigger button before hiding the list) runs first, so the
-        // browser's default Tab proceeds from wherever focus ends up.
-        if (typeof onTabOut === "function") onTabOut();
-        break;
-      default:
-        if (
-          typeaheadEnabled &&
-          event.key.length === 1 &&
-          !event.ctrlKey &&
-          !event.metaKey &&
-          !event.altKey
-        ) {
-          runTypeahead(event.key);
+    function setActive(index) {
+        const options = optionsOf(list);
+        activeIndex = index;
+        options.forEach((o, i) => {
+            if (i === index) o.setAttribute("data-active", "");
+            else o.removeAttribute("data-active");
+        });
+        if (index >= 0 && options[index]) {
+            list.setAttribute("aria-activedescendant", options[index].id);
+            scrollIntoViewIfPossible(options[index]);
+        } else {
+            list.removeAttribute("aria-activedescendant");
         }
     }
-  }
 
-  list.addEventListener("keydown", onKeydown);
+    function moveActive(delta) {
+        const options = optionsOf(list);
+        if (options.length === 0) return;
+        const next = activeIndex + delta;
+        const result = clamp
+            ? Math.min(Math.max(next, 0), options.length - 1)
+            : ((next % options.length) + options.length) % options.length;
+        setActive(result);
+    }
 
-  return {
-    setActive,
-    getActive: () => activeIndex,
-    destroy: () => {
-      clearTimeout(typeaheadTimer);
-      list.removeEventListener("keydown", onKeydown);
-    },
-  };
+    function runTypeahead(char) {
+        const options = optionsOf(list);
+        if (options.length === 0) return;
+        const labels = options.map((o) => (o.textContent || "").trim());
+        const lower = char.toLowerCase();
+        // APG listbox typeahead: a single character moves to the NEXT
+        // option starting with it, and repeating that character keeps
+        // cycling. Only a buffer of differing characters refines the
+        // match, and that buffer stays anchored on the active option.
+        const sameCharRun = typeahead === "" || Array.from(typeahead).every((c) => c === lower);
+        typeahead += lower;
+        clearTimeout(typeaheadTimer);
+        typeaheadTimer = setTimeout(() => {
+            typeahead = "";
+        }, TYPEAHEAD_RESET_MS);
+        const query = sameCharRun ? lower : typeahead;
+        const anchor = activeIndex < 0 ? 0 : activeIndex;
+        const start = sameCharRun ? anchor + 1 : anchor;
+        // Search forward, wrapping once — typeahead wraps even though the
+        // arrows clamp, or options above the cursor would be untypable.
+        for (let n = 0; n < options.length; n++) {
+            const i = (start + n) % options.length;
+            if (labels[i].toLowerCase().startsWith(query)) {
+                setActive(i);
+                return;
+            }
+        }
+    }
+
+    function onKeydown(event) {
+        switch (event.key) {
+            case "ArrowDown":
+                event.preventDefault();
+                moveActive(1);
+                break;
+            case "ArrowUp":
+                event.preventDefault();
+                moveActive(-1);
+                break;
+            case "Home":
+                event.preventDefault();
+                setActive(optionsOf(list).length ? 0 : -1);
+                break;
+            case "End":
+                event.preventDefault();
+                setActive(optionsOf(list).length - 1);
+                break;
+            case "Enter":
+            case " ":
+                event.preventDefault();
+                if (activeIndex >= 0 && typeof onActivate === "function") {
+                    onActivate(activeIndex);
+                }
+                break;
+            case "Escape":
+                event.preventDefault();
+                if (typeof onEscape === "function") onEscape();
+                break;
+            case "PageUp":
+                event.preventDefault();
+                moveActive(-pageSize);
+                break;
+            case "PageDown":
+                event.preventDefault();
+                moveActive(pageSize);
+                break;
+            case "Tab":
+                // Not prevented: the consumer's onTabOut (e.g. moving focus to a
+                // trigger button before hiding the list) runs first, so the
+                // browser's default Tab proceeds from wherever focus ends up.
+                if (typeof onTabOut === "function") onTabOut();
+                break;
+            default:
+                if (
+                    typeaheadEnabled &&
+                    event.key.length === 1 &&
+                    !event.ctrlKey &&
+                    !event.metaKey &&
+                    !event.altKey
+                ) {
+                    runTypeahead(event.key);
+                }
+        }
+    }
+
+    list.addEventListener("keydown", onKeydown);
+
+    return {
+        setActive,
+        getActive: () => activeIndex,
+        destroy: () => {
+            clearTimeout(typeaheadTimer);
+            list.removeEventListener("keydown", onKeydown);
+        },
+    };
 }

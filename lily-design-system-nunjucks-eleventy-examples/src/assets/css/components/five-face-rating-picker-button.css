@@ -12,11 +12,21 @@
   transition: filter 0.15s ease-out;
 }
 
-.five-face-rating-picker-button[data-value="1"]::before { content: "😖"; }
-.five-face-rating-picker-button[data-value="2"]::before { content: "🙁"; }
-.five-face-rating-picker-button[data-value="3"]::before { content: "😐"; }
-.five-face-rating-picker-button[data-value="4"]::before { content: "🙂"; }
-.five-face-rating-picker-button[data-value="5"]::before { content: "😄"; }
+.five-face-rating-picker-button[data-value="1"]::before {
+  content: "😖";
+}
+.five-face-rating-picker-button[data-value="2"]::before {
+  content: "🙁";
+}
+.five-face-rating-picker-button[data-value="3"]::before {
+  content: "😐";
+}
+.five-face-rating-picker-button[data-value="4"]::before {
+  content: "🙂";
+}
+.five-face-rating-picker-button[data-value="5"]::before {
+  content: "😄";
+}
 
 .five-face-rating-picker-button:hover,
 .five-face-rating-picker-button[aria-checked="true"] {
@@ -25,5 +35,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .five-face-rating-picker-button { transition: none; }
+  .five-face-rating-picker-button {
+    transition: none;
+  }
 }

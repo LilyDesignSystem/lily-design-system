@@ -206,13 +206,11 @@ export class LinkPicker {
   /** Projected icon template; replaces the default icon when supplied. */
   protected readonly iconTemplate = contentChild(TemplateRef);
 
-  private readonly rootRef =
-    viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
+  private readonly rootRef = viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
   // A template-ref-variable on a component tag resolves to the component INSTANCE, which is what
   // is needed to call the headless component's own public `focus()` method.
   private readonly buttonRef = viewChild.required<IconButton>("buttonEl");
-  private readonly listRef =
-    viewChild.required<ElementRef<HTMLUListElement>>("listEl");
+  private readonly listRef = viewChild.required<ElementRef<HTMLUListElement>>("listEl");
 
   private readonly baseId = nextLinkPickerId();
   protected readonly listId = `${this.baseId}-list`;
@@ -250,9 +248,7 @@ export class LinkPicker {
     // Keyboard focus only: a mouse click also focuses the button in Chromium, and the tooltip
     // should not stick after a click.
     try {
-      this.focusButton.set(
-        this.buttonRef().element?.matches(":focus-visible") ?? false,
-      );
+      this.focusButton.set(this.buttonRef().element?.matches(":focus-visible") ?? false);
     } catch {
       this.focusButton.set(true); // engine without :focus-visible — err towards showing
     }

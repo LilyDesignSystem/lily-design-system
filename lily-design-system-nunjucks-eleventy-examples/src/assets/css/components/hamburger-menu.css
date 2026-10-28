@@ -21,5 +21,9 @@
   top: calc(50% - 1px);
   left: calc(50% - 0.625rem);
 }
-.hamburger-menu-icon::before { top: -6px; }
-.hamburger-menu-icon::after { top: 6px; }
+.hamburger-menu-icon::before {
+  top: -6px;
+}
+.hamburger-menu-icon::after {
+  top: 6px;
+}

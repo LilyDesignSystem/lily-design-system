@@ -42,7 +42,8 @@
 
     const themeLabels = {
         "united-kingdom-national-health-service-england-for-patients": "NHS England (patients)",
-        "united-kingdom-national-health-service-england-for-practitioners": "NHS England (practitioners)",
+        "united-kingdom-national-health-service-england-for-practitioners":
+            "NHS England (practitioners)",
         "united-kingdom-national-health-service-scotland-for-patients": "NHS Scotland (patients)",
         "united-kingdom-national-health-service-wales-for-patients": "NHS Wales (patients)",
         "united-kingdom-government-digital-service": "GOV.UK GDS",
@@ -54,7 +55,10 @@
     };
 </script>
 
-<SkipLink href="#content" label="Skip to main content" />
+<SkipLink
+    href="#content"
+    label="Skip to main content"
+/>
 
 <div class="site-header">
     <span>Lily Design System — SvelteKit examples</span>

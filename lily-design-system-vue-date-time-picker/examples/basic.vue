@@ -12,61 +12,63 @@ import DateTimePicker from "../DateTimePicker.vue";
 const appointment = ref("");
 
 const labels = {
-  previousYear: "Previous year",
-  previousMonth: "Previous month",
-  previousWeek: "Previous week",
-  previousDay: "Previous day",
-  nextDay: "Next day",
-  nextWeek: "Next week",
-  nextMonth: "Next month",
-  nextYear: "Next year",
-  confirm: "OK",
-  cancel: "Cancel",
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    previousWeek: "Previous week",
+    previousDay: "Previous day",
+    nextDay: "Next day",
+    nextWeek: "Next week",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "OK",
+    cancel: "Cancel",
 };
 </script>
 
 <template>
-  <h1>Date picker — basic</h1>
+    <h1>Date picker — basic</h1>
 
-  <label for="appointment">Appointment date</label>
-  <div id="appointment-hint">For example, 27 Jun 2026</div>
+    <label for="appointment">Appointment date</label>
+    <div id="appointment-hint">For example, 27 Jun 2026</div>
 
-  <DateTimePicker
-    input-id="appointment"
-    described-by="appointment-hint"
-    name="appointment"
-    label="Choose an appointment date"
-    locale="en-GB"
-    placeholder="DD MMM YYYY"
-    v-model:value="appointment"
-    :labels="labels"
-  />
+    <DateTimePicker
+        input-id="appointment"
+        described-by="appointment-hint"
+        name="appointment"
+        label="Choose an appointment date"
+        locale="en-GB"
+        placeholder="DD MMM YYYY"
+        v-model:value="appointment"
+        :labels="labels"
+    />
 
-  <p>Value posted to the server: <code>{{ appointment || "(empty)" }}</code></p>
+    <p>
+        Value posted to the server: <code>{{ appointment || "(empty)" }}</code>
+    </p>
 </template>
 
 <style>
 /* The package ships no CSS. Without at least this much, the dialog
    renders in normal flow instead of over the page. */
 .date-time-picker {
-  position: relative;
-  display: inline-block;
+    position: relative;
+    display: inline-block;
 }
 .date-time-picker-dialog {
-  position: absolute;
-  z-index: 10;
-  inset-inline-start: 0;
-  background: Canvas;
-  border: 1px solid;
-  padding: 0.5rem;
+    position: absolute;
+    z-index: 10;
+    inset-inline-start: 0;
+    background: Canvas;
+    border: 1px solid;
+    padding: 0.5rem;
 }
 .date-time-picker-dialog[hidden] {
-  display: none;
+    display: none;
 }
 .date-time-picker-day[data-outside] {
-  opacity: 0.5;
+    opacity: 0.5;
 }
 .date-time-picker-day[data-selected] {
-  outline: 2px solid;
+    outline: 2px solid;
 }
 </style>

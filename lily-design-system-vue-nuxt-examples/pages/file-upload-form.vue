@@ -50,10 +50,17 @@ function handleSubmit() {
 
 <template>
     <main class="page-wrapper">
-        <Form label="File upload" @submit="handleSubmit">
+        <Form
+            label="File upload"
+            @submit="handleSubmit"
+        >
             <h1>Upload Documents</h1>
 
-            <Alert v-if="done" type="success" heading="Upload complete">
+            <Alert
+                v-if="done"
+                type="success"
+                heading="Upload complete"
+            >
                 {{ files.length }} file(s) uploaded successfully.
             </Alert>
 
@@ -71,20 +78,34 @@ function handleSubmit() {
             <div v-if="files.length > 0">
                 <h2>Selected files</h2>
                 <ul>
-                    <li v-for="(file, index) in files" :key="index">
+                    <li
+                        v-for="(file, index) in files"
+                        :key="index"
+                    >
                         {{ file.name }}
                         <Badge>{{ formatSize(file.size) }}</Badge>
-                        <Button v-if="!uploading && !done" @click="removeFile(index)">
+                        <Button
+                            v-if="!uploading && !done"
+                            @click="removeFile(index)"
+                        >
                             Remove
                         </Button>
                     </li>
                 </ul>
             </div>
 
-            <Progress v-if="uploading" label="Upload progress" :value="progress" :max="100" />
+            <Progress
+                v-if="uploading"
+                label="Upload progress"
+                :value="progress"
+                :max="100"
+            />
 
-            <Button type="submit" :disabled="files.length === 0 || uploading || done">
-                {{ uploading ? 'Uploading...' : 'Upload Files' }}
+            <Button
+                type="submit"
+                :disabled="files.length === 0 || uploading || done"
+            >
+                {{ uploading ? "Uploading..." : "Upload Files" }}
             </Button>
         </Form>
     </main>

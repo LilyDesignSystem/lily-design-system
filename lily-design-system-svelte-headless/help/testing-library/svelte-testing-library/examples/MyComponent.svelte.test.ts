@@ -5,22 +5,22 @@ import { expect, test } from "vitest";
 import Subject from "./MyComponent.svelte";
 
 test("no initial greeting", (): void => {
-  render(Subject, { name: "World" });
+    render(Subject, { name: "World" });
 
-  const button: HTMLElement = screen.getByRole("button", { name: "Greet" });
-  const greeting: HTMLElement | null = screen.queryByText(/hello/iu);
+    const button: HTMLElement = screen.getByRole("button", { name: "Greet" });
+    const greeting: HTMLElement | null = screen.queryByText(/hello/iu);
 
-  expect(button).toBeTruthy();
-  expect(greeting).toBeNull();
+    expect(button).toBeTruthy();
+    expect(greeting).toBeNull();
 });
 
 test("greeting appears on click", async (): Promise<void> => {
-  const user: UserEvent = userEvent.setup();
-  render(Subject, { name: "World" });
+    const user: UserEvent = userEvent.setup();
+    render(Subject, { name: "World" });
 
-  const button: HTMLElement = screen.getByRole("button");
-  await user.click(button);
-  const greeting: HTMLElement = screen.getByText(/hello world/iu);
+    const button: HTMLElement = screen.getByRole("button");
+    await user.click(button);
+    const greeting: HTMLElement = screen.getByText(/hello world/iu);
 
-  expect(greeting).toBeTruthy();
+    expect(greeting).toBeTruthy();
 });

@@ -15,28 +15,28 @@
   per-select `target` so each updates a different DOM subtree.
 -->
 <script lang="ts">
-  import ThemePicker from "../ThemePicker.svelte";
+    import ThemePicker from "../ThemePicker.svelte";
 
-  let regionA: HTMLElement | undefined = $state();
-  let regionB: HTMLElement | undefined = $state();
+    let regionA: HTMLElement | undefined = $state();
+    let regionB: HTMLElement | undefined = $state();
 </script>
 
 <section bind:this={regionA}>
-  <ThemePicker
-    label="Region A theme"
-    name="region-a"
-    themesUrl="/assets/themes/"
-    themes={["light", "dark"]}
-    target={regionA}
-  />
+    <ThemePicker
+        label="Region A theme"
+        name="region-a"
+        themesUrl="/assets/themes/"
+        themes={["light", "dark"]}
+        target={regionA}
+    />
 </section>
 
 <section bind:this={regionB}>
-  <ThemePicker
-    label="Region B theme"
-    name="region-b"
-    themesUrl="/assets/themes/"
-    themes={["abyss", "cupcake", "dracula"]}
-    target={regionB}
-  />
+    <ThemePicker
+        label="Region B theme"
+        name="region-b"
+        themesUrl="/assets/themes/"
+        themes={["abyss", "cupcake", "dracula"]}
+        target={regionB}
+    />
 </section>

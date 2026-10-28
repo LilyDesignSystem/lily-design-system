@@ -8,18 +8,8 @@
  * `customElements.define(...)` themselves.
  */
 
-import {
-    SharePicker,
-    canShareNatively,
-    canCopy,
-    nextSharePickerId,
-} from "./share-picker.js";
-export {
-    SharePicker,
-    canShareNatively,
-    canCopy,
-    nextSharePickerId,
-};
+import { SharePicker, canShareNatively, canCopy, nextSharePickerId } from "./share-picker.js";
+export { SharePicker, canShareNatively, canCopy, nextSharePickerId };
 export type {
     SharePickerProps,
     SharePickerShareDetail,

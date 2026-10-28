@@ -23,9 +23,7 @@ export async function onRequest(context) {
 
     const cookieHeader = context.request.headers.get("cookie") ?? "";
     const cookieTheme = parseCookie(cookieHeader, "theme");
-    const theme = cookieTheme && SUPPORTED.has(cookieTheme)
-        ? cookieTheme
-        : DEFAULT_THEME;
+    const theme = cookieTheme && SUPPORTED.has(cookieTheme) ? cookieTheme : DEFAULT_THEME;
 
     const html = await response.text();
     const patched = html.replaceAll("__THEME__", theme);

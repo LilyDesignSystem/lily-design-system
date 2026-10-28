@@ -5,16 +5,15 @@ import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("input.cymru-rhif-y-gwasanaeth-iechyd-gwladol-input");
 
-
 describe("CymruRhifYGwasanaethIechydGwladolInput", () => {
-  it("renders the element with its base class", async () => {
-    await mount("cymru-rhif-y-gwasanaeth-iechyd-gwladol-input");
-    expect(el()).not.toBeNull();
-    expect(el().classList.contains("cymru-rhif-y-gwasanaeth-iechyd-gwladol-input")).toBe(true);
-  });
+    it("renders the element with its base class", async () => {
+        await mount("cymru-rhif-y-gwasanaeth-iechyd-gwladol-input");
+        expect(el()).not.toBeNull();
+        expect(el().classList.contains("cymru-rhif-y-gwasanaeth-iechyd-gwladol-input")).toBe(true);
+    });
 
-  it("uses the input element", async () => {
-    await mount("cymru-rhif-y-gwasanaeth-iechyd-gwladol-input");
-    expect(el().tagName.toLowerCase()).toBe("input");
-  });
+    it("uses the input element", async () => {
+        await mount("cymru-rhif-y-gwasanaeth-iechyd-gwladol-input");
+        expect(el().tagName.toLowerCase()).toBe("input");
+    });
 });

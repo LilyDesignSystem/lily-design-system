@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="command"
@@ -7,9 +7,9 @@ const html = `<div
   aria-label="Command palette" hidden  data-module="command"></div>`;
 
 const meta = {
-  title: 'Headless/Command',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/Command",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

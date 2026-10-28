@@ -7,7 +7,13 @@ import { nunjucksLabelsFor } from "./label-pack-nunjucks.js";
 
 const dir = join(dirname(fileURLToPath(import.meta.url)), "label-packs");
 const packs = new Map<string, LabelPack>(
-    readdirSync(dir).filter((f) => f.endsWith(".json")).sort().map((f) => [f.replace(/\.json$/, ""), JSON.parse(readFileSync(join(dir, f), "utf8")) as LabelPack]),
+    readdirSync(dir)
+        .filter((f) => f.endsWith(".json"))
+        .sort()
+        .map((f) => [
+            f.replace(/\.json$/, ""),
+            JSON.parse(readFileSync(join(dir, f), "utf8")) as LabelPack,
+        ]),
 );
 const english = packs.get("en-001")!;
 const HELPERS: LabelHelper[] = ["data-grid", "kanban-board", "calendar", "gantt-chart", "filter"];
@@ -16,20 +22,49 @@ const placeholders = (s: string): string[] => [...s.matchAll(/\{(\w+)\}/g)].map(
 /** Every `{token}` each Nunjucks helper's macro or client substitutes, by label. A pack's template may use no other. */
 const TOKENS: Record<string, Record<string, string[]>> = {
     "kanban-board": {
-        cardCount: ["count"], overLimit: ["count", "limit"], moveButton: ["card"], addCard: ["column"], emptyColumn: ["column"],
-        collapseColumn: ["column"], expandColumn: ["column"], collapseLane: ["lane"], expandLane: ["lane"], laneCount: ["count", "lane"],
-        exportAnnouncement: ["count", "filename", "format"], editAnnouncement: ["card", "field", "value"], editInvalid: ["card", "field"],
-        editRefused: ["card", "field", "message"], fieldUndoAnnouncement: ["card", "field", "value"], fieldRedoAnnouncement: ["card", "field", "value"],
-        copyAnnouncement: ["count"], searchAnnouncement: ["matched", "total"], titleEditor: ["title"], titleEditAnnouncement: ["previous", "title"],
+        cardCount: ["count"],
+        overLimit: ["count", "limit"],
+        moveButton: ["card"],
+        addCard: ["column"],
+        emptyColumn: ["column"],
+        collapseColumn: ["column"],
+        expandColumn: ["column"],
+        collapseLane: ["lane"],
+        expandLane: ["lane"],
+        laneCount: ["count", "lane"],
+        exportAnnouncement: ["count", "filename", "format"],
+        editAnnouncement: ["card", "field", "value"],
+        editInvalid: ["card", "field"],
+        editRefused: ["card", "field", "message"],
+        fieldUndoAnnouncement: ["card", "field", "value"],
+        fieldRedoAnnouncement: ["card", "field", "value"],
+        copyAnnouncement: ["count"],
+        searchAnnouncement: ["matched", "total"],
+        titleEditor: ["title"],
+        titleEditAnnouncement: ["previous", "title"],
     },
     "gantt-chart": {
-        dependencySummary: ["predecessors"], collapseLabel: ["task"], expandLabel: ["task"], exportAnnouncement: ["count", "filename", "format"],
-        editAnnouncement: ["field", "task", "value"], editInvalid: ["field", "task"], editRefused: ["field", "message", "task"],
-        fieldUndoAnnouncement: ["field", "task", "value"], fieldRedoAnnouncement: ["field", "task", "value"], copyAnnouncement: ["count"],
+        dependencySummary: ["predecessors"],
+        collapseLabel: ["task"],
+        expandLabel: ["task"],
+        exportAnnouncement: ["count", "filename", "format"],
+        editAnnouncement: ["field", "task", "value"],
+        editInvalid: ["field", "task"],
+        editRefused: ["field", "message", "task"],
+        fieldUndoAnnouncement: ["field", "task", "value"],
+        fieldRedoAnnouncement: ["field", "task", "value"],
+        copyAnnouncement: ["count"],
         searchAnnouncement: ["matched", "total"],
     },
     filter: {
-        rule: ["n"], group: ["depth"], removeRule: ["n"], removeGroup: ["depth"], ruleAdded: ["n"], ruleRemoved: ["n"], groupAdded: ["depth"], groupRemoved: ["depth"],
+        rule: ["n"],
+        group: ["depth"],
+        removeRule: ["n"],
+        removeGroup: ["depth"],
+        ruleAdded: ["n"],
+        ruleRemoved: ["n"],
+        groupAdded: ["depth"],
+        groupRemoved: ["depth"],
     },
 };
 
@@ -42,8 +77,15 @@ describe("nunjucksLabelsFor", () => {
                 for (const [key, value] of Object.entries(macro)) {
                     const allowed = TOKENS[helper]?.[key];
                     if (!allowed) continue;
-                    const texts = typeof value === "string" ? [value] : Object.values(value as Record<string, string>);
-                    for (const text of texts) for (const token of placeholders(text)) expect(allowed, `${locale} ${helper}.${key} uses {${token}}`).toContain(token);
+                    const texts =
+                        typeof value === "string"
+                            ? [value]
+                            : Object.values(value as Record<string, string>);
+                    for (const text of texts)
+                        for (const token of placeholders(text))
+                            expect(allowed, `${locale} ${helper}.${key} uses {${token}}`).toContain(
+                                token,
+                            );
                 }
                 expect(Object.keys(macro).length).toBeGreaterThan(5);
             }
@@ -71,19 +113,27 @@ describe("nunjucksLabelsFor", () => {
         expect(grid.selectionAnnouncement).toBe("{selectedCount} selected");
         expect(grid.exportAnnouncement).toBe("Exported {rowCount} as {format}: {filename}");
         expect(grid.copyAnnouncement).toBe("Copied {rowCount} rows");
-        expect((grid.sortAnnouncement as Record<string, string>).ascending).toBe("Sorted by {header}, ascending");
+        expect((grid.sortAnnouncement as Record<string, string>).ascending).toBe(
+            "Sorted by {header}, ascending",
+        );
     });
 
     it("names the calendar's arrows for one view and gives the filter its operator names", () => {
         expect(nunjucksLabelsFor("calendar", english).macro.previousLabel).toBe("Previous month");
-        expect(nunjucksLabelsFor("calendar", english, { view: "week" }).macro.nextLabel).toBe("Next week");
+        expect(nunjucksLabelsFor("calendar", english, { view: "week" }).macro.nextLabel).toBe(
+            "Next week",
+        );
         const filter = nunjucksLabelsFor("filter", english).macro;
-        expect((filter.operatorNames as Record<string, string>)["not-contains"]).toBe("does not contain");
+        expect((filter.operatorNames as Record<string, string>)["not-contains"]).toBe(
+            "does not contain",
+        );
         expect("operators" in filter).toBe(false);
     });
 
     it("hands the client the same pack as functions", () => {
         const { client } = nunjucksLabelsFor("kanban-board", english);
-        expect((client.moveFailed as (...a: unknown[]) => string)("A", "B", new Error("offline"))).toBe("A could not move to B: offline");
+        expect(
+            (client.moveFailed as (...a: unknown[]) => string)("A", "B", new Error("offline")),
+        ).toBe("A could not move to B: offline");
     });
 });

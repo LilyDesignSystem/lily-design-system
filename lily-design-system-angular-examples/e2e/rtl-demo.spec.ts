@@ -84,7 +84,9 @@ test.describe("RTL demo", () => {
       const summary = results.violations
         .map((v) => `  - ${v.id} (${v.impact}): ${v.help} [${v.nodes.length} node(s)]`)
         .join("\n");
-      throw new Error(`axe found ${results.violations.length} WCAG violations on /rtl-demo:\n${summary}`);
+      throw new Error(
+        `axe found ${results.violations.length} WCAG violations on /rtl-demo:\n${summary}`,
+      );
     }
   });
 

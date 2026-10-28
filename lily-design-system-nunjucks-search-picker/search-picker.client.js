@@ -35,7 +35,7 @@ export const RETURN_SYMBOL = "⏎";
  * @returns {string}
  */
 export function searchHref(query, action = "/") {
-  return `${action}?${encodeURIComponent(String(query).trim())}`;
+    return `${action}?${encodeURIComponent(String(query).trim())}`;
 }
 
 let uid = 0;
@@ -50,8 +50,8 @@ let uid = 0;
  * roots in JavaScript.
  */
 export function nextSearchPickerId() {
-  uid += 1;
-  return `search-picker-${uid}`;
+    uid += 1;
+    return `search-picker-${uid}`;
 }
 
 // ---------------------------------------------------------------------
@@ -67,123 +67,120 @@ export function nextSearchPickerId() {
 const tooltipWirings = new WeakMap();
 
 function wireTooltip(root, button, selector, popup) {
-  const tooltip = root.querySelector(selector);
-  if (!tooltip || !button || !popup) return () => {};
-  const previous = tooltipWirings.get(tooltip);
-  if (previous) previous();
+    const tooltip = root.querySelector(selector);
+    if (!tooltip || !button || !popup) return () => {};
+    const previous = tooltipWirings.get(tooltip);
+    if (previous) previous();
 
-  let hoverButton = false;
-  let hoverTooltip = false;
-  let focusButton = false;
-  let dismissed = false;
+    let hoverButton = false;
+    let hoverTooltip = false;
+    let focusButton = false;
+    let dismissed = false;
 
-  // WCAG 1.4.13 "dismissable": Escape must work wherever focus is while
-  // the tooltip is visible (pointer hover alone leaves focus elsewhere).
-  // The document listener exists only while visible; never preventDefault
-  // or stopPropagation, never move focus.
-  let docListening = false;
-  const onDocumentKeydown = (event) => {
-    if (event.key === "Escape") {
-      dismissed = true;
-      update();
+    // WCAG 1.4.13 "dismissable": Escape must work wherever focus is while
+    // the tooltip is visible (pointer hover alone leaves focus elsewhere).
+    // The document listener exists only while visible; never preventDefault
+    // or stopPropagation, never move focus.
+    let docListening = false;
+    const onDocumentKeydown = (event) => {
+        if (event.key === "Escape") {
+            dismissed = true;
+            update();
+        }
+    };
+    function syncDocumentListener() {
+        const want = !tooltip.hidden;
+        if (want && !docListening) {
+            document.addEventListener("keydown", onDocumentKeydown);
+            docListening = true;
+        } else if (!want && docListening) {
+            document.removeEventListener("keydown", onDocumentKeydown);
+            docListening = false;
+        }
     }
-  };
-  function syncDocumentListener() {
-    const want = !tooltip.hidden;
-    if (want && !docListening) {
-      document.addEventListener("keydown", onDocumentKeydown);
-      docListening = true;
-    } else if (!want && docListening) {
-      document.removeEventListener("keydown", onDocumentKeydown);
-      docListening = false;
+
+    function update() {
+        tooltip.hidden = !(
+            popup.hidden &&
+            !dismissed &&
+            (hoverButton || hoverTooltip || focusButton)
+        );
+        syncDocumentListener();
     }
-  }
 
-  function update() {
-    tooltip.hidden = !(
-      popup.hidden &&
-      !dismissed &&
-      (hoverButton || hoverTooltip || focusButton)
-    );
-    syncDocumentListener();
-  }
+    const onButtonEnter = () => {
+        hoverButton = true;
+        dismissed = false;
+        update();
+    };
+    const onButtonLeave = () => {
+        hoverButton = false;
+        update();
+    };
+    const onTooltipEnter = () => {
+        hoverTooltip = true;
+        update();
+    };
+    const onTooltipLeave = () => {
+        hoverTooltip = false;
+        update();
+    };
+    const onButtonFocus = () => {
+        try {
+            focusButton = button.matches(":focus-visible");
+        } catch {
+            focusButton = true; // engine without :focus-visible
+        }
+        update();
+    };
+    const onButtonBlur = () => {
+        focusButton = false;
+        dismissed = false;
+        update();
+    };
+    const onButtonKeydown = (event) => {
+        if (event.key === "Escape" && !tooltip.hidden) dismissed = true;
+        update();
+    };
+    const onButtonClick = () => {
+        hoverButton = false;
+        update();
+    };
 
-  const onButtonEnter = () => {
-    hoverButton = true;
-    dismissed = false;
-    update();
-  };
-  const onButtonLeave = () => {
-    hoverButton = false;
-    update();
-  };
-  const onTooltipEnter = () => {
-    hoverTooltip = true;
-    update();
-  };
-  const onTooltipLeave = () => {
-    hoverTooltip = false;
-    update();
-  };
-  const onButtonFocus = () => {
-    try {
-      focusButton = button.matches(":focus-visible");
-    } catch {
-      focusButton = true; // engine without :focus-visible
-    }
-    update();
-  };
-  const onButtonBlur = () => {
-    focusButton = false;
-    dismissed = false;
-    update();
-  };
-  const onButtonKeydown = (event) => {
-    if (event.key === "Escape" && !tooltip.hidden) dismissed = true;
-    update();
-  };
-  const onButtonClick = () => {
-    hoverButton = false;
-    update();
-  };
+    button.addEventListener("mouseenter", onButtonEnter);
+    button.addEventListener("mouseleave", onButtonLeave);
+    button.addEventListener("focus", onButtonFocus);
+    button.addEventListener("blur", onButtonBlur);
+    button.addEventListener("keydown", onButtonKeydown);
+    button.addEventListener("click", onButtonClick);
+    tooltip.addEventListener("mouseenter", onTooltipEnter);
+    tooltip.addEventListener("mouseleave", onTooltipLeave);
 
-  button.addEventListener("mouseenter", onButtonEnter);
-  button.addEventListener("mouseleave", onButtonLeave);
-  button.addEventListener("focus", onButtonFocus);
-  button.addEventListener("blur", onButtonBlur);
-  button.addEventListener("keydown", onButtonKeydown);
-  button.addEventListener("click", onButtonClick);
-  tooltip.addEventListener("mouseenter", onTooltipEnter);
-  tooltip.addEventListener("mouseleave", onTooltipLeave);
+    // The popup's own open/close (including the programmatic API) flips its
+    // `hidden` attribute; follow it so the tooltip never shows over it.
+    const observer = typeof MutationObserver === "function" ? new MutationObserver(update) : null;
+    if (observer) observer.observe(popup, { attributes: true, attributeFilter: ["hidden"] });
 
-  // The popup's own open/close (including the programmatic API) flips its
-  // `hidden` attribute; follow it so the tooltip never shows over it.
-  const observer =
-    typeof MutationObserver === "function"
-      ? new MutationObserver(update)
-      : null;
-  if (observer) observer.observe(popup, { attributes: true, attributeFilter: ["hidden"] });
+    update();
 
-  update();
-
-  const destroy = () => {
-    button.removeEventListener("mouseenter", onButtonEnter);
-    button.removeEventListener("mouseleave", onButtonLeave);
-    button.removeEventListener("focus", onButtonFocus);
-    button.removeEventListener("blur", onButtonBlur);
-    button.removeEventListener("keydown", onButtonKeydown);
-    button.removeEventListener("click", onButtonClick);
-    tooltip.removeEventListener("mouseenter", onTooltipEnter);
-    tooltip.removeEventListener("mouseleave", onTooltipLeave);
-    if (observer) observer.disconnect();
-    if (docListening) {
-      document.removeEventListener("keydown", onDocumentKeydown);
-      docListening = false;
-    }
-    if (tooltipWirings.get(tooltip) === destroy) tooltipWirings.delete(tooltip);
-  };
-  tooltipWirings.set(tooltip, destroy);
-  return destroy;
+    const destroy = () => {
+        button.removeEventListener("mouseenter", onButtonEnter);
+        button.removeEventListener("mouseleave", onButtonLeave);
+        button.removeEventListener("focus", onButtonFocus);
+        button.removeEventListener("blur", onButtonBlur);
+        button.removeEventListener("keydown", onButtonKeydown);
+        button.removeEventListener("click", onButtonClick);
+        tooltip.removeEventListener("mouseenter", onTooltipEnter);
+        tooltip.removeEventListener("mouseleave", onTooltipLeave);
+        if (observer) observer.disconnect();
+        if (docListening) {
+            document.removeEventListener("keydown", onDocumentKeydown);
+            docListening = false;
+        }
+        if (tooltipWirings.get(tooltip) === destroy) tooltipWirings.delete(tooltip);
+    };
+    tooltipWirings.set(tooltip, destroy);
+    return destroy;
 }
 
 /**
@@ -198,143 +195,143 @@ function wireTooltip(root, button, selector, popup) {
  * @returns {{open: () => void, close: () => void, search: (query?: string) => void, destroy: () => void}}
  */
 export function initSearchPicker(root, opts = {}) {
-  const noop = {
-    open: () => {},
-    close: () => {},
-    search: () => {},
-    destroy: () => {},
-  };
-  if (typeof document === "undefined" || !root) return noop;
+    const noop = {
+        open: () => {},
+        close: () => {},
+        search: () => {},
+        destroy: () => {},
+    };
+    if (typeof document === "undefined" || !root) return noop;
 
-  const button = root.querySelector("[data-lily-search-picker-button]");
-  const panel = root.querySelector("[data-lily-search-picker-panel]");
-  const form = root.querySelector("[data-lily-search-picker-form]");
-  const input = root.querySelector("[data-lily-search-picker-input]");
-  if (!button || !panel || !form || !input) return noop;
+    const button = root.querySelector("[data-lily-search-picker-button]");
+    const panel = root.querySelector("[data-lily-search-picker-panel]");
+    const form = root.querySelector("[data-lily-search-picker-form]");
+    const input = root.querySelector("[data-lily-search-picker-input]");
+    if (!button || !panel || !form || !input) return noop;
 
-  // Init opts win over the rendered markup. getAttribute, not
-  // `form.action`: the property is resolved to an absolute URL.
-  const action = opts.action || form.getAttribute("action") || "/";
+    // Init opts win over the rendered markup. getAttribute, not
+    // `form.action`: the property is resolved to an absolute URL.
+    const action = opts.action || form.getAttribute("action") || "/";
 
-  let open = !panel.hidden && !button.disabled;
+    let open = !panel.hidden && !button.disabled;
 
-  /** True while an open comes from outside (`setOpen`): state only, focus stays put. */
-  let quiet = false;
+    /** True while an open comes from outside (`setOpen`): state only, focus stays put. */
+    let quiet = false;
 
-  /** Report an open or close to `opts.onOpenChange` and as a bubbling `openchange` event on the root. */
-  function emitOpenChange(isOpen) {
-    if (typeof opts.onOpenChange === "function") opts.onOpenChange(isOpen);
-    root.dispatchEvent(new CustomEvent("openchange", { detail: isOpen, bubbles: true }));
-  }
-
-  function openPanel() {
-    if (button.disabled) return;
-    open = true;
-    emitOpenChange(true);
-    panel.hidden = false;
-    button.setAttribute("aria-expanded", "true");
-    // preventScroll: the panel is positioned by consumer CSS, and
-    // focusing a field rendered partly off-screen would otherwise
-    // scroll the whole page — the same fix the sibling pickers carry.
-    if (!quiet) input.focus({ preventScroll: true });
-  }
-
-  function closePanel(refocus = true) {
-    if (!open) return;
-    open = false;
-    emitOpenChange(false);
-    panel.hidden = true;
-    button.setAttribute("aria-expanded", "false");
-    if (refocus) button.focus({ preventScroll: true });
-  }
-
-  /** Perform a search for `query` (default: the field's current text). */
-  function search(query = input.value) {
-    const trimmed = String(query ?? "").trim();
-    if (!trimmed) return;
-    const href = searchHref(trimmed, action);
-    if (typeof opts.onSearch === "function") opts.onSearch(trimmed, href);
-    closePanel(false);
-    if (typeof opts.navigate === "function") opts.navigate(href);
-    else if (typeof location !== "undefined") location.assign(href);
-  }
-
-  function onButtonClick() {
-    if (open) closePanel();
-    else openPanel();
-  }
-
-  function onSubmit(event) {
-    // The form's native GET would send `/?name=value`; the contract is
-    // the bare query (`/?foo`), so navigation is done here instead.
-    event.preventDefault();
-    search(input.value);
-  }
-
-  function onPanelKeydown(event) {
-    if (event.key === "Escape") {
-      event.preventDefault();
-      closePanel();
+    /** Report an open or close to `opts.onOpenChange` and as a bubbling `openchange` event on the root. */
+    function emitOpenChange(isOpen) {
+        if (typeof opts.onOpenChange === "function") opts.onOpenChange(isOpen);
+        root.dispatchEvent(new CustomEvent("openchange", { detail: isOpen, bubbles: true }));
     }
-  }
 
-  function onRootFocusOut(event) {
-    // Close only when focus moves to a known element outside the
-    // picker. A focusout with no relatedTarget is not "focus left":
-    // Safari does not focus a <button> on click, so pressing ⏎ (or the
-    // icon button) blurs the field with relatedTarget = null. Closing
-    // there hid the panel before the click landed, so ⏎ never searched
-    // and the icon button re-opened instead of closing. Clicks outside
-    // the picker are handled by the document click listener below.
-    const next = event.relatedTarget;
-    if (!next || root.contains(next)) return;
-    closePanel(false);
-  }
+    function openPanel() {
+        if (button.disabled) return;
+        open = true;
+        emitOpenChange(true);
+        panel.hidden = false;
+        button.setAttribute("aria-expanded", "true");
+        // preventScroll: the panel is positioned by consumer CSS, and
+        // focusing a field rendered partly off-screen would otherwise
+        // scroll the whole page — the same fix the sibling pickers carry.
+        if (!quiet) input.focus({ preventScroll: true });
+    }
 
-  function onDocumentClick(event) {
-    if (!open) return;
-    const t = event.target;
-    if (t && !root.contains(t)) closePanel(false);
-  }
+    function closePanel(refocus = true) {
+        if (!open) return;
+        open = false;
+        emitOpenChange(false);
+        panel.hidden = true;
+        button.setAttribute("aria-expanded", "false");
+        if (refocus) button.focus({ preventScroll: true });
+    }
 
-  button.addEventListener("click", onButtonClick);
-  form.addEventListener("submit", onSubmit);
-  panel.addEventListener("keydown", onPanelKeydown);
-  root.addEventListener("focusout", onRootFocusOut);
-  document.addEventListener("click", onDocumentClick);
+    /** Perform a search for `query` (default: the field's current text). */
+    function search(query = input.value) {
+        const trimmed = String(query ?? "").trim();
+        if (!trimmed) return;
+        const href = searchHref(trimmed, action);
+        if (typeof opts.onSearch === "function") opts.onSearch(trimmed, href);
+        closePanel(false);
+        if (typeof opts.navigate === "function") opts.navigate(href);
+        else if (typeof location !== "undefined") location.assign(href);
+    }
 
-  const tooltipDestroy = wireTooltip(root, button, ".search-picker-tooltip", panel);
+    function onButtonClick() {
+        if (open) closePanel();
+        else openPanel();
+    }
 
-  return {
-    isOpen: () => open,
-    /** Open or close from outside: state only, focus stays put. Opening is ignored while disabled. */
-    setOpen: (next) => {
-      if (!!next === open) return;
-      quiet = true;
-      try {
-        if (next) openPanel();
-        else closePanel(false);
-      } finally {
-        quiet = false;
-      }
-    },
-    /** Disable or enable the button; disabling closes an open popup. */
-    setDisabled: (next) => {
-      button.disabled = !!next;
-      if (next) closePanel(false);
-    },
-    open: () => openPanel(),
-    close: () => closePanel(false),
-    search,
-    destroy: () => {
-      tooltipDestroy();
-      button.removeEventListener("click", onButtonClick);
-      form.removeEventListener("submit", onSubmit);
-      panel.removeEventListener("keydown", onPanelKeydown);
-      root.removeEventListener("focusout", onRootFocusOut);
-      document.removeEventListener("click", onDocumentClick);
-    },
-  };
+    function onSubmit(event) {
+        // The form's native GET would send `/?name=value`; the contract is
+        // the bare query (`/?foo`), so navigation is done here instead.
+        event.preventDefault();
+        search(input.value);
+    }
+
+    function onPanelKeydown(event) {
+        if (event.key === "Escape") {
+            event.preventDefault();
+            closePanel();
+        }
+    }
+
+    function onRootFocusOut(event) {
+        // Close only when focus moves to a known element outside the
+        // picker. A focusout with no relatedTarget is not "focus left":
+        // Safari does not focus a <button> on click, so pressing ⏎ (or the
+        // icon button) blurs the field with relatedTarget = null. Closing
+        // there hid the panel before the click landed, so ⏎ never searched
+        // and the icon button re-opened instead of closing. Clicks outside
+        // the picker are handled by the document click listener below.
+        const next = event.relatedTarget;
+        if (!next || root.contains(next)) return;
+        closePanel(false);
+    }
+
+    function onDocumentClick(event) {
+        if (!open) return;
+        const t = event.target;
+        if (t && !root.contains(t)) closePanel(false);
+    }
+
+    button.addEventListener("click", onButtonClick);
+    form.addEventListener("submit", onSubmit);
+    panel.addEventListener("keydown", onPanelKeydown);
+    root.addEventListener("focusout", onRootFocusOut);
+    document.addEventListener("click", onDocumentClick);
+
+    const tooltipDestroy = wireTooltip(root, button, ".search-picker-tooltip", panel);
+
+    return {
+        isOpen: () => open,
+        /** Open or close from outside: state only, focus stays put. Opening is ignored while disabled. */
+        setOpen: (next) => {
+            if (!!next === open) return;
+            quiet = true;
+            try {
+                if (next) openPanel();
+                else closePanel(false);
+            } finally {
+                quiet = false;
+            }
+        },
+        /** Disable or enable the button; disabling closes an open popup. */
+        setDisabled: (next) => {
+            button.disabled = !!next;
+            if (next) closePanel(false);
+        },
+        open: () => openPanel(),
+        close: () => closePanel(false),
+        search,
+        destroy: () => {
+            tooltipDestroy();
+            button.removeEventListener("click", onButtonClick);
+            form.removeEventListener("submit", onSubmit);
+            panel.removeEventListener("keydown", onPanelKeydown);
+            root.removeEventListener("focusout", onRootFocusOut);
+            document.removeEventListener("click", onDocumentClick);
+        },
+    };
 }
 
 /**
@@ -344,9 +341,7 @@ export function initSearchPicker(root, opts = {}) {
  * @returns {Array<ReturnType<typeof initSearchPicker>>}
  */
 export function autoInit(opts = {}) {
-  if (typeof document === "undefined") return [];
-  const roots = Array.from(
-    document.querySelectorAll("[data-lily-search-picker-root]"),
-  );
-  return roots.map((root) => initSearchPicker(root, opts));
+    if (typeof document === "undefined") return [];
+    const roots = Array.from(document.querySelectorAll("[data-lily-search-picker-root]"));
+    return roots.map((root) => initSearchPicker(root, opts));
 }

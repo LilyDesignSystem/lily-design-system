@@ -1,23 +1,23 @@
 // image-file-input.test.js
 // ImageFileInput component test
 
-const path = require('path');
+const path = require("path");
 
-describe('ImageFileInput', function() {
-  beforeEach(async function() {
-    await browser.url('file://' + path.resolve(__dirname, 'image-file-input.html'));
-  });
+describe("ImageFileInput", function () {
+    beforeEach(async function () {
+        await browser.url("file://" + path.resolve(__dirname, "image-file-input.html"));
+    });
 
-  it('should render the input element with correct class', async function() {
-    const el = await $('input.image-file-input');
-    await expect(el).toExist();
-    const className = await el.getAttribute('class');
-    expect(className).toContain('image-file-input');
-  });
+    it("should render the input element with correct class", async function () {
+        const el = await $("input.image-file-input");
+        await expect(el).toExist();
+        const className = await el.getAttribute("class");
+        expect(className).toContain("image-file-input");
+    });
 
-  it('should have an aria-label attribute', async function() {
-    const el = await $('input.image-file-input');
-    const label = await el.getAttribute('aria-label');
-    expect(label).not.toBeNull();
-  });
+    it("should have an aria-label attribute", async function () {
+        const el = await $("input.image-file-input");
+        const label = await el.getAttribute("aria-label");
+        expect(label).not.toBeNull();
+    });
 });

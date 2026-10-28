@@ -50,21 +50,30 @@
     <div
         style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-bottom: var(--nhs-space-4);"
     >
-        <Card heading="Total Patients" headingLevel={3}>
-            <p
-                style="font-size: var(--nhs-font-size-36); font-weight: 700; margin: 0;"
-            >
-                247
-            </p>
+        <Card
+            heading="Total Patients"
+            headingLevel={3}
+        >
+            <p style="font-size: var(--nhs-font-size-36); font-weight: 700; margin: 0;">247</p>
             <Badge type="success">+12 this week</Badge>
         </Card>
 
-        <Card heading="Bed Occupancy" headingLevel={3}>
-            <Progress label="Bed occupancy" value={78} max={100} />
+        <Card
+            heading="Bed Occupancy"
+            headingLevel={3}
+        >
+            <Progress
+                label="Bed occupancy"
+                value={78}
+                max={100}
+            />
             <p style="margin-top: var(--nhs-space-1);">78% occupied</p>
         </Card>
 
-        <Card heading="Wait Time" headingLevel={3}>
+        <Card
+            heading="Wait Time"
+            headingLevel={3}
+        >
             <Meter
                 label="Average wait time"
                 value={35}
@@ -77,12 +86,11 @@
             <p style="margin-top: var(--nhs-space-1);">35 minutes avg</p>
         </Card>
 
-        <Card heading="Satisfaction" headingLevel={3}>
-            <p
-                style="font-size: var(--nhs-font-size-36); font-weight: 700; margin: 0;"
-            >
-                4.2/5
-            </p>
+        <Card
+            heading="Satisfaction"
+            headingLevel={3}
+        >
+            <p style="font-size: var(--nhs-font-size-36); font-weight: 700; margin: 0;">4.2/5</p>
             <Badge type="info">Last 30 days</Badge>
         </Card>
     </div>
@@ -91,7 +99,10 @@
 
     <h2>Patient Records</h2>
 
-    <DataTable label="Patient records" caption="Recent patient activity">
+    <DataTable
+        label="Patient records"
+        caption="Recent patient activity"
+    >
         <DataTableHead>
             <DataTableRow>
                 <th>Name</th>
@@ -148,7 +159,10 @@
     <div
         style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-bottom: var(--nhs-space-4);"
     >
-        <Card heading="Admissions" headingLevel={3}>
+        <Card
+            heading="Admissions"
+            headingLevel={3}
+        >
             <Sparkline label="Weekly admissions">
                 <svg
                     viewBox="0 0 100 30"
@@ -167,7 +181,10 @@
             </Sparkline>
         </Card>
 
-        <Card heading="Wait Times" headingLevel={3}>
+        <Card
+            heading="Wait Times"
+            headingLevel={3}
+        >
             <Sparkline label="Weekly wait times">
                 <svg
                     viewBox="0 0 100 30"
@@ -190,9 +207,7 @@
     <Separator />
 
     <h2>Loading States</h2>
-    <div
-        style="display: flex; flex-direction: column; gap: var(--nhs-space-2); max-width: 400px;"
-    >
+    <div style="display: flex; flex-direction: column; gap: var(--nhs-space-2); max-width: 400px;">
         <Skeleton />
         <Skeleton />
         <Skeleton />

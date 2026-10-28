@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<input
   class="dial"
@@ -9,9 +9,9 @@ const html = `<input
   value="0">`;
 
 const meta = {
-  title: 'Headless/Dial',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/Dial",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

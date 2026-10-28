@@ -5,16 +5,15 @@ import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("div.affix");
 
-
 describe("Affix", () => {
-  it("renders the element with its base class", async () => {
-    await mount("affix");
-    expect(el()).not.toBeNull();
-    expect(el().classList.contains("affix")).toBe(true);
-  });
+    it("renders the element with its base class", async () => {
+        await mount("affix");
+        expect(el()).not.toBeNull();
+        expect(el().classList.contains("affix")).toBe(true);
+    });
 
-  it("uses the div element", async () => {
-    await mount("affix");
-    expect(el().tagName.toLowerCase()).toBe("div");
-  });
+    it("uses the div element", async () => {
+        await mount("affix");
+        expect(el().tagName.toLowerCase()).toBe("div");
+    });
 });

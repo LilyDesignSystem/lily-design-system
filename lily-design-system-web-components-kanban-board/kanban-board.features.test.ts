@@ -3,7 +3,8 @@ import { afterEach, describe, expect, test, vi } from "vitest";
 import { KanbanBoard } from "./kanban-board.js";
 import type { KanbanCard, KanbanColumn, KanbanLabels } from "./kanban-board.js";
 
-if (!customElements.get("lily-kanban-board")) customElements.define("lily-kanban-board", KanbanBoard);
+if (!customElements.get("lily-kanban-board"))
+    customElements.define("lily-kanban-board", KanbanBoard);
 
 const COLUMNS: KanbanColumn[] = [
     { id: "todo", title: "To Do" },
@@ -39,19 +40,26 @@ function mount(props: Partial<KanbanBoard> & Record<string, unknown> = {}): Kanb
     board.columns = (props.columns as KanbanColumn[]) ?? COLUMNS;
     board.cards = (props.cards as KanbanCard[]) ?? CARDS;
     board.labels = (props.labels as KanbanLabels) ?? LABELS;
-    for (const [k, v] of Object.entries(props)) if (!["columns", "cards", "labels"].includes(k)) (board as never as Record<string, unknown>)[k] = v;
+    for (const [k, v] of Object.entries(props))
+        if (!["columns", "cards", "labels"].includes(k))
+            (board as never as Record<string, unknown>)[k] = v;
     return board;
 }
-const ids = () => Array.from(board.querySelectorAll("[data-card-id]")).map((e) => e.getAttribute("data-card-id"));
+const ids = () =>
+    Array.from(board.querySelectorAll("[data-card-id]")).map((e) => e.getAttribute("data-card-id"));
 const input = () => board.querySelector<HTMLInputElement>(".kanban-board-search")!;
 const type = (value: string) => {
     input().value = value;
     input().dispatchEvent(new Event("input", { bubbles: true }));
 };
-const key = (el: Element, k: string, init: KeyboardEventInit = {}) => el.dispatchEvent(new KeyboardEvent("keydown", { key: k, bubbles: true, cancelable: true, ...init }));
+const key = (el: Element, k: string, init: KeyboardEventInit = {}) =>
+    el.dispatchEvent(
+        new KeyboardEvent("keydown", { key: k, bubbles: true, cancelable: true, ...init }),
+    );
 const status = () => board.querySelector(".kanban-board-status, [aria-live='polite']")?.textContent;
 const active = () => board.querySelector<HTMLElement>("[data-row][data-col][tabindex='0']")!;
-const cell = (r: number, c: number) => board.querySelector<HTMLElement>(`.kanban-board-td[data-row="${r}"][data-col="${c}"]`)!;
+const cell = (r: number, c: number) =>
+    board.querySelector<HTMLElement>(`.kanban-board-td[data-row="${r}"][data-col="${c}"]`)!;
 const flush = () => new Promise((r) => setTimeout(r, 0));
 
 afterEach(() => {
@@ -124,13 +132,19 @@ describe("copy to clipboard", () => {
         type("docs");
         board.querySelector<HTMLElement>('[data-kanban-export-format="copy"]')!.click();
         await flush();
-        expect((onCopy.mock.calls[0] as unknown as [{ text: string }])[0].text).not.toContain("login");
+        expect((onCopy.mock.calls[0] as unknown as [{ text: string }])[0].text).not.toContain(
+            "login",
+        );
         expect(writeText).not.toHaveBeenCalled();
     });
 });
 
 describe("keyboard: page keys, type-ahead, right-to-left", () => {
-    const many: KanbanCard[] = Array.from({ length: 25 }, (_, i) => ({ id: `m${i}`, columnId: "todo", title: i === 3 ? "Beta" : i === 5 ? "Bravo" : `Item ${i}` }));
+    const many: KanbanCard[] = Array.from({ length: 25 }, (_, i) => ({
+        id: `m${i}`,
+        columnId: "todo",
+        title: i === 3 ? "Beta" : i === 5 ? "Bravo" : `Item ${i}`,
+    }));
     test("§8.122 PageDown moves ten rows and PageUp moves back; both clamp", () => {
         mount({ cards: many });
         key(active(), "PageDown");
@@ -159,8 +173,18 @@ describe("keyboard: page keys, type-ahead, right-to-left", () => {
 });
 
 describe("in-place edit: validate, undo, redo", () => {
-    const fields = [{ id: "cost", header: "Cost", type: "number" as const, validate: (v: unknown) => (typeof v === "number" && v < 0 ? "must not be negative" : undefined) }];
-    const cards: KanbanCard[] = [{ id: "c1", columnId: "todo", title: "Card", values: { cost: 5 } }];
+    const fields = [
+        {
+            id: "cost",
+            header: "Cost",
+            type: "number" as const,
+            validate: (v: unknown) =>
+                typeof v === "number" && v < 0 ? "must not be negative" : undefined,
+        },
+    ];
+    const cards: KanbanCard[] = [
+        { id: "c1", columnId: "todo", title: "Card", values: { cost: 5 } },
+    ];
     function edit(value: string): HTMLInputElement {
         key(cell(0, 0), "F2");
         const field = board.querySelector<HTMLInputElement>(".kanban-board-field-editor")!;
@@ -181,10 +205,20 @@ describe("in-place edit: validate, undo, redo", () => {
         mount({ cards, fields, onFieldEdit });
         edit("9");
         key(cell(0, 0), "z", { ctrlKey: true });
-        expect(onFieldEdit).toHaveBeenLastCalledWith({ cardId: "c1", fieldId: "cost", value: 5, previous: 9 });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({
+            cardId: "c1",
+            fieldId: "cost",
+            value: 5,
+            previous: 9,
+        });
         expect(board.textContent).toContain("Undid Cost: 5");
         key(cell(0, 0), "z", { ctrlKey: true, shiftKey: true });
-        expect(onFieldEdit).toHaveBeenLastCalledWith({ cardId: "c1", fieldId: "cost", value: 9, previous: 5 });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({
+            cardId: "c1",
+            fieldId: "cost",
+            value: 9,
+            previous: 5,
+        });
     });
 });
 
@@ -206,9 +240,15 @@ describe("live drop cue", () => {
 });
 
 describe("in-place title editing (onTitleEdit / titleedit)", () => {
-    const cards: KanbanCard[] = [{ id: "c1", columnId: "todo", title: "Card One" }, { id: "c2", columnId: "todo", title: "Linked", href: "/x" }];
+    const cards: KanbanCard[] = [
+        { id: "c1", columnId: "todo", title: "Card One" },
+        { id: "c2", columnId: "todo", title: "Linked", href: "/x" },
+    ];
     const titleEditor = () => board.querySelector<HTMLInputElement>(".kanban-board-title-editor");
-    const titleOf = (text: string) => Array.from(board.querySelectorAll<HTMLElement>(".kanban-board-card-title")).find((e) => e.textContent?.includes(text))!;
+    const titleOf = (text: string) =>
+        Array.from(board.querySelectorAll<HTMLElement>(".kanban-board-card-title")).find((e) =>
+            e.textContent?.includes(text),
+        )!;
     const dbl = (el: Element) => el.dispatchEvent(new MouseEvent("dblclick", { bubbles: true }));
     const typeTitle = (value: string) => {
         titleEditor()!.value = value;
@@ -218,15 +258,30 @@ describe("in-place title editing (onTitleEdit / titleedit)", () => {
     test("double-click opens an editor with the title; Enter commits, announces and fires titleedit", () => {
         const onTitleEdit = vi.fn();
         const heard = vi.fn();
-        mount({ cards, onTitleEdit, labels: { titleEditAnnouncement: (p: string, t: string) => `${p} -> ${t}`, titleEditor: (t: string) => `Title of ${t}` } });
+        mount({
+            cards,
+            onTitleEdit,
+            labels: {
+                titleEditAnnouncement: (p: string, t: string) => `${p} -> ${t}`,
+                titleEditor: (t: string) => `Title of ${t}`,
+            },
+        });
         board.addEventListener("titleedit", (e) => heard((e as CustomEvent).detail));
         dbl(titleOf("Card One"));
         expect(titleEditor()!.value).toBe("Card One");
         expect(titleEditor()!.getAttribute("aria-label")).toBe("Title of Card One");
         typeTitle("  Renamed  ");
         key(titleEditor()!, "Enter");
-        expect(onTitleEdit).toHaveBeenCalledWith({ cardId: "c1", title: "Renamed", previous: "Card One" });
-        expect(heard).toHaveBeenCalledWith({ cardId: "c1", title: "Renamed", previous: "Card One" });
+        expect(onTitleEdit).toHaveBeenCalledWith({
+            cardId: "c1",
+            title: "Renamed",
+            previous: "Card One",
+        });
+        expect(heard).toHaveBeenCalledWith({
+            cardId: "c1",
+            title: "Renamed",
+            previous: "Card One",
+        });
         expect(titleEditor()).toBeNull();
         expect(status()).toBe("Card One -> Renamed");
     });
@@ -253,7 +308,11 @@ describe("in-place title editing (onTitleEdit / titleedit)", () => {
         expect(titleEditor()).not.toBeNull();
         typeTitle("By blur");
         titleEditor()!.dispatchEvent(new FocusEvent("blur"));
-        expect(onTitleEdit).toHaveBeenCalledWith({ cardId: "c1", title: "By blur", previous: "Card One" });
+        expect(onTitleEdit).toHaveBeenCalledWith({
+            cardId: "c1",
+            title: "By blur",
+            previous: "Card One",
+        });
     });
 
     test("editableTitles turns it on for a consumer that only listens to the event", () => {
@@ -282,7 +341,10 @@ describe("in-place title editing (onTitleEdit / titleedit)", () => {
 });
 
 describe("swimlane move rules, visible search label and field layout (ported from Svelte)", () => {
-    const lanes = [{ id: "ann", title: "Ann" }, { id: "bo", title: "Bo" }];
+    const lanes = [
+        { id: "ann", title: "Ann" },
+        { id: "bo", title: "Bo" },
+    ];
     const laneCards: KanbanCard[] = [
         { id: "c1", columnId: "todo", title: "Card One", laneId: "ann" },
         { id: "c2", columnId: "todo", title: "Card Two", laneId: "bo" },
@@ -295,7 +357,9 @@ describe("swimlane move rules, visible search label and field layout (ported fro
     };
     const startDrag = () => {
         const d = { setData: () => {}, getData: () => "", dropEffect: "" };
-        cell(0, 0).querySelector(".kanban-board-card-title")!.dispatchEvent(dragEvent("dragstart", d));
+        cell(0, 0)
+            .querySelector(".kanban-board-card-title")!
+            .dispatchEvent(dragEvent("dragstart", d));
         return d;
     };
     const dropOn = (d: unknown, to: HTMLElement) => {
@@ -316,7 +380,13 @@ describe("swimlane move rules, visible search label and field layout (ported fro
 
     test("canMove can veto by lane: a card may not enter one owner's lane", () => {
         const onMove = vi.fn();
-        mount({ cards: laneCards, lanes, onMove, canMove: (_c: KanbanCard, _col: KanbanColumn, lane?: { id: string }) => lane?.id !== "bo" });
+        mount({
+            cards: laneCards,
+            lanes,
+            onMove,
+            canMove: (_c: KanbanCard, _col: KanbanColumn, lane?: { id: string }) =>
+                lane?.id !== "bo",
+        });
         dropOn(startDrag(), cell(1, 2));
         expect(onMove).not.toHaveBeenCalled();
     });
@@ -349,7 +419,9 @@ describe("swimlane move rules, visible search label and field layout (ported fro
 
     test("fieldLayout=compact sets data-field-layout on the board; the default sets nothing", () => {
         mount({ fieldLayout: "compact" });
-        expect(board.querySelector(".kanban-board")!.getAttribute("data-field-layout")).toBe("compact");
+        expect(board.querySelector(".kanban-board")!.getAttribute("data-field-layout")).toBe(
+            "compact",
+        );
         document.body.innerHTML = "";
         mount();
         expect(board.querySelector(".kanban-board")!.hasAttribute("data-field-layout")).toBe(false);

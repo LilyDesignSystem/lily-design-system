@@ -1,12 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<tr
   class="calendar-table-row"></tr>`;
 
 const meta = {
-  title: 'Headless/CalendarTableRow',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/CalendarTableRow",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

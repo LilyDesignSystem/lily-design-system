@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<dialog
   class="timeout-dialog"
@@ -8,9 +8,9 @@ const html = `<dialog
 </dialog>`;
 
 const meta = {
-  title: 'Headless/TimeoutDialog',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/TimeoutDialog",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

@@ -64,10 +64,7 @@ export type Props = Omit<React.HTMLAttributes<HTMLDivElement>, "children"> & {
  * control. Purely visual: the text is the button's own aria-label, so it
  * is deliberately not linked with aria-describedby.
  */
-function usePickerTooltip(
-    buttonRef: React.RefObject<HTMLButtonElement | null>,
-    open: boolean,
-) {
+function usePickerTooltip(buttonRef: React.RefObject<HTMLButtonElement | null>, open: boolean) {
     const [hoverButton, setHoverButton] = React.useState(false);
     const [hoverTooltip, setHoverTooltip] = React.useState(false);
     const [focusButton, setFocusButton] = React.useState(false);
@@ -162,16 +159,16 @@ export function LinkPicker({
     const onOpenChangeRef = React.useRef(onOpenChange);
     onOpenChangeRef.current = onOpenChange;
     const setOpen = React.useCallback(
-      (next: boolean): void => {
-        if (next === openRef.current) return;
-        openRef.current = next;
-        if (openProp === undefined) setOpenInner(next);
-        onOpenChangeRef.current?.(next);
-      },
-      [openProp],
+        (next: boolean): void => {
+            if (next === openRef.current) return;
+            openRef.current = next;
+            if (openProp === undefined) setOpenInner(next);
+            onOpenChangeRef.current?.(next);
+        },
+        [openProp],
     );
     React.useEffect(() => {
-      if (disabled && openRaw) setOpen(false);
+        if (disabled && openRaw) setOpen(false);
     }, [disabled, openRaw, setOpen]);
 
     const rootRef = React.useRef<HTMLDivElement | null>(null);
@@ -381,7 +378,10 @@ export function LinkPicker({
                 onKeyDown={onListKeyDown}
             >
                 {links.map((link) => (
-                    <li className="link-picker-list-item" key={linkId(link)}>
+                    <li
+                        className="link-picker-list-item"
+                        key={linkId(link)}
+                    >
                         {/* A real link, not role="menuitem": these ARE navigation. */}
                         <a
                             className="link-picker-link"

@@ -26,9 +26,7 @@ function resetRoot(): void {
 let fixtures: ComponentFixture<unknown>[] = [];
 
 /** Create + render a LocalePicker with the supplied inputs. */
-function mount(
-  inputs: Record<string, unknown> = {},
-): ComponentFixture<LocalePicker> {
+function mount(inputs: Record<string, unknown> = {}): ComponentFixture<LocalePicker> {
   const fixture = TestBed.createComponent(LocalePicker);
   fixture.componentRef.setInput("label", "Language");
   fixture.componentRef.setInput("locales", LOCALES);
@@ -50,10 +48,7 @@ async function mountSettled(
   return fixture;
 }
 
-function q<T extends Element>(
-  fixture: ComponentFixture<unknown>,
-  sel: string,
-): T {
+function q<T extends Element>(fixture: ComponentFixture<unknown>, sel: string): T {
   return fixture.nativeElement.querySelector(sel) as T;
 }
 
@@ -72,11 +67,7 @@ function options(fixture: ComponentFixture<unknown>): HTMLLIElement[] {
 }
 
 /** Dispatch a bubbling keydown and re-render. */
-function press(
-  fixture: ComponentFixture<unknown>,
-  target: HTMLElement,
-  key: string,
-): void {
+function press(fixture: ComponentFixture<unknown>, target: HTMLElement, key: string): void {
   target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true }));
   fixture.detectChanges();
 }
@@ -283,9 +274,7 @@ describe("LocalePicker — markup contract (§4.3, §7.1–§7.6)", () => {
 });
 
 describe("LocalePicker — keyboard contract (APG listbox, §7.24–§7.27)", () => {
-  async function openWith(
-    key: string,
-  ): Promise<ComponentFixture<LocalePicker>> {
+  async function openWith(key: string): Promise<ComponentFixture<LocalePicker>> {
     const fixture = await mountSettled();
     press(fixture, button(fixture), key);
     await flush();
@@ -304,9 +293,7 @@ describe("LocalePicker — keyboard contract (APG listbox, §7.24–§7.27)", ()
   test("§7.24 opening puts the active descendant on the selected locale", async () => {
     const fixture = await openWith("ArrowDown");
     // "en" resolves as the initial locale, so it is index 0.
-    expect(list(fixture).getAttribute("aria-activedescendant")).toBe(
-      list(fixture).children[0].id,
-    );
+    expect(list(fixture).getAttribute("aria-activedescendant")).toBe(list(fixture).children[0].id);
   });
 
   test("§7.24 ArrowUp opens with the last option active", async () => {
@@ -337,18 +324,14 @@ describe("LocalePicker — keyboard contract (APG listbox, §7.24–§7.27)", ()
     const fixture = await openWith("ArrowUp");
     const ul = list(fixture);
     press(fixture, ul, "ArrowDown");
-    expect(ul.getAttribute("aria-activedescendant")).toBe(
-      ul.children[LOCALES.length - 1].id,
-    );
+    expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[LOCALES.length - 1].id);
   });
 
   test("§7.25 Home and End jump to the first and last option", async () => {
     const fixture = await openWith("ArrowDown");
     const ul = list(fixture);
     press(fixture, ul, "End");
-    expect(ul.getAttribute("aria-activedescendant")).toBe(
-      ul.children[LOCALES.length - 1].id,
-    );
+    expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[LOCALES.length - 1].id);
     press(fixture, ul, "Home");
     expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[0].id);
   });
@@ -525,9 +508,7 @@ describe("LocalePicker — locale application (§5.5, §7.13–§7.17)", () => {
   test("§7.16 the hidden input tracks the selected value", async () => {
     const fixture = await mountSettled({ defaultValue: "en" });
     await pick(fixture, "fr");
-    expect(q<HTMLInputElement>(fixture, 'input[type="hidden"]').value).toBe(
-      "fr",
-    );
+    expect(q<HTMLInputElement>(fixture, 'input[type="hidden"]').value).toBe("fr");
   });
 
   test("§7.17 a custom target receives lang and dir", async () => {
@@ -566,10 +547,7 @@ describe("LocalePicker — initial-value resolution (§5.2, §5.3, §7.18–§7.
   });
 
   test("§7.20 navigator detection resolves exact match", async () => {
-    const original = Object.getOwnPropertyDescriptor(
-      window.navigator,
-      "languages",
-    );
+    const original = Object.getOwnPropertyDescriptor(window.navigator, "languages");
     Object.defineProperty(window.navigator, "languages", {
       configurable: true,
       get: () => ["fr-CA", "fr"],
@@ -579,23 +557,18 @@ describe("LocalePicker — initial-value resolution (§5.2, §5.3, §7.18–§7.
       detectFromNavigator: true,
     });
     expect(document.documentElement.lang).toBe("fr-CA");
-    if (original)
-      Object.defineProperty(window.navigator, "languages", original);
+    if (original) Object.defineProperty(window.navigator, "languages", original);
   });
 
   test("§7.21 navigator detection falls back to language-only match", async () => {
-    const original = Object.getOwnPropertyDescriptor(
-      window.navigator,
-      "languages",
-    );
+    const original = Object.getOwnPropertyDescriptor(window.navigator, "languages");
     Object.defineProperty(window.navigator, "languages", {
       configurable: true,
       get: () => ["fr-CA"],
     });
     await mountSettled({ locales: ["en", "fr"], detectFromNavigator: true });
     expect(document.documentElement.lang).toBe("fr");
-    if (original)
-      Object.defineProperty(window.navigator, "languages", original);
+    if (original) Object.defineProperty(window.navigator, "languages", original);
   });
 });
 
@@ -623,9 +596,7 @@ class IconTemplateHost {
 describe("LocalePicker — custom icon template (§7.22–§7.23)", () => {
   test("§7.22 className is appended to the root div", () => {
     const fixture = mount({ className: "extra" });
-    expect(
-      q<HTMLElement>(fixture, ".locale-picker").classList.contains("extra"),
-    ).toBe(true);
+    expect(q<HTMLElement>(fixture, ".locale-picker").classList.contains("extra")).toBe(true);
   });
 
   test("§7.23 a projected ng-template replaces the icon and receives ChildArgs", async () => {
@@ -638,20 +609,14 @@ describe("LocalePicker — custom icon template (§7.22–§7.23)", () => {
     const custom = q<HTMLElement>(fixture, '[data-testid="custom"]');
     expect(custom).toBeTruthy();
     // The custom template replaces the default SVG icon inside the button.
-    expect(custom.closest("button")?.className).toContain(
-      "locale-picker-button",
-    );
-    expect(
-      fixture.nativeElement.querySelector(".locale-picker-icon"),
-    ).toBeNull();
+    expect(custom.closest("button")?.className).toContain("locale-picker-button");
+    expect(fixture.nativeElement.querySelector(".locale-picker-icon")).toBeNull();
     expect(custom.getAttribute("data-open")).toBe("false");
     expect(custom.getAttribute("data-value")).toBe("fr");
     // labelFor now resolves the endonym; assert against the exported
     // helper rather than a hardcoded string, so an ICU wording change
     // cannot break the test without a real behaviour change.
-    expect(custom.getAttribute("data-label-en-us")).toBe(
-      localeEndonym("en_US"),
-    );
+    expect(custom.getAttribute("data-label-en-us")).toBe(localeEndonym("en_US"));
   });
 });
 
@@ -726,10 +691,7 @@ describe("LocalePicker — accessibility hardening (§7.28–§7.32)", () => {
   });
 
   test("§7.31 PageUp and PageDown move the cursor by ten, clamped", async () => {
-    const many = Array.from(
-      { length: 25 },
-      (_, i) => `x${String(i).padStart(2, "0")}`,
-    );
+    const many = Array.from({ length: 25 }, (_, i) => `x${String(i).padStart(2, "0")}`);
     const labels = Object.fromEntries(many.map((l) => [l, l.toUpperCase()]));
     const fixture = await openPicker(many, { localeLabels: labels });
     const ul = list(fixture);
@@ -902,14 +864,19 @@ describe("locale-picker — tooltip (§7.34–§7.39)", () => {
 describe("LocalePicker — open state and disabled", () => {
   function build(extra: Record<string, unknown> = {}): ComponentFixture<LocalePicker> {
     const fixture = TestBed.createComponent(LocalePicker);
-    for (const [key, value] of Object.entries({ ...{ label: "Language", locales: LOCALES }, ...extra })) {
+    for (const [key, value] of Object.entries({
+      ...{ label: "Language", locales: LOCALES },
+      ...extra,
+    })) {
       fixture.componentRef.setInput(key, value);
     }
     fixture.detectChanges();
     return fixture;
   }
   const button = (f: ComponentFixture<unknown>) =>
-    f.nativeElement.querySelector(".locale-picker-button button, button.locale-picker-button") as HTMLButtonElement;
+    f.nativeElement.querySelector(
+      ".locale-picker-button button, button.locale-picker-button",
+    ) as HTMLButtonElement;
   const settle = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
 
   test("open starts the popup open without emitting openChange", async () => {
@@ -955,4 +922,3 @@ describe("LocalePicker — open state and disabled", () => {
     expect(button(fixture).getAttribute("aria-expanded")).toBe("false");
   });
 });
-

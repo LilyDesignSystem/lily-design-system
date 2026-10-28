@@ -5,16 +5,15 @@ import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("a.go-to-previous-section");
 
-
 describe("GoToPreviousSection", () => {
-  it("renders the element with its base class", async () => {
-    await mount("go-to-previous-section");
-    expect(el()).not.toBeNull();
-    expect(el().classList.contains("go-to-previous-section")).toBe(true);
-  });
+    it("renders the element with its base class", async () => {
+        await mount("go-to-previous-section");
+        expect(el()).not.toBeNull();
+        expect(el().classList.contains("go-to-previous-section")).toBe(true);
+    });
 
-  it("uses the a element", async () => {
-    await mount("go-to-previous-section");
-    expect(el().tagName.toLowerCase()).toBe("a");
-  });
+    it("uses the a element", async () => {
+        await mount("go-to-previous-section");
+        expect(el().tagName.toLowerCase()).toBe("a");
+    });
 });

@@ -1,12 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<ul
   class="validation-list"  aria-live="polite"></ul>`;
 
 const meta = {
-  title: 'Headless/ValidationList',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/ValidationList",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

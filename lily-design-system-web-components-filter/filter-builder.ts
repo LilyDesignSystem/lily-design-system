@@ -10,8 +10,25 @@
  * markup (that would drop focus); every other edit does, and focus is put back on the control that had it.
  */
 import {
-    EMPTY_FILTER, addNode, changeField, changeOperator, createGroup, createRule, fieldType, formatFilter, operatorsFor, removeNode, updateNode, valueArity,
-    type FilterField, type FilterGroup, type FilterNode, type FilterOperator, type FilterOutputFormat, type FilterRule, type SqlDialect,
+    EMPTY_FILTER,
+    addNode,
+    changeField,
+    changeOperator,
+    createGroup,
+    createRule,
+    fieldType,
+    formatFilter,
+    operatorsFor,
+    removeNode,
+    updateNode,
+    valueArity,
+    type FilterField,
+    type FilterGroup,
+    type FilterNode,
+    type FilterOperator,
+    type FilterOutputFormat,
+    type FilterRule,
+    type SqlDialect,
 } from "./filter-model.js";
 
 /**
@@ -57,7 +74,8 @@ function parseTyped(type: string, raw: string): unknown {
     return type === "number" ? Number(raw) : raw;
 }
 
-const textOf = (v: unknown): string => (v === undefined || v === null || (typeof v === "number" && Number.isNaN(v)) ? "" : String(v));
+const textOf = (v: unknown): string =>
+    v === undefined || v === null || (typeof v === "number" && Number.isNaN(v)) ? "" : String(v);
 
 /** The number the user sees for each rule: its place in reading order across the whole filter. */
 function numberRules(root: FilterGroup): Map<string, number> {
@@ -75,7 +93,11 @@ function numberRules(root: FilterGroup): Map<string, number> {
 
 type Attrs = Record<string, string | boolean | undefined>;
 
-function el<K extends keyof HTMLElementTagNameMap>(tag: K, attrs: Attrs = {}, ...children: Array<Node | string | null | false>): HTMLElementTagNameMap[K] {
+function el<K extends keyof HTMLElementTagNameMap>(
+    tag: K,
+    attrs: Attrs = {},
+    ...children: Array<Node | string | null | false>
+): HTMLElementTagNameMap[K] {
     const node = document.createElement(tag);
     for (const [name, value] of Object.entries(attrs)) {
         if (value === undefined || value === false) continue;
@@ -196,19 +218,30 @@ export class FilterBuilder extends HTMLElement {
     #commit(next: FilterGroup, rebuild = true): void {
         this.#value = next;
         this.#onChange?.(next);
-        this.dispatchEvent(new CustomEvent<FilterGroup>("filterchange", { detail: next, bubbles: true, composed: true }));
+        this.dispatchEvent(
+            new CustomEvent<FilterGroup>("filterchange", {
+                detail: next,
+                bubbles: true,
+                composed: true,
+            }),
+        );
         if (rebuild) this.#render();
         else this.#renderOutput();
     }
 
     #setRule(id: string, change: (rule: FilterRule) => FilterRule, rebuild = true): void {
         if (this.readonly) return;
-        this.#commit(updateNode(this.#value, id, (node) => (node.type === "rule" ? change(node) : node)), rebuild);
+        this.#commit(
+            updateNode(this.#value, id, (node) => (node.type === "rule" ? change(node) : node)),
+            rebuild,
+        );
     }
 
     #setGroup(id: string, change: (group: FilterGroup) => FilterGroup): void {
         if (this.readonly) return;
-        this.#commit(updateNode(this.#value, id, (node) => (node.type === "group" ? change(node) : node)));
+        this.#commit(
+            updateNode(this.#value, id, (node) => (node.type === "group" ? change(node) : node)),
+        );
     }
 
     #addRule(groupId: string): void {
@@ -216,7 +249,8 @@ export class FilterBuilder extends HTMLElement {
         const rule = createRule(this.#fields);
         const next = addNode(this.#value, groupId, rule);
         this.#focusKey = `${rule.id}:field`;
-        this.#status = this.#labels.ruleAdded?.(numberRules(next).get(rule.id) ?? 0) ?? this.#status;
+        this.#status =
+            this.#labels.ruleAdded?.(numberRules(next).get(rule.id) ?? 0) ?? this.#status;
         this.#commit(next);
     }
 
@@ -246,7 +280,9 @@ export class FilterBuilder extends HTMLElement {
 
     #toggleOption(rule: FilterRule, optionId: string, checked: boolean): void {
         const current = Array.isArray(rule.value) ? (rule.value as string[]) : [];
-        const next = checked ? [...current.filter((v) => v !== optionId), optionId] : current.filter((v) => v !== optionId);
+        const next = checked
+            ? [...current.filter((v) => v !== optionId), optionId]
+            : current.filter((v) => v !== optionId);
         this.#focusKey = `${rule.id}:choice:${optionId}`;
         this.#setRule(rule.id, (r) => ({ ...r, value: next.length ? next : undefined }));
     }
@@ -278,32 +314,95 @@ export class FilterBuilder extends HTMLElement {
             const arity = valueArity(rule.operator);
             if (arity === 1 || arity === 2) {
                 if (type === "select") {
-                    const select = el("select", { class: "filter-value", "aria-label": labels.value, disabled: readonly, "data-focus-key": `${rule.id}:value` },
+                    const select = el(
+                        "select",
+                        {
+                            class: "filter-value",
+                            "aria-label": labels.value,
+                            disabled: readonly,
+                            "data-focus-key": `${rule.id}:value`,
+                        },
                         el("option", { value: "" }, labels.choose ?? ""),
-                        ...(field.options ?? []).map((option) => el("option", { value: option.id }, option.label)));
+                        ...(field.options ?? []).map((option) =>
+                            el("option", { value: option.id }, option.label),
+                        ),
+                    );
                     select.value = textOf(rule.value);
-                    select.addEventListener("change", () => this.#setRule(rule.id, (r) => ({ ...r, value: parseTyped("text", select.value) })));
+                    select.addEventListener("change", () =>
+                        this.#setRule(rule.id, (r) => ({
+                            ...r,
+                            value: parseTyped("text", select.value),
+                        })),
+                    );
                     return [select];
                 }
                 const inputType = type === "number" ? "number" : type === "date" ? "date" : "text";
-                const make = (cls: string, name: string, stored: unknown, key: "value" | "value2", focusKey: string): HTMLInputElement => {
-                    const input = el("input", { class: cls, type: inputType, inputmode: type === "number" ? "decimal" : undefined, "aria-label": name, readonly, "data-focus-key": focusKey });
+                const make = (
+                    cls: string,
+                    name: string,
+                    stored: unknown,
+                    key: "value" | "value2",
+                    focusKey: string,
+                ): HTMLInputElement => {
+                    const input = el("input", {
+                        class: cls,
+                        type: inputType,
+                        inputmode: type === "number" ? "decimal" : undefined,
+                        "aria-label": name,
+                        readonly,
+                        "data-focus-key": focusKey,
+                    });
                     input.value = textOf(stored);
                     // Typing must not rebuild the markup: that would drop focus. Only the stored value (and the output text) change.
-                    input.addEventListener("input", () => this.#setRule(rule.id, (r) => ({ ...r, [key]: parseTyped(type, input.value) }), false));
+                    input.addEventListener("input", () =>
+                        this.#setRule(
+                            rule.id,
+                            (r) => ({ ...r, [key]: parseTyped(type, input.value) }),
+                            false,
+                        ),
+                    );
                     return input;
                 };
-                const first = make("filter-value", arity === 2 ? labels.valueFrom : labels.value, rule.value, "value", `${rule.id}:value`);
-                return arity === 2 ? [first, make("filter-value filter-value-to", labels.valueTo, rule.value2, "value2", `${rule.id}:value2`)] : [first];
+                const first = make(
+                    "filter-value",
+                    arity === 2 ? labels.valueFrom : labels.value,
+                    rule.value,
+                    "value",
+                    `${rule.id}:value`,
+                );
+                return arity === 2
+                    ? [
+                          first,
+                          make(
+                              "filter-value filter-value-to",
+                              labels.valueTo,
+                              rule.value2,
+                              "value2",
+                              `${rule.id}:value2`,
+                          ),
+                      ]
+                    : [first];
             }
             if (arity === "many") {
-                return [el("div", { class: "filter-choices", role: "group", "aria-label": labels.value },
-                    ...(field.options ?? []).map((option) => {
-                        const box = el("input", { type: "checkbox", disabled: readonly, "data-focus-key": `${rule.id}:choice:${option.id}` });
-                        box.checked = Array.isArray(rule.value) && rule.value.includes(option.id);
-                        box.addEventListener("change", () => this.#toggleOption(rule, option.id, box.checked));
-                        return el("label", { class: "filter-choice" }, box, option.label);
-                    }))];
+                return [
+                    el(
+                        "div",
+                        { class: "filter-choices", role: "group", "aria-label": labels.value },
+                        ...(field.options ?? []).map((option) => {
+                            const box = el("input", {
+                                type: "checkbox",
+                                disabled: readonly,
+                                "data-focus-key": `${rule.id}:choice:${option.id}`,
+                            });
+                            box.checked =
+                                Array.isArray(rule.value) && rule.value.includes(option.id);
+                            box.addEventListener("change", () =>
+                                this.#toggleOption(rule, option.id, box.checked),
+                            );
+                            return el("label", { class: "filter-choice" }, box, option.label);
+                        }),
+                    ),
+                ];
             }
             return [];
         };
@@ -311,50 +410,170 @@ export class FilterBuilder extends HTMLElement {
         const ruleView = (rule: FilterRule, group: FilterGroup): HTMLElement => {
             const field = fieldById.get(rule.field);
             const n = ruleNumbers.get(rule.id) ?? 0;
-            const fieldSelect = el("select", { class: "filter-field", "data-filter-field": rule.id, "aria-label": labels.field, disabled: readonly, "data-focus-key": `${rule.id}:field` },
-                ...this.#fields.map((f) => el("option", { value: f.id }, f.label)));
+            const fieldSelect = el(
+                "select",
+                {
+                    class: "filter-field",
+                    "data-filter-field": rule.id,
+                    "aria-label": labels.field,
+                    disabled: readonly,
+                    "data-focus-key": `${rule.id}:field`,
+                },
+                ...this.#fields.map((f) => el("option", { value: f.id }, f.label)),
+            );
             fieldSelect.value = rule.field;
-            fieldSelect.addEventListener("change", () => this.#setRule(rule.id, (r) => changeField(r, this.#fields, fieldSelect.value)));
+            fieldSelect.addEventListener("change", () =>
+                this.#setRule(rule.id, (r) => changeField(r, this.#fields, fieldSelect.value)),
+            );
             const parts: Node[] = [fieldSelect];
             if (field) {
-                const operatorSelect = el("select", { class: "filter-operator", "aria-label": labels.operator, disabled: readonly, "data-focus-key": `${rule.id}:operator` },
-                    ...operatorsFor(field).map((op) => el("option", { value: op }, labels.operatorName(op, field))));
+                const operatorSelect = el(
+                    "select",
+                    {
+                        class: "filter-operator",
+                        "aria-label": labels.operator,
+                        disabled: readonly,
+                        "data-focus-key": `${rule.id}:operator`,
+                    },
+                    ...operatorsFor(field).map((op) =>
+                        el("option", { value: op }, labels.operatorName(op, field)),
+                    ),
+                );
                 operatorSelect.value = rule.operator;
-                operatorSelect.addEventListener("change", () => this.#setRule(rule.id, (r) => changeOperator(r, operatorSelect.value as FilterOperator)));
+                operatorSelect.addEventListener("change", () =>
+                    this.#setRule(rule.id, (r) =>
+                        changeOperator(r, operatorSelect.value as FilterOperator),
+                    ),
+                );
                 parts.push(operatorSelect, ...valueEditor(rule, field));
             }
             if (!readonly) {
-                const remove = el("button", { type: "button", class: "filter-remove-rule-button", "data-focus-key": `${rule.id}:remove` }, labels.removeRule(n));
+                const remove = el(
+                    "button",
+                    {
+                        type: "button",
+                        class: "filter-remove-rule-button",
+                        "data-focus-key": `${rule.id}:remove`,
+                    },
+                    labels.removeRule(n),
+                );
                 remove.addEventListener("click", () => this.#removeRule(rule, group.id));
                 parts.push(remove);
             }
-            return el("div", { class: "filter-rule", role: "group", "aria-label": labels.rule(n), "data-rule-id": rule.id }, ...parts);
+            return el(
+                "div",
+                {
+                    class: "filter-rule",
+                    role: "group",
+                    "aria-label": labels.rule(n),
+                    "data-rule-id": rule.id,
+                },
+                ...parts,
+            );
         };
 
-        const groupView = (group: FilterGroup, depth: number, parentId: string | null): HTMLElement => {
-            const combinator = el("select", { class: "filter-combinator", "aria-label": labels.combinator, disabled: readonly, "data-focus-key": `${group.id}:combinator` },
-                el("option", { value: "and" }, labels.and), el("option", { value: "or" }, labels.or));
+        const groupView = (
+            group: FilterGroup,
+            depth: number,
+            parentId: string | null,
+        ): HTMLElement => {
+            const combinator = el(
+                "select",
+                {
+                    class: "filter-combinator",
+                    "aria-label": labels.combinator,
+                    disabled: readonly,
+                    "data-focus-key": `${group.id}:combinator`,
+                },
+                el("option", { value: "and" }, labels.and),
+                el("option", { value: "or" }, labels.or),
+            );
             combinator.value = group.combinator;
-            combinator.addEventListener("change", () => this.#setGroup(group.id, (g) => ({ ...g, combinator: combinator.value === "or" ? "or" : "and" })));
-            const not = el("input", { type: "checkbox", disabled: readonly, "data-focus-key": `${group.id}:not` });
+            combinator.addEventListener("change", () =>
+                this.#setGroup(group.id, (g) => ({
+                    ...g,
+                    combinator: combinator.value === "or" ? "or" : "and",
+                })),
+            );
+            const not = el("input", {
+                type: "checkbox",
+                disabled: readonly,
+                "data-focus-key": `${group.id}:not`,
+            });
             not.checked = !!group.not;
-            not.addEventListener("change", () => this.#setGroup(group.id, (g) => ({ ...g, not: not.checked || undefined })));
-            const header = el("div", { class: "filter-group-header" }, combinator, el("label", { class: "filter-not" }, not, labels.not));
+            not.addEventListener("change", () =>
+                this.#setGroup(group.id, (g) => ({ ...g, not: not.checked || undefined })),
+            );
+            const header = el(
+                "div",
+                { class: "filter-group-header" },
+                combinator,
+                el("label", { class: "filter-not" }, not, labels.not),
+            );
             if (parentId !== null && !readonly) {
-                const remove = el("button", { type: "button", class: "filter-remove-group-button", "data-focus-key": `${group.id}:remove` }, labels.removeGroup(depth));
+                const remove = el(
+                    "button",
+                    {
+                        type: "button",
+                        class: "filter-remove-group-button",
+                        "data-focus-key": `${group.id}:remove`,
+                    },
+                    labels.removeGroup(depth),
+                );
                 remove.addEventListener("click", () => this.#removeGroup(group, parentId, depth));
                 header.append(remove);
             }
-            const list = el("ul", { class: "filter-rules" },
-                ...group.children.map((child: FilterNode) => el("li", { class: "filter-item" }, child.type === "group" ? groupView(child, depth + 1, group.id) : ruleView(child, group))));
-            const view = el("div", { class: "filter-group", role: "group", "aria-label": labels.group(depth), "data-depth": String(depth), "data-group-id": group.id },
-                header, group.children.length === 0 && labels.empty ? el("p", { class: "filter-empty" }, labels.empty) : null, list);
+            const list = el(
+                "ul",
+                { class: "filter-rules" },
+                ...group.children.map((child: FilterNode) =>
+                    el(
+                        "li",
+                        { class: "filter-item" },
+                        child.type === "group"
+                            ? groupView(child, depth + 1, group.id)
+                            : ruleView(child, group),
+                    ),
+                ),
+            );
+            const view = el(
+                "div",
+                {
+                    class: "filter-group",
+                    role: "group",
+                    "aria-label": labels.group(depth),
+                    "data-depth": String(depth),
+                    "data-group-id": group.id,
+                },
+                header,
+                group.children.length === 0 && labels.empty
+                    ? el("p", { class: "filter-empty" }, labels.empty)
+                    : null,
+                list,
+            );
             if (!readonly) {
-                const addRule = el("button", { type: "button", class: "filter-add-rule-button", "data-filter-add-rule": group.id, "data-focus-key": `${group.id}:add-rule` }, labels.addRule);
+                const addRule = el(
+                    "button",
+                    {
+                        type: "button",
+                        class: "filter-add-rule-button",
+                        "data-filter-add-rule": group.id,
+                        "data-focus-key": `${group.id}:add-rule`,
+                    },
+                    labels.addRule,
+                );
                 addRule.addEventListener("click", () => this.#addRule(group.id));
                 const actions = el("div", { class: "filter-group-actions" }, addRule);
                 if (depth < maxDepth) {
-                    const addGroup = el("button", { type: "button", class: "filter-add-group-button", "data-focus-key": `${group.id}:add-group` }, labels.addGroup);
+                    const addGroup = el(
+                        "button",
+                        {
+                            type: "button",
+                            class: "filter-add-group-button",
+                            "data-focus-key": `${group.id}:add-group`,
+                        },
+                        labels.addGroup,
+                    );
                     addGroup.addEventListener("click", () => this.#addGroup(group.id, depth));
                     actions.append(addGroup);
                 }
@@ -364,19 +583,39 @@ export class FilterBuilder extends HTMLElement {
         };
 
         const format = this.format;
-        const root = el("div", { class: `filter ${this.getAttribute("class") ?? ""}`.trim(), role: "group", "aria-label": this.label, "data-readonly": readonly || undefined },
+        const root = el(
+            "div",
+            {
+                class: `filter ${this.getAttribute("class") ?? ""}`.trim(),
+                role: "group",
+                "aria-label": this.label,
+                "data-readonly": readonly || undefined,
+            },
             groupView(this.#value, 1, null),
             format && labels.output
-                ? el("div", { class: "filter-output", role: "group", "aria-label": labels.output, "data-format": format }, el("pre", { class: "filter-output-text" }, this.#outputText()))
+                ? el(
+                      "div",
+                      {
+                          class: "filter-output",
+                          role: "group",
+                          "aria-label": labels.output,
+                          "data-format": format,
+                      },
+                      el("pre", { class: "filter-output-text" }, this.#outputText()),
+                  )
                 : null,
-            el("p", { class: "filter-status", "aria-live": "polite" }, this.#status));
+            el("p", { class: "filter-status", "aria-live": "polite" }, this.#status),
+        );
         this.replaceChildren(root);
-        if (keep) this.querySelector<HTMLElement>(`[data-focus-key="${CSS.escape(keep)}"]`)?.focus();
+        if (keep)
+            this.querySelector<HTMLElement>(`[data-focus-key="${CSS.escape(keep)}"]`)?.focus();
     }
 
     #outputText(): string {
         const format = this.format;
-        return format && this.#labels?.output ? formatFilter(this.#value, this.#fields, format, this.dialect) : "";
+        return format && this.#labels?.output
+            ? formatFilter(this.#value, this.#fields, format, this.dialect)
+            : "";
     }
 
     #renderOutput(): void {

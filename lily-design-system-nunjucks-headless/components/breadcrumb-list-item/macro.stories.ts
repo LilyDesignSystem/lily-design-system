@@ -1,12 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<li
   class="breadcrumb-list-item"></li>`;
 
 const meta = {
-  title: 'Headless/BreadcrumbListItem',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/BreadcrumbListItem",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

@@ -8,4 +8,6 @@
   border-radius: 6px;
   max-width: 20rem;
 }
-.emoji-character-picker[hidden] { display: none; }
+.emoji-character-picker[hidden] {
+  display: none;
+}

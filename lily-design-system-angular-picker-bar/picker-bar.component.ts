@@ -20,10 +20,7 @@ import {
   type ShareStrategy,
   type ShareTarget,
 } from "@lilydesignsystem/angular-share-picker";
-import {
-  SearchPicker,
-  type SearchEvent,
-} from "@lilydesignsystem/angular-search-picker";
+import { SearchPicker, type SearchEvent } from "@lilydesignsystem/angular-search-picker";
 
 /**
  * All 57 Lily reference theme slugs (see `themes/` at the repo root),
@@ -152,7 +149,15 @@ export type PickerBarLabels = {
 @Component({
   selector: "lily-picker-bar",
   standalone: true,
-  imports: [LinkPicker, SearchPicker, ThemePicker, LocalePicker, TextSizePicker, TimeZonePicker, SharePicker],
+  imports: [
+    LinkPicker,
+    SearchPicker,
+    ThemePicker,
+    LocalePicker,
+    TextSizePicker,
+    TimeZonePicker,
+    SharePicker,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="picker-bar {{ className() }}">

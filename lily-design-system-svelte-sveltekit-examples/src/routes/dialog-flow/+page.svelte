@@ -46,17 +46,21 @@
         <Button onclick={() => (showAlert = true)}>Open Alert Dialog</Button>
     </div>
 
-    <Dialog label="Example dialog" bind:open={showDialog}>
+    <Dialog
+        label="Example dialog"
+        bind:open={showDialog}
+    >
         <h2>Dialog Title</h2>
         <p>This is a modal dialog. Press Escape or click Close to dismiss.</p>
         <Button onclick={() => (showDialog = false)}>Close</Button>
     </Dialog>
 
-    <AlertDialog label="Confirm deletion" bind:open={showAlert}>
+    <AlertDialog
+        label="Confirm deletion"
+        bind:open={showAlert}
+    >
         <h2>Are you sure?</h2>
-        <p>
-            This action cannot be undone. All data will be permanently deleted.
-        </p>
+        <p>This action cannot be undone. All data will be permanently deleted.</p>
         <div style="display: flex; gap: var(--nhs-space-3);">
             <Button onclick={() => (showAlert = false)}>Cancel</Button>
             <Button onclick={() => (showAlert = false)}>Delete</Button>
@@ -68,25 +72,34 @@
         style="display: flex; gap: var(--nhs-space-3); flex-wrap: wrap; margin-bottom: var(--nhs-space-4);"
     >
         <Button onclick={() => (showDrawer = true)}>Open Drawer</Button>
-        <Button onclick={() => (showSlideOut = true)}
-            >Open Slide-Out Drawer</Button
-        >
+        <Button onclick={() => (showSlideOut = true)}>Open Slide-Out Drawer</Button>
         <Button onclick={() => (showSheet = true)}>Open Sheet</Button>
     </div>
 
-    <Drawer label="Settings drawer" bind:open={showDrawer} side="right">
+    <Drawer
+        label="Settings drawer"
+        bind:open={showDrawer}
+        side="right"
+    >
         <h2>Settings</h2>
         <p>Configure your preferences here.</p>
         <Button onclick={() => (showDrawer = false)}>Close</Button>
     </Drawer>
 
-    <SlideOutDrawer label="Details drawer" bind:open={showSlideOut}>
+    <SlideOutDrawer
+        label="Details drawer"
+        bind:open={showSlideOut}
+    >
         <h2>Record Details</h2>
         <p>Additional information about the selected record.</p>
         <Button onclick={() => (showSlideOut = false)}>Close</Button>
     </SlideOutDrawer>
 
-    <Sheet label="Actions sheet" bind:open={showSheet} side="right">
+    <Sheet
+        label="Actions sheet"
+        bind:open={showSheet}
+        side="right"
+    >
         <h2>Quick Actions</h2>
         <ul>
             <li>Edit record</li>
@@ -102,21 +115,21 @@
         style="display: flex; gap: var(--nhs-space-3); flex-wrap: wrap; margin-bottom: var(--nhs-space-4); align-items: flex-start;"
     >
         <div style="position: relative;">
-            <Button onclick={() => (showPopover = !showPopover)}
-                >Toggle Popover</Button
+            <Button onclick={() => (showPopover = !showPopover)}>Toggle Popover</Button>
+            <Popover
+                label="Info popover"
+                bind:open={showPopover}
             >
-            <Popover label="Info popover" bind:open={showPopover}>
-                <p style="margin: 0;">
-                    This is a popover with additional context.
-                </p>
+                <p style="margin: 0;">This is a popover with additional context.</p>
             </Popover>
         </div>
 
         <div style="position: relative;">
-            <Button onclick={() => (showHoverCard = !showHoverCard)}
-                >Toggle Hover Card</Button
+            <Button onclick={() => (showHoverCard = !showHoverCard)}>Toggle Hover Card</Button>
+            <HoverCard
+                label="User info"
+                bind:open={showHoverCard}
             >
-            <HoverCard label="User info" bind:open={showHoverCard}>
                 <p style="margin: 0;"><strong>Dr. Jane Smith</strong></p>
                 <p style="margin: 0;">Senior Consultant, Cardiology</p>
             </HoverCard>
@@ -141,18 +154,22 @@
         style="display: flex; gap: var(--nhs-space-3); flex-wrap: wrap; margin-bottom: var(--nhs-space-4);"
     >
         <Button onclick={() => (showPopup = !showPopup)}>Toggle Popup</Button>
-        <Button onclick={() => (showFloating = !showFloating)}
-            >Toggle Floating Panel</Button
-        >
+        <Button onclick={() => (showFloating = !showFloating)}>Toggle Floating Panel</Button>
     </div>
 
-    <Popup label="Notification popup" bind:open={showPopup}>
+    <Popup
+        label="Notification popup"
+        bind:open={showPopup}
+    >
         <h3>Notification</h3>
         <p>Your changes have been saved successfully.</p>
         <Button onclick={() => (showPopup = false)}>Dismiss</Button>
     </Popup>
 
-    <FloatingPanel label="Quick notes" open={showFloating}>
+    <FloatingPanel
+        label="Quick notes"
+        open={showFloating}
+    >
         <h3>Quick Notes</h3>
         <p>This floating panel stays visible as you scroll.</p>
         <Button onclick={() => (showFloating = false)}>Close</Button>
@@ -162,8 +179,8 @@
 
     <Collapsible summary="What is the NHS?">
         <p>
-            The National Health Service (NHS) is the publicly funded healthcare
-            system in the United Kingdom.
+            The National Health Service (NHS) is the publicly funded healthcare system in the United
+            Kingdom.
         </p>
     </Collapsible>
 

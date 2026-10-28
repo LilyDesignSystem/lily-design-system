@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<input
   class="bharat-aadhaar-input"
@@ -8,9 +8,9 @@ const html = `<input
   aria-label="India's Aadhaar (आधार)">`;
 
 const meta = {
-  title: 'Headless/BharatAadhaarInput',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/BharatAadhaarInput",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

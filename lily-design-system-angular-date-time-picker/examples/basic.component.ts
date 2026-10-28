@@ -14,10 +14,7 @@
     ../index.md "You must supply the CSS".
 */
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import {
-  DateTimePicker,
-  type DateTimePickerLabels,
-} from "../date-time-picker.component";
+import { DateTimePicker, type DateTimePickerLabels } from "../date-time-picker.component";
 
 @Component({
   selector: "example-basic",

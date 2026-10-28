@@ -71,17 +71,12 @@ export type ShareEvent = {
 
 /** Is a native share sheet available? SSR-safe. */
 export function canShareNatively(): boolean {
-  return (
-    typeof navigator !== "undefined" && typeof navigator.share === "function"
-  );
+  return typeof navigator !== "undefined" && typeof navigator.share === "function";
 }
 
 /** Is an async clipboard available? SSR-safe. */
 export function canCopy(): boolean {
-  return (
-    typeof navigator !== "undefined" &&
-    typeof navigator.clipboard?.writeText === "function"
-  );
+  return typeof navigator !== "undefined" && typeof navigator.clipboard?.writeText === "function";
 }
 
 let uid = 0;
@@ -279,14 +274,12 @@ export class SharePicker {
   /** Projected icon template; replaces the default icon when supplied. */
   protected readonly iconTemplate = contentChild(TemplateRef);
 
-  private readonly rootRef =
-    viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
+  private readonly rootRef = viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
   // Angular resolves a template-ref-variable on a component tag to the
   // component INSTANCE by default (not its ElementRef) — exactly what's
   // needed to call the headless component's own public `focus()` method.
   private readonly buttonRef = viewChild.required<IconButton>("buttonEl");
-  private readonly listRef =
-    viewChild.required<ElementRef<HTMLUListElement>>("listEl");
+  private readonly listRef = viewChild.required<ElementRef<HTMLUListElement>>("listEl");
 
   private readonly baseId = nextSharePickerId();
   protected readonly listId = `${this.baseId}-list`;
@@ -325,9 +318,7 @@ export class SharePicker {
     // Keyboard focus only: a mouse click also focuses the button in
     // Chromium, and the tooltip should not stick after a click.
     try {
-      this.focusButton.set(
-        this.buttonRef().element?.matches(":focus-visible") ?? false,
-      );
+      this.focusButton.set(this.buttonRef().element?.matches(":focus-visible") ?? false);
     } catch {
       this.focusButton.set(true); // engine without :focus-visible — err towards showing
     }
@@ -419,18 +410,16 @@ export class SharePicker {
     // a rejection caught only by a native `await` is still reported as an
     // unhandled error against the click event task. Attaching the handler
     // at the call site keeps the console clean.
-    return navigator
-      .share({ url: shareUrl, title: this.title(), text: this.text() })
-      .then(
-        () => {
-          this.nativeShare.emit(shareUrl);
-          return true;
-        },
-        // A rejection here is almost always the user dismissing the
-        // sheet, which is not an error and must not fall through to the
-        // list — that would reopen UI they just dismissed.
-        () => true,
-      );
+    return navigator.share({ url: shareUrl, title: this.title(), text: this.text() }).then(
+      () => {
+        this.nativeShare.emit(shareUrl);
+        return true;
+      },
+      // A rejection here is almost always the user dismissing the
+      // sheet, which is not an error and must not fall through to the
+      // list — that would reopen UI they just dismissed.
+      () => true,
+    );
   }
 
   protected async onButtonClick(): Promise<void> {

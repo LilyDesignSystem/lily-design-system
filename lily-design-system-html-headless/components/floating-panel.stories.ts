@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="floating-panel"
@@ -9,9 +9,9 @@ const html = `<div
 </div>`;
 
 const meta = {
-  title: 'Headless/FloatingPanel',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/FloatingPanel",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

@@ -30,24 +30,34 @@ async function expectNoViolations(page: import("@playwright/test").Page, label: 
     const summary = results.violations
       .map((v) => `  - ${v.id} (${v.impact}): ${v.help} [${v.nodes.length} node(s)]`)
       .join("\n");
-    throw new Error(`axe found ${results.violations.length} WCAG violations on ${label}:\n${summary}`);
+    throw new Error(
+      `axe found ${results.violations.length} WCAG violations on ${label}:\n${summary}`,
+    );
   }
 }
 
 test.describe("book an appointment: happy path", () => {
-  test("reason -> date and time -> your details -> check answers -> confirmation", async ({ page }) => {
+  test("reason -> date and time -> your details -> check answers -> confirmation", async ({
+    page,
+  }) => {
     await page.goto("/book-an-appointment");
-    await expect(page.getByRole("heading", { level: 1, name: "Book an appointment" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { level: 1, name: "Book an appointment" }),
+    ).toBeVisible();
     await expectNoViolations(page, "before you start");
 
     await page.getByRole("button", { name: "Start now" }).click();
-    await expect(page.getByRole("heading", { level: 2, name: "Reason for your appointment" })).toBeFocused();
+    await expect(
+      page.getByRole("heading", { level: 2, name: "Reason for your appointment" }),
+    ).toBeFocused();
     await expectNoViolations(page, "step 1: reason (empty)");
 
     await page.getByLabel("Routine check-up").check();
     await page.getByRole("button", { name: "Continue" }).click();
 
-    await expect(page.getByRole("heading", { level: 2, name: "Choose a date and time" })).toBeFocused();
+    await expect(
+      page.getByRole("heading", { level: 2, name: "Choose a date and time" }),
+    ).toBeFocused();
     await expectNoViolations(page, "step 2: date and time (empty)");
 
     await page.getByLabel("Preferred date", { exact: true }).fill("2027-01-15");
@@ -163,7 +173,9 @@ test.describe("book an appointment: navigation", () => {
     await page.getByRole("button", { name: "Continue" }).click();
 
     await page.getByRole("button", { name: "Back" }).click();
-    await expect(page.getByRole("heading", { level: 2, name: "Reason for your appointment" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { level: 2, name: "Reason for your appointment" }),
+    ).toBeVisible();
     await expect(page.getByLabel("Routine check-up")).toBeChecked();
   });
 

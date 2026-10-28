@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<figure
   class="graphic-block"
@@ -14,9 +14,9 @@ const html = `<figure
 </figure>`;
 
 const meta = {
-  title: 'Headless/GraphicBlock',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/GraphicBlock",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

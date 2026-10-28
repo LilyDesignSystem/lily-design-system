@@ -67,13 +67,14 @@
 <main class="page-wrapper">
     <BackLink href="/">Back to examples</BackLink>
 
-    <Form label="File upload form" onsubmit={handleSubmit}>
+    <Form
+        label="File upload form"
+        onsubmit={handleSubmit}
+    >
         <h2>Upload Documents</h2>
 
         <Field label="Select a file">
-            <Hint
-                >Accepted formats: PDF, DOC, DOCX, JPG, PNG. Maximum 10MB.</Hint
-            >
+            <Hint>Accepted formats: PDF, DOC, DOCX, JPG, PNG. Maximum 10MB.</Hint>
             <FileInput
                 label="Choose a document"
                 accept=".pdf,.doc,.docx,.jpg,.png"
@@ -92,7 +93,10 @@
 
         <Field label="Upload a photo">
             <Hint>Select an image file for your profile</Hint>
-            <ImageFileInput label="Choose a photo" accept="image/*" />
+            <ImageFileInput
+                label="Choose a photo"
+                accept="image/*"
+            />
         </Field>
 
         {#if error}
@@ -113,9 +117,7 @@
 
         {#if uploadedFiles.length > 0}
             <h3>Uploaded Files</h3>
-            <ul
-                style="list-style: none; padding: 0; margin-bottom: var(--nhs-space-4);"
-            >
+            <ul style="list-style: none; padding: 0; margin-bottom: var(--nhs-space-4);">
                 {#each uploadedFiles as file, i}
                     <li
                         style="display: flex; align-items: center; gap: var(--nhs-space-2); padding: var(--nhs-space-2) 0; border-bottom: 1px solid var(--nhs-pale-grey);"

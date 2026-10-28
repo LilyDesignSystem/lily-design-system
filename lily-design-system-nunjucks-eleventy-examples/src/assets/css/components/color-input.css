@@ -7,6 +7,11 @@
   cursor: pointer;
 }
 
-.color-input[aria-invalid="true"] { border-color: var(--nhsuk-red); }
+.color-input[aria-invalid="true"] {
+  border-color: var(--nhsuk-red);
+}
 
-.color-input[disabled] { cursor: not-allowed; opacity: 0.5; }
+.color-input[disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

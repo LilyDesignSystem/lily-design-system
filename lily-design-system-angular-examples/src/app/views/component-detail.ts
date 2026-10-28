@@ -64,10 +64,9 @@ import { components } from "../components-data";
 export default class ComponentDetailPage {
   private readonly sanitizer = inject(DomSanitizer);
   private readonly route = inject(ActivatedRoute);
-  protected readonly slug = toSignal(
-    this.route.paramMap.pipe(map((p) => p.get("slug"))),
-    { initialValue: this.route.snapshot.paramMap.get("slug") },
-  );
+  protected readonly slug = toSignal(this.route.paramMap.pipe(map((p) => p.get("slug"))), {
+    initialValue: this.route.snapshot.paramMap.get("slug"),
+  });
 
   protected readonly meta = computed(() => {
     const s = this.slug();
@@ -76,7 +75,7 @@ export default class ComponentDetailPage {
 
   protected readonly demoSource = computed(() => {
     const s = this.slug();
-    return s ? componentDemos[s] ?? "" : "";
+    return s ? (componentDemos[s] ?? "") : "";
   });
 
   protected readonly variants = computed(() => {

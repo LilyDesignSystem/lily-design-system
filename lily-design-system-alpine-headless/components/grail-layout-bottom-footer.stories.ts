@@ -1,11 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = "<footer\n  class=\"grail-layout-bottom-footer\"\n  aria-label=\"\"\n>\n  <!-- Consumer provides content -->\n</footer>";
+const html =
+    '<footer\n  class="grail-layout-bottom-footer"\n  aria-label=""\n>\n  <!-- Consumer provides content -->\n</footer>';
 
 const meta = {
-  title: 'Headless/Grail Layout Bottom Footer',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/Grail Layout Bottom Footer",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

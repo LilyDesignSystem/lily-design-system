@@ -14,11 +14,24 @@ import { foldText } from "./search-text";
 export type FilterFieldType = "text" | "number" | "date" | "select" | "boolean";
 
 export type FilterOperator =
-    | "contains" | "not-contains" | "equals" | "not-equals" | "starts-with" | "ends-with"
-    | "gt" | "gte" | "lt" | "lte" | "between" | "not-between"
-    | "in" | "not-in"
-    | "is-empty" | "is-not-empty"
-    | "is-true" | "is-false";
+    | "contains"
+    | "not-contains"
+    | "equals"
+    | "not-equals"
+    | "starts-with"
+    | "ends-with"
+    | "gt"
+    | "gte"
+    | "lt"
+    | "lte"
+    | "between"
+    | "not-between"
+    | "in"
+    | "not-in"
+    | "is-empty"
+    | "is-not-empty"
+    | "is-true"
+    | "is-false";
 
 export type FilterOption = { id: string; label: string };
 
@@ -69,18 +82,64 @@ export class FilterError extends Error {}
 // ---------------------------------------------------------------------
 
 const OPERATORS_BY_TYPE: Record<FilterFieldType, FilterOperator[]> = {
-    text: ["contains", "not-contains", "equals", "not-equals", "starts-with", "ends-with", "is-empty", "is-not-empty"],
-    number: ["equals", "not-equals", "gt", "gte", "lt", "lte", "between", "not-between", "is-empty", "is-not-empty"],
-    date: ["equals", "not-equals", "gt", "gte", "lt", "lte", "between", "not-between", "is-empty", "is-not-empty"],
+    text: [
+        "contains",
+        "not-contains",
+        "equals",
+        "not-equals",
+        "starts-with",
+        "ends-with",
+        "is-empty",
+        "is-not-empty",
+    ],
+    number: [
+        "equals",
+        "not-equals",
+        "gt",
+        "gte",
+        "lt",
+        "lte",
+        "between",
+        "not-between",
+        "is-empty",
+        "is-not-empty",
+    ],
+    date: [
+        "equals",
+        "not-equals",
+        "gt",
+        "gte",
+        "lt",
+        "lte",
+        "between",
+        "not-between",
+        "is-empty",
+        "is-not-empty",
+    ],
     select: ["equals", "not-equals", "in", "not-in", "is-empty", "is-not-empty"],
     boolean: ["is-true", "is-false", "is-empty", "is-not-empty"],
 };
 
 /** Every operator id, so an app can check that its `labels.operatorName` names them all in each language. */
 export const ALL_OPERATORS: readonly FilterOperator[] = [
-    "contains", "not-contains", "equals", "not-equals", "starts-with", "ends-with",
-    "gt", "gte", "lt", "lte", "between", "not-between", "in", "not-in",
-    "is-empty", "is-not-empty", "is-true", "is-false",
+    "contains",
+    "not-contains",
+    "equals",
+    "not-equals",
+    "starts-with",
+    "ends-with",
+    "gt",
+    "gte",
+    "lt",
+    "lte",
+    "between",
+    "not-between",
+    "in",
+    "not-in",
+    "is-empty",
+    "is-not-empty",
+    "is-true",
+    "is-false",
 ];
 
 export const fieldType = (field: FilterField | undefined): FilterFieldType => field?.type ?? "text";
@@ -93,11 +152,16 @@ export function operatorsFor(field: FilterField | undefined): FilterOperator[] {
 /** How many values an operator takes: none, one, two (a range) or a list. */
 export function valueArity(operator: FilterOperator): 0 | 1 | 2 | "many" {
     switch (operator) {
-        case "is-empty": case "is-not-empty": case "is-true": case "is-false":
+        case "is-empty":
+        case "is-not-empty":
+        case "is-true":
+        case "is-false":
             return 0;
-        case "between": case "not-between":
+        case "between":
+        case "not-between":
             return 2;
-        case "in": case "not-in":
+        case "in":
+        case "not-in":
             return "many";
         default:
             return 1;
@@ -114,15 +178,27 @@ export const newId = (prefix = "n"): string => `${prefix}${++counter}`;
 
 export function createRule(fields: readonly FilterField[], fieldId?: string): FilterRule {
     const field = fields.find((f) => f.id === fieldId) ?? fields[0];
-    return { type: "rule", id: newId("r"), field: field?.id ?? "", operator: operatorsFor(field)[0] ?? "contains" };
+    return {
+        type: "rule",
+        id: newId("r"),
+        field: field?.id ?? "",
+        operator: operatorsFor(field)[0] ?? "contains",
+    };
 }
 
-export const createGroup = (combinator: FilterCombinator = "and", children: FilterNode[] = []): FilterGroup => ({ type: "group", id: newId("g"), combinator, children });
+export const createGroup = (
+    combinator: FilterCombinator = "and",
+    children: FilterNode[] = [],
+): FilterGroup => ({ type: "group", id: newId("g"), combinator, children });
 
 export const EMPTY_FILTER = (): FilterGroup => createGroup("and");
 
 /** Replace the node with `id` by `change(node)` (return `null` to delete it). The rest of the tree is shared, not copied. */
-export function updateNode(root: FilterGroup, id: string, change: (node: FilterNode) => FilterNode | null): FilterGroup {
+export function updateNode(
+    root: FilterGroup,
+    id: string,
+    change: (node: FilterNode) => FilterNode | null,
+): FilterGroup {
     if (root.id === id) {
         const next = change(root);
         return next && next.type === "group" ? next : root;
@@ -143,18 +219,33 @@ export function updateNode(root: FilterGroup, id: string, change: (node: FilterN
     return changed ? { ...root, children } : root;
 }
 
-export const removeNode = (root: FilterGroup, id: string): FilterGroup => updateNode(root, id, () => null);
+export const removeNode = (root: FilterGroup, id: string): FilterGroup =>
+    updateNode(root, id, () => null);
 
 /** Add `node` at the end of the group `parentId` (the root when it is not found). */
 export function addNode(root: FilterGroup, parentId: string, node: FilterNode): FilterGroup {
-    return updateNode(root, parentId, (g) => (g.type === "group" ? { ...g, children: [...g.children, node] } : g));
+    return updateNode(root, parentId, (g) =>
+        g.type === "group" ? { ...g, children: [...g.children, node] } : g,
+    );
 }
 
 /** A rule with another field: its operator resets to that field's first when the old one does not apply, and its values clear. */
-export function changeField(rule: FilterRule, fields: readonly FilterField[], fieldId: string): FilterRule {
+export function changeField(
+    rule: FilterRule,
+    fields: readonly FilterField[],
+    fieldId: string,
+): FilterRule {
     const field = fields.find((f) => f.id === fieldId);
     const operators = operatorsFor(field);
-    return { ...rule, field: fieldId, operator: operators.includes(rule.operator) ? rule.operator : (operators[0] ?? rule.operator), value: undefined, value2: undefined };
+    return {
+        ...rule,
+        field: fieldId,
+        operator: operators.includes(rule.operator)
+            ? rule.operator
+            : (operators[0] ?? rule.operator),
+        value: undefined,
+        value2: undefined,
+    };
 }
 
 /** A rule with another operator: values it no longer needs are dropped, and a list is kept only for `in`. */
@@ -164,7 +255,16 @@ export function changeOperator(rule: FilterRule, operator: FilterOperator): Filt
     return {
         ...rule,
         operator,
-        value: arity === 0 ? undefined : arity === "many" ? (wasMany ? rule.value : undefined) : wasMany ? undefined : rule.value,
+        value:
+            arity === 0
+                ? undefined
+                : arity === "many"
+                  ? wasMany
+                      ? rule.value
+                      : undefined
+                  : wasMany
+                    ? undefined
+                    : rule.value,
         value2: arity === 2 ? rule.value2 : undefined,
     };
 }
@@ -190,7 +290,13 @@ export function isIsoDate(value: unknown): value is string {
 
 const isNumber = (v: unknown): v is number => typeof v === "number" && Number.isFinite(v);
 
-export type RuleIssue = "unknown-field" | "unknown-operator" | "missing-value" | "invalid-value" | "range-order" | "unknown-option";
+export type RuleIssue =
+    | "unknown-field"
+    | "unknown-operator"
+    | "missing-value"
+    | "invalid-value"
+    | "range-order"
+    | "unknown-option";
 
 /** Why a rule cannot be applied, or `undefined` when it can. An incomplete rule is a normal state while the user is still typing. */
 export function ruleIssue(rule: FilterRule, fields: readonly FilterField[]): RuleIssue | undefined {
@@ -204,7 +310,10 @@ export function ruleIssue(rule: FilterRule, fields: readonly FilterField[]): Rul
         if (v === undefined || v === null || v === "") return "missing-value";
         if (type === "number") return isNumber(v) ? undefined : "invalid-value";
         if (type === "date") return isIsoDate(v) ? undefined : "invalid-value";
-        if (type === "select") return typeof v === "string" && (field.options ?? []).some((o) => o.id === v) ? undefined : "unknown-option";
+        if (type === "select")
+            return typeof v === "string" && (field.options ?? []).some((o) => o.id === v)
+                ? undefined
+                : "unknown-option";
         return typeof v === "string" ? undefined : "invalid-value";
     };
     if (arity === "many") {
@@ -248,45 +357,74 @@ export function normalise(group: FilterGroup, fields: readonly FilterField[]): F
 // ---------------------------------------------------------------------
 
 const asText = (v: unknown): string => (v === null || v === undefined ? "" : String(v));
-const isBlank = (v: unknown): boolean => v === null || v === undefined || v === "" || (Array.isArray(v) && v.length === 0);
+const isBlank = (v: unknown): boolean =>
+    v === null || v === undefined || v === "" || (Array.isArray(v) && v.length === 0);
 
 function ruleMatches(rule: FilterRule, field: FilterField, row: Record<string, unknown>): boolean {
     const raw = row[field.id];
     const type = fieldType(field);
     const { operator, value, value2 } = rule;
     switch (operator) {
-        case "is-empty": return isBlank(raw);
-        case "is-not-empty": return !isBlank(raw);
-        case "is-true": return raw === true;
-        case "is-false": return raw === false;
-        case "contains": return foldText(asText(raw)).includes(foldText(asText(value)));
-        case "not-contains": return !foldText(asText(raw)).includes(foldText(asText(value)));
-        case "starts-with": return foldText(asText(raw)).startsWith(foldText(asText(value)));
-        case "ends-with": return foldText(asText(raw)).endsWith(foldText(asText(value)));
-        case "in": return Array.isArray(value) && value.some((v) => asText(raw) === asText(v));
-        case "not-in": return !(Array.isArray(value) && value.some((v) => asText(raw) === asText(v)));
-        default: break;
+        case "is-empty":
+            return isBlank(raw);
+        case "is-not-empty":
+            return !isBlank(raw);
+        case "is-true":
+            return raw === true;
+        case "is-false":
+            return raw === false;
+        case "contains":
+            return foldText(asText(raw)).includes(foldText(asText(value)));
+        case "not-contains":
+            return !foldText(asText(raw)).includes(foldText(asText(value)));
+        case "starts-with":
+            return foldText(asText(raw)).startsWith(foldText(asText(value)));
+        case "ends-with":
+            return foldText(asText(raw)).endsWith(foldText(asText(value)));
+        case "in":
+            return Array.isArray(value) && value.some((v) => asText(raw) === asText(v));
+        case "not-in":
+            return !(Array.isArray(value) && value.some((v) => asText(raw) === asText(v)));
+        default:
+            break;
     }
     // Comparisons: numbers numerically, dates and everything else as text (ISO dates sort as text).
     const left: number | string = type === "number" ? Number(raw) : asText(raw);
     const a: number | string = type === "number" ? Number(value) : asText(value);
     const b: number | string = type === "number" ? Number(value2) : asText(value2);
-    if (isBlank(raw) || (typeof left === "number" && Number.isNaN(left))) return operator === "not-equals" || operator === "not-between";
+    if (isBlank(raw) || (typeof left === "number" && Number.isNaN(left)))
+        return operator === "not-equals" || operator === "not-between";
     switch (operator) {
-        case "equals": return type === "text" ? foldText(left as string) === foldText(a as string) : left === a;
-        case "not-equals": return type === "text" ? foldText(left as string) !== foldText(a as string) : left !== a;
-        case "gt": return left > a;
-        case "gte": return left >= a;
-        case "lt": return left < a;
-        case "lte": return left <= a;
-        case "between": return left >= a && left <= b;
-        case "not-between": return left < a || left > b;
-        default: return false;
+        case "equals":
+            return type === "text"
+                ? foldText(left as string) === foldText(a as string)
+                : left === a;
+        case "not-equals":
+            return type === "text"
+                ? foldText(left as string) !== foldText(a as string)
+                : left !== a;
+        case "gt":
+            return left > a;
+        case "gte":
+            return left >= a;
+        case "lt":
+            return left < a;
+        case "lte":
+            return left <= a;
+        case "between":
+            return left >= a && left <= b;
+        case "not-between":
+            return left < a || left > b;
+        default:
+            return false;
     }
 }
 
 /** A function that says whether a row (a record by field id) passes. An empty filter passes every row. */
-export function toPredicate(group: FilterGroup, fields: readonly FilterField[]): (row: Record<string, unknown>) => boolean {
+export function toPredicate(
+    group: FilterGroup,
+    fields: readonly FilterField[],
+): (row: Record<string, unknown>) => boolean {
     const tree = normalise(group, fields);
     if (!tree) return () => true;
     const byId = new Map(fields.map((f) => [f.id, f]));
@@ -316,7 +454,12 @@ export function toJson(group: FilterGroup, fields: readonly FilterField[]): Filt
         ...(g.not ? { not: true as const } : {}),
         rules: g.children.map((c): FilterJson => {
             if (c.type === "group") return write(c);
-            const out: { field: string; operator: FilterOperator; value?: unknown; value2?: unknown } = { field: c.field, operator: c.operator };
+            const out: {
+                field: string;
+                operator: FilterOperator;
+                value?: unknown;
+                value2?: unknown;
+            } = { field: c.field, operator: c.operator };
             const arity = valueArity(c.operator);
             if (arity !== 0) out.value = c.value;
             if (arity === 2) out.value2 = c.value2;
@@ -327,25 +470,53 @@ export function toJson(group: FilterGroup, fields: readonly FilterField[]): Filt
 }
 
 /** Read `toJson` output back into a tree with fresh ids. Anything that is not a valid rule for `fields` is reported, not guessed at. */
-export function fromJson(json: unknown, fields: readonly FilterField[]): { group: FilterGroup; errors: string[] } {
+export function fromJson(
+    json: unknown,
+    fields: readonly FilterField[],
+): { group: FilterGroup; errors: string[] } {
     const errors: string[] = [];
     const read = (node: unknown, path: string): FilterNode | null => {
         if (typeof node !== "object" || node === null) {
             errors.push(`${path}: not an object`);
             return null;
         }
-        const o = node as { rules?: unknown; combinator?: unknown; not?: unknown; field?: unknown; operator?: unknown; value?: unknown; value2?: unknown };
+        const o = node as {
+            rules?: unknown;
+            combinator?: unknown;
+            not?: unknown;
+            field?: unknown;
+            operator?: unknown;
+            value?: unknown;
+            value2?: unknown;
+        };
         if (Array.isArray(o.rules)) {
-            const combinator = o.combinator === "or" ? "or" : o.combinator === "and" || o.combinator === undefined ? "and" : null;
+            const combinator =
+                o.combinator === "or"
+                    ? "or"
+                    : o.combinator === "and" || o.combinator === undefined
+                      ? "and"
+                      : null;
             if (!combinator) {
                 errors.push(`${path}: unknown combinator`);
                 return null;
             }
-            const children = o.rules.map((r, i) => read(r, `${path}.rules[${i}]`)).filter((c): c is FilterNode => c !== null);
-            return { ...createGroup(combinator, children), ...(o.not === true ? { not: true } : {}) };
+            const children = o.rules
+                .map((r, i) => read(r, `${path}.rules[${i}]`))
+                .filter((c): c is FilterNode => c !== null);
+            return {
+                ...createGroup(combinator, children),
+                ...(o.not === true ? { not: true } : {}),
+            };
         }
         if (typeof o.field === "string" && typeof o.operator === "string") {
-            const rule: FilterRule = { type: "rule", id: newId("r"), field: o.field, operator: o.operator as FilterOperator, value: o.value, value2: o.value2 };
+            const rule: FilterRule = {
+                type: "rule",
+                id: newId("r"),
+                field: o.field,
+                operator: o.operator as FilterOperator,
+                value: o.value,
+                value2: o.value2,
+            };
             const issue = ruleIssue(rule, fields);
             if (issue) {
                 errors.push(`${path}: ${issue}`);
@@ -379,10 +550,14 @@ export type SqlResult = { sql: string; params: unknown[] };
 const IDENTIFIER = /^[A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)*$/;
 
 function quoteIdentifier(name: string, dialect: SqlDialect): string {
-    if (!IDENTIFIER.test(name)) throw new FilterError(`not a plain SQL identifier: ${JSON.stringify(name)}`);
+    if (!IDENTIFIER.test(name))
+        throw new FilterError(`not a plain SQL identifier: ${JSON.stringify(name)}`);
     const open = dialect === "mysql" ? "`" : dialect === "mssql" ? "[" : '"';
     const close = dialect === "mysql" ? "`" : dialect === "mssql" ? "]" : '"';
-    return name.split(".").map((part) => open + part + close).join(".");
+    return name
+        .split(".")
+        .map((part) => open + part + close)
+        .join(".");
 }
 
 const escapeLike = (text: string): string => text.replace(/[\\%_]/g, (c) => `\\${c}`);
@@ -398,7 +573,11 @@ function sqlLiteral(value: unknown): string {
  * The filter as the condition of a SQL `WHERE` clause (without the word) and its parameters. Values are always parameters unless
  * `inline`; column names come only from the declared fields and must be plain identifiers; `LIKE` text is escaped. An empty filter is `{ sql: "", params: [] }`.
  */
-export function toSql(group: FilterGroup, fields: readonly FilterField[], options: SqlOptions = {}): SqlResult {
+export function toSql(
+    group: FilterGroup,
+    fields: readonly FilterField[],
+    options: SqlOptions = {},
+): SqlResult {
     const { dialect = "ansi", inline = false } = options;
     const tree = normalise(group, fields);
     if (!tree) return { sql: "", params: [] };
@@ -406,14 +585,25 @@ export function toSql(group: FilterGroup, fields: readonly FilterField[], option
     const params: unknown[] = [];
     const bind = (value: unknown): string => {
         if (inline) return sqlLiteral(value);
-        params.push(typeof value === "boolean" && (dialect === "mssql" || dialect === "sqlite") ? (value ? 1 : 0) : value);
-        return dialect === "postgres" ? `$${params.length}` : dialect === "mssql" ? `@p${params.length}` : "?";
+        params.push(
+            typeof value === "boolean" && (dialect === "mssql" || dialect === "sqlite")
+                ? value
+                    ? 1
+                    : 0
+                : value,
+        );
+        return dialect === "postgres"
+            ? `$${params.length}`
+            : dialect === "mssql"
+              ? `@p${params.length}`
+              : "?";
     };
     // MySQL reads a backslash in a string literal as an escape itself, so its ESCAPE character is written twice.
     const escapeClause = dialect === "mysql" ? "ESCAPE '\\\\'" : "ESCAPE '\\'";
     const like = (column: string, pattern: string, negate: boolean): string => {
         const op = negate ? "NOT LIKE" : "LIKE";
-        if (dialect === "postgres") return `${column} ${negate ? "NOT ILIKE" : "ILIKE"} ${bind(pattern)} ${escapeClause}`;
+        if (dialect === "postgres")
+            return `${column} ${negate ? "NOT ILIKE" : "ILIKE"} ${bind(pattern)} ${escapeClause}`;
         return `LOWER(${column}) ${op} LOWER(${bind(pattern)}) ${escapeClause}`;
     };
     const rule = (r: FilterRule): string => {
@@ -422,24 +612,50 @@ export function toSql(group: FilterGroup, fields: readonly FilterField[], option
         const type = fieldType(field);
         const v = r.value;
         switch (r.operator) {
-            case "contains": return like(column, `%${escapeLike(String(v))}%`, false);
-            case "not-contains": return like(column, `%${escapeLike(String(v))}%`, true);
-            case "starts-with": return like(column, `${escapeLike(String(v))}%`, false);
-            case "ends-with": return like(column, `%${escapeLike(String(v))}`, false);
-            case "equals": return type === "text" ? `LOWER(${column}) = LOWER(${bind(v)})` : `${column} = ${bind(v)}`;
-            case "not-equals": return type === "text" ? `LOWER(${column}) <> LOWER(${bind(v)})` : `${column} <> ${bind(v)}`;
-            case "gt": return `${column} > ${bind(v)}`;
-            case "gte": return `${column} >= ${bind(v)}`;
-            case "lt": return `${column} < ${bind(v)}`;
-            case "lte": return `${column} <= ${bind(v)}`;
-            case "between": return `${column} BETWEEN ${bind(v)} AND ${bind(r.value2)}`;
-            case "not-between": return `${column} NOT BETWEEN ${bind(v)} AND ${bind(r.value2)}`;
-            case "in": return `${column} IN (${(v as unknown[]).map(bind).join(", ")})`;
-            case "not-in": return `${column} NOT IN (${(v as unknown[]).map(bind).join(", ")})`;
-            case "is-empty": return type === "text" ? `(${column} IS NULL OR ${column} = '')` : `${column} IS NULL`;
-            case "is-not-empty": return type === "text" ? `(${column} IS NOT NULL AND ${column} <> '')` : `${column} IS NOT NULL`;
-            case "is-true": return `${column} = ${bind(true)}`;
-            case "is-false": return `${column} = ${bind(false)}`;
+            case "contains":
+                return like(column, `%${escapeLike(String(v))}%`, false);
+            case "not-contains":
+                return like(column, `%${escapeLike(String(v))}%`, true);
+            case "starts-with":
+                return like(column, `${escapeLike(String(v))}%`, false);
+            case "ends-with":
+                return like(column, `%${escapeLike(String(v))}`, false);
+            case "equals":
+                return type === "text"
+                    ? `LOWER(${column}) = LOWER(${bind(v)})`
+                    : `${column} = ${bind(v)}`;
+            case "not-equals":
+                return type === "text"
+                    ? `LOWER(${column}) <> LOWER(${bind(v)})`
+                    : `${column} <> ${bind(v)}`;
+            case "gt":
+                return `${column} > ${bind(v)}`;
+            case "gte":
+                return `${column} >= ${bind(v)}`;
+            case "lt":
+                return `${column} < ${bind(v)}`;
+            case "lte":
+                return `${column} <= ${bind(v)}`;
+            case "between":
+                return `${column} BETWEEN ${bind(v)} AND ${bind(r.value2)}`;
+            case "not-between":
+                return `${column} NOT BETWEEN ${bind(v)} AND ${bind(r.value2)}`;
+            case "in":
+                return `${column} IN (${(v as unknown[]).map(bind).join(", ")})`;
+            case "not-in":
+                return `${column} NOT IN (${(v as unknown[]).map(bind).join(", ")})`;
+            case "is-empty":
+                return type === "text"
+                    ? `(${column} IS NULL OR ${column} = '')`
+                    : `${column} IS NULL`;
+            case "is-not-empty":
+                return type === "text"
+                    ? `(${column} IS NOT NULL AND ${column} <> '')`
+                    : `${column} IS NOT NULL`;
+            case "is-true":
+                return `${column} = ${bind(true)}`;
+            case "is-false":
+                return `${column} = ${bind(false)}`;
         }
     };
     const write = (g: FilterGroup, top: boolean): string => {
@@ -458,7 +674,10 @@ export function toSql(group: FilterGroup, fields: readonly FilterField[], option
 const escapeRegex = (text: string): string => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 /** The filter as a MongoDB query document. An empty filter is `{}`. */
-export function toMongo(group: FilterGroup, fields: readonly FilterField[]): Record<string, unknown> {
+export function toMongo(
+    group: FilterGroup,
+    fields: readonly FilterField[],
+): Record<string, unknown> {
     const tree = normalise(group, fields);
     if (!tree) return {};
     const byId = new Map(fields.map((f) => [f.id, f]));
@@ -469,29 +688,52 @@ export function toMongo(group: FilterGroup, fields: readonly FilterField[]): Rec
         const v = r.value;
         const regex = (source: string) => ({ $regex: source, $options: "i" });
         switch (r.operator) {
-            case "contains": return { [key]: regex(escapeRegex(String(v))) };
-            case "not-contains": return { [key]: { $not: new RegExp(escapeRegex(String(v)), "i") } };
-            case "starts-with": return { [key]: regex(`^${escapeRegex(String(v))}`) };
-            case "ends-with": return { [key]: regex(`${escapeRegex(String(v))}$`) };
-            case "equals": return { [key]: v };
-            case "not-equals": return { [key]: { $ne: v } };
-            case "gt": return { [key]: { $gt: v } };
-            case "gte": return { [key]: { $gte: v } };
-            case "lt": return { [key]: { $lt: v } };
-            case "lte": return { [key]: { $lte: v } };
-            case "between": return { [key]: { $gte: v, $lte: r.value2 } };
-            case "not-between": return { $or: [{ [key]: { $lt: v } }, { [key]: { $gt: r.value2 } }] };
-            case "in": return { [key]: { $in: v } };
-            case "not-in": return { [key]: { $nin: v } };
-            case "is-empty": return type === "text" ? { $or: [{ [key]: null }, { [key]: "" }] } : { [key]: null };
-            case "is-not-empty": return type === "text" ? { $and: [{ [key]: { $ne: null } }, { [key]: { $ne: "" } }] } : { [key]: { $ne: null } };
-            case "is-true": return { [key]: true };
-            case "is-false": return { [key]: false };
+            case "contains":
+                return { [key]: regex(escapeRegex(String(v))) };
+            case "not-contains":
+                return { [key]: { $not: new RegExp(escapeRegex(String(v)), "i") } };
+            case "starts-with":
+                return { [key]: regex(`^${escapeRegex(String(v))}`) };
+            case "ends-with":
+                return { [key]: regex(`${escapeRegex(String(v))}$`) };
+            case "equals":
+                return { [key]: v };
+            case "not-equals":
+                return { [key]: { $ne: v } };
+            case "gt":
+                return { [key]: { $gt: v } };
+            case "gte":
+                return { [key]: { $gte: v } };
+            case "lt":
+                return { [key]: { $lt: v } };
+            case "lte":
+                return { [key]: { $lte: v } };
+            case "between":
+                return { [key]: { $gte: v, $lte: r.value2 } };
+            case "not-between":
+                return { $or: [{ [key]: { $lt: v } }, { [key]: { $gt: r.value2 } }] };
+            case "in":
+                return { [key]: { $in: v } };
+            case "not-in":
+                return { [key]: { $nin: v } };
+            case "is-empty":
+                return type === "text"
+                    ? { $or: [{ [key]: null }, { [key]: "" }] }
+                    : { [key]: null };
+            case "is-not-empty":
+                return type === "text"
+                    ? { $and: [{ [key]: { $ne: null } }, { [key]: { $ne: "" } }] }
+                    : { [key]: { $ne: null } };
+            case "is-true":
+                return { [key]: true };
+            case "is-false":
+                return { [key]: false };
         }
     };
     const write = (g: FilterGroup): Record<string, unknown> => {
         const parts = g.children.map((c) => (c.type === "rule" ? rule(c) : write(c)));
-        const body = parts.length === 1 ? parts[0] : { [g.combinator === "and" ? "$and" : "$or"]: parts };
+        const body =
+            parts.length === 1 ? parts[0] : { [g.combinator === "and" ? "$and" : "$or"]: parts };
         return g.not ? { $nor: [body] } : body;
     };
     return write(tree);
@@ -512,27 +754,46 @@ export function toOData(group: FilterGroup, fields: readonly FilterField[]): str
         const field = byId.get(r.field)!;
         const name = field.column ?? field.id;
         const type = fieldType(field);
-        const lit = (v: unknown): string => (type === "number" ? String(v) : type === "date" ? String(v) : odataString(v));
+        const lit = (v: unknown): string =>
+            type === "number" ? String(v) : type === "date" ? String(v) : odataString(v);
         const v = r.value;
         switch (r.operator) {
-            case "contains": return `contains(tolower(${name}),tolower(${odataString(v)}))`;
-            case "not-contains": return `not contains(tolower(${name}),tolower(${odataString(v)}))`;
-            case "starts-with": return `startswith(tolower(${name}),tolower(${odataString(v)}))`;
-            case "ends-with": return `endswith(tolower(${name}),tolower(${odataString(v)}))`;
-            case "equals": return `${name} eq ${lit(v)}`;
-            case "not-equals": return `${name} ne ${lit(v)}`;
-            case "gt": return `${name} gt ${lit(v)}`;
-            case "gte": return `${name} ge ${lit(v)}`;
-            case "lt": return `${name} lt ${lit(v)}`;
-            case "lte": return `${name} le ${lit(v)}`;
-            case "between": return `(${name} ge ${lit(v)} and ${name} le ${lit(r.value2)})`;
-            case "not-between": return `(${name} lt ${lit(v)} or ${name} gt ${lit(r.value2)})`;
-            case "in": return `${name} in (${(v as unknown[]).map(lit).join(",")})`;
-            case "not-in": return `not (${name} in (${(v as unknown[]).map(lit).join(",")}))`;
-            case "is-empty": return type === "text" ? `(${name} eq null or ${name} eq '')` : `${name} eq null`;
-            case "is-not-empty": return type === "text" ? `(${name} ne null and ${name} ne '')` : `${name} ne null`;
-            case "is-true": return `${name} eq true`;
-            case "is-false": return `${name} eq false`;
+            case "contains":
+                return `contains(tolower(${name}),tolower(${odataString(v)}))`;
+            case "not-contains":
+                return `not contains(tolower(${name}),tolower(${odataString(v)}))`;
+            case "starts-with":
+                return `startswith(tolower(${name}),tolower(${odataString(v)}))`;
+            case "ends-with":
+                return `endswith(tolower(${name}),tolower(${odataString(v)}))`;
+            case "equals":
+                return `${name} eq ${lit(v)}`;
+            case "not-equals":
+                return `${name} ne ${lit(v)}`;
+            case "gt":
+                return `${name} gt ${lit(v)}`;
+            case "gte":
+                return `${name} ge ${lit(v)}`;
+            case "lt":
+                return `${name} lt ${lit(v)}`;
+            case "lte":
+                return `${name} le ${lit(v)}`;
+            case "between":
+                return `(${name} ge ${lit(v)} and ${name} le ${lit(r.value2)})`;
+            case "not-between":
+                return `(${name} lt ${lit(v)} or ${name} gt ${lit(r.value2)})`;
+            case "in":
+                return `${name} in (${(v as unknown[]).map(lit).join(",")})`;
+            case "not-in":
+                return `not (${name} in (${(v as unknown[]).map(lit).join(",")}))`;
+            case "is-empty":
+                return type === "text" ? `(${name} eq null or ${name} eq '')` : `${name} eq null`;
+            case "is-not-empty":
+                return type === "text" ? `(${name} ne null and ${name} ne '')` : `${name} ne null`;
+            case "is-true":
+                return `${name} eq true`;
+            case "is-false":
+                return `${name} eq false`;
         }
     };
     const write = (g: FilterGroup, top: boolean): string => {
@@ -551,11 +812,20 @@ export function toOData(group: FilterGroup, fields: readonly FilterField[]): str
 export type FilterOutputFormat = "json" | "sql" | "mongo" | "odata";
 
 /** The filter as text in `format`, for showing or copying. SQL shows its values inline (display only). */
-export function formatFilter(group: FilterGroup, fields: readonly FilterField[], format: FilterOutputFormat, dialect: SqlDialect = "ansi"): string {
+export function formatFilter(
+    group: FilterGroup,
+    fields: readonly FilterField[],
+    format: FilterOutputFormat,
+    dialect: SqlDialect = "ansi",
+): string {
     switch (format) {
-        case "json": return JSON.stringify(toJson(group, fields), null, 2);
-        case "sql": return toSql(group, fields, { dialect, inline: true }).sql;
-        case "mongo": return JSON.stringify(toMongo(group, fields), null, 2);
-        case "odata": return toOData(group, fields);
+        case "json":
+            return JSON.stringify(toJson(group, fields), null, 2);
+        case "sql":
+            return toSql(group, fields, { dialect, inline: true }).sql;
+        case "mongo":
+            return JSON.stringify(toMongo(group, fields), null, 2);
+        case "odata":
+            return toOData(group, fields);
     }
 }

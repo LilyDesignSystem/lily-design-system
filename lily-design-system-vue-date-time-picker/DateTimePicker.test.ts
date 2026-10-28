@@ -94,9 +94,7 @@ function hidden() {
     return document.querySelector('input[type="hidden"]') as HTMLInputElement;
 }
 function days(): HTMLButtonElement[] {
-    return Array.from(
-        document.querySelectorAll<HTMLButtonElement>(".date-time-picker-day"),
-    );
+    return Array.from(document.querySelectorAll<HTMLButtonElement>(".date-time-picker-day"));
 }
 function day(iso: string): HTMLButtonElement {
     return document.querySelector(`[data-date="${iso}"]`) as HTMLButtonElement;
@@ -105,7 +103,10 @@ function cursorDate(): string {
     return days().find((d) => d.getAttribute("tabindex") === "0")?.dataset.date ?? "";
 }
 function periodText(): string {
-    return (document.querySelector(".date-time-picker-period") as HTMLElement).textContent?.trim() ?? "";
+    return (
+        (document.querySelector(".date-time-picker-period") as HTMLElement).textContent?.trim() ??
+        ""
+    );
 }
 function byText(text: string): HTMLElement {
     const all = Array.from(document.querySelectorAll<HTMLElement>("button, span"));
@@ -206,9 +207,7 @@ describe("DateTimePicker — civil-date arithmetic", () => {
             date: "2026-03-15",
             time: "09:30",
         });
-        expect(joinValue("2026-03-15", "09:30", "datetime")).toBe(
-            "2026-03-15T09:30",
-        );
+        expect(joinValue("2026-03-15", "09:30", "datetime")).toBe("2026-03-15T09:30");
     });
 
     test("§7.5 joinValue refuses a half datetime", () => {
@@ -281,9 +280,7 @@ describe("DateTimePicker — markup", () => {
         const button = trigger();
         expect(button.getAttribute("aria-haspopup")).toBe("dialog");
         expect(button.getAttribute("aria-expanded")).toBe("false");
-        const controlled = document.getElementById(
-            button.getAttribute("aria-controls") ?? "",
-        );
+        const controlled = document.getElementById(button.getAttribute("aria-controls") ?? "");
         expect(controlled?.getAttribute("role")).toBe("dialog");
         expect(controlled?.getAttribute("aria-modal")).toBe("true");
     });
@@ -336,9 +333,7 @@ describe("DateTimePicker — markup", () => {
     test("§7.15 exactly one day is tabbable (roving tabindex)", async () => {
         build({ value: "2026-03-15" });
         await open();
-        const tabbable = days().filter(
-            (d) => d.getAttribute("tabindex") === "0",
-        );
+        const tabbable = days().filter((d) => d.getAttribute("tabindex") === "0");
         expect(tabbable).toHaveLength(1);
         expect(tabbable[0].dataset.date).toBe("2026-03-15");
     });
@@ -455,9 +450,7 @@ describe("DateTimePicker — keyboard", () => {
     }
 
     function press(key: string, extra: Record<string, unknown> = {}) {
-        grid().dispatchEvent(
-            new KeyboardEvent("keydown", { key, bubbles: true, ...extra }),
-        );
+        grid().dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, ...extra }));
     }
 
     test("§7.24 arrows move the cursor by a day and by a week", async () => {
@@ -561,8 +554,7 @@ describe("DateTimePicker — constraints and shortcuts", () => {
 
     test("§7.30 isDateDisabled vetoes individual days", async () => {
         // A weekends-closed clinic.
-        const isDateDisabled = (iso: string) =>
-            weekdayOf(iso) === 0 || weekdayOf(iso) === 6;
+        const isDateDisabled = (iso: string) => weekdayOf(iso) === 0 || weekdayOf(iso) === 6;
         build({ value: "2026-03-16", isDateDisabled });
         await open();
         expect(day("2026-03-21").getAttribute("aria-disabled")).toBe("true"); // Saturday
@@ -685,8 +677,7 @@ describe("DateTimePicker — typed input", () => {
     });
 
     test("§7.39 a parseInput prop overrides the built-in parser", async () => {
-        const parseInput = (text: string) =>
-            text === "xmas" ? "2026-12-25" : null;
+        const parseInput = (text: string) => (text === "xmas" ? "2026-12-25" : null);
         const wrapper = build({ parseInput });
         const input = field();
         input.value = "xmas";
@@ -788,27 +779,25 @@ describe("DateTimePicker — locale", () => {
     test("§7.45 weekday headings start on Monday for en-GB, Sunday for en-US", async () => {
         const gbWrapper = build({ locale: "en-GB", value: "2026-03-15" });
         await open();
-        const gb = Array.from(
-            document.querySelectorAll(".date-time-picker-weekday"),
-        ).map((th) => th.getAttribute("abbr"));
+        const gb = Array.from(document.querySelectorAll(".date-time-picker-weekday")).map((th) =>
+            th.getAttribute("abbr"),
+        );
         expect(gb[0]).toBe("Monday");
         gbWrapper.unmount();
         wrappers.pop();
 
         build({ locale: "en-US", value: "2026-03-15" });
         await open();
-        const us = Array.from(
-            document.querySelectorAll(".date-time-picker-weekday"),
-        ).map((th) => th.getAttribute("abbr"));
+        const us = Array.from(document.querySelectorAll(".date-time-picker-weekday")).map((th) =>
+            th.getAttribute("abbr"),
+        );
         expect(us[0]).toBe("Sunday");
     });
 
     test("§7.46 firstDayOfWeek overrides the locale", async () => {
         build({ locale: "en-GB", firstDayOfWeek: 0, value: "2026-03-15" });
         await open();
-        const first = document
-            .querySelector(".date-time-picker-weekday")
-            ?.getAttribute("abbr");
+        const first = document.querySelector(".date-time-picker-weekday")?.getAttribute("abbr");
         expect(first).toBe("Sunday");
     });
 
@@ -831,12 +820,12 @@ describe("DateTimePicker — locale", () => {
             labels: { ...LABELS, week: "Wk" },
         });
         await open();
-        expect(
-            document.querySelector(".date-time-picker-week-heading")?.textContent?.trim(),
-        ).toBe("Wk");
-        const weeks = Array.from(
-            document.querySelectorAll(".date-time-picker-week"),
-        ).map((th) => th.textContent?.trim());
+        expect(document.querySelector(".date-time-picker-week-heading")?.textContent?.trim()).toBe(
+            "Wk",
+        );
+        const weeks = Array.from(document.querySelectorAll(".date-time-picker-week")).map((th) =>
+            th.textContent?.trim(),
+        );
         expect(weeks).toHaveLength(6);
         // The grid's first row starts 2026-02-23, which is ISO week 9.
         expect(weeks[0]).toBe("9");
@@ -849,9 +838,7 @@ describe("DateTimePicker — locale", () => {
 
 describe("DateTimePicker — assistive technology", () => {
     function press(key: string, extra: Record<string, unknown> = {}) {
-        grid().dispatchEvent(
-            new KeyboardEvent("keydown", { key, bubbles: true, ...extra }),
-        );
+        grid().dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, ...extra }));
     }
 
     test("§7.49 the cursor can land on a vetoed day, which stays focusable and announces", async () => {
@@ -907,9 +894,7 @@ describe("DateTimePicker — assistive technology", () => {
             describedBy: "hint",
             labels: { ...LABELS, invalid: "DimDyddiad" },
         });
-        const status = document.querySelector(
-            ".date-time-picker-status",
-        ) as HTMLElement;
+        const status = document.querySelector(".date-time-picker-status") as HTMLElement;
         // The region exists before it has content — a live region born with
         // its message is routinely not announced at all — and is empty
         // while the field is valid.
@@ -926,9 +911,7 @@ describe("DateTimePicker — assistive technology", () => {
         expect(field().getAttribute("aria-errormessage")).toBe(status.id);
         // Chained after the consumer's hint, for the assistive technologies
         // that read aria-describedby but not aria-errormessage.
-        expect(field().getAttribute("aria-describedby")).toBe(
-            `hint ${status.id}`,
-        );
+        expect(field().getAttribute("aria-describedby")).toBe(`hint ${status.id}`);
     });
 
     test("§7.52 focus returns to whichever element opened the dialog", async () => {
@@ -981,17 +964,13 @@ describe("DateTimePicker — assistive technology", () => {
 
     test("§7.54 labels.instructions renders keyboard help described by the dialog", async () => {
         const first = build();
-        expect(
-            document.querySelector(".date-time-picker-instructions"),
-        ).toBeNull();
+        expect(document.querySelector(".date-time-picker-instructions")).toBeNull();
         expect(dialog().hasAttribute("aria-describedby")).toBe(false);
         first.unmount();
         wrappers.pop();
 
         build({ labels: { ...LABELS, instructions: "SaethauSymud" } });
-        const help = document.querySelector(
-            ".date-time-picker-instructions",
-        ) as HTMLElement;
+        const help = document.querySelector(".date-time-picker-instructions") as HTMLElement;
         expect(help.textContent?.trim()).toBe("SaethauSymud");
         expect(dialog().getAttribute("aria-describedby")).toBe(help.id);
     });
@@ -1071,12 +1050,20 @@ describe("DateTimePicker — Vue idioms", () => {
             "date-time-picker-next-year",
         ]);
         expect(buttons.map((b) => b.getAttribute("aria-label"))).toEqual([
-            "PrevYear", "PrevMonth", "PrevWeek", "PrevDay",
-            "NextDay", "NextWeek", "NextMonth", "NextYear",
+            "PrevYear",
+            "PrevMonth",
+            "PrevWeek",
+            "PrevDay",
+            "NextDay",
+            "NextWeek",
+            "NextMonth",
+            "NextYear",
         ]);
         const period = header.querySelector(".date-time-picker-period") as HTMLElement;
-        expect(Array.from(header.children).indexOf(buttons[3]) <
-            Array.from(header.children).indexOf(period)).toBe(true);
+        expect(
+            Array.from(header.children).indexOf(buttons[3]) <
+                Array.from(header.children).indexOf(period),
+        ).toBe(true);
     });
 
     test("§7.57 day steps move the pending day by ±1 civil day, keep the grid on the shown month, and keep focus on the button", async () => {
@@ -1151,8 +1138,12 @@ describe("DateTimePicker — Vue idioms", () => {
 
         build({ labels: { ...LABELS, timeZone: "Zone" } });
         await open();
-        const select = document.querySelector(".date-time-picker-time-zone-select") as HTMLSelectElement;
-        const label = document.querySelector(".date-time-picker-time-zone-label") as HTMLLabelElement;
+        const select = document.querySelector(
+            ".date-time-picker-time-zone-select",
+        ) as HTMLSelectElement;
+        const label = document.querySelector(
+            ".date-time-picker-time-zone-label",
+        ) as HTMLLabelElement;
         expect(label.textContent?.trim()).toBe("Zone");
         expect(label.htmlFor).toBe(select.id);
         const all = Intl.supportedValuesOf("timeZone");
@@ -1162,8 +1153,12 @@ describe("DateTimePicker — Vue idioms", () => {
         expect(offered.slice(1)).toEqual(all);
         expect(select.value).toBe("");
         expect(root().dataset.timeZone).toBeUndefined();
-        expect(dialog().compareDocumentPosition(grid()) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-        expect(select.compareDocumentPosition(grid()) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+        expect(
+            dialog().compareDocumentPosition(grid()) & Node.DOCUMENT_POSITION_FOLLOWING,
+        ).toBeTruthy();
+        expect(
+            select.compareDocumentPosition(grid()) & Node.DOCUMENT_POSITION_FOLLOWING,
+        ).toBeTruthy();
     });
 
     test("§7.61 choosing a zone rides {name}-time-zone, data-time-zone, and update:timeZone — and leaves the value alone", async () => {
@@ -1176,10 +1171,18 @@ describe("DateTimePicker — Vue idioms", () => {
             timeZone: "Europe/London",
         });
         await open();
-        const select = document.querySelector(".date-time-picker-time-zone-select") as HTMLSelectElement;
+        const select = document.querySelector(
+            ".date-time-picker-time-zone-select",
+        ) as HTMLSelectElement;
         const texts = Array.from(select.options).map((o) => [o.value, o.textContent?.trim()]);
-        expect(texts).toEqual([["", ""], ["Europe/London", "Europe/London"], ["Asia/Tokyo", "Tokyo"]]);
-        const zoneInput = document.querySelector('input[name="when-time-zone"]') as HTMLInputElement;
+        expect(texts).toEqual([
+            ["", ""],
+            ["Europe/London", "Europe/London"],
+            ["Asia/Tokyo", "Tokyo"],
+        ]);
+        const zoneInput = document.querySelector(
+            'input[name="when-time-zone"]',
+        ) as HTMLInputElement;
         expect(select.value).toBe("Europe/London");
         expect(zoneInput.value).toBe("Europe/London");
         expect(root().dataset.timeZone).toBe("Europe/London");
@@ -1190,7 +1193,9 @@ describe("DateTimePicker — Vue idioms", () => {
         expect(zoneInput.value).toBe("Asia/Tokyo");
         expect(root().dataset.timeZone).toBe("Asia/Tokyo");
         expect(wrapper.emitted("update:timeZone")).toEqual([["Asia/Tokyo"]]);
-        expect((document.querySelector('input[name="when"]') as HTMLInputElement).value).toBe("2026-03-15");
+        expect((document.querySelector('input[name="when"]') as HTMLInputElement).value).toBe(
+            "2026-03-15",
+        );
         expect(wrapper.emitted("change")).toBeUndefined();
     });
 });
@@ -1198,7 +1203,9 @@ describe("DateTimePicker — Vue idioms", () => {
 describe("DateTimePicker — tooltip (§7.62–§7.67)", () => {
     function tipSetup() {
         const wrapper = build();
-        const button = wrapper.element.querySelector(".date-time-picker-button") as HTMLButtonElement;
+        const button = wrapper.element.querySelector(
+            ".date-time-picker-button",
+        ) as HTMLButtonElement;
         const tip = wrapper.element.querySelector(".date-time-picker-tooltip") as HTMLElement;
         return { wrapper, button, tip };
     }
@@ -1211,7 +1218,9 @@ describe("DateTimePicker — tooltip (§7.62–§7.67)", () => {
         expect(tip.textContent!.length).toBeGreaterThan(0);
         expect(tip.hasAttribute("hidden")).toBe(true);
         expect(tip.id).toBeTruthy();
-        expect(button.previousElementSibling === tip || button.nextElementSibling === tip).toBe(true);
+        expect(button.previousElementSibling === tip || button.nextElementSibling === tip).toBe(
+            true,
+        );
         expect(button.hasAttribute("aria-describedby")).toBe(false);
     });
 
@@ -1288,9 +1297,12 @@ describe("DateTimePicker — tooltip (§7.62–§7.67)", () => {
     test("§7.68 hover-only tooltip: Escape on another element dismisses it; listener removed after hide/unmount", async () => {
         const addSpy = vi.spyOn(document, "addEventListener");
         const removeSpy = vi.spyOn(document, "removeEventListener");
-        const keydownCalls = (spy: typeof addSpy) => spy.mock.calls.filter((c) => c[0] === "keydown").length;
+        const keydownCalls = (spy: typeof addSpy) =>
+            spy.mock.calls.filter((c) => c[0] === "keydown").length;
         const wrapper = build();
-        const button = wrapper.element.querySelector(".date-time-picker-button") as HTMLButtonElement;
+        const button = wrapper.element.querySelector(
+            ".date-time-picker-button",
+        ) as HTMLButtonElement;
         const tip = wrapper.element.querySelector(".date-time-picker-tooltip") as HTMLElement;
         const other = document.createElement("button");
         document.body.appendChild(other);
@@ -1348,7 +1360,9 @@ describe("DateTimePicker — form reset", () => {
         await flush();
         expect(wrapper.emitted("update:value")?.at(-1)).toEqual(["2026-10-01"]);
         expect(new FormData(form).get("when")).toBe("2026-10-01");
-        expect(form.querySelector<HTMLInputElement>(".date-time-picker-input")!.value).toBe("01 Oct 2026");
+        expect(form.querySelector<HTMLInputElement>(".date-time-picker-input")!.value).toBe(
+            "01 Oct 2026",
+        );
     });
 
     test("a cancelled reset changes nothing", async () => {

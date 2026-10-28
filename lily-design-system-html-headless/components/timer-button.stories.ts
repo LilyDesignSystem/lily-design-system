@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<button
   class="timer-button"
@@ -10,9 +10,9 @@ const html = `<button
 </button>`;
 
 const meta = {
-  title: 'Headless/TimerButton',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/TimerButton",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

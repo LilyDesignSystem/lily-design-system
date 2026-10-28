@@ -4,7 +4,11 @@
 // rather than pulling in `lit-html` just for a tagged template — this
 // package has no runtime dependencies and the story layer shouldn't add
 // one either.
-export function h(tag: string, attrs: Record<string, string | boolean | undefined> = {}, innerHTML = ""): HTMLElement {
+export function h(
+    tag: string,
+    attrs: Record<string, string | boolean | undefined> = {},
+    innerHTML = "",
+): HTMLElement {
     const el = document.createElement(tag);
     for (const [key, value] of Object.entries(attrs)) {
         if (value === false || value === undefined) continue;

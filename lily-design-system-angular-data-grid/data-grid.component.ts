@@ -39,13 +39,32 @@ import {
   PaginationNav,
   SearchInput,
 } from "@lilydesignsystem/angular-headless";
-import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
+import {
+  copyToClipboard,
+  downloadBlob,
+  exportBlob,
+  exportFilename,
+  toClipboardText,
+  type ExportFormat,
+} from "./export-data";
 import { foldText, searchTerms } from "./search-text";
 import { isRtl, logicalKey } from "./direction";
 import { gridMove } from "./grid-navigation";
 import { missingLabels, type LabelFeatures } from "./label-coverage";
-import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
-import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
+import {
+  EMPTY_HISTORY,
+  historyKey,
+  recordEdit,
+  redoEdit,
+  undoEdit,
+  type EditHistory,
+} from "./edit-history";
+import {
+  findTypeaheadMatch,
+  isTypeaheadKey,
+  nextTypeaheadState,
+  type TypeaheadState,
+} from "./typeahead";
 import {
   aggregateValues,
   filesOf,
@@ -66,7 +85,8 @@ import {
 } from "./cell-types";
 
 /** A missing value: `null`, `undefined` or an empty string. */
-const isMissing = (value: unknown): boolean => value === null || value === undefined || value === "";
+const isMissing = (value: unknown): boolean =>
+  value === null || value === undefined || value === "";
 
 export type DataGridSortDirection = "ascending" | "descending" | "none";
 
@@ -107,7 +127,11 @@ export type DataGridCellEdit = {
 };
 
 /** What a person editor template receives (as `$implicit`). */
-export type DataGridPersonEditorContext = { value: unknown; commit: (value: unknown) => void; cancel: () => void };
+export type DataGridPersonEditorContext = {
+  value: unknown;
+  commit: (value: unknown) => void;
+  cancel: () => void;
+};
 
 export type DataGridColumn = {
   /** Stable column identifier; also the default property read from each row. */
@@ -145,7 +169,17 @@ export type DataGridColumn = {
   /** Cells can be edited in place: F2 or Enter on a focused cell, a double click, or the button `labels.editCell` gates. */
   editable?: boolean;
   /** The editor's control. Default `"text"`; a `type` sets its own. */
-  editor?: "text" | "number" | "link" | "date" | "time" | "time-zone" | "select" | "radio" | "person" | "formula";
+  editor?:
+    | "text"
+    | "number"
+    | "link"
+    | "date"
+    | "time"
+    | "time-zone"
+    | "select"
+    | "radio"
+    | "person"
+    | "formula";
   /** The kind of value in this column: a bundle of defaults for `format`, `compare`, `filterText`, `exportValue`, `align` and `editor`. */
   type?: DataGridCellType;
   /** BCP 47 locale for this column's formatting and collation. */
@@ -161,7 +195,17 @@ export type DataGridColumn = {
   /** `time-zone`: an export adds a second column holding the UTC time of day at `referenceDate`. */
   exportUtc?: boolean;
   /** `rollup`: how the related values are reduced. */
-  aggregate?: "count" | "countUnique" | "sum" | "avg" | "median" | "min" | "max" | "range" | "percentTrue" | "percentEmpty";
+  aggregate?:
+    | "count"
+    | "countUnique"
+    | "sum"
+    | "avg"
+    | "median"
+    | "min"
+    | "max"
+    | "range"
+    | "percentTrue"
+    | "percentEmpty";
   /** `rollup`: a reduction the named aggregates do not cover. */
   reduce?: (values: unknown[], row: DataGridRow) => unknown;
   /** `rollup`: reads the related values. */
@@ -169,7 +213,10 @@ export type DataGridColumn = {
   /** `rollup` and `formula`: the result's type. */
   resultType?: "number" | "date" | "text";
   /** `formula`: evaluates an expression. Lily ships no engine and never evaluates a string itself. */
-  evaluate?: (expression: string, context: { row: DataGridRow; rows: DataGridRow[]; columnId: string }) => { value: unknown } | { error: string };
+  evaluate?: (
+    expression: string,
+    context: { row: DataGridRow; rows: DataGridRow[]; columnId: string },
+  ) => { value: unknown } | { error: string };
   /** `person`: how many people show before "+N". */
   maxPeople?: number;
   /** `person`: an avatar beside the name. Decorative. */
@@ -283,12 +330,20 @@ export type DataGridFooterContext = {
 
 export type DataGridEntry = { row: DataGridRow; id: string };
 
-type Editing = { rowId: string; columnId: string; draft: string; zone?: string; error?: string; invalid?: boolean };
+type Editing = {
+  rowId: string;
+  columnId: string;
+  draft: string;
+  zone?: string;
+  error?: string;
+  invalid?: boolean;
+};
 
 type RenderItem = { kind: "row"; index: number } | { kind: "spacer"; rows: number; key: string };
 
 /** What counts as a widget inside a cell: something a person can operate. */
-const WIDGET_SELECTOR = 'a[href], button, input, select, textarea, summary, [contenteditable="true"]';
+const WIDGET_SELECTOR =
+  'a[href], button, input, select, textarea, summary, [contenteditable="true"]';
 
 const MIN_COLUMN_WIDTH = 40;
 const RESIZE_STEP = 16;
@@ -322,8 +377,10 @@ export class DataGridAttrs {
   constructor() {
     effect(() => {
       const next = this.lilyDataGridAttrs() ?? {};
-      for (const name of this.applied) if (!(name in next)) this.host.nativeElement.removeAttribute(name);
-      for (const [name, value] of Object.entries(next)) this.host.nativeElement.setAttribute(name, value);
+      for (const name of this.applied)
+        if (!(name in next)) this.host.nativeElement.removeAttribute(name);
+      for (const [name, value] of Object.entries(next))
+        this.host.nativeElement.setAttribute(name, value);
       this.applied = Object.keys(next);
     });
   }
@@ -332,7 +389,19 @@ export class DataGridAttrs {
 @Component({
   selector: "lily-data-grid",
   standalone: true,
-  imports: [NgTemplateOutlet, DataGridAttrs, DataTable, DataTableBody, DataTableFoot, DataTableHead, DataTableRow, DataTableTD, DataTableTH, PaginationNav, SearchInput],
+  imports: [
+    NgTemplateOutlet,
+    DataGridAttrs,
+    DataTable,
+    DataTableBody,
+    DataTableFoot,
+    DataTableHead,
+    DataTableRow,
+    DataTableTD,
+    DataTableTH,
+    PaginationNav,
+    SearchInput,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div #rootEl class="data-grid {{ className() }}">
@@ -807,7 +876,9 @@ export class DataGrid {
   /** Hides rows for which it returns false (a status or date-range filter). Combines with the text filter; both must pass. */
   readonly rowFilter = input<((row: DataGridRow) => boolean) | undefined>(undefined);
   /** Derives a stable id per row. Defaults to the row's index in `rows`. */
-  readonly rowId = input<(row: DataGridRow, index: number) => string>((_row, index) => String(index));
+  readonly rowId = input<(row: DataGridRow, index: number) => string>((_row, index) =>
+    String(index),
+  );
   /** Row selection mode. */
   readonly selectionMode = input<DataGridSelectionMode>("none");
   /** Rows per page. Unset disables pagination. */
@@ -841,9 +912,13 @@ export class DataGrid {
   /** Called with the file before it is saved. Return `false` to keep the grid from saving it. */
   readonly exportHandler = input<((file: DataGridExport) => boolean | void) | undefined>(undefined);
   /** Called before a copy puts text on the clipboard. Return `false` to take over (nothing is copied). The `copy` output fires first. */
-  readonly copyHandler = input<((copy: { text: string; rowCount: number }) => boolean | void) | undefined>(undefined);
+  readonly copyHandler = input<
+    ((copy: { text: string; rowCount: number }) => boolean | void) | undefined
+  >(undefined);
   /** Renders only the rows in view, in a scroll region of `height` px (needs `scroll`). */
-  readonly virtualize = input<{ rowHeight: number; height: number; overscan?: number } | undefined>(undefined);
+  readonly virtualize = input<{ rowHeight: number; height: number; overscan?: number } | undefined>(
+    undefined,
+  );
   /** Extra CSS class on the root. */
   readonly className = input<string>("");
 
@@ -867,8 +942,18 @@ export class DataGrid {
   // ---- Outputs ----
 
   readonly cellEdit = output<DataGridCellEdit>();
-  readonly filesSelected = output<{ rowId: string; row: DataGridRow; columnId: string; files: File[] }>();
-  readonly fileRemove = output<{ rowId: string; row: DataGridRow; columnId: string; fileId: string }>();
+  readonly filesSelected = output<{
+    rowId: string;
+    row: DataGridRow;
+    columnId: string;
+    files: File[];
+  }>();
+  readonly fileRemove = output<{
+    rowId: string;
+    row: DataGridRow;
+    columnId: string;
+    fileId: string;
+  }>();
   readonly rowActivate = output<{ row: DataGridRow; id: string }>();
   readonly exportFile = output<DataGridExport>();
   readonly copy = output<{ text: string; rowCount: number }>();
@@ -894,7 +979,10 @@ export class DataGrid {
   // ---- Derived data ----
 
   /** Each column with its type's defaults filled in under its own props. */
-  protected readonly resolvedColumns = computed(() => this.columns().map((c) => resolveColumn(c, this.locale(), this.rows())) as DataGridColumn[]);
+  protected readonly resolvedColumns = computed(
+    () =>
+      this.columns().map((c) => resolveColumn(c, this.locale(), this.rows())) as DataGridColumn[],
+  );
   protected readonly isGrid = computed(() => this.mode() === "grid");
   protected readonly hasSelection = computed(() => this.selectionMode() !== "none");
   protected readonly colOffset = computed(() => (this.hasSelection() ? 1 : 0));
@@ -913,8 +1001,12 @@ export class DataGrid {
       .sort((a, b) => rank(a.c.id) - rank(b.c.id) || a.i - b.i)
       .map((x) => x.c);
   });
-  protected readonly visibleColumns = computed(() => this.orderedColumns().filter((c) => !this.hiddenColumnIds().has(c.id)));
-  protected readonly hidableColumns = computed(() => this.resolvedColumns().filter((c) => c.hidable));
+  protected readonly visibleColumns = computed(() =>
+    this.orderedColumns().filter((c) => !this.hiddenColumnIds().has(c.id)),
+  );
+  protected readonly hidableColumns = computed(() =>
+    this.resolvedColumns().filter((c) => c.hidable),
+  );
 
   private readonly entries = computed<DataGridEntry[]>(() => {
     const rowId = this.rowId();
@@ -936,7 +1028,12 @@ export class DataGrid {
     }
     let ctx = perRow.get(column.id);
     if (!ctx) {
-      ctx = { value: defaultAccessor(column, row), formatted: formatCell(column, row), row, column };
+      ctx = {
+        value: defaultAccessor(column, row),
+        formatted: formatCell(column, row),
+        row,
+        column,
+      };
       perRow.set(column.id, ctx);
     }
     return ctx;
@@ -950,13 +1047,19 @@ export class DataGrid {
     return column.movable ?? this.movableColumns();
   }
 
-  protected readonly filterableColumns = computed(() => this.resolvedColumns().filter((c) => c.filterable !== false));
+  protected readonly filterableColumns = computed(() =>
+    this.resolvedColumns().filter((c) => c.filterable !== false),
+  );
 
   /** One folded (lower-case, no diacritics) text per filterable cell, built once per rows/columns change. */
   private readonly searchIndex = computed(() =>
     this.entries().map((entry) =>
       this.filterableColumns().map((column) =>
-        foldText(column.filterText ? column.filterText(this.cellFor(column, entry.row).value, entry.row) : this.cellFor(column, entry.row).formatted),
+        foldText(
+          column.filterText
+            ? column.filterText(this.cellFor(column, entry.row).value, entry.row)
+            : this.cellFor(column, entry.row).formatted,
+        ),
       ),
     ),
   );
@@ -971,13 +1074,20 @@ export class DataGrid {
     const field = this.filterField();
     const only = field ? this.filterableColumns().findIndex((c) => c.id === field) : -1;
     const rowText = (i: number): string => (only >= 0 ? index![i][only] : index![i].join(" "));
-    return this.entries().filter((entry, i) => (!rowFilter || rowFilter(entry.row)) && (!index || terms.every((term) => rowText(i).includes(term))));
+    return this.entries().filter(
+      (entry, i) =>
+        (!rowFilter || rowFilter(entry.row)) &&
+        (!index || terms.every((term) => rowText(i).includes(term))),
+    );
   });
 
   /** The sort keys in order: the primary, then `thenBy`, each with a real column and a direction. */
   private readonly sortKeys = computed(() =>
     [this.sort(), ...this.thenBy()]
-      .map((k) => ({ column: this.resolvedColumns().find((c) => c.id === k.columnId), dir: k.direction === "ascending" ? 1 : k.direction === "descending" ? -1 : 0 }))
+      .map((k) => ({
+        column: this.resolvedColumns().find((c) => c.id === k.columnId),
+        dir: k.direction === "ascending" ? 1 : k.direction === "descending" ? -1 : 0,
+      }))
       .filter((k): k is { column: DataGridColumn; dir: 1 | -1 } => !!k.column && k.dir !== 0),
   );
 
@@ -991,7 +1101,10 @@ export class DataGrid {
       return tag ? new Intl.Collator(tag, { numeric: true }) : null;
     });
     // Read each sort key once per column (n accessor calls), not twice per comparison.
-    const keyed = filtered.map((entry) => ({ entry, keys: keys.map((k) => this.cellFor(k.column, entry.row).value) }));
+    const keyed = filtered.map((entry) => ({
+      entry,
+      keys: keys.map((k) => this.cellFor(k.column, entry.row).value),
+    }));
     keyed.sort((a, b) => {
       for (let i = 0; i < keys.length; i++) {
         const { column, dir } = keys[i];
@@ -1001,7 +1114,8 @@ export class DataGrid {
         // Missing values sort together at one end, in both directions (`nulls`).
         const aMissing = av === null || av === undefined;
         const bMissing = bv === null || bv === undefined;
-        if (aMissing || bMissing) return aMissing === bMissing ? 0 : (aMissing ? 1 : -1) * (nulls === "first" ? -1 : 1);
+        if (aMissing || bMissing)
+          return aMissing === bMissing ? 0 : (aMissing ? 1 : -1) * (nulls === "first" ? -1 : 1);
         const collator = collators[i];
         const result = column.compare
           ? column.compare(av, bv) * dir
@@ -1021,24 +1135,36 @@ export class DataGrid {
     const size = this.pageSize();
     return size ? Math.max(1, Math.ceil(this.sortedEntries().length / size)) : 1;
   });
-  protected readonly clampedPage = computed(() => Math.min(Math.max(this.page(), 1), this.pageCount()));
+  protected readonly clampedPage = computed(() =>
+    Math.min(Math.max(this.page(), 1), this.pageCount()),
+  );
   protected readonly pageStart = computed(() => {
     const size = this.pageSize();
     return size ? (this.clampedPage() - 1) * size : 0;
   });
   protected readonly pageEntries = computed(() => {
     const size = this.pageSize();
-    return size ? this.sortedEntries().slice(this.pageStart(), this.pageStart() + size) : this.sortedEntries();
+    return size
+      ? this.sortedEntries().slice(this.pageStart(), this.pageStart() + size)
+      : this.sortedEntries();
   });
   protected readonly lastCol = computed(() => this.colOffset() + this.visibleColumns().length - 1);
 
   // The roving position clamped to the cells that exist now.
-  protected readonly activeRow = computed(() => Math.max(-1, Math.min(this.focusedRow(), this.pageEntries().length - 1)));
-  protected readonly activeCol = computed(() => Math.max(0, Math.min(this.focusedCol(), this.lastCol())));
+  protected readonly activeRow = computed(() =>
+    Math.max(-1, Math.min(this.focusedRow(), this.pageEntries().length - 1)),
+  );
+  protected readonly activeCol = computed(() =>
+    Math.max(0, Math.min(this.focusedCol(), this.lastCol())),
+  );
 
   protected readonly indexed = computed(() => !!this.pageSize() || !!this.virtualize());
   private readonly rowCount = computed(() =>
-    this.pageSize() ? this.sortedEntries().length + 1 : this.virtualize() ? this.pageEntries().length + 1 : undefined,
+    this.pageSize()
+      ? this.sortedEntries().length + 1
+      : this.virtualize()
+        ? this.pageEntries().length + 1
+        : undefined,
   );
 
   protected readonly renderItems = computed<RenderItem[]>(() => {
@@ -1056,11 +1182,13 @@ export class DataGrid {
     const items: RenderItem[] = [];
     let previous = -1;
     for (const index of [...indices].sort((a, b) => a - b)) {
-      if (index - previous > 1) items.push({ kind: "spacer", rows: index - previous - 1, key: `spacer-${previous}` });
+      if (index - previous > 1)
+        items.push({ kind: "spacer", rows: index - previous - 1, key: `spacer-${previous}` });
       items.push({ kind: "row", index });
       previous = index;
     }
-    if (total - 1 - previous > 0) items.push({ kind: "spacer", rows: total - 1 - previous, key: `spacer-${previous}` });
+    if (total - 1 - previous > 0)
+      items.push({ kind: "spacer", rows: total - 1 - previous, key: `spacer-${previous}` });
     return items;
   });
 
@@ -1070,8 +1198,14 @@ export class DataGrid {
   });
 
   private readonly selectedSet = computed(() => new Set(this.selected()));
-  protected readonly allSelected = computed(() => this.sortedEntries().length > 0 && this.sortedEntries().every((e) => this.selectedSet().has(e.id)));
-  protected readonly someSelected = computed(() => !this.allSelected() && this.sortedEntries().some((e) => this.selectedSet().has(e.id)));
+  protected readonly allSelected = computed(
+    () =>
+      this.sortedEntries().length > 0 &&
+      this.sortedEntries().every((e) => this.selectedSet().has(e.id)),
+  );
+  protected readonly someSelected = computed(
+    () => !this.allSelected() && this.sortedEntries().some((e) => this.selectedSet().has(e.id)),
+  );
 
   protected readonly footerContext = computed<DataGridFooterContext>(() => ({
     columns: this.visibleColumns(),
@@ -1084,12 +1218,19 @@ export class DataGrid {
   private footerAggregate(columnId: string, kind: DataGridAggregate): unknown {
     const column = this.resolvedColumns().find((c) => c.id === columnId);
     if (!column) return undefined;
-    return aggregateValues(kind, this.sortedEntries().map((e) => defaultAccessor(column, e.row)));
+    return aggregateValues(
+      kind,
+      this.sortedEntries().map((e) => defaultAccessor(column, e.row)),
+    );
   }
 
-  protected readonly exportColumns = computed(() => this.visibleColumns().filter((c) => c.exportable !== false));
+  protected readonly exportColumns = computed(() =>
+    this.visibleColumns().filter((c) => c.exportable !== false),
+  );
   protected readonly exportEntries = computed(() =>
-    this.exportScope() === "selected" ? this.sortedEntries().filter((e) => this.selectedSet().has(e.id)) : this.sortedEntries(),
+    this.exportScope() === "selected"
+      ? this.sortedEntries().filter((e) => this.selectedSet().has(e.id))
+      : this.sortedEntries(),
   );
   protected readonly hasExportButtons = computed(() => {
     const l = this.labels();
@@ -1137,16 +1278,24 @@ export class DataGrid {
         exporting: !!(labels.exportCsv || labels.exportTsv || labels.exportExcel || labels.copy),
       };
       const warn = this.warnMissingLabels();
-      const env = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env;
+      const env = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process
+        ?.env;
       if (!warn || env?.["NODE_ENV"] === "production") return;
-      const fresh = missingLabels(features, labels as Record<string, unknown>).filter((m) => !reportedLabels.has(m.key));
+      const fresh = missingLabels(features, labels as Record<string, unknown>).filter(
+        (m) => !reportedLabels.has(m.key),
+      );
       if (fresh.length === 0) return;
       for (const m of fresh) reportedLabels.add(m.key);
       const controls = fresh.filter((m) => m.kind === "control").map((m) => m.key);
       const announcements = fresh.filter((m) => m.kind === "announcement").map((m) => m.key);
       console.warn(
         `[data-grid] "${this.label()}": labels left out — ` +
-          [controls.length ? `controls with no name: ${controls.join(", ")}` : "", announcements.length ? `silent announcements: ${announcements.join(", ")}` : ""].filter(Boolean).join("; "),
+          [
+            controls.length ? `controls with no name: ${controls.join(", ")}` : "",
+            announcements.length ? `silent announcements: ${announcements.join(", ")}` : "",
+          ]
+            .filter(Boolean)
+            .join("; "),
       );
     });
 
@@ -1170,7 +1319,12 @@ export class DataGrid {
     });
     effect(() => {
       const key = this.storageKey();
-      const snapshot = { columnWidths: this.columnWidths(), hiddenColumnIds: [...this.hiddenColumnIds()], sort: this.sort(), columnOrder: this.columnOrder() };
+      const snapshot = {
+        columnWidths: this.columnWidths(),
+        hiddenColumnIds: [...this.hiddenColumnIds()],
+        sort: this.sort(),
+        columnOrder: this.columnOrder(),
+      };
       if (!key || typeof localStorage === "undefined") return;
       try {
         localStorage.setItem(key, JSON.stringify(snapshot));
@@ -1205,16 +1359,30 @@ export class DataGrid {
   protected toggleSort(column: DataGridColumn, additive = false): void {
     if (!column.sortable) return;
     const current = this.sort();
-    if (additive && current.direction !== "none" && current.columnId && current.columnId !== column.id) {
+    if (
+      additive &&
+      current.direction !== "none" &&
+      current.columnId &&
+      current.columnId !== column.id
+    ) {
       const thenBy = this.thenBy();
       const existing = thenBy.find((k) => k.columnId === column.id);
       const nextThen: DataGridSort[] = !existing
         ? [...thenBy, { columnId: column.id, direction: "ascending" }]
         : existing.direction === "ascending"
-          ? thenBy.map((k) => (k.columnId === column.id ? { columnId: column.id, direction: "descending" as const } : k))
+          ? thenBy.map((k) =>
+              k.columnId === column.id
+                ? { columnId: column.id, direction: "descending" as const }
+                : k,
+            )
           : thenBy.filter((k) => k.columnId !== column.id);
       this.thenBy.set(nextThen);
-      this.announce(this.labels().sortAnnouncement?.(column.header, nextThen.find((k) => k.columnId === column.id)?.direction ?? "none"));
+      this.announce(
+        this.labels().sortAnnouncement?.(
+          column.header,
+          nextThen.find((k) => k.columnId === column.id)?.direction ?? "none",
+        ),
+      );
       return;
     }
     if (this.thenBy().length > 0) this.thenBy.set([]);
@@ -1235,7 +1403,9 @@ export class DataGrid {
   protected setFilter(value: string): void {
     this.filter.set(value);
     this.page.set(1);
-    this.announce(this.labels().filterAnnouncement?.(this.filteredEntries().length, this.rows().length));
+    this.announce(
+      this.labels().filterAnnouncement?.(this.filteredEntries().length, this.rows().length),
+    );
   }
 
   /** Escape in the search field clears it. */
@@ -1250,7 +1420,9 @@ export class DataGrid {
   protected onFilterFieldChange(event: Event): void {
     this.filterField.set((event.target as HTMLSelectElement).value);
     this.page.set(1);
-    this.announce(this.labels().filterAnnouncement?.(this.filteredEntries().length, this.rows().length));
+    this.announce(
+      this.labels().filterAnnouncement?.(this.filteredEntries().length, this.rows().length),
+    );
   }
 
   // ---- Selection ----
@@ -1270,7 +1442,10 @@ export class DataGrid {
   }
 
   /** `index` is the row's position in the sorted entries, not on the current page. */
-  private toggleRow(index: number, event?: { shiftKey?: boolean; ctrlKey?: boolean; metaKey?: boolean }): void {
+  private toggleRow(
+    index: number,
+    event?: { shiftKey?: boolean; ctrlKey?: boolean; metaKey?: boolean },
+  ): void {
     const sorted = this.sortedEntries();
     const id = sorted[index].id;
     const selected = this.selected();
@@ -1279,11 +1454,16 @@ export class DataGrid {
       this.setSelected(this.isSelected(id) ? [] : [id]);
     } else if (mode === "multiple") {
       if (event?.shiftKey && this.lastSelectedIndex >= 0) {
-        const [start, end] = this.lastSelectedIndex < index ? [this.lastSelectedIndex, index] : [index, this.lastSelectedIndex];
+        const [start, end] =
+          this.lastSelectedIndex < index
+            ? [this.lastSelectedIndex, index]
+            : [index, this.lastSelectedIndex];
         const range = sorted.slice(start, end + 1).map((e) => e.id);
         this.setSelected([...new Set([...selected, ...range])]);
       } else if (event?.ctrlKey || event?.metaKey) {
-        this.setSelected(this.isSelected(id) ? selected.filter((x) => x !== id) : [...selected, id]);
+        this.setSelected(
+          this.isSelected(id) ? selected.filter((x) => x !== id) : [...selected, id],
+        );
       } else {
         this.setSelected(this.isSelected(id) && selected.length === 1 ? [] : [id]);
       }
@@ -1312,15 +1492,21 @@ export class DataGrid {
     if (column.pinned) {
       const visible = this.visibleColumns();
       const i = visible.findIndex((c) => c.id === column.id);
-      const before = (column.pinned === "start" ? visible.slice(0, i) : visible.slice(i + 1)).filter((c) => c.pinned === column.pinned);
+      const before = (
+        column.pinned === "start" ? visible.slice(0, i) : visible.slice(i + 1)
+      ).filter((c) => c.pinned === column.pinned);
       const widths = before.map((c) => this.widthFor(c));
-      if (widths.every((w) => w !== undefined)) parts.push(`--data-grid-pinned-offset:${widths.reduce((a, w) => a + (w ?? 0), 0)}px`);
+      if (widths.every((w) => w !== undefined))
+        parts.push(`--data-grid-pinned-offset:${widths.reduce((a, w) => a + (w ?? 0), 0)}px`);
     }
     return parts.length > 0 ? parts.join(";") : null;
   }
 
   private setWidth(column: DataGridColumn, width: number): void {
-    this.columnWidths.update((current) => ({ ...current, [column.id]: Math.max(MIN_COLUMN_WIDTH, width) }));
+    this.columnWidths.update((current) => ({
+      ...current,
+      [column.id]: Math.max(MIN_COLUMN_WIDTH, width),
+    }));
   }
 
   protected onResizeKeydown(column: DataGridColumn, event: Event): void {
@@ -1342,9 +1528,11 @@ export class DataGrid {
     e.preventDefault();
     const startX = e.clientX;
     const target = e.target as HTMLElement;
-    const startWidth = this.widthFor(column) ?? target.closest("th")?.getBoundingClientRect().width ?? 120;
+    const startWidth =
+      this.widthFor(column) ?? target.closest("th")?.getBoundingClientRect().width ?? 120;
     target.setPointerCapture?.(e.pointerId);
-    const onMove = (moveEvent: PointerEvent): void => this.setWidth(column, startWidth + (moveEvent.clientX - startX));
+    const onMove = (moveEvent: PointerEvent): void =>
+      this.setWidth(column, startWidth + (moveEvent.clientX - startX));
     const onUp = (): void => {
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerup", onUp);
@@ -1383,7 +1571,9 @@ export class DataGrid {
     // Hidden columns keep their places in the full order; visible ones are re-sequenced around them.
     const visibleSet = new Set(ids);
     let next = 0;
-    this.columnOrder.set(this.orderedColumns().map((c) => (visibleSet.has(c.id) ? ids[next++] : c.id)));
+    this.columnOrder.set(
+      this.orderedColumns().map((c) => (visibleSet.has(c.id) ? ids[next++] : c.id)),
+    );
     const column = this.resolvedColumns().find((c) => c.id === columnId)!;
     this.announce(this.labels().columnMoveAnnouncement?.(column.header, to + 1, ids.length));
     return true;
@@ -1434,8 +1624,10 @@ export class DataGrid {
   private focusActiveCell(): void {
     afterNextRender(
       () => {
-        this.rootRef().nativeElement
-          .querySelector<HTMLElement>('.data-table-th[tabindex="0"], .data-table-td[tabindex="0"]')
+        this.rootRef()
+          .nativeElement.querySelector<HTMLElement>(
+            '.data-table-th[tabindex="0"], .data-table-td[tabindex="0"]',
+          )
           ?.focus({ preventScroll: true });
       },
       { injector: this.injector },
@@ -1458,16 +1650,23 @@ export class DataGrid {
     const ctx = this.cellFor(column, row);
     const value = ctx.value;
     if (value === null || value === undefined) return null;
-    if (typeof value === "number" || typeof value === "boolean" || value instanceof Date) return value;
+    if (typeof value === "number" || typeof value === "boolean" || value instanceof Date)
+      return value;
     return ctx.formatted;
   }
 
   private hasUtcColumn(c: DataGridColumn): boolean {
-    return c.type === "time-zone" && !!c.exportUtc && !!c.referenceDate && !!this.labels().exportUtcHeader;
+    return (
+      c.type === "time-zone" &&
+      !!c.exportUtc &&
+      !!c.referenceDate &&
+      !!this.labels().exportUtcHeader
+    );
   }
 
   private buildExportTable(format: ExportFormat) {
-    const live = (c: DataGridColumn) => format === "xlsx" && this.exportFormulas() && c.type === "formula" && !!c.source;
+    const live = (c: DataGridColumn) =>
+      format === "xlsx" && this.exportFormulas() && c.type === "formula" && !!c.source;
     const headers: string[] = [];
     for (const c of this.exportColumns()) {
       headers.push(c.header);
@@ -1482,7 +1681,8 @@ export class DataGrid {
             ? { formula: expression, result: this.exportCell(c, entry.row) }
             : this.exportCell(c, entry.row),
         );
-        if (this.hasUtcColumn(c)) cells.push(zonedUtcTime(this.cellFor(c, entry.row).value, c.referenceDate));
+        if (this.hasUtcColumn(c))
+          cells.push(zonedUtcTime(this.cellFor(c, entry.row).value, c.referenceDate));
       }
       return cells;
     });
@@ -1497,7 +1697,9 @@ export class DataGrid {
     this.copy.emit(copied);
     if (this.copyHandler()?.(copied) === false) return;
     const ok = await copyToClipboard(text);
-    this.announce(ok ? this.labels().copyAnnouncement?.(table.rows.length) : this.labels().copyFailed);
+    this.announce(
+      ok ? this.labels().copyAnnouncement?.(table.rows.length) : this.labels().copyFailed,
+    );
   }
 
   protected runExport(format: ExportFormat): void {
@@ -1518,7 +1720,8 @@ export class DataGrid {
   /** Files dropped on an editable file cell: the same report as the file input. The grid uploads nothing. */
   protected onFileDragOver(column: DataGridColumn, event: Event): void {
     if (column.type !== "file" || !column.editable) return;
-    if (Array.from((event as DragEvent).dataTransfer?.types ?? []).includes("Files")) event.preventDefault();
+    if (Array.from((event as DragEvent).dataTransfer?.types ?? []).includes("Files"))
+      event.preventDefault();
   }
 
   protected onFileDrop(entry: DataGridEntry, column: DataGridColumn, event: Event): void {
@@ -1533,7 +1736,13 @@ export class DataGrid {
   protected onFileInput(entry: DataGridEntry, column: DataGridColumn, event: Event): void {
     const input = event.target as HTMLInputElement;
     const chosen = Array.from(input.files ?? []);
-    if (chosen.length > 0) this.filesSelected.emit({ rowId: entry.id, row: entry.row, columnId: column.id, files: chosen });
+    if (chosen.length > 0)
+      this.filesSelected.emit({
+        rowId: entry.id,
+        row: entry.row,
+        columnId: column.id,
+        files: chosen,
+      });
     input.value = "";
   }
 
@@ -1555,17 +1764,32 @@ export class DataGrid {
   protected startEdit(entry: DataGridEntry, column: DataGridColumn): void {
     if (!this.isEditable(column)) return;
     // A formula's editor shows the expression the row holds, not the result.
-    const raw = column.type === "formula" && column.source ? column.source(entry.row) : defaultAccessor(column, entry.row);
+    const raw =
+      column.type === "formula" && column.source
+        ? column.source(entry.row)
+        : defaultAccessor(column, entry.row);
     if (column.type === "time-zone") {
       const zoned = isZonedTime(raw) ? raw : null;
-      this.editingState.set({ rowId: entry.id, columnId: column.id, draft: zoned?.time ?? "", zone: zoned?.timeZone ?? column.timeZones?.[0]?.id ?? "" });
+      this.editingState.set({
+        rowId: entry.id,
+        columnId: column.id,
+        draft: zoned?.time ?? "",
+        zone: zoned?.timeZone ?? column.timeZones?.[0]?.id ?? "",
+      });
     } else {
-      const text = column.type === "link" ? (linkParts(raw)?.href ?? "") : raw === null || raw === undefined ? "" : String(raw);
+      const text =
+        column.type === "link"
+          ? (linkParts(raw)?.href ?? "")
+          : raw === null || raw === undefined
+            ? ""
+            : String(raw);
       this.editingState.set({ rowId: entry.id, columnId: column.id, draft: text });
     }
     afterNextRender(
       () => {
-        const editor = this.rootRef().nativeElement.querySelector<HTMLInputElement | HTMLSelectElement>(".data-grid-cell-editor");
+        const editor = this.rootRef().nativeElement.querySelector<
+          HTMLInputElement | HTMLSelectElement
+        >(".data-grid-cell-editor");
         editor?.focus();
         if (editor instanceof HTMLInputElement && editor.type === "text") editor.select();
       },
@@ -1573,11 +1797,18 @@ export class DataGrid {
     );
   }
 
-  private parseDraft(column: DataGridColumn, row: DataGridRow, draft: string, zone?: string): unknown {
+  private parseDraft(
+    column: DataGridColumn,
+    row: DataGridRow,
+    draft: string,
+    zone?: string,
+  ): unknown {
     if (column.parse) return column.parse(draft, row);
-    if (column.type === "time-zone") return draft === "" ? null : { time: draft, timeZone: zone ?? "" };
+    if (column.type === "time-zone")
+      return draft === "" ? null : { time: draft, timeZone: zone ?? "" };
     if (column.editor === "number") return draft.trim() === "" ? null : Number(draft);
-    if (column.editor === "date" || column.editor === "time" || column.editor === "select") return draft === "" ? null : draft;
+    if (column.editor === "date" || column.editor === "time" || column.editor === "select")
+      return draft === "" ? null : draft;
     return draft;
   }
 
@@ -1596,13 +1827,30 @@ export class DataGrid {
     if (!entry || !column) return;
     const restored = direction === "undo" ? previous : value;
     const replaced = direction === "undo" ? value : previous;
-    this.cellEdit.emit({ rowId: entry.id, row: entry.row, columnId: column.id, value: restored, previous: replaced });
+    this.cellEdit.emit({
+      rowId: entry.id,
+      row: entry.row,
+      columnId: column.id,
+      value: restored,
+      previous: replaced,
+    });
     const text = column.format ? column.format(restored, entry.row) : String(restored ?? "");
-    this.announce((direction === "undo" ? this.labels().undoAnnouncement : this.labels().redoAnnouncement)?.(column.header, text));
+    this.announce(
+      (direction === "undo" ? this.labels().undoAnnouncement : this.labels().redoAnnouncement)?.(
+        column.header,
+        text,
+      ),
+    );
   }
 
   private isStructurallyEqual(a: unknown, b: unknown): boolean {
-    return typeof a === "object" && typeof b === "object" && a !== null && b !== null && JSON.stringify(a) === JSON.stringify(b);
+    return (
+      typeof a === "object" &&
+      typeof b === "object" &&
+      a !== null &&
+      b !== null &&
+      JSON.stringify(a) === JSON.stringify(b)
+    );
   }
 
   /** Validate and report one new value for a cell. Returns false (and keeps editing, if the editor is open) when it is refused. */
@@ -1616,12 +1864,25 @@ export class DataGrid {
       this.announce(this.labels().editError?.(column.header, text));
       return false;
     }
-    const previous = column.type === "formula" && column.source ? column.source(entry.row) : defaultAccessor(column, entry.row);
+    const previous =
+      column.type === "formula" && column.source
+        ? column.source(entry.row)
+        : defaultAccessor(column, entry.row);
     this.editingState.set(null);
     if (value !== previous && !this.isStructurallyEqual(value, previous)) {
-      this.history = recordEdit(this.history, { ownerId: entry.id, fieldId: column.id, value, previous });
+      this.history = recordEdit(this.history, {
+        ownerId: entry.id,
+        fieldId: column.id,
+        value,
+        previous,
+      });
       this.cellEdit.emit({ rowId: entry.id, row: entry.row, columnId: column.id, value, previous });
-      this.announce(this.labels().editAnnouncement?.(column.header, column.format ? column.format(value, entry.row) : String(value ?? "")));
+      this.announce(
+        this.labels().editAnnouncement?.(
+          column.header,
+          column.format ? column.format(value, entry.row) : String(value ?? ""),
+        ),
+      );
     }
     return true;
   }
@@ -1635,7 +1896,14 @@ export class DataGrid {
       this.editingState.set(null);
       return;
     }
-    if (this.commitValue(entry, column, this.parseDraft(column, entry.row, current.draft, current.zone))) this.focusActiveCell();
+    if (
+      this.commitValue(
+        entry,
+        column,
+        this.parseDraft(column, entry.row, current.draft, current.zone),
+      )
+    )
+      this.focusActiveCell();
   }
 
   private cancelEdit(): void {
@@ -1671,21 +1939,45 @@ export class DataGrid {
   /** Focus leaving the time-zone editor's pair (not moving between its two controls) commits. */
   protected onZonedFocusout(event: Event): void {
     const e = event as FocusEvent;
-    if (this.editingState() && !(e.currentTarget as HTMLElement).contains(e.relatedTarget as Node | null)) this.commitEdit();
+    if (
+      this.editingState() &&
+      !(e.currentTarget as HTMLElement).contains(e.relatedTarget as Node | null)
+    )
+      this.commitEdit();
   }
 
   protected setDraft(event: Event): void {
     const current = this.editingState();
-    if (current) this.editingState.set({ ...current, draft: (event.target as HTMLInputElement | HTMLSelectElement).value, error: undefined, invalid: false });
+    if (current)
+      this.editingState.set({
+        ...current,
+        draft: (event.target as HTMLInputElement | HTMLSelectElement).value,
+        error: undefined,
+        invalid: false,
+      });
   }
 
   protected setZone(event: Event): void {
     const current = this.editingState();
-    if (current) this.editingState.set({ ...current, zone: (event.target as HTMLSelectElement).value, error: undefined, invalid: false });
+    if (current)
+      this.editingState.set({
+        ...current,
+        zone: (event.target as HTMLSelectElement).value,
+        error: undefined,
+        invalid: false,
+      });
   }
 
-  protected personEditorContext(entry: DataGridEntry, column: DataGridColumn, ctx: DataGridCellContext): DataGridPersonEditorContext {
-    return { value: ctx.value, commit: (v: unknown) => void this.commitValue(entry, column, v), cancel: () => this.cancelEdit() };
+  protected personEditorContext(
+    entry: DataGridEntry,
+    column: DataGridColumn,
+    ctx: DataGridCellContext,
+  ): DataGridPersonEditorContext {
+    return {
+      value: ctx.value,
+      commit: (v: unknown) => void this.commitValue(entry, column, v),
+      cancel: () => this.cancelEdit(),
+    };
   }
 
   // ---- Keyboard (WAI-ARIA APG Grid pattern) ----
@@ -1706,7 +1998,9 @@ export class DataGrid {
 
   /** The widgets a consumer put in a body cell (never the grid's own controls). */
   private widgetsIn(cell: Element): HTMLElement[] {
-    return Array.from(cell.querySelectorAll<HTMLElement>(WIDGET_SELECTOR)).filter((el) => !el.closest("[data-grid-own]"));
+    return Array.from(cell.querySelectorAll<HTMLElement>(WIDGET_SELECTOR)).filter(
+      (el) => !el.closest("[data-grid-own]"),
+    );
   }
 
   private setWidgetTabindex(cell: Element, value: "0" | "-1"): void {
@@ -1715,7 +2009,9 @@ export class DataGrid {
 
   private normaliseWidgets(): void {
     if (!this.isGrid()) return;
-    for (const cell of this.rootRef().nativeElement.querySelectorAll(".data-table-body [data-row][data-col]")) {
+    for (const cell of this.rootRef().nativeElement.querySelectorAll(
+      ".data-table-body [data-row][data-col]",
+    )) {
       if (cell.getAttribute("data-grid-entered") === "true") continue;
       this.setWidgetTabindex(cell, "-1");
     }
@@ -1777,7 +2073,12 @@ export class DataGrid {
   protected onGridDblclick(event: Event): void {
     const target = event.target as HTMLElement;
     const cell = target.closest<HTMLElement>("[data-row][data-col]");
-    if (!cell || cell.closest(".data-table-head") || target.closest("input, button, select, textarea")) return;
+    if (
+      !cell ||
+      cell.closest(".data-table-head") ||
+      target.closest("input, button, select, textarea")
+    )
+      return;
     const entry = this.pageEntries()[Number(cell.dataset["row"])];
     const column = this.visibleColumns()[Number(cell.dataset["col"]) - this.colOffset()];
     if (entry && column && this.isEditable(column)) this.startEdit(entry, column);
@@ -1810,11 +2111,13 @@ export class DataGrid {
       if (column && this.isMovable(column)) {
         e.preventDefault();
         const delta = key === "ArrowRight" ? 1 : -1;
-        if (this.moveColumn(column.id, activeCol - colOffset + delta)) this.moveFocus(-1, activeCol + delta);
+        if (this.moveColumn(column.id, activeCol - colOffset + delta))
+          this.moveFocus(-1, activeCol + delta);
         return;
       }
     }
-    const historyAction = target === cell && this.resolvedColumns().some((c) => c.editable) ? historyKey(e) : null;
+    const historyAction =
+      target === cell && this.resolvedColumns().some((c) => c.editable) ? historyKey(e) : null;
     if (historyAction) {
       e.preventDefault();
       this.stepHistory(historyAction);
@@ -1825,7 +2128,11 @@ export class DataGrid {
       const column = this.visibleColumns()[activeCol - colOffset];
       if (column) {
         const state = nextTypeaheadState(this.typeahead, e.key, Date.now(), 700);
-        const hit = findTypeaheadMatch(this.pageEntries().map((entry) => this.cellFor(column, entry.row).formatted), activeRow, state.prefix);
+        const hit = findTypeaheadMatch(
+          this.pageEntries().map((entry) => this.cellFor(column, entry.row).formatted),
+          activeRow,
+          state.prefix,
+        );
         if (hit !== -1) {
           this.typeahead = state;
           e.preventDefault();
@@ -1837,7 +2144,13 @@ export class DataGrid {
     const move = gridMove(
       e,
       { row: activeRow, col: activeCol },
-      { firstRow: -1, lastRow: this.pageEntries().length - 1, lastCol: this.lastCol(), pageStep: this.pageSize() ?? 10, rtl: isRtl(cell) },
+      {
+        firstRow: -1,
+        lastRow: this.pageEntries().length - 1,
+        lastCol: this.lastCol(),
+        pageStep: this.pageSize() ?? 10,
+        rtl: isRtl(cell),
+      },
     );
     if (move) {
       e.preventDefault();
@@ -1865,7 +2178,11 @@ export class DataGrid {
             break;
           }
         }
-        if (target === cell && cell.closest(".data-table-body") && !cell.querySelector("[data-grid-own]")) {
+        if (
+          target === cell &&
+          cell.closest(".data-table-body") &&
+          !cell.querySelector("[data-grid-own]")
+        ) {
           // A cell with a widget in it is entered; one without activates its row.
           if (this.enterCell(cell)) break;
           if (e.key === "Enter" && this.activateRows()) {
@@ -1885,7 +2202,12 @@ export class DataGrid {
     try {
       const raw = localStorage.getItem(key);
       if (raw) {
-        const saved = JSON.parse(raw) as { columnWidths?: Record<string, number>; hiddenColumnIds?: string[]; sort?: DataGridSort; columnOrder?: string[] };
+        const saved = JSON.parse(raw) as {
+          columnWidths?: Record<string, number>;
+          hiddenColumnIds?: string[];
+          sort?: DataGridSort;
+          columnOrder?: string[];
+        };
         if (saved.columnWidths) this.columnWidths.set(saved.columnWidths);
         if (saved.hiddenColumnIds) this.hiddenColumnIds.set(new Set(saved.hiddenColumnIds));
         if (saved.sort) this.sort.set(saved.sort);
@@ -1942,7 +2264,9 @@ export class DataGrid {
   }
 
   protected groupsOf(column: DataGridColumn): string[] {
-    return [...new Set((column.options ?? []).filter((o) => o.group).map((o) => o.group as string))];
+    return [
+      ...new Set((column.options ?? []).filter((o) => o.group).map((o) => o.group as string)),
+    ];
   }
 
   protected optionsInGroup(column: DataGridColumn, group: string): DataGridOption[] {

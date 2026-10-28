@@ -16,11 +16,7 @@
  */
 
 import "@lilydesignsystem/web-components-headless";
-import {
-    defaultLocaleLabels,
-    RTL_LANGUAGE_TAGS,
-    RTL_SCRIPT_SUBTAGS,
-} from "./locales.js";
+import { defaultLocaleLabels, RTL_LANGUAGE_TAGS, RTL_SCRIPT_SUBTAGS } from "./locales.js";
 
 export { defaultLocaleLabels, RTL_LANGUAGE_TAGS, RTL_SCRIPT_SUBTAGS };
 
@@ -119,9 +115,7 @@ export function localeEndonym(locale: string): string {
 function intlDisplayName(locale: string): string {
     try {
         const env =
-            typeof navigator !== "undefined" && navigator.language
-                ? navigator.language
-                : "en";
+            typeof navigator !== "undefined" && navigator.language ? navigator.language : "en";
         const dn = new Intl.DisplayNames([env], { type: "language" });
         return dn.of(bcp47LocaleTag(locale)) ?? "";
     } catch {
@@ -225,16 +219,16 @@ export class LocalePicker extends HTMLElement {
     // propagation, and never moves focus.
     #tipDocListening = false;
     readonly #onTipDocKeydown = (event: KeyboardEvent): void => {
-      if (event.key === "Escape" && this.#tooltipVisible()) {
-        this.#tipDismissed = true;
-        this.#syncTooltip();
-      }
+        if (event.key === "Escape" && this.#tooltipVisible()) {
+            this.#tipDismissed = true;
+            this.#syncTooltip();
+        }
     };
     #setTipDocListener(on: boolean): void {
-      if (on === this.#tipDocListening || typeof document === "undefined") return;
-      this.#tipDocListening = on;
-      if (on) document.addEventListener("keydown", this.#onTipDocKeydown);
-      else document.removeEventListener("keydown", this.#onTipDocKeydown);
+        if (on === this.#tipDocListening || typeof document === "undefined") return;
+        this.#tipDocListening = on;
+        if (on) document.addEventListener("keydown", this.#onTipDocKeydown);
+        else document.removeEventListener("keydown", this.#onTipDocKeydown);
     }
 
     #tooltipVisible(): boolean {
@@ -251,7 +245,7 @@ export class LocalePicker extends HTMLElement {
         if (!el) return;
         if (el.textContent !== this.label) el.textContent = this.label;
         const hide = !this.#tooltipVisible();
-      this.#setTipDocListener(!hide);
+        this.#setTipDocListener(!hide);
         if (el.hasAttribute("hidden") !== hide) {
             if (hide) el.setAttribute("hidden", "");
             else el.removeAttribute("hidden");
@@ -259,7 +253,7 @@ export class LocalePicker extends HTMLElement {
     }
 
     #resetTooltip(): void {
-      this.#setTipDocListener(false);
+        this.#setTipDocListener(false);
         this.#hoverButton = false;
         this.#hoverTooltip = false;
         this.#focusButton = false;
@@ -408,7 +402,9 @@ export class LocalePicker extends HTMLElement {
     #emitOpenChange(open: boolean): void {
         if (this.#silentOpen) return;
         this.onOpenChange?.(open);
-        this.dispatchEvent(new CustomEvent<boolean>("openchange", { detail: open, bubbles: true, composed: true }));
+        this.dispatchEvent(
+            new CustomEvent<boolean>("openchange", { detail: open, bubbles: true, composed: true }),
+        );
     }
 
     /** The `open` and `disabled` attributes, applied to the rendered button and popup. */
@@ -609,9 +605,7 @@ export class LocalePicker extends HTMLElement {
 
         if (!initial) {
             initial =
-                this.defaultValue ||
-                (this.#locales.includes("en") ? "en" : this.#locales[0]) ||
-                "";
+                this.defaultValue || (this.#locales.includes("en") ? "en" : this.#locales[0]) || "";
         }
 
         if (initial && initial !== this.value) {
@@ -661,9 +655,7 @@ export class LocalePicker extends HTMLElement {
         // aria-activedescendant off rather than pointing at an id that
         // does not exist.
         this.#activeIndex =
-            this.#locales.length === 0
-                ? -1
-                : (startIndex ?? (selected >= 0 ? selected : 0));
+            this.#locales.length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0));
         this.#open = true;
         this.#emitOpenChange(true);
         this.#syncState();
@@ -718,8 +710,7 @@ export class LocalePicker extends HTMLElement {
         // cycling. Only a buffer of differing characters refines the
         // match, and that buffer stays anchored on the active option.
         const sameCharRun =
-            this.#typeahead === "" ||
-            [...this.#typeahead].every((c) => c === lower);
+            this.#typeahead === "" || [...this.#typeahead].every((c) => c === lower);
         this.#typeahead += lower;
         clearTimeout(this.#typeaheadTimer);
         this.#typeaheadTimer = setTimeout(() => {
@@ -804,12 +795,7 @@ export class LocalePicker extends HTMLElement {
                 this.closeList(false);
                 break;
             default:
-                if (
-                    event.key.length === 1 &&
-                    !event.ctrlKey &&
-                    !event.metaKey &&
-                    !event.altKey
-                ) {
+                if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
                     this.#runTypeahead(event.key);
                 }
         }

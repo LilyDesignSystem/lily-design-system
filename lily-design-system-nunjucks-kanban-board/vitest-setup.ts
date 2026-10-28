@@ -4,30 +4,30 @@
 // suite runs the same everywhere. (No-op under the node environment,
 // where localStorage is irrelevant.)
 if (typeof globalThis.localStorage === "undefined") {
-  class MemoryStorage {
-    #map = new Map<string, string>();
-    get length() {
-      return this.#map.size;
+    class MemoryStorage {
+        #map = new Map<string, string>();
+        get length() {
+            return this.#map.size;
+        }
+        key(index: number) {
+            return [...this.#map.keys()][index] ?? null;
+        }
+        getItem(key: string) {
+            return this.#map.has(key) ? this.#map.get(key)! : null;
+        }
+        setItem(key: string, value: string) {
+            this.#map.set(String(key), String(value));
+        }
+        removeItem(key: string) {
+            this.#map.delete(key);
+        }
+        clear() {
+            this.#map.clear();
+        }
     }
-    key(index: number) {
-      return [...this.#map.keys()][index] ?? null;
-    }
-    getItem(key: string) {
-      return this.#map.has(key) ? this.#map.get(key)! : null;
-    }
-    setItem(key: string, value: string) {
-      this.#map.set(String(key), String(value));
-    }
-    removeItem(key: string) {
-      this.#map.delete(key);
-    }
-    clear() {
-      this.#map.clear();
-    }
-  }
-  const storage = new MemoryStorage();
-  Object.defineProperty(globalThis, "localStorage", {
-    value: storage,
-    configurable: true,
-  });
+    const storage = new MemoryStorage();
+    Object.defineProperty(globalThis, "localStorage", {
+        value: storage,
+        configurable: true,
+    });
 }

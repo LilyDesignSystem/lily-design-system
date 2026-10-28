@@ -66,13 +66,15 @@
     detectFromNavigator
 />
 
-<p class="locale-picker-status" aria-live="polite">
+<p
+    class="locale-picker-status"
+    aria-live="polite"
+>
     Active language: {localeName(locale)}
 </p>
 
 <p>
     Reload the page: the choice persists via
-    <code>localStorage["lily-locale"]</code>. Clear that key and reload
-    to see <code>detectFromNavigator</code> resolve from your browser's
-    language settings instead.
+    <code>localStorage["lily-locale"]</code>. Clear that key and reload to see
+    <code>detectFromNavigator</code> resolve from your browser's language settings instead.
 </p>

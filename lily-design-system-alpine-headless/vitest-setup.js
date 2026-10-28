@@ -6,6 +6,6 @@ import { afterEach } from "vitest";
 // is still alive; otherwise its queued cleanup (x-for, observers) runs after
 // the environment is gone and throws "document is not defined".
 afterEach(async () => {
-  document.body.innerHTML = "";
-  await new Promise((resolve) => setTimeout(resolve, 0));
+    document.body.innerHTML = "";
+    await new Promise((resolve) => setTimeout(resolve, 0));
 });

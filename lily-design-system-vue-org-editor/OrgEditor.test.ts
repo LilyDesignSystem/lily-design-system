@@ -38,7 +38,14 @@ afterEach(() => {
 
 function setup(props: Record<string, unknown> = {}, options: Record<string, unknown> = {}) {
     const wrapper = mount(OrgEditor, {
-        props: { label: "Notes", toolbarLabel: "Formatting", labels, modelValue: "hello world", today: "2026-10-24", ...props },
+        props: {
+            label: "Notes",
+            toolbarLabel: "Formatting",
+            labels,
+            modelValue: "hello world",
+            today: "2026-10-24",
+            ...props,
+        },
         attachTo: document.body,
         ...options,
     });
@@ -66,12 +73,19 @@ describe("structure", () => {
 
     it("renders one named button per labelled tool, in the default order", () => {
         const { wrapper } = setup();
-        expect(wrapper.findAll("button").map((b) => b.attributes("data-tool"))).toEqual([...TOOL_IDS]);
-        expect(wrapper.findAll("button").map((b) => b.attributes("aria-label"))).toEqual(TOOL_IDS.map((t) => (labels as Record<string, string>)[t]));
+        expect(wrapper.findAll("button").map((b) => b.attributes("data-tool"))).toEqual([
+            ...TOOL_IDS,
+        ]);
+        expect(wrapper.findAll("button").map((b) => b.attributes("aria-label"))).toEqual(
+            TOOL_IDS.map((t) => (labels as Record<string, string>)[t]),
+        );
     });
 
     it("every button carries its group", () => {
-        for (const b of setup().wrapper.findAll("button")) expect(b.attributes("data-group")).toBe(TOOL_GROUPS[b.attributes("data-tool") as keyof typeof TOOL_GROUPS]);
+        for (const b of setup().wrapper.findAll("button"))
+            expect(b.attributes("data-group")).toBe(
+                TOOL_GROUPS[b.attributes("data-tool") as keyof typeof TOOL_GROUPS],
+            );
     });
 
     it("omits a tool that has no label", () => {
@@ -79,16 +93,22 @@ describe("structure", () => {
     });
 
     it("honours the tools prop for subset and order", () => {
-        expect(setup({ tools: ["contact", "todo"] }).wrapper.findAll("button").map((b) => b.attributes("data-tool"))).toEqual(["contact", "todo"]);
+        expect(
+            setup({ tools: ["contact", "todo"] })
+                .wrapper.findAll("button")
+                .map((b) => b.attributes("data-tool")),
+        ).toEqual(["contact", "todo"]);
     });
 
     it("every button is type=button", () => {
-        for (const b of setup().wrapper.findAll("button")) expect(b.attributes("type")).toBe("button");
+        for (const b of setup().wrapper.findAll("button"))
+            expect(b.attributes("type")).toBe("button");
     });
 
     it("icons are decorative and draw one path each", () => {
         const { wrapper } = setup();
-        for (const svg of wrapper.findAll("svg")) expect(svg.attributes("aria-hidden")).toBe("true");
+        for (const svg of wrapper.findAll("svg"))
+            expect(svg.attributes("aria-hidden")).toBe("true");
         expect(wrapper.findAll("svg path").length).toBe(TOOL_IDS.length);
     });
 
@@ -180,7 +200,9 @@ describe("tools", () => {
         select(textarea, 0, 5);
         await button("Link").trigger("click");
         expect(textarea.value).toBe("[[https://][hello]] world");
-        expect(textarea.value.slice(textarea.selectionStart, textarea.selectionEnd)).toBe("https://");
+        expect(textarea.value.slice(textarea.selectionStart, textarea.selectionEnd)).toBe(
+            "https://",
+        );
     });
 
     it("heading uses the headingLevel", async () => {
@@ -230,7 +252,10 @@ describe("tools", () => {
     });
 
     it("the keywords are an option", async () => {
-        const { textarea, button } = setup({ modelValue: "* Ship", todoKeywords: ["NEXT", "DONE"] });
+        const { textarea, button } = setup({
+            modelValue: "* Ship",
+            todoKeywords: ["NEXT", "DONE"],
+        });
         select(textarea, 0, 0);
         await button("Task").trigger("click");
         expect(textarea.value).toBe("* NEXT Ship");
@@ -248,7 +273,9 @@ describe("tools", () => {
         select(textarea, 0, 0);
         await button("Scheduled").trigger("click");
         expect(textarea.value).toBe("* Ship\nSCHEDULED: <2026-10-24 Sat>\nbody");
-        expect(textarea.value.slice(textarea.selectionStart, textarea.selectionEnd)).toBe("2026-10-24 Sat");
+        expect(textarea.value.slice(textarea.selectionStart, textarea.selectionEnd)).toBe(
+            "2026-10-24 Sat",
+        );
     });
 
     it("scheduled again removes it", async () => {
@@ -329,7 +356,9 @@ describe("tools", () => {
         const { textarea, button } = setup({ modelValue: "Ada Lovelace" });
         select(textarea, 0, 12);
         await button("Contact").trigger("click");
-        expect(textarea.value).toBe("* Ada Lovelace\n:PROPERTIES:\n:EMAIL: \n:PHONE: \n:ADDRESS: \n:BIRTHDAY: \n:END:");
+        expect(textarea.value).toBe(
+            "* Ada Lovelace\n:PROPERTIES:\n:EMAIL: \n:PHONE: \n:ADDRESS: \n:BIRTHDAY: \n:END:",
+        );
     });
 
     it("the contact properties are an option", async () => {
@@ -411,7 +440,9 @@ describe("shortcuts", () => {
 
 describe("toolbar keyboard", () => {
     it("only one button is in the tab order (roving tabindex)", () => {
-        const tabbable = setup().wrapper.findAll("button").filter((b) => b.attributes("tabindex") === "0");
+        const tabbable = setup()
+            .wrapper.findAll("button")
+            .filter((b) => b.attributes("tabindex") === "0");
         expect(tabbable.length).toBe(1);
         expect(tabbable[0].attributes("data-tool")).toBe("heading");
     });
@@ -444,7 +475,8 @@ describe("disabled and readonly", () => {
     it("disabled disables the textarea and every button", () => {
         const { wrapper, textarea } = setup({ disabled: true });
         expect(textarea.disabled).toBe(true);
-        for (const b of wrapper.findAll("button")) expect((b.element as HTMLButtonElement).disabled).toBe(true);
+        for (const b of wrapper.findAll("button"))
+            expect((b.element as HTMLButtonElement).disabled).toBe(true);
     });
 
     it("readonly keeps the text unchangeable by a tool", async () => {
@@ -457,7 +489,10 @@ describe("disabled and readonly", () => {
 
 describe("icon slot", () => {
     it("the icon slot replaces the default icons", () => {
-        const { wrapper } = setup({}, { slots: { icon: (p: { tool: string }) => h("span", { "data-icon": p.tool }, "x") } });
+        const { wrapper } = setup(
+            {},
+            { slots: { icon: (p: { tool: string }) => h("span", { "data-icon": p.tool }, "x") } },
+        );
         expect(wrapper.findAll("svg").length).toBe(0);
         expect(wrapper.findAll("[data-icon]").length).toBe(TOOL_IDS.length);
     });

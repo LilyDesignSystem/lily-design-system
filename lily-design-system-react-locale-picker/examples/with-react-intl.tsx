@@ -75,10 +75,16 @@ export function WithReactIntlExample() {
             />
 
             <h1>
-                <FormattedMessage id="home.heading" defaultMessage="Welcome" />
+                <FormattedMessage
+                    id="home.heading"
+                    defaultMessage="Welcome"
+                />
             </h1>
             <p>
-                <FormattedMessage id="home.body" defaultMessage="Body text" />
+                <FormattedMessage
+                    id="home.body"
+                    defaultMessage="Body text"
+                />
             </p>
         </IntlProvider>
     );

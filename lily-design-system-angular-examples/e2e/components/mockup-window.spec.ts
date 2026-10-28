@@ -13,7 +13,7 @@ test.describe("component page: mockup-window", () => {
 
   test("renders the H1 with the component name", async ({ page }) => {
     await expect(
-      page.getByRole("heading", { level: 1, name: new RegExp("^MockupWindow$") })
+      page.getByRole("heading", { level: 1, name: new RegExp("^MockupWindow$") }),
     ).toBeVisible();
   });
 

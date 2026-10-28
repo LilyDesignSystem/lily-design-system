@@ -16,14 +16,8 @@ import {
 } from "./motion-picker.js";
 
 export { MotionPicker, motionName, prefersReducedMotion, nextMotionPickerId };
-export type {
-    MotionPickerProps,
-    MotionPickerChangeDetail,
-} from "./motion-picker.js";
+export type { MotionPickerProps, MotionPickerChangeDetail } from "./motion-picker.js";
 
-if (
-    typeof customElements !== "undefined" &&
-    !customElements.get("motion-picker")
-) {
+if (typeof customElements !== "undefined" && !customElements.get("motion-picker")) {
     customElements.define("motion-picker", MotionPicker);
 }

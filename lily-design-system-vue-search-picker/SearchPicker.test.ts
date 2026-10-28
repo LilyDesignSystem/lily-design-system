@@ -342,7 +342,9 @@ describe("SearchPicker — tooltip (§7.25–§7.30)", () => {
         expect(tip.textContent!.length).toBeGreaterThan(0);
         expect(tip.hasAttribute("hidden")).toBe(true);
         expect(tip.id).toBeTruthy();
-        expect(button.previousElementSibling === tip || button.nextElementSibling === tip).toBe(true);
+        expect(button.previousElementSibling === tip || button.nextElementSibling === tip).toBe(
+            true,
+        );
         expect(button.hasAttribute("aria-describedby")).toBe(false);
     });
 
@@ -421,7 +423,8 @@ describe("SearchPicker — tooltip (§7.25–§7.30)", () => {
     test("§7.31 hover-only tooltip: Escape on another element dismisses it; listener removed after hide/unmount", async () => {
         const addSpy = vi.spyOn(document, "addEventListener");
         const removeSpy = vi.spyOn(document, "removeEventListener");
-        const keydownCalls = (spy: typeof addSpy) => spy.mock.calls.filter((c) => c[0] === "keydown").length;
+        const keydownCalls = (spy: typeof addSpy) =>
+            spy.mock.calls.filter((c) => c[0] === "keydown").length;
         const wrapper = build();
         const button = wrapper.element.querySelector(".search-picker-button") as HTMLButtonElement;
         const tip = wrapper.element.querySelector(".search-picker-tooltip") as HTMLElement;
@@ -458,7 +461,10 @@ describe("SearchPicker — open state and disabled", () => {
     const settle = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
     const mounted: VueWrapper[] = [];
     const make = (extra: Record<string, unknown> = {}) => {
-        const wrapper = mount(SearchPicker, { props: { ...{ ...LABELS }, ...extra }, attachTo: document.body });
+        const wrapper = mount(SearchPicker, {
+            props: { ...{ ...LABELS }, ...extra },
+            attachTo: document.body,
+        });
         mounted.push(wrapper);
         return wrapper;
     };
@@ -486,7 +492,9 @@ describe("SearchPicker — open state and disabled", () => {
 
     test("v-model:open: a click asks for the change and the parent applies it", async () => {
         const wrapper = make({ open: false });
-        await wrapper.setProps({ "onUpdate:open": (v: boolean) => wrapper.setProps({ open: v }) } as never);
+        await wrapper.setProps({
+            "onUpdate:open": (v: boolean) => wrapper.setProps({ open: v }),
+        } as never);
         button().click();
         await settle();
         expect(button().getAttribute("aria-expanded")).toBe("true");
@@ -507,4 +515,3 @@ describe("SearchPicker — open state and disabled", () => {
         expect(button().getAttribute("aria-expanded")).toBe("false");
     });
 });
-

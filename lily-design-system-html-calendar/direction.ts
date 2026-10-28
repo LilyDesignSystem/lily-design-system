@@ -9,7 +9,8 @@ export function isRtl(element: Element | null | undefined): boolean {
     const attr = element.closest("[dir]")?.getAttribute("dir")?.toLowerCase();
     if (attr === "rtl") return true;
     if (attr === "ltr") return false;
-    if (typeof getComputedStyle === "function") return getComputedStyle(element).direction === "rtl";
+    if (typeof getComputedStyle === "function")
+        return getComputedStyle(element).direction === "rtl";
     return false;
 }
 

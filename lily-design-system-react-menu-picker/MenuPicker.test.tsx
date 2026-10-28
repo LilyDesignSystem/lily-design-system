@@ -14,9 +14,19 @@ const panel = () => document.querySelector(".menu-picker-panel") as HTMLDivEleme
 const content = (args: ChildArgs) => (
     <div>
         <a href="/a/">Alpha</a>
-        <button type="button" className="b">Beta</button>
+        <button
+            type="button"
+            className="b"
+        >
+            Beta
+        </button>
         <div data-menu-picker-keep-open>
-            <button type="button" className="keep">Keep</button>
+            <button
+                type="button"
+                className="keep"
+            >
+                Keep
+            </button>
         </div>
         <button
             type="button"
@@ -33,7 +43,10 @@ const content = (args: ChildArgs) => (
 
 function mount(props: Record<string, unknown> = {}) {
     return render(
-        <MenuPicker label="Menu" {...(props as object)}>
+        <MenuPicker
+            label="Menu"
+            {...(props as object)}
+        >
             {(props.children as never) ?? content}
         </MenuPicker>,
     );
@@ -62,7 +75,10 @@ describe("MenuPicker", () => {
         expect(svg.getAttribute("viewBox")).toBe("0 0 16 16");
         cleanup();
         const again = render(
-            <MenuPicker label="Menu" icon={() => <span className="mine">≡</span>} />,
+            <MenuPicker
+                label="Menu"
+                icon={() => <span className="mine">≡</span>}
+            />,
         );
         expect(again.container.querySelector(".mine")).toBeTruthy();
         expect(again.container.querySelector("svg.menu-picker-icon")).toBeNull();
@@ -145,7 +161,9 @@ describe("MenuPicker", () => {
     test("7.13 activating a link or button closes; keep-open and closeOnSelect=false do not", () => {
         mount();
         fireEvent.click(button());
-        panel().querySelector("a")!.addEventListener("click", (e) => e.preventDefault());
+        panel()
+            .querySelector("a")!
+            .addEventListener("click", (e) => e.preventDefault());
         fireEvent.click(panel().querySelector("a")!);
         expect(panel().hidden).toBe(true);
         expect(document.activeElement).toBe(button());
@@ -177,9 +195,23 @@ describe("MenuPicker", () => {
         fireEvent.click(document.body);
         expect(onOpenChange.mock.calls).toEqual([[true], [false]]);
         cleanup();
-        const { rerender } = render(<MenuPicker label="Menu" open={true}>x</MenuPicker>);
+        const { rerender } = render(
+            <MenuPicker
+                label="Menu"
+                open={true}
+            >
+                x
+            </MenuPicker>,
+        );
         expect(panel().hidden).toBe(false);
-        rerender(<MenuPicker label="Menu" open={false}>x</MenuPicker>);
+        rerender(
+            <MenuPicker
+                label="Menu"
+                open={false}
+            >
+                x
+            </MenuPicker>,
+        );
         expect(panel().hidden).toBe(true);
     });
 

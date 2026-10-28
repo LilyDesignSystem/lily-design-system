@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="emoji-character-picker"
@@ -6,9 +6,9 @@ const html = `<div
   aria-label="Emoji picker" hidden></div>`;
 
 const meta = {
-  title: 'Headless/EmojiCharacterPicker',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/EmojiCharacterPicker",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

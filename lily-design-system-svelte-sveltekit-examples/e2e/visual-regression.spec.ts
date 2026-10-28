@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
 // Plan P7-T5 (stretch): a visual regression baseline over a representative
 // slice of the catalog, across a spread of reference themes.
@@ -24,87 +24,93 @@ import { test, expect } from '@playwright/test';
 // Verify: a plain re-run reports zero diffs.
 
 const THEMES = [
-  'united-kingdom-national-health-service-england-for-patients',
-  'united-kingdom-government-digital-service',
-  'dark'
+    "united-kingdom-national-health-service-england-for-patients",
+    "united-kingdom-government-digital-service",
+    "dark",
 ] as const;
 
 const SLUGS = [
-  // content
-  'alert',
-  'information-callout',
-  'feature-card',
-  // national identifiers
-  'united-kingdom-national-insurance-number-input',
-  'united-kingdom-national-insurance-number-view',
-  'australia-individual-healthcare-identifier-input',
-  // forms
-  'text-input',
-  'select',
-  'checkbox-group',
-  // navigation
-  'breadcrumb-nav',
-  'pagination-nav',
-  'tab-bar',
-  'accordion-nav',
-  // lists
-  'summary-list',
-  'task-list',
-  'timeline-list',
-  // tables
-  'data-table',
-  'calendar-table',
-  'kanban-table',
-  // links
-  'back-link',
-  // pickers
-  'five-star-rating-picker',
-  'color-picker',
-  // overlays
-  'dialog',
-  'alert-dialog',
-  // media
-  'figure',
-  'avatar-image',
-  // buttons
-  'button',
-  'toggle-button',
-  // data-viz
-  'bar-chart',
-  'meter'
+    // content
+    "alert",
+    "information-callout",
+    "feature-card",
+    // national identifiers
+    "united-kingdom-national-insurance-number-input",
+    "united-kingdom-national-insurance-number-view",
+    "australia-individual-healthcare-identifier-input",
+    // forms
+    "text-input",
+    "select",
+    "checkbox-group",
+    // navigation
+    "breadcrumb-nav",
+    "pagination-nav",
+    "tab-bar",
+    "accordion-nav",
+    // lists
+    "summary-list",
+    "task-list",
+    "timeline-list",
+    // tables
+    "data-table",
+    "calendar-table",
+    "kanban-table",
+    // links
+    "back-link",
+    // pickers
+    "five-star-rating-picker",
+    "color-picker",
+    // overlays
+    "dialog",
+    "alert-dialog",
+    // media
+    "figure",
+    "avatar-image",
+    // buttons
+    "button",
+    "toggle-button",
+    // data-viz
+    "bar-chart",
+    "meter",
 ] as const;
 
-async function waitForTheme(page: import('@playwright/test').Page) {
-  await page.waitForFunction(() => {
-    const link = document.querySelector('link[data-lily-theme-picker="theme"]') as HTMLLinkElement | null;
-    if (!link) return false;
-    try {
-      return !!(link.sheet && link.sheet.cssRules && link.sheet.cssRules.length > 0);
-    } catch {
-      return true;
-    }
-  });
-  await page.evaluate(() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r))));
+async function waitForTheme(page: import("@playwright/test").Page) {
+    await page.waitForFunction(() => {
+        const link = document.querySelector(
+            'link[data-lily-theme-picker="theme"]',
+        ) as HTMLLinkElement | null;
+        if (!link) return false;
+        try {
+            return !!(link.sheet && link.sheet.cssRules && link.sheet.cssRules.length > 0);
+        } catch {
+            return true;
+        }
+    });
+    await page.evaluate(
+        () => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))),
+    );
 }
 
-test.describe('visual regression baseline (P7-T5)', () => {
-  for (const theme of THEMES) {
-    test.describe(`theme: ${theme}`, () => {
-      for (const slug of SLUGS) {
-        test(`${slug}`, async ({ page }) => {
-          await page.addInitScript((t) => {
-            window.localStorage.setItem('lily-theme', t);
-          }, theme);
-          await page.goto(`/components/${slug}`);
-          await waitForTheme(page);
-          const demo = page.locator('main .card').first();
-          // Font rendering differs per OS, so the baseline is inherently
-          // platform-specific -- included explicitly (rather than relying
-          // on Playwright's implicit platform suffix) because an explicit
-          // snapshot name here would otherwise disable that suffixing.
-          await expect(demo).toHaveScreenshot(`${slug}--${theme}-${process.platform}.png`);
+test.describe("visual regression baseline (P7-T5)", () => {
+    for (const theme of THEMES) {
+        test.describe(`theme: ${theme}`, () => {
+            for (const slug of SLUGS) {
+                test(`${slug}`, async ({ page }) => {
+                    await page.addInitScript((t) => {
+                        window.localStorage.setItem("lily-theme", t);
+                    }, theme);
+                    await page.goto(`/components/${slug}`);
+                    await waitForTheme(page);
+                    const demo = page.locator("main .card").first();
+                    // Font rendering differs per OS, so the baseline is inherently
+                    // platform-specific -- included explicitly (rather than relying
+                    // on Playwright's implicit platform suffix) because an explicit
+                    // snapshot name here would otherwise disable that suffixing.
+                    await expect(demo).toHaveScreenshot(
+                        `${slug}--${theme}-${process.platform}.png`,
+                    );
+                });
+            }
         });
-      }
-    });
-  }
+    }
 });

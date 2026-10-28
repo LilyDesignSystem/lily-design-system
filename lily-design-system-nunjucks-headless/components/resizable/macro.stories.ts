@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="resizable"
@@ -7,9 +7,9 @@ const html = `<div
   data-module="resizable"></div>`;
 
 const meta = {
-  title: 'Headless/Resizable',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/Resizable",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

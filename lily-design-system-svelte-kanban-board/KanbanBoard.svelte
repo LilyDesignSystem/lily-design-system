@@ -1,4 +1,7 @@
-<script lang="ts" module>
+<script
+    lang="ts"
+    module
+>
     import {
         IconButton,
         KanbanTable,
@@ -11,12 +14,31 @@
         Mark,
         SearchInput,
     } from "@lilydesignsystem/svelte-headless";
-    import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
+    import {
+        copyToClipboard,
+        downloadBlob,
+        exportBlob,
+        exportFilename,
+        toClipboardText,
+        type ExportFormat,
+    } from "./export-data";
     import { highlightSegments, matchesSearch } from "./search-text";
     import { isRtl, logicalKey } from "./direction";
     import { gridMove, pageStepFor } from "./grid-navigation";
-    import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
-    import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
+    import {
+        EMPTY_HISTORY,
+        historyKey,
+        recordEdit,
+        redoEdit,
+        undoEdit,
+        type EditHistory,
+    } from "./edit-history";
+    import {
+        findTypeaheadMatch,
+        isTypeaheadKey,
+        nextTypeaheadState,
+        type TypeaheadState,
+    } from "./typeahead";
     import {
         draftOf as fieldDraft,
         evaluateEdit,
@@ -87,7 +109,12 @@
     };
 
     /** What the `card` snippet receives. */
-    export type KanbanCardContext = { card: KanbanCard; label: string; column: KanbanColumn; pending: boolean };
+    export type KanbanCardContext = {
+        card: KanbanCard;
+        label: string;
+        column: KanbanColumn;
+        pending: boolean;
+    };
 
     /** What the `columnHeader` / `columnFooter` snippets receive: the column and every card in it (unfiltered). */
     export type KanbanColumnContext = { column: KanbanColumn; cards: KanbanCard[]; count: number };
@@ -154,7 +181,14 @@
         /** Announced when the clipboard could not be written. */
         copyFailed?: string;
         /** Headers of the export's own columns (card title, column, lane, subtitle, badges, flag). An export needs `exportHeaders`; there is no English default. */
-        exportHeaders?: { title: string; column: string; lane?: string; subtitle?: string; badges?: string; flag?: string };
+        exportHeaders?: {
+            title: string;
+            column: string;
+            lane?: string;
+            subtitle?: string;
+            badges?: string;
+            flag?: string;
+        };
         /** Announced after a field edit: (card title, field header, the new text). */
         editAnnouncement?: (cardTitle: string, fieldHeader: string, text: string) => string;
         /** Announced when an edit is refused as invalid for the field's type: (card title, field header). */
@@ -168,13 +202,23 @@
     };
 
     /** What `onExport` receives. Return `false` to take over the download. */
-    export type KanbanExport = { format: ExportFormat; filename: string; cardCount: number; blob: Blob };
+    export type KanbanExport = {
+        format: ExportFormat;
+        filename: string;
+        cardCount: number;
+        blob: Blob;
+    };
 
     /** What `onTitleEdit` receives: the card, its new title, and the title it had. */
     export type KanbanTitleEdit = { cardId: string; title: string; previous: string };
 
     /** What `onFieldEdit` receives. */
-    export type KanbanFieldEdit = { cardId: string; fieldId: string; value: unknown; previous: unknown };
+    export type KanbanFieldEdit = {
+        cardId: string;
+        fieldId: string;
+        value: unknown;
+        previous: unknown;
+    };
 
     export type Props = {
         /** Accessible name for the board, passed through to KanbanTable. */
@@ -198,7 +242,12 @@
          * when a pointer drop landed on a card. May return a promise: the card shows in its new column at once with `data-pending`
          * and `aria-busy`, and goes back (announcing `labels.moveFailed`, calling `onMoveError`) if the promise rejects.
          */
-        onMove?: (cardId: string, toColumnId: string, toIndex?: number, toLaneId?: string) => void | Promise<unknown>;
+        onMove?: (
+            cardId: string,
+            toColumnId: string,
+            toIndex?: number,
+            toLaneId?: string,
+        ) => void | Promise<unknown>;
         /** Called when an async `onMove` rejects, after the card has gone back. */
         onMoveError?: (cardId: string, toColumnId: string, error: unknown) => void;
         /** The columns a card may move to (its own column is always shown). The move menu offers only these; drops and keyboard moves elsewhere are refused. */
@@ -361,7 +410,9 @@
     /** Cards moved optimistically by an async `onMove` that has not settled: id → destination column. */
     let optimistic = $state<Record<string, string>>({});
     const isPending = (cardId: string) => cardId in optimistic;
-    const effectiveCards = $derived(cards.map((c) => (c.id in optimistic ? { ...c, columnId: optimistic[c.id] } : c)));
+    const effectiveCards = $derived(
+        cards.map((c) => (c.id in optimistic ? { ...c, columnId: optimistic[c.id] } : c)),
+    );
 
     const cardsByColumn = $derived.by(() => {
         const map = new Map<string, KanbanCard[]>();
@@ -374,7 +425,12 @@
 
     const searching = $derived(search.trim() !== "");
     const defaultSearchText = (c: KanbanCard): string =>
-        [cardLabel(c), c.subtitle ?? "", ...(c.badges ?? []), ...resolvedFields.map((f) => fieldText(f, c))].join(" ");
+        [
+            cardLabel(c),
+            c.subtitle ?? "",
+            ...(c.badges ?? []),
+            ...resolvedFields.map((f) => fieldText(f, c)),
+        ].join(" ");
     let searchAnnounced = $state(false);
     $effect(() => {
         void search;
@@ -404,10 +460,13 @@
     const isCollapsed = (columnId: string) => collapsedColumns.includes(columnId);
 
     // A collapsed column shows no cards, so it does not count towards the board's height.
-    const isEmptyColumn = (column: KanbanColumn) => !isCollapsed(column.id) && (shownByColumn.get(column.id)?.length ?? 0) === 0;
+    const isEmptyColumn = (column: KanbanColumn) =>
+        !isCollapsed(column.id) && (shownByColumn.get(column.id)?.length ?? 0) === 0;
 
     // ---- Rows: one band per lane (a single anonymous band without `lanes`) ----
-    const laneBands = $derived(lanes && lanes.length > 0 ? lanes : [{ id: "", title: "" } as KanbanLane]);
+    const laneBands = $derived(
+        lanes && lanes.length > 0 ? lanes : [{ id: "", title: "" } as KanbanLane],
+    );
     const hasLanes = $derived(!!lanes && lanes.length > 0);
     const laneOf = (card: KanbanCard) => (hasLanes ? (card.laneId ?? lanes![0].id) : "");
 
@@ -426,7 +485,9 @@
     });
 
     /** The grid's rows and lane headers, flattened: `row` slots carry the global (data-row) index. */
-    type Slot = { kind: "lane"; lane: KanbanLane } | { kind: "row"; rowIndex: number; laneId: string; laneRow: number };
+    type Slot =
+        | { kind: "lane"; lane: KanbanLane }
+        | { kind: "row"; rowIndex: number; laneId: string; laneRow: number };
     const slots = $derived.by(() => {
         const out: Slot[] = [];
         let rowIndex = 0;
@@ -443,22 +504,28 @@
             // empty column's message even when no column has a card to show.
             if (hasLanes) rows = Math.max(rows, 1);
             else if (rows === 0 && labels.emptyColumn && columns.some(isEmptyColumn)) rows = 1;
-            for (let laneRow = 0; laneRow < rows; laneRow++) out.push({ kind: "row", rowIndex: rowIndex++, laneId: lane.id, laneRow });
+            for (let laneRow = 0; laneRow < rows; laneRow++)
+                out.push({ kind: "row", rowIndex: rowIndex++, laneId: lane.id, laneRow });
         }
         return out;
     });
-    const rowSlots = $derived(slots.filter((x): x is Extract<Slot, { kind: "row" }> => x.kind === "row"));
+    const rowSlots = $derived(
+        slots.filter((x): x is Extract<Slot, { kind: "row" }> => x.kind === "row"),
+    );
     const maxRows = $derived(rowSlots.length);
 
     const isLaneCollapsed = (laneId: string) => collapsedLanes.includes(laneId);
     /** Every card in a lane (unfiltered by collapse; the search/filter view still applies). */
     const laneCardCount = (laneId: string) => {
         let n = 0;
-        for (const column of columns) n += cellCards.get(`${column.id}\u0000${laneId}`)?.length ?? 0;
+        for (const column of columns)
+            n += cellCards.get(`${column.id}\u0000${laneId}`)?.length ?? 0;
         return n;
     };
     function toggleLane(lane: KanbanLane): void {
-        collapsedLanes = isLaneCollapsed(lane.id) ? collapsedLanes.filter((id) => id !== lane.id) : [...collapsedLanes, lane.id];
+        collapsedLanes = isLaneCollapsed(lane.id)
+            ? collapsedLanes.filter((id) => id !== lane.id)
+            : [...collapsedLanes, lane.id];
     }
 
     function toggleCollapsed(column: KanbanColumn): void {
@@ -492,13 +559,22 @@
         return map;
     });
     const slotIndexOfRow = (rowIndex: number) => slotIndexByRow.get(rowIndex) ?? -1;
-    type RenderItem = { kind: "spacer"; height: number; key: string } | { kind: "slot"; slot: Slot; key: string };
+    type RenderItem =
+        { kind: "spacer"; height: number; key: string } | { kind: "slot"; slot: Slot; key: string };
     /** What renders: the slots in view plus the roving tab stop's row (so the grid never leaves the tab order), with spacers for the gaps. */
     const renderItems = $derived.by(() => {
-        if (!virtualize) return slots.map((slot): RenderItem => ({ kind: "slot", slot, key: slot.kind === "lane" ? `lane:${slot.lane.id}` : `row:${slot.rowIndex}` }));
+        if (!virtualize)
+            return slots.map((slot): RenderItem => ({
+                kind: "slot",
+                slot,
+                key: slot.kind === "lane" ? `lane:${slot.lane.id}` : `row:${slot.rowIndex}`,
+            }));
         const overscan = virtualize.overscan ?? 3;
         const start = Math.max(0, Math.floor(scrollTop / virtualize.rowHeight) - overscan);
-        const end = Math.min(slots.length, Math.ceil((scrollTop + virtualize.height) / virtualize.rowHeight) + overscan);
+        const end = Math.min(
+            slots.length,
+            Math.ceil((scrollTop + virtualize.height) / virtualize.rowHeight) + overscan,
+        );
         const indices = new Set<number>();
         for (let i = start; i < end; i++) indices.add(i);
         const active = slotIndexOfRow(activeRow);
@@ -506,12 +582,26 @@
         const items: RenderItem[] = [];
         let previous = -1;
         for (const index of [...indices].sort((a, b) => a - b)) {
-            if (index - previous > 1) items.push({ kind: "spacer", height: (index - previous - 1) * virtualize.rowHeight, key: `spacer:${previous}` });
+            if (index - previous > 1)
+                items.push({
+                    kind: "spacer",
+                    height: (index - previous - 1) * virtualize.rowHeight,
+                    key: `spacer:${previous}`,
+                });
             const slot = slots[index];
-            items.push({ kind: "slot", slot, key: slot.kind === "lane" ? `lane:${slot.lane.id}` : `row:${slot.rowIndex}` });
+            items.push({
+                kind: "slot",
+                slot,
+                key: slot.kind === "lane" ? `lane:${slot.lane.id}` : `row:${slot.rowIndex}`,
+            });
             previous = index;
         }
-        if (slots.length - 1 - previous > 0) items.push({ kind: "spacer", height: (slots.length - 1 - previous) * virtualize.rowHeight, key: `spacer:${previous}` });
+        if (slots.length - 1 - previous > 0)
+            items.push({
+                kind: "spacer",
+                height: (slots.length - 1 - previous) * virtualize.rowHeight,
+                key: `spacer:${previous}`,
+            });
         return items;
     });
 
@@ -522,7 +612,8 @@
         if (slotIndex < 0) return;
         const top = slotIndex * virtualize.rowHeight;
         if (top < scrollTop) scrollTop = top;
-        else if (top + virtualize.rowHeight > scrollTop + virtualize.height) scrollTop = top + virtualize.rowHeight - virtualize.height;
+        else if (top + virtualize.rowHeight > scrollTop + virtualize.height)
+            scrollTop = top + virtualize.rowHeight - virtualize.height;
         if (scrollEl) scrollEl.scrollTop = scrollTop;
     }
 
@@ -536,11 +627,17 @@
 
     // Type defaults (format, compare, export value) resolved once per `fields` / `locale` change, never per card or keystroke.
     const resolvedFields = $derived(resolveFields(fields, locale));
-    const isFieldEditable = (f: KanbanField, card: KanbanCard) => !!onFieldEdit && !readonly && !card.locked && isEditableField(f);
+    const isFieldEditable = (f: KanbanField, card: KanbanCard) =>
+        !!onFieldEdit && !readonly && !card.locked && isEditableField(f);
     const fieldText = (f: ResolvedField, card: KanbanCard): string => fieldTextOf(f, card.values);
 
     /** The field being edited, if any: the draft is the editor's text. */
-    let editing = $state<{ cardId: string; fieldId: string; draft: Draft; invalid?: boolean } | null>(null);
+    let editing = $state<{
+        cardId: string;
+        fieldId: string;
+        draft: Draft;
+        invalid?: boolean;
+    } | null>(null);
     /** Accepted field edits, for Ctrl/Cmd+Z once there is no move left to undo. The consumer owns the data, so an undo is reported through `onFieldEdit`. */
     let history: EditHistory = EMPTY_HISTORY;
     let committing = false;
@@ -552,7 +649,14 @@
         await tick();
         const editor = rootEl?.querySelector<HTMLInputElement>(".kanban-board-field-editor");
         editor?.focus({ preventScroll: true });
-        if (editor && "select" in editor && editor.type !== "number" && editor.type !== "date" && editor.type !== "time") editor.select();
+        if (
+            editor &&
+            "select" in editor &&
+            editor.type !== "number" &&
+            editor.type !== "date" &&
+            editor.type !== "time"
+        )
+            editor.select();
     }
 
     /** Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. Returns whether it was accepted or unchanged. */
@@ -568,13 +672,22 @@
         const outcome = evaluateEdit(f, card.values, draft);
         if (outcome.invalid) {
             editing.invalid = true;
-            announce((outcome.message ? labels.editRefused?.(cardLabel(card), f.header, outcome.message) : undefined) ?? labels.editInvalid?.(cardLabel(card), f.header));
+            announce(
+                (outcome.message
+                    ? labels.editRefused?.(cardLabel(card), f.header, outcome.message)
+                    : undefined) ?? labels.editInvalid?.(cardLabel(card), f.header),
+            );
             return false;
         }
         committing = true;
         editing = null;
         if (outcome.changed) {
-            history = recordEdit(history, { ownerId: cardId, fieldId, value: outcome.value, previous: outcome.previous });
+            history = recordEdit(history, {
+                ownerId: cardId,
+                fieldId,
+                value: outcome.value,
+                previous: outcome.previous,
+            });
             onFieldEdit?.({ cardId, fieldId, value: outcome.value, previous: outcome.previous });
             announce(labels.editAnnouncement?.(cardLabel(card), f.header, outcome.text));
         }
@@ -595,13 +708,25 @@
         const card = effectiveCards.find((c) => c.id === ownerId);
         const f = resolvedFields.find((x) => x.id === fieldId);
         if (!card || !f) return;
-        const text = restored === null || restored === undefined ? "" : f.format ? f.format(restored, { ...(card.values ?? {}), [fieldId]: restored }) : String(restored);
-        announce((direction === "undo" ? labels.fieldUndoAnnouncement : labels.fieldRedoAnnouncement)?.(cardLabel(card), f.header, text));
+        const text =
+            restored === null || restored === undefined
+                ? ""
+                : f.format
+                  ? f.format(restored, { ...(card.values ?? {}), [fieldId]: restored })
+                  : String(restored);
+        announce(
+            (direction === "undo" ? labels.fieldUndoAnnouncement : labels.fieldRedoAnnouncement)?.(
+                cardLabel(card),
+                f.header,
+                text,
+            ),
+        );
     }
 
     // ---- In-place title editing (`onTitleEdit`) ----
 
-    const isTitleEditable = (card: KanbanCard) => !!onTitleEdit && !readonly && !card.locked && !card.href && !cardSnippet;
+    const isTitleEditable = (card: KanbanCard) =>
+        !!onTitleEdit && !readonly && !card.locked && !card.href && !cardSnippet;
     let editingTitle = $state<{ cardId: string; draft: string } | null>(null);
 
     async function startTitleEdit(card: KanbanCard): Promise<void> {
@@ -663,7 +788,13 @@
         } else if (event.key === "Tab" && editing) {
             // Tab commits and moves to the card's next (Shift+Tab: previous) editable field; past the last, it moves on.
             const card = effectiveCards.find((c) => c.id === editing!.cardId);
-            const next = card ? neighbourField(resolvedFields.filter((x) => isFieldEditable(x, card)), editing.fieldId, event.shiftKey) : undefined;
+            const next = card
+                ? neighbourField(
+                      resolvedFields.filter((x) => isFieldEditable(x, card)),
+                      editing.fieldId,
+                      event.shiftKey,
+                  )
+                : undefined;
             if (card && next) {
                 event.preventDefault();
                 if (commitFieldEdit(false)) void startFieldEdit(card, next);
@@ -675,11 +806,16 @@
 
     const exportCards = $derived.by(() => {
         const out: KanbanCard[] = [];
-        for (const column of columns) for (const card of shownByColumn.get(column.id) ?? []) if (exportScope !== "selected" || isSelected(card.id)) out.push(card);
+        for (const column of columns)
+            for (const card of shownByColumn.get(column.id) ?? [])
+                if (exportScope !== "selected" || isSelected(card.id)) out.push(card);
         return out;
     });
     const exportFieldList = $derived(exportableFields(resolvedFields));
-    const hasExportButtons = $derived(!!labels.exportHeaders && !!(labels.copy || labels.exportCsv || labels.exportTsv || labels.exportExcel));
+    const hasExportButtons = $derived(
+        !!labels.exportHeaders &&
+            !!(labels.copy || labels.exportCsv || labels.exportTsv || labels.exportExcel),
+    );
 
     async function finishCopy(table: { headers: string[]; rows: unknown[][] }): Promise<void> {
         const text = toClipboardText(table);
@@ -701,7 +837,10 @@
         const columnTitle = new Map(columnsProp.map((c) => [c.id, c.title]));
         const laneTitle = new Map((lanes ?? []).map((l) => [l.id, l.title]));
         const rows = exportCards.map((card) => {
-            const cells: unknown[] = [cardLabel(card), columnTitle.get(card.columnId) ?? card.columnId];
+            const cells: unknown[] = [
+                cardLabel(card),
+                columnTitle.get(card.columnId) ?? card.columnId,
+            ];
             if (hasLanes && h.lane) cells.push(laneTitle.get(laneOf(card)) ?? "");
             if (h.subtitle) cells.push(card.subtitle ?? null);
             if (h.badges) cells.push((card.badges ?? []).join("; "));
@@ -726,15 +865,28 @@
 
     /** Choosing the card's own column is not a move: the menu just closes. */
     /** A move is refused by the consumer's `canMove`, or by the destination's hard limit. */
-    function isRefused(card: KanbanCard, toColumn: KanbanColumn, extra = 0, toLaneId?: string): boolean {
+    function isRefused(
+        card: KanbanCard,
+        toColumn: KanbanColumn,
+        extra = 0,
+        toLaneId?: string,
+    ): boolean {
         const laneChange = hasLanes && toLaneId !== undefined && toLaneId !== laneOf(card);
         if (laneChange && !allowLaneChange) return true;
         const sameColumn = toColumn.id === card.columnId;
         if (sameColumn && !laneChange) return false;
-        if (!sameColumn && allowedColumns && !allowedColumns(card).includes(toColumn.id)) return true;
-        const toLane = hasLanes ? lanes!.find((l) => l.id === (toLaneId ?? laneOf(card))) : undefined;
+        if (!sameColumn && allowedColumns && !allowedColumns(card).includes(toColumn.id))
+            return true;
+        const toLane = hasLanes
+            ? lanes!.find((l) => l.id === (toLaneId ?? laneOf(card)))
+            : undefined;
         if (canMove && !canMove(card, toColumn, toLane)) return true;
-        return !sameColumn && !!toColumn.strictLimit && toColumn.wipLimit != null && (cardsByColumn.get(toColumn.id)?.length ?? 0) + extra >= toColumn.wipLimit;
+        return (
+            !sameColumn &&
+            !!toColumn.strictLimit &&
+            toColumn.wipLimit != null &&
+            (cardsByColumn.get(toColumn.id)?.length ?? 0) + extra >= toColumn.wipLimit
+        );
     }
 
     /** The columns the move menu offers for `card`: its own, and the ones it may move to. */
@@ -747,13 +899,21 @@
     /** Successful moves, newest last; one entry is one undo step (a group moves back together). */
     let undoStack = $state<{ cardId: string; fromColumnId: string; toColumnId: string }[][]>([]);
 
-    function recordUndo(group: { cardId: string; fromColumnId: string; toColumnId: string }[]): void {
+    function recordUndo(
+        group: { cardId: string; fromColumnId: string; toColumnId: string }[],
+    ): void {
         if (!undoable || group.length === 0) return;
         undoStack = [...undoStack.slice(-49), group];
     }
 
     /** Resolves true when the move went through (a synchronous `onMove`, or a promise that resolved). */
-    async function runMove(card: KanbanCard, toColumn: KanbanColumn, toIndex?: number, toLaneId?: string, silent = false): Promise<boolean> {
+    async function runMove(
+        card: KanbanCard,
+        toColumn: KanbanColumn,
+        toIndex?: number,
+        toLaneId?: string,
+        silent = false,
+    ): Promise<boolean> {
         const fromColumnId = card.columnId;
         const result =
             toLaneId !== undefined
@@ -787,7 +947,9 @@
     const isSelected = (cardId: string) => selectedSet.has(cardId);
 
     function toggleSelected(cardId: string): void {
-        selected = isSelected(cardId) ? selected.filter((id) => id !== cardId) : [...selected, cardId];
+        selected = isSelected(cardId)
+            ? selected.filter((id) => id !== cardId)
+            : [...selected, cardId];
         onSelectionChange?.(selected);
     }
 
@@ -816,7 +978,12 @@
             const from = member.columnId;
             runs.push(
                 runMove(member, toColumn, undefined, undefined, true).then((ok) => {
-                    if (ok) moved.push({ cardId: member.id, fromColumnId: from, toColumnId: toColumn.id });
+                    if (ok)
+                        moved.push({
+                            cardId: member.id,
+                            fromColumnId: from,
+                            toColumnId: toColumn.id,
+                        });
                     return ok;
                 }),
             );
@@ -836,7 +1003,10 @@
             undoStack = undoStack.slice(0, -1);
             const live = group
                 .map((m) => ({ m, card: effectiveCards.find((c) => c.id === m.cardId) }))
-                .filter((x): x is { m: (typeof group)[number]; card: KanbanCard } => !!x.card && x.card.columnId === x.m.toColumnId && !x.card.locked);
+                .filter(
+                    (x): x is { m: (typeof group)[number]; card: KanbanCard } =>
+                        !!x.card && x.card.columnId === x.m.toColumnId && !x.card.locked,
+                );
             if (live.length === 0) continue; // nothing of this step is where it was left: try the one before
             for (const { m, card } of live) {
                 const back = columns.find((c) => c.id === m.fromColumnId);
@@ -852,7 +1022,12 @@
         }
     }
 
-    function moveCard(card: KanbanCard, toColumn: KanbanColumn, toIndex?: number, toLaneId?: string): void {
+    function moveCard(
+        card: KanbanCard,
+        toColumn: KanbanColumn,
+        toIndex?: number,
+        toLaneId?: string,
+    ): void {
         if (readonly || card.locked || isPending(card.id)) return;
         const group = movingGroup(card);
         if (group.length > 1) {
@@ -865,10 +1040,14 @@
             closeMoveMenu(card.id);
             return;
         }
-        if (toColumn.id !== card.columnId || (toLaneId !== undefined && toLaneId !== laneOf(card))) {
+        if (
+            toColumn.id !== card.columnId ||
+            (toLaneId !== undefined && toLaneId !== laneOf(card))
+        ) {
             const from = card.columnId;
             void runMove(card, toColumn, toIndex, toLaneId).then((ok) => {
-                if (ok && toColumn.id !== from) recordUndo([{ cardId: card.id, fromColumnId: from, toColumnId: toColumn.id }]);
+                if (ok && toColumn.id !== from)
+                    recordUndo([{ cardId: card.id, fromColumnId: from, toColumnId: toColumn.id }]);
             });
         }
         closeMoveMenu(card.id);
@@ -945,11 +1124,23 @@
     /** Whether the cell a dragged card is over would refuse it (`canMove`, `allowedColumns`, a strict WIP limit): the live "can't drop here" cue. */
     let dropBlocked = $state(false);
 
-    function onColumnDragOver(event: DragEvent, column: KanbanColumn, rowIndex: number, colIndex: number): void {
+    function onColumnDragOver(
+        event: DragEvent,
+        column: KanbanColumn,
+        rowIndex: number,
+        colIndex: number,
+    ): void {
         if (!draggingCardId || readonly) return;
         const card = cards.find((c) => c.id === draggingCardId);
         const slot = rowSlots[rowIndex];
-        const blocked = !!card && isRefused(card, column, Math.max(0, draggingGroup.length - 1), hasLanes && slot ? slot.laneId : undefined);
+        const blocked =
+            !!card &&
+            isRefused(
+                card,
+                column,
+                Math.max(0, draggingGroup.length - 1),
+                hasLanes && slot ? slot.laneId : undefined,
+            );
         dropBlocked = blocked;
         dropTarget = `${rowIndex}-${colIndex}`;
         // A refused drop is not a drop target: leaving dragover un-prevented makes the browser show its "not allowed" cursor.
@@ -973,10 +1164,18 @@
         if (!card) return;
         const slot = rowSlots[rowIndex];
         const dropLane = hasLanes && slot ? slot.laneId : undefined;
-        const shown = (slot ? cellCards.get(`${column.id}\u0000${slot.laneId}`) : shownByColumn.get(column.id)) ?? [];
+        const shown =
+            (slot
+                ? cellCards.get(`${column.id}\u0000${slot.laneId}`)
+                : shownByColumn.get(column.id)) ?? [];
         const overCard = slot ? shown[slot.laneRow] : shown[rowIndex];
         const dropIndex = slot ? slot.laneRow : rowIndex;
-        if (card.columnId === column.id && hasLanes && dropLane !== undefined && dropLane !== laneOf(card)) {
+        if (
+            card.columnId === column.id &&
+            hasLanes &&
+            dropLane !== undefined &&
+            dropLane !== laneOf(card)
+        ) {
             // Dropped into another lane of its own column: only the lane changes.
             moveCard(card, column, undefined, dropLane);
             return;
@@ -986,7 +1185,9 @@
             const from = shown.findIndex((c) => c.id === card.id);
             if (overCard && from >= 0 && from !== dropIndex) {
                 onReorder?.(card.id, dropIndex);
-                announce(labels.reorderAnnouncement?.(cardLabel(card), dropIndex + 1, shown.length));
+                announce(
+                    labels.reorderAnnouncement?.(cardLabel(card), dropIndex + 1, shown.length),
+                );
             }
             return;
         }
@@ -1028,7 +1229,9 @@
 
     async function focusActiveCell(): Promise<void> {
         await tick();
-        rootEl?.querySelector<HTMLElement>('.kanban-table-td[tabindex="0"]')?.focus({ preventScroll: true });
+        rootEl
+            ?.querySelector<HTMLElement>('.kanban-table-td[tabindex="0"]')
+            ?.focus({ preventScroll: true });
     }
 
     /** The cursor follows focus however it arrives — a click, or a consumer's own focus(). */
@@ -1054,7 +1257,11 @@
         const card = cardAt(activeCol, activeRow);
         if (!card || card.locked) return;
         const slot = rowSlots[activeRow];
-        const total = (slot ? cellCards.get(`${card.columnId}\u0000${slot.laneId}`) : shownByColumn.get(card.columnId))?.length ?? 0;
+        const total =
+            (slot
+                ? cellCards.get(`${card.columnId}\u0000${slot.laneId}`)
+                : shownByColumn.get(card.columnId)
+            )?.length ?? 0;
         const laneRow = slot ? slot.laneRow : activeRow;
         const toIndex = laneRow + delta;
         if (toIndex < 0 || toIndex >= total) return;
@@ -1076,7 +1283,14 @@
         const key = logicalKey(event.key, isRtl(cell));
         // Ctrl/Cmd+Z undoes the last move while there is one (`undoable`), then the last field edit; Ctrl/Cmd+Shift+Z and Ctrl+Y redo field edits.
         const historyAction = onFieldEdit && !readonly ? historyKey(event) : null;
-        if (undoable && ctrlOrMeta && !event.altKey && !event.shiftKey && (event.key === "z" || event.key === "Z") && undoStack.length > 0) {
+        if (
+            undoable &&
+            ctrlOrMeta &&
+            !event.altKey &&
+            !event.shiftKey &&
+            (event.key === "z" || event.key === "Z") &&
+            undoStack.length > 0
+        ) {
             event.preventDefault();
             void undo();
             return;
@@ -1086,12 +1300,23 @@
             stepHistory(historyAction);
             return;
         }
-        if (undoable && ctrlOrMeta && !event.altKey && !event.shiftKey && (event.key === "z" || event.key === "Z")) {
+        if (
+            undoable &&
+            ctrlOrMeta &&
+            !event.altKey &&
+            !event.shiftKey &&
+            (event.key === "z" || event.key === "Z")
+        ) {
             event.preventDefault();
             void undo();
             return;
         }
-        if (movableColumns && event.altKey && event.shiftKey && (key === "ArrowLeft" || key === "ArrowRight")) {
+        if (
+            movableColumns &&
+            event.altKey &&
+            event.shiftKey &&
+            (key === "ArrowLeft" || key === "ArrowRight")
+        ) {
             // Alt+Shift+ArrowLeft/Right: move this cell's column (the keyboard twin of dragging its header).
             event.preventDefault();
             const column = columns[activeCol];
@@ -1136,7 +1361,12 @@
                 }
             }
         }
-        if (selectable && !ctrlOrMeta && !event.altKey && (event.key === "x" || event.key === "X")) {
+        if (
+            selectable &&
+            !ctrlOrMeta &&
+            !event.altKey &&
+            (event.key === "x" || event.key === "X")
+        ) {
             const card = cardAt(activeCol, activeRow);
             if (card && !readonly) {
                 event.preventDefault();
@@ -1166,7 +1396,14 @@
         const move = gridMove(
             event,
             { row: activeRow, col: activeCol },
-            { firstRow: 0, lastRow: maxRows - 1, lastCol: columns.length - 1, pageStep: pageStepFor(virtualize), homeEnd: "column", rtl: isRtl(cell) },
+            {
+                firstRow: 0,
+                lastRow: maxRows - 1,
+                lastCol: columns.length - 1,
+                pageStep: pageStepFor(virtualize),
+                homeEnd: "column",
+                rtl: isRtl(cell),
+            },
         );
         if (move) {
             event.preventDefault();
@@ -1185,11 +1422,24 @@
     }
 </script>
 
-{#snippet titleText(card: KanbanCard)}{#if searching}{#each highlightSegments(cardLabel(card), search) as part, i (i)}{#if part.match}<Mark class="kanban-board-match">{part.text}</Mark>{:else}{part.text}{/if}{/each}{:else}{cardLabel(card)}{/if}{/snippet}
+{#snippet titleText(
+    card: KanbanCard,
+)}{#if searching}{#each highlightSegments(cardLabel(card), search) as part, i (i)}{#if part.match}<Mark
+                    class="kanban-board-match">{part.text}</Mark
+                >{:else}{part.text}{/if}{/each}{:else}{cardLabel(card)}{/if}{/snippet}
 
-<div bind:this={rootEl} class={`kanban-board ${className}`.trim()} data-readonly={readonly ? "" : undefined} data-field-layout={fieldLayout === "compact" ? "compact" : undefined} {...restProps}>
+<div
+    bind:this={rootEl}
+    class={`kanban-board ${className}`.trim()}
+    data-readonly={readonly ? "" : undefined}
+    data-field-layout={fieldLayout === "compact" ? "compact" : undefined}
+    {...restProps}
+>
     {#if labels.search}
-        {#if showSearchLabel}<label class="kanban-board-search-label" for={`${baseId}-search`}>{labels.search}</label>{/if}
+        {#if showSearchLabel}<label
+                class="kanban-board-search-label"
+                for={`${baseId}-search`}>{labels.search}</label
+            >{/if}
         <SearchInput
             id={`${baseId}-search`}
             class="kanban-board-search"
@@ -1204,293 +1454,555 @@
         />
     {/if}
     {#if hasExportButtons}
-        <div class="kanban-board-export" role="group" aria-label={labels.export}>
+        <div
+            class="kanban-board-export"
+            role="group"
+            aria-label={labels.export}
+        >
             {#if labels.copy}
-                <button type="button" class="kanban-board-export-button" data-kanban-export-format="copy" disabled={exportCards.length === 0} onclick={() => runExport("copy")}>{labels.copy}</button>
+                <button
+                    type="button"
+                    class="kanban-board-export-button"
+                    data-kanban-export-format="copy"
+                    disabled={exportCards.length === 0}
+                    onclick={() => runExport("copy")}>{labels.copy}</button
+                >
             {/if}
             {#if labels.exportCsv}
-                <button type="button" class="kanban-board-export-button" data-kanban-export-format="csv" disabled={exportCards.length === 0} onclick={() => runExport("csv")}>{labels.exportCsv}</button>
+                <button
+                    type="button"
+                    class="kanban-board-export-button"
+                    data-kanban-export-format="csv"
+                    disabled={exportCards.length === 0}
+                    onclick={() => runExport("csv")}>{labels.exportCsv}</button
+                >
             {/if}
             {#if labels.exportTsv}
-                <button type="button" class="kanban-board-export-button" data-kanban-export-format="tsv" disabled={exportCards.length === 0} onclick={() => runExport("tsv")}>{labels.exportTsv}</button>
+                <button
+                    type="button"
+                    class="kanban-board-export-button"
+                    data-kanban-export-format="tsv"
+                    disabled={exportCards.length === 0}
+                    onclick={() => runExport("tsv")}>{labels.exportTsv}</button
+                >
             {/if}
             {#if labels.exportExcel}
-                <button type="button" class="kanban-board-export-button" data-kanban-export-format="xlsx" disabled={exportCards.length === 0} onclick={() => runExport("xlsx")}>{labels.exportExcel}</button>
+                <button
+                    type="button"
+                    class="kanban-board-export-button"
+                    data-kanban-export-format="xlsx"
+                    disabled={exportCards.length === 0}
+                    onclick={() => runExport("xlsx")}>{labels.exportExcel}</button
+                >
             {/if}
         </div>
     {/if}
     {#if undoable && labels.undo && !readonly}
-        <button type="button" class="kanban-board-undo-button" disabled={undoStack.length === 0} onclick={() => void undo()}>{labels.undo}</button>
+        <button
+            type="button"
+            class="kanban-board-undo-button"
+            disabled={undoStack.length === 0}
+            onclick={() => void undo()}>{labels.undo}</button
+        >
     {/if}
     <!-- The scroll area is structural: a virtualized board renders only the rows in view inside it. -->
     <div
         bind:this={scrollEl}
         class={virtualize ? "kanban-board-scroll" : "kanban-board-body"}
         style={virtualize ? `height:${virtualize.height}px;overflow:auto` : undefined}
-        onscroll={virtualize ? (e) => (scrollTop = (e.currentTarget as HTMLElement).scrollTop) : undefined}
+        onscroll={virtualize
+            ? (e) => (scrollTop = (e.currentTarget as HTMLElement).scrollTop)
+            : undefined}
     >
-    <KanbanTable {label} {caption} onkeydown={onGridKeydown} onfocusin={onGridFocusin} aria-multiselectable={selectable ? "true" : undefined} aria-rowcount={virtualize ? slots.length + 1 : undefined}>
-        <KanbanTableHead>
-            <KanbanTableRow>
-                {#each columns as column (column.id)}
-                    {@const count = cardsByColumn.get(column.id)?.length ?? 0}
-                    {@const overLimit = column.wipLimit != null && count > column.wipLimit}
-                    <KanbanTableTH draggable={movableColumns ? "true" : undefined} ondragstart={movableColumns ? (e: DragEvent) => { draggingColumnId = column.id; e.dataTransfer?.setData("text/plain", column.id); } : undefined} ondragover={movableColumns ? (e: DragEvent) => { if (draggingColumnId) e.preventDefault(); } : undefined} ondrop={movableColumns ? (e: DragEvent) => onHeaderDrop(column.id, e) : undefined} data-over-limit={overLimit ? "" : undefined} data-hidden-count={count - (shownByColumn.get(column.id)?.length ?? 0) > 0 ? count - (shownByColumn.get(column.id)?.length ?? 0) : undefined} data-collapsed={isCollapsed(column.id) ? "" : undefined} data-flag={column.flag} data-accent={column.accent}>
-                        {#if labels.collapseColumn}
-                            <button
-                                type="button"
-                                class="kanban-board-collapse-button"
-                                aria-expanded={!isCollapsed(column.id)}
-                                aria-label={labels.collapseColumn(column, isCollapsed(column.id))}
-                                onclick={() => toggleCollapsed(column)}
-                            >{isCollapsed(column.id) ? "▸" : "▾"}</button>
-                        {/if}
-                        {column.title}
-                        {#if column.flag}
-                            <span class="kanban-board-column-flag">{column.flag}</span>
-                        {/if}
-                        {#if columnHeader}
-                            {@render columnHeader({ column, cards: cardsByColumn.get(column.id) ?? [], count })}
-                        {/if}
-                        {#if labels.cardCount}
-                            <span class="kanban-board-count">{labels.cardCount(count)}</span>
-                        {/if}
-                        {#if overLimit && labels.overLimit}
-                            <span class="kanban-board-wip-warning">{labels.overLimit(count, column.wipLimit ?? 0)}</span>
-                        {/if}
-                        {#if labels.addCard && !readonly}
-                            <button
-                                type="button"
-                                class="kanban-board-add-button"
-                                aria-label={labels.addCard(column)}
-                                onclick={() => onAddCard?.(column.id)}
-                            >+</button>
-                        {/if}
-                    </KanbanTableTH>
-                {/each}
-            </KanbanTableRow>
-        </KanbanTableHead>
-        <KanbanTableBody>
-            {#each renderItems as item (item.key)}
-                {#if item.kind === "spacer"}
-                    <tr class="kanban-board-spacer" aria-hidden="true" style={`height:${item.height}px`}><td colspan={columns.length}></td></tr>
-                {:else}
-                {@const slot = item.slot}
-                {#if slot.kind === "lane"}
-                    <KanbanTableRow data-lane-row>
-                        <th
-                            class="kanban-board-lane"
-                            scope="rowgroup"
-                            colspan={columns.length}
-                            data-lane-id={slot.lane.id}
-                            data-collapsed={isLaneCollapsed(slot.lane.id) ? "" : undefined}
+        <KanbanTable
+            {label}
+            {caption}
+            onkeydown={onGridKeydown}
+            onfocusin={onGridFocusin}
+            aria-multiselectable={selectable ? "true" : undefined}
+            aria-rowcount={virtualize ? slots.length + 1 : undefined}
+        >
+            <KanbanTableHead>
+                <KanbanTableRow>
+                    {#each columns as column (column.id)}
+                        {@const count = cardsByColumn.get(column.id)?.length ?? 0}
+                        {@const overLimit = column.wipLimit != null && count > column.wipLimit}
+                        <KanbanTableTH
+                            draggable={movableColumns ? "true" : undefined}
+                            ondragstart={movableColumns
+                                ? (e: DragEvent) => {
+                                      draggingColumnId = column.id;
+                                      e.dataTransfer?.setData("text/plain", column.id);
+                                  }
+                                : undefined}
+                            ondragover={movableColumns
+                                ? (e: DragEvent) => {
+                                      if (draggingColumnId) e.preventDefault();
+                                  }
+                                : undefined}
+                            ondrop={movableColumns
+                                ? (e: DragEvent) => onHeaderDrop(column.id, e)
+                                : undefined}
+                            data-over-limit={overLimit ? "" : undefined}
+                            data-hidden-count={count - (shownByColumn.get(column.id)?.length ?? 0) >
+                            0
+                                ? count - (shownByColumn.get(column.id)?.length ?? 0)
+                                : undefined}
+                            data-collapsed={isCollapsed(column.id) ? "" : undefined}
+                            data-flag={column.flag}
+                            data-accent={column.accent}
                         >
-                            {#if labels.collapseLane}
+                            {#if labels.collapseColumn}
                                 <button
                                     type="button"
-                                    class="kanban-board-lane-toggle"
-                                    aria-expanded={!isLaneCollapsed(slot.lane.id)}
-                                    aria-label={labels.collapseLane(slot.lane, isLaneCollapsed(slot.lane.id))}
-                                    onclick={() => toggleLane(slot.lane)}
-                                >{isLaneCollapsed(slot.lane.id) ? "▸" : "▾"}</button>
+                                    class="kanban-board-collapse-button"
+                                    aria-expanded={!isCollapsed(column.id)}
+                                    aria-label={labels.collapseColumn(
+                                        column,
+                                        isCollapsed(column.id),
+                                    )}
+                                    onclick={() => toggleCollapsed(column)}
+                                    >{isCollapsed(column.id) ? "▸" : "▾"}</button
+                                >
                             {/if}
-                            <span class="kanban-board-lane-title">{slot.lane.title}</span>
-                            {#if labels.laneCount}
-                                <span class="kanban-board-lane-count">{labels.laneCount(slot.lane, laneCardCount(slot.lane.id))}</span>
+                            {column.title}
+                            {#if column.flag}
+                                <span class="kanban-board-column-flag">{column.flag}</span>
                             {/if}
-                        </th>
-                    </KanbanTableRow>
-                {:else}
-                {@const rowIndex = slot.rowIndex}
-                <KanbanTableRow aria-rowindex={virtualize ? slotIndexOfRow(rowIndex) + 2 : undefined} data-lane-id={hasLanes ? slot.laneId : undefined}>
-                    {#each columns as column, colIndex (column.id)}
-                        {@const card = cardAt(colIndex, rowIndex)}
-                        <KanbanTableTD
-                            data-row={rowIndex}
-                            data-selected={card && selectable && isSelected(card.id) ? "" : undefined}
-                            aria-selected={card && selectable && isSelected(card.id) ? "true" : undefined}
-                            data-dragging={card && draggingGroup.includes(card.id) ? "" : undefined}
-                            onclick={selectable ? (e: MouseEvent) => { if ((e.ctrlKey || e.metaKey) && card && !readonly) { e.preventDefault(); toggleSelected(card.id); } } : undefined}
-                            data-col={colIndex}
-                            data-card-id={card?.id}
-                            data-locked={card?.locked ? "" : undefined}
-                            data-pending={card && isPending(card.id) ? "" : undefined}
-                            aria-busy={card && isPending(card.id) ? "true" : undefined}
-                            data-flag={card?.flag}
-                            data-accent={column.accent}
-                            data-empty={!card && !hasLanes && rowIndex === 0 && labels.emptyColumn && isEmptyColumn(column) ? "" : undefined}
-                            aria-describedby={card?.flag ? `${baseId}-flag-${card.id}` : undefined}
-                            {...(card ? (cardAttrs?.(card) ?? {}) : {})}
-                            data-collapsed={isCollapsed(column.id) ? "" : undefined}
-                            active={activeRow === rowIndex && activeCol === colIndex}
-                            data-drop-target={dropTarget === `${rowIndex}-${colIndex}` && !dropBlocked ? "" : undefined}
-                            data-drop-blocked={dropTarget === `${rowIndex}-${colIndex}` && dropBlocked ? "" : undefined}
-                            ondragover={(e: DragEvent) => onColumnDragOver(e, column, rowIndex, colIndex)}
-                            ondragleave={() => {
-                                dropTarget = null;
-                                dropBlocked = false;
-                            }}
-                            ondrop={(e: DragEvent) => onColumnDrop(column, rowIndex, e)}
+                            {#if columnHeader}
+                                {@render columnHeader({
+                                    column,
+                                    cards: cardsByColumn.get(column.id) ?? [],
+                                    count,
+                                })}
+                            {/if}
+                            {#if labels.cardCount}
+                                <span class="kanban-board-count">{labels.cardCount(count)}</span>
+                            {/if}
+                            {#if overLimit && labels.overLimit}
+                                <span class="kanban-board-wip-warning"
+                                    >{labels.overLimit(count, column.wipLimit ?? 0)}</span
+                                >
+                            {/if}
+                            {#if labels.addCard && !readonly}
+                                <button
+                                    type="button"
+                                    class="kanban-board-add-button"
+                                    aria-label={labels.addCard(column)}
+                                    onclick={() => onAddCard?.(column.id)}>+</button
+                                >
+                            {/if}
+                        </KanbanTableTH>
+                    {/each}
+                </KanbanTableRow>
+            </KanbanTableHead>
+            <KanbanTableBody>
+                {#each renderItems as item (item.key)}
+                    {#if item.kind === "spacer"}
+                        <tr
+                            class="kanban-board-spacer"
+                            aria-hidden="true"
+                            style={`height:${item.height}px`}><td colspan={columns.length}></td></tr
                         >
-                            {#if card}
-                                <!-- The card title is a supplementary pointer-drag handle inside
+                    {:else}
+                        {@const slot = item.slot}
+                        {#if slot.kind === "lane"}
+                            <KanbanTableRow data-lane-row>
+                                <th
+                                    class="kanban-board-lane"
+                                    scope="rowgroup"
+                                    colspan={columns.length}
+                                    data-lane-id={slot.lane.id}
+                                    data-collapsed={isLaneCollapsed(slot.lane.id) ? "" : undefined}
+                                >
+                                    {#if labels.collapseLane}
+                                        <button
+                                            type="button"
+                                            class="kanban-board-lane-toggle"
+                                            aria-expanded={!isLaneCollapsed(slot.lane.id)}
+                                            aria-label={labels.collapseLane(
+                                                slot.lane,
+                                                isLaneCollapsed(slot.lane.id),
+                                            )}
+                                            onclick={() => toggleLane(slot.lane)}
+                                            >{isLaneCollapsed(slot.lane.id) ? "▸" : "▾"}</button
+                                        >
+                                    {/if}
+                                    <span class="kanban-board-lane-title">{slot.lane.title}</span>
+                                    {#if labels.laneCount}
+                                        <span class="kanban-board-lane-count"
+                                            >{labels.laneCount(
+                                                slot.lane,
+                                                laneCardCount(slot.lane.id),
+                                            )}</span
+                                        >
+                                    {/if}
+                                </th>
+                            </KanbanTableRow>
+                        {:else}
+                            {@const rowIndex = slot.rowIndex}
+                            <KanbanTableRow
+                                aria-rowindex={virtualize
+                                    ? slotIndexOfRow(rowIndex) + 2
+                                    : undefined}
+                                data-lane-id={hasLanes ? slot.laneId : undefined}
+                            >
+                                {#each columns as column, colIndex (column.id)}
+                                    {@const card = cardAt(colIndex, rowIndex)}
+                                    <KanbanTableTD
+                                        data-row={rowIndex}
+                                        data-selected={card && selectable && isSelected(card.id)
+                                            ? ""
+                                            : undefined}
+                                        aria-selected={card && selectable && isSelected(card.id)
+                                            ? "true"
+                                            : undefined}
+                                        data-dragging={card && draggingGroup.includes(card.id)
+                                            ? ""
+                                            : undefined}
+                                        onclick={selectable
+                                            ? (e: MouseEvent) => {
+                                                  if (
+                                                      (e.ctrlKey || e.metaKey) &&
+                                                      card &&
+                                                      !readonly
+                                                  ) {
+                                                      e.preventDefault();
+                                                      toggleSelected(card.id);
+                                                  }
+                                              }
+                                            : undefined}
+                                        data-col={colIndex}
+                                        data-card-id={card?.id}
+                                        data-locked={card?.locked ? "" : undefined}
+                                        data-pending={card && isPending(card.id) ? "" : undefined}
+                                        aria-busy={card && isPending(card.id) ? "true" : undefined}
+                                        data-flag={card?.flag}
+                                        data-accent={column.accent}
+                                        data-empty={!card &&
+                                        !hasLanes &&
+                                        rowIndex === 0 &&
+                                        labels.emptyColumn &&
+                                        isEmptyColumn(column)
+                                            ? ""
+                                            : undefined}
+                                        aria-describedby={card?.flag
+                                            ? `${baseId}-flag-${card.id}`
+                                            : undefined}
+                                        {...card ? (cardAttrs?.(card) ?? {}) : {}}
+                                        data-collapsed={isCollapsed(column.id) ? "" : undefined}
+                                        active={activeRow === rowIndex && activeCol === colIndex}
+                                        data-drop-target={dropTarget ===
+                                            `${rowIndex}-${colIndex}` && !dropBlocked
+                                            ? ""
+                                            : undefined}
+                                        data-drop-blocked={dropTarget ===
+                                            `${rowIndex}-${colIndex}` && dropBlocked
+                                            ? ""
+                                            : undefined}
+                                        ondragover={(e: DragEvent) =>
+                                            onColumnDragOver(e, column, rowIndex, colIndex)}
+                                        ondragleave={() => {
+                                            dropTarget = null;
+                                            dropBlocked = false;
+                                        }}
+                                        ondrop={(e: DragEvent) => onColumnDrop(column, rowIndex, e)}
+                                    >
+                                        {#if card}
+                                            <!-- The card title is a supplementary pointer-drag handle inside
                                      an already-interactive gridcell (role comes from the parent
                                      KanbanTableTD); dragstart here is one of two equally-real move
                                      paths, not the accessible one — see the move-button/listbox
                                      below for that. No separate role fits a drag handle that isn't
                                      itself a widget. -->
-                                <!-- svelte-ignore a11y_no_static_element_interactions -->
-                                <span
-                                    class="kanban-board-card-title"
-                                    draggable={readonly || card.locked || card.draggable === false || editingTitle?.cardId === card.id ? undefined : "true"}
-                                    ondragstart={(e: DragEvent) => onCardDragStart(card, e)}
-                                    ondragend={onCardDragEnd}
-                                    ondblclick={() => void startTitleEdit(card)}
-                                >
-                                    {#if editingTitle?.cardId === card.id}
-                                        <input
-                                            class="kanban-board-title-editor"
-                                            type="text"
-                                            aria-label={labels.titleEditor ? labels.titleEditor(cardLabel(card)) : cardLabel(card)}
-                                            bind:value={editingTitle.draft}
-                                            onkeydown={onTitleEditorKeydown}
-                                            onblur={() => commitTitleEdit(false)}
-                                        />
-                                    {:else if cardSnippet}
-                                        {@render cardSnippet({ card, label: cardLabel(card), column, pending: isPending(card.id) })}
-                                    {:else if card.href}
-                                        <a class="kanban-board-card-link" href={card.href}>{@render titleText(card)}</a>
-                                    {:else}
-                                        {@render titleText(card)}
-                                    {/if}
-                                </span>
-                                {#if !cardSnippet}
-                                    {#if card.subtitle}
-                                        <span class="kanban-board-card-subtitle">{card.subtitle}</span>
-                                    {/if}
-                                    {#if card.badges?.length}
-                                        <span class="kanban-board-card-badges">
-                                            {#each card.badges as badge (badge)}
-                                                <span class="kanban-board-card-badge">{badge}</span>
-                                            {/each}
-                                        </span>
-                                    {/if}
-                                    {#if resolvedFields.length > 0}
-                                        <span class="kanban-board-card-fields">
-                                            {#each resolvedFields as f (f.id)}
-                                                {@const text = fieldText(f, card)}
-                                                {@const editable = isFieldEditable(f, card)}
-                                                {@const nameId = `${baseId}-fn-${card.id}-${f.id}`}
-                                                {@const valueId = `${baseId}-fv-${card.id}-${f.id}`}
-                                                {#if editing && editing.cardId === card.id && editing.fieldId === f.id}
-                                                    <span class="kanban-board-card-field" data-field={f.id} data-editing="">
-                                                        <span class="kanban-board-card-field-name" id={nameId}>{f.header}</span>
-                                                        {#if editorKind(f) === "select" || editorKind(f) === "radio"}
-                                                            <select class="kanban-board-field-editor" aria-label={f.editLabel ?? f.header} aria-invalid={editing.invalid ? "true" : undefined} oninput={() => { if (editing) editing.invalid = false; }} bind:value={editing.draft} onkeydown={onEditorKeydown} onchange={() => commitFieldEdit()} onblur={() => commitFieldEdit(false)}>
-                                                                <option value=""></option>
-                                                                {#each (f.options ?? []) as option (option.id)}
-                                                                    <option value={option.id} disabled={option.disabled}>{option.label}</option>
-                                                                {/each}
-                                                            </select>
-                                                        {:else}
-                                                            <input
-                                                                class="kanban-board-field-editor"
-                                                                aria-invalid={editing.invalid ? "true" : undefined}
-                                                                oninput={() => { if (editing) editing.invalid = false; }}
-                                                                aria-label={f.editLabel ?? f.header}
-                                                                type={editorKind(f) === "number" ? "number" : editorKind(f) === "date" ? "date" : editorKind(f) === "time" ? "time" : "text"}
-                                                                inputmode={editorKind(f) === "number" ? "decimal" : undefined}
-                                                                bind:value={editing.draft}
-                                                                onkeydown={onEditorKeydown}
-                                                                onblur={() => commitFieldEdit(false)}
-                                                            />
-                                                        {/if}
-                                                    </span>
-                                                {:else if text !== "" || editable}
-                                                    <span class="kanban-board-card-field" data-field={f.id} data-type={f.type ?? "text"}>
-                                                        <span class="kanban-board-card-field-name" id={nameId}>{f.header}</span>
-                                                        {#if editable}
-                                                            <button type="button" class="kanban-board-field-button" id={valueId} tabindex="-1" aria-labelledby={`${nameId} ${valueId}`} onclick={() => void startFieldEdit(card, f)}>{text}</button>
-                                                        {:else}
-                                                            <span class="kanban-board-card-field-value">{text}</span>
-                                                        {/if}
+                                            <!-- svelte-ignore a11y_no_static_element_interactions -->
+                                            <span
+                                                class="kanban-board-card-title"
+                                                draggable={readonly ||
+                                                card.locked ||
+                                                card.draggable === false ||
+                                                editingTitle?.cardId === card.id
+                                                    ? undefined
+                                                    : "true"}
+                                                ondragstart={(e: DragEvent) =>
+                                                    onCardDragStart(card, e)}
+                                                ondragend={onCardDragEnd}
+                                                ondblclick={() => void startTitleEdit(card)}
+                                            >
+                                                {#if editingTitle?.cardId === card.id}
+                                                    <input
+                                                        class="kanban-board-title-editor"
+                                                        type="text"
+                                                        aria-label={labels.titleEditor
+                                                            ? labels.titleEditor(cardLabel(card))
+                                                            : cardLabel(card)}
+                                                        bind:value={editingTitle.draft}
+                                                        onkeydown={onTitleEditorKeydown}
+                                                        onblur={() => commitTitleEdit(false)}
+                                                    />
+                                                {:else if cardSnippet}
+                                                    {@render cardSnippet({
+                                                        card,
+                                                        label: cardLabel(card),
+                                                        column,
+                                                        pending: isPending(card.id),
+                                                    })}
+                                                {:else if card.href}
+                                                    <a
+                                                        class="kanban-board-card-link"
+                                                        href={card.href}
+                                                        >{@render titleText(card)}</a
+                                                    >
+                                                {:else}
+                                                    {@render titleText(card)}
+                                                {/if}
+                                            </span>
+                                            {#if !cardSnippet}
+                                                {#if card.subtitle}
+                                                    <span class="kanban-board-card-subtitle"
+                                                        >{card.subtitle}</span
+                                                    >
+                                                {/if}
+                                                {#if card.badges?.length}
+                                                    <span class="kanban-board-card-badges">
+                                                        {#each card.badges as badge (badge)}
+                                                            <span class="kanban-board-card-badge"
+                                                                >{badge}</span
+                                                            >
+                                                        {/each}
                                                     </span>
                                                 {/if}
-                                            {/each}
-                                        </span>
-                                    {/if}
-                                {/if}
-                                {#if card.flag}
-                                    <span class="kanban-board-card-flag" id={`${baseId}-flag-${card.id}`}>{card.flag}</span>
-                                {/if}
-                                <!-- Gated on labels.moveButton: an unnamed button is worse than
+                                                {#if resolvedFields.length > 0}
+                                                    <span class="kanban-board-card-fields">
+                                                        {#each resolvedFields as f (f.id)}
+                                                            {@const text = fieldText(f, card)}
+                                                            {@const editable = isFieldEditable(
+                                                                f,
+                                                                card,
+                                                            )}
+                                                            {@const nameId = `${baseId}-fn-${card.id}-${f.id}`}
+                                                            {@const valueId = `${baseId}-fv-${card.id}-${f.id}`}
+                                                            {#if editing && editing.cardId === card.id && editing.fieldId === f.id}
+                                                                <span
+                                                                    class="kanban-board-card-field"
+                                                                    data-field={f.id}
+                                                                    data-editing=""
+                                                                >
+                                                                    <span
+                                                                        class="kanban-board-card-field-name"
+                                                                        id={nameId}>{f.header}</span
+                                                                    >
+                                                                    {#if editorKind(f) === "select" || editorKind(f) === "radio"}
+                                                                        <select
+                                                                            class="kanban-board-field-editor"
+                                                                            aria-label={f.editLabel ??
+                                                                                f.header}
+                                                                            aria-invalid={editing.invalid
+                                                                                ? "true"
+                                                                                : undefined}
+                                                                            oninput={() => {
+                                                                                if (editing)
+                                                                                    editing.invalid = false;
+                                                                            }}
+                                                                            bind:value={
+                                                                                editing.draft
+                                                                            }
+                                                                            onkeydown={onEditorKeydown}
+                                                                            onchange={() =>
+                                                                                commitFieldEdit()}
+                                                                            onblur={() =>
+                                                                                commitFieldEdit(
+                                                                                    false,
+                                                                                )}
+                                                                        >
+                                                                            <option value=""
+                                                                            ></option>
+                                                                            {#each f.options ?? [] as option (option.id)}
+                                                                                <option
+                                                                                    value={option.id}
+                                                                                    disabled={option.disabled}
+                                                                                    >{option.label}</option
+                                                                                >
+                                                                            {/each}
+                                                                        </select>
+                                                                    {:else}
+                                                                        <input
+                                                                            class="kanban-board-field-editor"
+                                                                            aria-invalid={editing.invalid
+                                                                                ? "true"
+                                                                                : undefined}
+                                                                            oninput={() => {
+                                                                                if (editing)
+                                                                                    editing.invalid = false;
+                                                                            }}
+                                                                            aria-label={f.editLabel ??
+                                                                                f.header}
+                                                                            type={editorKind(f) ===
+                                                                            "number"
+                                                                                ? "number"
+                                                                                : editorKind(f) ===
+                                                                                    "date"
+                                                                                  ? "date"
+                                                                                  : editorKind(
+                                                                                          f,
+                                                                                      ) === "time"
+                                                                                    ? "time"
+                                                                                    : "text"}
+                                                                            inputmode={editorKind(
+                                                                                f,
+                                                                            ) === "number"
+                                                                                ? "decimal"
+                                                                                : undefined}
+                                                                            bind:value={
+                                                                                editing.draft
+                                                                            }
+                                                                            onkeydown={onEditorKeydown}
+                                                                            onblur={() =>
+                                                                                commitFieldEdit(
+                                                                                    false,
+                                                                                )}
+                                                                        />
+                                                                    {/if}
+                                                                </span>
+                                                            {:else if text !== "" || editable}
+                                                                <span
+                                                                    class="kanban-board-card-field"
+                                                                    data-field={f.id}
+                                                                    data-type={f.type ?? "text"}
+                                                                >
+                                                                    <span
+                                                                        class="kanban-board-card-field-name"
+                                                                        id={nameId}>{f.header}</span
+                                                                    >
+                                                                    {#if editable}
+                                                                        <button
+                                                                            type="button"
+                                                                            class="kanban-board-field-button"
+                                                                            id={valueId}
+                                                                            tabindex="-1"
+                                                                            aria-labelledby={`${nameId} ${valueId}`}
+                                                                            onclick={() =>
+                                                                                void startFieldEdit(
+                                                                                    card,
+                                                                                    f,
+                                                                                )}>{text}</button
+                                                                        >
+                                                                    {:else}
+                                                                        <span
+                                                                            class="kanban-board-card-field-value"
+                                                                            >{text}</span
+                                                                        >
+                                                                    {/if}
+                                                                </span>
+                                                            {/if}
+                                                        {/each}
+                                                    </span>
+                                                {/if}
+                                            {/if}
+                                            {#if card.flag}
+                                                <span
+                                                    class="kanban-board-card-flag"
+                                                    id={`${baseId}-flag-${card.id}`}
+                                                    >{card.flag}</span
+                                                >
+                                            {/if}
+                                            <!-- Gated on labels.moveButton: an unnamed button is worse than
                                      none, and Enter/Space on the cell opens the menu either way. -->
-                                {#if labels.moveButton && !readonly && !card.locked}
-                                    <IconButton
-                                        baseClass="kanban-board-move-button"
-                                        label={labels.moveButton(card)}
-                                        tabindex="-1"
-                                        aria-haspopup="listbox"
-                                        aria-expanded={openCardId === card.id}
-                                        aria-controls={openCardId === card.id ? moveListId : undefined}
-                                        onclick={() => (openCardId === card.id ? closeMoveMenu(card.id) : openMoveMenu(card))}
-                                    >
-                                        ⇄
-                                    </IconButton>
-                                {/if}
-                                {#if openCardId === card.id}
-                                    <Listbox
-                                        bind:ref={moveListEl}
-                                        as="ul"
-                                        id={moveListId}
-                                        baseClass="kanban-board-move-list"
-                                        label={labels.moveMenuLabel ?? cardLabel(card)}
-                                        navigation="active-descendant"
-                                        clamp
-                                        bind:activeIndex={moveActiveIndex}
-                                        onActivate={(i: number) => moveCard(card, moveTargets(card)[i])}
-                                        onEscape={() => closeMoveMenu(card.id)}
-                                        onTabOut={() => closeMoveMenu(card.id, false)}
-                                    >
-                                        {#each moveTargets(card) as destination, i (destination.id)}
-                                            <!-- svelte-ignore a11y_click_events_have_key_events -->
-                                            <li
-                                                class="kanban-board-move-option"
-                                                id={moveOptionId(i)}
-                                                role="option"
-                                                aria-selected={destination.id === card.columnId}
-                                                aria-disabled={isRefused(card, destination) ? true : undefined}
-                                                data-active={i === moveActiveIndex ? "" : undefined}
-                                                onclick={() => moveCard(card, destination)}
+                                            {#if labels.moveButton && !readonly && !card.locked}
+                                                <IconButton
+                                                    baseClass="kanban-board-move-button"
+                                                    label={labels.moveButton(card)}
+                                                    tabindex="-1"
+                                                    aria-haspopup="listbox"
+                                                    aria-expanded={openCardId === card.id}
+                                                    aria-controls={openCardId === card.id
+                                                        ? moveListId
+                                                        : undefined}
+                                                    onclick={() =>
+                                                        openCardId === card.id
+                                                            ? closeMoveMenu(card.id)
+                                                            : openMoveMenu(card)}
+                                                >
+                                                    ⇄
+                                                </IconButton>
+                                            {/if}
+                                            {#if openCardId === card.id}
+                                                <Listbox
+                                                    bind:ref={moveListEl}
+                                                    as="ul"
+                                                    id={moveListId}
+                                                    baseClass="kanban-board-move-list"
+                                                    label={labels.moveMenuLabel ?? cardLabel(card)}
+                                                    navigation="active-descendant"
+                                                    clamp
+                                                    bind:activeIndex={moveActiveIndex}
+                                                    onActivate={(i: number) =>
+                                                        moveCard(card, moveTargets(card)[i])}
+                                                    onEscape={() => closeMoveMenu(card.id)}
+                                                    onTabOut={() => closeMoveMenu(card.id, false)}
+                                                >
+                                                    {#each moveTargets(card) as destination, i (destination.id)}
+                                                        <!-- svelte-ignore a11y_click_events_have_key_events -->
+                                                        <li
+                                                            class="kanban-board-move-option"
+                                                            id={moveOptionId(i)}
+                                                            role="option"
+                                                            aria-selected={destination.id ===
+                                                                card.columnId}
+                                                            aria-disabled={isRefused(
+                                                                card,
+                                                                destination,
+                                                            )
+                                                                ? true
+                                                                : undefined}
+                                                            data-active={i === moveActiveIndex
+                                                                ? ""
+                                                                : undefined}
+                                                            onclick={() =>
+                                                                moveCard(card, destination)}
+                                                        >
+                                                            {destination.title}
+                                                        </li>
+                                                    {/each}
+                                                </Listbox>
+                                            {/if}
+                                        {:else if !hasLanes && rowIndex === 0 && labels.emptyColumn && isEmptyColumn(column)}
+                                            <span class="kanban-board-empty"
+                                                >{labels.emptyColumn(column)}</span
                                             >
-                                                {destination.title}
-                                            </li>
-                                        {/each}
-                                    </Listbox>
-                                {/if}
-                            {:else if !hasLanes && rowIndex === 0 && labels.emptyColumn && isEmptyColumn(column)}
-                                <span class="kanban-board-empty">{labels.emptyColumn(column)}</span>
-                            {/if}
-                        </KanbanTableTD>
-                    {/each}
-                </KanbanTableRow>
-                {/if}
-                {/if}
-            {/each}
-        </KanbanTableBody>
-        {#if columnFooter}
-            <tfoot class="kanban-table-foot">
-                <tr class="kanban-table-row">
-                    {#each columns as column (column.id)}
-                        <td class="kanban-table-td kanban-board-column-footer" data-accent={column.accent}>
-                            {@render columnFooter({ column, cards: cardsByColumn.get(column.id) ?? [], count: cardsByColumn.get(column.id)?.length ?? 0 })}
-                        </td>
-                    {/each}
-                </tr>
-            </tfoot>
-        {/if}
-    </KanbanTable>
+                                        {/if}
+                                    </KanbanTableTD>
+                                {/each}
+                            </KanbanTableRow>
+                        {/if}
+                    {/if}
+                {/each}
+            </KanbanTableBody>
+            {#if columnFooter}
+                <tfoot class="kanban-table-foot">
+                    <tr class="kanban-table-row">
+                        {#each columns as column (column.id)}
+                            <td
+                                class="kanban-table-td kanban-board-column-footer"
+                                data-accent={column.accent}
+                            >
+                                {@render columnFooter({
+                                    column,
+                                    cards: cardsByColumn.get(column.id) ?? [],
+                                    count: cardsByColumn.get(column.id)?.length ?? 0,
+                                })}
+                            </td>
+                        {/each}
+                    </tr>
+                </tfoot>
+            {/if}
+        </KanbanTable>
     </div>
 
-    <p class="kanban-board-status" aria-live="polite">{statusMessage}</p>
+    <p
+        class="kanban-board-status"
+        aria-live="polite"
+    >
+        {statusMessage}
+    </p>
 </div>

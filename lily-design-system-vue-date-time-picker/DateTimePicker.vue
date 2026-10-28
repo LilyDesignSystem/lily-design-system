@@ -302,9 +302,7 @@ export function isoWeek(isoDate: string): number {
     const thursday = addDays(isoDate, 3 - mondayIndex);
     const parsed = parseIsoDate(thursday);
     if (!parsed) return 0;
-    const jan1 = parseIsoDate(
-        formatIsoDate({ year: parsed.year, month: 1, day: 1 }),
-    );
+    const jan1 = parseIsoDate(formatIsoDate({ year: parsed.year, month: 1, day: 1 }));
     if (!jan1) return 0;
     return Math.floor((toEpochDay(parsed) - toEpochDay(jan1)) / 7) + 1;
 }
@@ -325,10 +323,7 @@ export function formatIsoTime(time: CivilTime): string {
 }
 
 /** Pull the date and time halves out of a mode-appropriate ISO value. */
-export function splitValue(
-    value: string,
-    mode: DateTimeMode,
-): { date: string; time: string } {
+export function splitValue(value: string, mode: DateTimeMode): { date: string; time: string } {
     if (!value) return { date: "", time: "" };
     if (mode === "time") {
         return { date: "", time: parseIsoTime(value) ? value : "" };
@@ -341,22 +336,14 @@ export function splitValue(
 }
 
 /** Recombine the halves. Returns "" when the value is incomplete. */
-export function joinValue(
-    date: string,
-    time: string,
-    mode: DateTimeMode,
-): string {
+export function joinValue(date: string, time: string, mode: DateTimeMode): string {
     if (mode === "date") return date;
     if (mode === "time") return time;
     return date && time ? `${date}T${time}` : "";
 }
 
 /** Is `isoDate` inside the inclusive [min, max] window? Empty bounds pass. */
-export function withinRange(
-    isoDate: string,
-    min?: string,
-    max?: string,
-): boolean {
+export function withinRange(isoDate: string, min?: string, max?: string): boolean {
     if (min && isoDate < min) return false;
     if (max && isoDate > max) return false;
     return true;
@@ -372,13 +359,48 @@ function regionOf(locale?: string): string {
 }
 
 const SUNDAY_FIRST_REGIONS = new Set([
-    "AR", "BR", "CA", "CL", "CO", "DO", "GT", "HK", "IL", "IN", "JP",
-    "KR", "MO", "MX", "PE", "PH", "PK", "TH", "TW", "US", "VE", "ZA",
+    "AR",
+    "BR",
+    "CA",
+    "CL",
+    "CO",
+    "DO",
+    "GT",
+    "HK",
+    "IL",
+    "IN",
+    "JP",
+    "KR",
+    "MO",
+    "MX",
+    "PE",
+    "PH",
+    "PK",
+    "TH",
+    "TW",
+    "US",
+    "VE",
+    "ZA",
 ]);
 
 const SATURDAY_FIRST_REGIONS = new Set([
-    "AE", "AF", "BH", "DJ", "DZ", "EG", "IQ", "IR", "JO", "KW", "LY",
-    "OM", "QA", "SA", "SD", "SY", "YE",
+    "AE",
+    "AF",
+    "BH",
+    "DJ",
+    "DZ",
+    "EG",
+    "IQ",
+    "IR",
+    "JO",
+    "KW",
+    "LY",
+    "OM",
+    "QA",
+    "SA",
+    "SD",
+    "SY",
+    "YE",
 ]);
 
 /**
@@ -422,11 +444,7 @@ export function firstDayOfWeekFor(locale?: string): number {
  * click and it makes the dialog jump under the pointer. A constant six
  * rows costs at most one extra trailing week.
  */
-export function monthMatrix(
-    year: number,
-    month: number,
-    firstDayOfWeek: number,
-): string[][] {
+export function monthMatrix(year: number, month: number, firstDayOfWeek: number): string[][] {
     const first = formatIsoDate({ year, month, day: 1 });
     const lead = (weekdayOf(first) - firstDayOfWeek + 7) % 7;
     const start = addDays(first, -lead);
@@ -463,12 +481,8 @@ export function monthNames(locale?: string): {
 }
 
 /** Match a token against a locale's month names. Returns 1-12, or 0. */
-function matchMonthName(
-    token: string,
-    names: { long: string[]; short: string[] },
-): number {
-    const norm = (s: string) =>
-        s.toLocaleLowerCase().replace(/\.$/, "").normalize("NFKD");
+function matchMonthName(token: string, names: { long: string[]; short: string[] }): number {
+    const norm = (s: string) => s.toLocaleLowerCase().replace(/\.$/, "").normalize("NFKD");
     const t = norm(token);
     if (!t || /^\d+$/.test(t)) return 0;
     for (let i = 0; i < 12; i++) {
@@ -491,9 +505,7 @@ function matchMonthName(
  * The order a locale writes a numeric date in — `["day","month","year"]`
  * for en-GB, `["month","day","year"]` for en-US.
  */
-export function numericFieldOrder(
-    locale?: string,
-): ("day" | "month" | "year")[] {
+export function numericFieldOrder(locale?: string): ("day" | "month" | "year")[] {
     try {
         const parts = new Intl.DateTimeFormat(locale, {
             day: "2-digit",
@@ -504,8 +516,7 @@ export function numericFieldOrder(
         const order = parts
             .map((p) => p.type)
             .filter(
-                (t): t is "day" | "month" | "year" =>
-                    t === "day" || t === "month" || t === "year",
+                (t): t is "day" | "month" | "year" => t === "day" || t === "month" || t === "year",
             );
         if (order.length === 3) return order;
     } catch {
@@ -526,10 +537,7 @@ export function numericFieldOrder(
  * Anything else is null. Guessing harder than this is how date fields
  * silently record the wrong day.
  */
-export function parseDateInput(
-    text: string,
-    locale?: string,
-): string | null {
+export function parseDateInput(text: string, locale?: string): string | null {
     const trimmed = text.trim();
     if (!trimmed) return null;
 
@@ -558,9 +566,7 @@ export function parseDateInput(
     let year = 0;
 
     if (monthIndex >= 0) {
-        const rest = parts
-            .filter((_, i) => i !== monthIndex)
-            .map((p) => Number(p));
+        const rest = parts.filter((_, i) => i !== monthIndex).map((p) => Number(p));
         if (rest.some((n) => Number.isNaN(n))) return null;
         [day, year] = rest[0] > rest[1] ? [rest[1], rest[0]] : rest;
     } else {
@@ -684,7 +690,10 @@ const hoverTooltip = ref(false);
 const focusButton = ref(false);
 const dismissed = ref(false);
 const tooltipVisible = computed(
-    () => !open.value && !dismissed.value && (hoverButton.value || hoverTooltip.value || focusButton.value),
+    () =>
+        !open.value &&
+        !dismissed.value &&
+        (hoverButton.value || hoverTooltip.value || focusButton.value),
 );
 
 function onTooltipButtonEnter(): void {
@@ -777,9 +786,8 @@ const pendingDate = ref("");
  * older embedded runtime that lacks the method entirely.
  */
 function supportedTimeZones(): string[] {
-    const supportedValuesOf = (
-        Intl as unknown as { supportedValuesOf?: (key: string) => string[] }
-    ).supportedValuesOf;
+    const supportedValuesOf = (Intl as unknown as { supportedValuesOf?: (key: string) => string[] })
+        .supportedValuesOf;
     return typeof supportedValuesOf === "function" ? supportedValuesOf("timeZone") : [];
 }
 
@@ -922,9 +930,7 @@ function defaultFormat(isoValue: string): string {
                     month: "short",
                     year: "numeric",
                     timeZone: "UTC",
-                }).format(
-                    new Date(Date.UTC(parsed.year, parsed.month - 1, parsed.day)),
-                ),
+                }).format(new Date(Date.UTC(parsed.year, parsed.month - 1, parsed.day))),
             );
         } catch {
             chunks.push(date);
@@ -947,10 +953,7 @@ const display = computed(() =>
  */
 const fieldDescribedBy = computed(
     () =>
-        [
-            props.describedBy,
-            invalid.value && props.labels.invalid ? statusId : undefined,
-        ]
+        [props.describedBy, invalid.value && props.labels.invalid ? statusId : undefined]
             .filter(Boolean)
             .join(" ") || undefined,
 );
@@ -966,9 +969,7 @@ function dayLabel(isoDate: string): string {
             month: "long",
             year: "numeric",
             timeZone: "UTC",
-        }).format(
-            new Date(Date.UTC(parsed.year, parsed.month - 1, parsed.day)),
-        );
+        }).format(new Date(Date.UTC(parsed.year, parsed.month - 1, parsed.day)));
     } catch {
         return isoDate;
     }
@@ -1640,7 +1641,11 @@ onBeforeUnmount(() => {
         :data-mode="mode"
         :data-time-zone="currentZone || undefined"
     >
-        <input type="hidden" :name="name" :value="current ?? ''" />
+        <input
+            type="hidden"
+            :name="name"
+            :value="current ?? ''"
+        />
         <input
             v-if="labels.timeZone"
             type="hidden"
@@ -1683,7 +1688,9 @@ onBeforeUnmount(() => {
                 @keydown="onTooltipKeydown"
             >
                 <slot v-bind="{ value: current, open, display }">
-                    <span class="date-time-picker-icon" aria-hidden="true"
+                    <span
+                        class="date-time-picker-icon"
+                        aria-hidden="true"
                         >📅︎</span
                     >
                 </slot>
@@ -1699,7 +1706,9 @@ onBeforeUnmount(() => {
                 :hidden="tooltipVisible ? undefined : true"
                 @mouseenter="hoverTooltip = true"
                 @mouseleave="hoverTooltip = false"
-            >{{ label }}</div>
+            >
+                {{ label }}
+            </div>
         </div>
 
         <!-- Present in the DOM before it has content: a live region that
@@ -1735,7 +1744,10 @@ onBeforeUnmount(() => {
             >
                 {{ labels.instructions }}
             </p>
-            <div v-if="usesDate" class="date-time-picker-header">
+            <div
+                v-if="usesDate"
+                class="date-time-picker-header"
+            >
                 <button
                     type="button"
                     class="date-time-picker-previous-year"
@@ -1772,7 +1784,11 @@ onBeforeUnmount(() => {
                 <!-- Polite, not assertive: paging months is the visible
                      result of the user's own keypress, so it should reach
                      a screen reader without interrupting anything. -->
-                <span class="date-time-picker-period" :id="periodId" aria-live="polite">
+                <span
+                    class="date-time-picker-period"
+                    :id="periodId"
+                    aria-live="polite"
+                >
                     {{ periodText }}
                 </span>
 
@@ -1813,8 +1829,14 @@ onBeforeUnmount(() => {
             <!-- Before the grid, so the zone is chosen before the instant.
                  The empty first option is the "no zone" state: the picker
                  never guesses one from the runtime. -->
-            <div v-if="labels.timeZone" class="date-time-picker-time-zone">
-                <label class="date-time-picker-time-zone-label" :for="timeZoneId">
+            <div
+                v-if="labels.timeZone"
+                class="date-time-picker-time-zone"
+            >
+                <label
+                    class="date-time-picker-time-zone-label"
+                    :for="timeZoneId"
+                >
                     {{ labels.timeZone }}
                 </label>
                 <select
@@ -1824,7 +1846,11 @@ onBeforeUnmount(() => {
                     @change="onTimeZoneChange"
                 >
                     <option value=""></option>
-                    <option v-for="zone in zoneOptions" :key="zone" :value="zone">
+                    <option
+                        v-for="zone in zoneOptions"
+                        :key="zone"
+                        :value="zone"
+                    >
                         {{ timeZoneLabels[zone] ?? zone }}
                     </option>
                 </select>
@@ -1865,8 +1891,15 @@ onBeforeUnmount(() => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="week in weeks" :key="week[0]">
-                        <th v-if="showWeekNumbers" class="date-time-picker-week" scope="row">
+                    <tr
+                        v-for="week in weeks"
+                        :key="week[0]"
+                    >
+                        <th
+                            v-if="showWeekNumbers"
+                            class="date-time-picker-week"
+                            scope="row"
+                        >
                             {{ isoWeek(week[0]) }}
                         </th>
                         <td
@@ -1888,7 +1921,9 @@ onBeforeUnmount(() => {
                                 type="button"
                                 class="date-time-picker-day"
                                 :data-date="isoDate"
-                                :data-outside="parseIsoDate(isoDate)?.month !== viewMonth ? '' : undefined"
+                                :data-outside="
+                                    parseIsoDate(isoDate)?.month !== viewMonth ? '' : undefined
+                                "
                                 :data-today="isoDate === today ? '' : undefined"
                                 :data-selected="isoDate === pendingDate ? '' : undefined"
                                 :data-disabled="dayDisabled(isoDate) ? '' : undefined"
@@ -1905,8 +1940,14 @@ onBeforeUnmount(() => {
                 </tbody>
             </table>
 
-            <div v-if="usesTime" class="date-time-picker-time">
-                <label class="date-time-picker-time-label" :for="hourId">
+            <div
+                v-if="usesTime"
+                class="date-time-picker-time"
+            >
+                <label
+                    class="date-time-picker-time-label"
+                    :for="hourId"
+                >
                     {{ labels.hour }}
                 </label>
                 <select
@@ -1915,12 +1956,19 @@ onBeforeUnmount(() => {
                     :value="pendingHour"
                     @change="onHourChange"
                 >
-                    <option v-for="option in hourOptions" :key="option.value" :value="option.value">
+                    <option
+                        v-for="option in hourOptions"
+                        :key="option.value"
+                        :value="option.value"
+                    >
                         {{ option.label }}
                     </option>
                 </select>
 
-                <label class="date-time-picker-time-label" :for="minuteId">
+                <label
+                    class="date-time-picker-time-label"
+                    :for="minuteId"
+                >
                     {{ labels.minute }}
                 </label>
                 <select
@@ -1929,13 +1977,20 @@ onBeforeUnmount(() => {
                     :value="pendingMinute"
                     @change="onMinuteChange"
                 >
-                    <option v-for="minute in minuteOptions" :key="minute" :value="minute">
+                    <option
+                        v-for="minute in minuteOptions"
+                        :key="minute"
+                        :value="minute"
+                    >
                         {{ pad(minute) }}
                     </option>
                 </select>
 
                 <template v-if="clock12">
-                    <label class="date-time-picker-time-label" :for="meridiemId">
+                    <label
+                        class="date-time-picker-time-label"
+                        :for="meridiemId"
+                    >
                         {{ labels.meridiem }}
                     </label>
                     <select
@@ -1952,7 +2007,10 @@ onBeforeUnmount(() => {
                 </template>
             </div>
 
-            <div v-if="shortcuts.length > 0" class="date-time-picker-shortcuts">
+            <div
+                v-if="shortcuts.length > 0"
+                class="date-time-picker-shortcuts"
+            >
                 <button
                     v-for="shortcut in shortcuts"
                     :key="shortcut.id"
@@ -1966,13 +2024,26 @@ onBeforeUnmount(() => {
             </div>
 
             <div class="date-time-picker-footer">
-                <button v-if="labels.clear" type="button" class="date-time-picker-clear" @click="clear">
+                <button
+                    v-if="labels.clear"
+                    type="button"
+                    class="date-time-picker-clear"
+                    @click="clear"
+                >
                     {{ labels.clear }}
                 </button>
-                <button type="button" class="date-time-picker-cancel" @click="onCancelClick">
+                <button
+                    type="button"
+                    class="date-time-picker-cancel"
+                    @click="onCancelClick"
+                >
                     {{ labels.cancel }}
                 </button>
-                <button type="button" class="date-time-picker-confirm" @click="commit">
+                <button
+                    type="button"
+                    class="date-time-picker-confirm"
+                    @click="commit"
+                >
                     {{ labels.confirm }}
                 </button>
             </div>

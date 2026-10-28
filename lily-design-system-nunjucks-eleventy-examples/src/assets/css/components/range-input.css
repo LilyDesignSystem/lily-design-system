@@ -42,4 +42,7 @@
   cursor: pointer;
 }
 
-.range-input[disabled] { opacity: 0.5; cursor: not-allowed; }
+.range-input[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

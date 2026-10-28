@@ -53,7 +53,10 @@ const name = ref("");
 </script>
 
 <template>
-    <div dir="rtl" lang="ar">
+    <div
+        dir="rtl"
+        lang="ar"
+    >
         <Header label="ترويسة الموقع">
             <div class="page-wrapper">
                 <h1>عرض توضيحي للكتابة من اليمين إلى اليسار</h1>
@@ -72,8 +75,8 @@ const name = ref("");
             </BreadcrumbNav>
 
             <InsetText>
-                هذه صفحة تجريبية لاختبار الاتجاه من اليمين إلى اليسار. جميع
-                المكوّنات هنا بلا تنسيق مسبق؛ التنسيق البصري كله من هذا التطبيق.
+                هذه صفحة تجريبية لاختبار الاتجاه من اليمين إلى اليسار. جميع المكوّنات هنا بلا تنسيق
+                مسبق؛ التنسيق البصري كله من هذا التطبيق.
             </InsetText>
 
             <h2>جدول الموظفين</h2>
@@ -86,7 +89,10 @@ const name = ref("");
                     </DataTableRow>
                 </DataTableHead>
                 <DataTableBody>
-                    <DataTableRow v-for="row in rows" :key="row.name">
+                    <DataTableRow
+                        v-for="row in rows"
+                        :key="row.name"
+                    >
                         <DataTableTD>{{ row.name }}</DataTableTD>
                         <DataTableTD>{{ row.department }}</DataTableTD>
                         <DataTableTD>{{ row.status }}</DataTableTD>
@@ -96,9 +102,20 @@ const name = ref("");
 
             <PaginationNav label="ترقيم صفحات النتائج">
                 <PaginationList label="قائمة الصفحات">
-                    <PaginationListItem v-for="page in [1, 2, 3, 4, 5]" :key="page">
-                        <span v-if="page === currentPage" aria-current="page">{{ page }}</span>
-                        <a v-else :href="`#page-${page}`">{{ page }}</a>
+                    <PaginationListItem
+                        v-for="page in [1, 2, 3, 4, 5]"
+                        :key="page"
+                    >
+                        <span
+                            v-if="page === currentPage"
+                            aria-current="page"
+                            >{{ page }}</span
+                        >
+                        <a
+                            v-else
+                            :href="`#page-${page}`"
+                            >{{ page }}</a
+                        >
                     </PaginationListItem>
                 </PaginationList>
             </PaginationNav>
@@ -106,7 +123,10 @@ const name = ref("");
             <h2>نموذج التواصل</h2>
             <Form label="نموذج التواصل">
                 <Field label="الاسم الكامل">
-                    <TextInput label="الاسم الكامل" v-model="name" />
+                    <TextInput
+                        label="الاسم الكامل"
+                        v-model="name"
+                    />
                 </Field>
 
                 <Fieldset legend="طريقة التواصل المفضلة">
@@ -136,7 +156,10 @@ const name = ref("");
 
                 <p>
                     <Label>
-                        <CheckboxInput label="أوافق على الشروط" v-model:checked="agreeTerms" />
+                        <CheckboxInput
+                            label="أوافق على الشروط"
+                            v-model:checked="agreeTerms"
+                        />
                         أوافق على الشروط
                     </Label>
                 </p>

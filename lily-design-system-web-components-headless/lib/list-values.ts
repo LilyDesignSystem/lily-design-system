@@ -16,5 +16,6 @@ export function parseValues(raw: string | null): string[] {
 }
 
 export function selectValues(select: HTMLSelectElement, values: string[]): void {
-    for (const option of Array.from(select.options)) option.selected = values.includes(option.value);
+    for (const option of Array.from(select.options))
+        option.selected = values.includes(option.value);
 }

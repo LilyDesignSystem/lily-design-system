@@ -12,6 +12,6 @@ const KNOWN_THEMES = new Set(["light", "dark", "abyss"]);
 const DEFAULT_THEME = "light";
 
 export default defineEventHandler((event) => {
-    const cookie = getCookie(event, "theme") ?? "";
-    event.context.theme = KNOWN_THEMES.has(cookie) ? cookie : DEFAULT_THEME;
+  const cookie = getCookie(event, "theme") ?? "";
+  event.context.theme = KNOWN_THEMES.has(cookie) ? cookie : DEFAULT_THEME;
 });

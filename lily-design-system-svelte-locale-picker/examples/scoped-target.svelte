@@ -22,7 +22,10 @@
 <article>
     <h1>Document language stays English; panels switch independently.</h1>
 
-    <section bind:this={panelA} class="panel">
+    <section
+        bind:this={panelA}
+        class="panel"
+    >
         <h2>Panel A</h2>
         <LocalePicker
             label="Panel A language"
@@ -33,7 +36,10 @@
         <p>Current panel locale: <code>{aLocale}</code></p>
     </section>
 
-    <section bind:this={panelB} class="panel">
+    <section
+        bind:this={panelB}
+        class="panel"
+    >
         <h2>Panel B</h2>
         <LocalePicker
             label="Panel B language"

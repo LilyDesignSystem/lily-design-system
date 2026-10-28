@@ -27,5 +27,5 @@ import { TabPanel } from "../components/TabPanel";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class TabbedInterfacePage {
-  protected active = signal<'overview' | 'details'>('overview');
+  protected active = signal<"overview" | "details">("overview");
 }

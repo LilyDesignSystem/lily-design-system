@@ -1,701 +1,687 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import {
-  RETURN_SYMBOL,
-  SearchPicker,
-  nextSearchPickerId,
-  searchHref,
-  type SearchPickerSearchDetail,
+    RETURN_SYMBOL,
+    SearchPicker,
+    nextSearchPickerId,
+    searchHref,
+    type SearchPickerSearchDetail,
 } from "./search-picker.js";
 
 // Ensure the custom element is registered exactly once for the suite.
-if (
-  typeof customElements !== "undefined" &&
-  !customElements.get("search-picker")
-) {
-  customElements.define("search-picker", SearchPicker);
+if (typeof customElements !== "undefined" && !customElements.get("search-picker")) {
+    customElements.define("search-picker", SearchPicker);
 }
 
 const LABELS = {
-  label: "Search this site",
-  "input-label": "Search terms",
-  "submit-label": "Search",
+    label: "Search this site",
+    "input-label": "Search terms",
+    "submit-label": "Search",
 };
 
 function flush(): Promise<void> {
-  return new Promise((r) => setTimeout(r, 0));
+    return new Promise((r) => setTimeout(r, 0));
 }
 
-function mount(
-  attrs: Record<string, string> = {},
-  tag = "search-picker",
-): SearchPicker {
-  const el = document.createElement(tag) as SearchPicker;
-  for (const [k, v] of Object.entries({ ...LABELS, ...attrs }))
-    el.setAttribute(k, v);
-  document.body.appendChild(el);
-  return el;
+function mount(attrs: Record<string, string> = {}, tag = "search-picker"): SearchPicker {
+    const el = document.createElement(tag) as SearchPicker;
+    for (const [k, v] of Object.entries({ ...LABELS, ...attrs })) el.setAttribute(k, v);
+    document.body.appendChild(el);
+    return el;
 }
 
-const trigger = () =>
-  document.body.querySelector<HTMLButtonElement>(".search-picker-button")!;
-const panel = () =>
-  document.body.querySelector<HTMLDivElement>(".search-picker-panel")!;
-const form = () =>
-  document.body.querySelector<HTMLFormElement>(".search-picker-form")!;
-const input = () =>
-  document.body.querySelector<HTMLInputElement>(".search-picker-input")!;
-const submit = () =>
-  document.body.querySelector<HTMLButtonElement>(".search-picker-submit")!;
+const trigger = () => document.body.querySelector<HTMLButtonElement>(".search-picker-button")!;
+const panel = () => document.body.querySelector<HTMLDivElement>(".search-picker-panel")!;
+const form = () => document.body.querySelector<HTMLFormElement>(".search-picker-form")!;
+const input = () => document.body.querySelector<HTMLInputElement>(".search-picker-input")!;
+const submit = () => document.body.querySelector<HTMLButtonElement>(".search-picker-submit")!;
 
 function click(el: Element): void {
-  el.dispatchEvent(
-    new MouseEvent("click", { bubbles: true, cancelable: true, composed: true }),
-  );
+    el.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true, composed: true }));
 }
 
 function press(el: Element, key: string): void {
-  el.dispatchEvent(
-    new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }),
-  );
+    el.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
 }
 
 /** Type into the field: set its value and fire `input`, as a user would. */
 function type(text: string): void {
-  input().value = text;
-  input().dispatchEvent(new Event("input", { bubbles: true }));
+    input().value = text;
+    input().dispatchEvent(new Event("input", { bubbles: true }));
 }
 
 /** Submit the form as Return in the field would; returns dispatchEvent's result. */
 function submitForm(): boolean {
-  return form().dispatchEvent(
-    new Event("submit", { bubbles: true, cancelable: true }),
-  );
+    return form().dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
 }
 
 /** Mount with a spy `navigate`, open the panel, and return both. */
 async function openPanel(attrs: Record<string, string> = {}) {
-  const el = mount(attrs);
-  const navigate = vi.fn();
-  el.navigate = navigate;
-  await flush();
-  click(trigger());
-  await flush();
-  return { el, navigate };
+    const el = mount(attrs);
+    const navigate = vi.fn();
+    el.navigate = navigate;
+    await flush();
+    click(trigger());
+    await flush();
+    return { el, navigate };
 }
 
 beforeEach(() => {
-  document.body.replaceChildren();
+    document.body.replaceChildren();
 });
 
 afterEach(() => {
-  document.body.replaceChildren();
-  vi.unstubAllGlobals();
-  vi.restoreAllMocks();
+    document.body.replaceChildren();
+    vi.unstubAllGlobals();
+    vi.restoreAllMocks();
 });
 
 describe("<search-picker> — structure (§7.1–§7.6)", () => {
-  test("§7.1 renders a named disclosure button controlling the panel", async () => {
-    mount();
-    await flush();
-    const btn = trigger();
-    expect(btn.tagName).toBe("BUTTON");
-    expect(btn.getAttribute("type")).toBe("button");
-    expect(btn.getAttribute("aria-label")).toBe(LABELS.label);
-    expect(btn.getAttribute("aria-expanded")).toBe("false");
-    expect(btn.getAttribute("aria-controls")).toBe(panel().id);
-    expect(panel().id).toMatch(/^search-picker-\d+-panel$/);
-  });
+    test("§7.1 renders a named disclosure button controlling the panel", async () => {
+        mount();
+        await flush();
+        const btn = trigger();
+        expect(btn.tagName).toBe("BUTTON");
+        expect(btn.getAttribute("type")).toBe("button");
+        expect(btn.getAttribute("aria-label")).toBe(LABELS.label);
+        expect(btn.getAttribute("aria-expanded")).toBe("false");
+        expect(btn.getAttribute("aria-controls")).toBe(panel().id);
+        expect(panel().id).toMatch(/^search-picker-\d+-panel$/);
+    });
 
-  test("§7.2 the panel is hidden until the button is activated, and toggles", async () => {
-    mount();
-    await flush();
-    expect(panel().hasAttribute("hidden")).toBe(true);
-    click(trigger());
-    expect(panel().hasAttribute("hidden")).toBe(false);
-    expect(trigger().getAttribute("aria-expanded")).toBe("true");
-    click(trigger());
-    expect(panel().hasAttribute("hidden")).toBe(true);
-    expect(trigger().getAttribute("aria-expanded")).toBe("false");
-  });
+    test("§7.2 the panel is hidden until the button is activated, and toggles", async () => {
+        mount();
+        await flush();
+        expect(panel().hasAttribute("hidden")).toBe(true);
+        click(trigger());
+        expect(panel().hasAttribute("hidden")).toBe(false);
+        expect(trigger().getAttribute("aria-expanded")).toBe("true");
+        click(trigger());
+        expect(panel().hasAttribute("hidden")).toBe(true);
+        expect(trigger().getAttribute("aria-expanded")).toBe("false");
+    });
 
-  test("§7.3 the default icon is an aria-hidden magnifying-glass SVG", async () => {
-    mount();
-    await flush();
-    const icon = document.body.querySelector(".search-picker-icon")!;
-    expect(icon.tagName.toLowerCase()).toBe("svg");
-    expect(icon.getAttribute("aria-hidden")).toBe("true");
-    expect(icon.getAttribute("viewBox")).toBe("0 0 16 16");
-    expect(icon.closest("button")).toBe(trigger());
-    expect(icon.querySelector("circle")).not.toBeNull();
-    expect(icon.querySelector("path")?.getAttribute("d")).toBe(
-      "M10.5 10.5 14 14",
-    );
-  });
+    test("§7.3 the default icon is an aria-hidden magnifying-glass SVG", async () => {
+        mount();
+        await flush();
+        const icon = document.body.querySelector(".search-picker-icon")!;
+        expect(icon.tagName.toLowerCase()).toBe("svg");
+        expect(icon.getAttribute("aria-hidden")).toBe("true");
+        expect(icon.getAttribute("viewBox")).toBe("0 0 16 16");
+        expect(icon.closest("button")).toBe(trigger());
+        expect(icon.querySelector("circle")).not.toBeNull();
+        expect(icon.querySelector("path")?.getAttribute("d")).toBe("M10.5 10.5 14 14");
+    });
 
-  test("§7.4 renderButtonContent replaces the icon and sees open + value", async () => {
-    // Light DOM has no <slot>, so subclassing stands in for the
-    // `children` snippet; it receives what Svelte passes as ChildArgs.
-    class CustomSearchPicker extends SearchPicker {
-      renderButtonContent(): Node {
-        const span = document.createElement("span");
-        span.setAttribute("data-testid", "custom");
-        span.setAttribute("data-open", String(this.open));
-        span.setAttribute("data-query", this.value);
-        return span;
-      }
-    }
-    if (!customElements.get("custom-search-picker")) {
-      customElements.define("custom-search-picker", CustomSearchPicker);
-    }
-    mount({ value: "foo" }, "custom-search-picker");
-    await flush();
-    const custom = () =>
-      document.body.querySelector<HTMLElement>('[data-testid="custom"]')!;
-    expect(document.body.querySelector(".search-picker-icon")).toBeNull();
-    expect(custom().closest("button")).toBe(trigger());
-    expect(custom().getAttribute("data-open")).toBe("false");
-    expect(custom().getAttribute("data-query")).toBe("foo");
-    // It re-runs, so it stays current like a reactive snippet.
-    click(trigger());
-    expect(custom().getAttribute("data-open")).toBe("true");
-    type("bar");
-    expect(custom().getAttribute("data-query")).toBe("bar");
-    // The base class's aria wiring survived.
-    expect(trigger().getAttribute("aria-label")).toBe(LABELS.label);
-  });
+    test("§7.4 renderButtonContent replaces the icon and sees open + value", async () => {
+        // Light DOM has no <slot>, so subclassing stands in for the
+        // `children` snippet; it receives what Svelte passes as ChildArgs.
+        class CustomSearchPicker extends SearchPicker {
+            renderButtonContent(): Node {
+                const span = document.createElement("span");
+                span.setAttribute("data-testid", "custom");
+                span.setAttribute("data-open", String(this.open));
+                span.setAttribute("data-query", this.value);
+                return span;
+            }
+        }
+        if (!customElements.get("custom-search-picker")) {
+            customElements.define("custom-search-picker", CustomSearchPicker);
+        }
+        mount({ value: "foo" }, "custom-search-picker");
+        await flush();
+        const custom = () => document.body.querySelector<HTMLElement>('[data-testid="custom"]')!;
+        expect(document.body.querySelector(".search-picker-icon")).toBeNull();
+        expect(custom().closest("button")).toBe(trigger());
+        expect(custom().getAttribute("data-open")).toBe("false");
+        expect(custom().getAttribute("data-query")).toBe("foo");
+        // It re-runs, so it stays current like a reactive snippet.
+        click(trigger());
+        expect(custom().getAttribute("data-open")).toBe("true");
+        type("bar");
+        expect(custom().getAttribute("data-query")).toBe("bar");
+        // The base class's aria wiring survived.
+        expect(trigger().getAttribute("aria-label")).toBe(LABELS.label);
+    });
 
-  test("§7.5 the panel holds a named search form, field, and submit button after the field", async () => {
-    await openPanel();
-    expect(form().closest(".search-picker-panel")).toBe(panel());
-    expect(form().getAttribute("role")).toBe("search");
-    expect(form().getAttribute("aria-label")).toBe(LABELS.label);
-    expect(form().getAttribute("method")).toBe("get");
-    expect(form().getAttribute("action")).toBe("/");
-    expect(input().getAttribute("type")).toBe("search");
-    expect(input().getAttribute("aria-label")).toBe(LABELS["input-label"]);
-    expect(input().getAttribute("enterkeyhint")).toBe("search");
-    expect(submit().getAttribute("type")).toBe("submit");
-    expect(submit().getAttribute("aria-label")).toBe(LABELS["submit-label"]);
-    expect(
-      input().compareDocumentPosition(submit()) &
-        Node.DOCUMENT_POSITION_FOLLOWING,
-    ).toBeTruthy();
-  });
+    test("§7.5 the panel holds a named search form, field, and submit button after the field", async () => {
+        await openPanel();
+        expect(form().closest(".search-picker-panel")).toBe(panel());
+        expect(form().getAttribute("role")).toBe("search");
+        expect(form().getAttribute("aria-label")).toBe(LABELS.label);
+        expect(form().getAttribute("method")).toBe("get");
+        expect(form().getAttribute("action")).toBe("/");
+        expect(input().getAttribute("type")).toBe("search");
+        expect(input().getAttribute("aria-label")).toBe(LABELS["input-label"]);
+        expect(input().getAttribute("enterkeyhint")).toBe("search");
+        expect(submit().getAttribute("type")).toBe("submit");
+        expect(submit().getAttribute("aria-label")).toBe(LABELS["submit-label"]);
+        expect(
+            input().compareDocumentPosition(submit()) & Node.DOCUMENT_POSITION_FOLLOWING,
+        ).toBeTruthy();
+    });
 
-  test("§7.6 the submit button shows ⏎ in an aria-hidden span", async () => {
-    await openPanel();
-    const symbol = submit().querySelector(".search-picker-submit-symbol")!;
-    expect(symbol.tagName).toBe("SPAN");
-    expect(symbol.textContent).toBe("⏎");
-    expect(symbol.getAttribute("aria-hidden")).toBe("true");
-  });
+    test("§7.6 the submit button shows ⏎ in an aria-hidden span", async () => {
+        await openPanel();
+        const symbol = submit().querySelector(".search-picker-submit-symbol")!;
+        expect(symbol.tagName).toBe("SPAN");
+        expect(symbol.textContent).toBe("⏎");
+        expect(symbol.getAttribute("aria-hidden")).toBe("true");
+    });
 });
 
 describe("<search-picker> — searching (§7.7–§7.15)", () => {
-  test("§7.7 opening focuses the search field with preventScroll", async () => {
-    const focusSpy = vi.spyOn(HTMLElement.prototype, "focus");
-    await openPanel();
-    expect(document.activeElement).toBe(input());
-    expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
-  });
+    test("§7.7 opening focuses the search field with preventScroll", async () => {
+        const focusSpy = vi.spyOn(HTMLElement.prototype, "focus");
+        await openPanel();
+        expect(document.activeElement).toBe(input());
+        expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
+    });
 
-  test("§7.8 Return in the field (form submit) navigates to /?<query>", async () => {
-    const { navigate } = await openPanel();
-    type("foo");
-    // dispatchEvent returns false when cancelled: the native GET (which
-    // would send /?name=value) must never run.
-    expect(submitForm()).toBe(false);
-    expect(navigate).toHaveBeenCalledWith("/?foo");
-  });
+    test("§7.8 Return in the field (form submit) navigates to /?<query>", async () => {
+        const { navigate } = await openPanel();
+        type("foo");
+        // dispatchEvent returns false when cancelled: the native GET (which
+        // would send /?name=value) must never run.
+        expect(submitForm()).toBe(false);
+        expect(navigate).toHaveBeenCalledWith("/?foo");
+    });
 
-  test("§7.9 clicking the submit button navigates the same way", async () => {
-    const { navigate } = await openPanel();
-    type("foo");
-    // jsdom implements implicit submission from a submit button click.
-    submit().click();
-    expect(navigate).toHaveBeenCalledWith("/?foo");
-  });
+    test("§7.9 clicking the submit button navigates the same way", async () => {
+        const { navigate } = await openPanel();
+        type("foo");
+        // jsdom implements implicit submission from a submit button click.
+        submit().click();
+        expect(navigate).toHaveBeenCalledWith("/?foo");
+    });
 
-  test("§7.10 the query is trimmed and URI-encoded", async () => {
-    const { navigate } = await openPanel();
-    type("  foo bar ");
-    submitForm();
-    expect(navigate).toHaveBeenLastCalledWith("/?foo%20bar");
-    click(trigger());
-    type("a&b");
-    submitForm();
-    expect(navigate).toHaveBeenLastCalledWith("/?a%26b");
-  });
+    test("§7.10 the query is trimmed and URI-encoded", async () => {
+        const { navigate } = await openPanel();
+        type("  foo bar ");
+        submitForm();
+        expect(navigate).toHaveBeenLastCalledWith("/?foo%20bar");
+        click(trigger());
+        type("a&b");
+        submitForm();
+        expect(navigate).toHaveBeenLastCalledWith("/?a%26b");
+    });
 
-  test("§7.11 an empty or whitespace-only query does nothing and stays open", async () => {
-    const { navigate } = await openPanel();
-    submitForm();
-    type("   ");
-    submitForm();
-    expect(navigate).not.toHaveBeenCalled();
-    expect(panel().hasAttribute("hidden")).toBe(false);
-  });
+    test("§7.11 an empty or whitespace-only query does nothing and stays open", async () => {
+        const { navigate } = await openPanel();
+        submitForm();
+        type("   ");
+        submitForm();
+        expect(navigate).not.toHaveBeenCalled();
+        expect(panel().hasAttribute("hidden")).toBe(false);
+    });
 
-  test("§7.12 action changes the path", async () => {
-    const { navigate } = await openPanel({ action: "/search" });
-    expect(form().getAttribute("action")).toBe("/search");
-    type("foo");
-    submitForm();
-    expect(navigate).toHaveBeenCalledWith("/search?foo");
-  });
+    test("§7.12 action changes the path", async () => {
+        const { navigate } = await openPanel({ action: "/search" });
+        expect(form().getAttribute("action")).toBe("/search");
+        type("foo");
+        submitForm();
+        expect(navigate).toHaveBeenCalledWith("/search?foo");
+    });
 
-  test("§7.13 onSearch fires with the query and href before navigate", async () => {
-    const calls: string[] = [];
-    const { el } = await openPanel();
-    el.onSearch = (q, h) => calls.push(`search:${q}:${h}`);
-    el.navigate = (h) => calls.push(`navigate:${h}`);
-    type(" foo ");
-    submitForm();
-    expect(calls).toEqual(["search:foo:/?foo", "navigate:/?foo"]);
-  });
+    test("§7.13 onSearch fires with the query and href before navigate", async () => {
+        const calls: string[] = [];
+        const { el } = await openPanel();
+        el.onSearch = (q, h) => calls.push(`search:${q}:${h}`);
+        el.navigate = (h) => calls.push(`navigate:${h}`);
+        type(" foo ");
+        submitForm();
+        expect(calls).toEqual(["search:foo:/?foo", "navigate:/?foo"]);
+    });
 
-  test("§7.14 without navigate, the default calls location.assign", async () => {
-    const assign = vi.fn();
-    vi.stubGlobal("location", { assign });
-    mount();
-    await flush();
-    click(trigger());
-    type("foo");
-    submitForm();
-    expect(assign).toHaveBeenCalledWith("/?foo");
-  });
+    test("§7.14 without navigate, the default calls location.assign", async () => {
+        const assign = vi.fn();
+        vi.stubGlobal("location", { assign });
+        mount();
+        await flush();
+        click(trigger());
+        type("foo");
+        submitForm();
+        expect(assign).toHaveBeenCalledWith("/?foo");
+    });
 
-  test("§7.15 a search closes the panel", async () => {
-    await openPanel();
-    type("foo");
-    submitForm();
-    expect(panel().hasAttribute("hidden")).toBe(true);
-    expect(trigger().getAttribute("aria-expanded")).toBe("false");
-  });
+    test("§7.15 a search closes the panel", async () => {
+        await openPanel();
+        type("foo");
+        submitForm();
+        expect(panel().hasAttribute("hidden")).toBe(true);
+        expect(trigger().getAttribute("aria-expanded")).toBe("false");
+    });
 });
 
 describe("<search-picker> — closing (§7.16–§7.18)", () => {
-  test("§7.16 Escape closes and returns focus to the button with preventScroll", async () => {
-    await openPanel();
-    const focusSpy = vi.spyOn(HTMLElement.prototype, "focus");
-    press(input(), "Escape");
-    expect(panel().hasAttribute("hidden")).toBe(true);
-    expect(document.activeElement).toBe(trigger());
-    expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
-  });
+    test("§7.16 Escape closes and returns focus to the button with preventScroll", async () => {
+        await openPanel();
+        const focusSpy = vi.spyOn(HTMLElement.prototype, "focus");
+        press(input(), "Escape");
+        expect(panel().hasAttribute("hidden")).toBe(true);
+        expect(document.activeElement).toBe(trigger());
+        expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
+    });
 
-  test("§7.17 clicking outside closes the panel", async () => {
-    await openPanel();
-    click(document.body);
-    expect(panel().hasAttribute("hidden")).toBe(true);
-  });
+    test("§7.17 clicking outside closes the panel", async () => {
+        await openPanel();
+        click(document.body);
+        expect(panel().hasAttribute("hidden")).toBe(true);
+    });
 
-  test("§7.18 focus moving to an element outside the root closes the panel", async () => {
-    const outside = document.createElement("button");
-    document.body.appendChild(outside);
-    await openPanel();
-    input().dispatchEvent(
-      new FocusEvent("focusout", { bubbles: true, relatedTarget: outside }),
-    );
-    expect(panel().hasAttribute("hidden")).toBe(true);
-  });
+    test("§7.18 focus moving to an element outside the root closes the panel", async () => {
+        const outside = document.createElement("button");
+        document.body.appendChild(outside);
+        await openPanel();
+        input().dispatchEvent(
+            new FocusEvent("focusout", { bubbles: true, relatedTarget: outside }),
+        );
+        expect(panel().hasAttribute("hidden")).toBe(true);
+    });
 });
 
 describe("<search-picker> — Safari focus regression (§7.24)", () => {
-  test("§7.24 a focusout with no relatedTarget leaves the panel open, so ⏎ still searches", async () => {
-    // Safari does not focus a <button> on click, so pressing ⏎ blurs the
-    // field with relatedTarget = null and leaves document.activeElement on
-    // <body>; closing then hid the panel before the click landed
-    // (reproduced in real WebKit, 2026-10-02). Mirror that state exactly.
-    const { navigate } = await openPanel();
-    type("foo");
-    (document.activeElement as HTMLElement | null)?.blur();
-    expect(document.activeElement).toBe(document.body);
-    input().dispatchEvent(
-      new FocusEvent("focusout", { bubbles: true, relatedTarget: null }),
-    );
-    await flush();
-    expect(panel().hasAttribute("hidden")).toBe(false);
-    submit().click();
-    expect(navigate).toHaveBeenCalledWith("/?foo");
-  });
+    test("§7.24 a focusout with no relatedTarget leaves the panel open, so ⏎ still searches", async () => {
+        // Safari does not focus a <button> on click, so pressing ⏎ blurs the
+        // field with relatedTarget = null and leaves document.activeElement on
+        // <body>; closing then hid the panel before the click landed
+        // (reproduced in real WebKit, 2026-10-02). Mirror that state exactly.
+        const { navigate } = await openPanel();
+        type("foo");
+        (document.activeElement as HTMLElement | null)?.blur();
+        expect(document.activeElement).toBe(document.body);
+        input().dispatchEvent(new FocusEvent("focusout", { bubbles: true, relatedTarget: null }));
+        await flush();
+        expect(panel().hasAttribute("hidden")).toBe(false);
+        submit().click();
+        expect(navigate).toHaveBeenCalledWith("/?foo");
+    });
 });
 
 describe("<search-picker> — value, exports, root (§7.19–§7.23)", () => {
-  test("§7.19 an initial value pre-fills the field, and typing updates the property", async () => {
-    const { el, navigate } = await openPanel({ value: "preset" });
-    expect(input().value).toBe("preset");
-    expect(el.value).toBe("preset");
-    type("typed");
-    expect(el.value).toBe("typed");
-    // Typing never writes the attribute (native <input> semantics).
-    expect(el.getAttribute("value")).toBe("preset");
-    submitForm();
-    expect(navigate).toHaveBeenCalledWith("/?typed");
-  });
+    test("§7.19 an initial value pre-fills the field, and typing updates the property", async () => {
+        const { el, navigate } = await openPanel({ value: "preset" });
+        expect(input().value).toBe("preset");
+        expect(el.value).toBe("preset");
+        type("typed");
+        expect(el.value).toBe("typed");
+        // Typing never writes the attribute (native <input> semantics).
+        expect(el.getAttribute("value")).toBe("preset");
+        submitForm();
+        expect(navigate).toHaveBeenCalledWith("/?typed");
+    });
 
-  test("§7.20 searchHref builds the destination the element uses", () => {
-    expect(searchHref("foo")).toBe("/?foo");
-    expect(searchHref(" foo bar ")).toBe("/?foo%20bar");
-    expect(searchHref("a&b")).toBe("/?a%26b");
-    expect(searchHref("foo", "/search")).toBe("/search?foo");
-  });
+    test("§7.20 searchHref builds the destination the element uses", () => {
+        expect(searchHref("foo")).toBe("/?foo");
+        expect(searchHref(" foo bar ")).toBe("/?foo%20bar");
+        expect(searchHref("a&b")).toBe("/?a%26b");
+        expect(searchHref("foo", "/search")).toBe("/search?foo");
+    });
 
-  test("§7.21 RETURN_SYMBOL is the bare ⏎ (U+23CE)", () => {
-    expect(RETURN_SYMBOL).toBe("⏎");
-    expect(RETURN_SYMBOL.codePointAt(0)).toBe(0x23ce);
-    expect(RETURN_SYMBOL.length).toBe(1);
-  });
+    test("§7.21 RETURN_SYMBOL is the bare ⏎ (U+23CE)", () => {
+        expect(RETURN_SYMBOL).toBe("⏎");
+        expect(RETURN_SYMBOL.codePointAt(0)).toBe(0x23ce);
+        expect(RETURN_SYMBOL.length).toBe(1);
+    });
 
-  test("§7.22 class is appended to search-picker on the rendered root", async () => {
-    mount({ class: "site-search" });
-    await flush();
-    const root = document.body.querySelector("div.search-picker")!;
-    expect(root.className).toBe("search-picker site-search");
-    expect(root.parentElement?.tagName).toBe("SEARCH-PICKER");
-  });
+    test("§7.22 class is appended to search-picker on the rendered root", async () => {
+        mount({ class: "site-search" });
+        await flush();
+        const root = document.body.querySelector("div.search-picker")!;
+        expect(root.className).toBe("search-picker site-search");
+        expect(root.parentElement?.tagName).toBe("SEARCH-PICKER");
+    });
 
-  test("§7.23 no user-facing text of its own beyond the hidden ⏎ and the tooltip's label", async () => {
-    await openPanel();
-    expect(input().hasAttribute("placeholder")).toBe(false);
-    const root = document.body.querySelector(".search-picker")!;
-    // The tooltip's text is the button's label, already supplied by the consumer.
-    root.querySelector(".search-picker-tooltip")!.remove();
-    const texts: string[] = [];
-    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
-    while (walker.nextNode()) {
-      const t = walker.currentNode.textContent!.trim();
-      if (t) texts.push(t);
-    }
-    expect(texts).toEqual(["⏎"]);
-  });
+    test("§7.23 no user-facing text of its own beyond the hidden ⏎ and the tooltip's label", async () => {
+        await openPanel();
+        expect(input().hasAttribute("placeholder")).toBe(false);
+        const root = document.body.querySelector(".search-picker")!;
+        // The tooltip's text is the button's label, already supplied by the consumer.
+        root.querySelector(".search-picker-tooltip")!.remove();
+        const texts: string[] = [];
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+        while (walker.nextNode()) {
+            const t = walker.currentNode.textContent!.trim();
+            if (t) texts.push(t);
+        }
+        expect(texts).toEqual(["⏎"]);
+    });
 });
 
 describe("<search-picker> — custom-element surface (§7.25–§7.31)", () => {
-  test("§7.25 a search dispatches a bubbling `search` event after onSearch, before navigate", async () => {
-    const calls: string[] = [];
-    const seen: SearchPickerSearchDetail[] = [];
-    document.body.addEventListener("search", (e) => {
-      const detail = (e as CustomEvent<SearchPickerSearchDetail>).detail;
-      seen.push(detail);
-      calls.push("event");
+    test("§7.25 a search dispatches a bubbling `search` event after onSearch, before navigate", async () => {
+        const calls: string[] = [];
+        const seen: SearchPickerSearchDetail[] = [];
+        document.body.addEventListener("search", (e) => {
+            const detail = (e as CustomEvent<SearchPickerSearchDetail>).detail;
+            seen.push(detail);
+            calls.push("event");
+        });
+        const { el } = await openPanel({ action: "/find" });
+        el.onSearch = () => calls.push("callback");
+        el.navigate = () => calls.push("navigate");
+        type(" foo ");
+        submitForm();
+        expect(seen).toEqual([{ query: "foo", href: "/find?foo" }]);
+        expect(calls).toEqual(["callback", "event", "navigate"]);
     });
-    const { el } = await openPanel({ action: "/find" });
-    el.onSearch = () => calls.push("callback");
-    el.navigate = () => calls.push("navigate");
-    type(" foo ");
-    submitForm();
-    expect(seen).toEqual([{ query: "foo", href: "/find?foo" }]);
-    expect(calls).toEqual(["callback", "event", "navigate"]);
-  });
 
-  test("§7.26 attributes and properties mirror each other", async () => {
-    const el = mount();
-    await flush();
-    expect(el.label).toBe(LABELS.label);
-    expect(el.inputLabel).toBe(LABELS["input-label"]);
-    expect(el.submitLabel).toBe(LABELS["submit-label"]);
-    expect(el.action).toBe("/");
-    el.inputLabel = "Terms";
-    el.submitLabel = "Go";
-    el.placeholder = "Search…";
-    el.action = "/search";
-    expect(el.getAttribute("input-label")).toBe("Terms");
-    expect(el.getAttribute("submit-label")).toBe("Go");
-    expect(el.getAttribute("placeholder")).toBe("Search…");
-    expect(el.getAttribute("action")).toBe("/search");
-    el.action = "";
-    expect(el.hasAttribute("action")).toBe(false);
-    expect(el.action).toBe("/");
-    el.value = "written";
-    expect(input().value).toBe("written");
-    expect(el.value).toBe("written");
-  });
+    test("§7.26 attributes and properties mirror each other", async () => {
+        const el = mount();
+        await flush();
+        expect(el.label).toBe(LABELS.label);
+        expect(el.inputLabel).toBe(LABELS["input-label"]);
+        expect(el.submitLabel).toBe(LABELS["submit-label"]);
+        expect(el.action).toBe("/");
+        el.inputLabel = "Terms";
+        el.submitLabel = "Go";
+        el.placeholder = "Search…";
+        el.action = "/search";
+        expect(el.getAttribute("input-label")).toBe("Terms");
+        expect(el.getAttribute("submit-label")).toBe("Go");
+        expect(el.getAttribute("placeholder")).toBe("Search…");
+        expect(el.getAttribute("action")).toBe("/search");
+        el.action = "";
+        expect(el.hasAttribute("action")).toBe(false);
+        expect(el.action).toBe("/");
+        el.value = "written";
+        expect(input().value).toBe("written");
+        expect(el.value).toBe("written");
+    });
 
-  test("§7.27 attribute changes sync in place without losing focus; unchanged writes are no-ops", async () => {
-    const { el } = await openPanel();
-    const field = input();
-    expect(document.activeElement).toBe(field);
-    el.setAttribute("label", "Find");
-    el.setAttribute("placeholder", "Search…");
-    el.setAttribute("submit-label", "Go");
-    // Same nodes, still open, focus still in the field.
-    expect(input()).toBe(field);
-    expect(document.activeElement).toBe(field);
-    expect(panel().hasAttribute("hidden")).toBe(false);
-    expect(trigger().getAttribute("aria-label")).toBe("Find");
-    expect(form().getAttribute("aria-label")).toBe("Find");
-    expect(field.getAttribute("placeholder")).toBe("Search…");
-    expect(submit().getAttribute("aria-label")).toBe("Go");
-    // Re-writing an unchanged `value` attribute must not clobber what
-    // the user has typed since.
-    el.setAttribute("value", "seed");
-    type("typed");
-    el.setAttribute("value", "seed");
-    expect(el.value).toBe("typed");
-    expect(field.value).toBe("typed");
-  });
+    test("§7.27 attribute changes sync in place without losing focus; unchanged writes are no-ops", async () => {
+        const { el } = await openPanel();
+        const field = input();
+        expect(document.activeElement).toBe(field);
+        el.setAttribute("label", "Find");
+        el.setAttribute("placeholder", "Search…");
+        el.setAttribute("submit-label", "Go");
+        // Same nodes, still open, focus still in the field.
+        expect(input()).toBe(field);
+        expect(document.activeElement).toBe(field);
+        expect(panel().hasAttribute("hidden")).toBe(false);
+        expect(trigger().getAttribute("aria-label")).toBe("Find");
+        expect(form().getAttribute("aria-label")).toBe("Find");
+        expect(field.getAttribute("placeholder")).toBe("Search…");
+        expect(submit().getAttribute("aria-label")).toBe("Go");
+        // Re-writing an unchanged `value` attribute must not clobber what
+        // the user has typed since.
+        el.setAttribute("value", "seed");
+        type("typed");
+        el.setAttribute("value", "seed");
+        expect(el.value).toBe("typed");
+        expect(field.value).toBe("typed");
+    });
 
-  test("§7.28 disconnecting removes the document click listener", async () => {
-    const { el } = await openPanel();
-    expect(el.open).toBe(true);
-    el.remove();
-    click(document.body);
-    expect(el.open).toBe(true);
-  });
+    test("§7.28 disconnecting removes the document click listener", async () => {
+        const { el } = await openPanel();
+        expect(el.open).toBe(true);
+        el.remove();
+        click(document.body);
+        expect(el.open).toBe(true);
+    });
 
-  test("§7.29 module is import-safe under SSR", async () => {
-    const original = (globalThis as any).customElements;
-    delete (globalThis as any).customElements;
-    try {
-      const mod = await import("./index.js");
-      expect(mod.SearchPicker).toBeDefined();
-      expect(mod.RETURN_SYMBOL).toBe("⏎");
-    } finally {
-      (globalThis as any).customElements = original;
-    }
-  });
+    test("§7.29 module is import-safe under SSR", async () => {
+        const original = (globalThis as any).customElements;
+        delete (globalThis as any).customElements;
+        try {
+            const mod = await import("./index.js");
+            expect(mod.SearchPicker).toBeDefined();
+            expect(mod.RETURN_SYMBOL).toBe("⏎");
+        } finally {
+            (globalThis as any).customElements = original;
+        }
+    });
 
-  test("§7.30 a pointer click on the icon opens and STAYS open", async () => {
-    // Opening replaceChildren()s the button content, detaching the
-    // clicked icon mid-event; the document click handler must judge by
-    // composedPath(), not by containment of the (now detached) target.
-    const el = mount();
-    await flush();
-    const icon = el.querySelector(".search-picker-icon")!;
-    click(icon);
-    await flush();
-    expect(trigger().getAttribute("aria-expanded")).toBe("true");
-    expect(panel().hasAttribute("hidden")).toBe(false);
-  });
+    test("§7.30 a pointer click on the icon opens and STAYS open", async () => {
+        // Opening replaceChildren()s the button content, detaching the
+        // clicked icon mid-event; the document click handler must judge by
+        // composedPath(), not by containment of the (now detached) target.
+        const el = mount();
+        await flush();
+        const icon = el.querySelector(".search-picker-icon")!;
+        click(icon);
+        await flush();
+        expect(trigger().getAttribute("aria-expanded")).toBe("true");
+        expect(panel().hasAttribute("hidden")).toBe(false);
+    });
 
-  test("§7.31 nothing is written to localStorage or the document root", async () => {
-    localStorage.clear();
-    const rootAttrs = document.documentElement.getAttributeNames().join(",");
-    const { navigate } = await openPanel();
-    type("foo");
-    submitForm();
-    expect(navigate).toHaveBeenCalled();
-    expect(localStorage.length).toBe(0);
-    expect(document.documentElement.getAttributeNames().join(",")).toBe(
-      rootAttrs,
-    );
-  });
+    test("§7.31 nothing is written to localStorage or the document root", async () => {
+        localStorage.clear();
+        const rootAttrs = document.documentElement.getAttributeNames().join(",");
+        const { navigate } = await openPanel();
+        type("foo");
+        submitForm();
+        expect(navigate).toHaveBeenCalled();
+        expect(localStorage.length).toBe(0);
+        expect(document.documentElement.getAttributeNames().join(",")).toBe(rootAttrs);
+    });
 
-  test("nextSearchPickerId mints unique, prefixed ids", () => {
-    const a = nextSearchPickerId();
-    const b = nextSearchPickerId();
-    expect(a).toMatch(/^search-picker-\d+$/);
-    expect(a).not.toBe(b);
-  });
+    test("nextSearchPickerId mints unique, prefixed ids", () => {
+        const a = nextSearchPickerId();
+        const b = nextSearchPickerId();
+        expect(a).toMatch(/^search-picker-\d+$/);
+        expect(a).not.toBe(b);
+    });
 });
 
 describe("<search-picker> — tooltip (§7.32–§7.38)", () => {
-  function setup() {
-    mount();
-    const btn = document.body.querySelector<HTMLButtonElement>(".search-picker-button")!;
-    const tip = document.body.querySelector<HTMLElement>(".search-picker-tooltip")!;
-    return { btn, tip };
-  }
-  const fire = (el: Element, type: string): void => {
-    el.dispatchEvent(new MouseEvent(type, { bubbles: false }));
-  };
+    function setup() {
+        mount();
+        const btn = document.body.querySelector<HTMLButtonElement>(".search-picker-button")!;
+        const tip = document.body.querySelector<HTMLElement>(".search-picker-tooltip")!;
+        return { btn, tip };
+    }
+    const fire = (el: Element, type: string): void => {
+        el.dispatchEvent(new MouseEvent(type, { bubbles: false }));
+    };
 
-  test("§7.32 renders a role=tooltip element holding label, hidden at rest, not aria-describedby-linked", () => {
-    const { btn, tip } = setup();
-    expect(tip.getAttribute("role")).toBe("tooltip");
-    expect(tip.textContent).toBe(btn.getAttribute("aria-label"));
-    expect(tip.hasAttribute("hidden")).toBe(true);
-    expect(tip.id).toMatch(/-tooltip$/);
-    expect(btn.hasAttribute("aria-describedby")).toBe(false);
-    expect(btn.nextElementSibling).toBe(tip);
-  });
+    test("§7.32 renders a role=tooltip element holding label, hidden at rest, not aria-describedby-linked", () => {
+        const { btn, tip } = setup();
+        expect(tip.getAttribute("role")).toBe("tooltip");
+        expect(tip.textContent).toBe(btn.getAttribute("aria-label"));
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(tip.id).toMatch(/-tooltip$/);
+        expect(btn.hasAttribute("aria-describedby")).toBe(false);
+        expect(btn.nextElementSibling).toBe(tip);
+    });
 
-  test("§7.32 the tooltip text follows a label change", () => {
-    setup();
-    const el = document.body.querySelector<HTMLElement>("search-picker")!;
-    el.setAttribute("label", "Renamed");
-    const t2 = document.body.querySelector<HTMLElement>(".search-picker-tooltip")!;
-    expect(t2.textContent).toBe("Renamed");
-  });
+    test("§7.32 the tooltip text follows a label change", () => {
+        setup();
+        const el = document.body.querySelector<HTMLElement>("search-picker")!;
+        el.setAttribute("label", "Renamed");
+        const t2 = document.body.querySelector<HTMLElement>(".search-picker-tooltip")!;
+        expect(t2.textContent).toBe("Renamed");
+    });
 
-  test("§7.33 pointer over the button shows it; leaving hides it", () => {
-    const { btn, tip } = setup();
-    fire(btn, "mouseenter");
-    expect(tip.hasAttribute("hidden")).toBe(false);
-    fire(btn, "mouseleave");
-    expect(tip.hasAttribute("hidden")).toBe(true);
-  });
+    test("§7.33 pointer over the button shows it; leaving hides it", () => {
+        const { btn, tip } = setup();
+        fire(btn, "mouseenter");
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fire(btn, "mouseleave");
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
 
-  test("§7.34 it stays visible while the pointer is over the tooltip itself", () => {
-    const { btn, tip } = setup();
-    fire(btn, "mouseenter");
-    fire(btn, "mouseleave");
-    fire(tip, "mouseenter");
-    expect(tip.hasAttribute("hidden")).toBe(false);
-    fire(tip, "mouseleave");
-    expect(tip.hasAttribute("hidden")).toBe(true);
-  });
+    test("§7.34 it stays visible while the pointer is over the tooltip itself", () => {
+        const { btn, tip } = setup();
+        fire(btn, "mouseenter");
+        fire(btn, "mouseleave");
+        fire(tip, "mouseenter");
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fire(tip, "mouseleave");
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
 
-  test("§7.35 keyboard focus shows it; blur hides it", () => {
-    const { btn, tip } = setup();
-    // jsdom has no input-modality tracking; stand in for the keyboard.
-    vi.spyOn(btn, "matches").mockImplementation((q) => q === ":focus-visible");
-    btn.focus();
-    expect(tip.hasAttribute("hidden")).toBe(false);
-    btn.blur();
-    expect(tip.hasAttribute("hidden")).toBe(true);
-  });
+    test("§7.35 keyboard focus shows it; blur hides it", () => {
+        const { btn, tip } = setup();
+        // jsdom has no input-modality tracking; stand in for the keyboard.
+        vi.spyOn(btn, "matches").mockImplementation((q) => q === ":focus-visible");
+        btn.focus();
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        btn.blur();
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
 
-  test("§7.35 mouse-induced focus (not :focus-visible) does not show it", () => {
-    const { btn, tip } = setup();
-    vi.spyOn(btn, "matches").mockReturnValue(false);
-    btn.focus();
-    expect(tip.hasAttribute("hidden")).toBe(true);
-  });
+    test("§7.35 mouse-induced focus (not :focus-visible) does not show it", () => {
+        const { btn, tip } = setup();
+        vi.spyOn(btn, "matches").mockReturnValue(false);
+        btn.focus();
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
 
-  test("§7.36 Escape dismisses it without moving focus; re-entering shows it again", () => {
-    const { btn, tip } = setup();
-    fire(btn, "mouseenter");
-    btn.focus();
-    btn.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
-    expect(tip.hasAttribute("hidden")).toBe(true);
-    expect(document.activeElement).toBe(btn);
-    fire(btn, "mouseleave");
-    fire(btn, "mouseenter");
-    expect(tip.hasAttribute("hidden")).toBe(false);
-  });
+    test("§7.36 Escape dismisses it without moving focus; re-entering shows it again", () => {
+        const { btn, tip } = setup();
+        fire(btn, "mouseenter");
+        btn.focus();
+        btn.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(document.activeElement).toBe(btn);
+        fire(btn, "mouseleave");
+        fire(btn, "mouseenter");
+        expect(tip.hasAttribute("hidden")).toBe(false);
+    });
 
-  test("§7.37 it is never shown while the panel is open", () => {
-    const { btn, tip } = setup();
-    fire(btn, "mouseenter");
-    btn.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true, composed: true }));
-    expect(btn.getAttribute("aria-expanded")).toBe("true");
-    expect(tip.hasAttribute("hidden")).toBe(true);
-    fire(btn, "mouseenter");
-    expect(tip.hasAttribute("hidden")).toBe(true);
-  });
+    test("§7.37 it is never shown while the panel is open", () => {
+        const { btn, tip } = setup();
+        fire(btn, "mouseenter");
+        btn.dispatchEvent(
+            new MouseEvent("click", { bubbles: true, cancelable: true, composed: true }),
+        );
+        expect(btn.getAttribute("aria-expanded")).toBe("true");
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        fire(btn, "mouseenter");
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
 
-  test("§7.38 pointer hover alone shows it; Escape on document.body or another element dismisses it without moving focus", () => {
-    const { btn, tip } = setup();
-    const other = document.createElement("input");
-    document.body.appendChild(other);
-    other.focus();
-    fire(btn, "mouseenter");
-    expect(tip.hasAttribute("hidden")).toBe(false);
-    expect(document.activeElement).toBe(other);
-    document.body.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
-    expect(tip.hasAttribute("hidden")).toBe(true);
-    expect(document.activeElement).toBe(other);
-    // Dismissal resets on re-entry; Escape from another element works too.
-    fire(btn, "mouseleave");
-    fire(btn, "mouseenter");
-    expect(tip.hasAttribute("hidden")).toBe(false);
-    other.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
-    expect(tip.hasAttribute("hidden")).toBe(true);
-    other.remove();
-  });
+    test("§7.38 pointer hover alone shows it; Escape on document.body or another element dismisses it without moving focus", () => {
+        const { btn, tip } = setup();
+        const other = document.createElement("input");
+        document.body.appendChild(other);
+        other.focus();
+        fire(btn, "mouseenter");
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        expect(document.activeElement).toBe(other);
+        document.body.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(document.activeElement).toBe(other);
+        // Dismissal resets on re-entry; Escape from another element works too.
+        fire(btn, "mouseleave");
+        fire(btn, "mouseenter");
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        other.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        other.remove();
+    });
 
-  test("§7.38 the document Escape listener exists only while the tooltip is visible (no leak, no double-add)", () => {
-    const { btn, tip } = setup();
-    const add = vi.spyOn(document, "addEventListener");
-    const remove = vi.spyOn(document, "removeEventListener");
-    const keydownCalls = (spy: typeof add) => spy.mock.calls.filter((c) => c[0] === "keydown");
-    fire(btn, "mouseenter");
-    fire(tip, "mouseenter"); // a second show trigger must not add again
-    expect(keydownCalls(add).length).toBe(1);
-    fire(btn, "mouseleave");
-    expect(keydownCalls(remove).length).toBe(0); // still hovering the tooltip
-    fire(tip, "mouseleave");
-    expect(tip.hasAttribute("hidden")).toBe(true);
-    expect(keydownCalls(remove).length).toBe(1);
-    expect(keydownCalls(remove)[0][1]).toBe(keydownCalls(add)[0][1]);
-    // Showing again re-adds exactly once more; disconnecting removes it.
-    fire(btn, "mouseenter");
-    expect(keydownCalls(add).length).toBe(2);
-    document.body.querySelector("search-picker")!.remove();
-    expect(keydownCalls(remove).length).toBe(2);
-    add.mockRestore();
-    remove.mockRestore();
-  });
+    test("§7.38 the document Escape listener exists only while the tooltip is visible (no leak, no double-add)", () => {
+        const { btn, tip } = setup();
+        const add = vi.spyOn(document, "addEventListener");
+        const remove = vi.spyOn(document, "removeEventListener");
+        const keydownCalls = (spy: typeof add) => spy.mock.calls.filter((c) => c[0] === "keydown");
+        fire(btn, "mouseenter");
+        fire(tip, "mouseenter"); // a second show trigger must not add again
+        expect(keydownCalls(add).length).toBe(1);
+        fire(btn, "mouseleave");
+        expect(keydownCalls(remove).length).toBe(0); // still hovering the tooltip
+        fire(tip, "mouseleave");
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(keydownCalls(remove).length).toBe(1);
+        expect(keydownCalls(remove)[0][1]).toBe(keydownCalls(add)[0][1]);
+        // Showing again re-adds exactly once more; disconnecting removes it.
+        fire(btn, "mouseenter");
+        expect(keydownCalls(add).length).toBe(2);
+        document.body.querySelector("search-picker")!.remove();
+        expect(keydownCalls(remove).length).toBe(2);
+        add.mockRestore();
+        remove.mockRestore();
+    });
 });
 
 describe("<search-picker> — open state and disabled", () => {
-  function make(attrs: Record<string, string> = {}): HTMLElement & { open: boolean; disabled: boolean; onOpenChange?: (o: boolean) => void } {
-    const el = document.createElement("search-picker") as HTMLElement & { open: boolean; disabled: boolean; onOpenChange?: (o: boolean) => void };
-    el.setAttribute("label", "Find");
-    el.setAttribute("input-label", "Query");
-    el.setAttribute("submit-label", "Go");
-    for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
-    document.body.appendChild(el);
-    return el;
-  }
-  const button = (el: HTMLElement) => el.querySelector<HTMLButtonElement>(".search-picker-button")!;
-  const settle = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
+    function make(
+        attrs: Record<string, string> = {},
+    ): HTMLElement & { open: boolean; disabled: boolean; onOpenChange?: (o: boolean) => void } {
+        const el = document.createElement("search-picker") as HTMLElement & {
+            open: boolean;
+            disabled: boolean;
+            onOpenChange?: (o: boolean) => void;
+        };
+        el.setAttribute("label", "Find");
+        el.setAttribute("input-label", "Query");
+        el.setAttribute("submit-label", "Go");
+        for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+        document.body.appendChild(el);
+        return el;
+    }
+    const button = (el: HTMLElement) =>
+        el.querySelector<HTMLButtonElement>(".search-picker-button")!;
+    const settle = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
 
-  test("the open attribute starts the popup open without an openchange", async () => {
-    const events: boolean[] = [];
-    document.addEventListener("openchange", (e) => events.push((e as CustomEvent<boolean>).detail), { once: true });
-    const el = make({ open: "" });
-    await settle();
-    expect(button(el).getAttribute("aria-expanded")).toBe("true");
-    expect(el.open).toBe(true);
-    expect(events).toEqual([]);
-  });
+    test("the open attribute starts the popup open without an openchange", async () => {
+        const events: boolean[] = [];
+        document.addEventListener(
+            "openchange",
+            (e) => events.push((e as CustomEvent<boolean>).detail),
+            { once: true },
+        );
+        const el = make({ open: "" });
+        await settle();
+        expect(button(el).getAttribute("aria-expanded")).toBe("true");
+        expect(el.open).toBe(true);
+        expect(events).toEqual([]);
+    });
 
-  test("openchange and onOpenChange report each open and close by the user", async () => {
-    const el = make();
-    const events: boolean[] = [];
-    const calls: boolean[] = [];
-    el.addEventListener("openchange", (e) => events.push((e as CustomEvent<boolean>).detail));
-    el.onOpenChange = (o) => calls.push(o);
-    button(el).click();
-    await settle();
-    button(el).click();
-    await settle();
-    expect(events).toEqual([true, false]);
-    expect(calls).toEqual([true, false]);
-  });
+    test("openchange and onOpenChange report each open and close by the user", async () => {
+        const el = make();
+        const events: boolean[] = [];
+        const calls: boolean[] = [];
+        el.addEventListener("openchange", (e) => events.push((e as CustomEvent<boolean>).detail));
+        el.onOpenChange = (o) => calls.push(o);
+        button(el).click();
+        await settle();
+        button(el).click();
+        await settle();
+        expect(events).toEqual([true, false]);
+        expect(calls).toEqual([true, false]);
+    });
 
-  test("the open property opens and closes the popup, reports it, and does not move focus", async () => {
-    const el = make();
-    const events: boolean[] = [];
-    el.addEventListener("openchange", (e) => events.push((e as CustomEvent<boolean>).detail));
-    const before = document.activeElement;
-    el.open = true;
-    await settle();
-    expect(button(el).getAttribute("aria-expanded")).toBe("true");
-    expect(document.activeElement).toBe(before);
-    el.open = false;
-    await settle();
-    expect(button(el).getAttribute("aria-expanded")).toBe("false");
-    expect(events).toEqual([true, false]);
-  });
+    test("the open property opens and closes the popup, reports it, and does not move focus", async () => {
+        const el = make();
+        const events: boolean[] = [];
+        el.addEventListener("openchange", (e) => events.push((e as CustomEvent<boolean>).detail));
+        const before = document.activeElement;
+        el.open = true;
+        await settle();
+        expect(button(el).getAttribute("aria-expanded")).toBe("true");
+        expect(document.activeElement).toBe(before);
+        el.open = false;
+        await settle();
+        expect(button(el).getAttribute("aria-expanded")).toBe("false");
+        expect(events).toEqual([true, false]);
+    });
 
-  test("disabled disables the button and it cannot open", async () => {
-    const el = make({ disabled: "" });
-    const events: boolean[] = [];
-    el.addEventListener("openchange", (e) => events.push((e as CustomEvent<boolean>).detail));
-    expect(button(el).disabled).toBe(true);
-    button(el).click();
-    el.open = true;
-    await settle();
-    expect(button(el).getAttribute("aria-expanded")).toBe("false");
-    expect(events).toEqual([]);
-  });
+    test("disabled disables the button and it cannot open", async () => {
+        const el = make({ disabled: "" });
+        const events: boolean[] = [];
+        el.addEventListener("openchange", (e) => events.push((e as CustomEvent<boolean>).detail));
+        expect(button(el).disabled).toBe(true);
+        button(el).click();
+        el.open = true;
+        await settle();
+        expect(button(el).getAttribute("aria-expanded")).toBe("false");
+        expect(events).toEqual([]);
+    });
 
-  test("disabling closes an open popup; disabled plus open starts closed", async () => {
-    const el = make({ open: "" });
-    await settle();
-    el.disabled = true;
-    await settle();
-    expect(button(el).disabled).toBe(true);
-    expect(button(el).getAttribute("aria-expanded")).toBe("false");
-    document.body.innerHTML = "";
-    const other = make({ open: "", disabled: "" });
-    await settle();
-    expect(button(other).getAttribute("aria-expanded")).toBe("false");
-  });
+    test("disabling closes an open popup; disabled plus open starts closed", async () => {
+        const el = make({ open: "" });
+        await settle();
+        el.disabled = true;
+        await settle();
+        expect(button(el).disabled).toBe(true);
+        expect(button(el).getAttribute("aria-expanded")).toBe("false");
+        document.body.innerHTML = "";
+        const other = make({ open: "", disabled: "" });
+        await settle();
+        expect(button(other).getAttribute("aria-expanded")).toBe("false");
+    });
 });
-

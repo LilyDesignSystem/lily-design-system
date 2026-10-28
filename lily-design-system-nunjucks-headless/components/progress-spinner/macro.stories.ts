@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="progress-spinner"
@@ -8,9 +8,9 @@ const html = `<div
   aria-label="Loading"></div>`;
 
 const meta = {
-  title: 'Headless/ProgressSpinner',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/ProgressSpinner",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

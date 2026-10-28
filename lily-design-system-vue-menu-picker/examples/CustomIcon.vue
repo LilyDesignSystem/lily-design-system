@@ -8,7 +8,9 @@ import MenuPicker from "../MenuPicker.vue";
 
 <template>
     <MenuPicker label="More">
-        <template #icon="{ open }"><span aria-hidden="true">{{ open ? "×" : "⋯" }}</span></template>
+        <template #icon="{ open }"
+            ><span aria-hidden="true">{{ open ? "×" : "⋯" }}</span></template
+        >
         <a href="/help/">Help</a>
     </MenuPicker>
 </template>

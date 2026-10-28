@@ -50,13 +50,17 @@ const upperFirst = (text: string, locale: string) => {
  * which every locale the browser knows has; `confirm` and `cancel` are words, so they come from the caller (the
  * Gantt chart's own save and cancel labels do). A navigation label the browser cannot build is left out.
  */
-export function intlDateTimePickerLabels(locale: string, words: { confirm?: string; cancel?: string } = {}): DateTimePickerLabels {
+export function intlDateTimePickerLabels(
+    locale: string,
+    words: { confirm?: string; cancel?: string } = {},
+): DateTimePickerLabels {
     const out: DateTimePickerLabels = {};
     if (words.confirm !== undefined) out.confirm = words.confirm;
     if (words.cancel !== undefined) out.cancel = words.cancel;
     if (typeof Intl.RelativeTimeFormat !== "function" || !supported(locale)) return out;
     const rtf = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
-    const rel = (n: number, unit: Intl.RelativeTimeFormatUnit) => upperFirst(rtf.format(n, unit), locale);
+    const rel = (n: number, unit: Intl.RelativeTimeFormatUnit) =>
+        upperFirst(rtf.format(n, unit), locale);
     return {
         ...out,
         previousYear: rel(-1, "year"),
@@ -76,13 +80,18 @@ export function intlLabels(helper: LabelHelper, locale: string, pack?: LabelPack
     const long = new Intl.DateTimeFormat(locale, { weekday: "long", timeZone: "UTC" });
     const short = new Intl.DateTimeFormat(locale, { weekday: "short", timeZone: "UTC" });
     const full = new Intl.DateTimeFormat(locale, { dateStyle: "full", timeZone: "UTC" });
-    const day = new Intl.DateTimeFormat(locale, { day: "numeric", month: "short", timeZone: "UTC" });
+    const day = new Intl.DateTimeFormat(locale, {
+        day: "numeric",
+        month: "short",
+        timeZone: "UTC",
+    });
     if (helper === "calendar") {
         return {
             weekday: (wd: number) => long.format(weekdayDate(wd)),
             weekdayAbbr: (wd: number) => short.format(weekdayDate(wd)),
             day: (iso: string) => full.format(utc(iso)),
-            periodAnnouncement: (_view: string, start: string, end: string) => `${full.format(utc(start))} – ${full.format(utc(end))}`,
+            periodAnnouncement: (_view: string, start: string, end: string) =>
+                `${full.format(utc(start))} – ${full.format(utc(end))}`,
         };
     }
     if (helper === "gantt-chart") {
@@ -99,6 +108,10 @@ export function intlLabels(helper: LabelHelper, locale: string, pack?: LabelPack
 }
 
 /** `labelsFor` plus the `Intl`-built labels: everything a helper needs for a locale, from its pack and the browser. */
-export function intlLabelsFor(helper: LabelHelper, pack: LabelPack, locale: string): Record<string, unknown> {
+export function intlLabelsFor(
+    helper: LabelHelper,
+    pack: LabelPack,
+    locale: string,
+): Record<string, unknown> {
     return { ...labelsFor(helper, pack), ...intlLabels(helper, locale, pack) };
 }

@@ -15,7 +15,9 @@ async function caretAtStart(page: Page) {
     return ta;
 }
 
-test("a task tool applies, then native undo takes it back, then redo reapplies it", async ({ page }) => {
+test("a task tool applies, then native undo takes it back, then redo reapplies it", async ({
+    page,
+}) => {
     const ta = await caretAtStart(page);
     await page.getByRole("button", { name: "Task" }).click();
     await expect(ta).toHaveValue("* TODO Ship the release");
@@ -29,7 +31,9 @@ test("scheduled adds a planning line with the date selected, and undoes", async 
     const ta = await caretAtStart(page);
     await page.getByRole("button", { name: "Scheduled" }).click();
     await expect(ta).toHaveValue("* Ship the release\nSCHEDULED: <2026-10-24 Sat>");
-    const selected = await ta.evaluate((el: HTMLTextAreaElement) => el.value.slice(el.selectionStart, el.selectionEnd));
+    const selected = await ta.evaluate((el: HTMLTextAreaElement) =>
+        el.value.slice(el.selectionStart, el.selectionEnd),
+    );
     expect(selected).toBe("2026-10-24 Sat");
     await page.keyboard.press(UNDO);
     await expect(ta).toHaveValue("* Ship the release");
@@ -43,7 +47,11 @@ test("a property drawer and a contact, then undo back to the start", async ({ pa
     await expect(ta).toHaveValue("* Ship the release\n:PROPERTIES:\n:ID: abc\n:END:");
     await page.keyboard.press(UNDO);
     // Chromium undoes the typing alone; WebKit merges it with the tool before it.
-    await expect(ta).toHaveValue(info.project.name === "webkit" ? "* Ship the release" : "* Ship the release\n:PROPERTIES:\n:ID: \n:END:");
+    await expect(ta).toHaveValue(
+        info.project.name === "webkit"
+            ? "* Ship the release"
+            : "* Ship the release\n:PROPERTIES:\n:ID: \n:END:",
+    );
 });
 
 test("bold by shortcut and by button undo the same way", async ({ page }) => {

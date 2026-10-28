@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<input
   class="brasil-cartao-nacional-de-saude-input"
@@ -8,9 +8,9 @@ const html = `<input
   aria-label="Brazil's Cartão Nacional de Saúde (CNS)">`;
 
 const meta = {
-  title: 'Headless/BrasilCartaoNacionalDeSaudeInput',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/BrasilCartaoNacionalDeSaudeInput",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

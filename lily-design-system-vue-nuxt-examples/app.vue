@@ -10,13 +10,17 @@ import { themes, themeLabels, defaultTheme } from "~/theme-config";
 // browser's ICU data (headless Chromium lacks Welsh, for example).
 const locales = ["en-GB", "cy-GB", "fr-FR", "ar"];
 const localeLabels: Record<string, string> = {
-  "en-GB": "English (UK)",
-  "cy-GB": "Cymraeg",
-  "fr-FR": "Français",
-  ar: "العربية",
+    "en-GB": "English (UK)",
+    "cy-GB": "Cymraeg",
+    "fr-FR": "Français",
+    ar: "العربية",
 };
 const sizes = ["small", "medium", "large"];
-const sizeLabels: Record<string, string> = { small: "Small", medium: "Medium", large: "Large" };
+const sizeLabels: Record<string, string> = {
+    small: "Small",
+    medium: "Medium",
+    large: "Large",
+};
 
 // Nuxt's head manager owns <html> attributes and re-asserts whatever the
 // config declares, silently clobbering any direct DOM write (the picker's
@@ -32,49 +36,52 @@ const sizeLabels: Record<string, string> = { small: "Small", medium: "Medium", l
 // `default-value="en-GB"` below still covers the true first-visit case.
 const currentLocale = ref("");
 useHead({
-  htmlAttrs: {
-    lang: currentLocale,
-    dir: computed(() => (isRtlLocale(currentLocale.value) ? "rtl" : "ltr")),
-  },
+    htmlAttrs: {
+        lang: currentLocale,
+        dir: computed(() => (isRtlLocale(currentLocale.value) ? "rtl" : "ltr")),
+    },
 });
 </script>
 
 <template>
-  <SkipLink href="#content" label="Skip to main content" />
-  <div class="site-header">
-    <span>Lily Design System — Nuxt examples</span>
-    <div class="site-header-pickers">
-      <ClientOnly>
-        <ThemePicker
-          label="Choose a theme"
-          themes-url="/themes/"
-          :themes="themes"
-          :theme-labels="themeLabels"
-          :default-value="defaultTheme"
-          storage-key="lily-theme"
-        />
-        <LocalePicker
-          v-model:value="currentLocale"
-          label="Choose a language"
-          :locales="locales"
-          :locale-labels="localeLabels"
-          default-value="en-GB"
-          storage-key="lily-locale"
-        />
-        <TextSizePicker
-          label="Text size"
-          :sizes="sizes"
-          :size-labels="sizeLabels"
-          default-value="medium"
-          storage-key="lily-text-size"
-        />
-      </ClientOnly>
+    <SkipLink
+        href="#content"
+        label="Skip to main content"
+    />
+    <div class="site-header">
+        <span>Lily Design System — Nuxt examples</span>
+        <div class="site-header-pickers">
+            <ClientOnly>
+                <ThemePicker
+                    label="Choose a theme"
+                    themes-url="/themes/"
+                    :themes="themes"
+                    :theme-labels="themeLabels"
+                    :default-value="defaultTheme"
+                    storage-key="lily-theme"
+                />
+                <LocalePicker
+                    v-model:value="currentLocale"
+                    label="Choose a language"
+                    :locales="locales"
+                    :locale-labels="localeLabels"
+                    default-value="en-GB"
+                    storage-key="lily-locale"
+                />
+                <TextSizePicker
+                    label="Text size"
+                    :sizes="sizes"
+                    :size-labels="sizeLabels"
+                    default-value="medium"
+                    storage-key="lily-text-size"
+                />
+            </ClientOnly>
+        </div>
     </div>
-  </div>
-  <div id="content">
-    <NuxtPage />
-  </div>
-  <footer class="site-footer">
-    <p>Lily™ and Lily Design System™ are trademarks.</p>
-  </footer>
+    <div id="content">
+        <NuxtPage />
+    </div>
+    <footer class="site-footer">
+        <p>Lily™ and Lily Design System™ are trademarks.</p>
+    </footer>
 </template>

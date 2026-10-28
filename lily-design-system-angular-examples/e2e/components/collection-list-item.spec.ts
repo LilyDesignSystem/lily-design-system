@@ -13,7 +13,7 @@ test.describe("component page: collection-list-item", () => {
 
   test("renders the H1 with the component name", async ({ page }) => {
     await expect(
-      page.getByRole("heading", { level: 1, name: new RegExp("^CollectionListItem$") })
+      page.getByRole("heading", { level: 1, name: new RegExp("^CollectionListItem$") }),
     ).toBeVisible();
   });
 

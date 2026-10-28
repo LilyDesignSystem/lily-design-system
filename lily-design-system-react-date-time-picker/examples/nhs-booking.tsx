@@ -85,7 +85,10 @@ export default function NhsBookingDateTimePicker() {
         <>
             <h1>{welsh ? "Trefnu apwyntiad" : "Book an appointment"}</h1>
 
-            <button type="button" onClick={() => setWelsh(!welsh)}>
+            <button
+                type="button"
+                onClick={() => setWelsh(!welsh)}
+            >
                 {welsh ? "English" : "Cymraeg"}
             </button>
 

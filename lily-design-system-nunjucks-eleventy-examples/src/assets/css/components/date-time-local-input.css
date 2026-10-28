@@ -11,4 +11,6 @@
   line-height: 1.25;
 }
 
-.date-time-local-input[aria-invalid="true"] { border-color: var(--nhsuk-red); }
+.date-time-local-input[aria-invalid="true"] {
+  border-color: var(--nhsuk-red);
+}

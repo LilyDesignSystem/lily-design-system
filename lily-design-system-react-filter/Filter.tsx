@@ -1,7 +1,31 @@
-import { useEffect, useId, useMemo, useRef, useState, type HTMLAttributes, type ReactElement } from "react";
 import {
-    EMPTY_FILTER, addNode, changeField, changeOperator, createGroup, createRule, fieldType, formatFilter, operatorsFor, removeNode, updateNode, valueArity,
-    type FilterField, type FilterGroup, type FilterOperator, type FilterOutputFormat, type FilterRule, type SqlDialect,
+    useEffect,
+    useId,
+    useMemo,
+    useRef,
+    useState,
+    type HTMLAttributes,
+    type ReactElement,
+} from "react";
+import {
+    EMPTY_FILTER,
+    addNode,
+    changeField,
+    changeOperator,
+    createGroup,
+    createRule,
+    fieldType,
+    formatFilter,
+    operatorsFor,
+    removeNode,
+    updateNode,
+    valueArity,
+    type FilterField,
+    type FilterGroup,
+    type FilterOperator,
+    type FilterOutputFormat,
+    type FilterRule,
+    type SqlDialect,
 } from "./filter-model";
 
 /**
@@ -70,10 +94,22 @@ function parseTyped(type: string, raw: string): unknown {
     return type === "number" ? Number(raw) : raw;
 }
 
-const textOf = (v: unknown): string => (v === undefined || v === null || (typeof v === "number" && Number.isNaN(v)) ? "" : String(v));
+const textOf = (v: unknown): string =>
+    v === undefined || v === null || (typeof v === "number" && Number.isNaN(v)) ? "" : String(v);
 
 export function Filter({
-    label, fields, value: controlled, defaultValue, onChange, labels, format, dialect = "ansi", maxDepth = 3, readonly = false, className = "", ...rest
+    label,
+    fields,
+    value: controlled,
+    defaultValue,
+    onChange,
+    labels,
+    format,
+    dialect = "ansi",
+    maxDepth = 3,
+    readonly = false,
+    className = "",
+    ...rest
 }: FilterProps): ReactElement {
     const [inner, setInner] = useState<FilterGroup>(() => defaultValue ?? EMPTY_FILTER());
     const value = controlled ?? inner;
@@ -149,7 +185,9 @@ export function Filter({
 
     function toggleOption(rule: FilterRule, optionId: string, checked: boolean): void {
         const current = Array.isArray(rule.value) ? (rule.value as string[]) : [];
-        const next = checked ? [...current.filter((v) => v !== optionId), optionId] : current.filter((v) => v !== optionId);
+        const next = checked
+            ? [...current.filter((v) => v !== optionId), optionId]
+            : current.filter((v) => v !== optionId);
         setRule(rule.id, (r) => ({ ...r, value: next.length ? next : undefined }));
     }
 
@@ -159,10 +197,26 @@ export function Filter({
         if (arity === 1 || arity === 2) {
             if (type === "select") {
                 return (
-                    <select className="filter-value" aria-label={labels.value} disabled={readonly} value={textOf(rule.value)} onChange={(e) => setRule(rule.id, (r) => ({ ...r, value: parseTyped("text", e.target.value) }))}>
+                    <select
+                        className="filter-value"
+                        aria-label={labels.value}
+                        disabled={readonly}
+                        value={textOf(rule.value)}
+                        onChange={(e) =>
+                            setRule(rule.id, (r) => ({
+                                ...r,
+                                value: parseTyped("text", e.target.value),
+                            }))
+                        }
+                    >
                         <option value="">{labels.choose ?? ""}</option>
                         {(field.options ?? []).map((option) => (
-                            <option key={option.id} value={option.id}>{option.label}</option>
+                            <option
+                                key={option.id}
+                                value={option.id}
+                            >
+                                {option.label}
+                            </option>
                         ))}
                     </select>
                 );
@@ -177,7 +231,12 @@ export function Filter({
                         aria-label={arity === 2 ? labels.valueFrom : labels.value}
                         readOnly={readonly}
                         value={textOf(rule.value)}
-                        onChange={(e) => setRule(rule.id, (r) => ({ ...r, value: parseTyped(type, e.target.value) }))}
+                        onChange={(e) =>
+                            setRule(rule.id, (r) => ({
+                                ...r,
+                                value: parseTyped(type, e.target.value),
+                            }))
+                        }
                     />
                     {arity === 2 && (
                         <input
@@ -187,7 +246,12 @@ export function Filter({
                             aria-label={labels.valueTo}
                             readOnly={readonly}
                             value={textOf(rule.value2)}
-                            onChange={(e) => setRule(rule.id, (r) => ({ ...r, value2: parseTyped(type, e.target.value) }))}
+                            onChange={(e) =>
+                                setRule(rule.id, (r) => ({
+                                    ...r,
+                                    value2: parseTyped(type, e.target.value),
+                                }))
+                            }
                         />
                     )}
                 </>
@@ -195,10 +259,24 @@ export function Filter({
         }
         if (arity === "many") {
             return (
-                <div className="filter-choices" role="group" aria-label={labels.value}>
+                <div
+                    className="filter-choices"
+                    role="group"
+                    aria-label={labels.value}
+                >
                     {(field.options ?? []).map((option) => (
-                        <label key={option.id} className="filter-choice">
-                            <input type="checkbox" disabled={readonly} checked={Array.isArray(rule.value) && rule.value.includes(option.id)} onChange={(e) => toggleOption(rule, option.id, e.target.checked)} />
+                        <label
+                            key={option.id}
+                            className="filter-choice"
+                        >
+                            <input
+                                type="checkbox"
+                                disabled={readonly}
+                                checked={
+                                    Array.isArray(rule.value) && rule.value.includes(option.id)
+                                }
+                                onChange={(e) => toggleOption(rule, option.id, e.target.checked)}
+                            />
                             {option.label}
                         </label>
                     ))}
@@ -210,33 +288,86 @@ export function Filter({
 
     function groupView(group: FilterGroup, depth: number, parentId: string | null): ReactElement {
         return (
-            <div className="filter-group" role="group" aria-label={labels.group(depth)} data-depth={depth} data-group-id={group.id}>
+            <div
+                className="filter-group"
+                role="group"
+                aria-label={labels.group(depth)}
+                data-depth={depth}
+                data-group-id={group.id}
+            >
                 <div className="filter-group-header">
-                    <select className="filter-combinator" aria-label={labels.combinator} disabled={readonly} value={group.combinator} onChange={(e) => setGroup(group.id, (g) => ({ ...g, combinator: e.target.value === "or" ? "or" : "and" }))}>
+                    <select
+                        className="filter-combinator"
+                        aria-label={labels.combinator}
+                        disabled={readonly}
+                        value={group.combinator}
+                        onChange={(e) =>
+                            setGroup(group.id, (g) => ({
+                                ...g,
+                                combinator: e.target.value === "or" ? "or" : "and",
+                            }))
+                        }
+                    >
                         <option value="and">{labels.and}</option>
                         <option value="or">{labels.or}</option>
                     </select>
                     <label className="filter-not">
-                        <input type="checkbox" disabled={readonly} checked={!!group.not} onChange={(e) => setGroup(group.id, (g) => ({ ...g, not: e.target.checked || undefined }))} />
+                        <input
+                            type="checkbox"
+                            disabled={readonly}
+                            checked={!!group.not}
+                            onChange={(e) =>
+                                setGroup(group.id, (g) => ({
+                                    ...g,
+                                    not: e.target.checked || undefined,
+                                }))
+                            }
+                        />
                         {labels.not}
                     </label>
                     {parentId !== null && !readonly && (
-                        <button type="button" className="filter-remove-group-button" onClick={() => removeGroupById(group, parentId, depth)}>{labels.removeGroup(depth)}</button>
+                        <button
+                            type="button"
+                            className="filter-remove-group-button"
+                            onClick={() => removeGroupById(group, parentId, depth)}
+                        >
+                            {labels.removeGroup(depth)}
+                        </button>
                     )}
                 </div>
-                {group.children.length === 0 && labels.empty && <p className="filter-empty">{labels.empty}</p>}
+                {group.children.length === 0 && labels.empty && (
+                    <p className="filter-empty">{labels.empty}</p>
+                )}
                 <ul className="filter-rules">
                     {group.children.map((child) => (
-                        <li key={child.id} className="filter-item">
-                            {child.type === "group" ? groupView(child, depth + 1, group.id) : ruleView(child, group)}
+                        <li
+                            key={child.id}
+                            className="filter-item"
+                        >
+                            {child.type === "group"
+                                ? groupView(child, depth + 1, group.id)
+                                : ruleView(child, group)}
                         </li>
                     ))}
                 </ul>
                 {!readonly && (
                     <div className="filter-group-actions">
-                        <button type="button" className="filter-add-rule-button" data-filter-add-rule={group.id} onClick={() => addRule(group.id)}>{labels.addRule}</button>
+                        <button
+                            type="button"
+                            className="filter-add-rule-button"
+                            data-filter-add-rule={group.id}
+                            onClick={() => addRule(group.id)}
+                        >
+                            {labels.addRule}
+                        </button>
                         {depth < maxDepth && (
-                            <button type="button" className="filter-add-group-button" onClick={() => addGroup(group.id, depth)}>{labels.addGroup}</button>
+                            <button
+                                type="button"
+                                className="filter-add-group-button"
+                                onClick={() => addGroup(group.id, depth)}
+                            >
+                                {labels.addGroup}
+                            </button>
                         )}
                     </div>
                 )}
@@ -248,38 +379,96 @@ export function Filter({
         const field = fieldById.get(rule.field);
         const n = ruleNumbers.get(rule.id) ?? 0;
         return (
-            <div className="filter-rule" role="group" aria-label={labels.rule(n)} data-rule-id={rule.id}>
-                <select className="filter-field" data-filter-field={rule.id} aria-label={labels.field} disabled={readonly} value={rule.field} onChange={(e) => setRule(rule.id, (r) => changeField(r, fields, e.target.value))}>
+            <div
+                className="filter-rule"
+                role="group"
+                aria-label={labels.rule(n)}
+                data-rule-id={rule.id}
+            >
+                <select
+                    className="filter-field"
+                    data-filter-field={rule.id}
+                    aria-label={labels.field}
+                    disabled={readonly}
+                    value={rule.field}
+                    onChange={(e) =>
+                        setRule(rule.id, (r) => changeField(r, fields, e.target.value))
+                    }
+                >
                     {fields.map((f) => (
-                        <option key={f.id} value={f.id}>{f.label}</option>
+                        <option
+                            key={f.id}
+                            value={f.id}
+                        >
+                            {f.label}
+                        </option>
                     ))}
                 </select>
                 {field && (
                     <>
-                        <select className="filter-operator" aria-label={labels.operator} disabled={readonly} value={rule.operator} onChange={(e) => setRule(rule.id, (r) => changeOperator(r, e.target.value as FilterOperator))}>
+                        <select
+                            className="filter-operator"
+                            aria-label={labels.operator}
+                            disabled={readonly}
+                            value={rule.operator}
+                            onChange={(e) =>
+                                setRule(rule.id, (r) =>
+                                    changeOperator(r, e.target.value as FilterOperator),
+                                )
+                            }
+                        >
                             {operatorsFor(field).map((op) => (
-                                <option key={op} value={op}>{labels.operatorName(op, field)}</option>
+                                <option
+                                    key={op}
+                                    value={op}
+                                >
+                                    {labels.operatorName(op, field)}
+                                </option>
                             ))}
                         </select>
                         {valueEditor(rule, field)}
                     </>
                 )}
                 {!readonly && (
-                    <button type="button" className="filter-remove-rule-button" onClick={() => removeRuleById(rule, group.id)}>{labels.removeRule(n)}</button>
+                    <button
+                        type="button"
+                        className="filter-remove-rule-button"
+                        onClick={() => removeRuleById(rule, group.id)}
+                    >
+                        {labels.removeRule(n)}
+                    </button>
                 )}
             </div>
         );
     }
 
     return (
-        <div ref={rootRef} id={id} className={`filter ${className}`.trim()} role="group" aria-label={label} data-readonly={readonly ? "" : undefined} {...rest}>
+        <div
+            ref={rootRef}
+            id={id}
+            className={`filter ${className}`.trim()}
+            role="group"
+            aria-label={label}
+            data-readonly={readonly ? "" : undefined}
+            {...rest}
+        >
             {groupView(value, 1, null)}
             {format && labels.output && (
-                <div className="filter-output" role="group" aria-label={labels.output} data-format={format}>
+                <div
+                    className="filter-output"
+                    role="group"
+                    aria-label={labels.output}
+                    data-format={format}
+                >
                     <pre className="filter-output-text">{output}</pre>
                 </div>
             )}
-            <p className="filter-status" aria-live="polite">{status}</p>
+            <p
+                className="filter-status"
+                aria-live="polite"
+            >
+                {status}
+            </p>
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<aside
   class="sidebar"
@@ -9,9 +9,9 @@ const html = `<aside
 </aside>`;
 
 const meta = {
-  title: 'Headless/Sidebar',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/Sidebar",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

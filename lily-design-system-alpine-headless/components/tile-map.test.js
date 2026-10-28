@@ -5,16 +5,15 @@ import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("div.tile-map");
 
-
 describe("TileMap", () => {
-  it("renders the element with its base class", async () => {
-    await mount("tile-map");
-    expect(el()).not.toBeNull();
-    expect(el().classList.contains("tile-map")).toBe(true);
-  });
+    it("renders the element with its base class", async () => {
+        await mount("tile-map");
+        expect(el()).not.toBeNull();
+        expect(el().classList.contains("tile-map")).toBe(true);
+    });
 
-  it("uses the div element", async () => {
-    await mount("tile-map");
-    expect(el().tagName.toLowerCase()).toBe("div");
-  });
+    it("uses the div element", async () => {
+        await mount("tile-map");
+        expect(el().tagName.toLowerCase()).toBe("div");
+    });
 });

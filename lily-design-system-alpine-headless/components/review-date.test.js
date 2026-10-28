@@ -5,16 +5,15 @@ import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("time.review-date");
 
-
 describe("ReviewDate", () => {
-  it("renders the element with its base class", async () => {
-    await mount("review-date");
-    expect(el()).not.toBeNull();
-    expect(el().classList.contains("review-date")).toBe(true);
-  });
+    it("renders the element with its base class", async () => {
+        await mount("review-date");
+        expect(el()).not.toBeNull();
+        expect(el().classList.contains("review-date")).toBe(true);
+    });
 
-  it("uses the time element", async () => {
-    await mount("review-date");
-    expect(el().tagName.toLowerCase()).toBe("time");
-  });
+    it("uses the time element", async () => {
+        await mount("review-date");
+        expect(el().tagName.toLowerCase()).toBe("time");
+    });
 });

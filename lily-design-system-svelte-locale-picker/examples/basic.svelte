@@ -61,6 +61,9 @@
     bind:value={locale}
 />
 
-<p class="locale-picker-status" aria-live="polite">
+<p
+    class="locale-picker-status"
+    aria-live="polite"
+>
     Active language: {localeName(locale)}
 </p>

@@ -206,8 +206,7 @@ export class TextSizePicker {
   /** Projected icon template; replaces the default icon when supplied. */
   protected readonly iconTemplate = contentChild(TemplateRef);
 
-  private readonly rootRef =
-    viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
+  private readonly rootRef = viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
   // Angular resolves a template-ref-variable on a component tag to the
   // component INSTANCE by default (not its ElementRef) — exactly what's
   // needed to call the headless components' own public `focus()` methods.
@@ -250,9 +249,7 @@ export class TextSizePicker {
     // Keyboard focus only: a mouse click also focuses the button in
     // Chromium, and the tooltip should not stick after a click.
     try {
-      this.focusButton.set(
-        this.buttonRef().element?.matches(":focus-visible") ?? false,
-      );
+      this.focusButton.set(this.buttonRef().element?.matches(":focus-visible") ?? false);
     } catch {
       this.focusButton.set(true); // engine without :focus-visible — err towards showing
     }
@@ -303,10 +300,7 @@ export class TextSizePicker {
         const sk = this.storageKey();
         if (!initial && sk) {
           try {
-            initial =
-              (typeof localStorage !== "undefined"
-                ? localStorage.getItem(sk)
-                : null) ?? "";
+            initial = (typeof localStorage !== "undefined" ? localStorage.getItem(sk) : null) ?? "";
           } catch {
             // ignore privacy errors
           }
@@ -315,8 +309,7 @@ export class TextSizePicker {
         if (!initial) {
           const sizes = this.sizes();
           const dv = this.defaultValue();
-          initial =
-            dv || (sizes.includes("medium") ? "medium" : sizes[0]) || "";
+          initial = dv || (sizes.includes("medium") ? "medium" : sizes[0]) || "";
         }
 
         if (initial && initial !== current) {
@@ -362,9 +355,7 @@ export class TextSizePicker {
     // aria-activedescendant off rather than pointing at an id that
     // does not exist.
     this.activeIndex.set(
-      this.sizes().length === 0
-        ? -1
-        : (startIndex ?? (selected >= 0 ? selected : 0)),
+      this.sizes().length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0)),
     );
     this.open.set(true);
     // Focus moves to the listbox; the active option is conveyed via
@@ -461,10 +452,7 @@ export class TextSizePicker {
 
   private applySize(slug: string): void {
     if (typeof document === "undefined" || !slug) return;
-    (this.target() ?? document.documentElement).setAttribute(
-      "data-text-size",
-      slug,
-    );
+    (this.target() ?? document.documentElement).setAttribute("data-text-size", slug);
 
     const sk = this.storageKey();
     if (sk) {

@@ -38,18 +38,21 @@
   and the control cannot drift apart.
 -->
 <script lang="ts">
-  import ThemePicker, { themeName } from "../ThemePicker.svelte";
+    import ThemePicker, { themeName } from "../ThemePicker.svelte";
 
-  let theme = $state("");
+    let theme = $state("");
 </script>
 
 <ThemePicker
-  label="Theme"
-  themesUrl="/assets/themes/"
-  themes={["light", "dark", "abyss"]}
-  bind:value={theme}
+    label="Theme"
+    themesUrl="/assets/themes/"
+    themes={["light", "dark", "abyss"]}
+    bind:value={theme}
 />
 
-<p class="theme-picker-status" aria-live="polite">
-  Active theme: {themeName(theme)}
+<p
+    class="theme-picker-status"
+    aria-live="polite"
+>
+    Active theme: {themeName(theme)}
 </p>

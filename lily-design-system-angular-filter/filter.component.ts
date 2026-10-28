@@ -1,9 +1,32 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Injector, afterNextRender, computed, forwardRef, inject, input, model, signal, viewChild } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Injector,
+  afterNextRender,
+  computed,
+  forwardRef,
+  inject,
+  input,
+  model,
+  signal,
+  viewChild,
+} from "@angular/core";
 import { FilterGroupView } from "./filter-group-view.component";
 import { FilterHost, type FilterLabels } from "./filter-host";
 import {
-  EMPTY_FILTER, addNode, createGroup, createRule, formatFilter, removeNode, updateNode,
-  type FilterField, type FilterGroup, type FilterOutputFormat, type FilterRule, type SqlDialect,
+  EMPTY_FILTER,
+  addNode,
+  createGroup,
+  createRule,
+  formatFilter,
+  removeNode,
+  updateNode,
+  type FilterField,
+  type FilterGroup,
+  type FilterOutputFormat,
+  type FilterRule,
+  type SqlDialect,
 } from "./filter-model";
 
 export type { FilterLabels } from "./filter-host";
@@ -70,7 +93,9 @@ export class Filter extends FilterHost {
   private readonly numbers = computed(() => numberRules(this.value()));
   protected readonly output = computed(() => {
     const format = this.format();
-    return format && this.labels().output ? formatFilter(this.value(), this.fields(), format, this.dialect()) : "";
+    return format && this.labels().output
+      ? formatFilter(this.value(), this.fields(), format, this.dialect())
+      : "";
   });
 
   // ---- FilterHost ----
@@ -92,16 +117,23 @@ export class Filter extends FilterHost {
   }
 
   private focusLater(selector: string): void {
-    afterNextRender(() => this.rootRef().nativeElement.querySelector<HTMLElement>(selector)?.focus(), { injector: this.injector });
+    afterNextRender(
+      () => this.rootRef().nativeElement.querySelector<HTMLElement>(selector)?.focus(),
+      { injector: this.injector },
+    );
   }
 
   override setRule(id: string, change: (rule: FilterRule) => FilterRule): void {
     if (this.readonly()) return;
-    this.value.set(updateNode(this.value(), id, (node) => (node.type === "rule" ? change(node) : node)));
+    this.value.set(
+      updateNode(this.value(), id, (node) => (node.type === "rule" ? change(node) : node)),
+    );
   }
   override setGroup(id: string, change: (group: FilterGroup) => FilterGroup): void {
     if (this.readonly()) return;
-    this.value.set(updateNode(this.value(), id, (node) => (node.type === "group" ? change(node) : node)));
+    this.value.set(
+      updateNode(this.value(), id, (node) => (node.type === "group" ? change(node) : node)),
+    );
   }
   override addRule(groupId: string): void {
     if (this.readonly() || this.fields().length === 0) return;

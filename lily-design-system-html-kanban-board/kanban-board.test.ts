@@ -4,10 +4,7 @@ import { KanbanBoard } from "./kanban-board.js";
 import type { KanbanCard, KanbanColumn, KanbanLabels } from "./kanban-board.js";
 
 // Ensure the custom element is registered exactly once for the suite.
-if (
-    typeof customElements !== "undefined" &&
-    !customElements.get("kanban-board")
-) {
+if (typeof customElements !== "undefined" && !customElements.get("kanban-board")) {
     customElements.define("kanban-board", KanbanBoard);
 }
 
@@ -58,7 +55,9 @@ function tabbableCells(): HTMLElement[] {
 }
 
 function press(el: Element, key: string, opts: KeyboardEventInit = {}): void {
-    el.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...opts }));
+    el.dispatchEvent(
+        new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...opts }),
+    );
 }
 
 function click(el: Element): void {
@@ -173,8 +172,12 @@ describe("KanbanBoard — move menu (§8.7, §8.8, §8.9)", () => {
         click(doneOption);
         expect(onMove).toHaveBeenCalledWith("c1", "done");
         expect(document.querySelector('[role="listbox"]')).toBeNull();
-        expect((document.activeElement as HTMLElement)?.className).toContain("kanban-board-move-button");
-        expect((document.activeElement as HTMLElement)?.getAttribute("aria-label")).toBe("Move Card One");
+        expect((document.activeElement as HTMLElement)?.className).toContain(
+            "kanban-board-move-button",
+        );
+        expect((document.activeElement as HTMLElement)?.getAttribute("aria-label")).toBe(
+            "Move Card One",
+        );
     });
 
     test("§8.9 Escape closes the move menu without calling onMove", () => {
@@ -198,7 +201,9 @@ describe("KanbanBoard — move-menu button identity regression", () => {
     // identity, not just a CSS class.
     test("closing card A's menu refocuses card A's own button, not card B's", () => {
         mount({ labels: LABELS });
-        const cardOneButton = document.querySelector('[aria-label="Move Card One"]') as HTMLButtonElement;
+        const cardOneButton = document.querySelector(
+            '[aria-label="Move Card One"]',
+        ) as HTMLButtonElement;
 
         // Open and close card One's menu via Escape.
         press(tabbableCells()[0], "Enter");
@@ -212,7 +217,9 @@ describe("KanbanBoard — move-menu button identity regression", () => {
         const cardTwoCell = tabbableCells()[0];
         expect(cardTwoCell.getAttribute("data-row")).toBe("1");
         expect(cardTwoCell.getAttribute("data-col")).toBe("0");
-        const cardTwoButton = cardTwoCell.querySelector('[aria-label="Move Card Two"]') as HTMLButtonElement;
+        const cardTwoButton = cardTwoCell.querySelector(
+            '[aria-label="Move Card Two"]',
+        ) as HTMLButtonElement;
         expect(cardOneButton).not.toBe(cardTwoButton);
 
         press(cardTwoCell, "Enter");
@@ -231,7 +238,9 @@ describe("KanbanBoard — pointer drag-and-drop (§8.10)", () => {
         const dataTransfer = { setData: vi.fn(), getData: vi.fn(() => "c1") };
         const cardTitle = document.querySelector(".kanban-board-card-title")!;
         cardTitle.dispatchEvent(
-            Object.assign(new Event("dragstart", { bubbles: true, cancelable: true }), { dataTransfer }),
+            Object.assign(new Event("dragstart", { bubbles: true, cancelable: true }), {
+                dataTransfer,
+            }),
         );
 
         const doneCell = bodyRows()[0].querySelectorAll(".kanban-table-td")[2];
@@ -250,7 +259,9 @@ describe("KanbanBoard — announcements and extra attributes (§8.11, §8.12)", 
             (o) => o.textContent === "Done",
         )!;
         click(doneOption);
-        expect(document.querySelector(".kanban-board-status")?.textContent).toBe("Card One moved to Done");
+        expect(document.querySelector(".kanban-board-status")?.textContent).toBe(
+            "Card One moved to Done",
+        );
     });
 
     test("§8.11 no announcement fires when moveAnnouncement is absent", () => {
@@ -294,7 +305,9 @@ describe("KanbanBoard — focus, tab stop and move edge cases", () => {
     }
 
     function moveButton(name: string): HTMLElement | null {
-        return document.querySelector<HTMLElement>(`.kanban-board-move-button[aria-label="${name}"]`);
+        return document.querySelector<HTMLElement>(
+            `.kanban-board-move-button[aria-label="${name}"]`,
+        );
     }
 
     function dragEvent(type: string, dataTransfer: unknown): Event {
@@ -347,7 +360,9 @@ describe("KanbanBoard — focus, tab stop and move edge cases", () => {
             (el) => el.textContent?.trim() === "Card One",
         )!;
         title.dispatchEvent(dragEvent("dragstart", dataTransfer));
-        bodyRows()[1].querySelectorAll(".kanban-table-td")[0].dispatchEvent(dragEvent("drop", dataTransfer));
+        bodyRows()[1]
+            .querySelectorAll(".kanban-table-td")[0]
+            .dispatchEvent(dragEvent("drop", dataTransfer));
         expect(onMove).not.toHaveBeenCalled();
     });
 
@@ -372,7 +387,9 @@ describe("KanbanBoard — focus, tab stop and move edge cases", () => {
 
     test("§8.3 a column exactly at its wipLimit is not over it", () => {
         mount({ cards: CARDS.filter((c) => c.id !== "c4"), labels: LABELS });
-        expect(document.querySelectorAll(".kanban-table-th")[1].hasAttribute("data-over-limit")).toBe(false);
+        expect(
+            document.querySelectorAll(".kanban-table-th")[1].hasAttribute("data-over-limit"),
+        ).toBe(false);
     });
 });
 
@@ -444,9 +461,12 @@ describe("KanbanBoard — collapse, add card, hard limits (§8.22–§8.30)", ()
         collapseColumn: (c, collapsed) => `${collapsed ? "Expand" : "Collapse"} ${c.title}`,
     };
     const named = (name: string) =>
-        Array.from(document.querySelectorAll("button")).find((b) => b.getAttribute("aria-label") === name) as HTMLElement;
+        Array.from(document.querySelectorAll("button")).find(
+            (b) => b.getAttribute("aria-label") === name,
+        ) as HTMLElement;
     const text = () => document.body.textContent ?? "";
-    const headers = () => Array.from(document.querySelectorAll(".kanban-table-th")) as HTMLElement[];
+    const headers = () =>
+        Array.from(document.querySelectorAll(".kanban-table-th")) as HTMLElement[];
     const stat = () => document.querySelector(".kanban-board-status")?.textContent;
     const moveTo = (title: string) => {
         press(tabbableCells()[0], "Enter");
@@ -479,7 +499,9 @@ describe("KanbanBoard — collapse, add card, hard limits (§8.22–§8.30)", ()
         const el = mount({ labels: LABELS });
         el.collapsedColumns = ["todo"];
         expect(text()).not.toContain("Card One");
-        const cells = Array.from(document.querySelectorAll<HTMLElement>(".kanban-table-td")).filter((c) => c.dataset.col === "0");
+        const cells = Array.from(document.querySelectorAll<HTMLElement>(".kanban-table-td")).filter(
+            (c) => c.dataset.col === "0",
+        );
         expect(cells.every((c) => c.hasAttribute("data-collapsed"))).toBe(true);
     });
 
@@ -513,7 +535,10 @@ describe("KanbanBoard — collapse, add card, hard limits (§8.22–§8.30)", ()
     test("§8.28 strictLimit refuses a move into a full column, announces it, marks the option aria-disabled", () => {
         const onMove = vi.fn();
         mount({
-            columns: [{ id: "todo", title: "To Do" }, { id: "doing", title: "In Progress", wipLimit: 2, strictLimit: true }],
+            columns: [
+                { id: "todo", title: "To Do" },
+                { id: "doing", title: "In Progress", wipLimit: 2, strictLimit: true },
+            ],
             labels: { ...LABELS, moveBlocked: (t, c) => `${t} cannot go to ${c}` },
             onMove,
         });
@@ -527,7 +552,10 @@ describe("KanbanBoard — collapse, add card, hard limits (§8.22–§8.30)", ()
     test("§8.29 strictLimit allows a move while the column is under its limit", () => {
         const onMove = vi.fn();
         mount({
-            columns: [{ id: "todo", title: "To Do" }, { id: "doing", title: "In Progress", wipLimit: 3, strictLimit: true }],
+            columns: [
+                { id: "todo", title: "To Do" },
+                { id: "doing", title: "In Progress", wipLimit: 3, strictLimit: true },
+            ],
             labels: LABELS,
             onMove,
         });
@@ -545,7 +573,15 @@ describe("KanbanBoard — collapse, add card, hard limits (§8.22–§8.30)", ()
 
 describe("KanbanBoard — round 3 and consumer capabilities (§8.31–§8.62)", () => {
     const rich: KanbanCard[] = [
-        { id: "c1", columnId: "todo", title: "Card One", subtitle: "Source · 80", badges: ["P1", "VIP"], flag: "SLA breached", href: "/t/1" },
+        {
+            id: "c1",
+            columnId: "todo",
+            title: "Card One",
+            subtitle: "Source · 80",
+            badges: ["P1", "VIP"],
+            flag: "SLA breached",
+            href: "/t/1",
+        },
         { id: "c2", columnId: "todo", title: "Card Two" },
         { id: "c3", columnId: "doing", title: "Card Three" },
     ];
@@ -555,8 +591,14 @@ describe("KanbanBoard — round 3 and consumer capabilities (§8.31–§8.62)", 
         { id: "done", title: "Done" },
     ];
     const cell = (id: string) => document.querySelector<HTMLElement>(`[data-card-id="${id}"]`)!;
-    const cellAt = (row: number, col: number) => document.querySelector<HTMLElement>(`.kanban-table-td[data-row="${row}"][data-col="${col}"]`)!;
-    const titles = () => Array.from(document.querySelectorAll(".kanban-board-card-title")).map((e) => e.textContent?.trim());
+    const cellAt = (row: number, col: number) =>
+        document.querySelector<HTMLElement>(
+            `.kanban-table-td[data-row="${row}"][data-col="${col}"]`,
+        )!;
+    const titles = () =>
+        Array.from(document.querySelectorAll(".kanban-board-card-title")).map((e) =>
+            e.textContent?.trim(),
+        );
     const status = () => document.querySelector(".kanban-board-status")!.textContent;
     const heads = () => Array.from(document.querySelectorAll<HTMLElement>(".kanban-table-th"));
     const focusIn = (el: Element) => el.dispatchEvent(new FocusEvent("focusin", { bubbles: true }));
@@ -592,7 +634,11 @@ describe("KanbanBoard — round 3 and consumer capabilities (§8.31–§8.62)", 
     test("§8.34 compare orders the cards within each column", () => {
         const el = mount({});
         el.compare = (a, b) => b.title.localeCompare(a.title);
-        const todo = Array.from(document.querySelectorAll<HTMLElement>('.kanban-table-td[data-col="0"] .kanban-board-card-title')).map((e) => e.textContent?.trim());
+        const todo = Array.from(
+            document.querySelectorAll<HTMLElement>(
+                '.kanban-table-td[data-col="0"] .kanban-board-card-title',
+            ),
+        ).map((e) => e.textContent?.trim());
         expect(todo).toEqual(["Card Two", "Card One"]);
     });
 
@@ -604,14 +650,19 @@ describe("KanbanBoard — round 3 and consumer capabilities (§8.31–§8.62)", 
         drag(cellAt(0, 0), cellAt(1, 1));
         drag(cellAt(0, 0), cellAt(0, 2));
         drag(cellAt(0, 0), cellAt(1, 0));
-        expect(onMove.mock.calls).toEqual([["c1", "doing", 1], ["c1", "done"]]);
+        expect(onMove.mock.calls).toEqual([
+            ["c1", "doing", 1],
+            ["c1", "done"],
+        ]);
         expect(onReorder).toHaveBeenCalledWith("c1", 1);
     });
 
     test("§8.38 the cell under a dragged card carries data-drop-target; readonly refuses drops", () => {
         mount({});
         const d = { setData: () => {}, getData: () => "" };
-        cellAt(0, 0).querySelector(".kanban-board-card-title")!.dispatchEvent(dragEvent("dragstart", d));
+        cellAt(0, 0)
+            .querySelector(".kanban-board-card-title")!
+            .dispatchEvent(dragEvent("dragstart", d));
         cellAt(1, 1).dispatchEvent(dragEvent("dragover", d));
         expect(cellAt(1, 1).hasAttribute("data-drop-target")).toBe(true);
         document.body.replaceChildren();
@@ -625,7 +676,11 @@ describe("KanbanBoard — round 3 and consumer capabilities (§8.31–§8.62)", 
     test("§8.39–§8.41 a locked card has data-locked, no move button, no drag, ignores Enter and Alt+Arrow; others still move", () => {
         const onMove = vi.fn();
         const onReorder = vi.fn();
-        const el = mount({ labels: LABELS, cards: CARDS.map((c) => (c.id === "c1" ? { ...c, locked: true } : c)), onMove });
+        const el = mount({
+            labels: LABELS,
+            cards: CARDS.map((c) => (c.id === "c1" ? { ...c, locked: true } : c)),
+            onMove,
+        });
         el.onReorder = onReorder;
         expect(cellAt(0, 0).hasAttribute("data-locked")).toBe(true);
         expect(cellAt(0, 0).querySelector(".kanban-board-move-button")).toBeNull();
@@ -636,7 +691,11 @@ describe("KanbanBoard — round 3 and consumer capabilities (§8.31–§8.62)", 
         expect(onReorder).not.toHaveBeenCalled();
         focusIn(cellAt(1, 0));
         press(cellAt(1, 0), "Enter");
-        click(Array.from(document.querySelectorAll(".kanban-board-move-option")).find((o) => o.textContent === "Done")!);
+        click(
+            Array.from(document.querySelectorAll(".kanban-board-move-option")).find(
+                (o) => o.textContent === "Done",
+            )!,
+        );
         expect(onMove).toHaveBeenCalledWith("c2", "done");
     });
 
@@ -650,7 +709,10 @@ describe("KanbanBoard — round 3 and consumer capabilities (§8.31–§8.62)", 
         document.body.replaceChildren();
         const refused = vi.fn();
         mount({
-            columns: [{ id: "todo", title: "To Do" }, { id: "doing", title: "In Progress", wipLimit: 2, strictLimit: true }],
+            columns: [
+                { id: "todo", title: "To Do" },
+                { id: "doing", title: "In Progress", wipLimit: 2, strictLimit: true },
+            ],
             labels: { ...LABELS, moveBlocked: (t, c) => `${t} cannot go to ${c}` },
             onMove: refused,
         });
@@ -670,31 +732,46 @@ describe("KanbanBoard — round 3 and consumer capabilities (§8.31–§8.62)", 
         mount({ cards: rich, columns: cols });
         expect(cell("c1").hasAttribute("aria-label")).toBe(false);
         const text = cell("c1").textContent!;
-        for (const visible of ["Card One", "Source · 80", "P1", "VIP"]) expect(text).toContain(visible);
+        for (const visible of ["Card One", "Source · 80", "P1", "VIP"])
+            expect(text).toContain(visible);
     });
 
     test("§8.48 subtitle, badges and a link title render; §8.50 the flag is text, data-flag and aria-describedby; §8.51 column flag and accent", () => {
         mount({ cards: rich, columns: cols });
-        expect(cell("c1").querySelector(".kanban-board-card-subtitle")!.textContent).toBe("Source · 80");
-        expect(Array.from(cell("c1").querySelectorAll(".kanban-board-card-badge")).map((b) => b.textContent)).toEqual(["P1", "VIP"]);
-        expect(cell("c1").querySelector("a.kanban-board-card-link")!.getAttribute("href")).toBe("/t/1");
+        expect(cell("c1").querySelector(".kanban-board-card-subtitle")!.textContent).toBe(
+            "Source · 80",
+        );
+        expect(
+            Array.from(cell("c1").querySelectorAll(".kanban-board-card-badge")).map(
+                (b) => b.textContent,
+            ),
+        ).toEqual(["P1", "VIP"]);
+        expect(cell("c1").querySelector("a.kanban-board-card-link")!.getAttribute("href")).toBe(
+            "/t/1",
+        );
         const flag = cell("c1").querySelector(".kanban-board-card-flag")!;
         expect(flag.textContent).toBe("SLA breached");
         expect(cell("c1").getAttribute("data-flag")).toBe("SLA breached");
         expect(cell("c1").getAttribute("aria-describedby")).toBe(flag.id);
         expect(heads()[0].getAttribute("data-flag")).toBe("Over capacity");
         expect(heads()[0].getAttribute("data-accent")).toBe("red");
-        expect(heads()[0].querySelector(".kanban-board-column-flag")!.textContent).toBe("Over capacity");
+        expect(heads()[0].querySelector(".kanban-board-column-flag")!.textContent).toBe(
+            "Over capacity",
+        );
         expect(cell("c1").getAttribute("data-accent")).toBe("red");
     });
 
     test("§8.49 renderCard replaces the title content; §8.59 renderColumnHeader and renderColumnFooter render per column", () => {
         const el = document.createElement("kanban-board") as KanbanBoard;
         el.setAttribute("label", "B");
-        el.renderCard = ({ label }) => Object.assign(document.createElement("b"), { textContent: `${label}!` });
-        el.renderColumnHeader = ({ count }) => Object.assign(document.createElement("i"), { textContent: String(count) });
+        el.renderCard = ({ label }) =>
+            Object.assign(document.createElement("b"), { textContent: `${label}!` });
+        el.renderColumnHeader = ({ count }) =>
+            Object.assign(document.createElement("i"), { textContent: String(count) });
         el.renderColumnFooter = ({ column, count, cards }) =>
-            Object.assign(document.createElement("i"), { textContent: `${column.id}:${count}:${cards.map((c) => c.id).join(",")}` });
+            Object.assign(document.createElement("i"), {
+                textContent: `${column.id}:${count}:${cards.map((c) => c.id).join(",")}`,
+            });
         document.body.appendChild(el);
         el.columns = cols;
         el.cards = rich;
@@ -708,10 +785,15 @@ describe("KanbanBoard — round 3 and consumer capabilities (§8.31–§8.62)", 
         const el = mount({ labels: LABELS, cards: rich, columns: cols });
         el.allowedColumns = (c) => (c.id === "c1" ? ["doing"] : ["done"]);
         press(cell("c1"), "Enter");
-        expect(Array.from(document.querySelectorAll('[role="option"]')).map((o) => o.textContent)).toEqual(["To Do", "In Progress"]);
+        expect(
+            Array.from(document.querySelectorAll('[role="option"]')).map((o) => o.textContent),
+        ).toEqual(["To Do", "In Progress"]);
         document.body.replaceChildren();
         const onMove = vi.fn();
-        const g = mount({ labels: { ...LABELS, moveBlocked: (t, c) => `${t} cannot go to ${c}` }, onMove });
+        const g = mount({
+            labels: { ...LABELS, moveBlocked: (t, c) => `${t} cannot go to ${c}` },
+            onMove,
+        });
         g.allowedColumns = () => ["done"];
         press(cellAt(0, 0), "ArrowRight", { altKey: true });
         expect(onMove).not.toHaveBeenCalled();
@@ -719,14 +801,21 @@ describe("KanbanBoard — round 3 and consumer capabilities (§8.31–§8.62)", 
     });
 
     test("§8.54 card.draggable=false stops pointer dragging but keeps the move menu", () => {
-        mount({ labels: LABELS, cards: CARDS.map((c) => (c.id === "c1" ? { ...c, draggable: false } : c)) });
+        mount({
+            labels: LABELS,
+            cards: CARDS.map((c) => (c.id === "c1" ? { ...c, draggable: false } : c)),
+        });
         expect(cell("c1").querySelector("[draggable]")).toBeNull();
         expect(cell("c1").querySelector(".kanban-board-move-button")).toBeTruthy();
     });
 
     test("§8.55 an async moveHandler shows data-pending and aria-busy in the new column, then clears on resolve", async () => {
         const d = deferred();
-        const el = mount({ cards: rich, columns: cols, labels: { ...LABELS, movePending: (t, c) => `Moving ${t} to ${c}` } });
+        const el = mount({
+            cards: rich,
+            columns: cols,
+            labels: { ...LABELS, movePending: (t, c) => `Moving ${t} to ${c}` },
+        });
         el.moveHandler = () => d.promise;
         focusIn(cell("c2"));
         press(cell("c2"), "ArrowRight", { altKey: true });
@@ -744,7 +833,11 @@ describe("KanbanBoard — round 3 and consumer capabilities (§8.31–§8.62)", 
         const d = deferred();
         const handler = vi.fn(() => d.promise);
         const onMoveError = vi.fn();
-        const el = mount({ cards: rich, columns: cols, labels: { ...LABELS, moveFailed: (t, c) => `Could not move ${t} to ${c}` } });
+        const el = mount({
+            cards: rich,
+            columns: cols,
+            labels: { ...LABELS, moveFailed: (t, c) => `Could not move ${t} to ${c}` },
+        });
         el.moveHandler = handler;
         el.onMoveError = onMoveError;
         focusIn(cell("c2"));
@@ -794,18 +887,23 @@ describe("KanbanBoard — round 3 and consumer capabilities (§8.31–§8.62)", 
 
 describe("KanbanBoard — 0.4.0 (§8.63–§8.83)", () => {
     const cell = (id: string) => document.querySelector<HTMLElement>(`[data-card-id="${id}"]`)!;
-    const focusCell = (id: string) => cell(id).dispatchEvent(new FocusEvent("focusin", { bubbles: true }));
+    const focusCell = (id: string) =>
+        cell(id).dispatchEvent(new FocusEvent("focusin", { bubbles: true }));
 
     test("§8.63 selectable: x and Ctrl+click toggle, selectionchange fires, aria-multiselectable", () => {
         const el = mount({});
         el.selectable = true;
         const changes: string[][] = [];
-        el.addEventListener("selectionchange", (e) => changes.push((e as CustomEvent<string[]>).detail));
+        el.addEventListener("selectionchange", (e) =>
+            changes.push((e as CustomEvent<string[]>).detail),
+        );
         expect(document.querySelector("table")!.getAttribute("aria-multiselectable")).toBe("true");
         focusCell("c1");
         press(cell("c1"), "x");
         expect(cell("c1").hasAttribute("data-selected")).toBe(true);
-        cell("c2").dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true, ctrlKey: true }));
+        cell("c2").dispatchEvent(
+            new MouseEvent("click", { bubbles: true, cancelable: true, ctrlKey: true }),
+        );
         expect(changes.at(-1)).toEqual(["c1", "c2"]);
         expect(el.selected).toEqual(["c1", "c2"]);
     });
@@ -817,8 +915,13 @@ describe("KanbanBoard — 0.4.0 (§8.63–§8.83)", () => {
         el.selected = ["c1", "c2"];
         focusCell("c1");
         press(cell("c1"), "ArrowRight", { altKey: true });
-        expect(onMove.mock.calls.map((c) => [c[0], c[1]])).toEqual([["c1", "doing"], ["c2", "doing"]]);
-        expect(document.querySelector(".kanban-board-status")!.textContent).toBe("2 to In Progress");
+        expect(onMove.mock.calls.map((c) => [c[0], c[1]])).toEqual([
+            ["c1", "doing"],
+            ["c2", "doing"],
+        ]);
+        expect(document.querySelector(".kanban-board-status")!.textContent).toBe(
+            "2 to In Progress",
+        );
         expect(el.selected).toEqual([]);
     });
 
@@ -836,14 +939,19 @@ describe("KanbanBoard — 0.4.0 (§8.63–§8.83)", () => {
         await new Promise((r) => setTimeout(r, 0));
         press(tabbableCells()[0], "z", { ctrlKey: true });
         await new Promise((r) => setTimeout(r, 0));
-        expect(moves).toEqual([["c1", "doing"], ["c1", "todo"]]);
+        expect(moves).toEqual([
+            ["c1", "doing"],
+            ["c1", "todo"],
+        ]);
     });
 
     test("§8.66 movableColumns: Alt+Shift+ArrowRight reorders columns", () => {
         const el = mount({});
         el.movableColumns = true;
         const orders: string[][] = [];
-        el.addEventListener("columnorderchange", (e) => orders.push((e as CustomEvent<string[]>).detail));
+        el.addEventListener("columnorderchange", (e) =>
+            orders.push((e as CustomEvent<string[]>).detail),
+        );
         focusCell("c1");
         press(cell("c1"), "ArrowRight", { altKey: true, shiftKey: true });
         expect(orders.at(-1)).toEqual(["doing", "todo", "done"]);
@@ -852,22 +960,43 @@ describe("KanbanBoard — 0.4.0 (§8.63–§8.83)", () => {
 
     test("§8.67 lanes: lane header rows, cards grouped by laneId", () => {
         const el = mount({});
-        el.lanes = [{ id: "a", title: "Alpha" }, { id: "b", title: "Beta" }];
+        el.lanes = [
+            { id: "a", title: "Alpha" },
+            { id: "b", title: "Beta" },
+        ];
         el.cards = CARDS.map((x, i) => ({ ...x, laneId: i < 2 ? "a" : "b" }));
-        expect(Array.from(document.querySelectorAll(".kanban-board-lane")).map((e) => e.textContent)).toEqual(["Alpha", "Beta"]);
+        expect(
+            Array.from(document.querySelectorAll(".kanban-board-lane")).map((e) => e.textContent),
+        ).toEqual(["Alpha", "Beta"]);
     });
 
     test("§8.68 dropping into another lane's cell reports the lane id", () => {
         const onMove = vi.fn();
-        const el = mount({ onMove, cards: [{ id: "c1", columnId: "todo", title: "One", laneId: "a" }] });
-        el.lanes = [{ id: "a", title: "A" }, { id: "b", title: "B" }];
-        document.querySelector(".kanban-board-card-title")!.dispatchEvent(new Event("dragstart", { bubbles: true }));
-        document.querySelector('[data-row="1"][data-col="1"]')!.dispatchEvent(new Event("drop", { bubbles: true, cancelable: true }));
+        const el = mount({
+            onMove,
+            cards: [{ id: "c1", columnId: "todo", title: "One", laneId: "a" }],
+        });
+        el.lanes = [
+            { id: "a", title: "A" },
+            { id: "b", title: "B" },
+        ];
+        document
+            .querySelector(".kanban-board-card-title")!
+            .dispatchEvent(new Event("dragstart", { bubbles: true }));
+        document
+            .querySelector('[data-row="1"][data-col="1"]')!
+            .dispatchEvent(new Event("drop", { bubbles: true, cancelable: true }));
         expect(onMove).toHaveBeenCalledWith("c1", "doing", undefined, "b");
     });
 
     test("§8.69 virtualize renders a window with spacers and aria-rowcount", () => {
-        const el = mount({ cards: Array.from({ length: 100 }, (_, i) => ({ id: `k${i}`, columnId: "todo", title: `K${i}` })) });
+        const el = mount({
+            cards: Array.from({ length: 100 }, (_, i) => ({
+                id: `k${i}`,
+                columnId: "todo",
+                title: `K${i}`,
+            })),
+        });
         el.virtualize = { rowHeight: 20, height: 100 };
         expect(document.querySelector(".kanban-board-scroll")).toBeTruthy();
         expect(document.querySelectorAll("[data-card-id]").length).toBeLessThan(20);
@@ -877,21 +1006,31 @@ describe("KanbanBoard — 0.4.0 (§8.63–§8.83)", () => {
 });
 
 describe("kanban-board — collapsible lanes (§8.91–§8.94)", () => {
-    const laneDefs = [{ id: "ann", title: "Ann" }, { id: "bo", title: "Bo" }];
+    const laneDefs = [
+        { id: "ann", title: "Ann" },
+        { id: "bo", title: "Bo" },
+    ];
     const cardsInLanes: KanbanCard[] = [
         { id: "c1", columnId: "todo", title: "One", laneId: "ann" },
         { id: "c2", columnId: "todo", title: "Two", laneId: "bo" },
         { id: "c3", columnId: "doing", title: "Three", laneId: "bo" },
     ];
-    const laneColumns: KanbanColumn[] = [{ id: "todo", title: "To do" }, { id: "doing", title: "Doing" }];
-    const collapseLane = (lane: { title: string }, collapsed: boolean) => `${collapsed ? "Expand" : "Collapse"} ${lane.title}`;
+    const laneColumns: KanbanColumn[] = [
+        { id: "todo", title: "To do" },
+        { id: "doing", title: "Doing" },
+    ];
+    const collapseLane = (lane: { title: string }, collapsed: boolean) =>
+        `${collapsed ? "Expand" : "Collapse"} ${lane.title}`;
     function board(extra: Partial<KanbanBoard> = {}): KanbanBoard {
         const el = mount({ columns: laneColumns, cards: cardsInLanes });
         el.lanes = laneDefs;
         Object.assign(el, extra);
         return el;
     }
-    const byName = (name: string) => Array.from(document.querySelectorAll("button")).find((b) => b.getAttribute("aria-label") === name) as HTMLButtonElement;
+    const byName = (name: string) =>
+        Array.from(document.querySelectorAll("button")).find(
+            (b) => b.getAttribute("aria-label") === name,
+        ) as HTMLButtonElement;
 
     test("§8.91 labels.collapseLane gates a toggle with aria-expanded; clicking collapses the lane's rows but keeps its header", () => {
         board({ labels: { collapseLane } as KanbanLabels });
@@ -910,11 +1049,22 @@ describe("kanban-board — collapsible lanes (§8.91–§8.94)", () => {
 
     test("§8.93 collapsedLanes starts a lane collapsed; labels.laneCount shows its card count; the change is reported", () => {
         const onChange = vi.fn();
-        const el = board({ collapsedLanes: ["bo"], onCollapsedLanesChange: onChange, labels: { collapseLane, laneCount: (lane: { title: string }, n: number) => `${n} cards in ${lane.title}` } as KanbanLabels });
+        const el = board({
+            collapsedLanes: ["bo"],
+            onCollapsedLanesChange: onChange,
+            labels: {
+                collapseLane,
+                laneCount: (lane: { title: string }, n: number) => `${n} cards in ${lane.title}`,
+            } as KanbanLabels,
+        });
         const events: string[][] = [];
         el.addEventListener("lanecollapsechange", (e) => events.push((e as CustomEvent).detail));
         expect(document.querySelector('[data-card-id="c2"]')).toBeNull();
-        expect(Array.from(document.querySelectorAll(".kanban-board-lane-count")).map((e) => e.textContent)).toEqual(["1 cards in Ann", "2 cards in Bo"]);
+        expect(
+            Array.from(document.querySelectorAll(".kanban-board-lane-count")).map(
+                (e) => e.textContent,
+            ),
+        ).toEqual(["1 cards in Ann", "2 cards in Bo"]);
         expect(document.querySelector('[data-lane-id="bo"][data-collapsed]')).not.toBeNull();
         byName("Expand Bo").click();
         expect(onChange).toHaveBeenCalledWith([]);
@@ -924,7 +1074,9 @@ describe("kanban-board — collapsible lanes (§8.91–§8.94)", () => {
 
     test("§8.94 collapsing every lane leaves a board with only headers (no body rows, no crash)", () => {
         board({ collapsedLanes: ["ann", "bo"] });
-        expect(document.querySelectorAll(".kanban-table-body tr:not([data-lane-row])")).toHaveLength(0);
+        expect(
+            document.querySelectorAll(".kanban-table-body tr:not([data-lane-row])"),
+        ).toHaveLength(0);
         expect(document.querySelectorAll(".kanban-board-lane")).toHaveLength(2);
     });
 });
@@ -946,11 +1098,30 @@ function cleanup(): void {
 }
 
 const fireEvent = {
-    async click(el: Element) { (el as HTMLElement).click(); await Promise.resolve(); },
-    async input(el: Element, init: { target: { value: string } }) { (el as HTMLInputElement).value = init.target.value; el.dispatchEvent(new Event("input", { bubbles: true })); await Promise.resolve(); },
-    async change(el: Element, init: { target: { value: string } }) { (el as HTMLInputElement).value = init.target.value; el.dispatchEvent(new Event("change", { bubbles: true })); await Promise.resolve(); },
-    async keyDown(el: Element, init: KeyboardEventInit & { keyCode?: number }) { el.dispatchEvent(new KeyboardEvent("keydown", { bubbles: true, cancelable: true, ...init })); await Promise.resolve(); },
-    async scroll(el: Element) { el.dispatchEvent(new Event("scroll")); await Promise.resolve(); },
+    async click(el: Element) {
+        (el as HTMLElement).click();
+        await Promise.resolve();
+    },
+    async input(el: Element, init: { target: { value: string } }) {
+        (el as HTMLInputElement).value = init.target.value;
+        el.dispatchEvent(new Event("input", { bubbles: true }));
+        await Promise.resolve();
+    },
+    async change(el: Element, init: { target: { value: string } }) {
+        (el as HTMLInputElement).value = init.target.value;
+        el.dispatchEvent(new Event("change", { bubbles: true }));
+        await Promise.resolve();
+    },
+    async keyDown(el: Element, init: KeyboardEventInit & { keyCode?: number }) {
+        el.dispatchEvent(
+            new KeyboardEvent("keydown", { bubbles: true, cancelable: true, ...init }),
+        );
+        await Promise.resolve();
+    },
+    async scroll(el: Element) {
+        el.dispatchEvent(new Event("scroll"));
+        await Promise.resolve();
+    },
 };
 
 async function waitFor(assertion: () => void, timeout = 1000): Promise<void> {
@@ -968,12 +1139,28 @@ async function waitFor(assertion: () => void, timeout = 1000): Promise<void> {
 
 describe("KanbanBoard — typed fields, editing, export (§8.95–§8.108)", () => {
     const FIELDS = [
-        { id: "owner", header: "Owner", type: "select" as const, options: [{ id: "a", label: "Ann" }, { id: "b", label: "Bo" }] },
+        {
+            id: "owner",
+            header: "Owner",
+            type: "select" as const,
+            options: [
+                { id: "a", label: "Ann" },
+                { id: "b", label: "Bo" },
+            ],
+        },
         { id: "points", header: "Points", type: "number" as const },
         { id: "due", header: "Due", type: "date" as const },
     ];
     const FCARDS: KanbanCard[] = [
-        { id: "c1", columnId: "todo", title: "One", subtitle: "sub", badges: ["x", "y"], flag: "Late", values: { owner: "a", points: 3, due: "2026-10-16" } },
+        {
+            id: "c1",
+            columnId: "todo",
+            title: "One",
+            subtitle: "sub",
+            badges: ["x", "y"],
+            flag: "Late",
+            values: { owner: "a", points: 3, due: "2026-10-16" },
+        },
         { id: "c2", columnId: "todo", title: "Two", values: { points: 5 } },
         { id: "c3", columnId: "done", title: "Three =cmd", values: { owner: "b" } },
     ];
@@ -982,7 +1169,13 @@ describe("KanbanBoard — typed fields, editing, export (§8.95–§8.108)", () 
         exportCsv: "CSV",
         exportTsv: "TSV",
         exportExcel: "Excel",
-        exportHeaders: { title: "Title", column: "Column", subtitle: "Sub", badges: "Badges", flag: "Flag" },
+        exportHeaders: {
+            title: "Title",
+            column: "Column",
+            subtitle: "Sub",
+            badges: "Badges",
+            flag: "Flag",
+        },
         exportAnnouncement: (f, n, name) => `${n} cards as ${f}: ${name}`,
         editAnnouncement: (t, h, text) => `${t} ${h} is ${text}`,
         editInvalid: (t, h) => `${t}: bad ${h}`,
@@ -993,7 +1186,11 @@ describe("KanbanBoard — typed fields, editing, export (§8.95–§8.108)", () 
     test("§8.95 fields render under the title as formatted text, named by their header", () => {
         render(base);
         const fields = cellOf("c1").querySelectorAll(".kanban-board-card-field");
-        expect(Array.from(fields).map((f) => f.textContent?.replace(/\s+/g, " ").trim())).toEqual(["Owner Ann", "Points 3", "Due 2026-10-16"]);
+        expect(Array.from(fields).map((f) => f.textContent?.replace(/\s+/g, " ").trim())).toEqual([
+            "Owner Ann",
+            "Points 3",
+            "Due 2026-10-16",
+        ]);
         expect(cellOf("c3").querySelectorAll(".kanban-board-card-field")).toHaveLength(1); // empty fields stay out of read-only cards
     });
 
@@ -1008,13 +1205,20 @@ describe("KanbanBoard — typed fields, editing, export (§8.95–§8.108)", () 
     test("§8.97 clicking a value opens a typed editor; Enter commits the parsed value", async () => {
         const onFieldEdit = vi.fn();
         render({ ...base, onFieldEdit, labels: EXPORT_LABELS });
-        await fireEvent.click(cellOf("c1").querySelectorAll<HTMLElement>(".kanban-board-field-button")[1]);
+        await fireEvent.click(
+            cellOf("c1").querySelectorAll<HTMLElement>(".kanban-board-field-button")[1],
+        );
         const input = document.querySelector<HTMLInputElement>(".kanban-board-field-editor")!;
         expect(input.type).toBe("number");
         expect(input.getAttribute("aria-label")).toBe("Points");
         await fireEvent.input(input, { target: { value: "8" } });
         await fireEvent.keyDown(input, { key: "Enter" });
-        expect(onFieldEdit).toHaveBeenCalledWith({ cardId: "c1", fieldId: "points", value: 8, previous: 3 });
+        expect(onFieldEdit).toHaveBeenCalledWith({
+            cardId: "c1",
+            fieldId: "points",
+            value: 8,
+            previous: 3,
+        });
         expect(document.querySelector(".kanban-board-status")!.textContent).toBe("One Points is 8");
         expect(document.querySelector(".kanban-board-field-editor")).toBeNull();
     });
@@ -1022,42 +1226,75 @@ describe("KanbanBoard — typed fields, editing, export (§8.95–§8.108)", () 
     test("§8.98 a select field edits through a select of its options", async () => {
         const onFieldEdit = vi.fn();
         render({ ...base, onFieldEdit });
-        await fireEvent.click(cellOf("c2").querySelectorAll<HTMLElement>(".kanban-board-field-button")[0]);
-        const select = document.querySelector<HTMLSelectElement>("select.kanban-board-field-editor")!;
+        await fireEvent.click(
+            cellOf("c2").querySelectorAll<HTMLElement>(".kanban-board-field-button")[0],
+        );
+        const select = document.querySelector<HTMLSelectElement>(
+            "select.kanban-board-field-editor",
+        )!;
         await fireEvent.change(select, { target: { value: "b" } });
-        expect(onFieldEdit).toHaveBeenCalledWith({ cardId: "c2", fieldId: "owner", value: "b", previous: undefined });
+        expect(onFieldEdit).toHaveBeenCalledWith({
+            cardId: "c2",
+            fieldId: "owner",
+            value: "b",
+            previous: undefined,
+        });
     });
 
     test("§8.99 Escape cancels without reporting; an unchanged value reports nothing", async () => {
         const onFieldEdit = vi.fn();
         render({ ...base, onFieldEdit });
-        const open = async () => fireEvent.click(cellOf("c1").querySelectorAll<HTMLElement>(".kanban-board-field-button")[1]);
+        const open = async () =>
+            fireEvent.click(
+                cellOf("c1").querySelectorAll<HTMLElement>(".kanban-board-field-button")[1],
+            );
         await open();
-        await fireEvent.input(document.querySelector(".kanban-board-field-editor")!, { target: { value: "9" } });
-        await fireEvent.keyDown(document.querySelector(".kanban-board-field-editor")!, { key: "Escape" });
+        await fireEvent.input(document.querySelector(".kanban-board-field-editor")!, {
+            target: { value: "9" },
+        });
+        await fireEvent.keyDown(document.querySelector(".kanban-board-field-editor")!, {
+            key: "Escape",
+        });
         expect(onFieldEdit).not.toHaveBeenCalled();
         await open();
-        await fireEvent.keyDown(document.querySelector(".kanban-board-field-editor")!, { key: "Enter" });
+        await fireEvent.keyDown(document.querySelector(".kanban-board-field-editor")!, {
+            key: "Enter",
+        });
         expect(onFieldEdit).not.toHaveBeenCalled();
     });
 
     test("§8.100 a date field edits through a date input and commits the ISO date", async () => {
         const onFieldEdit = vi.fn();
         render({ ...base, onFieldEdit, labels: EXPORT_LABELS });
-        await fireEvent.click(cellOf("c1").querySelectorAll<HTMLElement>(".kanban-board-field-button")[2]);
+        await fireEvent.click(
+            cellOf("c1").querySelectorAll<HTMLElement>(".kanban-board-field-button")[2],
+        );
         const input = document.querySelector<HTMLInputElement>(".kanban-board-field-editor")!;
         // jsdom's date input drops an invalid string, so the draft is set through a custom parse.
         expect(input.type).toBe("date");
         await fireEvent.input(input, { target: { value: "2026-10-17" } });
         await fireEvent.keyDown(input, { key: "Enter" });
-        expect(onFieldEdit).toHaveBeenCalledWith({ cardId: "c1", fieldId: "due", value: "2026-10-17", previous: "2026-10-16" });
+        expect(onFieldEdit).toHaveBeenCalledWith({
+            cardId: "c1",
+            fieldId: "due",
+            value: "2026-10-17",
+            previous: "2026-10-16",
+        });
     });
 
     test("§8.101 an invalid number is refused", async () => {
         const onFieldEdit = vi.fn();
-        render({ ...base, fields: [{ id: "p", header: "P", type: "number", parse: () => Number.NaN }], cards: [{ id: "c1", columnId: "todo", title: "One", values: { p: 1 } }], onFieldEdit, labels: EXPORT_LABELS });
+        render({
+            ...base,
+            fields: [{ id: "p", header: "P", type: "number", parse: () => Number.NaN }],
+            cards: [{ id: "c1", columnId: "todo", title: "One", values: { p: 1 } }],
+            onFieldEdit,
+            labels: EXPORT_LABELS,
+        });
         await fireEvent.click(document.querySelector(".kanban-board-field-button")!);
-        await fireEvent.keyDown(document.querySelector(".kanban-board-field-editor")!, { key: "Enter" });
+        await fireEvent.keyDown(document.querySelector(".kanban-board-field-editor")!, {
+            key: "Enter",
+        });
         expect(onFieldEdit).not.toHaveBeenCalled();
         expect(document.querySelector(".kanban-board-field-editor")).not.toBeNull();
         expect(document.querySelector(".kanban-board-status")!.textContent).toBe("One: bad P");
@@ -1075,16 +1312,30 @@ describe("KanbanBoard — typed fields, editing, export (§8.95–§8.108)", () 
     test("§8.109 Tab commits and moves to the card's next editable field", async () => {
         const onFieldEdit = vi.fn();
         render({ ...base, onFieldEdit });
-        await fireEvent.click(cellOf("c1").querySelectorAll<HTMLElement>(".kanban-board-field-button")[0]);
-        await fireEvent.keyDown(document.querySelector(".kanban-board-field-editor")!, { key: "Tab" });
-        expect(document.querySelector<HTMLInputElement>("input.kanban-board-field-editor")!.type).toBe("number");
-        await fireEvent.keyDown(document.querySelector(".kanban-board-field-editor")!, { key: "Tab", shiftKey: true });
+        await fireEvent.click(
+            cellOf("c1").querySelectorAll<HTMLElement>(".kanban-board-field-button")[0],
+        );
+        await fireEvent.keyDown(document.querySelector(".kanban-board-field-editor")!, {
+            key: "Tab",
+        });
+        expect(
+            document.querySelector<HTMLInputElement>("input.kanban-board-field-editor")!.type,
+        ).toBe("number");
+        await fireEvent.keyDown(document.querySelector(".kanban-board-field-editor")!, {
+            key: "Tab",
+            shiftKey: true,
+        });
         expect(document.querySelector("select.kanban-board-field-editor")).not.toBeNull();
     });
 
     test("§8.103 IME: Enter while composing does not commit", async () => {
         const onFieldEdit = vi.fn();
-        render({ ...base, fields: [{ id: "n", header: "N" }], cards: [{ id: "c1", columnId: "todo", title: "One", values: { n: "a" } }], onFieldEdit });
+        render({
+            ...base,
+            fields: [{ id: "n", header: "N" }],
+            cards: [{ id: "c1", columnId: "todo", title: "One", values: { n: "a" } }],
+            onFieldEdit,
+        });
         await fireEvent.click(document.querySelector(".kanban-board-field-button")!);
         const input = document.querySelector<HTMLInputElement>(".kanban-board-field-editor")!;
         await fireEvent.input(input, { target: { value: "かな" } });
@@ -1092,7 +1343,12 @@ describe("KanbanBoard — typed fields, editing, export (§8.95–§8.108)", () 
         await fireEvent.keyDown(input, { key: "Enter", keyCode: 229 });
         expect(onFieldEdit).not.toHaveBeenCalled();
         await fireEvent.keyDown(input, { key: "Enter" });
-        expect(onFieldEdit).toHaveBeenCalledWith({ cardId: "c1", fieldId: "n", value: "かな", previous: "a" });
+        expect(onFieldEdit).toHaveBeenCalledWith({
+            cardId: "c1",
+            fieldId: "n",
+            value: "かな",
+            previous: "a",
+        });
     });
 
     test("§8.104 a locked card's fields are not editable", () => {
@@ -1100,12 +1356,20 @@ describe("KanbanBoard — typed fields, editing, export (§8.95–§8.108)", () 
         expect(document.querySelector(".kanban-board-field-button")).toBeNull();
     });
 
-    async function exported(props: Record<string, unknown> = {}, format: "csv" | "tsv" | "xlsx" = "csv") {
-        const onExport = vi.fn((_file: { format: string; filename: string; cardCount: number; blob: Blob }) => false as const);
+    async function exported(
+        props: Record<string, unknown> = {},
+        format: "csv" | "tsv" | "xlsx" = "csv",
+    ) {
+        const onExport = vi.fn(
+            (_file: { format: string; filename: string; cardCount: number; blob: Blob }) =>
+                false as const,
+        );
         render({ ...base, labels: EXPORT_LABELS, onExport, ...props });
         await fireEvent.click(document.querySelector(`[data-kanban-export-format="${format}"]`)!);
         const file = onExport.mock.calls[0][0];
-        const text = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await file.blob.arrayBuffer());
+        const text = new TextDecoder("utf-8", { ignoreBOM: true }).decode(
+            await file.blob.arrayBuffer(),
+        );
         return { file, text };
     }
 
@@ -1116,7 +1380,14 @@ describe("KanbanBoard — typed fields, editing, export (§8.95–§8.108)", () 
         render({ ...base, labels: { exportCsv: "CSV" } });
         expect(document.querySelector(".kanban-board-export")).toBeNull();
         document.body.innerHTML = "";
-        render({ ...base, labels: { export: "Export", exportExcel: "Excel", exportHeaders: EXPORT_LABELS.exportHeaders } });
+        render({
+            ...base,
+            labels: {
+                export: "Export",
+                exportExcel: "Excel",
+                exportHeaders: EXPORT_LABELS.exportHeaders,
+            },
+        });
         expect(document.querySelector("[role=group][aria-label=Export]")).toBeTruthy();
         expect(document.querySelectorAll(".kanban-board-export-button")).toHaveLength(1);
     });
@@ -1137,17 +1408,31 @@ describe("KanbanBoard — typed fields, editing, export (§8.95–§8.108)", () 
         const searched = await exported({ search: "two" });
         expect(searched.file.cardCount).toBe(1);
         document.body.innerHTML = "";
-        const picked = await exported({ selectable: true, selected: ["c3"], exportScope: "selected" });
+        const picked = await exported({
+            selectable: true,
+            selected: ["c3"],
+            exportScope: "selected",
+        });
         expect(picked.file.cardCount).toBe(1);
         document.body.innerHTML = "";
-        const dropped = await exported({ fields: [{ ...FIELDS[0], exportable: false }, FIELDS[1]] });
+        const dropped = await exported({
+            fields: [{ ...FIELDS[0], exportable: false }, FIELDS[1]],
+        });
         expect(dropped.text.split("\r\n")[0]).toBe("﻿Title,Column,Sub,Badges,Flag,Points");
     });
 
     test("§8.108 lanes add a lane column; saving announces unless onExport returns false; empty view disables the buttons", async () => {
         const lanes = [{ id: "l1", title: "Lane 1" }];
-        const withLane = await exported({ lanes, labels: { ...EXPORT_LABELS, exportHeaders: { ...EXPORT_LABELS.exportHeaders!, lane: "Lane" } } });
-        expect(withLane.text.split("\r\n")[0]).toBe("﻿Title,Column,Lane,Sub,Badges,Flag,Owner,Points,Due");
+        const withLane = await exported({
+            lanes,
+            labels: {
+                ...EXPORT_LABELS,
+                exportHeaders: { ...EXPORT_LABELS.exportHeaders!, lane: "Lane" },
+            },
+        });
+        expect(withLane.text.split("\r\n")[0]).toBe(
+            "﻿Title,Column,Lane,Sub,Badges,Flag,Owner,Points,Due",
+        );
         document.body.innerHTML = "";
         const created: Blob[] = [];
         const original = { create: URL.createObjectURL, revoke: URL.revokeObjectURL };
@@ -1157,10 +1442,15 @@ describe("KanbanBoard — typed fields, editing, export (§8.95–§8.108)", () 
             render({ ...base, labels: EXPORT_LABELS });
             await fireEvent.click(document.querySelector('[data-kanban-export-format="tsv"]')!);
             expect(created).toHaveLength(1);
-            expect(document.querySelector(".kanban-board-status")!.textContent).toBe("3 cards as tsv: kanban-board.tsv");
+            expect(document.querySelector(".kanban-board-status")!.textContent).toBe(
+                "3 cards as tsv: kanban-board.tsv",
+            );
             document.body.innerHTML = "";
             render({ ...base, cards: [], labels: EXPORT_LABELS });
-            expect((document.querySelector('[data-kanban-export-format="csv"]') as HTMLButtonElement).disabled).toBe(true);
+            expect(
+                (document.querySelector('[data-kanban-export-format="csv"]') as HTMLButtonElement)
+                    .disabled,
+            ).toBe(true);
         } finally {
             URL.createObjectURL = original.create;
             URL.revokeObjectURL = original.revoke;

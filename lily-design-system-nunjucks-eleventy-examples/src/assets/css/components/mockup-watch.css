@@ -10,7 +10,9 @@
   position: relative;
 }
 
-.mockup-watch-chrome { height: 0; }
+.mockup-watch-chrome {
+  height: 0;
+}
 .mockup-watch-body {
   padding: var(--nhsuk-spacing-2);
   height: 100%;

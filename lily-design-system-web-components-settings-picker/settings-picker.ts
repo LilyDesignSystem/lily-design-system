@@ -130,7 +130,9 @@ export class SettingsPicker extends HTMLElement {
         svg.setAttribute("stroke-width", "1.6");
         svg.setAttribute("stroke-linecap", "round");
         svg.setAttribute("stroke-linejoin", "round");
-        for (const d of ["M6.7 3.3L7.0 1.4L9.0 1.4L9.3 3.3L10.5 3.8L11.9 2.6L13.4 4.1L12.2 5.6L12.7 6.7L14.6 7.0L14.6 9.0L12.7 9.3L12.2 10.4L13.4 11.9L11.9 13.4L10.5 12.2L9.3 12.7L9.0 14.6L7.0 14.6L6.7 12.7L5.6 12.2L4.1 13.4L2.6 11.9L3.8 10.4L3.3 9.3L1.4 9.0L1.4 7.0L3.3 6.7L3.8 5.5L2.6 4.1L4.1 2.6L5.5 3.8Z"]) {
+        for (const d of [
+            "M6.7 3.3L7.0 1.4L9.0 1.4L9.3 3.3L10.5 3.8L11.9 2.6L13.4 4.1L12.2 5.6L12.7 6.7L14.6 7.0L14.6 9.0L12.7 9.3L12.2 10.4L13.4 11.9L11.9 13.4L10.5 12.2L9.3 12.7L9.0 14.6L7.0 14.6L6.7 12.7L5.6 12.2L4.1 13.4L2.6 11.9L3.8 10.4L3.3 9.3L1.4 9.0L1.4 7.0L3.3 6.7L3.8 5.5L2.6 4.1L4.1 2.6L5.5 3.8Z",
+        ]) {
             const path = document.createElementNS(SVG_NS, "path");
             path.setAttribute("d", d);
             svg.appendChild(path);
@@ -394,71 +396,70 @@ function createTooltip(
     // WCAG 1.4.13: Escape dismisses wherever focus is (pointer-only hover
     // has no focus on the button). Added only while visible.
     const onDocumentKeydown = (event: KeyboardEvent): void => {
-      if (event.key === "Escape") {
-        dismissed = true;
-        update();
-      }
+        if (event.key === "Escape") {
+            dismissed = true;
+            update();
+        }
     };
     const destroy = (): void => {
-      if (listening) {
-        document.removeEventListener("keydown", onDocumentKeydown);
-        listening = false;
-      }
+        if (listening) {
+            document.removeEventListener("keydown", onDocumentKeydown);
+            listening = false;
+        }
     };
     const update = (): void => {
-      const label = getLabel();
-      if (el.textContent !== label) el.textContent = label;
-      const visible =
-        !isOpen() && !dismissed && (hoverButton || hoverTooltip || focusButton);
-      if (visible) el.removeAttribute("hidden");
-      else if (!el.hasAttribute("hidden")) el.setAttribute("hidden", "");
-      if (visible && !listening) {
-        document.addEventListener("keydown", onDocumentKeydown);
-        listening = true;
-      } else if (!visible) destroy();
+        const label = getLabel();
+        if (el.textContent !== label) el.textContent = label;
+        const visible = !isOpen() && !dismissed && (hoverButton || hoverTooltip || focusButton);
+        if (visible) el.removeAttribute("hidden");
+        else if (!el.hasAttribute("hidden")) el.setAttribute("hidden", "");
+        if (visible && !listening) {
+            document.addEventListener("keydown", onDocumentKeydown);
+            listening = true;
+        } else if (!visible) destroy();
     };
     button.addEventListener("mouseenter", () => {
-      hoverButton = true;
-      dismissed = false;
-      update();
+        hoverButton = true;
+        dismissed = false;
+        update();
     });
     button.addEventListener("mouseleave", () => {
-      hoverButton = false;
-      update();
+        hoverButton = false;
+        update();
     });
     button.addEventListener("focus", () => {
-      // Keyboard focus only: a mouse click also focuses the button in
-      // Chromium, and the tooltip should not stick after a click.
-      try {
-        focusButton = button.matches(":focus-visible");
-      } catch {
-        focusButton = true; // engine without :focus-visible — err towards showing
-      }
-      update();
+        // Keyboard focus only: a mouse click also focuses the button in
+        // Chromium, and the tooltip should not stick after a click.
+        try {
+            focusButton = button.matches(":focus-visible");
+        } catch {
+            focusButton = true; // engine without :focus-visible — err towards showing
+        }
+        update();
     });
     button.addEventListener("blur", () => {
-      focusButton = false;
-      dismissed = false;
-      update();
+        focusButton = false;
+        dismissed = false;
+        update();
     });
     button.addEventListener("keydown", (event: KeyboardEvent) => {
-      if (event.key === "Escape" && !el.hasAttribute("hidden")) {
-        dismissed = true;
-        update();
-      }
+        if (event.key === "Escape" && !el.hasAttribute("hidden")) {
+            dismissed = true;
+            update();
+        }
     });
     // A click acts on the control, so the pointer hint gets out of the way.
     button.addEventListener("click", () => {
-      hoverButton = false;
-      update();
+        hoverButton = false;
+        update();
     });
     el.addEventListener("mouseenter", () => {
-      hoverTooltip = true;
-      update();
+        hoverTooltip = true;
+        update();
     });
     el.addEventListener("mouseleave", () => {
-      hoverTooltip = false;
-      update();
+        hoverTooltip = false;
+        update();
     });
     update();
     return { el, update, destroy };

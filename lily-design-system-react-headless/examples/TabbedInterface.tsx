@@ -21,18 +21,34 @@ interface Notification {
 
 const notifications: Notification[] = [
     { id: 1, title: "Welcome", message: "Thanks for signing up!", type: "info", read: true },
-    { id: 2, title: "Update available", message: "Version 2.0 is ready.", type: "info", read: false },
-    { id: 3, title: "Disk space low", message: "Less than 10% remaining.", type: "warning", read: false },
-    { id: 4, title: "Build failed", message: "CI pipeline error on main.", type: "error", read: false },
+    {
+        id: 2,
+        title: "Update available",
+        message: "Version 2.0 is ready.",
+        type: "info",
+        read: false,
+    },
+    {
+        id: 3,
+        title: "Disk space low",
+        message: "Less than 10% remaining.",
+        type: "warning",
+        read: false,
+    },
+    {
+        id: 4,
+        title: "Build failed",
+        message: "CI pipeline error on main.",
+        type: "error",
+        read: false,
+    },
 ];
 
 export default function TabbedInterface() {
     const [activeTab, setActiveTab] = useState("all");
     const unreadCount = notifications.filter((n) => !n.read).length;
 
-    const filtered = activeTab === "all"
-        ? notifications
-        : notifications.filter((n) => !n.read);
+    const filtered = activeTab === "all" ? notifications : notifications.filter((n) => !n.read);
 
     return (
         <div>
@@ -63,7 +79,15 @@ export default function TabbedInterface() {
                                 <h3>
                                     {item.title}
                                     {!item.read && <Badge type="info">New</Badge>}
-                                    <Badge type={item.type === "error" ? "error" : item.type === "warning" ? "warning" : "default"}>
+                                    <Badge
+                                        type={
+                                            item.type === "error"
+                                                ? "error"
+                                                : item.type === "warning"
+                                                  ? "warning"
+                                                  : "default"
+                                        }
+                                    >
                                         {item.type}
                                     </Badge>
                                 </h3>

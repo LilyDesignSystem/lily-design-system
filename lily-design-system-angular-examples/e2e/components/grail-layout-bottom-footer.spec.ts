@@ -13,7 +13,7 @@ test.describe("component page: grail-layout-bottom-footer", () => {
 
   test("renders the H1 with the component name", async ({ page }) => {
     await expect(
-      page.getByRole("heading", { level: 1, name: new RegExp("^GrailLayoutBottomFooter$") })
+      page.getByRole("heading", { level: 1, name: new RegExp("^GrailLayoutBottomFooter$") }),
     ).toBeVisible();
   });
 

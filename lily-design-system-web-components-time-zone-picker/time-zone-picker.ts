@@ -16,7 +16,15 @@
  */
 
 import "@lilydesignsystem/web-components-headless";
-import { DEFAULT_ZONES, matchZone, orderedZones, systemZone, zoneInfo, type ZoneInfo, type ZoneNames } from "./zones.js";
+import {
+    DEFAULT_ZONES,
+    matchZone,
+    orderedZones,
+    systemZone,
+    zoneInfo,
+    type ZoneInfo,
+    type ZoneNames,
+} from "./zones.js";
 
 export { DEFAULT_ZONES };
 export type { ZoneInfo, ZoneNames };
@@ -121,16 +129,16 @@ export class TimeZonePicker extends HTMLElement {
     // propagation, and never moves focus.
     #tipDocListening = false;
     readonly #onTipDocKeydown = (event: KeyboardEvent): void => {
-      if (event.key === "Escape" && this.#tooltipVisible()) {
-        this.#tipDismissed = true;
-        this.#syncTooltip();
-      }
+        if (event.key === "Escape" && this.#tooltipVisible()) {
+            this.#tipDismissed = true;
+            this.#syncTooltip();
+        }
     };
     #setTipDocListener(on: boolean): void {
-      if (on === this.#tipDocListening || typeof document === "undefined") return;
-      this.#tipDocListening = on;
-      if (on) document.addEventListener("keydown", this.#onTipDocKeydown);
-      else document.removeEventListener("keydown", this.#onTipDocKeydown);
+        if (on === this.#tipDocListening || typeof document === "undefined") return;
+        this.#tipDocListening = on;
+        if (on) document.addEventListener("keydown", this.#onTipDocKeydown);
+        else document.removeEventListener("keydown", this.#onTipDocKeydown);
     }
 
     #tooltipVisible(): boolean {
@@ -147,7 +155,7 @@ export class TimeZonePicker extends HTMLElement {
         if (!el) return;
         if (el.textContent !== this.label) el.textContent = this.label;
         const hide = !this.#tooltipVisible();
-      this.#setTipDocListener(!hide);
+        this.#setTipDocListener(!hide);
         if (el.hasAttribute("hidden") !== hide) {
             if (hide) el.setAttribute("hidden", "");
             else el.removeAttribute("hidden");
@@ -155,7 +163,7 @@ export class TimeZonePicker extends HTMLElement {
     }
 
     #resetTooltip(): void {
-      this.#setTipDocListener(false);
+        this.#setTipDocListener(false);
         this.#hoverButton = false;
         this.#hoverTooltip = false;
         this.#focusButton = false;
@@ -244,7 +252,13 @@ export class TimeZonePicker extends HTMLElement {
 
     /** Offset, name and label of any zone, for `renderButtonContent` and consumers. */
     infoFor(zone: string): ZoneInfo | undefined {
-        return zoneInfo(zone, this.locale, this.#when(), this.#labelFor ?? undefined, this.#names ?? undefined);
+        return zoneInfo(
+            zone,
+            this.locale,
+            this.#when(),
+            this.#labelFor ?? undefined,
+            this.#names ?? undefined,
+        );
     }
 
     #when(): Date {
@@ -256,7 +270,13 @@ export class TimeZonePicker extends HTMLElement {
     }
 
     #compute(): void {
-        this.#infos = orderedZones(this.#zones ?? DEFAULT_ZONES, this.locale, this.#when(), this.#labelFor ?? undefined, this.#names ?? undefined);
+        this.#infos = orderedZones(
+            this.#zones ?? DEFAULT_ZONES,
+            this.locale,
+            this.#when(),
+            this.#labelFor ?? undefined,
+            this.#names ?? undefined,
+        );
         this.#ids = this.#infos.map((z) => z.id);
     }
 
@@ -326,7 +346,9 @@ export class TimeZonePicker extends HTMLElement {
     #emitOpenChange(open: boolean): void {
         if (this.#silentOpen) return;
         this.onOpenChange?.(open);
-        this.dispatchEvent(new CustomEvent<boolean>("openchange", { detail: open, bubbles: true, composed: true }));
+        this.dispatchEvent(
+            new CustomEvent<boolean>("openchange", { detail: open, bubbles: true, composed: true }),
+        );
     }
 
     /** The `open` and `disabled` attributes, applied to the rendered button and popup. */
@@ -472,7 +494,13 @@ export class TimeZonePicker extends HTMLElement {
             // The reader's own zone when it is listed (or has a listed twin), else UTC, else the first.
             initial =
                 this.defaultValue ||
-                matchZone(systemZone(), this.#infos, this.locale, this.#when(), this.#names ?? undefined) ||
+                matchZone(
+                    systemZone(),
+                    this.#infos,
+                    this.locale,
+                    this.#when(),
+                    this.#names ?? undefined,
+                ) ||
                 (this.#ids.includes("UTC") ? "UTC" : this.#ids[0]) ||
                 "";
         }
@@ -521,9 +549,7 @@ export class TimeZonePicker extends HTMLElement {
         // aria-activedescendant off rather than pointing at an id that
         // does not exist.
         this.#activeIndex =
-            this.#ids.length === 0
-                ? -1
-                : (startIndex ?? (selected >= 0 ? selected : 0));
+            this.#ids.length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0));
         this.#open = true;
         this.#emitOpenChange(true);
         this.#syncState();
@@ -557,10 +583,7 @@ export class TimeZonePicker extends HTMLElement {
 
     #moveActive(delta: number): void {
         if (this.#ids.length === 0) return;
-        this.#activeIndex = Math.min(
-            Math.max(this.#activeIndex + delta, 0),
-            this.#ids.length - 1,
-        );
+        this.#activeIndex = Math.min(Math.max(this.#activeIndex + delta, 0), this.#ids.length - 1);
         this.#syncState();
         this.#scrollActiveIntoView();
     }
@@ -578,8 +601,7 @@ export class TimeZonePicker extends HTMLElement {
         // cycling. Only a buffer of differing characters refines the
         // match, and that buffer stays anchored on the active option.
         const sameCharRun =
-            this.#typeahead === "" ||
-            [...this.#typeahead].every((c) => c === lower);
+            this.#typeahead === "" || [...this.#typeahead].every((c) => c === lower);
         this.#typeahead += lower;
         clearTimeout(this.#typeaheadTimer);
         this.#typeaheadTimer = setTimeout(() => {
@@ -664,12 +686,7 @@ export class TimeZonePicker extends HTMLElement {
                 this.closeList(false);
                 break;
             default:
-                if (
-                    event.key.length === 1 &&
-                    !event.ctrlKey &&
-                    !event.metaKey &&
-                    !event.altKey
-                ) {
+                if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
                     this.#runTypeahead(event.key);
                 }
         }
@@ -878,4 +895,3 @@ function parseCsv(s: string): string[] {
         .map((p) => p.trim())
         .filter((p) => p.length > 0);
 }
-

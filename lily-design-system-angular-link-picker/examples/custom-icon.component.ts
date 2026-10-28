@@ -14,9 +14,9 @@ import { LinkPicker, LinkPickerIcon } from "../link-picker.component";
 })
 export class CustomIcon {
   links = [
-  { label: "Home", href: "/" },
-  { label: "About Us", href: "/about/" },
-  { label: "Contact Us", href: "/contact/" },
-  { label: "Privacy Policy", href: "/privacy/" },
-];
+    { label: "Home", href: "/" },
+    { label: "About Us", href: "/about/" },
+    { label: "Contact Us", href: "/contact/" },
+    { label: "Privacy Policy", href: "/privacy/" },
+  ];
 }

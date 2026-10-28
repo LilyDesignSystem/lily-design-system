@@ -47,9 +47,7 @@ export default class ContactFormPage {
   protected message = signal("");
   protected submitted = signal(false);
 
-  protected subjectLine = computed(() =>
-    this.message().slice(0, 60) || "(no message)",
-  );
+  protected subjectLine = computed(() => this.message().slice(0, 60) || "(no message)");
 
   protected submit(event: Event): void {
     event.preventDefault();

@@ -142,7 +142,9 @@ describe("LinkPicker", () => {
     });
 
     test("7.15 newTab adds target and rel", () => {
-        mount({ links: [{ label: "Docs", href: "https://example.test/", newTab: true }, LINKS[0]] });
+        mount({
+            links: [{ label: "Docs", href: "https://example.test/", newTab: true }, LINKS[0]],
+        });
         expect(links()[0].getAttribute("target")).toBe("_blank");
         expect(links()[0].getAttribute("rel")).toBe("noopener noreferrer");
         expect(links()[1].hasAttribute("target")).toBe(false);
@@ -150,20 +152,29 @@ describe("LinkPicker", () => {
 
     test("7.16 onNavigate reports the id, else the href", async () => {
         const onNavigate = vi.fn();
-        mount({ onNavigate, links: [{ id: "about", label: "About Us", href: "/about/" }, LINKS[0]] });
+        mount({
+            onNavigate,
+            links: [{ id: "about", label: "About Us", href: "/about/" }, LINKS[0]],
+        });
         await fireEvent.click(button());
         links()[0].addEventListener("click", (e) => e.preventDefault());
         await fireEvent.click(links()[0]);
         await fireEvent.click(button());
         links()[1].addEventListener("click", (e) => e.preventDefault());
         await fireEvent.click(links()[1]);
-        expect(onNavigate.mock.calls).toEqual([["about", "/about/"], ["/", "/"]]);
+        expect(onNavigate.mock.calls).toEqual([
+            ["about", "/about/"],
+            ["/", "/"],
+        ]);
         expect(linkId({ label: "x", href: "/y" })).toBe("/y");
     });
 
     test("7.17 navigate handles a plain left click only", async () => {
         const navigate = vi.fn();
-        mount({ navigate, links: [LINKS[1], { label: "Docs", href: "https://example.test/", newTab: true }] });
+        mount({
+            navigate,
+            links: [LINKS[1], { label: "Docs", href: "https://example.test/", newTab: true }],
+        });
         await fireEvent.click(button());
         const plain = new MouseEvent("click", { bubbles: true, cancelable: true, button: 0 });
         links()[0].dispatchEvent(plain);
@@ -171,7 +182,12 @@ describe("LinkPicker", () => {
         expect(plain.defaultPrevented).toBe(true);
         navigate.mockClear();
         await fireEvent.click(button());
-        const ctrl = new MouseEvent("click", { bubbles: true, cancelable: true, button: 0, ctrlKey: true });
+        const ctrl = new MouseEvent("click", {
+            bubbles: true,
+            cancelable: true,
+            button: 0,
+            ctrlKey: true,
+        });
         links()[0].dispatchEvent(ctrl);
         expect(navigate).not.toHaveBeenCalled();
         expect(ctrl.defaultPrevented).toBe(false);
@@ -242,9 +258,13 @@ describe("LinkPicker", () => {
 describe("LinkPicker — open state and disabled (§open)", () => {
     test("open starts the popup open (aria-expanded) without calling onOpenChange", async () => {
         const onOpenChange = vi.fn();
-        render(LinkPicker, { props: { ...{ label: "Pages", links: LINKS }, open: true, onOpenChange } });
+        render(LinkPicker, {
+            props: { ...{ label: "Pages", links: LINKS }, open: true, onOpenChange },
+        });
         await flush();
-        expect(screen.getByRole("button", { name: "Pages" }).getAttribute("aria-expanded")).toBe("true");
+        expect(screen.getByRole("button", { name: "Pages" }).getAttribute("aria-expanded")).toBe(
+            "true",
+        );
         expect(onOpenChange).not.toHaveBeenCalled();
     });
 
@@ -263,7 +283,9 @@ describe("LinkPicker — open state and disabled (§open)", () => {
 
     test("disabled disables the button and it cannot open", async () => {
         const onOpenChange = vi.fn();
-        render(LinkPicker, { props: { ...{ label: "Pages", links: LINKS }, disabled: true, onOpenChange } });
+        render(LinkPicker, {
+            props: { ...{ label: "Pages", links: LINKS }, disabled: true, onOpenChange },
+        });
         const button = screen.getByRole("button", { name: "Pages" }) as HTMLButtonElement;
         expect(button.disabled).toBe(true);
         await fireEvent.click(button);
@@ -273,9 +295,12 @@ describe("LinkPicker — open state and disabled (§open)", () => {
     });
 
     test("disabled closes a popup that was open", async () => {
-        render(LinkPicker, { props: { ...{ label: "Pages", links: LINKS }, open: true, disabled: true } });
+        render(LinkPicker, {
+            props: { ...{ label: "Pages", links: LINKS }, open: true, disabled: true },
+        });
         await flush();
-        expect(screen.getByRole("button", { name: "Pages" }).getAttribute("aria-expanded")).toBe("false");
+        expect(screen.getByRole("button", { name: "Pages" }).getAttribute("aria-expanded")).toBe(
+            "false",
+        );
     });
 });
-

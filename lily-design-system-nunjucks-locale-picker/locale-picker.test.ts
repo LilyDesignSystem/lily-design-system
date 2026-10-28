@@ -5,880 +5,819 @@ import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
-  autoInit,
-  bcp47LocaleTag,
-  derivedLocaleLabel,
-  initLocalePicker,
-  isRtlLocale,
-  localeEndonym,
-  localeName,
-  matchNavigatorLanguage,
+    autoInit,
+    bcp47LocaleTag,
+    derivedLocaleLabel,
+    initLocalePicker,
+    isRtlLocale,
+    localeEndonym,
+    localeName,
+    matchNavigatorLanguage,
 } from "./locale-picker.client.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const env = nunjucks.configure(__dirname, {
-  autoescape: true,
-  throwOnUndefined: false,
-  trimBlocks: true,
-  lstripBlocks: true,
+    autoescape: true,
+    throwOnUndefined: false,
+    trimBlocks: true,
+    lstripBlocks: true,
 });
 
 const LOCALES = ["en", "en_US", "fr", "fr_CA", "ar"];
 
 function renderMacro(opts: Record<string, unknown>): string {
-  const src =
-    `{% from "./locale-picker.njk" import localePicker %}` +
-    `{{ localePicker(opts) }}`;
-  return env.renderString(src, { opts });
+    const src = `{% from "./locale-picker.njk" import localePicker %}` + `{{ localePicker(opts) }}`;
+    return env.renderString(src, { opts });
 }
 
-function renderMacroWithCaller(
-  opts: Record<string, unknown>,
-  body: string,
-): string {
-  const src =
-    `{% from "./locale-picker.njk" import localePicker %}` +
-    `{% call localePicker(opts) %}${body}{% endcall %}`;
-  return env.renderString(src, { opts });
+function renderMacroWithCaller(opts: Record<string, unknown>, body: string): string {
+    const src =
+        `{% from "./locale-picker.njk" import localePicker %}` +
+        `{% call localePicker(opts) %}${body}{% endcall %}`;
+    return env.renderString(src, { opts });
 }
 
 function mountIntoBody(html: string): HTMLElement {
-  document.body.innerHTML = html;
-  return document.body.querySelector(
-    "[data-lily-locale-picker-root]",
-  ) as HTMLElement;
+    document.body.innerHTML = html;
+    return document.body.querySelector("[data-lily-locale-picker-root]") as HTMLElement;
 }
 
 type Parts = {
-  root: HTMLElement;
-  button: HTMLButtonElement;
-  list: HTMLElement;
-  options: HTMLElement[];
-  input: HTMLInputElement;
+    root: HTMLElement;
+    button: HTMLButtonElement;
+    list: HTMLElement;
+    options: HTMLElement[];
+    input: HTMLInputElement;
 };
 
 function partsOf(root: HTMLElement): Parts {
-  return {
-    root,
-    button: root.querySelector(".locale-picker-button") as HTMLButtonElement,
-    list: root.querySelector(".locale-picker-list") as HTMLElement,
-    options: Array.from(
-      root.querySelectorAll<HTMLElement>(".locale-picker-option"),
-    ),
-    input: root.querySelector(
-      "[data-lily-locale-picker-input]",
-    ) as HTMLInputElement,
-  };
+    return {
+        root,
+        button: root.querySelector(".locale-picker-button") as HTMLButtonElement,
+        list: root.querySelector(".locale-picker-list") as HTMLElement,
+        options: Array.from(root.querySelectorAll<HTMLElement>(".locale-picker-option")),
+        input: root.querySelector("[data-lily-locale-picker-input]") as HTMLInputElement,
+    };
 }
 
 /** Render + mount + init in one step, returning the DOM parts. */
-function setup(
-  opts: Record<string, unknown> = {},
-  initOpts: Record<string, unknown> = {},
-) {
-  const root = mountIntoBody(
-    renderMacro({ label: "Language", locales: LOCALES, ...opts }),
-  );
-  const controller = initLocalePicker(root, initOpts);
-  return { ...partsOf(root), controller };
+function setup(opts: Record<string, unknown> = {}, initOpts: Record<string, unknown> = {}) {
+    const root = mountIntoBody(renderMacro({ label: "Language", locales: LOCALES, ...opts }));
+    const controller = initLocalePicker(root, initOpts);
+    return { ...partsOf(root), controller };
 }
 
 function key(el: Element, k: string, init: KeyboardEventInit = {}) {
-  el.dispatchEvent(
-    new KeyboardEvent("keydown", { key: k, bubbles: true, ...init }),
-  );
+    el.dispatchEvent(new KeyboardEvent("keydown", { key: k, bubbles: true, ...init }));
 }
 
 function click(el: Element) {
-  el.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    el.dispatchEvent(new MouseEvent("click", { bubbles: true }));
 }
 
 function resetRoot(): void {
-  document.documentElement.removeAttribute("lang");
-  document.documentElement.removeAttribute("dir");
+    document.documentElement.removeAttribute("lang");
+    document.documentElement.removeAttribute("dir");
 }
 
 beforeEach(() => {
-  resetRoot();
-  document.body.innerHTML = "";
-  try {
-    localStorage.clear();
-  } catch {
-    /* ignore */
-  }
+    resetRoot();
+    document.body.innerHTML = "";
+    try {
+        localStorage.clear();
+    } catch {
+        /* ignore */
+    }
 });
 
 afterEach(() => {
-  resetRoot();
+    resetRoot();
 });
 
 describe("LocalePicker — macro markup contract (§7.1–§7.6)", () => {
-  test("§7.1 macro renders a div root containing a button that controls a listbox", () => {
-    const root = mountIntoBody(
-      renderMacro({ label: "Language", locales: LOCALES }),
-    );
-    expect(root.tagName).toBe("DIV");
-    expect(root.classList.contains("locale-picker")).toBe(true);
+    test("§7.1 macro renders a div root containing a button that controls a listbox", () => {
+        const root = mountIntoBody(renderMacro({ label: "Language", locales: LOCALES }));
+        expect(root.tagName).toBe("DIV");
+        expect(root.classList.contains("locale-picker")).toBe(true);
 
-    const { button, list } = partsOf(root);
-    expect(button.tagName).toBe("BUTTON");
-    expect(button.getAttribute("type")).toBe("button");
-    expect(button.getAttribute("aria-haspopup")).toBe("listbox");
-    expect(button.getAttribute("aria-expanded")).toBe("false");
-    expect(button.getAttribute("aria-controls")).toBe(list.id);
-    expect(list.getAttribute("role")).toBe("listbox");
-    expect(list.getAttribute("tabindex")).toBe("-1");
-  });
+        const { button, list } = partsOf(root);
+        expect(button.tagName).toBe("BUTTON");
+        expect(button.getAttribute("type")).toBe("button");
+        expect(button.getAttribute("aria-haspopup")).toBe("listbox");
+        expect(button.getAttribute("aria-expanded")).toBe("false");
+        expect(button.getAttribute("aria-controls")).toBe(list.id);
+        expect(list.getAttribute("role")).toBe("listbox");
+        expect(list.getAttribute("tabindex")).toBe("-1");
+    });
 
-  test("§7.1 the button renders the default globe SVG icon, hidden from assistive tech", () => {
-    const root = mountIntoBody(
-      renderMacro({ label: "Language", locales: LOCALES }),
-    );
-    const icon = root.querySelector(".locale-picker-icon") as SVGElement;
-    expect(icon.tagName.toLowerCase()).toBe("svg");
-    expect(icon.getAttribute("aria-hidden")).toBe("true");
-    expect(icon.querySelector("circle")).toBeTruthy();
-  });
+    test("§7.1 the button renders the default globe SVG icon, hidden from assistive tech", () => {
+        const root = mountIntoBody(renderMacro({ label: "Language", locales: LOCALES }));
+        const icon = root.querySelector(".locale-picker-icon") as SVGElement;
+        expect(icon.tagName.toLowerCase()).toBe("svg");
+        expect(icon.getAttribute("aria-hidden")).toBe("true");
+        expect(icon.querySelector("circle")).toBeTruthy();
+    });
 
-  test("§7.2 aria-label names both the button and the listbox", () => {
-    const root = mountIntoBody(
-      renderMacro({ label: "Choose language", locales: LOCALES }),
-    );
-    const { button, list } = partsOf(root);
-    expect(button.getAttribute("aria-label")).toBe("Choose language");
-    expect(list.getAttribute("aria-label")).toBe("Choose language");
-  });
+    test("§7.2 aria-label names both the button and the listbox", () => {
+        const root = mountIntoBody(renderMacro({ label: "Choose language", locales: LOCALES }));
+        const { button, list } = partsOf(root);
+        expect(button.getAttribute("aria-label")).toBe("Choose language");
+        expect(list.getAttribute("aria-label")).toBe("Choose language");
+    });
 
-  test("§7.3 one option per locale; the hidden input carries the supplied name", () => {
-    const root = mountIntoBody(
-      renderMacro({ label: "Language", locales: LOCALES, name: "lang" }),
-    );
-    const { options, input } = partsOf(root);
-    expect(options.length).toBe(LOCALES.length);
-    expect(input.type).toBe("hidden");
-    expect(input.name).toBe("lang");
-  });
+    test("§7.3 one option per locale; the hidden input carries the supplied name", () => {
+        const root = mountIntoBody(
+            renderMacro({ label: "Language", locales: LOCALES, name: "lang" }),
+        );
+        const { options, input } = partsOf(root);
+        expect(options.length).toBe(LOCALES.length);
+        expect(input.type).toBe("hidden");
+        expect(input.name).toBe("lang");
+    });
 
-  test("§7.4 each option carries the locale code on data-value and a stable unique id", () => {
-    const root = mountIntoBody(
-      renderMacro({ label: "Language", locales: LOCALES }),
-    );
-    const { options } = partsOf(root);
-    expect(options.map((o) => o.getAttribute("data-value"))).toEqual(LOCALES);
+    test("§7.4 each option carries the locale code on data-value and a stable unique id", () => {
+        const root = mountIntoBody(renderMacro({ label: "Language", locales: LOCALES }));
+        const { options } = partsOf(root);
+        expect(options.map((o) => o.getAttribute("data-value"))).toEqual(LOCALES);
 
-    const ids = options.map((o) => o.id);
-    expect(new Set(ids).size).toBe(ids.length);
-    expect(ids.every((id) => id.length > 0)).toBe(true);
+        const ids = options.map((o) => o.id);
+        expect(new Set(ids).size).toBe(ids.length);
+        expect(ids.every((id) => id.length > 0)).toBe(true);
 
-    // Deterministic across renders: no Math.random / Date.now.
-    const again = mountIntoBody(
-      renderMacro({ label: "Language", locales: LOCALES }),
-    );
-    expect(partsOf(again).options.map((o) => o.id)).toEqual(ids);
-  });
+        // Deterministic across renders: no Math.random / Date.now.
+        const again = mountIntoBody(renderMacro({ label: "Language", locales: LOCALES }));
+        expect(partsOf(again).options.map((o) => o.id)).toEqual(ids);
+    });
 
-  test("§7.4 an explicit id namespaces the listbox and its options", () => {
-    const root = mountIntoBody(
-      renderMacro({
-        label: "Language",
-        locales: LOCALES,
-        id: "footer-locale",
-      }),
-    );
-    const { list, options } = partsOf(root);
-    expect(list.id).toBe("footer-locale-list");
-    expect(options[0].id).toBe("footer-locale-option-0");
-  });
+    test("§7.4 an explicit id namespaces the listbox and its options", () => {
+        const root = mountIntoBody(
+            renderMacro({
+                label: "Language",
+                locales: LOCALES,
+                id: "footer-locale",
+            }),
+        );
+        const { list, options } = partsOf(root);
+        expect(list.id).toBe("footer-locale-list");
+        expect(options[0].id).toBe("footer-locale-option-0");
+    });
 
-  test("§7.5 the macro emits no lang; init claims it, in BCP 47 form, only on endonym-labelled options", () => {
-    const root = mountIntoBody(
-      renderMacro({
-        label: "Language",
-        locales: ["en", "en_US", "zh_Hant_TW"],
-      }),
-    );
-    const { button, list, options } = partsOf(root);
-    // Server-side the option text is the raw-code fallback — a
-    // template cannot ask ICU for an endonym — and a raw code is not
-    // text in that language, so the macro makes no lang claim at all.
-    expect(options.every((o) => !o.hasAttribute("lang"))).toBe(true);
-    initLocalePicker(root);
-    // After init the text IS the endonym, so lang is a true claim,
-    // in BCP 47 hyphen form.
-    expect(options[0].getAttribute("lang")).toBe("en");
-    expect(options[1].getAttribute("lang")).toBe("en-US");
-    expect(options[2].getAttribute("lang")).toBe("zh-Hant-TW");
-    // Chrome, not content: no lang on the button or the listbox itself.
-    expect(button.hasAttribute("lang")).toBe(false);
-    expect(list.hasAttribute("lang")).toBe(false);
-  });
+    test("§7.5 the macro emits no lang; init claims it, in BCP 47 form, only on endonym-labelled options", () => {
+        const root = mountIntoBody(
+            renderMacro({
+                label: "Language",
+                locales: ["en", "en_US", "zh_Hant_TW"],
+            }),
+        );
+        const { button, list, options } = partsOf(root);
+        // Server-side the option text is the raw-code fallback — a
+        // template cannot ask ICU for an endonym — and a raw code is not
+        // text in that language, so the macro makes no lang claim at all.
+        expect(options.every((o) => !o.hasAttribute("lang"))).toBe(true);
+        initLocalePicker(root);
+        // After init the text IS the endonym, so lang is a true claim,
+        // in BCP 47 hyphen form.
+        expect(options[0].getAttribute("lang")).toBe("en");
+        expect(options[1].getAttribute("lang")).toBe("en-US");
+        expect(options[2].getAttribute("lang")).toBe("zh-Hant-TW");
+        // Chrome, not content: no lang on the button or the listbox itself.
+        expect(button.hasAttribute("lang")).toBe(false);
+        expect(list.hasAttribute("lang")).toBe(false);
+    });
 
-  test("§7.6 localeLabels override the option text; missing entries fall back to code", () => {
-    const root = mountIntoBody(
-      renderMacro({
-        label: "Language",
-        locales: ["en", "fr", "xx"],
-        localeLabels: { en: "English", fr: "Français" },
-      }),
-    );
-    const text = root.textContent || "";
-    expect(text).toMatch(/English/);
-    expect(text).toMatch(/Français/);
-    expect(text).toMatch(/xx/);
-  });
+    test("§7.6 localeLabels override the option text; missing entries fall back to code", () => {
+        const root = mountIntoBody(
+            renderMacro({
+                label: "Language",
+                locales: ["en", "fr", "xx"],
+                localeLabels: { en: "English", fr: "Français" },
+            }),
+        );
+        const text = root.textContent || "";
+        expect(text).toMatch(/English/);
+        expect(text).toMatch(/Français/);
+        expect(text).toMatch(/xx/);
+    });
 });
 
 describe("LocalePicker — server-rendered listbox state (§7.28–§7.30)", () => {
-  // These replace the retired "only the placeholder is selected"
-  // regression guard: there is no placeholder and no <select> any more,
-  // so the meaningful pre-hydration invariants are (a) the listbox is
-  // closed and (b) exactly one option is marked selected.
+    // These replace the retired "only the placeholder is selected"
+    // regression guard: there is no placeholder and no <select> any more,
+    // so the meaningful pre-hydration invariants are (a) the listbox is
+    // closed and (b) exactly one option is marked selected.
 
-  test("§7.28 the listbox renders hidden and the button collapsed, before any JS runs", () => {
-    const root = mountIntoBody(
-      renderMacro({ label: "Language", locales: LOCALES, value: "fr" }),
-    );
-    const { button, list } = partsOf(root);
-    expect(list.hasAttribute("hidden")).toBe(true);
-    expect(button.getAttribute("aria-expanded")).toBe("false");
-    expect(list.hasAttribute("aria-activedescendant")).toBe(false);
-    expect(root.querySelector("[data-active]")).toBeNull();
-  });
+    test("§7.28 the listbox renders hidden and the button collapsed, before any JS runs", () => {
+        const root = mountIntoBody(
+            renderMacro({ label: "Language", locales: LOCALES, value: "fr" }),
+        );
+        const { button, list } = partsOf(root);
+        expect(list.hasAttribute("hidden")).toBe(true);
+        expect(button.getAttribute("aria-expanded")).toBe("false");
+        expect(list.hasAttribute("aria-activedescendant")).toBe(false);
+        expect(root.querySelector("[data-active]")).toBeNull();
+    });
 
-  test("§7.29 exactly one option is aria-selected in the server markup, and it is opts.value", () => {
-    const root = mountIntoBody(
-      renderMacro({ label: "Language", locales: LOCALES, value: "fr" }),
-    );
-    const { options } = partsOf(root);
-    const selected = options.filter(
-      (o) => o.getAttribute("aria-selected") === "true",
-    );
-    expect(selected.length).toBe(1);
-    expect(selected[0].getAttribute("data-value")).toBe("fr");
-    expect(options.every((o) => o.hasAttribute("aria-selected"))).toBe(true);
-  });
+    test("§7.29 exactly one option is aria-selected in the server markup, and it is opts.value", () => {
+        const root = mountIntoBody(
+            renderMacro({ label: "Language", locales: LOCALES, value: "fr" }),
+        );
+        const { options } = partsOf(root);
+        const selected = options.filter((o) => o.getAttribute("aria-selected") === "true");
+        expect(selected.length).toBe(1);
+        expect(selected[0].getAttribute("data-value")).toBe("fr");
+        expect(options.every((o) => o.hasAttribute("aria-selected"))).toBe(true);
+    });
 
-  test("§7.29 with no value, the server marks 'en' selected; without 'en', the first locale", () => {
-    const withEn = mountIntoBody(
-      renderMacro({ label: "Language", locales: LOCALES }),
-    );
-    expect(
-      partsOf(withEn)
-        .options.find((o) => o.getAttribute("aria-selected") === "true")!
-        .getAttribute("data-value"),
-    ).toBe("en");
+    test("§7.29 with no value, the server marks 'en' selected; without 'en', the first locale", () => {
+        const withEn = mountIntoBody(renderMacro({ label: "Language", locales: LOCALES }));
+        expect(
+            partsOf(withEn)
+                .options.find((o) => o.getAttribute("aria-selected") === "true")!
+                .getAttribute("data-value"),
+        ).toBe("en");
 
-    const withoutEn = mountIntoBody(
-      renderMacro({ label: "Language", locales: ["fr", "ar"] }),
-    );
-    expect(
-      partsOf(withoutEn)
-        .options.find((o) => o.getAttribute("aria-selected") === "true")!
-        .getAttribute("data-value"),
-    ).toBe("fr");
-  });
+        const withoutEn = mountIntoBody(renderMacro({ label: "Language", locales: ["fr", "ar"] }));
+        expect(
+            partsOf(withoutEn)
+                .options.find((o) => o.getAttribute("aria-selected") === "true")!
+                .getAttribute("data-value"),
+        ).toBe("fr");
+    });
 
-  test("§7.30 the hidden input is pre-filled server-side so a no-JS form submit still carries a locale", () => {
-    const root = mountIntoBody(
-      renderMacro({ label: "Language", locales: LOCALES, value: "fr_CA" }),
-    );
-    expect(partsOf(root).input.value).toBe("fr_CA");
-  });
+    test("§7.30 the hidden input is pre-filled server-side so a no-JS form submit still carries a locale", () => {
+        const root = mountIntoBody(
+            renderMacro({ label: "Language", locales: LOCALES, value: "fr_CA" }),
+        );
+        expect(partsOf(root).input.value).toBe("fr_CA");
+    });
 });
 
 describe("LocalePicker — keyboard contract (APG listbox, §7.31–§7.35)", () => {
-  test("§7.31 ArrowDown, Enter and Space all open the listbox and focus it", () => {
-    for (const k of ["ArrowDown", "Enter", " "]) {
-      const { button, list } = setup();
-      key(button, k);
-      expect(list.hasAttribute("hidden")).toBe(false);
-      expect(button.getAttribute("aria-expanded")).toBe("true");
-      expect(document.activeElement).toBe(list);
-    }
-  });
+    test("§7.31 ArrowDown, Enter and Space all open the listbox and focus it", () => {
+        for (const k of ["ArrowDown", "Enter", " "]) {
+            const { button, list } = setup();
+            key(button, k);
+            expect(list.hasAttribute("hidden")).toBe(false);
+            expect(button.getAttribute("aria-expanded")).toBe("true");
+            expect(document.activeElement).toBe(list);
+        }
+    });
 
-  test("§7.31 ArrowUp opens with the last option active", () => {
-    const { button, list, options } = setup();
-    key(button, "ArrowUp");
-    expect(list.getAttribute("aria-activedescendant")).toBe(
-      options[LOCALES.length - 1].id,
-    );
-  });
+    test("§7.31 ArrowUp opens with the last option active", () => {
+        const { button, list, options } = setup();
+        key(button, "ArrowUp");
+        expect(list.getAttribute("aria-activedescendant")).toBe(options[LOCALES.length - 1].id);
+    });
 
-  test("§7.32 opening puts the active descendant on the selected locale", () => {
-    // "en" resolves as the initial locale, so it is index 0.
-    const { button, list, options } = setup();
-    key(button, "ArrowDown");
-    expect(list.getAttribute("aria-activedescendant")).toBe(options[0].id);
-    expect(options[0].hasAttribute("data-active")).toBe(true);
-  });
+    test("§7.32 opening puts the active descendant on the selected locale", () => {
+        // "en" resolves as the initial locale, so it is index 0.
+        const { button, list, options } = setup();
+        key(button, "ArrowDown");
+        expect(list.getAttribute("aria-activedescendant")).toBe(options[0].id);
+        expect(options[0].hasAttribute("data-active")).toBe(true);
+    });
 
-  test("§7.32 ArrowDown / ArrowUp move the active descendant and clamp", () => {
-    const { button, list, options } = setup();
-    key(button, "ArrowDown");
-    key(list, "ArrowDown");
-    expect(list.getAttribute("aria-activedescendant")).toBe(options[1].id);
-    key(list, "ArrowUp");
-    expect(list.getAttribute("aria-activedescendant")).toBe(options[0].id);
-    // Clamps at the top rather than wrapping.
-    key(list, "ArrowUp");
-    expect(list.getAttribute("aria-activedescendant")).toBe(options[0].id);
-    // ...and at the bottom.
-    key(list, "End");
-    key(list, "ArrowDown");
-    expect(list.getAttribute("aria-activedescendant")).toBe(
-      options[LOCALES.length - 1].id,
-    );
-  });
+    test("§7.32 ArrowDown / ArrowUp move the active descendant and clamp", () => {
+        const { button, list, options } = setup();
+        key(button, "ArrowDown");
+        key(list, "ArrowDown");
+        expect(list.getAttribute("aria-activedescendant")).toBe(options[1].id);
+        key(list, "ArrowUp");
+        expect(list.getAttribute("aria-activedescendant")).toBe(options[0].id);
+        // Clamps at the top rather than wrapping.
+        key(list, "ArrowUp");
+        expect(list.getAttribute("aria-activedescendant")).toBe(options[0].id);
+        // ...and at the bottom.
+        key(list, "End");
+        key(list, "ArrowDown");
+        expect(list.getAttribute("aria-activedescendant")).toBe(options[LOCALES.length - 1].id);
+    });
 
-  test("§7.32 Home and End jump to the first and last option", () => {
-    const { button, list, options } = setup();
-    key(button, "ArrowDown");
-    key(list, "End");
-    expect(list.getAttribute("aria-activedescendant")).toBe(
-      options[LOCALES.length - 1].id,
-    );
-    key(list, "Home");
-    expect(list.getAttribute("aria-activedescendant")).toBe(options[0].id);
-  });
+    test("§7.32 Home and End jump to the first and last option", () => {
+        const { button, list, options } = setup();
+        key(button, "ArrowDown");
+        key(list, "End");
+        expect(list.getAttribute("aria-activedescendant")).toBe(options[LOCALES.length - 1].id);
+        key(list, "Home");
+        expect(list.getAttribute("aria-activedescendant")).toBe(options[0].id);
+    });
 
-  test("§7.33 Enter selects the active option, applies it, closes, and returns focus", () => {
-    const onChange = vi.fn();
-    const { button, list, input } = setup({}, { onChange });
-    key(button, "ArrowDown");
-    key(list, "ArrowDown");
-    key(list, "Enter");
-    expect(list.hasAttribute("hidden")).toBe(true);
-    expect(button.getAttribute("aria-expanded")).toBe("false");
-    expect(document.documentElement.lang).toBe("en-US");
-    // onChange and the hidden input carry the consumer-form code.
-    expect(input.value).toBe("en_US");
-    expect(onChange).toHaveBeenLastCalledWith("en_US");
-    expect(document.activeElement).toBe(button);
-  });
+    test("§7.33 Enter selects the active option, applies it, closes, and returns focus", () => {
+        const onChange = vi.fn();
+        const { button, list, input } = setup({}, { onChange });
+        key(button, "ArrowDown");
+        key(list, "ArrowDown");
+        key(list, "Enter");
+        expect(list.hasAttribute("hidden")).toBe(true);
+        expect(button.getAttribute("aria-expanded")).toBe("false");
+        expect(document.documentElement.lang).toBe("en-US");
+        // onChange and the hidden input carry the consumer-form code.
+        expect(input.value).toBe("en_US");
+        expect(onChange).toHaveBeenLastCalledWith("en_US");
+        expect(document.activeElement).toBe(button);
+    });
 
-  test("§7.33 Space also selects the active option", () => {
-    const { button, list } = setup();
-    key(button, "ArrowDown");
-    key(list, "End");
-    key(list, " ");
-    expect(document.documentElement.lang).toBe("ar");
-    expect(document.documentElement.dir).toBe("rtl");
-    expect(list.hasAttribute("hidden")).toBe(true);
-  });
+    test("§7.33 Space also selects the active option", () => {
+        const { button, list } = setup();
+        key(button, "ArrowDown");
+        key(list, "End");
+        key(list, " ");
+        expect(document.documentElement.lang).toBe("ar");
+        expect(document.documentElement.dir).toBe("rtl");
+        expect(list.hasAttribute("hidden")).toBe(true);
+    });
 
-  test("§7.34 Escape closes and returns focus without changing the locale", () => {
-    const onChange = vi.fn();
-    const { button, list } = setup({}, { onChange });
-    onChange.mockClear(); // ignore the initial apply
-    key(button, "ArrowDown");
-    key(list, "ArrowDown");
-    key(list, "Escape");
-    expect(list.hasAttribute("hidden")).toBe(true);
-    expect(document.documentElement.lang).toBe("en");
-    expect(onChange).not.toHaveBeenCalled();
-    expect(document.activeElement).toBe(button);
-  });
+    test("§7.34 Escape closes and returns focus without changing the locale", () => {
+        const onChange = vi.fn();
+        const { button, list } = setup({}, { onChange });
+        onChange.mockClear(); // ignore the initial apply
+        key(button, "ArrowDown");
+        key(list, "ArrowDown");
+        key(list, "Escape");
+        expect(list.hasAttribute("hidden")).toBe(true);
+        expect(document.documentElement.lang).toBe("en");
+        expect(onChange).not.toHaveBeenCalled();
+        expect(document.activeElement).toBe(button);
+    });
 
-  test("§7.34 Tab closes and puts focus on the button so the default Tab proceeds from the picker", () => {
-    const { button, list } = setup();
-    key(button, "ArrowDown");
-    expect(document.activeElement).toBe(list);
-    key(list, "Tab");
-    expect(list.hasAttribute("hidden")).toBe(true);
-    // Focus sits on the button — not <body>, which is where it lands
-    // when the focused list is hidden first, sending the browser's
-    // default Tab back to the top of the document.
-    expect(document.activeElement).toBe(button);
-  });
+    test("§7.34 Tab closes and puts focus on the button so the default Tab proceeds from the picker", () => {
+        const { button, list } = setup();
+        key(button, "ArrowDown");
+        expect(document.activeElement).toBe(list);
+        key(list, "Tab");
+        expect(list.hasAttribute("hidden")).toBe(true);
+        // Focus sits on the button — not <body>, which is where it lands
+        // when the focused list is hidden first, sending the browser's
+        // default Tab back to the top of the document.
+        expect(document.activeElement).toBe(button);
+    });
 
-  test("§7.35 typeahead moves the active descendant by label prefix", () => {
-    const { button, list, options } = setup();
-    key(button, "ArrowDown");
-    key(list, "f"); // "fr" is index 2
-    expect(list.getAttribute("aria-activedescendant")).toBe(options[2].id);
-  });
+    test("§7.35 typeahead moves the active descendant by label prefix", () => {
+        const { button, list, options } = setup();
+        key(button, "ArrowDown");
+        key(list, "f"); // "fr" is index 2
+        expect(list.getAttribute("aria-activedescendant")).toBe(options[2].id);
+    });
 
-  test("§7.35 the typeahead buffer accumulates, then resets after 500ms", () => {
-    vi.useFakeTimers();
-    try {
-      // Labels pinned via localeLabels so the assertions do not depend
-      // on ICU's endonym wording.
-      const { button, list, options } = setup({
-        localeLabels: {
-          en: "English",
-          en_US: "American",
-          fr: "French",
-          fr_CA: "Frisian",
-          ar: "Arabic",
-        },
-      });
-      key(button, "ArrowDown");
-      // "fri" (differing characters) refines to the one "Fri…" label.
-      key(list, "f");
-      key(list, "r");
-      key(list, "i");
-      expect(list.getAttribute("aria-activedescendant")).toBe(options[3].id);
-      // After the reset window, a lone "a" starts a fresh search.
-      vi.advanceTimersByTime(600);
-      key(list, "a");
-      expect(list.getAttribute("aria-activedescendant")).toBe(options[4].id);
-    } finally {
-      vi.useRealTimers();
-    }
-  });
+    test("§7.35 the typeahead buffer accumulates, then resets after 500ms", () => {
+        vi.useFakeTimers();
+        try {
+            // Labels pinned via localeLabels so the assertions do not depend
+            // on ICU's endonym wording.
+            const { button, list, options } = setup({
+                localeLabels: {
+                    en: "English",
+                    en_US: "American",
+                    fr: "French",
+                    fr_CA: "Frisian",
+                    ar: "Arabic",
+                },
+            });
+            key(button, "ArrowDown");
+            // "fri" (differing characters) refines to the one "Fri…" label.
+            key(list, "f");
+            key(list, "r");
+            key(list, "i");
+            expect(list.getAttribute("aria-activedescendant")).toBe(options[3].id);
+            // After the reset window, a lone "a" starts a fresh search.
+            vi.advanceTimersByTime(600);
+            key(list, "a");
+            expect(list.getAttribute("aria-activedescendant")).toBe(options[4].id);
+        } finally {
+            vi.useRealTimers();
+        }
+    });
 
-  test("§7.35 modifier chords are not treated as typeahead", () => {
-    const { button, list, options } = setup();
-    key(button, "ArrowDown");
-    key(list, "f", { metaKey: true });
-    expect(list.getAttribute("aria-activedescendant")).toBe(options[0].id);
-  });
+    test("§7.35 modifier chords are not treated as typeahead", () => {
+        const { button, list, options } = setup();
+        key(button, "ArrowDown");
+        key(list, "f", { metaKey: true });
+        expect(list.getAttribute("aria-activedescendant")).toBe(options[0].id);
+    });
 
-  test("§7.35 clicking an option selects it, applies it, and closes the listbox", () => {
-    const { button, list, options } = setup();
-    click(button);
-    click(options[4]);
-    expect(document.documentElement.lang).toBe("ar");
-    expect(document.documentElement.dir).toBe("rtl");
-    // A pointer selection closes, exactly as Enter does. The asymmetry
-    // would be invisible to a consumer reading the DOM: a stale
-    // aria-expanded over a hidden list makes every later click miss the
-    // options.
-    expect(list.hasAttribute("hidden")).toBe(true);
-    expect(button.getAttribute("aria-expanded")).toBe("false");
-  });
+    test("§7.35 clicking an option selects it, applies it, and closes the listbox", () => {
+        const { button, list, options } = setup();
+        click(button);
+        click(options[4]);
+        expect(document.documentElement.lang).toBe("ar");
+        expect(document.documentElement.dir).toBe("rtl");
+        // A pointer selection closes, exactly as Enter does. The asymmetry
+        // would be invisible to a consumer reading the DOM: a stale
+        // aria-expanded over a hidden list makes every later click miss the
+        // options.
+        expect(list.hasAttribute("hidden")).toBe(true);
+        expect(button.getAttribute("aria-expanded")).toBe("false");
+    });
 
-  test("§7.35 clicking the button toggles the listbox shut again", () => {
-    const { button, list } = setup();
-    click(button);
-    expect(list.hasAttribute("hidden")).toBe(false);
-    click(button);
-    expect(list.hasAttribute("hidden")).toBe(true);
-  });
+    test("§7.35 clicking the button toggles the listbox shut again", () => {
+        const { button, list } = setup();
+        click(button);
+        expect(list.hasAttribute("hidden")).toBe(false);
+        click(button);
+        expect(list.hasAttribute("hidden")).toBe(true);
+    });
 
-  test("§7.35 clicking outside the root closes the listbox", () => {
-    const { button, list } = setup();
-    const outside = document.createElement("p");
-    document.body.appendChild(outside);
-    click(button);
-    expect(list.hasAttribute("hidden")).toBe(false);
-    click(outside);
-    expect(list.hasAttribute("hidden")).toBe(true);
-    outside.remove();
-  });
+    test("§7.35 clicking outside the root closes the listbox", () => {
+        const { button, list } = setup();
+        const outside = document.createElement("p");
+        document.body.appendChild(outside);
+        click(button);
+        expect(list.hasAttribute("hidden")).toBe(false);
+        click(outside);
+        expect(list.hasAttribute("hidden")).toBe(true);
+        outside.remove();
+    });
 
-  test("§7.35 focus leaving the root closes the listbox", () => {
-    const { root, button, list } = setup();
-    const outside = document.createElement("button");
-    document.body.appendChild(outside);
-    key(button, "ArrowDown");
-    expect(list.hasAttribute("hidden")).toBe(false);
-    root.dispatchEvent(
-      new FocusEvent("focusout", {
-        bubbles: true,
-        relatedTarget: outside,
-      }),
-    );
-    expect(list.hasAttribute("hidden")).toBe(true);
-    outside.remove();
-  });
+    test("§7.35 focus leaving the root closes the listbox", () => {
+        const { root, button, list } = setup();
+        const outside = document.createElement("button");
+        document.body.appendChild(outside);
+        key(button, "ArrowDown");
+        expect(list.hasAttribute("hidden")).toBe(false);
+        root.dispatchEvent(
+            new FocusEvent("focusout", {
+                bubbles: true,
+                relatedTarget: outside,
+            }),
+        );
+        expect(list.hasAttribute("hidden")).toBe(true);
+        outside.remove();
+    });
 
-  test("§7.35 aria-selected follows the applied locale, not merely the active option", () => {
-    const { button, list, options } = setup();
-    key(button, "ArrowDown");
-    key(list, "ArrowDown"); // active = en_US, but not chosen yet
-    expect(options[0].getAttribute("aria-selected")).toBe("true");
-    expect(options[1].getAttribute("aria-selected")).toBe("false");
-    key(list, "Enter");
-    expect(options[0].getAttribute("aria-selected")).toBe("false");
-    expect(options[1].getAttribute("aria-selected")).toBe("true");
-  });
+    test("§7.35 aria-selected follows the applied locale, not merely the active option", () => {
+        const { button, list, options } = setup();
+        key(button, "ArrowDown");
+        key(list, "ArrowDown"); // active = en_US, but not chosen yet
+        expect(options[0].getAttribute("aria-selected")).toBe("true");
+        expect(options[1].getAttribute("aria-selected")).toBe("false");
+        key(list, "Enter");
+        expect(options[0].getAttribute("aria-selected")).toBe("false");
+        expect(options[1].getAttribute("aria-selected")).toBe("true");
+    });
 });
 
 describe("LocalePicker — pure helpers (§7.7–§7.12)", () => {
-  test("§7.7 bcp47LocaleTag converts en_US to en-US", () => {
-    expect(bcp47LocaleTag("en_US")).toBe("en-US");
-  });
+    test("§7.7 bcp47LocaleTag converts en_US to en-US", () => {
+        expect(bcp47LocaleTag("en_US")).toBe("en-US");
+    });
 
-  test("§7.8 bcp47LocaleTag converts zh_Hant_TW to zh-Hant-TW", () => {
-    expect(bcp47LocaleTag("zh_Hant_TW")).toBe("zh-Hant-TW");
-  });
+    test("§7.8 bcp47LocaleTag converts zh_Hant_TW to zh-Hant-TW", () => {
+        expect(bcp47LocaleTag("zh_Hant_TW")).toBe("zh-Hant-TW");
+    });
 
-  test("§7.9 bcp47LocaleTag leaves en untouched", () => {
-    expect(bcp47LocaleTag("en")).toBe("en");
-  });
+    test("§7.9 bcp47LocaleTag leaves en untouched", () => {
+        expect(bcp47LocaleTag("en")).toBe("en");
+    });
 
-  test("§7.10 isRtlLocale returns true for ar, he_IL, and uz_Arab_AF", () => {
-    expect(isRtlLocale("ar")).toBe(true);
-    expect(isRtlLocale("he_IL")).toBe(true);
-    expect(isRtlLocale("uz_Arab_AF")).toBe(true);
-  });
+    test("§7.10 isRtlLocale returns true for ar, he_IL, and uz_Arab_AF", () => {
+        expect(isRtlLocale("ar")).toBe(true);
+        expect(isRtlLocale("he_IL")).toBe(true);
+        expect(isRtlLocale("uz_Arab_AF")).toBe(true);
+    });
 
-  test("§7.11 isRtlLocale returns false for en and fr_CA", () => {
-    expect(isRtlLocale("en")).toBe(false);
-    expect(isRtlLocale("fr_CA")).toBe(false);
-  });
+    test("§7.11 isRtlLocale returns false for en and fr_CA", () => {
+        expect(isRtlLocale("en")).toBe(false);
+        expect(isRtlLocale("fr_CA")).toBe(false);
+    });
 
-  test("§7.12 localeName resolves en_US via the built-in table", () => {
-    expect(localeName("en_US")).toBe("English (United States)");
-  });
+    test("§7.12 localeName resolves en_US via the built-in table", () => {
+        expect(localeName("en_US")).toBe("English (United States)");
+    });
 });
 
 describe("LocalePicker — client.js lifecycle (§7.13–§7.17)", () => {
-  test("§7.13 init sets target.lang to the BCP 47 form of the resolved locale", () => {
-    setup({ defaultValue: "en_US" });
-    expect(document.documentElement.lang).toBe("en-US");
-  });
+    test("§7.13 init sets target.lang to the BCP 47 form of the resolved locale", () => {
+        setup({ defaultValue: "en_US" });
+        expect(document.documentElement.lang).toBe("en-US");
+    });
 
-  test("§7.14 init sets dir=rtl for an RTL initial locale", () => {
-    setup({ locales: ["ar", "en"], defaultValue: "ar" });
-    expect(document.documentElement.dir).toBe("rtl");
-  });
+    test("§7.14 init sets dir=rtl for an RTL initial locale", () => {
+        setup({ locales: ["ar", "en"], defaultValue: "ar" });
+        expect(document.documentElement.dir).toBe("rtl");
+    });
 
-  test("§7.15 when applyDir=false, dir is never written", () => {
-    setup({ locales: ["ar", "en"], defaultValue: "ar", applyDir: false });
-    expect(document.documentElement.hasAttribute("dir")).toBe(false);
-    expect(document.documentElement.lang).toBe("ar");
-  });
+    test("§7.15 when applyDir=false, dir is never written", () => {
+        setup({ locales: ["ar", "en"], defaultValue: "ar", applyDir: false });
+        expect(document.documentElement.hasAttribute("dir")).toBe(false);
+        expect(document.documentElement.lang).toBe("ar");
+    });
 
-  test("§7.16 choosing an option updates lang, dir, and fires onChange with consumer-form code", () => {
-    const onChange = vi.fn();
-    const { button, options } = setup({ defaultValue: "en" }, { onChange });
+    test("§7.16 choosing an option updates lang, dir, and fires onChange with consumer-form code", () => {
+        const onChange = vi.fn();
+        const { button, options } = setup({ defaultValue: "en" }, { onChange });
 
-    click(button);
-    click(options[1]); // en_US
-    expect(document.documentElement.lang).toBe("en-US");
-    expect(onChange).toHaveBeenLastCalledWith("en_US");
+        click(button);
+        click(options[1]); // en_US
+        expect(document.documentElement.lang).toBe("en-US");
+        expect(onChange).toHaveBeenLastCalledWith("en_US");
 
-    click(button);
-    click(options[4]); // ar
-    expect(document.documentElement.lang).toBe("ar");
-    expect(document.documentElement.dir).toBe("rtl");
-    expect(onChange).toHaveBeenLastCalledWith("ar");
-  });
+        click(button);
+        click(options[4]); // ar
+        expect(document.documentElement.lang).toBe("ar");
+        expect(document.documentElement.dir).toBe("rtl");
+        expect(onChange).toHaveBeenLastCalledWith("ar");
+    });
 
-  test("§7.17 a custom target receives lang and dir", () => {
-    const target = document.createElement("section");
-    document.body.appendChild(target);
-    const root = mountIntoBody(
-      renderMacro({
-        label: "Language",
-        locales: ["ar", "en"],
-        defaultValue: "ar",
-      }),
-    );
-    // mountIntoBody wiped the body, so re-attach the target.
-    document.body.appendChild(target);
-    initLocalePicker(root, { target });
-    expect(target.getAttribute("lang")).toBe("ar");
-    expect(target.getAttribute("dir")).toBe("rtl");
-    expect(document.documentElement.hasAttribute("lang")).toBe(false);
-    target.remove();
-  });
+    test("§7.17 a custom target receives lang and dir", () => {
+        const target = document.createElement("section");
+        document.body.appendChild(target);
+        const root = mountIntoBody(
+            renderMacro({
+                label: "Language",
+                locales: ["ar", "en"],
+                defaultValue: "ar",
+            }),
+        );
+        // mountIntoBody wiped the body, so re-attach the target.
+        document.body.appendChild(target);
+        initLocalePicker(root, { target });
+        expect(target.getAttribute("lang")).toBe("ar");
+        expect(target.getAttribute("dir")).toBe("rtl");
+        expect(document.documentElement.hasAttribute("lang")).toBe(false);
+        target.remove();
+    });
 });
 
 describe("LocalePicker — initial-value resolution (§7.18–§7.21, §7.26–§7.27)", () => {
-  test("§7.18 persists to localStorage and reads back on a fresh init", () => {
-    const { controller } = setup({ storageKey: "lily-locale" });
-    controller.setLocale("fr");
-    expect(localStorage.getItem("lily-locale")).toBe("fr");
-    controller.destroy();
-    resetRoot();
+    test("§7.18 persists to localStorage and reads back on a fresh init", () => {
+        const { controller } = setup({ storageKey: "lily-locale" });
+        controller.setLocale("fr");
+        expect(localStorage.getItem("lily-locale")).toBe("fr");
+        controller.destroy();
+        resetRoot();
 
-    setup({ storageKey: "lily-locale" });
-    expect(document.documentElement.lang).toBe("fr");
-  });
-
-  test("§7.19 a supplied non-empty value (carried on the data attribute) wins over storage and defaults", () => {
-    localStorage.setItem("lily-locale", "ar");
-    const root = mountIntoBody(
-      renderMacro({
-        label: "Language",
-        locales: LOCALES,
-        value: "en",
-        storageKey: "lily-locale",
-        defaultValue: "fr",
-      }),
-    );
-    expect(root.getAttribute("data-lily-locale-picker-value")).toBe("en");
-    initLocalePicker(root);
-    expect(document.documentElement.lang).toBe("en");
-  });
-
-  test("§7.26 the value data attribute is the sole channel for opts.value", () => {
-    const root = mountIntoBody(
-      renderMacro({ label: "Language", locales: LOCALES, value: "fr" }),
-    );
-    expect(root.getAttribute("data-lily-locale-picker-value")).toBe("fr");
-    initLocalePicker(root);
-    expect(document.documentElement.lang).toBe("fr");
-  });
-
-  test("§7.27 the value data attribute is omitted entirely when opts.value is unset", () => {
-    const root = mountIntoBody(
-      renderMacro({ label: "Language", locales: LOCALES }),
-    );
-    expect(root.hasAttribute("data-lily-locale-picker-value")).toBe(false);
-  });
-
-  test("§7.20 navigator detection resolves exact match", () => {
-    const original = Object.getOwnPropertyDescriptor(
-      window.navigator,
-      "languages",
-    );
-    Object.defineProperty(window.navigator, "languages", {
-      configurable: true,
-      get: () => ["fr-CA", "fr"],
+        setup({ storageKey: "lily-locale" });
+        expect(document.documentElement.lang).toBe("fr");
     });
-    setup({ locales: ["en", "fr_CA", "fr"], detectFromNavigator: true });
-    expect(document.documentElement.lang).toBe("fr-CA");
-    if (original)
-      Object.defineProperty(window.navigator, "languages", original);
-  });
 
-  test("§7.21 navigator detection falls back to language-only match", () => {
-    const original = Object.getOwnPropertyDescriptor(
-      window.navigator,
-      "languages",
-    );
-    Object.defineProperty(window.navigator, "languages", {
-      configurable: true,
-      get: () => ["fr-CA"],
+    test("§7.19 a supplied non-empty value (carried on the data attribute) wins over storage and defaults", () => {
+        localStorage.setItem("lily-locale", "ar");
+        const root = mountIntoBody(
+            renderMacro({
+                label: "Language",
+                locales: LOCALES,
+                value: "en",
+                storageKey: "lily-locale",
+                defaultValue: "fr",
+            }),
+        );
+        expect(root.getAttribute("data-lily-locale-picker-value")).toBe("en");
+        initLocalePicker(root);
+        expect(document.documentElement.lang).toBe("en");
     });
-    setup({ locales: ["en", "fr"], detectFromNavigator: true });
-    expect(document.documentElement.lang).toBe("fr");
-    if (original)
-      Object.defineProperty(window.navigator, "languages", original);
-  });
 
-  test("matchNavigatorLanguage exact match wins", () => {
-    expect(matchNavigatorLanguage(["fr-CA"], ["en", "fr_CA"])).toBe("fr_CA");
-  });
+    test("§7.26 the value data attribute is the sole channel for opts.value", () => {
+        const root = mountIntoBody(
+            renderMacro({ label: "Language", locales: LOCALES, value: "fr" }),
+        );
+        expect(root.getAttribute("data-lily-locale-picker-value")).toBe("fr");
+        initLocalePicker(root);
+        expect(document.documentElement.lang).toBe("fr");
+    });
 
-  test("matchNavigatorLanguage returns empty when no match", () => {
-    expect(matchNavigatorLanguage(["xx-YY"], ["en", "fr"])).toBe("");
-  });
+    test("§7.27 the value data attribute is omitted entirely when opts.value is unset", () => {
+        const root = mountIntoBody(renderMacro({ label: "Language", locales: LOCALES }));
+        expect(root.hasAttribute("data-lily-locale-picker-value")).toBe(false);
+    });
+
+    test("§7.20 navigator detection resolves exact match", () => {
+        const original = Object.getOwnPropertyDescriptor(window.navigator, "languages");
+        Object.defineProperty(window.navigator, "languages", {
+            configurable: true,
+            get: () => ["fr-CA", "fr"],
+        });
+        setup({ locales: ["en", "fr_CA", "fr"], detectFromNavigator: true });
+        expect(document.documentElement.lang).toBe("fr-CA");
+        if (original) Object.defineProperty(window.navigator, "languages", original);
+    });
+
+    test("§7.21 navigator detection falls back to language-only match", () => {
+        const original = Object.getOwnPropertyDescriptor(window.navigator, "languages");
+        Object.defineProperty(window.navigator, "languages", {
+            configurable: true,
+            get: () => ["fr-CA"],
+        });
+        setup({ locales: ["en", "fr"], detectFromNavigator: true });
+        expect(document.documentElement.lang).toBe("fr");
+        if (original) Object.defineProperty(window.navigator, "languages", original);
+    });
+
+    test("matchNavigatorLanguage exact match wins", () => {
+        expect(matchNavigatorLanguage(["fr-CA"], ["en", "fr_CA"])).toBe("fr_CA");
+    });
+
+    test("matchNavigatorLanguage returns empty when no match", () => {
+        expect(matchNavigatorLanguage(["xx-YY"], ["en", "fr"])).toBe("");
+    });
 });
 
 describe("LocalePicker — spread, caller, autoInit (§7.22–§7.25)", () => {
-  test("§7.22 extra attributes spread onto the root div", () => {
-    const root = mountIntoBody(
-      renderMacro({
-        label: "Language",
-        locales: LOCALES,
-        attributes: { "data-testid": "lp" },
-      }),
-    );
-    expect(root.getAttribute("data-testid")).toBe("lp");
-  });
-
-  test("§7.24 a call block replaces the glyph inside the button", () => {
-    const root = mountIntoBody(
-      renderMacroWithCaller(
-        { label: "Language", locales: LOCALES },
-        `<span class="my-glyph" aria-hidden="true">L</span>`,
-      ),
-    );
-    const { button } = partsOf(root);
-    expect(button.querySelector(".my-glyph")).not.toBeNull();
-    expect(button.querySelector(".locale-picker-icon")).toBeNull();
-    expect(button.getAttribute("aria-label")).toBe("Language");
-  });
-
-  test("§7.25 destroy() detaches the listeners", () => {
-    const { button, list, controller } = setup();
-    controller.destroy();
-    key(button, "ArrowDown");
-    expect(list.hasAttribute("hidden")).toBe(true);
-  });
-
-  test("§7.23 autoInit wires every root on the page", () => {
-    const html1 = renderMacro({
-      label: "A",
-      locales: ["en", "fr"],
-      name: "a",
-      defaultValue: "fr",
+    test("§7.22 extra attributes spread onto the root div", () => {
+        const root = mountIntoBody(
+            renderMacro({
+                label: "Language",
+                locales: LOCALES,
+                attributes: { "data-testid": "lp" },
+            }),
+        );
+        expect(root.getAttribute("data-testid")).toBe("lp");
     });
-    const html2 = renderMacro({
-      label: "B",
-      locales: ["en", "ar"],
-      name: "b",
-      defaultValue: "ar",
+
+    test("§7.24 a call block replaces the glyph inside the button", () => {
+        const root = mountIntoBody(
+            renderMacroWithCaller(
+                { label: "Language", locales: LOCALES },
+                `<span class="my-glyph" aria-hidden="true">L</span>`,
+            ),
+        );
+        const { button } = partsOf(root);
+        expect(button.querySelector(".my-glyph")).not.toBeNull();
+        expect(button.querySelector(".locale-picker-icon")).toBeNull();
+        expect(button.getAttribute("aria-label")).toBe("Language");
     });
-    document.body.innerHTML = html1 + html2;
-    const controllers = autoInit();
-    expect(controllers.length).toBe(2);
-    // Last init wins for the shared documentElement; both should have run.
-    expect(document.documentElement.lang).toBe("ar");
-    // Distinct names give distinct id namespaces.
-    const lists = document.querySelectorAll(".locale-picker-list");
-    expect(lists[0].id).not.toBe(lists[1].id);
-  });
+
+    test("§7.25 destroy() detaches the listeners", () => {
+        const { button, list, controller } = setup();
+        controller.destroy();
+        key(button, "ArrowDown");
+        expect(list.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.23 autoInit wires every root on the page", () => {
+        const html1 = renderMacro({
+            label: "A",
+            locales: ["en", "fr"],
+            name: "a",
+            defaultValue: "fr",
+        });
+        const html2 = renderMacro({
+            label: "B",
+            locales: ["en", "ar"],
+            name: "b",
+            defaultValue: "ar",
+        });
+        document.body.innerHTML = html1 + html2;
+        const controllers = autoInit();
+        expect(controllers.length).toBe(2);
+        // Last init wins for the shared documentElement; both should have run.
+        expect(document.documentElement.lang).toBe("ar");
+        // Distinct names give distinct id namespaces.
+        const lists = document.querySelectorAll(".locale-picker-list");
+        expect(lists[0].id).not.toBe(lists[1].id);
+    });
 });
 
 describe("LocalePicker — accessibility hardening (§7.36–§7.40; canonical Svelte §7.28–§7.32)", () => {
-  function openPicker(
-    locales: string[] = LOCALES,
-    extra: Record<string, unknown> = {},
-  ) {
-    const { button, list, options } = setup({ locales, ...extra });
-    click(button);
-    return { button, list, options };
-  }
+    function openPicker(locales: string[] = LOCALES, extra: Record<string, unknown> = {}) {
+        const { button, list, options } = setup({ locales, ...extra });
+        click(button);
+        return { button, list, options };
+    }
 
-  const active = (list: HTMLElement) =>
-    list.querySelector("[data-active]")?.textContent?.trim();
+    const active = (list: HTMLElement) => list.querySelector("[data-active]")?.textContent?.trim();
 
-  test("§7.36 Tab from the open list puts focus on the button before closing", () => {
-    const { button, list } = openPicker();
-    expect(document.activeElement).toBe(list);
-    key(list, "Tab");
-    // Focus sits on the button, so the browser's default Tab proceeds
-    // from the picker's own position — not from <body>, which is where
-    // focus lands when the focused list is hidden first.
-    expect(document.activeElement).toBe(button);
-    expect(list.hasAttribute("hidden")).toBe(true);
-  });
-
-  test("§7.37 lang is claimed only when the label is the endonym", () => {
-    const { options } = setup({
-      locales: ["cy", "ar"],
-      localeLabels: { ar: "Arabic" },
+    test("§7.36 Tab from the open list puts focus on the button before closing", () => {
+        const { button, list } = openPicker();
+        expect(document.activeElement).toBe(list);
+        key(list, "Tab");
+        // Focus sits on the button, so the browser's default Tab proceeds
+        // from the picker's own position — not from <body>, which is where
+        // focus lands when the focused list is hidden first.
+        expect(document.activeElement).toBe(button);
+        expect(list.hasAttribute("hidden")).toBe(true);
     });
-    // Endonym label: the text really is Welsh, so lang="cy" is a true
-    // claim and a screen reader may switch voice.
-    expect(options[0].textContent?.trim()).toBe("Cymraeg");
-    expect(options[0].getAttribute("lang")).toBe("cy");
-    // Consumer label: its language is unknown, so no claim — the
-    // English word "Arabic" must not be handed to an Arabic voice.
-    expect(options[1].textContent?.trim()).toBe("Arabic");
-    expect(options[1].getAttribute("lang")).toBeNull();
-  });
 
-  test("§7.37 the macro marks only unlabelled options for derivation", () => {
-    const root = mountIntoBody(
-      renderMacro({
-        label: "Language",
-        locales: ["cy", "ar"],
-        localeLabels: { ar: "Arabic" },
-      }),
-    );
-    const { options } = partsOf(root);
-    // Pre-hydration the derived option shows the raw code as fallback.
-    expect(options[0].hasAttribute("data-lily-locale-picker-derive")).toBe(
-      true,
-    );
-    expect(options[0].textContent?.trim()).toBe("cy");
-    expect(options[1].hasAttribute("data-lily-locale-picker-derive")).toBe(
-      false,
-    );
-    expect(options[1].textContent?.trim()).toBe("Arabic");
-  });
-
-  test("§7.37 localeEndonym asks the language for its own name, and never echoes the tag", () => {
-    // Assert via the helper where ICU wording could vary; "de" and
-    // "cy" are stable across ICU versions.
-    expect(localeEndonym("de")).toBe("Deutsch");
-    expect(localeEndonym("cy")).toBe("Cymraeg");
-    expect(localeEndonym("en_US")).toBe(
-      new Intl.DisplayNames(["en-US"], { type: "language" }).of("en-US"),
-    );
-    // A tag with no data must yield "", not an echo of the tag.
-    expect(localeEndonym("x-lily")).toBe("");
-    expect(localeEndonym("")).toBe("");
-  });
-
-  test("§7.37 derivedLocaleLabel resolves endonym → English table → raw code", () => {
-    expect(derivedLocaleLabel("cy")).toBe("Cymraeg");
-    // No ICU data and no table entry: the raw code is the last resort.
-    expect(derivedLocaleLabel("x-lily")).toBe("x-lily");
-  });
-
-  test("§7.37 an option resolved from the raw-code fallback carries no lang", () => {
-    const { options } = setup({ locales: ["x-lily", "en"] });
-    expect(options[0].textContent?.trim()).toBe("x-lily");
-    expect(options[0].getAttribute("lang")).toBeNull();
-  });
-
-  test("§7.38 a repeated typeahead character cycles through its matches", () => {
-    const { list } = openPicker(["l1", "l2", "l3", "l4"], {
-      localeLabels: { l1: "Dark", l2: "Dim", l3: "Dracula", l4: "Light" },
-      defaultValue: "l4",
+    test("§7.37 lang is claimed only when the label is the endonym", () => {
+        const { options } = setup({
+            locales: ["cy", "ar"],
+            localeLabels: { ar: "Arabic" },
+        });
+        // Endonym label: the text really is Welsh, so lang="cy" is a true
+        // claim and a screen reader may switch voice.
+        expect(options[0].textContent?.trim()).toBe("Cymraeg");
+        expect(options[0].getAttribute("lang")).toBe("cy");
+        // Consumer label: its language is unknown, so no claim — the
+        // English word "Arabic" must not be handed to an Arabic voice.
+        expect(options[1].textContent?.trim()).toBe("Arabic");
+        expect(options[1].getAttribute("lang")).toBeNull();
     });
-    key(list, "d");
-    expect(active(list)).toBe("Dark");
-    key(list, "d");
-    expect(active(list)).toBe("Dim");
-    key(list, "d");
-    expect(active(list)).toBe("Dracula");
-  });
 
-  test("§7.39 PageUp and PageDown move the cursor by ten, clamped", () => {
-    const many = Array.from(
-      { length: 25 },
-      (_, i) => `x${String(i).padStart(2, "0")}`,
-    );
-    const labels = Object.fromEntries(many.map((l) => [l, l.toUpperCase()]));
-    const { list } = openPicker(many, { localeLabels: labels });
-    key(list, "PageDown");
-    expect(active(list)).toBe("X10");
-    key(list, "PageDown");
-    expect(active(list)).toBe("X20");
-    key(list, "PageDown");
-    expect(active(list)).toBe("X24");
-    key(list, "PageUp");
-    expect(active(list)).toBe("X14");
-  });
+    test("§7.37 the macro marks only unlabelled options for derivation", () => {
+        const root = mountIntoBody(
+            renderMacro({
+                label: "Language",
+                locales: ["cy", "ar"],
+                localeLabels: { ar: "Arabic" },
+            }),
+        );
+        const { options } = partsOf(root);
+        // Pre-hydration the derived option shows the raw code as fallback.
+        expect(options[0].hasAttribute("data-lily-locale-picker-derive")).toBe(true);
+        expect(options[0].textContent?.trim()).toBe("cy");
+        expect(options[1].hasAttribute("data-lily-locale-picker-derive")).toBe(false);
+        expect(options[1].textContent?.trim()).toBe("Arabic");
+    });
 
-  test("§7.40 an empty list opens without aria-activedescendant", () => {
-    const { list } = openPicker([]);
-    expect(list.hasAttribute("hidden")).toBe(false);
-    expect(list.getAttribute("aria-activedescendant")).toBeNull();
-  });
+    test("§7.37 localeEndonym asks the language for its own name, and never echoes the tag", () => {
+        // Assert via the helper where ICU wording could vary; "de" and
+        // "cy" are stable across ICU versions.
+        expect(localeEndonym("de")).toBe("Deutsch");
+        expect(localeEndonym("cy")).toBe("Cymraeg");
+        expect(localeEndonym("en_US")).toBe(
+            new Intl.DisplayNames(["en-US"], { type: "language" }).of("en-US"),
+        );
+        // A tag with no data must yield "", not an echo of the tag.
+        expect(localeEndonym("x-lily")).toBe("");
+        expect(localeEndonym("")).toBe("");
+    });
 
-  test("§7.42 opening the listbox, closing via Escape, and closing via Tab all pass preventScroll", () => {
-    const focusSpy = vi.spyOn(HTMLElement.prototype, "focus");
-    const { button, list } = openPicker();
-    expect(document.activeElement).toBe(list);
-    expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
+    test("§7.37 derivedLocaleLabel resolves endonym → English table → raw code", () => {
+        expect(derivedLocaleLabel("cy")).toBe("Cymraeg");
+        // No ICU data and no table entry: the raw code is the last resort.
+        expect(derivedLocaleLabel("x-lily")).toBe("x-lily");
+    });
 
-    key(list, "Escape");
-    expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
+    test("§7.37 an option resolved from the raw-code fallback carries no lang", () => {
+        const { options } = setup({ locales: ["x-lily", "en"] });
+        expect(options[0].textContent?.trim()).toBe("x-lily");
+        expect(options[0].getAttribute("lang")).toBeNull();
+    });
 
-    click(button);
-    key(list, "Tab");
-    expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
+    test("§7.38 a repeated typeahead character cycles through its matches", () => {
+        const { list } = openPicker(["l1", "l2", "l3", "l4"], {
+            localeLabels: { l1: "Dark", l2: "Dim", l3: "Dracula", l4: "Light" },
+            defaultValue: "l4",
+        });
+        key(list, "d");
+        expect(active(list)).toBe("Dark");
+        key(list, "d");
+        expect(active(list)).toBe("Dim");
+        key(list, "d");
+        expect(active(list)).toBe("Dracula");
+    });
 
-    focusSpy.mockRestore();
-  });
+    test("§7.39 PageUp and PageDown move the cursor by ten, clamped", () => {
+        const many = Array.from({ length: 25 }, (_, i) => `x${String(i).padStart(2, "0")}`);
+        const labels = Object.fromEntries(many.map((l) => [l, l.toUpperCase()]));
+        const { list } = openPicker(many, { localeLabels: labels });
+        key(list, "PageDown");
+        expect(active(list)).toBe("X10");
+        key(list, "PageDown");
+        expect(active(list)).toBe("X20");
+        key(list, "PageDown");
+        expect(active(list)).toBe("X24");
+        key(list, "PageUp");
+        expect(active(list)).toBe("X14");
+    });
+
+    test("§7.40 an empty list opens without aria-activedescendant", () => {
+        const { list } = openPicker([]);
+        expect(list.hasAttribute("hidden")).toBe(false);
+        expect(list.getAttribute("aria-activedescendant")).toBeNull();
+    });
+
+    test("§7.42 opening the listbox, closing via Escape, and closing via Tab all pass preventScroll", () => {
+        const focusSpy = vi.spyOn(HTMLElement.prototype, "focus");
+        const { button, list } = openPicker();
+        expect(document.activeElement).toBe(list);
+        expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
+
+        key(list, "Escape");
+        expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
+
+        click(button);
+        key(list, "Tab");
+        expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
+
+        focusSpy.mockRestore();
+    });
 });
 
 describe("initLocalePicker — idempotent apply (§7.41)", () => {
-  test("§7.41 an onChange that mirrors the value back does not re-enter apply", () => {
-    const calls: string[] = [];
-    let controller: { setLocale: (code: string) => void } | undefined;
-    const parts = setup(
-      {},
-      {
-        onChange: (code: string) => {
-          calls.push(code);
-          if (calls.length > 50) return; // stop a runaway
-          // `setLocale` is `applyLocale`, so mirroring the value back here
-          // re-enters it; the guard is what terminates that.
-          controller?.setLocale(code);
-        },
-      },
-    );
-    controller = parts.controller;
-    expect(calls).toEqual(["en"]);
+    test("§7.41 an onChange that mirrors the value back does not re-enter apply", () => {
+        const calls: string[] = [];
+        let controller: { setLocale: (code: string) => void } | undefined;
+        const parts = setup(
+            {},
+            {
+                onChange: (code: string) => {
+                    calls.push(code);
+                    if (calls.length > 50) return; // stop a runaway
+                    // `setLocale` is `applyLocale`, so mirroring the value back here
+                    // re-enters it; the guard is what terminates that.
+                    controller?.setLocale(code);
+                },
+            },
+        );
+        controller = parts.controller;
+        expect(calls).toEqual(["en"]);
 
-    click(parts.button);
-    click(parts.options[LOCALES.indexOf("fr")]);
-    expect(calls).toEqual(["en", "fr"]);
-    expect(parts.button.getAttribute("aria-expanded")).toBe("false");
-    expect(parts.list.hasAttribute("hidden")).toBe(true);
-  });
+        click(parts.button);
+        click(parts.options[LOCALES.indexOf("fr")]);
+        expect(calls).toEqual(["en", "fr"]);
+        expect(parts.button.getAttribute("aria-expanded")).toBe("false");
+        expect(parts.list.hasAttribute("hidden")).toBe(true);
+    });
 });
 
 // =====================================================================
@@ -886,237 +825,250 @@ describe("initLocalePicker — idempotent apply (§7.41)", () => {
 // =====================================================================
 
 describe("LocalePicker — tooltip (§7.43–§7.50)", () => {
-  function tooltipSetup() {
-    const { root } = setup();
-    const button = root.querySelector(".locale-picker-button") as HTMLButtonElement;
-    const tip = root.querySelector(".locale-picker-tooltip") as HTMLElement;
-    return { root, button, tip };
-  }
-  const mouse = (el: Element, type: string) =>
-    el.dispatchEvent(new window.MouseEvent(type, { bubbles: false }));
-  const flushObservers = () => new Promise<void>((r) => setTimeout(r, 0));
+    function tooltipSetup() {
+        const { root } = setup();
+        const button = root.querySelector(".locale-picker-button") as HTMLButtonElement;
+        const tip = root.querySelector(".locale-picker-tooltip") as HTMLElement;
+        return { root, button, tip };
+    }
+    const mouse = (el: Element, type: string) =>
+        el.dispatchEvent(new window.MouseEvent(type, { bubbles: false }));
+    const flushObservers = () => new Promise<void>((r) => setTimeout(r, 0));
 
-  test("§7.43 renders a role=tooltip sibling right after the button holding the label, hidden at rest, not aria-describedby-linked", () => {
-    const { root, button, tip } = tooltipSetup();
-    expect(tip.getAttribute("role")).toBe("tooltip");
-    expect(tip.tagName).toBe("DIV");
-    expect(tip.textContent).toBe(button.getAttribute("aria-label"));
-    expect(tip.hasAttribute("hidden")).toBe(true);
-    expect(tip.id).toBeTruthy();
-    expect(root.querySelectorAll("#" + tip.id)).toHaveLength(1);
-    expect(button.nextElementSibling).toBe(tip);
-    expect(button.hasAttribute("aria-describedby")).toBe(false);
-  });
+    test("§7.43 renders a role=tooltip sibling right after the button holding the label, hidden at rest, not aria-describedby-linked", () => {
+        const { root, button, tip } = tooltipSetup();
+        expect(tip.getAttribute("role")).toBe("tooltip");
+        expect(tip.tagName).toBe("DIV");
+        expect(tip.textContent).toBe(button.getAttribute("aria-label"));
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(tip.id).toBeTruthy();
+        expect(root.querySelectorAll("#" + tip.id)).toHaveLength(1);
+        expect(button.nextElementSibling).toBe(tip);
+        expect(button.hasAttribute("aria-describedby")).toBe(false);
+    });
 
-  test("§7.44 pointer over the button shows it; leaving hides it", () => {
-    const { button, tip } = tooltipSetup();
-    mouse(button, "mouseenter");
-    expect(tip.hasAttribute("hidden")).toBe(false);
-    mouse(button, "mouseleave");
-    expect(tip.hasAttribute("hidden")).toBe(true);
-  });
+    test("§7.44 pointer over the button shows it; leaving hides it", () => {
+        const { button, tip } = tooltipSetup();
+        mouse(button, "mouseenter");
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        mouse(button, "mouseleave");
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
 
-  test("§7.45 it stays visible while the pointer is over the tooltip itself", () => {
-    const { button, tip } = tooltipSetup();
-    mouse(button, "mouseenter");
-    mouse(button, "mouseleave");
-    mouse(tip, "mouseenter");
-    expect(tip.hasAttribute("hidden")).toBe(false);
-    mouse(tip, "mouseleave");
-    expect(tip.hasAttribute("hidden")).toBe(true);
-  });
+    test("§7.45 it stays visible while the pointer is over the tooltip itself", () => {
+        const { button, tip } = tooltipSetup();
+        mouse(button, "mouseenter");
+        mouse(button, "mouseleave");
+        mouse(tip, "mouseenter");
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        mouse(tip, "mouseleave");
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
 
-  test("§7.46 keyboard focus shows it; blur hides it", () => {
-    const { button, tip } = tooltipSetup();
-    // jsdom has no input-modality tracking; stand in for the keyboard.
-    vi.spyOn(button, "matches").mockImplementation((q) => q === ":focus-visible");
-    button.focus();
-    expect(tip.hasAttribute("hidden")).toBe(false);
-    button.blur();
-    expect(tip.hasAttribute("hidden")).toBe(true);
-  });
+    test("§7.46 keyboard focus shows it; blur hides it", () => {
+        const { button, tip } = tooltipSetup();
+        // jsdom has no input-modality tracking; stand in for the keyboard.
+        vi.spyOn(button, "matches").mockImplementation((q) => q === ":focus-visible");
+        button.focus();
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        button.blur();
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
 
-  test("§7.46 mouse-induced focus (not :focus-visible) does not show it", () => {
-    const { button, tip } = tooltipSetup();
-    vi.spyOn(button, "matches").mockReturnValue(false);
-    button.focus();
-    expect(tip.hasAttribute("hidden")).toBe(true);
-  });
+    test("§7.46 mouse-induced focus (not :focus-visible) does not show it", () => {
+        const { button, tip } = tooltipSetup();
+        vi.spyOn(button, "matches").mockReturnValue(false);
+        button.focus();
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
 
-  test("§7.47 Escape dismisses it without moving focus; re-entering shows it again", () => {
-    const { button, tip } = tooltipSetup();
-    button.focus();
-    mouse(button, "mouseenter");
-    expect(tip.hasAttribute("hidden")).toBe(false);
-    button.dispatchEvent(
-      new window.KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true }),
-    );
-    expect(tip.hasAttribute("hidden")).toBe(true);
-    expect(document.activeElement).toBe(button);
-    mouse(button, "mouseleave");
-    mouse(button, "mouseenter");
-    expect(tip.hasAttribute("hidden")).toBe(false);
-  });
+    test("§7.47 Escape dismisses it without moving focus; re-entering shows it again", () => {
+        const { button, tip } = tooltipSetup();
+        button.focus();
+        mouse(button, "mouseenter");
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        button.dispatchEvent(
+            new window.KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true }),
+        );
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(document.activeElement).toBe(button);
+        mouse(button, "mouseleave");
+        mouse(button, "mouseenter");
+        expect(tip.hasAttribute("hidden")).toBe(false);
+    });
 
-  test("§7.48 it is never shown while the listbox is open", async () => {
-    const { button, tip } = tooltipSetup();
-    mouse(button, "mouseenter");
-    expect(tip.hasAttribute("hidden")).toBe(false);
-    button.dispatchEvent(new window.MouseEvent("click", { bubbles: true, cancelable: true }));
-    await flushObservers();
-    expect(button.getAttribute("aria-expanded")).toBe("true");
-    expect(tip.hasAttribute("hidden")).toBe(true);
-    mouse(button, "mouseenter");
-    expect(tip.hasAttribute("hidden")).toBe(true);
-  });
+    test("§7.48 it is never shown while the listbox is open", async () => {
+        const { button, tip } = tooltipSetup();
+        mouse(button, "mouseenter");
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        button.dispatchEvent(new window.MouseEvent("click", { bubbles: true, cancelable: true }));
+        await flushObservers();
+        expect(button.getAttribute("aria-expanded")).toBe("true");
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        mouse(button, "mouseenter");
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
 
-  test("§7.49 initialising twice does not double-wire the tooltip", () => {
-    const { root, button, tip } = tooltipSetup();
-    const add = vi.spyOn(button, "addEventListener");
-    const remove = vi.spyOn(button, "removeEventListener");
-    // A second init of the same root replaces, not adds to, the first
-    // tooltip wiring: the old listeners come off as the new ones go on.
-    initLocalePicker(root);
-    const count = (spy: typeof add) =>
-      spy.mock.calls.filter((c) => c[0] === "mouseenter").length;
-    expect(count(add)).toBe(1);
-    expect(count(remove)).toBe(1);
-    mouse(button, "mouseenter");
-    expect(tip.hasAttribute("hidden")).toBe(false);
-    mouse(button, "mouseleave");
-    expect(tip.hasAttribute("hidden")).toBe(true);
-    add.mockRestore();
-    remove.mockRestore();
-  });
+    test("§7.49 initialising twice does not double-wire the tooltip", () => {
+        const { root, button, tip } = tooltipSetup();
+        const add = vi.spyOn(button, "addEventListener");
+        const remove = vi.spyOn(button, "removeEventListener");
+        // A second init of the same root replaces, not adds to, the first
+        // tooltip wiring: the old listeners come off as the new ones go on.
+        initLocalePicker(root);
+        const count = (spy: typeof add) =>
+            spy.mock.calls.filter((c) => c[0] === "mouseenter").length;
+        expect(count(add)).toBe(1);
+        expect(count(remove)).toBe(1);
+        mouse(button, "mouseenter");
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        mouse(button, "mouseleave");
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        add.mockRestore();
+        remove.mockRestore();
+    });
 
-  test("§7.50 pointer hover shows the tooltip with focus elsewhere; Escape on document.body dismisses it", () => {
-    const { button, tip } = tooltipSetup();
-    const other = document.createElement("div");
-    other.tabIndex = -1;
-    document.body.appendChild(other);
-    other.focus();
-    mouse(button, "mouseenter");
-    expect(tip.hasAttribute("hidden")).toBe(false);
-    expect(document.activeElement).not.toBe(button);
-    const esc = () =>
-      new window.KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true });
-    const ev = esc();
-    document.body.dispatchEvent(ev);
-    expect(ev.defaultPrevented).toBe(false);
-    expect(tip.hasAttribute("hidden")).toBe(true);
-    expect(document.activeElement).toBe(other);
-    // Dismissal resets on re-entry, and Escape on another element works too.
-    mouse(button, "mouseleave");
-    mouse(button, "mouseenter");
-    expect(tip.hasAttribute("hidden")).toBe(false);
-    other.dispatchEvent(esc());
-    expect(tip.hasAttribute("hidden")).toBe(true);
-    other.remove();
-  });
+    test("§7.50 pointer hover shows the tooltip with focus elsewhere; Escape on document.body dismisses it", () => {
+        const { button, tip } = tooltipSetup();
+        const other = document.createElement("div");
+        other.tabIndex = -1;
+        document.body.appendChild(other);
+        other.focus();
+        mouse(button, "mouseenter");
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        expect(document.activeElement).not.toBe(button);
+        const esc = () =>
+            new window.KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true });
+        const ev = esc();
+        document.body.dispatchEvent(ev);
+        expect(ev.defaultPrevented).toBe(false);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(document.activeElement).toBe(other);
+        // Dismissal resets on re-entry, and Escape on another element works too.
+        mouse(button, "mouseleave");
+        mouse(button, "mouseenter");
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        other.dispatchEvent(esc());
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        other.remove();
+    });
 
-  test("§7.50 the document keydown listener exists only while the tooltip is visible and is gone after hide and re-init", () => {
-    const { root, button, tip } = tooltipSetup();
-    const add = vi.spyOn(document, "addEventListener");
-    const remove = vi.spyOn(document, "removeEventListener");
-    const keydowns = (spy: typeof add) =>
-      spy.mock.calls.filter((c) => c[0] === "keydown").length;
-    expect(keydowns(add)).toBe(0);
-    mouse(button, "mouseenter");
-    expect(keydowns(add)).toBe(1);
-    mouse(tip, "mouseenter"); // still visible: no second listener
-    expect(keydowns(add)).toBe(1);
-    mouse(button, "mouseleave");
-    mouse(tip, "mouseleave");
-    expect(tip.hasAttribute("hidden")).toBe(true);
-    expect(keydowns(remove)).toBe(1);
-    // Escape while hidden does nothing harmful.
-    document.body.dispatchEvent(
-      new window.KeyboardEvent("keydown", { key: "Escape", bubbles: true }),
-    );
-    expect(tip.hasAttribute("hidden")).toBe(true);
-    // Re-initialising while visible removes the old listener.
-    mouse(button, "mouseenter");
-    expect(keydowns(add)).toBe(2);
-    initLocalePicker(root);
-    expect(keydowns(remove)).toBe(2);
-    add.mockRestore();
-    remove.mockRestore();
-  });
+    test("§7.50 the document keydown listener exists only while the tooltip is visible and is gone after hide and re-init", () => {
+        const { root, button, tip } = tooltipSetup();
+        const add = vi.spyOn(document, "addEventListener");
+        const remove = vi.spyOn(document, "removeEventListener");
+        const keydowns = (spy: typeof add) =>
+            spy.mock.calls.filter((c) => c[0] === "keydown").length;
+        expect(keydowns(add)).toBe(0);
+        mouse(button, "mouseenter");
+        expect(keydowns(add)).toBe(1);
+        mouse(tip, "mouseenter"); // still visible: no second listener
+        expect(keydowns(add)).toBe(1);
+        mouse(button, "mouseleave");
+        mouse(tip, "mouseleave");
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(keydowns(remove)).toBe(1);
+        // Escape while hidden does nothing harmful.
+        document.body.dispatchEvent(
+            new window.KeyboardEvent("keydown", { key: "Escape", bubbles: true }),
+        );
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        // Re-initialising while visible removes the old listener.
+        mouse(button, "mouseenter");
+        expect(keydowns(add)).toBe(2);
+        initLocalePicker(root);
+        expect(keydowns(remove)).toBe(2);
+        add.mockRestore();
+        remove.mockRestore();
+    });
 });
 
 describe("locale-picker (Nunjucks) — open state and disabled", () => {
-  const mount = (opts: Record<string, unknown> = {}, init: Record<string, unknown> = {}) => {
-    document.body.innerHTML = renderMacro({ ...{ label: "Language", locales: LOCALES }, ...opts });
-    const root = document.body.querySelector("[data-lily-locale-picker-root]") as HTMLElement;
-    const api = init1(root, init);
-    return { root, api, button: root.querySelector(".locale-picker-button") as HTMLButtonElement };
-  };
-  const init1 = initLocalePicker;
-  const settle = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
+    const mount = (opts: Record<string, unknown> = {}, init: Record<string, unknown> = {}) => {
+        document.body.innerHTML = renderMacro({
+            ...{ label: "Language", locales: LOCALES },
+            ...opts,
+        });
+        const root = document.body.querySelector("[data-lily-locale-picker-root]") as HTMLElement;
+        const api = init1(root, init);
+        return {
+            root,
+            api,
+            button: root.querySelector(".locale-picker-button") as HTMLButtonElement,
+        };
+    };
+    const init1 = initLocalePicker;
+    const settle = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
 
-  test("the macro renders open and disabled: open shows the popup, disabled disables the button, disabled wins", () => {
-    const open = mount({ open: true });
-    expect(open.button.getAttribute("aria-expanded")).toBe("true");
-    expect(open.root.querySelector(".locale-picker-list, .locale-picker-panel")!.hasAttribute("hidden")).toBe(false);
-    const disabled = mount({ disabled: true });
-    expect(disabled.button.disabled).toBe(true);
-    const both = mount({ open: true, disabled: true });
-    expect(both.button.disabled).toBe(true);
-    expect(both.button.getAttribute("aria-expanded")).toBe("false");
-    expect(mount().button.hasAttribute("disabled")).toBe(false);
-  });
+    test("the macro renders open and disabled: open shows the popup, disabled disables the button, disabled wins", () => {
+        const open = mount({ open: true });
+        expect(open.button.getAttribute("aria-expanded")).toBe("true");
+        expect(
+            open.root
+                .querySelector(".locale-picker-list, .locale-picker-panel")!
+                .hasAttribute("hidden"),
+        ).toBe(false);
+        const disabled = mount({ disabled: true });
+        expect(disabled.button.disabled).toBe(true);
+        const both = mount({ open: true, disabled: true });
+        expect(both.button.disabled).toBe(true);
+        expect(both.button.getAttribute("aria-expanded")).toBe("false");
+        expect(mount().button.hasAttribute("disabled")).toBe(false);
+    });
 
-  test("a popup rendered open starts open and is not reported as a change", async () => {
-    const changes: boolean[] = [];
-    const { api, button } = mount({ open: true }, { onOpenChange: (o: boolean) => changes.push(o) });
-    await settle();
-    expect(api.isOpen()).toBe(true);
-    expect(button.getAttribute("aria-expanded")).toBe("true");
-    expect(changes).toEqual([]);
-  });
+    test("a popup rendered open starts open and is not reported as a change", async () => {
+        const changes: boolean[] = [];
+        const { api, button } = mount(
+            { open: true },
+            { onOpenChange: (o: boolean) => changes.push(o) },
+        );
+        await settle();
+        expect(api.isOpen()).toBe(true);
+        expect(button.getAttribute("aria-expanded")).toBe("true");
+        expect(changes).toEqual([]);
+    });
 
-  test("onOpenChange and the openchange event report each open and close by the user", async () => {
-    const calls: boolean[] = [];
-    const events: boolean[] = [];
-    const { root, button } = mount({}, { onOpenChange: (o: boolean) => calls.push(o) });
-    root.addEventListener("openchange", (e) => events.push((e as CustomEvent<boolean>).detail));
-    button.click();
-    await settle();
-    button.click();
-    await settle();
-    expect(calls).toEqual([true, false]);
-    expect(events).toEqual([true, false]);
-  });
+    test("onOpenChange and the openchange event report each open and close by the user", async () => {
+        const calls: boolean[] = [];
+        const events: boolean[] = [];
+        const { root, button } = mount({}, { onOpenChange: (o: boolean) => calls.push(o) });
+        root.addEventListener("openchange", (e) => events.push((e as CustomEvent<boolean>).detail));
+        button.click();
+        await settle();
+        button.click();
+        await settle();
+        expect(calls).toEqual([true, false]);
+        expect(events).toEqual([true, false]);
+    });
 
-  test("setOpen opens and closes from outside without moving focus, and reports it", async () => {
-    const calls: boolean[] = [];
-    const { api, button } = mount({}, { onOpenChange: (o: boolean) => calls.push(o) });
-    const before = document.activeElement;
-    api.setOpen(true);
-    await settle();
-    expect(button.getAttribute("aria-expanded")).toBe("true");
-    expect(document.activeElement).toBe(before);
-    api.setOpen(false);
-    await settle();
-    expect(button.getAttribute("aria-expanded")).toBe("false");
-    expect(calls).toEqual([true, false]);
-  });
+    test("setOpen opens and closes from outside without moving focus, and reports it", async () => {
+        const calls: boolean[] = [];
+        const { api, button } = mount({}, { onOpenChange: (o: boolean) => calls.push(o) });
+        const before = document.activeElement;
+        api.setOpen(true);
+        await settle();
+        expect(button.getAttribute("aria-expanded")).toBe("true");
+        expect(document.activeElement).toBe(before);
+        api.setOpen(false);
+        await settle();
+        expect(button.getAttribute("aria-expanded")).toBe("false");
+        expect(calls).toEqual([true, false]);
+    });
 
-  test("setDisabled disables the button and closes an open popup; a disabled picker cannot open", async () => {
-    const calls: boolean[] = [];
-    const { api, button } = mount({}, { onOpenChange: (o: boolean) => calls.push(o) });
-    api.setOpen(true);
-    api.setDisabled(true);
-    await settle();
-    expect(button.disabled).toBe(true);
-    expect(button.getAttribute("aria-expanded")).toBe("false");
-    api.setOpen(true);
-    button.click();
-    await settle();
-    expect(button.getAttribute("aria-expanded")).toBe("false");
-    expect(calls).toEqual([true, false]);
-    api.setDisabled(false);
-    expect(button.disabled).toBe(false);
-  });
+    test("setDisabled disables the button and closes an open popup; a disabled picker cannot open", async () => {
+        const calls: boolean[] = [];
+        const { api, button } = mount({}, { onOpenChange: (o: boolean) => calls.push(o) });
+        api.setOpen(true);
+        api.setDisabled(true);
+        await settle();
+        expect(button.disabled).toBe(true);
+        expect(button.getAttribute("aria-expanded")).toBe("false");
+        api.setOpen(true);
+        button.click();
+        await settle();
+        expect(button.getAttribute("aria-expanded")).toBe("false");
+        expect(calls).toEqual([true, false]);
+        api.setDisabled(false);
+        expect(button.disabled).toBe(false);
+    });
 });
-

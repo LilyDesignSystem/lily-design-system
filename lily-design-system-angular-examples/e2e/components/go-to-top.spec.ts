@@ -13,7 +13,7 @@ test.describe("component page: go-to-top", () => {
 
   test("renders the H1 with the component name", async ({ page }) => {
     await expect(
-      page.getByRole("heading", { level: 1, name: new RegExp("^GoToTop$") })
+      page.getByRole("heading", { level: 1, name: new RegExp("^GoToTop$") }),
     ).toBeVisible();
   });
 

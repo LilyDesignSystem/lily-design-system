@@ -6,18 +6,18 @@
   style that prefers "Extra Large" over the default's "X Large".
 -->
 <script lang="ts">
-  import TextSizePicker from "../TextSizePicker.svelte";
+    import TextSizePicker from "../TextSizePicker.svelte";
 
-  const labels = {
-    small: "Petit",
-    medium: "Moyen",
-    large: "Grand",
-    "x-large": "Très grand",
-  };
+    const labels = {
+        small: "Petit",
+        medium: "Moyen",
+        large: "Grand",
+        "x-large": "Très grand",
+    };
 </script>
 
 <TextSizePicker
-  label="Taille du texte"
-  sizes={["small", "medium", "large", "x-large"]}
-  sizeLabels={labels}
+    label="Taille du texte"
+    sizes={["small", "medium", "large", "x-large"]}
+    sizeLabels={labels}
 />

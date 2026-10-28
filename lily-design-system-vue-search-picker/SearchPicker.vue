@@ -117,7 +117,10 @@ const hoverTooltip = ref(false);
 const focusButton = ref(false);
 const dismissed = ref(false);
 const tooltipVisible = computed(
-    () => !open.value && !dismissed.value && (hoverButton.value || hoverTooltip.value || focusButton.value),
+    () =>
+        !open.value &&
+        !dismissed.value &&
+        (hoverButton.value || hoverTooltip.value || focusButton.value),
 );
 
 function onTooltipButtonEnter(): void {
@@ -290,7 +293,11 @@ onBeforeUnmount(() => {
                     stroke-linecap="round"
                     stroke-linejoin="round"
                 >
-                    <circle cx="7" cy="7" r="4.5" />
+                    <circle
+                        cx="7"
+                        cy="7"
+                        r="4.5"
+                    />
                     <path d="M10.5 10.5 14 14" />
                 </svg>
             </slot>
@@ -306,7 +313,9 @@ onBeforeUnmount(() => {
             :hidden="tooltipVisible ? undefined : true"
             @mouseenter="hoverTooltip = true"
             @mouseleave="hoverTooltip = false"
-        >{{ label }}</div>
+        >
+            {{ label }}
+        </div>
 
         <!-- The keydown handler only listens for Escape bubbling up from
              the field and the submit button inside; the panel itself
@@ -335,8 +344,16 @@ onBeforeUnmount(() => {
                     :value="current"
                     @input="onInput"
                 />
-                <button type="submit" class="search-picker-submit" :aria-label="submitLabel">
-                    <span class="search-picker-submit-symbol" aria-hidden="true">{{ RETURN_SYMBOL }}</span>
+                <button
+                    type="submit"
+                    class="search-picker-submit"
+                    :aria-label="submitLabel"
+                >
+                    <span
+                        class="search-picker-submit-symbol"
+                        aria-hidden="true"
+                        >{{ RETURN_SYMBOL }}</span
+                    >
                 </button>
             </form>
         </div>

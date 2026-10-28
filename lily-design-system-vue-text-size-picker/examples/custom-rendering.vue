@@ -42,12 +42,28 @@ import TextSizePicker from "../TextSizePicker.vue";
                 focusable="false"
                 :data-open="open ? '' : undefined"
             >
-                <text x="1" y="13" font-size="8" fill="currentColor">A</text>
-                <text x="7" y="13" font-size="13" fill="currentColor">A</text>
+                <text
+                    x="1"
+                    y="13"
+                    font-size="8"
+                    fill="currentColor"
+                >
+                    A
+                </text>
+                <text
+                    x="7"
+                    y="13"
+                    font-size="13"
+                    fill="currentColor"
+                >
+                    A
+                </text>
             </svg>
-            <span class="text-size-picker-caret" aria-hidden="true">{{
-                open ? "▴" : "▾"
-            }}</span>
+            <span
+                class="text-size-picker-caret"
+                aria-hidden="true"
+                >{{ open ? "▴" : "▾" }}</span
+            >
         </template>
     </TextSizePicker>
 </template>

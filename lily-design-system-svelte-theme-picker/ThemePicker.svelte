@@ -1,4 +1,7 @@
-<script lang="ts" module>
+<script
+    lang="ts"
+    module
+>
     import type { Snippet } from "svelte";
     import { IconButton, Listbox } from "@lilydesignsystem/svelte-headless";
 
@@ -87,15 +90,10 @@
      * unavailable (SSR).
      */
     export function matchSystemTheme(themes: readonly string[]): string {
-        if (
-            typeof window === "undefined" ||
-            typeof window.matchMedia !== "function"
-        ) {
+        if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
             return "";
         }
-        const wanted = window.matchMedia("(prefers-color-scheme: dark)").matches
-            ? "dark"
-            : "light";
+        const wanted = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
         return themes.includes(wanted) ? wanted : "";
     }
 
@@ -105,11 +103,7 @@
     }
 
     /** Construct the href for a given theme slug. */
-    export function themeHref(
-        themesUrl: string,
-        slug: string,
-        extension: string,
-    ): string {
+    export function themeHref(themesUrl: string, slug: string, extension: string): string {
         return normaliseThemesUrl(themesUrl) + slug + extension;
     }
 
@@ -242,10 +236,7 @@
         // An empty list has no option to activate; -1 keeps
         // aria-activedescendant off rather than pointing at an id that
         // does not exist.
-        activeIndex =
-            themes.length === 0
-                ? -1
-                : (startIndex ?? (selected >= 0 ? selected : 0));
+        activeIndex = themes.length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0));
         open = true;
         // Focus moves to the listbox; the active option is conveyed via
         // aria-activedescendant, per the APG listbox pattern. preventScroll
@@ -371,10 +362,7 @@
             }
 
             if (!initial) {
-                initial =
-                    defaultValue ??
-                    (themes.includes("light") ? "light" : themes[0]) ??
-                    "";
+                initial = defaultValue ?? (themes.includes("light") ? "light" : themes[0]) ?? "";
             }
             if (initial && initial !== current) {
                 value = initial;
@@ -400,22 +388,38 @@
     onfocusout={onRootFocusOut}
     {...restProps}
 >
-    <input type="hidden" {name} {value} />
+    <input
+        type="hidden"
+        {name}
+        {value}
+    />
 
     <IconButton
         {disabled}
         bind:ref={buttonEl}
         baseClass="theme-picker-button"
-        label={label}
+        {label}
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={listId}
-        onclick={() => { hoverButton = false; if (open) closeList(); else openList(); }}
+        onclick={() => {
+            hoverButton = false;
+            if (open) closeList();
+            else openList();
+        }}
         onkeydown={onButtonKeydown}
-        onmouseenter={() => { hoverButton = true; dismissed = false; }}
-        onmouseleave={() => { hoverButton = false; }}
+        onmouseenter={() => {
+            hoverButton = true;
+            dismissed = false;
+        }}
+        onmouseleave={() => {
+            hoverButton = false;
+        }}
         onfocus={onButtonFocus}
-        onblur={() => { focusButton = false; dismissed = false; }}
+        onblur={() => {
+            focusButton = false;
+            dismissed = false;
+        }}
     >
         {#if children}
             {@render children({ value: value ?? "", open, labelFor })}
@@ -432,8 +436,16 @@
                 stroke-linecap="round"
                 stroke-linejoin="round"
             >
-                <circle cx="8" cy="8" r="6" />
-                <path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none" />
+                <circle
+                    cx="8"
+                    cy="8"
+                    r="6"
+                />
+                <path
+                    d="M8 2a6 6 0 0 1 0 12z"
+                    fill="currentColor"
+                    stroke="none"
+                />
             </svg>
         {/if}
     </IconButton>
@@ -447,16 +459,22 @@
         role="tooltip"
         id={tooltipId}
         hidden={!tooltipVisible}
-        onmouseenter={() => { hoverTooltip = true; }}
-        onmouseleave={() => { hoverTooltip = false; }}
-    >{label}</div>
+        onmouseenter={() => {
+            hoverTooltip = true;
+        }}
+        onmouseleave={() => {
+            hoverTooltip = false;
+        }}
+    >
+        {label}
+    </div>
 
     <Listbox
         bind:ref={listEl}
         as="ul"
         baseClass="theme-picker-list"
         id={listId}
-        label={label}
+        {label}
         navigation="active-descendant"
         clamp
         typeahead

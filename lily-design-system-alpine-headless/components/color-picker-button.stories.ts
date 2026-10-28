@@ -1,11 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = "<button\n  class=\"color-picker-button\"\n  role=\"radio\" aria-checked=\"false\"\n  aria-label=\"\"\n>\n  <!-- Consumer provides button content -->\n</button>";
+const html =
+    '<button\n  class="color-picker-button"\n  role="radio" aria-checked="false"\n  aria-label=""\n>\n  <!-- Consumer provides button content -->\n</button>';
 
 const meta = {
-  title: 'Headless/Color Picker Button',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/Color Picker Button",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

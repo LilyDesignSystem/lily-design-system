@@ -13,7 +13,10 @@ test.describe("component page: united-kingdom-national-insurance-number-view", (
 
   test("renders the H1 with the component name", async ({ page }) => {
     await expect(
-      page.getByRole("heading", { level: 1, name: new RegExp("^UnitedKingdomNationalInsuranceNumberView$") })
+      page.getByRole("heading", {
+        level: 1,
+        name: new RegExp("^UnitedKingdomNationalInsuranceNumberView$"),
+      }),
     ).toBeVisible();
   });
 

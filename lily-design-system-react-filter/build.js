@@ -11,10 +11,15 @@ import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = path.dirname(fileURLToPath(import.meta.url));
-const tsupBin = path.join(root, "node_modules", ".bin", process.platform === "win32" ? "tsup.cmd" : "tsup");
+const tsupBin = path.join(
+    root,
+    "node_modules",
+    ".bin",
+    process.platform === "win32" ? "tsup.cmd" : "tsup",
+);
 
 execFileSync(tsupBin, ["index.ts", "--format", "esm", "--dts", "--out-dir", "dist"], {
-  cwd: root,
-  stdio: "inherit",
+    cwd: root,
+    stdio: "inherit",
 });
 console.log("built dist");

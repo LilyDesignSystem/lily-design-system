@@ -62,7 +62,10 @@ const hoverTooltip = ref(false);
 const focusButton = ref(false);
 const dismissed = ref(false);
 const tooltipVisible = computed(
-    () => !open.value && !dismissed.value && (hoverButton.value || hoverTooltip.value || focusButton.value),
+    () =>
+        !open.value &&
+        !dismissed.value &&
+        (hoverButton.value || hoverTooltip.value || focusButton.value),
 );
 
 function onTooltipButtonEnter(): void {
@@ -225,7 +228,10 @@ const slotArgs = computed<SlotArgs>(() => ({ open: open.value, close: () => void
             @focus="onTooltipButtonFocus"
             @blur="onTooltipButtonBlur"
         >
-            <slot name="icon" v-bind="slotArgs">
+            <slot
+                name="icon"
+                v-bind="slotArgs"
+            >
                 <svg
                     class="menu-picker-icon"
                     viewBox="0 0 16 16"
@@ -252,7 +258,9 @@ const slotArgs = computed<SlotArgs>(() => ({ open: open.value, close: () => void
             :hidden="tooltipVisible ? undefined : true"
             @mouseenter="hoverTooltip = true"
             @mouseleave="hoverTooltip = false"
-        >{{ label }}</div>
+        >
+            {{ label }}
+        </div>
 
         <!-- A named group, not a menu: the content is the app's. The handlers are pure delegation
              for whatever focusable content the app puts inside. -->

@@ -17,7 +17,15 @@ import {
   viewChild,
 } from "@angular/core";
 import { IconButton, Listbox } from "@lilydesignsystem/angular-headless";
-import { DEFAULT_ZONES, matchZone, orderedZones, systemZone, zoneInfo, type ZoneInfo, type ZoneNames } from "./zones.js";
+import {
+  DEFAULT_ZONES,
+  matchZone,
+  orderedZones,
+  systemZone,
+  zoneInfo,
+  type ZoneInfo,
+  type ZoneNames,
+} from "./zones.js";
 
 export { DEFAULT_ZONES };
 export type { ZoneInfo, ZoneNames };
@@ -196,8 +204,7 @@ export class TimeZonePicker {
   /** Projected icon template; replaces the default icon when supplied. */
   protected readonly iconTemplate = contentChild(TemplateRef);
 
-  private readonly rootRef =
-    viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
+  private readonly rootRef = viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
   // Angular resolves a template-ref-variable on a component tag to the
   // component INSTANCE by default (not its ElementRef) — exactly what's
   // needed to call the headless components' own public `focus()` methods.
@@ -240,9 +247,7 @@ export class TimeZonePicker {
     // Keyboard focus only: a mouse click also focuses the button in
     // Chromium, and the tooltip should not stick after a click.
     try {
-      this.focusButton.set(
-        this.buttonRef().element?.matches(":focus-visible") ?? false,
-      );
+      this.focusButton.set(this.buttonRef().element?.matches(":focus-visible") ?? false);
     } catch {
       this.focusButton.set(true); // engine without :focus-visible — err towards showing
     }
@@ -275,7 +280,9 @@ export class TimeZonePicker {
   // that re-sorted itself while open would move the option under the pointer.
   private readonly whenInitial = new Date();
   private readonly when = computed(() => this.date() ?? this.whenInitial);
-  protected readonly infos = computed(() => orderedZones(this.zones(), this.locale(), this.when(), this.labelFor(), this.names()));
+  protected readonly infos = computed(() =>
+    orderedZones(this.zones(), this.locale(), this.when(), this.labelFor(), this.names()),
+  );
   protected readonly ids = computed(() => this.infos().map((z) => z.id));
   infoFor(zone: string): ZoneInfo | undefined {
     return zoneInfo(zone, this.locale(), this.when(), this.labelFor(), this.names());
@@ -305,9 +312,7 @@ export class TimeZonePicker {
         if (!initial && sk) {
           try {
             const stored =
-              (typeof localStorage !== "undefined"
-                ? localStorage.getItem(sk)
-                : null) ?? "";
+              (typeof localStorage !== "undefined" ? localStorage.getItem(sk) : null) ?? "";
             if (this.ids().includes(stored)) initial = stored;
           } catch {
             // ignore privacy errors
@@ -362,9 +367,7 @@ export class TimeZonePicker {
     // aria-activedescendant off rather than pointing at an id that
     // does not exist.
     this.activeIndex.set(
-      this.ids().length === 0
-        ? -1
-        : (startIndex ?? (selected >= 0 ? selected : 0)),
+      this.ids().length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0)),
     );
     this.open.set(true);
     // Focus moves to the listbox; the active option is conveyed via
@@ -461,10 +464,7 @@ export class TimeZonePicker {
 
   private applyZone(slug: string): void {
     if (typeof document === "undefined" || !slug) return;
-    (this.target() ?? document.documentElement).setAttribute(
-      "data-time-zone",
-      slug,
-    );
+    (this.target() ?? document.documentElement).setAttribute("data-time-zone", slug);
 
     const sk = this.storageKey();
     if (sk) {

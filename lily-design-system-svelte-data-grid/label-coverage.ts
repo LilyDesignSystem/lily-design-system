@@ -41,7 +41,13 @@ export const ANNOUNCEMENT_LABELS = {
     search: ["filterAnnouncement"],
     selection: ["selectionAnnouncement"],
     pagination: ["pageAnnouncement"],
-    editing: ["editAnnouncement", "editCancelAnnouncement", "editError", "undoAnnouncement", "redoAnnouncement"],
+    editing: [
+        "editAnnouncement",
+        "editCancelAnnouncement",
+        "editError",
+        "undoAnnouncement",
+        "redoAnnouncement",
+    ],
     exporting: ["exportAnnouncement", "copyAnnouncement", "copyFailed"],
 } as const;
 
@@ -53,7 +59,8 @@ export function requiredLabels(features: LabelFeatures): { key: string; kind: La
     const add = (table: Record<string, readonly string[]>, kind: LabelKind) => {
         for (const feature of Object.keys(table) as (keyof LabelFeatures)[]) {
             if (!features[feature]) continue;
-            for (const key of table[feature]) if (!out.some((o) => o.key === key)) out.push({ key, kind });
+            for (const key of table[feature])
+                if (!out.some((o) => o.key === key)) out.push({ key, kind });
         }
     };
     add(CONTROL_LABELS, "control");
@@ -62,7 +69,10 @@ export function requiredLabels(features: LabelFeatures): { key: string; kind: La
 }
 
 /** The required labels that are absent (`undefined`, `null` or an empty string) from `labels`. */
-export function missingLabels(features: LabelFeatures, labels: Record<string, unknown> | undefined): { key: string; kind: LabelKind }[] {
+export function missingLabels(
+    features: LabelFeatures,
+    labels: Record<string, unknown> | undefined,
+): { key: string; kind: LabelKind }[] {
     return requiredLabels(features).filter(({ key }) => {
         const value = labels?.[key];
         return value === undefined || value === null || value === "";

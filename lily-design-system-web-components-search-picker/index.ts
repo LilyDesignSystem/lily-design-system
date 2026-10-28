@@ -8,17 +8,9 @@
  * `customElements.define(...)` themselves.
  */
 
-import {
-    SearchPicker,
-    RETURN_SYMBOL,
-    searchHref,
-    nextSearchPickerId,
-} from "./search-picker.js";
+import { SearchPicker, RETURN_SYMBOL, searchHref, nextSearchPickerId } from "./search-picker.js";
 export { SearchPicker, RETURN_SYMBOL, searchHref, nextSearchPickerId };
-export type {
-    SearchPickerProps,
-    SearchPickerSearchDetail,
-} from "./search-picker.js";
+export type { SearchPickerProps, SearchPickerSearchDetail } from "./search-picker.js";
 
 if (typeof customElements !== "undefined" && !customElements.get("lily-search-picker")) {
     customElements.define("lily-search-picker", SearchPicker);

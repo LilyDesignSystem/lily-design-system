@@ -8,7 +8,9 @@ import SettingsPicker from "../SettingsPicker.vue";
 
 <template>
     <SettingsPicker label="More">
-        <template #icon="{ open }"><span aria-hidden="true">{{ open ? "×" : "⋯" }}</span></template>
+        <template #icon="{ open }"
+            ><span aria-hidden="true">{{ open ? "×" : "⋯" }}</span></template
+        >
         <a href="/help/">Help</a>
     </SettingsPicker>
 </template>

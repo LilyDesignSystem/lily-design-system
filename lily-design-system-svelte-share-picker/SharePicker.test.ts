@@ -1,11 +1,7 @@
 import { render, screen, fireEvent, cleanup } from "@testing-library/svelte";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
-import SharePicker, {
-    canCopy,
-    canShareNatively,
-    type ShareTarget,
-} from "./SharePicker.svelte";
+import SharePicker, { canCopy, canShareNatively, type ShareTarget } from "./SharePicker.svelte";
 
 const URL_UNDER_TEST = "https://example.test/article";
 
@@ -13,7 +9,8 @@ const TARGETS: ShareTarget[] = [
     {
         id: "mastodon",
         label: "Mastodon",
-        href: (u, t) => `https://mastodon.test/share?url=${encodeURIComponent(u)}&text=${encodeURIComponent(t)}`,
+        href: (u, t) =>
+            `https://mastodon.test/share?url=${encodeURIComponent(u)}&text=${encodeURIComponent(t)}`,
     },
     {
         id: "linkedin",
@@ -44,7 +41,11 @@ function stubClipboard(succeed = true): { writes: string[]; restore: () => void 
         writes,
         restore: () => {
             if (original === undefined) delete (navigator as any).clipboard;
-            else Object.defineProperty(navigator, "clipboard", { configurable: true, value: original });
+            else
+                Object.defineProperty(navigator, "clipboard", {
+                    configurable: true,
+                    value: original,
+                });
         },
     };
 }
@@ -109,9 +110,9 @@ describe("SharePicker — markup contract (§7.1–§7.6)", () => {
         await fireEvent.click(screen.getByRole("button", { name: "Share" }));
         await flush();
         expect(list.hasAttribute("hidden")).toBe(false);
-        expect(
-            screen.getByRole("button", { name: "Share" }).getAttribute("aria-expanded"),
-        ).toBe("true");
+        expect(screen.getByRole("button", { name: "Share" }).getAttribute("aria-expanded")).toBe(
+            "true",
+        );
     });
 
     test("§7.3 destinations are real links, not role=menuitem", async () => {
@@ -151,13 +152,21 @@ describe("SharePicker — markup contract (§7.1–§7.6)", () => {
             href: (_u, _t, text) => `https://assistant.test/new?q=${encodeURIComponent(text)}`,
         };
         render(SharePicker, {
-            props: { label: "Ask", targets: [assistant], url: URL_UNDER_TEST, text: prompt, strategy: "list" },
+            props: {
+                label: "Ask",
+                targets: [assistant],
+                url: URL_UNDER_TEST,
+                text: prompt,
+                strategy: "list",
+            },
         });
         await fireEvent.click(screen.getByRole("button", { name: "Ask" }));
         const a = document.querySelector<HTMLAnchorElement>(".share-picker-target")!;
         expect(a.tagName).toBe("A");
         expect(a.getAttribute("rel")).toContain("noopener");
-        expect(a.getAttribute("href")).toBe(`https://assistant.test/new?q=${encodeURIComponent(prompt)}`);
+        expect(a.getAttribute("href")).toBe(
+            `https://assistant.test/new?q=${encodeURIComponent(prompt)}`,
+        );
         expect(a.getAttribute("href")).not.toContain("&y=2");
     });
 
@@ -393,9 +402,7 @@ describe("SharePicker — keyboard and dismissal (§7.15–§7.19)", () => {
 
     test("§7.16 arrows move focus between items and clamp at the ends", async () => {
         const { list } = await openList();
-        const all = Array.from(
-            list.querySelectorAll(".share-picker-target, .share-picker-copy"),
-        );
+        const all = Array.from(list.querySelectorAll(".share-picker-target, .share-picker-copy"));
         await fireEvent.keyDown(list, { key: "ArrowDown" });
         expect(document.activeElement).toBe(all[1]);
         await fireEvent.keyDown(list, { key: "ArrowUp" });
@@ -407,9 +414,7 @@ describe("SharePicker — keyboard and dismissal (§7.15–§7.19)", () => {
 
     test("§7.16 Home and End jump to the first and last item", async () => {
         const { list } = await openList();
-        const all = Array.from(
-            list.querySelectorAll(".share-picker-target, .share-picker-copy"),
-        );
+        const all = Array.from(list.querySelectorAll(".share-picker-target, .share-picker-copy"));
         await fireEvent.keyDown(list, { key: "End" });
         expect(document.activeElement).toBe(all[all.length - 1]);
         await fireEvent.keyDown(list, { key: "Home" });
@@ -546,7 +551,7 @@ describe("SharePicker — accessibility hardening (§7.23–§7.24)", () => {
 describe("SharePicker — tooltip (§7.26–§7.31)", () => {
     function setup() {
         render(SharePicker, { props: { label: "Share", targets: TARGETS, url: URL_UNDER_TEST } });
-        const button = document.querySelector(".share-picker-button" ) as HTMLButtonElement;
+        const button = document.querySelector(".share-picker-button") as HTMLButtonElement;
         const tip = document.querySelector(".share-picker-tooltip") as HTMLElement;
         return { button, tip };
     }
@@ -675,15 +680,25 @@ describe("SharePicker — tooltip (§7.26–§7.31)", () => {
 describe("SharePicker — open state and disabled (§open)", () => {
     test("open starts the popup open (aria-expanded) without calling onOpenChange", async () => {
         const onOpenChange = vi.fn();
-        render(SharePicker, { props: { ...{ label: "Share", targets: TARGETS, url: URL_UNDER_TEST }, open: true, onOpenChange } });
+        render(SharePicker, {
+            props: {
+                ...{ label: "Share", targets: TARGETS, url: URL_UNDER_TEST },
+                open: true,
+                onOpenChange,
+            },
+        });
         await flush();
-        expect(screen.getByRole("button", { name: "Share" }).getAttribute("aria-expanded")).toBe("true");
+        expect(screen.getByRole("button", { name: "Share" }).getAttribute("aria-expanded")).toBe(
+            "true",
+        );
         expect(onOpenChange).not.toHaveBeenCalled();
     });
 
     test("onOpenChange fires once for each open and close by the user", async () => {
         const onOpenChange = vi.fn();
-        render(SharePicker, { props: { ...{ label: "Share", targets: TARGETS, url: URL_UNDER_TEST }, onOpenChange } });
+        render(SharePicker, {
+            props: { ...{ label: "Share", targets: TARGETS, url: URL_UNDER_TEST }, onOpenChange },
+        });
         const button = screen.getByRole("button", { name: "Share" });
         await fireEvent.click(button);
         await flush();
@@ -696,7 +711,13 @@ describe("SharePicker — open state and disabled (§open)", () => {
 
     test("disabled disables the button and it cannot open", async () => {
         const onOpenChange = vi.fn();
-        render(SharePicker, { props: { ...{ label: "Share", targets: TARGETS, url: URL_UNDER_TEST }, disabled: true, onOpenChange } });
+        render(SharePicker, {
+            props: {
+                ...{ label: "Share", targets: TARGETS, url: URL_UNDER_TEST },
+                disabled: true,
+                onOpenChange,
+            },
+        });
         const button = screen.getByRole("button", { name: "Share" }) as HTMLButtonElement;
         expect(button.disabled).toBe(true);
         await fireEvent.click(button);
@@ -706,9 +727,16 @@ describe("SharePicker — open state and disabled (§open)", () => {
     });
 
     test("disabled closes a popup that was open", async () => {
-        render(SharePicker, { props: { ...{ label: "Share", targets: TARGETS, url: URL_UNDER_TEST }, open: true, disabled: true } });
+        render(SharePicker, {
+            props: {
+                ...{ label: "Share", targets: TARGETS, url: URL_UNDER_TEST },
+                open: true,
+                disabled: true,
+            },
+        });
         await flush();
-        expect(screen.getByRole("button", { name: "Share" }).getAttribute("aria-expanded")).toBe("false");
+        expect(screen.getByRole("button", { name: "Share" }).getAttribute("aria-expanded")).toBe(
+            "false",
+        );
     });
 });
-

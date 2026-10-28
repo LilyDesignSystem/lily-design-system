@@ -6,12 +6,12 @@
   localisable accessible name.
 -->
 <script lang="ts">
-  import SearchPicker from "../SearchPicker.svelte";
+    import SearchPicker from "../SearchPicker.svelte";
 </script>
 
 <SearchPicker
-  label="Search this site"
-  inputLabel="Search terms"
-  submitLabel="Search"
-  placeholder="Search…"
+    label="Search this site"
+    inputLabel="Search terms"
+    submitLabel="Search"
+    placeholder="Search…"
 />

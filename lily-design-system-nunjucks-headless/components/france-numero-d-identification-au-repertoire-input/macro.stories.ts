@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<input
   class="france-numero-d-identification-au-repertoire-input"
@@ -13,9 +13,9 @@ const html = `<input
   spellcheck="false">`;
 
 const meta = {
-  title: 'Headless/FranceNumeroDIdentificationAuRepertoireInput',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/FranceNumeroDIdentificationAuRepertoireInput",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

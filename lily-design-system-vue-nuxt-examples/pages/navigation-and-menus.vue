@@ -29,19 +29,72 @@ const editMenuOpen = ref(false);
         </MenuBar>
 
         <div>
-            <DropdownMenu v-if="fileMenuOpen" label="File" :open="fileMenuOpen">
-                <li role="menuitem" :tabindex="-1">New Document</li>
-                <li role="menuitem" :tabindex="-1">Open...</li>
-                <li role="menuitem" :tabindex="-1">Save</li>
-                <li role="menuitem" :tabindex="-1">Export as PDF</li>
+            <DropdownMenu
+                v-if="fileMenuOpen"
+                label="File"
+                :open="fileMenuOpen"
+            >
+                <li
+                    role="menuitem"
+                    :tabindex="-1"
+                >
+                    New Document
+                </li>
+                <li
+                    role="menuitem"
+                    :tabindex="-1"
+                >
+                    Open...
+                </li>
+                <li
+                    role="menuitem"
+                    :tabindex="-1"
+                >
+                    Save
+                </li>
+                <li
+                    role="menuitem"
+                    :tabindex="-1"
+                >
+                    Export as PDF
+                </li>
             </DropdownMenu>
 
-            <DropdownMenu v-if="editMenuOpen" label="Edit" :open="editMenuOpen">
-                <li role="menuitem" :tabindex="-1">Undo</li>
-                <li role="menuitem" :tabindex="-1">Redo</li>
-                <li role="menuitem" :tabindex="-1">Cut</li>
-                <li role="menuitem" :tabindex="-1">Copy</li>
-                <li role="menuitem" :tabindex="-1">Paste</li>
+            <DropdownMenu
+                v-if="editMenuOpen"
+                label="Edit"
+                :open="editMenuOpen"
+            >
+                <li
+                    role="menuitem"
+                    :tabindex="-1"
+                >
+                    Undo
+                </li>
+                <li
+                    role="menuitem"
+                    :tabindex="-1"
+                >
+                    Redo
+                </li>
+                <li
+                    role="menuitem"
+                    :tabindex="-1"
+                >
+                    Cut
+                </li>
+                <li
+                    role="menuitem"
+                    :tabindex="-1"
+                >
+                    Copy
+                </li>
+                <li
+                    role="menuitem"
+                    :tabindex="-1"
+                >
+                    Paste
+                </li>
             </DropdownMenu>
         </div>
 
@@ -61,8 +114,15 @@ const editMenuOpen = ref(false);
         <Separator />
 
         <h2>Mobile Navigation</h2>
-        <HamburgerMenu label="Mobile menu" :expanded="hamburgerOpen" @click="hamburgerOpen = !hamburgerOpen" />
-        <NavigationMenu v-if="hamburgerOpen" label="Mobile navigation">
+        <HamburgerMenu
+            label="Mobile menu"
+            :expanded="hamburgerOpen"
+            @click="hamburgerOpen = !hamburgerOpen"
+        />
+        <NavigationMenu
+            v-if="hamburgerOpen"
+            label="Mobile navigation"
+        >
             <ul>
                 <li><a href="#home">Home</a></li>
                 <li><a href="#projects">Projects</a></li>

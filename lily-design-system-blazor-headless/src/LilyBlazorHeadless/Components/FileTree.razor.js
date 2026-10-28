@@ -90,7 +90,8 @@ export function attach(tree) {
                 if (target !== item) return;
                 event.preventDefault();
                 if (expanded === "false") item.setAttribute("aria-expanded", "true");
-                else if (expanded === "true") focusItem(item.querySelector("[role='group'] [role='treeitem']"));
+                else if (expanded === "true")
+                    focusItem(item.querySelector("[role='group'] [role='treeitem']"));
                 return;
             case "ArrowLeft":
                 if (target !== item) return;
@@ -107,7 +108,10 @@ export function attach(tree) {
             case "*":
                 event.preventDefault();
                 for (const sibling of Array.from(item.parentElement?.children ?? [])) {
-                    if (sibling.getAttribute("role") === "treeitem" && sibling.getAttribute("aria-expanded") === "false") {
+                    if (
+                        sibling.getAttribute("role") === "treeitem" &&
+                        sibling.getAttribute("aria-expanded") === "false"
+                    ) {
                         sibling.setAttribute("aria-expanded", "true");
                     }
                 }

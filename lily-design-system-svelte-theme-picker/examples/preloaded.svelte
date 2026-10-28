@@ -1,3 +1,7 @@
+<script lang="ts">
+    import ThemePicker from "../ThemePicker.svelte";
+</script>
+
 <!--
   Example 6 — Zero-flicker switching via preloading.
 
@@ -16,17 +20,22 @@
   already-cached stylesheets, so the network cost is just a 304.
 -->
 <svelte:head>
-  <link rel="stylesheet" href="/assets/themes/light.css">
-  <link rel="stylesheet" href="/assets/themes/dark.css">
-  <link rel="stylesheet" href="/assets/themes/abyss.css">
+    <link
+        rel="stylesheet"
+        href="/assets/themes/light.css"
+    />
+    <link
+        rel="stylesheet"
+        href="/assets/themes/dark.css"
+    />
+    <link
+        rel="stylesheet"
+        href="/assets/themes/abyss.css"
+    />
 </svelte:head>
 
-<script lang="ts">
-  import ThemePicker from "../ThemePicker.svelte";
-</script>
-
 <ThemePicker
-  label="Theme"
-  themesUrl="/assets/themes/"
-  themes={["light", "dark", "abyss"]}
+    label="Theme"
+    themesUrl="/assets/themes/"
+    themes={["light", "dark", "abyss"]}
 />

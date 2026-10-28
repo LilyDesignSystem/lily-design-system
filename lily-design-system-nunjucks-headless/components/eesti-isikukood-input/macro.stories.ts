@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<input
   class="eesti-isikukood-input"
@@ -8,9 +8,9 @@ const html = `<input
   aria-label="Personal Identification Code">`;
 
 const meta = {
-  title: 'Headless/EestiIsikukoodInput',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/EestiIsikukoodInput",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

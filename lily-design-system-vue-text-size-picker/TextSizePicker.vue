@@ -114,7 +114,10 @@ const hoverTooltip = ref(false);
 const focusButton = ref(false);
 const dismissed = ref(false);
 const tooltipVisible = computed(
-    () => !open.value && !dismissed.value && (hoverButton.value || hoverTooltip.value || focusButton.value),
+    () =>
+        !open.value &&
+        !dismissed.value &&
+        (hoverButton.value || hoverTooltip.value || focusButton.value),
 );
 
 function onTooltipButtonEnter(): void {
@@ -220,9 +223,7 @@ async function openList(startIndex?: number): Promise<void> {
     // aria-activedescendant off rather than pointing at an id that
     // does not exist.
     activeIndex.value =
-        props.sizes.length === 0
-            ? -1
-            : (startIndex ?? (selected >= 0 ? selected : 0));
+        props.sizes.length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0));
     open.value = true;
     // Focus moves to the listbox; the active option is conveyed via
     // aria-activedescendant, per the APG listbox pattern. Wait for the
@@ -348,7 +349,11 @@ onBeforeUnmount(() => {
         :class="`text-size-picker ${props.class}`.trim()"
         @focusout="onRootFocusOut"
     >
-        <input type="hidden" :name="name" :value="current" />
+        <input
+            type="hidden"
+            :name="name"
+            :value="current"
+        />
 
         <IconButton
             :disabled="disabled"
@@ -393,7 +398,9 @@ onBeforeUnmount(() => {
             :hidden="tooltipVisible ? undefined : true"
             @mouseenter="hoverTooltip = true"
             @mouseleave="hoverTooltip = false"
-        >{{ label }}</div>
+        >
+            {{ label }}
+        </div>
 
         <Listbox
             ref="listEl"
@@ -420,7 +427,9 @@ onBeforeUnmount(() => {
                 :aria-selected="size === current ? 'true' : 'false'"
                 :data-active="i === activeIndex ? '' : undefined"
                 @click="choose(i)"
-            >{{ labelFor(size) }}</li>
+            >
+                {{ labelFor(size) }}
+            </li>
         </Listbox>
     </div>
 </template>

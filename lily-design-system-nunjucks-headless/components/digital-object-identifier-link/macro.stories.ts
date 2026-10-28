@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<a
   class="digital-object-identifier-link"
@@ -6,9 +6,9 @@ const html = `<a
   rel="noopener">doi: undefined</a>`;
 
 const meta = {
-  title: 'Headless/DigitalObjectIdentifierLink',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/DigitalObjectIdentifierLink",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

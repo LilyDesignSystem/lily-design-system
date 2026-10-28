@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<figure class="ring-chart">
   <!-- role="img" lives on the graphic wrapper, never on the figure: it makes
@@ -18,9 +18,9 @@ const html = `<figure class="ring-chart">
 </figure>`;
 
 const meta = {
-  title: 'Headless/RingChart',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/RingChart",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

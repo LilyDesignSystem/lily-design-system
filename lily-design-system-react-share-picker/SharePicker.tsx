@@ -48,10 +48,7 @@ export type ChildArgs = {
 export type ShareStrategy = "auto" | "native" | "list";
 
 /** Public props for SharePicker. See `spec/index.md` §4 for the contract. */
-export type Props = Omit<
-    React.HTMLAttributes<HTMLDivElement>,
-    "children" | "title" | "onCopy"
-> & {
+export type Props = Omit<React.HTMLAttributes<HTMLDivElement>, "children" | "title" | "onCopy"> & {
     /** Accessible name for the button and the list. */
     label: string;
     /** Destinations to offer. Empty is valid if `copyLabel` is set. */
@@ -107,10 +104,7 @@ export type Props = Omit<
  * control. Purely visual: the text is the button's own aria-label, so it
  * is deliberately not linked with aria-describedby.
  */
-function usePickerTooltip(
-    buttonRef: React.RefObject<HTMLButtonElement | null>,
-    open: boolean,
-) {
+function usePickerTooltip(buttonRef: React.RefObject<HTMLButtonElement | null>, open: boolean) {
     const [hoverButton, setHoverButton] = React.useState(false);
     const [hoverTooltip, setHoverTooltip] = React.useState(false);
     const [focusButton, setFocusButton] = React.useState(false);
@@ -164,17 +158,12 @@ function usePickerTooltip(
 }
 
 export function canShareNatively(): boolean {
-    return (
-        typeof navigator !== "undefined" && typeof navigator.share === "function"
-    );
+    return typeof navigator !== "undefined" && typeof navigator.share === "function";
 }
 
 /** Is an async clipboard available? SSR-safe. */
 export function canCopy(): boolean {
-    return (
-        typeof navigator !== "undefined" &&
-        typeof navigator.clipboard?.writeText === "function"
-    );
+    return typeof navigator !== "undefined" && typeof navigator.clipboard?.writeText === "function";
 }
 
 let uid = 0;
@@ -228,16 +217,16 @@ export function SharePicker({
     const onOpenChangeRef = React.useRef(onOpenChange);
     onOpenChangeRef.current = onOpenChange;
     const setOpen = React.useCallback(
-      (next: boolean): void => {
-        if (next === openRef.current) return;
-        openRef.current = next;
-        if (openProp === undefined) setOpenInner(next);
-        onOpenChangeRef.current?.(next);
-      },
-      [openProp],
+        (next: boolean): void => {
+            if (next === openRef.current) return;
+            openRef.current = next;
+            if (openProp === undefined) setOpenInner(next);
+            onOpenChangeRef.current?.(next);
+        },
+        [openProp],
     );
     React.useEffect(() => {
-      if (disabled && openRaw) setOpen(false);
+        if (disabled && openRaw) setOpen(false);
     }, [disabled, openRaw, setOpen]);
     const [status, setStatus] = React.useState("");
 
@@ -265,9 +254,7 @@ export function SharePicker({
         const list = listRef.current;
         if (!list) return [];
         return Array.from(
-            list.querySelectorAll<HTMLElement>(
-                ".share-picker-target, .share-picker-copy",
-            ),
+            list.querySelectorAll<HTMLElement>(".share-picker-target, .share-picker-copy"),
         );
     }
 
@@ -331,10 +318,7 @@ export function SharePicker({
         const all = items();
         if (all.length === 0) return;
         const i = all.indexOf(document.activeElement as HTMLElement);
-        const next = Math.min(
-            Math.max((i < 0 ? 0 : i) + delta, 0),
-            all.length - 1,
-        );
+        const next = Math.min(Math.max((i < 0 ? 0 : i) + delta, 0), all.length - 1);
         all[next]?.focus({ preventScroll: true });
     }
 
@@ -455,9 +439,9 @@ export function SharePicker({
                 aria-expanded={open}
                 aria-controls={listId}
                 onClick={() => {
-                tip.onButtonClick();
-                void onButtonClick();
-            }}
+                    tip.onButtonClick();
+                    void onButtonClick();
+                }}
                 onKeyDown={(event) => {
                     tip.onButtonKeyDown(event);
                     onButtonKeyDown(event);
@@ -506,7 +490,10 @@ export function SharePicker({
                 onKeyDown={onListKeyDown}
             >
                 {targets.map((target) => (
-                    <li className="share-picker-list-item" key={target.id}>
+                    <li
+                        className="share-picker-list-item"
+                        key={target.id}
+                    >
                         {/* A real link, not role="menuitem": these ARE
                             navigation, and menuitem would strip middle-click,
                             open-in-new-tab and copy-link-address. */}
@@ -539,7 +526,10 @@ export function SharePicker({
             {/* Copying gives no visual feedback of its own, so the outcome is
                 announced. Empty until something happens, so it stays silent on
                 load; aria-live announces mutations only. */}
-            <p className="share-picker-status" aria-live="polite">
+            <p
+                className="share-picker-status"
+                aria-live="polite"
+            >
                 {status}
             </p>
         </div>

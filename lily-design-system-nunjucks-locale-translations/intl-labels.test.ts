@@ -20,7 +20,11 @@ describe("calendar labels", () => {
     it("names a day in full and announces a period", () => {
         // The punctuation between the parts differs between ICU versions, so only the parts are pinned.
         expect(l.day("2026-10-24" as never)).toMatch(/^Saturday.*24 October 2026$/);
-        const period = l.periodAnnouncement("month" as never, "2026-10-01" as never, "2026-10-31" as never);
+        const period = l.periodAnnouncement(
+            "month" as never,
+            "2026-10-01" as never,
+            "2026-10-31" as never,
+        );
         expect(period).toMatch(/Thursday.*1 October 2026 – Saturday.*31 October 2026/);
     });
     it("follows the locale", () => {
@@ -33,11 +37,15 @@ describe("calendar labels", () => {
 
 describe("gantt labels", () => {
     it("labels a column by day and month", () => {
-        const l = intlLabels("gantt-chart", "en-GB", pack) as { columnLabel: (s: string) => string };
+        const l = intlLabels("gantt-chart", "en-GB", pack) as {
+            columnLabel: (s: string) => string;
+        };
         expect(l.columnLabel("2026-10-24")).toBe("24 Oct");
     });
     it("builds the date-time picker names, with confirm and cancel from the pack's save and cancel", () => {
-        const l = intlLabels("gantt-chart", "en-GB", pack) as { dateTimePickerLabels: Record<string, string> };
+        const l = intlLabels("gantt-chart", "en-GB", pack) as {
+            dateTimePickerLabels: Record<string, string>;
+        };
         expect(l.dateTimePickerLabels.confirm).toBe("Save");
         expect(l.dateTimePickerLabels.cancel).toBe("Cancel");
         expect(l.dateTimePickerLabels.previousMonth).toBe("Last month");
@@ -61,7 +69,9 @@ describe("what it will not do", () => {
         expect(intlLabels("kanban-board", "en-GB")).toEqual({});
     });
     it("passes confirm and cancel through even when Intl has nothing", () => {
-        expect(intlDateTimePickerLabels("not a locale", { confirm: "OK" })).toEqual({ confirm: "OK" });
+        expect(intlDateTimePickerLabels("not a locale", { confirm: "OK" })).toEqual({
+            confirm: "OK",
+        });
     });
 });
 

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="scroll-bar"
@@ -11,9 +11,9 @@ const html = `<div
 </div>`;
 
 const meta = {
-  title: 'Headless/ScrollBar',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/ScrollBar",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

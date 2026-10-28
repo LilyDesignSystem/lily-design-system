@@ -5,16 +5,15 @@ import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("div.table-td");
 
-
 describe("TableTD", () => {
-  it("renders the element with its base class", async () => {
-    await mount("table-td");
-    expect(el()).not.toBeNull();
-    expect(el().classList.contains("table-td")).toBe(true);
-  });
+    it("renders the element with its base class", async () => {
+        await mount("table-td");
+        expect(el()).not.toBeNull();
+        expect(el().classList.contains("table-td")).toBe(true);
+    });
 
-  it("uses the div element", async () => {
-    await mount("table-td");
-    expect(el().tagName.toLowerCase()).toBe("div");
-  });
+    it("uses the div element", async () => {
+        await mount("table-td");
+        expect(el().tagName.toLowerCase()).toBe("div");
+    });
 });

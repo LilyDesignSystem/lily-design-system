@@ -1,5 +1,13 @@
 <script lang="ts">
-import { DEFAULT_ZONES, matchZone, orderedZones, systemZone, zoneInfo, type ZoneInfo, type ZoneNames } from "./zones.js";
+import {
+    DEFAULT_ZONES,
+    matchZone,
+    orderedZones,
+    systemZone,
+    zoneInfo,
+    type ZoneInfo,
+    type ZoneNames,
+} from "./zones.js";
 
 export { DEFAULT_ZONES };
 export type { ZoneInfo, ZoneNames };
@@ -105,7 +113,10 @@ const hoverTooltip = ref(false);
 const focusButton = ref(false);
 const dismissed = ref(false);
 const tooltipVisible = computed(
-    () => !open.value && !dismissed.value && (hoverButton.value || hoverTooltip.value || focusButton.value),
+    () =>
+        !open.value &&
+        !dismissed.value &&
+        (hoverButton.value || hoverTooltip.value || focusButton.value),
 );
 
 function onTooltipButtonEnter(): void {
@@ -163,9 +174,12 @@ const rootEl = ref<HTMLDivElement | null>(null);
 // re-sorted itself while open would move the option under the pointer.
 const whenInitial = new Date();
 const when = computed(() => props.date ?? whenInitial);
-const infos = computed(() => orderedZones(props.zones, props.locale, when.value, props.labelFor, props.names));
+const infos = computed(() =>
+    orderedZones(props.zones, props.locale, when.value, props.labelFor, props.names),
+);
 const ids = computed(() => infos.value.map((z) => z.id));
-const infoFor = (zone: string) => zoneInfo(zone, props.locale, when.value, props.labelFor, props.names);
+const infoFor = (zone: string) =>
+    zoneInfo(zone, props.locale, when.value, props.labelFor, props.names);
 
 function applyZone(slug: string): void {
     if (typeof document === "undefined" || !slug) return;
@@ -213,9 +227,7 @@ async function openList(startIndex?: number): Promise<void> {
     // aria-activedescendant off rather than pointing at an id that
     // does not exist.
     activeIndex.value =
-        ids.value.length === 0
-            ? -1
-            : (startIndex ?? (selected >= 0 ? selected : 0));
+        ids.value.length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0));
     open.value = true;
     // Focus moves to the listbox; the active option is conveyed via
     // aria-activedescendant, per the APG listbox pattern. Wait for the
@@ -345,7 +357,11 @@ onBeforeUnmount(() => {
         :class="`time-zone-picker ${props.class}`.trim()"
         @focusout="onRootFocusOut"
     >
-        <input type="hidden" :name="name" :value="current" />
+        <input
+            type="hidden"
+            :name="name"
+            :value="current"
+        />
 
         <IconButton
             :disabled="disabled"
@@ -390,7 +406,9 @@ onBeforeUnmount(() => {
             :hidden="tooltipVisible ? undefined : true"
             @mouseenter="hoverTooltip = true"
             @mouseleave="hoverTooltip = false"
-        >{{ label }}</div>
+        >
+            {{ label }}
+        </div>
 
         <Listbox
             ref="listEl"
@@ -418,7 +436,9 @@ onBeforeUnmount(() => {
                 :data-active="i === activeIndex ? '' : undefined"
                 :data-offset="zone.offset"
                 @click="choose(i)"
-            >{{ zone.label }}</li>
+            >
+                {{ zone.label }}
+            </li>
         </Listbox>
     </div>
 </template>

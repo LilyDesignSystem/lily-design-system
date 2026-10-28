@@ -34,9 +34,7 @@ function mockReducedMotion(matches: boolean): void {
 let fixtures: ComponentFixture<unknown>[] = [];
 
 /** Create + render a MotionPicker with the supplied inputs. */
-function mount(
-  inputs: Record<string, unknown> = {},
-): ComponentFixture<MotionPicker> {
+function mount(inputs: Record<string, unknown> = {}): ComponentFixture<MotionPicker> {
   const fixture = TestBed.createComponent(MotionPicker);
   fixture.componentRef.setInput("label", "Motion");
   fixture.componentRef.setInput("motions", MOTIONS);
@@ -58,10 +56,7 @@ async function mountSettled(
   return fixture;
 }
 
-function q<T extends Element>(
-  fixture: ComponentFixture<unknown>,
-  sel: string,
-): T {
+function q<T extends Element>(fixture: ComponentFixture<unknown>, sel: string): T {
   return fixture.nativeElement.querySelector(sel) as T;
 }
 
@@ -80,11 +75,7 @@ function options(fixture: ComponentFixture<unknown>): HTMLLIElement[] {
 }
 
 /** Dispatch a bubbling keydown and re-render. */
-function press(
-  fixture: ComponentFixture<unknown>,
-  target: HTMLElement,
-  key: string,
-): void {
+function press(fixture: ComponentFixture<unknown>, target: HTMLElement, key: string): void {
   target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true }));
   fixture.detectChanges();
 }
@@ -170,9 +161,7 @@ describe("MotionPicker — markup contract (§4.2, §7.1–§7.5)", () => {
 
   test("§7.3 name defaults to motion", async () => {
     const fixture = await mountSettled();
-    expect(q<HTMLInputElement>(fixture, 'input[type="hidden"]').name).toBe(
-      "motion",
-    );
+    expect(q<HTMLInputElement>(fixture, 'input[type="hidden"]').name).toBe("motion");
   });
 
   test("§7.3 option ids are unique per instance", () => {
@@ -250,9 +239,7 @@ describe("MotionPicker — markup contract (§4.2, §7.1–§7.5)", () => {
 });
 
 describe("MotionPicker — keyboard contract (APG listbox, §7.18–§7.22)", () => {
-  async function openWith(
-    key: string,
-  ): Promise<ComponentFixture<MotionPicker>> {
+  async function openWith(key: string): Promise<ComponentFixture<MotionPicker>> {
     const fixture = await mountSettled();
     press(fixture, button(fixture), key);
     await flush();
@@ -271,9 +258,7 @@ describe("MotionPicker — keyboard contract (APG listbox, §7.18–§7.22)", ()
   test("§7.18 opening puts the active descendant on the selected motion", async () => {
     const fixture = await openWith("ArrowDown");
     // "no-preference" resolves as the initial motion, so it is index 0.
-    expect(list(fixture).getAttribute("aria-activedescendant")).toBe(
-      list(fixture).children[0].id,
-    );
+    expect(list(fixture).getAttribute("aria-activedescendant")).toBe(list(fixture).children[0].id);
   });
 
   test("§7.18 ArrowUp opens with the last option active", async () => {
@@ -305,18 +290,14 @@ describe("MotionPicker — keyboard contract (APG listbox, §7.18–§7.22)", ()
     const fixture = await openWith("ArrowUp");
     const ul = list(fixture);
     press(fixture, ul, "ArrowDown");
-    expect(ul.getAttribute("aria-activedescendant")).toBe(
-      ul.children[MOTIONS.length - 1].id,
-    );
+    expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[MOTIONS.length - 1].id);
   });
 
   test("§7.19 Home and End jump to the first and last option", async () => {
     const fixture = await openWith("ArrowDown");
     const ul = list(fixture);
     press(fixture, ul, "End");
-    expect(ul.getAttribute("aria-activedescendant")).toBe(
-      ul.children[MOTIONS.length - 1].id,
-    );
+    expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[MOTIONS.length - 1].id);
     press(fixture, ul, "Home");
     expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[0].id);
   });
@@ -460,9 +441,7 @@ describe("MotionPicker — motion application (§5, §7.6–§7.11)", () => {
 
   test("§7.7 sets data-motion on documentElement", async () => {
     await mountSettled({ defaultValue: "reduce" });
-    expect(document.documentElement.getAttribute("data-motion")).toBe(
-      "reduce",
-    );
+    expect(document.documentElement.getAttribute("data-motion")).toBe("reduce");
   });
 
   test("§7.8 selecting an option updates data-motion and emits motionChange", async () => {
@@ -477,9 +456,7 @@ describe("MotionPicker — motion application (§5, §7.6–§7.11)", () => {
   test("§7.8 the hidden input tracks the selected value", async () => {
     const fixture = await mountSettled();
     await pick(fixture, "reduce");
-    expect(q<HTMLInputElement>(fixture, 'input[type="hidden"]').value).toBe(
-      "reduce",
-    );
+    expect(q<HTMLInputElement>(fixture, 'input[type="hidden"]').value).toBe("reduce");
   });
 
   test("§7.9 persists to localStorage and reads back on a fresh mount", async () => {
@@ -543,9 +520,7 @@ class IconTemplateHost {
 describe("MotionPicker — custom icon template (§7.12–§7.13)", () => {
   test("§7.12 className is appended to the root div", () => {
     const fixture = mount({ className: "extra" });
-    expect(
-      q<HTMLElement>(fixture, ".motion-picker").classList.contains("extra"),
-    ).toBe(true);
+    expect(q<HTMLElement>(fixture, ".motion-picker").classList.contains("extra")).toBe(true);
   });
 
   test("§7.13 a projected ng-template replaces the icon and receives ChildArgs", async () => {
@@ -557,12 +532,8 @@ describe("MotionPicker — custom icon template (§7.12–§7.13)", () => {
 
     const custom = q<HTMLElement>(fixture, '[data-testid="custom"]');
     expect(custom).toBeTruthy();
-    expect(custom.closest("button")?.className).toContain(
-      "motion-picker-button",
-    );
-    expect(
-      fixture.nativeElement.querySelector(".motion-picker-icon"),
-    ).toBeNull();
+    expect(custom.closest("button")?.className).toContain("motion-picker-button");
+    expect(fixture.nativeElement.querySelector(".motion-picker-icon")).toBeNull();
     expect(custom.getAttribute("data-open")).toBe("false");
     expect(custom.getAttribute("data-value")).toBe("reduce");
     expect(custom.getAttribute("data-label-reduce")).toBe("Reduce");
@@ -621,10 +592,7 @@ describe("MotionPicker — accessibility hardening (§7.14–§7.17)", () => {
   });
 
   test("§7.16 PageUp and PageDown move the cursor by ten, clamped", async () => {
-    const many = Array.from(
-      { length: 25 },
-      (_, i) => `s${String(i).padStart(2, "0")}`,
-    );
+    const many = Array.from({ length: 25 }, (_, i) => `s${String(i).padStart(2, "0")}`);
     const fixture = await openPicker(many);
     const ul = list(fixture);
     press(fixture, ul, "PageDown");
@@ -657,9 +625,7 @@ describe("MotionPicker — motionName / prefersReducedMotion (§7.23)", () => {
 
   test("labelFor delegates to motionName so there is one implementation", async () => {
     const fixture = await mountSettled();
-    expect(fixture.componentInstance.labelFor("reduce")).toBe(
-      motionName("reduce"),
-    );
+    expect(fixture.componentInstance.labelFor("reduce")).toBe(motionName("reduce"));
   });
 
   test("motionLabels still override motionName", async () => {
@@ -809,14 +775,19 @@ describe("motion-picker — tooltip (§7.24–§7.29)", () => {
 describe("MotionPicker — open state and disabled", () => {
   function build(extra: Record<string, unknown> = {}): ComponentFixture<MotionPicker> {
     const fixture = TestBed.createComponent(MotionPicker);
-    for (const [key, value] of Object.entries({ ...{ label: "Motion", motions: MOTIONS }, ...extra })) {
+    for (const [key, value] of Object.entries({
+      ...{ label: "Motion", motions: MOTIONS },
+      ...extra,
+    })) {
       fixture.componentRef.setInput(key, value);
     }
     fixture.detectChanges();
     return fixture;
   }
   const button = (f: ComponentFixture<unknown>) =>
-    f.nativeElement.querySelector(".motion-picker-button button, button.motion-picker-button") as HTMLButtonElement;
+    f.nativeElement.querySelector(
+      ".motion-picker-button button, button.motion-picker-button",
+    ) as HTMLButtonElement;
   const settle = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
 
   test("open starts the popup open without emitting openChange", async () => {
@@ -862,4 +833,3 @@ describe("MotionPicker — open state and disabled", () => {
     expect(button(fixture).getAttribute("aria-expanded")).toBe("false");
   });
 });
-

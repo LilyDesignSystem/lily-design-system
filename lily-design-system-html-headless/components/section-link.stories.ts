@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<a
   class="section-link"
@@ -8,9 +8,9 @@ const html = `<a
 </a>`;
 
 const meta = {
-  title: 'Headless/SectionLink',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/SectionLink",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

@@ -39,7 +39,10 @@
     bind:value={locale}
 />
 
-<section lang={bcp47LocaleTag(locale)} dir={isRtlLocale(locale) ? "rtl" : "ltr"}>
+<section
+    lang={bcp47LocaleTag(locale)}
+    dir={isRtlLocale(locale) ? "rtl" : "ltr"}
+>
     <h2>{NATIVE[locale]}</h2>
     <p>{sample[locale]}</p>
     <p>

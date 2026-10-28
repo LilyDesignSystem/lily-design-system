@@ -15,9 +15,11 @@ run("npx", ["vite", "build", "--config", "vite.lib.config.ts"]);
 run("npx", ["vue-tsc", "-p", "tsconfig.lib.json", "--emitDeclarationOnly"]);
 
 for (const artifact of ["index.js", "index.d.ts"]) {
-  const file = resolve(root, "dist", artifact);
-  if (!existsSync(file) || statSync(file).size === 0) {
-    throw new Error(`expected a non-empty dist/${artifact} after build, but it is missing or empty`);
-  }
+    const file = resolve(root, "dist", artifact);
+    if (!existsSync(file) || statSync(file).size === 0) {
+        throw new Error(
+            `expected a non-empty dist/${artifact} after build, but it is missing or empty`,
+        );
+    }
 }
 console.log("built dist");

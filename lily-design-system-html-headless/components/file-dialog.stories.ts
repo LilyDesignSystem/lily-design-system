@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<dialog
   class="file-dialog"
@@ -23,9 +23,9 @@ const html = `<dialog
 </script>`;
 
 const meta = {
-  title: 'Headless/FileDialog',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/FileDialog",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

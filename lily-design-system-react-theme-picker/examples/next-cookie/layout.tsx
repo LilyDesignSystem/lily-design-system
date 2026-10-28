@@ -14,19 +14,16 @@ import type { ReactNode } from "react";
 
 const KNOWN_THEMES = new Set(["light", "dark", "abyss"]);
 
-export default async function RootLayout({
-    children,
-}: {
-    children: ReactNode;
-}) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
     const cookieStore = await cookies();
     const cookieTheme = cookieStore.get("theme")?.value;
-    const theme = cookieTheme && KNOWN_THEMES.has(cookieTheme)
-        ? cookieTheme
-        : "light";
+    const theme = cookieTheme && KNOWN_THEMES.has(cookieTheme) ? cookieTheme : "light";
 
     return (
-        <html lang="en" data-theme={theme}>
+        <html
+            lang="en"
+            data-theme={theme}
+        >
             <head>
                 <link
                     rel="stylesheet"

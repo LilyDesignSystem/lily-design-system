@@ -25,5 +25,7 @@ function trackSizeChange(slug: string) {
         @change="trackSizeChange"
     />
 
-    <p>Current text size: <strong>{{ size || "(resolving…)" }}</strong></p>
+    <p>
+        Current text size: <strong>{{ size || "(resolving…)" }}</strong>
+    </p>
 </template>

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<input
   class="luxembourg-matricule-input"
@@ -8,9 +8,9 @@ const html = `<input
   aria-label="Numéro d'Identification Nationale (Matricule)">`;
 
 const meta = {
-  title: 'Headless/LuxembourgMatriculeInput',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/LuxembourgMatriculeInput",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

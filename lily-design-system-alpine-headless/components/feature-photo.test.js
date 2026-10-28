@@ -5,16 +5,15 @@ import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("figure.feature-photo");
 
-
 describe("FeaturePhoto", () => {
-  it("renders the element with its base class", async () => {
-    await mount("feature-photo");
-    expect(el()).not.toBeNull();
-    expect(el().classList.contains("feature-photo")).toBe(true);
-  });
+    it("renders the element with its base class", async () => {
+        await mount("feature-photo");
+        expect(el()).not.toBeNull();
+        expect(el().classList.contains("feature-photo")).toBe(true);
+    });
 
-  it("uses the figure element", async () => {
-    await mount("feature-photo");
-    expect(el().tagName.toLowerCase()).toBe("figure");
-  });
+    it("uses the figure element", async () => {
+        await mount("feature-photo");
+        expect(el().tagName.toLowerCase()).toBe("figure");
+    });
 });

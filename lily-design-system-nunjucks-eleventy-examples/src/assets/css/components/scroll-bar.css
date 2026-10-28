@@ -4,7 +4,10 @@
   border-radius: 5px;
   position: relative;
 }
-.scroll-bar[aria-orientation="horizontal"] { width: auto; height: 10px; }
+.scroll-bar[aria-orientation="horizontal"] {
+  width: auto;
+  height: 10px;
+}
 .scroll-bar-thumb {
   background: var(--nhsuk-blue);
   border-radius: 5px;

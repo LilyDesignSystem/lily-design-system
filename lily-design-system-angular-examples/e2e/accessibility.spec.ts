@@ -14,7 +14,9 @@ async function expectNoViolations(page: import("@playwright/test").Page, label: 
     const summary = results.violations
       .map((v) => `  - ${v.id} (${v.impact}): ${v.help} [${v.nodes.length} node(s)]`)
       .join("\n");
-    throw new Error(`axe found ${results.violations.length} WCAG violations on ${label}:\n${summary}`);
+    throw new Error(
+      `axe found ${results.violations.length} WCAG violations on ${label}:\n${summary}`,
+    );
   }
 }
 

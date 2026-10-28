@@ -40,16 +40,29 @@ function shortCode(code: string): string {
     <LocalePicker
         label="Language"
         :locales="[
-            'en', 'en_US', 'en_GB',
-            'fr', 'fr_CA',
-            'es', 'es_419',
+            'en',
+            'en_US',
+            'en_GB',
+            'fr',
+            'fr_CA',
+            'es',
+            'es_419',
             'de',
-            'zh_Hans', 'zh_Hant',
-            'ja', 'ko',
-            'ar', 'he', 'fa', 'ur',
-            'hi', 'bn',
-            'pt', 'pt_BR',
-            'ru', 'tr', 'vi',
+            'zh_Hans',
+            'zh_Hant',
+            'ja',
+            'ko',
+            'ar',
+            'he',
+            'fa',
+            'ur',
+            'hi',
+            'bn',
+            'pt',
+            'pt_BR',
+            'ru',
+            'tr',
+            'vi',
         ]"
         v-model:value="locale"
         storage-key="app-locale"
@@ -62,15 +75,22 @@ function shortCode(code: string): string {
                 aria-hidden="true"
                 >{{ shortCode(value) }}</span
             >
-            <span class="locale-picker-caret" aria-hidden="true">{{
-                open ? "▴" : "▾"
-            }}</span>
+            <span
+                class="locale-picker-caret"
+                aria-hidden="true"
+                >{{ open ? "▴" : "▾" }}</span
+            >
         </template>
     </LocalePicker>
 
-    <p class="locale-picker-status" aria-live="polite">
+    <p
+        class="locale-picker-status"
+        aria-live="polite"
+    >
         Current language: {{ localeName(locale) }}
     </p>
 
-    <p>Selected locale: <code>{{ locale }}</code></p>
+    <p>
+        Selected locale: <code>{{ locale }}</code>
+    </p>
 </template>

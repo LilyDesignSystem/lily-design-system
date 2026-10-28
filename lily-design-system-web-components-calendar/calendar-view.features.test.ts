@@ -4,7 +4,8 @@ import "@lilydesignsystem/web-components-date-time-picker";
 import { CalendarView } from "./calendar-view.js";
 import type { CalendarEvent, CalendarViewLabels } from "./calendar-view.js";
 
-if (typeof customElements !== "undefined" && !customElements.get("lily-calendar-view")) customElements.define("lily-calendar-view", CalendarView);
+if (typeof customElements !== "undefined" && !customElements.get("lily-calendar-view"))
+    customElements.define("lily-calendar-view", CalendarView);
 
 const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const LABELS: CalendarViewLabels = {
@@ -18,7 +19,8 @@ const LABELS: CalendarViewLabels = {
     rangeLimit: (limit, date) => `Stopped at the ${limit} date ${date}`,
     weekday: (wd) => WEEKDAYS[wd],
     weekdayAbbr: (wd) => WEEKDAYS[wd].slice(0, 3),
-    day: (iso, wd, outside) => `${Number(iso.slice(8))}, ${WEEKDAYS[wd]}${outside ? " (outside)" : ""}`,
+    day: (iso, wd, outside) =>
+        `${Number(iso.slice(8))}, ${WEEKDAYS[wd]}${outside ? " (outside)" : ""}`,
     search: "Search events",
     searchAnnouncement: (m, t) => `${m} of ${t} events`,
     copy: "Copy",
@@ -34,7 +36,10 @@ const EVENTS: CalendarEvent[] = [
     { id: "e3", date: "2026-01-08", title: "Write docs" },
 ];
 
-function mount(attrs: Record<string, string> = {}, props: Record<string, unknown> = {}): CalendarView {
+function mount(
+    attrs: Record<string, string> = {},
+    props: Record<string, unknown> = {},
+): CalendarView {
     const el = document.createElement("lily-calendar-view") as CalendarView;
     el.setAttribute("label", "Cal");
     el.setAttribute("view", "agenda");
@@ -44,18 +49,23 @@ function mount(attrs: Record<string, string> = {}, props: Record<string, unknown
     document.body.appendChild(el);
     el.labels = (props.labels as CalendarViewLabels) ?? LABELS;
     el.events = (props.events as CalendarEvent[]) ?? EVENTS;
-    for (const [k, v] of Object.entries(props)) if (!["labels", "events"].includes(k)) (el as never as Record<string, unknown>)[k] = v;
+    for (const [k, v] of Object.entries(props))
+        if (!["labels", "events"].includes(k)) (el as never as Record<string, unknown>)[k] = v;
     return el;
 }
 const q = (sel: string) => Array.from(document.querySelectorAll<HTMLElement>(sel));
-const keys = () => Array.from(new Set(q("[data-event-key]").map((e) => e.getAttribute("data-event-key"))));
+const keys = () =>
+    Array.from(new Set(q("[data-event-key]").map((e) => e.getAttribute("data-event-key"))));
 const status = () => document.querySelector(".calendar-view-status")?.textContent;
 const search = () => document.querySelector<HTMLInputElement>(".calendar-view-search")!;
 const type = (value: string) => {
     search().value = value;
     search().dispatchEvent(new Event("input", { bubbles: true }));
 };
-const press = (el: Element, key: string, opts: KeyboardEventInit = {}) => el.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...opts }));
+const press = (el: Element, key: string, opts: KeyboardEventInit = {}) =>
+    el.dispatchEvent(
+        new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...opts }),
+    );
 const flush = () => new Promise((r) => setTimeout(r, 0));
 const next = () => document.querySelector<HTMLElement>(".calendar-view-next-button")!;
 const prev = () => document.querySelector<HTMLElement>(".calendar-view-previous-button")!;
@@ -107,7 +117,14 @@ describe("search", () => {
             { id: "b", date: "2026-01-06", title: "B" },
             { id: "c", date: "2026-01-06", title: "C" },
         ];
-        mount({}, { events: sameDay, filter: (e: CalendarEvent) => e.id !== "b", eventCompare: (a: CalendarEvent, b: CalendarEvent) => b.id.localeCompare(a.id) });
+        mount(
+            {},
+            {
+                events: sameDay,
+                filter: (e: CalendarEvent) => e.id !== "b",
+                eventCompare: (a: CalendarEvent, b: CalendarEvent) => b.id.localeCompare(a.id),
+            },
+        );
         expect(keys()).toEqual(["c", "a"]);
     });
 });
@@ -130,7 +147,9 @@ describe("period announcements and minDate / maxDate limits", () => {
         expect((prev() as HTMLButtonElement).disabled).toBe(false);
         prev().click();
         expect(status()).toBe("Stopped at the min date 2026-02-05");
-        expect(document.querySelector<CalendarView>("lily-calendar-view")!.anchorDate).toBe("2026-02-15");
+        expect(document.querySelector<CalendarView>("lily-calendar-view")!.anchorDate).toBe(
+            "2026-02-15",
+        );
     });
     test("§8.100 Next stops at maxDate in the same way", () => {
         mount({ view: "month", "anchor-date": "2026-02-15", "max-date": "2026-02-20" });
@@ -139,9 +158,22 @@ describe("period announcements and minDate / maxDate limits", () => {
         expect(status()).toBe("Stopped at the max date 2026-02-20");
     });
     test("§8.102 a keyboard move past maxDate is clamped and announced", () => {
-        mount({ view: "week", "anchor-date": "2026-01-06", "max-date": "2026-01-08", today: "2026-01-07" });
-        for (let i = 0; i < 3; i++) press(document.querySelector<HTMLElement>('.calendar-table-td[tabindex="0"]')!, "ArrowRight");
-        expect(document.querySelector<HTMLElement>('.calendar-table-td[tabindex="0"]')!.getAttribute("data-date")).toBe("2026-01-08");
+        mount({
+            view: "week",
+            "anchor-date": "2026-01-06",
+            "max-date": "2026-01-08",
+            today: "2026-01-07",
+        });
+        for (let i = 0; i < 3; i++)
+            press(
+                document.querySelector<HTMLElement>('.calendar-table-td[tabindex="0"]')!,
+                "ArrowRight",
+            );
+        expect(
+            document
+                .querySelector<HTMLElement>('.calendar-table-td[tabindex="0"]')!
+                .getAttribute("data-date"),
+        ).toBe("2026-01-08");
         expect(status()).toBe("Stopped at the max date 2026-01-08");
     });
 });
@@ -168,8 +200,18 @@ describe("copy to clipboard", () => {
 });
 
 describe("in-place edit: validate, undo, redo", () => {
-    const fields = [{ id: "cost", header: "Cost", type: "number" as const, validate: (v: unknown) => (typeof v === "number" && v < 0 ? "must not be negative" : undefined) }];
-    const events: CalendarEvent[] = [{ id: "e1", date: "2026-01-06", title: "Standup", values: { cost: 3 } }];
+    const fields = [
+        {
+            id: "cost",
+            header: "Cost",
+            type: "number" as const,
+            validate: (v: unknown) =>
+                typeof v === "number" && v < 0 ? "must not be negative" : undefined,
+        },
+    ];
+    const events: CalendarEvent[] = [
+        { id: "e1", date: "2026-01-06", title: "Standup", values: { cost: 3 } },
+    ];
     function edit(value: string): void {
         document.querySelector<HTMLElement>(".calendar-view-field-button")!.click();
         const field = document.querySelector<HTMLInputElement>(".calendar-view-field-editor")!;
@@ -180,24 +222,51 @@ describe("in-place edit: validate, undo, redo", () => {
     test("§8.115 a value validate refuses keeps the editor open, aria-invalid", () => {
         mount({}, { events, eventFields: fields, onFieldEdit: vi.fn() });
         edit("-1");
-        expect(document.querySelector(".calendar-view-field-editor")!.getAttribute("aria-invalid")).toBe("true");
+        expect(
+            document.querySelector(".calendar-view-field-editor")!.getAttribute("aria-invalid"),
+        ).toBe("true");
     });
     test("§8.117 Ctrl+Z reports the earlier value through onFieldEdit; Ctrl+Shift+Z redoes", () => {
         const onFieldEdit = vi.fn();
         mount({}, { events, eventFields: fields, onFieldEdit });
         edit("9");
-        press(document.querySelector<HTMLElement>(".calendar-view-agenda")!, "z", { ctrlKey: true });
-        expect(onFieldEdit).toHaveBeenLastCalledWith({ eventId: "e1", fieldId: "cost", value: 3, previous: 9 });
+        press(document.querySelector<HTMLElement>(".calendar-view-agenda")!, "z", {
+            ctrlKey: true,
+        });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({
+            eventId: "e1",
+            fieldId: "cost",
+            value: 3,
+            previous: 9,
+        });
         expect(status()).toBe("Undid Cost: 3");
-        press(document.querySelector<HTMLElement>(".calendar-view-agenda")!, "z", { ctrlKey: true, shiftKey: true });
-        expect(onFieldEdit).toHaveBeenLastCalledWith({ eventId: "e1", fieldId: "cost", value: 9, previous: 3 });
+        press(document.querySelector<HTMLElement>(".calendar-view-agenda")!, "z", {
+            ctrlKey: true,
+            shiftKey: true,
+        });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({
+            eventId: "e1",
+            fieldId: "cost",
+            value: 9,
+            previous: 3,
+        });
     });
 });
 
 describe("weekend, holiday and time-off indicators; agenda on a narrow screen; right-to-left", () => {
     test("§8.123 a marked range's label is real text and the cell's description", () => {
-        mount({ view: "month", "anchor-date": "2026-01-15" }, { ranges: [{ start: "2026-01-06", end: "2026-01-06", kind: "holiday", label: "Epiphany" }], events: [] });
-        const cell = document.querySelector<HTMLElement>('.calendar-table-td[data-date="2026-01-06"]')!;
+        mount(
+            { view: "month", "anchor-date": "2026-01-15" },
+            {
+                ranges: [
+                    { start: "2026-01-06", end: "2026-01-06", kind: "holiday", label: "Epiphany" },
+                ],
+                events: [],
+            },
+        );
+        const cell = document.querySelector<HTMLElement>(
+            '.calendar-table-td[data-date="2026-01-06"]',
+        )!;
         expect(cell.querySelector(".calendar-view-range-label")!.textContent).toBe("Epiphany");
         const id = cell.getAttribute("aria-describedby")!;
         expect(document.getElementById(id)!.textContent).toBe("Epiphany");
@@ -208,7 +277,11 @@ describe("weekend, holiday and time-off indicators; agenda on a narrow screen; r
     });
     test("§8.134 agenda-below shows the agenda on a narrow screen and the view again when it is wider; a picked view is respected", () => {
         let listener: (() => void) | undefined;
-        const query = { matches: true, addEventListener: (_n: string, l: () => void) => (listener = l), removeEventListener: () => {} };
+        const query = {
+            matches: true,
+            addEventListener: (_n: string, l: () => void) => (listener = l),
+            removeEventListener: () => {},
+        };
         vi.stubGlobal("matchMedia", () => query);
         mount({ view: "month", "agenda-below": "640" });
         expect(document.querySelector(".calendar-view-agenda")).toBeTruthy();
@@ -232,6 +305,10 @@ describe("weekend, holiday and time-off indicators; agenda on a narrow screen; r
         mount({ view: "week", "anchor-date": "2026-01-06", today: "2026-01-07" });
         const start = document.querySelector<HTMLElement>('.calendar-table-td[tabindex="0"]')!;
         press(start, "ArrowLeft");
-        expect(document.querySelector<HTMLElement>('.calendar-table-td[tabindex="0"]')!.getAttribute("data-date")).toBe("2026-01-07");
+        expect(
+            document
+                .querySelector<HTMLElement>('.calendar-table-td[tabindex="0"]')!
+                .getAttribute("data-date"),
+        ).toBe("2026-01-07");
     });
 });

@@ -11,19 +11,19 @@ const templatesDir = path.join(__dirname, "components");
 
 /** Loader-relative template path for one component's macro file. */
 function macroPath(slug) {
-  if (!/^[a-z0-9-]+$/.test(slug)) {
-    throw new Error(`invalid component slug: ${slug}`);
-  }
-  return slug + "/macro.njk";
+    if (!/^[a-z0-9-]+$/.test(slug)) {
+        throw new Error(`invalid component slug: ${slug}`);
+    }
+    return slug + "/macro.njk";
 }
 
 /** List every available component slug, sorted. */
 function listComponents() {
-  return fs
-    .readdirSync(templatesDir, { withFileTypes: true })
-    .filter((e) => e.isDirectory())
-    .map((e) => e.name)
-    .sort();
+    return fs
+        .readdirSync(templatesDir, { withFileTypes: true })
+        .filter((e) => e.isDirectory())
+        .map((e) => e.name)
+        .sort();
 }
 
 module.exports = { templatesDir, macroPath, listComponents };

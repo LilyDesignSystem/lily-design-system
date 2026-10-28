@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<tr
   class="data-table-row"
@@ -7,9 +7,9 @@ const html = `<tr
 </tr>`;
 
 const meta = {
-  title: 'Headless/DataTableRow',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/DataTableRow",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

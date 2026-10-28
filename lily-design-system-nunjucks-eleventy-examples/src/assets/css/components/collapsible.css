@@ -9,4 +9,6 @@
   font-weight: var(--nhsuk-font-weight-bold);
   color: var(--nhsuk-blue);
 }
-.collapsible-body { padding: 0 var(--nhsuk-spacing-3) var(--nhsuk-spacing-3); }
+.collapsible-body {
+  padding: 0 var(--nhsuk-spacing-3) var(--nhsuk-spacing-3);
+}

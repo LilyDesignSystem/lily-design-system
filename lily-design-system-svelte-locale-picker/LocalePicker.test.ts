@@ -123,9 +123,7 @@ describe("LocalePicker — markup contract (§4.3, §7.1)", () => {
         await flush();
         const options = document.querySelectorAll(".locale-picker-option");
         expect(options.length).toBe(LOCALES.length);
-        const hidden = document.querySelector(
-            'input[type="hidden"]',
-        ) as HTMLInputElement;
+        const hidden = document.querySelector('input[type="hidden"]') as HTMLInputElement;
         expect(hidden.name).toBe("lang");
         expect(hidden.value).toBe("en");
     });
@@ -285,12 +283,8 @@ describe("LocalePicker — keyboard contract (APG listbox, §7.6)", () => {
         // asymmetry would be invisible to a consumer reading the DOM: a
         // stale aria-expanded over a hidden list makes every later click
         // miss the options.
-        expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe(
-            "false",
-        );
-        expect(
-            document.querySelector(".locale-picker-list")!.hasAttribute("hidden"),
-        ).toBe(true);
+        expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe("false");
+        expect(document.querySelector(".locale-picker-list")!.hasAttribute("hidden")).toBe(true);
     });
 });
 
@@ -432,10 +426,7 @@ describe("LocalePicker — initial-value resolution (§5.2, §5.3, §7.4)", () =
     });
 
     test("§7.20 navigator detection resolves exact match", async () => {
-        const original = Object.getOwnPropertyDescriptor(
-            window.navigator,
-            "languages",
-        );
+        const original = Object.getOwnPropertyDescriptor(window.navigator, "languages");
         Object.defineProperty(window.navigator, "languages", {
             configurable: true,
             get: () => ["fr-CA", "fr"],
@@ -453,10 +444,7 @@ describe("LocalePicker — initial-value resolution (§5.2, §5.3, §7.4)", () =
     });
 
     test("§7.21 navigator detection falls back to language-only match", async () => {
-        const original = Object.getOwnPropertyDescriptor(
-            window.navigator,
-            "languages",
-        );
+        const original = Object.getOwnPropertyDescriptor(window.navigator, "languages");
         Object.defineProperty(window.navigator, "languages", {
             configurable: true,
             get: () => ["fr-CA"],
@@ -518,17 +506,12 @@ describe("LocalePicker — spread + custom children (§4.1, §7.5)", () => {
         // labelFor now resolves the endonym; assert against the exported
         // helper rather than a hardcoded string, so an ICU wording change
         // cannot break the test without a real behaviour change.
-        expect(node.getAttribute("data-label-en-us")).toBe(
-            localeEndonym("en_US"),
-        );
+        expect(node.getAttribute("data-label-en-us")).toBe(localeEndonym("en_US"));
     });
 });
 
 describe("LocalePicker — accessibility hardening (§7.28–§7.32)", () => {
-    async function openPicker(
-        locales: string[] = LOCALES,
-        extra: Record<string, unknown> = {},
-    ) {
+    async function openPicker(locales: string[] = LOCALES, extra: Record<string, unknown> = {}) {
         render(LocalePicker, {
             props: { label: "Language", locales, ...extra },
         });
@@ -541,8 +524,7 @@ describe("LocalePicker — accessibility hardening (§7.28–§7.32)", () => {
         };
     }
 
-    const active = (list: HTMLElement) =>
-        list.querySelector("[data-active]")?.textContent?.trim();
+    const active = (list: HTMLElement) => list.querySelector("[data-active]")?.textContent?.trim();
 
     test("§7.28 Tab from the open list puts focus on the button before closing", async () => {
         const { button, list } = await openPicker();
@@ -588,10 +570,7 @@ describe("LocalePicker — accessibility hardening (§7.28–§7.32)", () => {
     });
 
     test("§7.31 PageUp and PageDown move the cursor by ten, clamped", async () => {
-        const many = Array.from(
-            { length: 25 },
-            (_, i) => `x${String(i).padStart(2, "0")}`,
-        );
+        const many = Array.from({ length: 25 }, (_, i) => `x${String(i).padStart(2, "0")}`);
         const labels = Object.fromEntries(many.map((l) => [l, l.toUpperCase()]));
         const { list } = await openPicker(many, { localeLabels: labels });
         await fireEvent.keyDown(list, { key: "PageDown" });
@@ -654,10 +633,9 @@ describe("LocalePicker — focus never scrolls the page (§7.34)", () => {
 
         await fireEvent.click(screen.getByRole("button"));
         await flush();
-        await fireEvent.keyDown(
-            document.querySelector(".locale-picker-list") as HTMLElement,
-            { key: "Tab" },
-        );
+        await fireEvent.keyDown(document.querySelector(".locale-picker-list") as HTMLElement, {
+            key: "Tab",
+        });
         expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
 
         focusSpy.mockRestore();
@@ -667,7 +645,7 @@ describe("LocalePicker — focus never scrolls the page (§7.34)", () => {
 describe("LocalePicker — tooltip (§7.35–§7.40)", () => {
     function setup() {
         render(LocalePicker, { props: { label: "Language", locales: LOCALES } });
-        const button = document.querySelector(".locale-picker-button" ) as HTMLButtonElement;
+        const button = document.querySelector(".locale-picker-button") as HTMLButtonElement;
         const tip = document.querySelector(".locale-picker-tooltip") as HTMLElement;
         return { button, tip };
     }
@@ -796,15 +774,21 @@ describe("LocalePicker — tooltip (§7.35–§7.40)", () => {
 describe("LocalePicker — open state and disabled (§open)", () => {
     test("open starts the popup open (aria-expanded) without calling onOpenChange", async () => {
         const onOpenChange = vi.fn();
-        render(LocalePicker, { props: { ...{ label: "Language", locales: LOCALES }, open: true, onOpenChange } });
+        render(LocalePicker, {
+            props: { ...{ label: "Language", locales: LOCALES }, open: true, onOpenChange },
+        });
         await flush();
-        expect(screen.getByRole("button", { name: "Language" }).getAttribute("aria-expanded")).toBe("true");
+        expect(screen.getByRole("button", { name: "Language" }).getAttribute("aria-expanded")).toBe(
+            "true",
+        );
         expect(onOpenChange).not.toHaveBeenCalled();
     });
 
     test("onOpenChange fires once for each open and close by the user", async () => {
         const onOpenChange = vi.fn();
-        render(LocalePicker, { props: { ...{ label: "Language", locales: LOCALES }, onOpenChange } });
+        render(LocalePicker, {
+            props: { ...{ label: "Language", locales: LOCALES }, onOpenChange },
+        });
         const button = screen.getByRole("button", { name: "Language" });
         await fireEvent.click(button);
         await flush();
@@ -817,7 +801,9 @@ describe("LocalePicker — open state and disabled (§open)", () => {
 
     test("disabled disables the button and it cannot open", async () => {
         const onOpenChange = vi.fn();
-        render(LocalePicker, { props: { ...{ label: "Language", locales: LOCALES }, disabled: true, onOpenChange } });
+        render(LocalePicker, {
+            props: { ...{ label: "Language", locales: LOCALES }, disabled: true, onOpenChange },
+        });
         const button = screen.getByRole("button", { name: "Language" }) as HTMLButtonElement;
         expect(button.disabled).toBe(true);
         await fireEvent.click(button);
@@ -827,9 +813,12 @@ describe("LocalePicker — open state and disabled (§open)", () => {
     });
 
     test("disabled closes a popup that was open", async () => {
-        render(LocalePicker, { props: { ...{ label: "Language", locales: LOCALES }, open: true, disabled: true } });
+        render(LocalePicker, {
+            props: { ...{ label: "Language", locales: LOCALES }, open: true, disabled: true },
+        });
         await flush();
-        expect(screen.getByRole("button", { name: "Language" }).getAttribute("aria-expanded")).toBe("false");
+        expect(screen.getByRole("button", { name: "Language" }).getAttribute("aria-expanded")).toBe(
+            "false",
+        );
     });
 });
-

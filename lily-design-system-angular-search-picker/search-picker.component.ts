@@ -243,15 +243,12 @@ export class SearchPicker {
   /** Projected icon template; replaces the default icon when supplied. */
   protected readonly iconTemplate = contentChild(TemplateRef);
 
-  private readonly rootRef =
-    viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
+  private readonly rootRef = viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
   // A template-ref-variable on a component tag resolves to the component
   // INSTANCE — exactly what's needed to call IconButton's own `focus()`.
   private readonly buttonRef = viewChild.required<IconButton>("buttonEl");
-  private readonly panelRef =
-    viewChild.required<ElementRef<HTMLDivElement>>("panelEl");
-  private readonly inputRef =
-    viewChild.required<ElementRef<HTMLInputElement>>("inputEl");
+  private readonly panelRef = viewChild.required<ElementRef<HTMLDivElement>>("panelEl");
+  private readonly inputRef = viewChild.required<ElementRef<HTMLInputElement>>("inputEl");
 
   private readonly baseId = nextSearchPickerId();
   protected readonly panelId = `${this.baseId}-panel`;
@@ -290,9 +287,7 @@ export class SearchPicker {
     // Keyboard focus only: a mouse click also focuses the button in
     // Chromium, and the tooltip should not stick after a click.
     try {
-      this.focusButton.set(
-        this.buttonRef().element?.matches(":focus-visible") ?? false,
-      );
+      this.focusButton.set(this.buttonRef().element?.matches(":focus-visible") ?? false);
     } catch {
       this.focusButton.set(true); // engine without :focus-visible — err towards showing
     }

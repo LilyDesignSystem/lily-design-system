@@ -35,13 +35,19 @@ export type NunjucksLabelOptions = {
 
 /** Rewrites `{from}` placeholders as `{to}`. */
 function retoken(template: string, renames: Record<string, string>): string {
-    return template.replace(/\{(\w+)\}/g, (whole, name: string) => (name in renames ? `{${renames[name]}}` : whole));
+    return template.replace(/\{(\w+)\}/g, (whole, name: string) =>
+        name in renames ? `{${renames[name]}}` : whole,
+    );
 }
 
 type Raw = Record<string, string | Record<string, string>>;
 
 /** Copies the listed keys that are plain strings or groups; a template gets its tokens renamed. */
-function take(raw: Raw, keys: string[], renames: Record<string, Record<string, string>> = {}): Record<string, unknown> {
+function take(
+    raw: Raw,
+    keys: string[],
+    renames: Record<string, Record<string, string>> = {},
+): Record<string, unknown> {
     const out: Record<string, unknown> = {};
     for (const key of keys) {
         const value = raw[key];
@@ -52,7 +58,13 @@ function take(raw: Raw, keys: string[], renames: Record<string, Record<string, s
 }
 
 /** A two-state select (`{"true": …, "false": …}`) split into the two separate strings the Nunjucks helpers take. */
-function split(raw: Raw, key: string, ifTrue: string, ifFalse: string, renames: Record<string, string> = {}): Record<string, string> {
+function split(
+    raw: Raw,
+    key: string,
+    ifTrue: string,
+    ifFalse: string,
+    renames: Record<string, string> = {},
+): Record<string, string> {
     const value = raw[key];
     if (!value || typeof value === "string") return {};
     const out: Record<string, string> = {};
@@ -61,7 +73,16 @@ function split(raw: Raw, key: string, ifTrue: string, ifFalse: string, renames: 
     return out;
 }
 
-const SHARED_PLAIN = ["search", "export", "exportCsv", "exportTsv", "exportExcel", "exportHeaders", "copy", "copyFailed"];
+const SHARED_PLAIN = [
+    "search",
+    "export",
+    "exportCsv",
+    "exportTsv",
+    "exportExcel",
+    "exportHeaders",
+    "copy",
+    "copyFailed",
+];
 
 function dataGrid(raw: Raw): Record<string, unknown> {
     // The data grid's client names its tokens after the Svelte parameters; its select labels (sortAnnouncement) stay objects.
@@ -81,8 +102,28 @@ function dataGrid(raw: Raw): Record<string, unknown> {
 function kanban(raw: Raw): Record<string, unknown> {
     const tasks = { text: "value" };
     return {
-        ...take(raw, [...SHARED_PLAIN, "moveMenuLabel", "undo", "cardCount", "overLimit", "moveButton", "addCard", "emptyColumn", "laneCount", "exportAnnouncement", "editInvalid", "editRefused", "copyAnnouncement", "titleEditor", "titleEditAnnouncement"]),
-        ...take(raw, ["editAnnouncement", "fieldUndoAnnouncement", "fieldRedoAnnouncement"], { editAnnouncement: tasks, fieldUndoAnnouncement: tasks, fieldRedoAnnouncement: tasks }),
+        ...take(raw, [
+            ...SHARED_PLAIN,
+            "moveMenuLabel",
+            "undo",
+            "cardCount",
+            "overLimit",
+            "moveButton",
+            "addCard",
+            "emptyColumn",
+            "laneCount",
+            "exportAnnouncement",
+            "editInvalid",
+            "editRefused",
+            "copyAnnouncement",
+            "titleEditor",
+            "titleEditAnnouncement",
+        ]),
+        ...take(raw, ["editAnnouncement", "fieldUndoAnnouncement", "fieldRedoAnnouncement"], {
+            editAnnouncement: tasks,
+            fieldUndoAnnouncement: tasks,
+            fieldRedoAnnouncement: tasks,
+        }),
         ...take(raw, ["searchAnnouncement"], { searchAnnouncement: { matches: "matched" } }),
         ...split(raw, "collapseColumn", "expandColumn", "collapseColumn"),
         ...split(raw, "collapseLane", "expandLane", "collapseLane"),
@@ -92,46 +133,87 @@ function kanban(raw: Raw): Record<string, unknown> {
 function gantt(raw: Raw): Record<string, unknown> {
     const text = { text: "value" };
     const out: Record<string, unknown> = {
-        ...take(raw, [...SHARED_PLAIN, "taskColumnHeader", "startLabel", "endLabel", "saveLabel", "cancelLabel", "criticalLabel", "percentLabel", "expandAll", "collapseAll", "zoomIn", "zoomOut", "exportAnnouncement", "editInvalid", "editRefused", "copyAnnouncement"]),
+        ...take(raw, [
+            ...SHARED_PLAIN,
+            "taskColumnHeader",
+            "startLabel",
+            "endLabel",
+            "saveLabel",
+            "cancelLabel",
+            "criticalLabel",
+            "percentLabel",
+            "expandAll",
+            "collapseAll",
+            "zoomIn",
+            "zoomOut",
+            "exportAnnouncement",
+            "editInvalid",
+            "editRefused",
+            "copyAnnouncement",
+        ]),
         ...take(raw, ["editAnnouncement"], { editAnnouncement: text }),
         ...take(raw, ["searchAnnouncement"], { searchAnnouncement: { matches: "matched" } }),
         ...take(raw, ["dependencySummary"], { dependencySummary: { tasks: "predecessors" } }),
         ...split(raw, "collapseButton", "expandLabel", "collapseLabel"),
         // The Nunjucks Gantt calls these fieldUndoAnnouncement / fieldRedoAnnouncement; the pack, like Svelte, undoAnnouncement / redoAnnouncement.
     };
-    for (const [from, to] of [["undoAnnouncement", "fieldUndoAnnouncement"], ["redoAnnouncement", "fieldRedoAnnouncement"]] as const) {
+    for (const [from, to] of [
+        ["undoAnnouncement", "fieldUndoAnnouncement"],
+        ["redoAnnouncement", "fieldRedoAnnouncement"],
+    ] as const) {
         const value = raw[from];
         if (typeof value === "string") out[to] = retoken(value, text);
     }
     // One wording per dependency type: an object keyed by `e2s` / `s2s` / `e2e` / `s2e`, tokens {predecessor} and {lag}.
-    if (raw.dependencyDetail && typeof raw.dependencyDetail !== "string") out.dependencyDetail = raw.dependencyDetail;
+    if (raw.dependencyDetail && typeof raw.dependencyDetail !== "string")
+        out.dependencyDetail = raw.dependencyDetail;
     return out;
 }
 
 function calendar(raw: Raw, options: NunjucksLabelOptions): Record<string, unknown> {
     const view = options.view ?? "month";
-    const out: Record<string, unknown> = take(raw, [...SHARED_PLAIN, "dayView", "weekView", "fourWeekView", "monthView", "agendaView", "agendaEmpty", "today", "weekNumberHeader"]);
+    const out: Record<string, unknown> = take(raw, [
+        ...SHARED_PLAIN,
+        "dayView",
+        "weekView",
+        "fourWeekView",
+        "monthView",
+        "agendaView",
+        "agendaEmpty",
+        "today",
+        "weekNumberHeader",
+    ]);
     const previous = raw.previous;
     const next = raw.next;
-    if (previous && typeof previous !== "string" && previous[view]) out.previousLabel = previous[view];
+    if (previous && typeof previous !== "string" && previous[view])
+        out.previousLabel = previous[view];
     if (next && typeof next !== "string" && next[view]) out.nextLabel = next[view];
     return out;
 }
 
 function filter(raw: Raw): Record<string, unknown> {
     const out: Record<string, unknown> = {};
-    for (const [key, value] of Object.entries(raw)) out[key === "operators" ? "operatorNames" : key] = value;
+    for (const [key, value] of Object.entries(raw))
+        out[key === "operators" ? "operatorNames" : key] = value;
     return out;
 }
 
 /** What each Nunjucks helper reads from a pack. See the file header. */
-export function nunjucksLabelsFor(helper: LabelHelper, pack: LabelPack, options: NunjucksLabelOptions = {}): NunjucksLabels {
+export function nunjucksLabelsFor(
+    helper: LabelHelper,
+    pack: LabelPack,
+    options: NunjucksLabelOptions = {},
+): NunjucksLabels {
     const raw = mergedLabels(helper, pack) as Raw;
     const macro =
-        helper === "data-grid" ? dataGrid(raw)
-        : helper === "kanban-board" ? kanban(raw)
-        : helper === "gantt-chart" ? gantt(raw)
-        : helper === "calendar" ? calendar(raw, options)
-        : filter(raw);
+        helper === "data-grid"
+            ? dataGrid(raw)
+            : helper === "kanban-board"
+              ? kanban(raw)
+              : helper === "gantt-chart"
+                ? gantt(raw)
+                : helper === "calendar"
+                  ? calendar(raw, options)
+                  : filter(raw);
     return { macro, client: labelsFor(helper, pack) };
 }

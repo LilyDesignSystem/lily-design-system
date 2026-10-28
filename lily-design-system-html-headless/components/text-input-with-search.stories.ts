@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="text-input-with-search"
@@ -31,9 +31,9 @@ const html = `<div
 </script>`;
 
 const meta = {
-  title: 'Headless/TextInputWithSearch',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/TextInputWithSearch",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

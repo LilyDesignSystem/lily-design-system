@@ -6,19 +6,19 @@ import PickerBar, { DEFAULT_THEMES, DEFAULT_SIZES } from "./PickerBar.vue";
 
 /** Let Vue's scheduler and the wrapped pickers' onMounted effects settle. */
 async function flush(): Promise<void> {
-  await nextTick();
-  await new Promise((r) => setTimeout(r, 0));
-  await nextTick();
+    await nextTick();
+    await new Promise((r) => setTimeout(r, 0));
+    await nextTick();
 }
 
 const LABELS = {
-  search: "Search this site",
-  searchInput: "Search terms",
-  searchSubmit: "Search",
-  theme: "Theme",
-  locale: "Language",
-  textSize: "Text size",
-  share: "Share",
+    search: "Search this site",
+    searchInput: "Search terms",
+    searchSubmit: "Search",
+    theme: "Theme",
+    locale: "Language",
+    textSize: "Text size",
+    share: "Share",
 };
 const THEMES_URL = "/assets/themes/";
 const LOCALES = ["en", "cy"];
@@ -26,341 +26,358 @@ const LOCALES = ["en", "cy"];
 const wrappers: VueWrapper<any>[] = [];
 
 function build(props: Record<string, unknown> = {}) {
-  const wrapper = mount(PickerBar, {
-    props: {
-      labels: LABELS,
-      themesUrl: THEMES_URL,
-      locales: LOCALES,
-      ...props,
-    },
-    attachTo: document.body,
-  });
-  wrappers.push(wrapper);
-  return wrapper;
+    const wrapper = mount(PickerBar, {
+        props: {
+            labels: LABELS,
+            themesUrl: THEMES_URL,
+            locales: LOCALES,
+            ...props,
+        },
+        attachTo: document.body,
+    });
+    wrappers.push(wrapper);
+    return wrapper;
 }
 
 function buttons(wrapper: VueWrapper<any>) {
-  return {
-    search: wrapper.find("button.search-picker-button"),
-    theme: wrapper.find("button.theme-picker-button"),
-    locale: wrapper.find("button.locale-picker-button"),
-    textSize: wrapper.find("button.text-size-picker-button"),
-    share: wrapper.find("button.share-picker-button"),
-  };
+    return {
+        search: wrapper.find("button.search-picker-button"),
+        theme: wrapper.find("button.theme-picker-button"),
+        locale: wrapper.find("button.locale-picker-button"),
+        textSize: wrapper.find("button.text-size-picker-button"),
+        share: wrapper.find("button.share-picker-button"),
+    };
 }
 
 beforeEach(() => {
-  document.documentElement.removeAttribute("data-theme");
-  document.documentElement.removeAttribute("lang");
-  document.documentElement.removeAttribute("dir");
-  document.documentElement.removeAttribute("data-text-size");
-  document.head
-    .querySelectorAll("link[data-lily-theme-picker]")
-    .forEach((n) => n.remove());
-  try {
-    localStorage.clear();
-  } catch {
-    /* ignore */
-  }
+    document.documentElement.removeAttribute("data-theme");
+    document.documentElement.removeAttribute("lang");
+    document.documentElement.removeAttribute("dir");
+    document.documentElement.removeAttribute("data-text-size");
+    document.head.querySelectorAll("link[data-lily-theme-picker]").forEach((n) => n.remove());
+    try {
+        localStorage.clear();
+    } catch {
+        /* ignore */
+    }
 });
 
 afterEach(() => {
-  while (wrappers.length) wrappers.pop()!.unmount();
-  document.body.innerHTML = "";
-  document.documentElement.removeAttribute("data-theme");
-  document.documentElement.removeAttribute("lang");
-  document.documentElement.removeAttribute("dir");
-  document.documentElement.removeAttribute("data-text-size");
+    while (wrappers.length) wrappers.pop()!.unmount();
+    document.body.innerHTML = "";
+    document.documentElement.removeAttribute("data-theme");
+    document.documentElement.removeAttribute("lang");
+    document.documentElement.removeAttribute("dir");
+    document.documentElement.removeAttribute("data-text-size");
 });
 
 describe("PickerBar — DEFAULT_THEMES (§3, §5.1)", () => {
-  test("has all 57 Lily reference theme slugs", () => {
-    expect(DEFAULT_THEMES).toHaveLength(57);
-  });
+    test("has all 57 Lily reference theme slugs", () => {
+        expect(DEFAULT_THEMES).toHaveLength(57);
+    });
 
-  test("is alphabetical, with the UK & US themes moved to the bottom as one alphabetical group", () => {
-    const nonUkUs = DEFAULT_THEMES.filter((t) => !t.startsWith("united-"));
-    const ukUs = DEFAULT_THEMES.filter((t) => t.startsWith("united-"));
-    expect(nonUkUs).toEqual([...nonUkUs].sort());
-    expect(ukUs).toEqual([...ukUs].sort());
-    expect(DEFAULT_THEMES).toEqual([...nonUkUs, ...ukUs]);
-  });
+    test("is alphabetical, with the UK & US themes moved to the bottom as one alphabetical group", () => {
+        const nonUkUs = DEFAULT_THEMES.filter((t) => !t.startsWith("united-"));
+        const ukUs = DEFAULT_THEMES.filter((t) => t.startsWith("united-"));
+        expect(nonUkUs).toEqual([...nonUkUs].sort());
+        expect(ukUs).toEqual([...ukUs].sort());
+        expect(DEFAULT_THEMES).toEqual([...nonUkUs, ...ukUs]);
+    });
 
-  test("first entry is 'abyss', last is 'united-states-web-design-system'", () => {
-    expect(DEFAULT_THEMES[0]).toBe("abyss");
-    expect(DEFAULT_THEMES[DEFAULT_THEMES.length - 1]).toBe(
-      "united-states-web-design-system",
-    );
-  });
+    test("first entry is 'abyss', last is 'united-states-web-design-system'", () => {
+        expect(DEFAULT_THEMES[0]).toBe("abyss");
+        expect(DEFAULT_THEMES[DEFAULT_THEMES.length - 1]).toBe("united-states-web-design-system");
+    });
 });
 
 describe("PickerBar — DEFAULT_SIZES (§3, §5.2)", () => {
-  test("is the seven-step scale, largest first", () => {
-    expect(DEFAULT_SIZES).toEqual([
-      "largest",
-      "larger",
-      "large",
-      "normal",
-      "small",
-      "smaller",
-      "smallest",
-    ]);
-  });
+    test("is the seven-step scale, largest first", () => {
+        expect(DEFAULT_SIZES).toEqual([
+            "largest",
+            "larger",
+            "large",
+            "normal",
+            "small",
+            "smaller",
+            "smallest",
+        ]);
+    });
 });
 
 describe("PickerBar — composition (§4, §7.1–§7.4)", () => {
-  test("§7.1 renders the root with the base class plus the consumer's class", () => {
-    const wrapper = build({ class: "my-picker-bar" });
-    const root = wrapper.find("div.picker-bar");
-    expect(root.exists()).toBe(true);
-    expect(root.classes()).toContain("my-picker-bar");
-  });
+    test("§7.1 renders the root with the base class plus the consumer's class", () => {
+        const wrapper = build({ class: "my-picker-bar" });
+        const root = wrapper.find("div.picker-bar");
+        expect(root.exists()).toBe(true);
+        expect(root.classes()).toContain("my-picker-bar");
+    });
 
-  test("§7.2 renders all five pickers, each named from `labels`", () => {
-    const wrapper = build();
-    const { search, theme, locale, textSize, share } = buttons(wrapper);
-    expect(search.attributes("aria-label")).toBe("Search this site");
-    expect(theme.attributes("aria-label")).toBe("Theme");
-    expect(locale.attributes("aria-label")).toBe("Language");
-    expect(textSize.attributes("aria-label")).toBe("Text size");
-    expect(share.attributes("aria-label")).toBe("Share");
-  });
+    test("§7.2 renders all five pickers, each named from `labels`", () => {
+        const wrapper = build();
+        const { search, theme, locale, textSize, share } = buttons(wrapper);
+        expect(search.attributes("aria-label")).toBe("Search this site");
+        expect(theme.attributes("aria-label")).toBe("Theme");
+        expect(locale.attributes("aria-label")).toBe("Language");
+        expect(textSize.attributes("aria-label")).toBe("Text size");
+        expect(share.attributes("aria-label")).toBe("Share");
+    });
 
-  test("§7.2 renders the five picker root class hooks in search, theme, locale, text-size, share order", () => {
-    const wrapper = build();
-    const roots = wrapper
-      .findAll(".picker-bar > div")
-      .map((el) => el.classes()[0]);
-    expect(roots).toEqual([
-      "search-picker",
-      "theme-picker",
-      "locale-picker",
-      "text-size-picker",
-      "share-picker",
-    ]);
-  });
+    test("§7.2 renders the five picker root class hooks in search, theme, locale, text-size, share order", () => {
+        const wrapper = build();
+        const roots = wrapper.findAll(".picker-bar > div").map((el) => el.classes()[0]);
+        expect(roots).toEqual([
+            "search-picker",
+            "theme-picker",
+            "locale-picker",
+            "text-size-picker",
+            "share-picker",
+        ]);
+    });
 
-  test("§7.5 fallthrough attributes land on the root (Vue's default single-root inheritAttrs)", () => {
-    const wrapper = build({ "data-testid": "header-picker-bar" });
-    expect(
-      wrapper.find('[data-testid="header-picker-bar"]').exists(),
-    ).toBe(true);
-  });
+    test("§7.5 fallthrough attributes land on the root (Vue's default single-root inheritAttrs)", () => {
+        const wrapper = build({ "data-testid": "header-picker-bar" });
+        expect(wrapper.find('[data-testid="header-picker-bar"]').exists()).toBe(true);
+    });
 });
 
 describe("PickerBar — theme-picker wiring (§5.1, §7.3, §7.6)", () => {
-  test("§7.3 forwards themesUrl and uses DEFAULT_THEMES when `themes` is omitted", async () => {
-    const wrapper = build();
-    await buttons(wrapper).theme.trigger("click");
-    const options = wrapper.findAll(".theme-picker-option");
-    expect(options).toHaveLength(57);
-    expect(options[0].text()).toBe("Abyss");
-    expect(options[49].text()).toBe(
-      "United Kingdom Government Digital Service",
-    );
-  });
+    test("§7.3 forwards themesUrl and uses DEFAULT_THEMES when `themes` is omitted", async () => {
+        const wrapper = build();
+        await buttons(wrapper).theme.trigger("click");
+        const options = wrapper.findAll(".theme-picker-option");
+        expect(options).toHaveLength(57);
+        expect(options[0].text()).toBe("Abyss");
+        expect(options[49].text()).toBe("United Kingdom Government Digital Service");
+    });
 
-  test("§7.6 an explicit `themes` prop overrides the default", async () => {
-    const wrapper = build({ themes: ["light", "dark"] });
-    await buttons(wrapper).theme.trigger("click");
-    expect(wrapper.findAll(".theme-picker-option")).toHaveLength(2);
-  });
+    test("§7.6 an explicit `themes` prop overrides the default", async () => {
+        const wrapper = build({ themes: ["light", "dark"] });
+        await buttons(wrapper).theme.trigger("click");
+        expect(wrapper.findAll(".theme-picker-option")).toHaveLength(2);
+    });
 
-  test("§7.7 `themeProps` reaches ThemePicker (storageKey persists a selection)", async () => {
-    const wrapper = build({ themeProps: { storageKey: "lily-theme" } });
-    await buttons(wrapper).theme.trigger("click");
-    const options = wrapper.findAll(".theme-picker-option");
-    await options[0].trigger("click");
-    expect(localStorage.getItem("lily-theme")).toBe("abyss");
-  });
+    test("§7.7 `themeProps` reaches ThemePicker (storageKey persists a selection)", async () => {
+        const wrapper = build({ themeProps: { storageKey: "lily-theme" } });
+        await buttons(wrapper).theme.trigger("click");
+        const options = wrapper.findAll(".theme-picker-option");
+        await options[0].trigger("click");
+        expect(localStorage.getItem("lily-theme")).toBe("abyss");
+    });
 
-  test("§7.11 re-emits ThemePicker's change as `theme-change`", async () => {
-    const wrapper = build();
-    await flush(); // let the mount-time default (e.g. "light") apply first
-    await buttons(wrapper).theme.trigger("click");
-    const options = wrapper.findAll(".theme-picker-option");
-    await options[0].trigger("click");
-    const emissions = wrapper.emitted("theme-change") ?? [];
-    expect(emissions.at(-1)).toEqual(["abyss"]);
-  });
+    test("§7.11 re-emits ThemePicker's change as `theme-change`", async () => {
+        const wrapper = build();
+        await flush(); // let the mount-time default (e.g. "light") apply first
+        await buttons(wrapper).theme.trigger("click");
+        const options = wrapper.findAll(".theme-picker-option");
+        await options[0].trigger("click");
+        const emissions = wrapper.emitted("theme-change") ?? [];
+        expect(emissions.at(-1)).toEqual(["abyss"]);
+    });
 });
 
 describe("PickerBar — locale-picker wiring (§5.2, §7.4)", () => {
-  test("§7.4 forwards the required `locales` list", async () => {
-    const wrapper = build();
-    await buttons(wrapper).locale.trigger("click");
-    expect(wrapper.findAll(".locale-picker-option")).toHaveLength(
-      LOCALES.length,
-    );
-  });
+    test("§7.4 forwards the required `locales` list", async () => {
+        const wrapper = build();
+        await buttons(wrapper).locale.trigger("click");
+        expect(wrapper.findAll(".locale-picker-option")).toHaveLength(LOCALES.length);
+    });
 });
 
 describe("PickerBar — text-size-picker wiring (§5.3, §7.8, §7.9)", () => {
-  test("§7.8 uses DEFAULT_SIZES when `sizes` is omitted, in largest-to-smallest order", async () => {
-    const wrapper = build();
-    await buttons(wrapper).textSize.trigger("click");
-    const options = wrapper
-      .findAll(".text-size-picker-option")
-      .map((el) => el.text());
-    expect(options).toEqual([
-      "Largest",
-      "Larger",
-      "Large",
-      "Normal",
-      "Small",
-      "Smaller",
-      "Smallest",
-    ]);
-  });
+    test("§7.8 uses DEFAULT_SIZES when `sizes` is omitted, in largest-to-smallest order", async () => {
+        const wrapper = build();
+        await buttons(wrapper).textSize.trigger("click");
+        const options = wrapper.findAll(".text-size-picker-option").map((el) => el.text());
+        expect(options).toEqual([
+            "Largest",
+            "Larger",
+            "Large",
+            "Normal",
+            "Small",
+            "Smaller",
+            "Smallest",
+        ]);
+    });
 
-  test("§7.9 defaults the initial value to 'normal'", async () => {
-    const wrapper = build();
-    await flush();
-    const hidden = wrapper.find(
-      'input[name="text-size"]',
-    ).element as HTMLInputElement;
-    expect(hidden.value).toBe("normal");
-  });
+    test("§7.9 defaults the initial value to 'normal'", async () => {
+        const wrapper = build();
+        await flush();
+        const hidden = wrapper.find('input[name="text-size"]').element as HTMLInputElement;
+        expect(hidden.value).toBe("normal");
+    });
 
-  test("§7.9 `textSizeProps.defaultValue` overrides the built-in 'normal' default", async () => {
-    const wrapper = build({ textSizeProps: { defaultValue: "small" } });
-    await flush();
-    const hidden = wrapper.find(
-      'input[name="text-size"]',
-    ).element as HTMLInputElement;
-    expect(hidden.value).toBe("small");
-  });
+    test("§7.9 `textSizeProps.defaultValue` overrides the built-in 'normal' default", async () => {
+        const wrapper = build({ textSizeProps: { defaultValue: "small" } });
+        await flush();
+        const hidden = wrapper.find('input[name="text-size"]').element as HTMLInputElement;
+        expect(hidden.value).toBe("small");
+    });
 });
 
 describe("PickerBar — share-picker wiring (§5.4, §7.10)", () => {
-  test("§7.10 forwards `shareTargets` to SharePicker's list", async () => {
-    const wrapper = build({
-      shareTargets: [
-        {
-          id: "email",
-          label: "Email",
-          href: (url: string) => `mailto:?body=${url}`,
-        },
-      ],
+    test("§7.10 forwards `shareTargets` to SharePicker's list", async () => {
+        const wrapper = build({
+            shareTargets: [
+                {
+                    id: "email",
+                    label: "Email",
+                    href: (url: string) => `mailto:?body=${url}`,
+                },
+            ],
+        });
+        await buttons(wrapper).share.trigger("click");
+        expect(wrapper.find(".share-picker-target").text()).toBe("Email");
     });
-    await buttons(wrapper).share.trigger("click");
-    expect(wrapper.find(".share-picker-target").text()).toBe("Email");
-  });
 });
 
 describe("PickerBar — search-picker wiring (§7.11, §7.12, §7.13)", () => {
-  /** Open the search panel, type a query, and submit the form. */
-  async function search(wrapper: VueWrapper<any>, query: string) {
-    await buttons(wrapper).search.trigger("click");
-    await flush();
-    await wrapper.find("input.search-picker-input").setValue(query);
-    wrapper
-      .find("form.search-picker-form")
-      .element.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
-    await flush();
-  }
+    /** Open the search panel, type a query, and submit the form. */
+    async function search(wrapper: VueWrapper<any>, query: string) {
+        await buttons(wrapper).search.trigger("click");
+        await flush();
+        await wrapper.find("input.search-picker-input").setValue(query);
+        wrapper
+            .find("form.search-picker-form")
+            .element.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
+        await flush();
+    }
 
-  test("§7.12 search is the first picker, with its field and ⏎ button named from `labels`", async () => {
-    const wrapper = build();
-    const first = wrapper.find(".picker-bar > div");
-    expect(first.classes()).toContain("search-picker");
-    await buttons(wrapper).search.trigger("click");
-    await flush();
-    const input = first.find("input.search-picker-input");
-    const submit = first.find("button.search-picker-submit");
-    expect(input.attributes("type")).toBe("search");
-    expect(input.attributes("aria-label")).toBe("Search terms");
-    expect(submit.attributes("type")).toBe("submit");
-    expect(submit.attributes("aria-label")).toBe("Search");
-    expect(first.find("form.search-picker-form").attributes("aria-label")).toBe(
-      "Search this site",
-    );
-  });
+    test("§7.12 search is the first picker, with its field and ⏎ button named from `labels`", async () => {
+        const wrapper = build();
+        const first = wrapper.find(".picker-bar > div");
+        expect(first.classes()).toContain("search-picker");
+        await buttons(wrapper).search.trigger("click");
+        await flush();
+        const input = first.find("input.search-picker-input");
+        const submit = first.find("button.search-picker-submit");
+        expect(input.attributes("type")).toBe("search");
+        expect(input.attributes("aria-label")).toBe("Search terms");
+        expect(submit.attributes("type")).toBe("submit");
+        expect(submit.attributes("aria-label")).toBe("Search");
+        expect(first.find("form.search-picker-form").attributes("aria-label")).toBe(
+            "Search this site",
+        );
+    });
 
-  test("§7.13 `searchProps` reaches SearchPicker (action + navigate)", async () => {
-    const navigate = vi.fn();
-    const wrapper = build({ searchProps: { action: "/search", navigate } });
-    await search(wrapper, "foo");
-    expect(navigate).toHaveBeenCalledWith("/search?foo");
-  });
+    test("§7.13 `searchProps` reaches SearchPicker (action + navigate)", async () => {
+        const navigate = vi.fn();
+        const wrapper = build({ searchProps: { action: "/search", navigate } });
+        await search(wrapper, "foo");
+        expect(navigate).toHaveBeenCalledWith("/search?foo");
+    });
 
-  test("§7.11 re-emits SearchPicker's search as `search`", async () => {
-    const wrapper = build({ searchProps: { navigate: vi.fn() } });
-    await search(wrapper, "foo");
-    expect(wrapper.emitted("search")).toEqual([["foo", "/?foo"]]);
-  });
+    test("§7.11 re-emits SearchPicker's search as `search`", async () => {
+        const wrapper = build({ searchProps: { navigate: vi.fn() } });
+        await search(wrapper, "foo");
+        expect(wrapper.emitted("search")).toEqual([["foo", "/?foo"]]);
+    });
 });
 
 const LINKS = [
-  { label: "Home", href: "/" },
-  { label: "About Us", href: "/about/" },
-  { label: "Contact Us", href: "/contact/" },
-  { label: "Privacy Policy", href: "/privacy/" },
+    { label: "Home", href: "/" },
+    { label: "About Us", href: "/about/" },
+    { label: "Contact Us", href: "/contact/" },
+    { label: "Privacy Policy", href: "/privacy/" },
 ];
 
 describe("PickerBar — link-picker wiring (§L1–§L4)", () => {
-  test("§L1 a link picker renders FIRST when `links` and `labels.link` are given", async () => {
-    const w = build({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
-    const classes = w.findAll(".picker-bar > div").map((d) => d.classes()[0]);
-    expect(classes).toEqual(["link-picker", "search-picker", "theme-picker", "locale-picker", "text-size-picker", "share-picker"]);
-    await w.find("button.link-picker-button").trigger("click");
-    expect(w.findAll(".link-picker-link").map((a) => a.text())).toEqual(["Home", "About Us", "Contact Us", "Privacy Policy"]);
-  });
+    test("§L1 a link picker renders FIRST when `links` and `labels.link` are given", async () => {
+        const w = build({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
+        const classes = w.findAll(".picker-bar > div").map((d) => d.classes()[0]);
+        expect(classes).toEqual([
+            "link-picker",
+            "search-picker",
+            "theme-picker",
+            "locale-picker",
+            "text-size-picker",
+            "share-picker",
+        ]);
+        await w.find("button.link-picker-button").trigger("click");
+        expect(w.findAll(".link-picker-link").map((a) => a.text())).toEqual([
+            "Home",
+            "About Us",
+            "Contact Us",
+            "Privacy Policy",
+        ]);
+    });
 
-  test("§L2 no link picker without links, with empty links, or without labels.link", () => {
-    for (const extra of [{}, { links: [], labels: { ...LABELS, link: "Pages" } }, { links: LINKS }]) {
-      const w = build(extra);
-      expect(w.find(".link-picker").exists()).toBe(false);
-      expect(w.find(".picker-bar > div").classes()).toContain("search-picker");
-    }
-  });
+    test("§L2 no link picker without links, with empty links, or without labels.link", () => {
+        for (const extra of [
+            {},
+            { links: [], labels: { ...LABELS, link: "Pages" } },
+            { links: LINKS },
+        ]) {
+            const w = build(extra);
+            expect(w.find(".link-picker").exists()).toBe(false);
+            expect(w.find(".picker-bar > div").classes()).toContain("search-picker");
+        }
+    });
 
-  test("§L3 `linkProps` reaches the LinkPicker (navigate) and the bar re-emits link-navigate", async () => {
-    const navigate = vi.fn();
-    const w = build({ links: LINKS, labels: { ...LABELS, link: "Pages" }, linkProps: { navigate } });
-    await w.find("button.link-picker-button").trigger("click");
-    const a = w.find('.link-picker-link[href="/about/"]');
-    a.element.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true, button: 0 }));
-    expect(navigate).toHaveBeenCalledWith("/about/");
-    expect(w.emitted("link-navigate")).toEqual([["/about/", "/about/"]]);
-  });
+    test("§L3 `linkProps` reaches the LinkPicker (navigate) and the bar re-emits link-navigate", async () => {
+        const navigate = vi.fn();
+        const w = build({
+            links: LINKS,
+            labels: { ...LABELS, link: "Pages" },
+            linkProps: { navigate },
+        });
+        await w.find("button.link-picker-button").trigger("click");
+        const a = w.find('.link-picker-link[href="/about/"]');
+        a.element.dispatchEvent(
+            new MouseEvent("click", { bubbles: true, cancelable: true, button: 0 }),
+        );
+        expect(navigate).toHaveBeenCalledWith("/about/");
+        expect(w.emitted("link-navigate")).toEqual([["/about/", "/about/"]]);
+    });
 
-  test("§L4 the links are real anchors, not menu items", async () => {
-    const w = build({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
-    expect(w.findAll(".link-picker-list a[href]")).toHaveLength(4);
-    expect(w.find('.link-picker-list [role="menuitem"]').exists()).toBe(false);
-  });
+    test("§L4 the links are real anchors, not menu items", async () => {
+        const w = build({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
+        expect(w.findAll(".link-picker-list a[href]")).toHaveLength(4);
+        expect(w.find('.link-picker-list [role="menuitem"]').exists()).toBe(false);
+    });
 });
 
 describe("PickerBar — time-zone-picker wiring (§T1–§T4)", () => {
-  const TZ = { locale: "en", zones: ["UTC", "Europe/London"], date: new Date("2026-01-15T12:00:00Z") };
-  const WITH = { ...LABELS, timeZone: "Time zone" };
+    const TZ = {
+        locale: "en",
+        zones: ["UTC", "Europe/London"],
+        date: new Date("2026-01-15T12:00:00Z"),
+    };
+    const WITH = { ...LABELS, timeZone: "Time zone" };
 
-  test("§T1 a time-zone picker renders after the locale picker when `labels.timeZone` and `timeZoneProps.locale` are given", async () => {
-    const wrapper = build({ labels: WITH, timeZoneProps: TZ });
-    await flush();
-    const children = Array.from(wrapper.element.children).map((c) => c.className.split(" ")[0]);
-    expect(children).toEqual(["search-picker", "theme-picker", "locale-picker", "time-zone-picker", "text-size-picker", "share-picker"]);
-    expect(wrapper.find("button.time-zone-picker-button").attributes("aria-label")).toBe("Time zone");
-  });
+    test("§T1 a time-zone picker renders after the locale picker when `labels.timeZone` and `timeZoneProps.locale` are given", async () => {
+        const wrapper = build({ labels: WITH, timeZoneProps: TZ });
+        await flush();
+        const children = Array.from(wrapper.element.children).map((c) => c.className.split(" ")[0]);
+        expect(children).toEqual([
+            "search-picker",
+            "theme-picker",
+            "locale-picker",
+            "time-zone-picker",
+            "text-size-picker",
+            "share-picker",
+        ]);
+        expect(wrapper.find("button.time-zone-picker-button").attributes("aria-label")).toBe(
+            "Time zone",
+        );
+    });
 
-  test("§T2 no time-zone picker without labels.timeZone or without a locale", async () => {
-    for (const extra of [{}, { timeZoneProps: TZ }, { labels: WITH }]) {
-      const wrapper = build(extra);
-      await flush();
-      expect(wrapper.find(".time-zone-picker").exists()).toBe(false);
-    }
-  });
+    test("§T2 no time-zone picker without labels.timeZone or without a locale", async () => {
+        for (const extra of [{}, { timeZoneProps: TZ }, { labels: WITH }]) {
+            const wrapper = build(extra);
+            await flush();
+            expect(wrapper.find(".time-zone-picker").exists()).toBe(false);
+        }
+    });
 
-  test("§T3 `timeZoneProps` reaches TimeZonePicker (zones)", async () => {
-    const wrapper = build({ labels: WITH, timeZoneProps: TZ });
-    await flush();
-    expect(wrapper.findAll(".time-zone-picker-option")).toHaveLength(2);
-  });
+    test("§T3 `timeZoneProps` reaches TimeZonePicker (zones)", async () => {
+        const wrapper = build({ labels: WITH, timeZoneProps: TZ });
+        await flush();
+        expect(wrapper.findAll(".time-zone-picker-option")).toHaveLength(2);
+    });
 
-  test("§T4 `textSizeProps.sizeLabels` names the sizes", async () => {
-    const wrapper = build({ textSizeProps: { sizeLabels: { largest: "el más grande" } } });
-    await flush();
-    expect(wrapper.text()).toContain("el más grande");
-  });
+    test("§T4 `textSizeProps.sizeLabels` names the sizes", async () => {
+        const wrapper = build({ textSizeProps: { sizeLabels: { largest: "el más grande" } } });
+        await flush();
+        expect(wrapper.text()).toContain("el más grande");
+    });
 });

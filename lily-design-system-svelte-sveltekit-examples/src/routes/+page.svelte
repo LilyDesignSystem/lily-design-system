@@ -7,7 +7,8 @@
         {
             href: "/book-an-appointment",
             title: "Book an Appointment",
-            description: "Flagship multi-step wizard: reason, date and time, details, review, confirmation",
+            description:
+                "Flagship multi-step wizard: reason, date and time, details, review, confirmation",
         },
         {
             href: "/contact-form",
@@ -47,7 +48,8 @@
         {
             href: "/rtl-demo",
             title: "RTL Demo",
-            description: "A real dir=\"rtl\" page in Arabic proving components mirror, not just localize",
+            description:
+                'A real dir="rtl" page in Arabic proving components mirror, not just localize',
         },
         {
             href: "/search-and-filter",
@@ -86,16 +88,16 @@
 
 <main class="page-wrapper">
     <h2>Example Pages</h2>
-    <p>
-        Each page demonstrates multiple headless components styled with NHS UK
-        design tokens.
-    </p>
+    <p>Each page demonstrates multiple headless components styled with NHS UK design tokens.</p>
 
     <div
         style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;"
     >
         {#each examples as example}
-            <article class="card" style="padding: var(--nhs-space-4);">
+            <article
+                class="card"
+                style="padding: var(--nhs-space-4);"
+            >
                 <h3><a href={example.href}>{example.title}</a></h3>
                 <p>{example.description}</p>
             </article>

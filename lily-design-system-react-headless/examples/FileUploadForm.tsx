@@ -64,11 +64,17 @@ export default function FileUploadForm() {
     }
 
     return (
-        <Form label="File upload" onSubmit={handleSubmit}>
+        <Form
+            label="File upload"
+            onSubmit={handleSubmit}
+        >
             <h2>Upload Documents</h2>
 
             {done && (
-                <Alert type="success" heading="Upload complete">
+                <Alert
+                    type="success"
+                    heading="Upload complete"
+                >
                     {files.length} file(s) uploaded successfully.
                 </Alert>
             )}
@@ -92,9 +98,7 @@ export default function FileUploadForm() {
                                 {file.name}
                                 <Badge>{formatSize(file.size)}</Badge>
                                 {!uploading && !done && (
-                                    <Button onClick={() => removeFile(index)}>
-                                        Remove
-                                    </Button>
+                                    <Button onClick={() => removeFile(index)}>Remove</Button>
                                 )}
                             </li>
                         ))}
@@ -103,10 +107,17 @@ export default function FileUploadForm() {
             )}
 
             {uploading && (
-                <Progress label="Upload progress" value={progress} max={100} />
+                <Progress
+                    label="Upload progress"
+                    value={progress}
+                    max={100}
+                />
             )}
 
-            <Button type="submit" disabled={files.length === 0 || uploading || done}>
+            <Button
+                type="submit"
+                disabled={files.length === 0 || uploading || done}
+            >
                 {uploading ? "Uploading..." : "Upload Files"}
             </Button>
         </Form>

@@ -31,11 +31,7 @@
 // don't run through a bundler should compile `locales.ts` → `.js`
 // or replace the import with a hand-written `locales.js`.
 
-import {
-  defaultLocaleLabels,
-  RTL_LANGUAGE_TAGS,
-  RTL_SCRIPT_SUBTAGS,
-} from "./locales.js";
+import { defaultLocaleLabels, RTL_LANGUAGE_TAGS, RTL_SCRIPT_SUBTAGS } from "./locales.js";
 
 export { defaultLocaleLabels, RTL_LANGUAGE_TAGS, RTL_SCRIPT_SUBTAGS };
 
@@ -47,23 +43,23 @@ import { createListboxKeyboard } from "@lilydesignsystem/nunjucks-listbox-behavi
 
 /** Convert a locale code to its BCP 47 hyphen form. */
 export function bcp47LocaleTag(locale) {
-  return (locale || "").replace(/_/g, "-");
+    return (locale || "").replace(/_/g, "-");
 }
 
 /** Detect whether a locale is right-to-left. See spec/index.md §5.6. */
 export function isRtlLocale(locale) {
-  if (!locale) return false;
-  const parts = locale.split(/[-_]/);
-  for (const part of parts) {
-    if (RTL_SCRIPT_SUBTAGS.has(part.toLowerCase())) return true;
-  }
-  const base = (parts[0] || "").toLowerCase();
-  return RTL_LANGUAGE_TAGS.has(base);
+    if (!locale) return false;
+    const parts = locale.split(/[-_]/);
+    for (const part of parts) {
+        if (RTL_SCRIPT_SUBTAGS.has(part.toLowerCase())) return true;
+    }
+    const base = (parts[0] || "").toLowerCase();
+    return RTL_LANGUAGE_TAGS.has(base);
 }
 
 /** Resolve a locale code to its English name via the built-in table. */
 export function localeName(locale) {
-  return defaultLocaleLabels[locale] || locale;
+    return defaultLocaleLabels[locale] || locale;
 }
 
 /**
@@ -85,16 +81,16 @@ const ENDONYM_OVERRIDES = { wuu: "吴语", pcm: "Naijá" };
  * tag back instead of failing, and an echo is not a name.
  */
 export function localeEndonym(locale) {
-  try {
-    const tag = bcp47LocaleTag(locale);
-    const override = ENDONYM_OVERRIDES[tag.split("-")[0].toLowerCase()];
-    if (override) return override;
-    const dn = new Intl.DisplayNames([tag], { type: "language" });
-    const found = dn.of(tag) || "";
-    return found && found.toLowerCase() !== tag.toLowerCase() ? found : "";
-  } catch (_e) {
-    return "";
-  }
+    try {
+        const tag = bcp47LocaleTag(locale);
+        const override = ENDONYM_OVERRIDES[tag.split("-")[0].toLowerCase()];
+        if (override) return override;
+        const dn = new Intl.DisplayNames([tag], { type: "language" });
+        const found = dn.of(tag) || "";
+        return found && found.toLowerCase() !== tag.toLowerCase() ? found : "";
+    } catch (_e) {
+        return "";
+    }
 }
 
 /**
@@ -106,28 +102,28 @@ export function localeEndonym(locale) {
  * option `data-lily-locale-picker-derive`; this function upgrades it.
  */
 export function derivedLocaleLabel(locale) {
-  return localeEndonym(locale) || defaultLocaleLabels[locale] || locale;
+    return localeEndonym(locale) || defaultLocaleLabels[locale] || locale;
 }
 
 /** Match a navigator preference against a supported-locales list. */
 export function matchNavigatorLanguage(navLangs, locales) {
-  const lc = (s) => s.toLowerCase().replace(/_/g, "-");
-  const localesLc = locales.map(lc);
-  for (const raw of navLangs) {
-    const nav = lc(raw);
+    const lc = (s) => s.toLowerCase().replace(/_/g, "-");
+    const localesLc = locales.map(lc);
+    for (const raw of navLangs) {
+        const nav = lc(raw);
 
-    // 1. Exact match (treating - and _ as equivalent).
-    const exactIndex = localesLc.indexOf(nav);
-    if (exactIndex !== -1) return locales[exactIndex];
+        // 1. Exact match (treating - and _ as equivalent).
+        const exactIndex = localesLc.indexOf(nav);
+        if (exactIndex !== -1) return locales[exactIndex];
 
-    // 2. Language-only match.
-    const navBase = nav.split("-")[0];
-    for (let i = 0; i < locales.length; i++) {
-      const base = localesLc[i].split("-")[0];
-      if (base === navBase) return locales[i];
+        // 2. Language-only match.
+        const navBase = nav.split("-")[0];
+        for (let i = 0; i < locales.length; i++) {
+            const base = localesLc[i].split("-")[0];
+            if (base === navBase) return locales[i];
+        }
     }
-  }
-  return "";
+    return "";
 }
 
 // ---------------------------------------------------------------
@@ -135,19 +131,19 @@ export function matchNavigatorLanguage(navLangs, locales) {
 // ---------------------------------------------------------------
 
 function safeStorageGet(key) {
-  try {
-    return localStorage.getItem(key);
-  } catch (_e) {
-    return null;
-  }
+    try {
+        return localStorage.getItem(key);
+    } catch (_e) {
+        return null;
+    }
 }
 
 function safeStorageSet(key, value) {
-  try {
-    localStorage.setItem(key, value);
-  } catch (_e) {
-    // ignore quota / privacy errors
-  }
+    try {
+        localStorage.setItem(key, value);
+    } catch (_e) {
+        // ignore quota / privacy errors
+    }
 }
 
 // ---------------------------------------------------------------
@@ -167,123 +163,120 @@ function safeStorageSet(key, value) {
 const tooltipWirings = new WeakMap();
 
 function wireTooltip(root, button, selector, popup) {
-  const tooltip = root.querySelector(selector);
-  if (!tooltip || !button || !popup) return () => {};
-  const previous = tooltipWirings.get(tooltip);
-  if (previous) previous();
+    const tooltip = root.querySelector(selector);
+    if (!tooltip || !button || !popup) return () => {};
+    const previous = tooltipWirings.get(tooltip);
+    if (previous) previous();
 
-  let hoverButton = false;
-  let hoverTooltip = false;
-  let focusButton = false;
-  let dismissed = false;
+    let hoverButton = false;
+    let hoverTooltip = false;
+    let focusButton = false;
+    let dismissed = false;
 
-  // WCAG 1.4.13 "dismissable": Escape must work wherever focus is while
-  // the tooltip is visible (pointer hover alone leaves focus elsewhere).
-  // The document listener exists only while visible; never preventDefault
-  // or stopPropagation, never move focus.
-  let docListening = false;
-  const onDocumentKeydown = (event) => {
-    if (event.key === "Escape") {
-      dismissed = true;
-      update();
+    // WCAG 1.4.13 "dismissable": Escape must work wherever focus is while
+    // the tooltip is visible (pointer hover alone leaves focus elsewhere).
+    // The document listener exists only while visible; never preventDefault
+    // or stopPropagation, never move focus.
+    let docListening = false;
+    const onDocumentKeydown = (event) => {
+        if (event.key === "Escape") {
+            dismissed = true;
+            update();
+        }
+    };
+    function syncDocumentListener() {
+        const want = !tooltip.hidden;
+        if (want && !docListening) {
+            document.addEventListener("keydown", onDocumentKeydown);
+            docListening = true;
+        } else if (!want && docListening) {
+            document.removeEventListener("keydown", onDocumentKeydown);
+            docListening = false;
+        }
     }
-  };
-  function syncDocumentListener() {
-    const want = !tooltip.hidden;
-    if (want && !docListening) {
-      document.addEventListener("keydown", onDocumentKeydown);
-      docListening = true;
-    } else if (!want && docListening) {
-      document.removeEventListener("keydown", onDocumentKeydown);
-      docListening = false;
+
+    function update() {
+        tooltip.hidden = !(
+            popup.hidden &&
+            !dismissed &&
+            (hoverButton || hoverTooltip || focusButton)
+        );
+        syncDocumentListener();
     }
-  }
 
-  function update() {
-    tooltip.hidden = !(
-      popup.hidden &&
-      !dismissed &&
-      (hoverButton || hoverTooltip || focusButton)
-    );
-    syncDocumentListener();
-  }
+    const onButtonEnter = () => {
+        hoverButton = true;
+        dismissed = false;
+        update();
+    };
+    const onButtonLeave = () => {
+        hoverButton = false;
+        update();
+    };
+    const onTooltipEnter = () => {
+        hoverTooltip = true;
+        update();
+    };
+    const onTooltipLeave = () => {
+        hoverTooltip = false;
+        update();
+    };
+    const onButtonFocus = () => {
+        try {
+            focusButton = button.matches(":focus-visible");
+        } catch {
+            focusButton = true; // engine without :focus-visible
+        }
+        update();
+    };
+    const onButtonBlur = () => {
+        focusButton = false;
+        dismissed = false;
+        update();
+    };
+    const onButtonKeydown = (event) => {
+        if (event.key === "Escape" && !tooltip.hidden) dismissed = true;
+        update();
+    };
+    const onButtonClick = () => {
+        hoverButton = false;
+        update();
+    };
 
-  const onButtonEnter = () => {
-    hoverButton = true;
-    dismissed = false;
-    update();
-  };
-  const onButtonLeave = () => {
-    hoverButton = false;
-    update();
-  };
-  const onTooltipEnter = () => {
-    hoverTooltip = true;
-    update();
-  };
-  const onTooltipLeave = () => {
-    hoverTooltip = false;
-    update();
-  };
-  const onButtonFocus = () => {
-    try {
-      focusButton = button.matches(":focus-visible");
-    } catch {
-      focusButton = true; // engine without :focus-visible
-    }
-    update();
-  };
-  const onButtonBlur = () => {
-    focusButton = false;
-    dismissed = false;
-    update();
-  };
-  const onButtonKeydown = (event) => {
-    if (event.key === "Escape" && !tooltip.hidden) dismissed = true;
-    update();
-  };
-  const onButtonClick = () => {
-    hoverButton = false;
-    update();
-  };
+    button.addEventListener("mouseenter", onButtonEnter);
+    button.addEventListener("mouseleave", onButtonLeave);
+    button.addEventListener("focus", onButtonFocus);
+    button.addEventListener("blur", onButtonBlur);
+    button.addEventListener("keydown", onButtonKeydown);
+    button.addEventListener("click", onButtonClick);
+    tooltip.addEventListener("mouseenter", onTooltipEnter);
+    tooltip.addEventListener("mouseleave", onTooltipLeave);
 
-  button.addEventListener("mouseenter", onButtonEnter);
-  button.addEventListener("mouseleave", onButtonLeave);
-  button.addEventListener("focus", onButtonFocus);
-  button.addEventListener("blur", onButtonBlur);
-  button.addEventListener("keydown", onButtonKeydown);
-  button.addEventListener("click", onButtonClick);
-  tooltip.addEventListener("mouseenter", onTooltipEnter);
-  tooltip.addEventListener("mouseleave", onTooltipLeave);
+    // The popup's own open/close (including the programmatic API) flips its
+    // `hidden` attribute; follow it so the tooltip never shows over it.
+    const observer = typeof MutationObserver === "function" ? new MutationObserver(update) : null;
+    if (observer) observer.observe(popup, { attributes: true, attributeFilter: ["hidden"] });
 
-  // The popup's own open/close (including the programmatic API) flips its
-  // `hidden` attribute; follow it so the tooltip never shows over it.
-  const observer =
-    typeof MutationObserver === "function"
-      ? new MutationObserver(update)
-      : null;
-  if (observer) observer.observe(popup, { attributes: true, attributeFilter: ["hidden"] });
+    update();
 
-  update();
-
-  const destroy = () => {
-    button.removeEventListener("mouseenter", onButtonEnter);
-    button.removeEventListener("mouseleave", onButtonLeave);
-    button.removeEventListener("focus", onButtonFocus);
-    button.removeEventListener("blur", onButtonBlur);
-    button.removeEventListener("keydown", onButtonKeydown);
-    button.removeEventListener("click", onButtonClick);
-    tooltip.removeEventListener("mouseenter", onTooltipEnter);
-    tooltip.removeEventListener("mouseleave", onTooltipLeave);
-    if (observer) observer.disconnect();
-    if (docListening) {
-      document.removeEventListener("keydown", onDocumentKeydown);
-      docListening = false;
-    }
-    if (tooltipWirings.get(tooltip) === destroy) tooltipWirings.delete(tooltip);
-  };
-  tooltipWirings.set(tooltip, destroy);
-  return destroy;
+    const destroy = () => {
+        button.removeEventListener("mouseenter", onButtonEnter);
+        button.removeEventListener("mouseleave", onButtonLeave);
+        button.removeEventListener("focus", onButtonFocus);
+        button.removeEventListener("blur", onButtonBlur);
+        button.removeEventListener("keydown", onButtonKeydown);
+        button.removeEventListener("click", onButtonClick);
+        tooltip.removeEventListener("mouseenter", onTooltipEnter);
+        tooltip.removeEventListener("mouseleave", onTooltipLeave);
+        if (observer) observer.disconnect();
+        if (docListening) {
+            document.removeEventListener("keydown", onDocumentKeydown);
+            docListening = false;
+        }
+        if (tooltipWirings.get(tooltip) === destroy) tooltipWirings.delete(tooltip);
+    };
+    tooltipWirings.set(tooltip, destroy);
+    return destroy;
 }
 
 /**
@@ -294,278 +287,272 @@ function wireTooltip(root, button, selector, popup) {
  * @returns {{setLocale: (code: string) => void, destroy: () => void}}
  */
 export function initLocalePicker(root, opts = {}) {
-  const noop = { setLocale: () => {}, destroy: () => {} };
-  if (typeof document === "undefined" || !root) return noop;
+    const noop = { setLocale: () => {}, destroy: () => {} };
+    if (typeof document === "undefined" || !root) return noop;
 
-  const button = root.querySelector("[data-lily-locale-picker-button]");
-  const list = root.querySelector("[data-lily-locale-picker-list]");
-  const input = root.querySelector("[data-lily-locale-picker-input]");
-  if (!button || !list) return noop;
+    const button = root.querySelector("[data-lily-locale-picker-button]");
+    const list = root.querySelector("[data-lily-locale-picker-list]");
+    const input = root.querySelector("[data-lily-locale-picker-input]");
+    if (!button || !list) return noop;
 
-  const options = Array.from(list.querySelectorAll('[role="option"]'));
-  const values = options.map((o) => o.getAttribute("data-value") || "");
+    const options = Array.from(list.querySelectorAll('[role="option"]'));
+    const values = options.map((o) => o.getAttribute("data-value") || "");
 
-  // Upgrade the derived option labels (§5.7). The macro renders the
-  // raw code as a pre-hydration fallback — a template cannot ask ICU
-  // for anything — and marks those options with
-  // `data-lily-locale-picker-derive`. Here each becomes its endonym
-  // ("Cymraeg", not "Welsh"), falling back to the English table, then
-  // the raw code. `lang` is set ONLY when the text really is the
-  // endonym: `lang` is a claim about the language of the option's
-  // TEXT, and the English word "Arabic" must never be handed to an
-  // Arabic speech engine. Consumer-labelled options are left alone
-  // and carry no `lang` — their language is unknown.
-  options.forEach((o, i) => {
-    if (!o.hasAttribute("data-lily-locale-picker-derive")) return;
-    const code = values[i];
-    const endonym = localeEndonym(code);
-    o.textContent = endonym || defaultLocaleLabels[code] || code;
-    if (endonym) o.setAttribute("lang", bcp47LocaleTag(code));
-    else o.removeAttribute("lang");
-  });
-
-  const storageKey =
-    root.getAttribute("data-lily-locale-picker-storage-key") || "";
-  const defaultValue =
-    root.getAttribute("data-lily-locale-picker-default-value") || "";
-  const detectFromNavigator =
-    root.getAttribute("data-lily-locale-picker-detect-from-navigator") ===
-    "true";
-  const applyDir =
-    root.getAttribute("data-lily-locale-picker-apply-dir") !== "false";
-  // The consumer's `value` prop. The macro emits it as a data
-  // attribute rather than baking it into a control the browser would
-  // paint before hydration.
-  const valueAttr = root.getAttribute("data-lily-locale-picker-value") || "";
-
-  let current = "";
-  let open = !list.hidden && !button.disabled;
-
-  // -----------------------------------------------------------------
-  // Applying a locale
-  // -----------------------------------------------------------------
-
-  // The locale the DOM currently carries. Applying is idempotent: a
-  // locale already applied is a no-op, so `onChange` fires once per
-  // changed value. `setLocale` on the returned api is this same
-  // function, so without the guard a consumer that mirrors the value
-  // back from `onChange` re-enters it forever.
-  let appliedValue = "";
-
-  function applyLocale(code) {
-    if (!code) return;
-    if (code === appliedValue) return;
-    appliedValue = code;
-    current = code;
-    const target = opts.target || document.documentElement;
-    target.setAttribute("lang", bcp47LocaleTag(code));
-    if (applyDir) {
-      target.setAttribute("dir", isRtlLocale(code) ? "rtl" : "ltr");
-    }
-    if (storageKey) safeStorageSet(storageKey, code);
-    // The hidden input carries the value into any enclosing form.
-    if (input) input.value = code;
-    // Keep the listbox's selected state in sync with the applied locale.
+    // Upgrade the derived option labels (§5.7). The macro renders the
+    // raw code as a pre-hydration fallback — a template cannot ask ICU
+    // for anything — and marks those options with
+    // `data-lily-locale-picker-derive`. Here each becomes its endonym
+    // ("Cymraeg", not "Welsh"), falling back to the English table, then
+    // the raw code. `lang` is set ONLY when the text really is the
+    // endonym: `lang` is a claim about the language of the option's
+    // TEXT, and the English word "Arabic" must never be handed to an
+    // Arabic speech engine. Consumer-labelled options are left alone
+    // and carry no `lang` — their language is unknown.
     options.forEach((o, i) => {
-      o.setAttribute("aria-selected", values[i] === code ? "true" : "false");
+        if (!o.hasAttribute("data-lily-locale-picker-derive")) return;
+        const code = values[i];
+        const endonym = localeEndonym(code);
+        o.textContent = endonym || defaultLocaleLabels[code] || code;
+        if (endonym) o.setAttribute("lang", bcp47LocaleTag(code));
+        else o.removeAttribute("lang");
     });
-    if (typeof opts.onChange === "function") opts.onChange(code);
-  }
 
-  // -----------------------------------------------------------------
-  // Open / close / active-option movement
-  // -----------------------------------------------------------------
+    const storageKey = root.getAttribute("data-lily-locale-picker-storage-key") || "";
+    const defaultValue = root.getAttribute("data-lily-locale-picker-default-value") || "";
+    const detectFromNavigator =
+        root.getAttribute("data-lily-locale-picker-detect-from-navigator") === "true";
+    const applyDir = root.getAttribute("data-lily-locale-picker-apply-dir") !== "false";
+    // The consumer's `value` prop. The macro emits it as a data
+    // attribute rather than baking it into a control the browser would
+    // paint before hydration.
+    const valueAttr = root.getAttribute("data-lily-locale-picker-value") || "";
 
-  /** True while an open comes from outside (`setOpen`): state only, focus stays put. */
-  let quiet = false;
+    let current = "";
+    let open = !list.hidden && !button.disabled;
 
-  /** Report an open or close to `opts.onOpenChange` and as a bubbling `openchange` event on the root. */
-  function emitOpenChange(isOpen) {
-    if (typeof opts.onOpenChange === "function") opts.onOpenChange(isOpen);
-    root.dispatchEvent(new CustomEvent("openchange", { detail: isOpen, bubbles: true }));
-  }
+    // -----------------------------------------------------------------
+    // Applying a locale
+    // -----------------------------------------------------------------
 
-  function openList(startIndex) {
-    if (button.disabled) return;
-    const selected = values.indexOf(current);
-    // An empty list has no option to activate; -1 keeps
-    // aria-activedescendant off rather than pointing at an id that
-    // does not exist.
-    const start =
-      options.length === 0
-        ? -1
-        : typeof startIndex === "number"
-          ? startIndex
-          : selected >= 0
-            ? selected
-            : 0;
-    open = true;
-    emitOpenChange(true);
-    list.hidden = false;
-    button.setAttribute("aria-expanded", "true");
-    keyboard.setActive(start);
-    // Focus moves to the listbox; the active option is conveyed via
-    // aria-activedescendant, per the APG listbox pattern.
-    if (!quiet) list.focus({ preventScroll: true });
-  }
+    // The locale the DOM currently carries. Applying is idempotent: a
+    // locale already applied is a no-op, so `onChange` fires once per
+    // changed value. `setLocale` on the returned api is this same
+    // function, so without the guard a consumer that mirrors the value
+    // back from `onChange` re-enters it forever.
+    let appliedValue = "";
 
-  function closeList(refocus = true) {
-    if (!open) return;
-    open = false;
-    emitOpenChange(false);
-    list.hidden = true;
-    button.setAttribute("aria-expanded", "false");
-    keyboard.setActive(-1);
-    if (refocus) button.focus({ preventScroll: true });
-  }
-
-  function choose(index) {
-    const code = values[index];
-    if (code) applyLocale(code);
-    closeList();
-  }
-
-  const keyboard = createListboxKeyboard(list, {
-    clamp: true,
-    typeahead: true,
-    pageSize: 10,
-    onActivate: choose,
-    onEscape: () => closeList(),
-    onTabOut: () => {
-      // Tab moves on — but focus goes to the button FIRST, without
-      // cancelling the key (the shared controller never prevents Tab's
-      // default). Hiding the focused list drops focus to <body>, and
-      // the browser then computes the default Tab move from the top of
-      // the document, so tabbing out of an open picker teleported the
-      // user to the page's first tab stop. From the button, the default
-      // Tab lands exactly where leaving the picker should. Guard the
-      // METHOD, not just the element: this shape has bitten these
-      // helpers before.
-      button?.focus?.({ preventScroll: true });
-      closeList(false);
-    },
-  });
-
-  // -----------------------------------------------------------------
-  // Event handlers
-  // -----------------------------------------------------------------
-
-  function onButtonClick() {
-    if (open) closeList();
-    else openList();
-  }
-
-  function onButtonKeydown(event) {
-    switch (event.key) {
-      case "ArrowDown":
-      case "Enter":
-      case " ":
-        event.preventDefault();
-        openList();
-        break;
-      case "ArrowUp":
-        event.preventDefault();
-        openList(options.length - 1);
-        break;
-      default:
-        break;
+    function applyLocale(code) {
+        if (!code) return;
+        if (code === appliedValue) return;
+        appliedValue = code;
+        current = code;
+        const target = opts.target || document.documentElement;
+        target.setAttribute("lang", bcp47LocaleTag(code));
+        if (applyDir) {
+            target.setAttribute("dir", isRtlLocale(code) ? "rtl" : "ltr");
+        }
+        if (storageKey) safeStorageSet(storageKey, code);
+        // The hidden input carries the value into any enclosing form.
+        if (input) input.value = code;
+        // Keep the listbox's selected state in sync with the applied locale.
+        options.forEach((o, i) => {
+            o.setAttribute("aria-selected", values[i] === code ? "true" : "false");
+        });
+        if (typeof opts.onChange === "function") opts.onChange(code);
     }
-  }
 
-  function onListClick(event) {
-    const li =
-      event.target && event.target.closest
-        ? event.target.closest('[role="option"]')
-        : null;
-    if (!li) return;
-    const index = options.indexOf(li);
-    if (index >= 0) choose(index);
-  }
+    // -----------------------------------------------------------------
+    // Open / close / active-option movement
+    // -----------------------------------------------------------------
 
-  function onRootFocusOut(event) {
-    const next = event.relatedTarget;
-    if (next && root.contains(next)) return;
-    closeList(false);
-  }
+    /** True while an open comes from outside (`setOpen`): state only, focus stays put. */
+    let quiet = false;
 
-  function onDocumentClick(event) {
-    if (!open) return;
-    const t = event.target;
-    if (t && !root.contains(t)) closeList(false);
-  }
+    /** Report an open or close to `opts.onOpenChange` and as a bubbling `openchange` event on the root. */
+    function emitOpenChange(isOpen) {
+        if (typeof opts.onOpenChange === "function") opts.onOpenChange(isOpen);
+        root.dispatchEvent(new CustomEvent("openchange", { detail: isOpen, bubbles: true }));
+    }
 
-  button.addEventListener("click", onButtonClick);
-  button.addEventListener("keydown", onButtonKeydown);
-  list.addEventListener("click", onListClick);
-  root.addEventListener("focusout", onRootFocusOut);
-  document.addEventListener("click", onDocumentClick);
+    function openList(startIndex) {
+        if (button.disabled) return;
+        const selected = values.indexOf(current);
+        // An empty list has no option to activate; -1 keeps
+        // aria-activedescendant off rather than pointing at an id that
+        // does not exist.
+        const start =
+            options.length === 0
+                ? -1
+                : typeof startIndex === "number"
+                  ? startIndex
+                  : selected >= 0
+                    ? selected
+                    : 0;
+        open = true;
+        emitOpenChange(true);
+        list.hidden = false;
+        button.setAttribute("aria-expanded", "true");
+        keyboard.setActive(start);
+        // Focus moves to the listbox; the active option is conveyed via
+        // aria-activedescendant, per the APG listbox pattern.
+        if (!quiet) list.focus({ preventScroll: true });
+    }
 
-  // -----------------------------------------------------------------
-  // §5.2 initial value resolution
-  // value attribute > storage > navigator > default > "en" > first
-  // -----------------------------------------------------------------
+    function closeList(refocus = true) {
+        if (!open) return;
+        open = false;
+        emitOpenChange(false);
+        list.hidden = true;
+        button.setAttribute("aria-expanded", "false");
+        keyboard.setActive(-1);
+        if (refocus) button.focus({ preventScroll: true });
+    }
 
-  let initial = "";
+    function choose(index) {
+        const code = values[index];
+        if (code) applyLocale(code);
+        closeList();
+    }
 
-  // 1. value prop — read from `data-lily-locale-picker-value`.
-  initial = valueAttr;
+    const keyboard = createListboxKeyboard(list, {
+        clamp: true,
+        typeahead: true,
+        pageSize: 10,
+        onActivate: choose,
+        onEscape: () => closeList(),
+        onTabOut: () => {
+            // Tab moves on — but focus goes to the button FIRST, without
+            // cancelling the key (the shared controller never prevents Tab's
+            // default). Hiding the focused list drops focus to <body>, and
+            // the browser then computes the default Tab move from the top of
+            // the document, so tabbing out of an open picker teleported the
+            // user to the page's first tab stop. From the button, the default
+            // Tab lands exactly where leaving the picker should. Guard the
+            // METHOD, not just the element: this shape has bitten these
+            // helpers before.
+            button?.focus?.({ preventScroll: true });
+            closeList(false);
+        },
+    });
 
-  // 2. storage
-  if (!initial && storageKey) initial = safeStorageGet(storageKey) || "";
+    // -----------------------------------------------------------------
+    // Event handlers
+    // -----------------------------------------------------------------
 
-  // 3. navigator
-  if (!initial && detectFromNavigator && typeof navigator !== "undefined") {
-    const navLangs =
-      navigator.languages && navigator.languages.length > 0
-        ? Array.from(navigator.languages)
-        : navigator.language
-          ? [navigator.language]
-          : [];
-    initial = matchNavigatorLanguage(navLangs, values);
-  }
+    function onButtonClick() {
+        if (open) closeList();
+        else openList();
+    }
 
-  // 4. default-value
-  if (!initial && defaultValue) initial = defaultValue;
+    function onButtonKeydown(event) {
+        switch (event.key) {
+            case "ArrowDown":
+            case "Enter":
+            case " ":
+                event.preventDefault();
+                openList();
+                break;
+            case "ArrowUp":
+                event.preventDefault();
+                openList(options.length - 1);
+                break;
+            default:
+                break;
+        }
+    }
 
-  // 5. "en" if present
-  if (!initial && values.includes("en")) initial = "en";
+    function onListClick(event) {
+        const li =
+            event.target && event.target.closest ? event.target.closest('[role="option"]') : null;
+        if (!li) return;
+        const index = options.indexOf(li);
+        if (index >= 0) choose(index);
+    }
 
-  // 6. first option
-  if (!initial && values.length > 0) initial = values[0];
+    function onRootFocusOut(event) {
+        const next = event.relatedTarget;
+        if (next && root.contains(next)) return;
+        closeList(false);
+    }
 
-  if (initial) applyLocale(initial);
+    function onDocumentClick(event) {
+        if (!open) return;
+        const t = event.target;
+        if (t && !root.contains(t)) closeList(false);
+    }
 
-  const tooltipDestroy = wireTooltip(root, button, ".locale-picker-tooltip", list);
+    button.addEventListener("click", onButtonClick);
+    button.addEventListener("keydown", onButtonKeydown);
+    list.addEventListener("click", onListClick);
+    root.addEventListener("focusout", onRootFocusOut);
+    document.addEventListener("click", onDocumentClick);
 
-  return {
-    isOpen: () => open,
-    /** Open or close from outside: state only, focus stays put. Opening is ignored while disabled. */
-    setOpen: (next) => {
-      if (!!next === open) return;
-      quiet = true;
-      try {
-        if (next) openList();
-        else closeList(false);
-      } finally {
-        quiet = false;
-      }
-    },
-    /** Disable or enable the button; disabling closes an open popup. */
-    setDisabled: (next) => {
-      button.disabled = !!next;
-      if (next) closeList(false);
-    },
-    setLocale: applyLocale,
-    destroy: () => {
-      tooltipDestroy();
-      keyboard.destroy();
-      button.removeEventListener("click", onButtonClick);
-      button.removeEventListener("keydown", onButtonKeydown);
-      list.removeEventListener("click", onListClick);
-      root.removeEventListener("focusout", onRootFocusOut);
-      document.removeEventListener("click", onDocumentClick);
-    },
-  };
+    // -----------------------------------------------------------------
+    // §5.2 initial value resolution
+    // value attribute > storage > navigator > default > "en" > first
+    // -----------------------------------------------------------------
+
+    let initial = "";
+
+    // 1. value prop — read from `data-lily-locale-picker-value`.
+    initial = valueAttr;
+
+    // 2. storage
+    if (!initial && storageKey) initial = safeStorageGet(storageKey) || "";
+
+    // 3. navigator
+    if (!initial && detectFromNavigator && typeof navigator !== "undefined") {
+        const navLangs =
+            navigator.languages && navigator.languages.length > 0
+                ? Array.from(navigator.languages)
+                : navigator.language
+                  ? [navigator.language]
+                  : [];
+        initial = matchNavigatorLanguage(navLangs, values);
+    }
+
+    // 4. default-value
+    if (!initial && defaultValue) initial = defaultValue;
+
+    // 5. "en" if present
+    if (!initial && values.includes("en")) initial = "en";
+
+    // 6. first option
+    if (!initial && values.length > 0) initial = values[0];
+
+    if (initial) applyLocale(initial);
+
+    const tooltipDestroy = wireTooltip(root, button, ".locale-picker-tooltip", list);
+
+    return {
+        isOpen: () => open,
+        /** Open or close from outside: state only, focus stays put. Opening is ignored while disabled. */
+        setOpen: (next) => {
+            if (!!next === open) return;
+            quiet = true;
+            try {
+                if (next) openList();
+                else closeList(false);
+            } finally {
+                quiet = false;
+            }
+        },
+        /** Disable or enable the button; disabling closes an open popup. */
+        setDisabled: (next) => {
+            button.disabled = !!next;
+            if (next) closeList(false);
+        },
+        setLocale: applyLocale,
+        destroy: () => {
+            tooltipDestroy();
+            keyboard.destroy();
+            button.removeEventListener("click", onButtonClick);
+            button.removeEventListener("keydown", onButtonKeydown);
+            list.removeEventListener("click", onListClick);
+            root.removeEventListener("focusout", onRootFocusOut);
+            document.removeEventListener("click", onDocumentClick);
+        },
+    };
 }
 
 /**
@@ -575,9 +562,7 @@ export function initLocalePicker(root, opts = {}) {
  * @returns {Array<{setLocale: (code:string)=>void, destroy: ()=>void}>}
  */
 export function autoInit(opts = {}) {
-  if (typeof document === "undefined") return [];
-  const roots = Array.from(
-    document.querySelectorAll("[data-lily-locale-picker-root]"),
-  );
-  return roots.map((root) => initLocalePicker(root, opts));
+    if (typeof document === "undefined") return [];
+    const roots = Array.from(document.querySelectorAll("[data-lily-locale-picker-root]"));
+    return roots.map((root) => initLocalePicker(root, opts));
 }

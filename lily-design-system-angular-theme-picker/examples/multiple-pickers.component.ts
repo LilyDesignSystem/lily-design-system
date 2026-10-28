@@ -15,12 +15,7 @@
     picker fires last. If you want two independent regions, pass a
     per-picker `target` so each updates a different DOM subtree.
 */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  viewChild,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, ElementRef, viewChild } from "@angular/core";
 import { ThemePicker } from "../theme-picker.component";
 
 @Component({

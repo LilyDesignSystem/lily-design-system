@@ -15,7 +15,12 @@ const midY = (box: ArrowBox) => (box.top + box.bottom) / 2;
  * `e2s` the predecessor's end to the successor's start, `s2s` start to start, `s2e` start to end,
  * `e2e` end to end. The arrow always arrives horizontally, so the arrowhead points into the bar.
  */
-export function dependencyPath(kind: DependencyKind, from: ArrowBox, to: ArrowBox, gap: number = ARROW_GAP): string {
+export function dependencyPath(
+    kind: DependencyKind,
+    from: ArrowBox,
+    to: ArrowBox,
+    gap: number = ARROW_GAP,
+): string {
     const fromEnd = kind === "e2s" || kind === "e2e";
     const toStart = kind === "e2s" || kind === "s2s";
     const sx = fromEnd ? from.right : from.left;

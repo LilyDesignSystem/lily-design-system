@@ -27,12 +27,31 @@
  * `theme-picker` composes for its own dropdown.
  */
 import { ListboxController } from "@lilydesignsystem/html-headless/components/listbox-controller.js";
-import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data.js";
+import {
+    copyToClipboard,
+    downloadBlob,
+    exportBlob,
+    exportFilename,
+    toClipboardText,
+    type ExportFormat,
+} from "./export-data.js";
 import { highlightSegments, matchesSearch } from "./search-text.js";
 import { isRtl, logicalKey } from "./direction.js";
 import { gridMove, pageStepFor } from "./grid-navigation.js";
-import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history.js";
-import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead.js";
+import {
+    EMPTY_HISTORY,
+    historyKey,
+    recordEdit,
+    redoEdit,
+    undoEdit,
+    type EditHistory,
+} from "./edit-history.js";
+import {
+    findTypeaheadMatch,
+    isTypeaheadKey,
+    nextTypeaheadState,
+    type TypeaheadState,
+} from "./typeahead.js";
 import {
     draftOf,
     editorKind,
@@ -57,13 +76,23 @@ const SVG_NS = "http://www.w3.org/2000/svg";
 export type KanbanField = FieldDef;
 
 /** What `onExport` and the `exportfile` event receive. Return `false` from `onExport` to take over the download. */
-export type KanbanExport = { format: ExportFormat; filename: string; cardCount: number; blob: Blob };
+export type KanbanExport = {
+    format: ExportFormat;
+    filename: string;
+    cardCount: number;
+    blob: Blob;
+};
 
 /** What `onFieldEdit` and the `fieldedit` event carry. */
 /** What `onTitleEdit` and the `titleedit` event carry: the card, its new title, and the title it had. */
 export type KanbanTitleEdit = { cardId: string; title: string; previous: string };
 
-export type KanbanFieldEdit = { cardId: string; fieldId: string; value: unknown; previous: unknown };
+export type KanbanFieldEdit = {
+    cardId: string;
+    fieldId: string;
+    value: unknown;
+    previous: unknown;
+};
 
 export type KanbanColumn = {
     /** Stable column identifier. */
@@ -114,7 +143,12 @@ export type KanbanCard = {
 };
 
 /** What `renderCard` receives. */
-export type KanbanCardContext = { card: KanbanCard; label: string; column: KanbanColumn; pending: boolean };
+export type KanbanCardContext = {
+    card: KanbanCard;
+    label: string;
+    column: KanbanColumn;
+    pending: boolean;
+};
 
 /** What `renderColumnHeader` / `renderColumnFooter` receive: the column and every card in it (unfiltered). */
 export type KanbanColumnContext = { column: KanbanColumn; cards: KanbanCard[]; count: number };
@@ -142,7 +176,14 @@ export type KanbanLabels = {
     /** Announced after the search changes: (matching cards, all cards). */
     searchAnnouncement?: (matchCount: number, totalCount: number) => string;
     /** Headers of the export's own columns (card title, column, lane, subtitle, badges, flag). An export needs `exportHeaders`; there is no English default. */
-    exportHeaders?: { title: string; column: string; lane?: string; subtitle?: string; badges?: string; flag?: string };
+    exportHeaders?: {
+        title: string;
+        column: string;
+        lane?: string;
+        subtitle?: string;
+        badges?: string;
+        flag?: string;
+    };
     /** Announced after a field edit: (card title, field header, the new text). */
     editAnnouncement?: (cardTitle: string, fieldHeader: string, text: string) => string;
     /** Announced when an edit is refused as invalid for the field's type: (card title, field header). */
@@ -235,7 +276,12 @@ export type KanbanBoardProps = {
     cards: KanbanCard[];
     cardLabel?: (card: KanbanCard) => string;
     onMove?: (cardId: string, toColumnId: string, toIndex?: number, toLaneId?: string) => void;
-    moveHandler?: (cardId: string, toColumnId: string, toIndex?: number, toLaneId?: string) => void | Promise<unknown>;
+    moveHandler?: (
+        cardId: string,
+        toColumnId: string,
+        toIndex?: number,
+        toLaneId?: string,
+    ) => void | Promise<unknown>;
     lanes?: KanbanLane[];
     selectable?: boolean;
     selected?: string[];
@@ -305,8 +351,17 @@ export class KanbanBoard extends HTMLElement {
     }
     #cards: KanbanCard[] = [];
     #cardLabel: (card: KanbanCard) => string = defaultCardLabel;
-    #onMove: ((cardId: string, toColumnId: string, toIndex?: number, toLaneId?: string) => void) | undefined;
-    #moveHandler: ((cardId: string, toColumnId: string, toIndex?: number, toLaneId?: string) => void | Promise<unknown>) | undefined;
+    #onMove:
+        | ((cardId: string, toColumnId: string, toIndex?: number, toLaneId?: string) => void)
+        | undefined;
+    #moveHandler:
+        | ((
+              cardId: string,
+              toColumnId: string,
+              toIndex?: number,
+              toLaneId?: string,
+          ) => void | Promise<unknown>)
+        | undefined;
     #lanes: KanbanLane[] | undefined;
     #selectable = false;
     #selected: string[] = [];
@@ -337,7 +392,8 @@ export class KanbanBoard extends HTMLElement {
     #optimistic: Record<string, string> = {};
     #dropTarget: string | null = null;
     #onReorder: ((cardId: string, toIndex: number) => void) | undefined;
-    #canMove: ((card: KanbanCard, toColumn: KanbanColumn, toLane?: KanbanLane) => boolean) | undefined;
+    #canMove:
+        ((card: KanbanCard, toColumn: KanbanColumn, toLane?: KanbanLane) => boolean) | undefined;
     #allowLaneChange = true;
     #showSearchLabel = false;
     #fieldLayout: "stacked" | "compact" = "stacked";
@@ -437,10 +493,16 @@ export class KanbanBoard extends HTMLElement {
         this.#render();
     }
 
-    get onMove(): ((cardId: string, toColumnId: string, toIndex?: number, toLaneId?: string) => void) | undefined {
+    get onMove():
+        | ((cardId: string, toColumnId: string, toIndex?: number, toLaneId?: string) => void)
+        | undefined {
         return this.#onMove;
     }
-    set onMove(fn: ((cardId: string, toColumnId: string, toIndex?: number, toLaneId?: string) => void) | undefined) {
+    set onMove(
+        fn:
+            | ((cardId: string, toColumnId: string, toIndex?: number, toLaneId?: string) => void)
+            | undefined,
+    ) {
         this.#onMove = fn;
     }
 
@@ -659,21 +721,39 @@ export class KanbanBoard extends HTMLElement {
 
     /** Veto a move (a hard WIP limit, a workflow rule). Refused columns show `aria-disabled` in the move menu. */
     /** Called when a card moves. `toIndex` is given only when a pointer drop landed on a card. */
-    get moveHandler(): ((cardId: string, toColumnId: string, toIndex?: number, toLaneId?: string) => void | Promise<unknown>) | undefined {
+    get moveHandler():
+        | ((
+              cardId: string,
+              toColumnId: string,
+              toIndex?: number,
+              toLaneId?: string,
+          ) => void | Promise<unknown>)
+        | undefined {
         return this.#moveHandler;
     }
     /**
      * An async move: awaited when a card moves. The card shows in its new column at once with `data-pending` and `aria-busy`
      * and goes back if the promise rejects (`labels.moveFailed`, `onMoveError`, the `moveerror` event). `onMove` and `movecard` fire either way.
      */
-    set moveHandler(fn: ((cardId: string, toColumnId: string, toIndex?: number, toLaneId?: string) => void | Promise<unknown>) | undefined) {
+    set moveHandler(
+        fn:
+            | ((
+                  cardId: string,
+                  toColumnId: string,
+                  toIndex?: number,
+                  toLaneId?: string,
+              ) => void | Promise<unknown>)
+            | undefined,
+    ) {
         this.#moveHandler = fn;
     }
 
     get onMoveError(): ((cardId: string, toColumnId: string, error: unknown) => void) | undefined {
         return this.#onMoveError;
     }
-    set onMoveError(fn: ((cardId: string, toColumnId: string, error: unknown) => void) | undefined) {
+    set onMoveError(
+        fn: ((cardId: string, toColumnId: string, error: unknown) => void) | undefined,
+    ) {
         this.#onMoveError = fn;
     }
 
@@ -744,11 +824,16 @@ export class KanbanBoard extends HTMLElement {
     /** Rendered in a `<tfoot>` cell per column: sums per stage. */
     renderColumnFooter?: (ctx: KanbanColumnContext) => Node;
 
-    get canMove(): ((card: KanbanCard, toColumn: KanbanColumn, toLane?: KanbanLane) => boolean) | undefined {
+    get canMove():
+        ((card: KanbanCard, toColumn: KanbanColumn, toLane?: KanbanLane) => boolean) | undefined {
         return this.#canMove;
     }
     /** Veto a move. `toLane` is the swimlane the card would land in (its own lane unless it is dropped into another), so a rule can depend on the owner as well as the column. */
-    set canMove(fn: ((card: KanbanCard, toColumn: KanbanColumn, toLane?: KanbanLane) => boolean) | undefined) {
+    set canMove(
+        fn:
+            | ((card: KanbanCard, toColumn: KanbanColumn, toLane?: KanbanLane) => boolean)
+            | undefined,
+    ) {
         this.#canMove = fn;
         this.#render();
     }
@@ -823,10 +908,7 @@ export class KanbanBoard extends HTMLElement {
         svg.setAttribute("stroke-linecap", "round");
         svg.setAttribute("stroke-linejoin", "round");
         const path = document.createElementNS(SVG_NS, "path");
-        path.setAttribute(
-            "d",
-            "M2 5h9m0 0-3-3m3 3-3 3M14 11H5m0 0 3-3m-3 3 3 3",
-        );
+        path.setAttribute("d", "M2 5h9m0 0-3-3m3 3-3 3M14 11H5m0 0 3-3m-3 3 3 3");
         svg.appendChild(path);
         return svg;
     }
@@ -837,7 +919,11 @@ export class KanbanBoard extends HTMLElement {
         this.#render();
     }
 
-    attributeChangedCallback(name: string, oldValue?: string | null, newValue?: string | null): void {
+    attributeChangedCallback(
+        name: string,
+        oldValue?: string | null,
+        newValue?: string | null,
+    ): void {
         switch (name) {
             case "label":
             case "caption":
@@ -872,7 +958,10 @@ export class KanbanBoard extends HTMLElement {
         const map = new Map<string, KanbanCard[]>();
         for (const column of this.#ordered()) map.set(column.id, []);
         for (const card of this.#cards) {
-            const effective = card.id in this.#optimistic ? { ...card, columnId: this.#optimistic[card.id] } : card;
+            const effective =
+                card.id in this.#optimistic
+                    ? { ...card, columnId: this.#optimistic[card.id] }
+                    : card;
             map.get(effective.columnId)?.push(effective);
         }
         return map;
@@ -885,7 +974,13 @@ export class KanbanBoard extends HTMLElement {
         const searching = query.trim() !== "";
         const text =
             this.#searchText ??
-            ((c: KanbanCard) => [this.#cardLabel(c), c.subtitle ?? "", ...(c.badges ?? []), ...this.#resolvedFields.map((f) => fieldText(f, c.values))].join(" "));
+            ((c: KanbanCard) =>
+                [
+                    this.#cardLabel(c),
+                    c.subtitle ?? "",
+                    ...(c.badges ?? []),
+                    ...this.#resolvedFields.map((f) => fieldText(f, c.values)),
+                ].join(" "));
         for (const [id, list] of this.#allByColumn()) {
             let shown = this.#filter ? list.filter(this.#filter) : list.slice();
             if (searching) shown = shown.filter((c) => matchesSearch(text(c), query));
@@ -896,7 +991,10 @@ export class KanbanBoard extends HTMLElement {
     }
 
     #isEmptyColumn(column: KanbanColumn, cardsByColumn: Map<string, KanbanCard[]>): boolean {
-        return !this.#collapsed.includes(column.id) && (cardsByColumn.get(column.id)?.length ?? 0) === 0;
+        return (
+            !this.#collapsed.includes(column.id) &&
+            (cardsByColumn.get(column.id)?.length ?? 0) === 0
+        );
     }
 
     #laneOf(card: KanbanCard): string {
@@ -931,8 +1029,14 @@ export class KanbanBoard extends HTMLElement {
             // A lane keeps at least one row so a card can be dropped into it; without lanes a row exists for an
             // empty column's message even when no column has a card to show.
             if (hasLanes) rows = Math.max(rows, 1);
-            else if (rows === 0 && this.#labels.emptyColumn && this.#ordered().some((c) => this.#isEmptyColumn(c, cardsByColumn))) rows = 1;
-            for (let laneRow = 0; laneRow < rows; laneRow++) slots.push({ kind: "row", rowIndex: rowIndex++, laneId: lane.id, laneRow });
+            else if (
+                rows === 0 &&
+                this.#labels.emptyColumn &&
+                this.#ordered().some((c) => this.#isEmptyColumn(c, cardsByColumn))
+            )
+                rows = 1;
+            for (let laneRow = 0; laneRow < rows; laneRow++)
+                slots.push({ kind: "row", rowIndex: rowIndex++, laneId: lane.id, laneRow });
         }
         const rows = slots.filter((x): x is Extract<Slot, { kind: "row" }> => x.kind === "row");
         const slotIndexByRow = new Map<number, number>();
@@ -956,10 +1060,14 @@ export class KanbanBoard extends HTMLElement {
         if (!v) return all.map((_, i) => i);
         const overscan = v.overscan ?? 3;
         const start = Math.max(0, Math.floor(this.#scrollTop / v.rowHeight) - overscan);
-        const end = Math.min(all.length, Math.ceil((this.#scrollTop + v.height) / v.rowHeight) + overscan);
+        const end = Math.min(
+            all.length,
+            Math.ceil((this.#scrollTop + v.height) / v.rowHeight) + overscan,
+        );
         const indices = new Set<number>();
         for (let i = start; i < end; i++) indices.add(i);
-        const active = layout.slotIndexByRow.get(Math.min(this.#focusedRow, layout.maxRows - 1)) ?? -1;
+        const active =
+            layout.slotIndexByRow.get(Math.min(this.#focusedRow, layout.maxRows - 1)) ?? -1;
         if (active >= 0) indices.add(active);
         return [...indices].sort((a, b) => a - b);
     }
@@ -973,7 +1081,8 @@ export class KanbanBoard extends HTMLElement {
         const top = slotIndex * v.rowHeight;
         let next = this.#scrollTop;
         if (top < this.#scrollTop) next = top;
-        else if (top + v.rowHeight > this.#scrollTop + v.height) next = top + v.rowHeight - v.height;
+        else if (top + v.rowHeight > this.#scrollTop + v.height)
+            next = top + v.rowHeight - v.height;
         if (next === this.#scrollTop) return;
         this.#scrollTop = next;
         if (this.#scrollEl) this.#scrollEl.scrollTop = next;
@@ -987,9 +1096,15 @@ export class KanbanBoard extends HTMLElement {
         const layout = this.#layout();
         if (this.#windowIndices(layout).join(",") === this.#windowSig) return;
         // The rebuild replaces the cells: keep focus on the cursor's cell if it was there.
-        const hadFocus = !!document.activeElement && this.contains(document.activeElement) && !!(document.activeElement as HTMLElement).closest("[data-row][data-col]");
+        const hadFocus =
+            !!document.activeElement &&
+            this.contains(document.activeElement) &&
+            !!(document.activeElement as HTMLElement).closest("[data-row][data-col]");
         this.#render();
-        if (hadFocus) this.#cellEls.get(`${this.#focusedRow}-${this.#focusedCol}`)?.focus({ preventScroll: true });
+        if (hadFocus)
+            this.#cellEls
+                .get(`${this.#focusedRow}-${this.#focusedCol}`)
+                ?.focus({ preventScroll: true });
     }
 
     #toggleCollapsed(column: KanbanColumn): void {
@@ -998,7 +1113,11 @@ export class KanbanBoard extends HTMLElement {
             : [...this.#collapsed, column.id];
         this.#onCollapsedChange?.([...this.#collapsed]);
         this.dispatchEvent(
-            new CustomEvent<string[]>("collapsechange", { detail: [...this.#collapsed], bubbles: true, composed: true }),
+            new CustomEvent<string[]>("collapsechange", {
+                detail: [...this.#collapsed],
+                bubbles: true,
+                composed: true,
+            }),
         );
         this.#render();
     }
@@ -1009,7 +1128,11 @@ export class KanbanBoard extends HTMLElement {
             : [...this.#collapsedLanes, lane.id];
         this.#onCollapsedLanesChange?.([...this.#collapsedLanes]);
         this.dispatchEvent(
-            new CustomEvent<string[]>("lanecollapsechange", { detail: [...this.#collapsedLanes], bubbles: true, composed: true }),
+            new CustomEvent<string[]>("lanecollapsechange", {
+                detail: [...this.#collapsedLanes],
+                bubbles: true,
+                composed: true,
+            }),
         );
         this.#render();
     }
@@ -1023,15 +1146,29 @@ export class KanbanBoard extends HTMLElement {
     // ---- Typed fields, inline editing, export ----
 
     #isFieldEditable(f: KanbanField, card: KanbanCard): boolean {
-        return (!!this.#onFieldEdit || this.#editableFields) && !this.readonly && !card.locked && isEditableField(f);
+        return (
+            (!!this.#onFieldEdit || this.#editableFields) &&
+            !this.readonly &&
+            !card.locked &&
+            isEditableField(f)
+        );
     }
 
     #findCard(cardId: string): KanbanCard | undefined {
-        return this.#cards.find((c) => c.id === cardId) ?? [...this.#allByColumn().values()].flat().find((c) => c.id === cardId);
+        return (
+            this.#cards.find((c) => c.id === cardId) ??
+            [...this.#allByColumn().values()].flat().find((c) => c.id === cardId)
+        );
     }
 
     #isTitleEditable(card: KanbanCard): boolean {
-        return (!!this.#onTitleEdit || this.#editableTitles) && !this.readonly && !card.locked && !card.href && !this.renderCard;
+        return (
+            (!!this.#onTitleEdit || this.#editableTitles) &&
+            !this.readonly &&
+            !card.locked &&
+            !card.href &&
+            !this.renderCard
+        );
     }
 
     #startTitleEdit(card: KanbanCard): void {
@@ -1053,8 +1190,15 @@ export class KanbanBoard extends HTMLElement {
             const previous = this.#cardLabel(card);
             const edit: KanbanTitleEdit = { cardId: current.cardId, title, previous };
             this.#onTitleEdit?.(edit);
-            this.dispatchEvent(new CustomEvent<KanbanTitleEdit>("titleedit", { detail: edit, bubbles: true, composed: true }));
-            this.#statusMessage = this.#labels.titleEditAnnouncement?.(previous, title) ?? this.#statusMessage;
+            this.dispatchEvent(
+                new CustomEvent<KanbanTitleEdit>("titleedit", {
+                    detail: edit,
+                    bubbles: true,
+                    composed: true,
+                }),
+            );
+            this.#statusMessage =
+                this.#labels.titleEditAnnouncement?.(previous, title) ?? this.#statusMessage;
         }
         this.#render();
         if (refocus) this.#focusCard(current.cardId);
@@ -1066,7 +1210,14 @@ export class KanbanBoard extends HTMLElement {
         this.#render();
         const editor = this.querySelector<HTMLInputElement>(".kanban-board-field-editor");
         editor?.focus({ preventScroll: true });
-        if (editor && "select" in editor && editor.type !== "number" && editor.type !== "date" && editor.type !== "time") editor.select();
+        if (
+            editor &&
+            "select" in editor &&
+            editor.type !== "number" &&
+            editor.type !== "date" &&
+            editor.type !== "time"
+        )
+            editor.select();
     }
 
     /** Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. Returns whether it was accepted or unchanged. */
@@ -1084,18 +1235,42 @@ export class KanbanBoard extends HTMLElement {
         const outcome = evaluateEdit(f, card.values, draft);
         if (outcome.invalid) {
             this.#editing = { ...current, invalid: true };
-            this.#announce((outcome.message ? this.#labels.editRefused?.(this.#cardLabel(card), f.header, outcome.message) : undefined) ?? this.#labels.editInvalid?.(this.#cardLabel(card), f.header));
+            this.#announce(
+                (outcome.message
+                    ? this.#labels.editRefused?.(this.#cardLabel(card), f.header, outcome.message)
+                    : undefined) ?? this.#labels.editInvalid?.(this.#cardLabel(card), f.header),
+            );
             this.#render();
-            this.querySelector<HTMLElement>(".kanban-board-field-editor")?.focus({ preventScroll: true });
+            this.querySelector<HTMLElement>(".kanban-board-field-editor")?.focus({
+                preventScroll: true,
+            });
             return false;
         }
         this.#editing = null;
         if (outcome.changed) {
-            this.#history = recordEdit(this.#history, { ownerId: cardId, fieldId, value: outcome.value, previous: outcome.previous });
-            const edit: KanbanFieldEdit = { cardId, fieldId, value: outcome.value, previous: outcome.previous };
+            this.#history = recordEdit(this.#history, {
+                ownerId: cardId,
+                fieldId,
+                value: outcome.value,
+                previous: outcome.previous,
+            });
+            const edit: KanbanFieldEdit = {
+                cardId,
+                fieldId,
+                value: outcome.value,
+                previous: outcome.previous,
+            };
             this.#onFieldEdit?.(edit);
-            this.dispatchEvent(new CustomEvent<KanbanFieldEdit>("fieldedit", { detail: edit, bubbles: true, composed: true }));
-            this.#statusMessage = this.#labels.editAnnouncement?.(this.#cardLabel(card), f.header, outcome.text) ?? this.#statusMessage;
+            this.dispatchEvent(
+                new CustomEvent<KanbanFieldEdit>("fieldedit", {
+                    detail: edit,
+                    bubbles: true,
+                    composed: true,
+                }),
+            );
+            this.#statusMessage =
+                this.#labels.editAnnouncement?.(this.#cardLabel(card), f.header, outcome.text) ??
+                this.#statusMessage;
         }
         this.#render();
         if (refocus) this.#focusCard(cardId);
@@ -1110,14 +1285,34 @@ export class KanbanBoard extends HTMLElement {
         const { ownerId, fieldId, value, previous } = step.record;
         const restored = direction === "undo" ? previous : value;
         const replaced = direction === "undo" ? value : previous;
-        const edit: KanbanFieldEdit = { cardId: ownerId, fieldId, value: restored, previous: replaced };
+        const edit: KanbanFieldEdit = {
+            cardId: ownerId,
+            fieldId,
+            value: restored,
+            previous: replaced,
+        };
         this.#onFieldEdit?.(edit);
-        this.dispatchEvent(new CustomEvent<KanbanFieldEdit>("fieldedit", { detail: edit, bubbles: true, composed: true }));
+        this.dispatchEvent(
+            new CustomEvent<KanbanFieldEdit>("fieldedit", {
+                detail: edit,
+                bubbles: true,
+                composed: true,
+            }),
+        );
         const card = this.#findCard(ownerId);
         const f = this.#resolvedFields.find((x) => x.id === fieldId);
         if (!card || !f) return;
-        const text = restored === null || restored === undefined ? "" : f.format ? f.format(restored, { ...(card.values ?? {}), [fieldId]: restored }) : String(restored);
-        this.#announce((direction === "undo" ? this.#labels.fieldUndoAnnouncement : this.#labels.fieldRedoAnnouncement)?.(this.#cardLabel(card), f.header, text));
+        const text =
+            restored === null || restored === undefined
+                ? ""
+                : f.format
+                  ? f.format(restored, { ...(card.values ?? {}), [fieldId]: restored })
+                  : String(restored);
+        this.#announce(
+            (direction === "undo"
+                ? this.#labels.fieldUndoAnnouncement
+                : this.#labels.fieldRedoAnnouncement)?.(this.#cardLabel(card), f.header, text),
+        );
     }
 
     #cancelFieldEdit(): void {
@@ -1144,11 +1339,16 @@ export class KanbanBoard extends HTMLElement {
             const current = this.#editing;
             const card = this.#findCard(current.cardId);
             const next = card
-                ? neighbourField(this.#resolvedFields.filter((x) => this.#isFieldEditable(x, card)), current.fieldId, event.shiftKey)
+                ? neighbourField(
+                      this.#resolvedFields.filter((x) => this.#isFieldEditable(x, card)),
+                      current.fieldId,
+                      event.shiftKey,
+                  )
                 : undefined;
             if (card && next) {
                 event.preventDefault();
-                if (this.#commitFieldEdit(false)) this.#startFieldEdit(this.#findCard(card.id) ?? card, next);
+                if (this.#commitFieldEdit(false))
+                    this.#startFieldEdit(this.#findCard(card.id) ?? card, next);
             } else {
                 this.#commitFieldEdit(false);
             }
@@ -1180,7 +1380,8 @@ export class KanbanBoard extends HTMLElement {
         const editable = this.#isFieldEditable(f, card);
         const nameId = `${this.#baseId}-fn-${card.id}-${f.id}`;
         const valueId = `${this.#baseId}-fv-${card.id}-${f.id}`;
-        const isEditing = !!this.#editing && this.#editing.cardId === card.id && this.#editing.fieldId === f.id;
+        const isEditing =
+            !!this.#editing && this.#editing.cardId === card.id && this.#editing.fieldId === f.id;
         if (!isEditing && text === "" && !editable) return null;
         const span = document.createElement("span");
         span.className = "kanban-board-card-field";
@@ -1223,7 +1424,14 @@ export class KanbanBoard extends HTMLElement {
                 input.className = "kanban-board-field-editor";
                 input.setAttribute("aria-label", f.editLabel ?? f.header);
                 if (editing.invalid) input.setAttribute("aria-invalid", "true");
-                input.type = kind === "number" ? "number" : kind === "date" ? "date" : kind === "time" ? "time" : "text";
+                input.type =
+                    kind === "number"
+                        ? "number"
+                        : kind === "date"
+                          ? "date"
+                          : kind === "time"
+                            ? "time"
+                            : "text";
                 if (kind === "number") input.setAttribute("inputmode", "decimal");
                 input.value = String(editing.draft ?? "");
                 input.addEventListener("input", () => {
@@ -1260,10 +1468,14 @@ export class KanbanBoard extends HTMLElement {
     async #finishCopy(table: { headers: string[]; rows: unknown[][] }): Promise<void> {
         const text = toClipboardText(table);
         const copied = { text, rowCount: table.rows.length };
-        this.dispatchEvent(new CustomEvent("copy", { detail: copied, bubbles: true, composed: true }));
+        this.dispatchEvent(
+            new CustomEvent("copy", { detail: copied, bubbles: true, composed: true }),
+        );
         if (this.#onCopy?.(copied) === false) return;
         const ok = await copyToClipboard(text);
-        this.#announce(ok ? this.#labels.copyAnnouncement?.(table.rows.length) : this.#labels.copyFailed);
+        this.#announce(
+            ok ? this.#labels.copyAnnouncement?.(table.rows.length) : this.#labels.copyFailed,
+        );
     }
 
     #runExport(format: ExportFormat | "copy"): void {
@@ -1280,7 +1492,10 @@ export class KanbanBoard extends HTMLElement {
         const columnTitle = new Map(this.#columns.map((c) => [c.id, c.title]));
         const laneTitle = new Map((this.#lanes ?? []).map((l) => [l.id, l.title]));
         const rows = this.#exportCards.map((card) => {
-            const cells: unknown[] = [this.#cardLabel(card), columnTitle.get(card.columnId) ?? card.columnId];
+            const cells: unknown[] = [
+                this.#cardLabel(card),
+                columnTitle.get(card.columnId) ?? card.columnId,
+            ];
             if (hasLanes && h.lane) cells.push(laneTitle.get(this.#laneOf(card)) ?? "");
             if (h.subtitle) cells.push(card.subtitle ?? null);
             if (h.badges) cells.push((card.badges ?? []).join("; "));
@@ -1295,7 +1510,13 @@ export class KanbanBoard extends HTMLElement {
         const filename = exportFilename(this.#exportFilename, format);
         const blob = exportBlob({ headers, rows }, format, { sheetName: this.#exportFilename });
         const file: KanbanExport = { format, filename, cardCount: rows.length, blob };
-        this.dispatchEvent(new CustomEvent<KanbanExport>("exportfile", { detail: file, bubbles: true, composed: true }));
+        this.dispatchEvent(
+            new CustomEvent<KanbanExport>("exportfile", {
+                detail: file,
+                bubbles: true,
+                composed: true,
+            }),
+        );
         if (this.#onExport?.(file) === false) return;
         downloadBlob(blob, filename);
         this.#announce(this.#labels.exportAnnouncement?.(format, rows.length, filename));
@@ -1315,8 +1536,15 @@ export class KanbanBoard extends HTMLElement {
         if (laneChange && !this.#allowLaneChange) return true;
         const sameColumn = toColumn.id === card.columnId;
         if (sameColumn && !laneChange) return false;
-        if (!sameColumn && this.#allowedColumns && !this.#allowedColumns(card).includes(toColumn.id)) return true;
-        const toLane = hasLanes ? this.#lanes!.find((l) => l.id === (toLaneId ?? this.#laneOf(card))) : undefined;
+        if (
+            !sameColumn &&
+            this.#allowedColumns &&
+            !this.#allowedColumns(card).includes(toColumn.id)
+        )
+            return true;
+        const toLane = hasLanes
+            ? this.#lanes!.find((l) => l.id === (toLaneId ?? this.#laneOf(card)))
+            : undefined;
         if (this.#canMove && !this.#canMove(card, toColumn, toLane)) return true;
         return (
             !sameColumn &&
@@ -1344,14 +1572,26 @@ export class KanbanBoard extends HTMLElement {
     }
 
     /** Resolves true when the move went through (no handler, a synchronous one, or a promise that resolved). */
-    async #runMove(card: KanbanCard, toColumn: KanbanColumn, toIndex?: number, toLaneId?: string, silent = false): Promise<boolean> {
+    async #runMove(
+        card: KanbanCard,
+        toColumn: KanbanColumn,
+        toIndex?: number,
+        toLaneId?: string,
+        silent = false,
+    ): Promise<boolean> {
         if (toLaneId !== undefined) this.#onMove?.(card.id, toColumn.id, toIndex, toLaneId);
         else if (toIndex === undefined) this.#onMove?.(card.id, toColumn.id);
         else this.#onMove?.(card.id, toColumn.id, toIndex);
         const detail: KanbanBoardMoveDetail = { cardId: card.id, toColumnId: toColumn.id };
         if (toIndex !== undefined) detail.toIndex = toIndex;
         if (toLaneId !== undefined) detail.toLaneId = toLaneId;
-        this.dispatchEvent(new CustomEvent<KanbanBoardMoveDetail>("movecard", { detail, bubbles: true, composed: true }));
+        this.dispatchEvent(
+            new CustomEvent<KanbanBoardMoveDetail>("movecard", {
+                detail,
+                bubbles: true,
+                composed: true,
+            }),
+        );
         const result = this.#moveHandler
             ? toLaneId !== undefined
                 ? this.#moveHandler(card.id, toColumn.id, toIndex, toLaneId)
@@ -1360,20 +1600,31 @@ export class KanbanBoard extends HTMLElement {
                   : this.#moveHandler(card.id, toColumn.id, toIndex)
             : undefined;
         if (!result || typeof (result as Promise<unknown>).then !== "function") {
-            if (!silent) this.#announce(this.#labels.moveAnnouncement?.(this.#cardLabel(card), toColumn.title));
+            if (!silent)
+                this.#announce(
+                    this.#labels.moveAnnouncement?.(this.#cardLabel(card), toColumn.title),
+                );
             this.#focusCard(card.id);
             return true;
         }
         this.#optimistic = { ...this.#optimistic, [card.id]: toColumn.id };
-        if (!silent) this.#statusMessage = this.#labels.movePending?.(this.#cardLabel(card), toColumn.title) ?? this.#statusMessage;
+        if (!silent)
+            this.#statusMessage =
+                this.#labels.movePending?.(this.#cardLabel(card), toColumn.title) ??
+                this.#statusMessage;
         this.#render();
         let ok = true;
         try {
             await result;
-            if (!silent) this.#statusMessage = this.#labels.moveAnnouncement?.(this.#cardLabel(card), toColumn.title) ?? this.#statusMessage;
+            if (!silent)
+                this.#statusMessage =
+                    this.#labels.moveAnnouncement?.(this.#cardLabel(card), toColumn.title) ??
+                    this.#statusMessage;
         } catch (error) {
             ok = false;
-            this.#statusMessage = this.#labels.moveFailed?.(this.#cardLabel(card), toColumn.title, error) ?? this.#statusMessage;
+            this.#statusMessage =
+                this.#labels.moveFailed?.(this.#cardLabel(card), toColumn.title, error) ??
+                this.#statusMessage;
             this.#onMoveError?.(card.id, toColumn.id, error);
             this.dispatchEvent(
                 new CustomEvent("moveerror", {
@@ -1395,21 +1646,32 @@ export class KanbanBoard extends HTMLElement {
     #setSelection(next: string[]): void {
         this.#selected = next;
         this.#onSelectionChange?.([...next]);
-        this.dispatchEvent(new CustomEvent<string[]>("selectionchange", { detail: [...next], bubbles: true, composed: true }));
+        this.dispatchEvent(
+            new CustomEvent<string[]>("selectionchange", {
+                detail: [...next],
+                bubbles: true,
+                composed: true,
+            }),
+        );
         this.#render();
     }
 
     #toggleSelected(cardId: string): void {
         this.#setSelection(
-            this.#selected.includes(cardId) ? this.#selected.filter((id) => id !== cardId) : [...this.#selected, cardId],
+            this.#selected.includes(cardId)
+                ? this.#selected.filter((id) => id !== cardId)
+                : [...this.#selected, cardId],
         );
         // The rebuild replaced the cells: put focus back on the cursor's cell.
-        this.#cellEls.get(`${this.#focusedRow}-${this.#focusedCol}`)?.focus({ preventScroll: true });
+        this.#cellEls
+            .get(`${this.#focusedRow}-${this.#focusedCol}`)
+            ?.focus({ preventScroll: true });
     }
 
     /** The cards that move when `card` moves: the whole selection when `card` is in it, else just `card`. */
     #movingGroup(card: KanbanCard): KanbanCard[] {
-        if (!this.#selectable || !this.#selected.includes(card.id) || this.#selected.length < 2) return [card];
+        if (!this.#selectable || !this.#selected.includes(card.id) || this.#selected.length < 2)
+            return [card];
         const all = [...this.#allByColumn().values()].flat();
         return all.filter((c) => this.#selected.includes(c.id));
     }
@@ -1419,7 +1681,8 @@ export class KanbanBoard extends HTMLElement {
         let admitted = 0;
         const runs: Promise<boolean>[] = [];
         for (const member of group) {
-            if (member.locked || member.id in this.#optimistic || member.columnId === toColumn.id) continue;
+            if (member.locked || member.id in this.#optimistic || member.columnId === toColumn.id)
+                continue;
             if (this.#isRefused(member, toColumn, admitted)) {
                 this.#announce(this.#labels.moveBlocked?.(this.#cardLabel(member), toColumn.title));
                 continue;
@@ -1428,7 +1691,12 @@ export class KanbanBoard extends HTMLElement {
             const from = member.columnId;
             runs.push(
                 this.#runMove(member, toColumn, undefined, undefined, true).then((ok) => {
-                    if (ok) moved.push({ cardId: member.id, fromColumnId: from, toColumnId: toColumn.id });
+                    if (ok)
+                        moved.push({
+                            cardId: member.id,
+                            fromColumnId: from,
+                            toColumnId: toColumn.id,
+                        });
                     return ok;
                 }),
             );
@@ -1451,7 +1719,10 @@ export class KanbanBoard extends HTMLElement {
             const all = [...this.#allByColumn().values()].flat();
             const live = group
                 .map((m) => ({ m, card: all.find((c) => c.id === m.cardId) }))
-                .filter((x): x is { m: UndoStep; card: KanbanCard } => !!x.card && x.card.columnId === x.m.toColumnId && !x.card.locked);
+                .filter(
+                    (x): x is { m: UndoStep; card: KanbanCard } =>
+                        !!x.card && x.card.columnId === x.m.toColumnId && !x.card.locked,
+                );
             if (live.length === 0) continue; // nothing of this step is where it was left: try the one before
             for (const { m, card } of live) {
                 const back = this.#ordered().find((c) => c.id === m.fromColumnId);
@@ -1459,7 +1730,12 @@ export class KanbanBoard extends HTMLElement {
             }
             if (live.length === 1) {
                 const back = this.#ordered().find((c) => c.id === live[0].m.fromColumnId);
-                this.#announce(this.#labels.undoAnnouncement?.(this.#cardLabel(live[0].card), back?.title ?? ""));
+                this.#announce(
+                    this.#labels.undoAnnouncement?.(
+                        this.#cardLabel(live[0].card),
+                        back?.title ?? "",
+                    ),
+                );
             } else {
                 this.#announce(this.#labels.undoManyAnnouncement?.(live.length));
             }
@@ -1488,7 +1764,10 @@ export class KanbanBoard extends HTMLElement {
         this.#closeMoveMenu(false);
         const from = card.columnId;
         void this.#runMove(card, toColumn, toIndex, toLaneId).then((ok) => {
-            if (ok && toColumn.id !== from) this.#recordUndo([{ cardId: card.id, fromColumnId: from, toColumnId: toColumn.id }]);
+            if (ok && toColumn.id !== from)
+                this.#recordUndo([
+                    { cardId: card.id, fromColumnId: from, toColumnId: toColumn.id },
+                ]);
         });
     }
 
@@ -1544,10 +1823,7 @@ export class KanbanBoard extends HTMLElement {
             li.className = "kanban-board-move-option";
             li.id = `${this.#baseId}-move-option-${i}`;
             li.setAttribute("role", "option");
-            li.setAttribute(
-                "aria-selected",
-                String(destination.id === card.columnId),
-            );
+            li.setAttribute("aria-selected", String(destination.id === card.columnId));
             if (this.#isRefused(card, destination)) li.setAttribute("aria-disabled", "true");
             li.textContent = destination.title;
             li.addEventListener("click", () => this.#moveCard(card, destination));
@@ -1643,9 +1919,15 @@ export class KanbanBoard extends HTMLElement {
     #onCardDragEnd(): void {
         this.#draggingCardId = null;
         this.#dropBlocked = false;
-        this.querySelectorAll("[data-drop-blocked]").forEach((el) => el.removeAttribute("data-drop-blocked"));
-        this.querySelectorAll("[data-dragging]").forEach((el) => el.removeAttribute("data-dragging"));
-        this.querySelectorAll("[data-drop-target]").forEach((el) => el.removeAttribute("data-drop-target"));
+        this.querySelectorAll("[data-drop-blocked]").forEach((el) =>
+            el.removeAttribute("data-drop-blocked"),
+        );
+        this.querySelectorAll("[data-dragging]").forEach((el) =>
+            el.removeAttribute("data-dragging"),
+        );
+        this.querySelectorAll("[data-drop-target]").forEach((el) =>
+            el.removeAttribute("data-drop-target"),
+        );
     }
 
     // ---- Column reordering ----
@@ -1658,19 +1940,39 @@ export class KanbanBoard extends HTMLElement {
         ids.splice(to, 0, ...ids.splice(from, 1));
         this.#columnOrder = ids;
         this.#onColumnOrderChange?.([...ids]);
-        this.dispatchEvent(new CustomEvent<string[]>("columnorderchange", { detail: [...ids], bubbles: true, composed: true }));
+        this.dispatchEvent(
+            new CustomEvent<string[]>("columnorderchange", {
+                detail: [...ids],
+                bubbles: true,
+                composed: true,
+            }),
+        );
         const column = this.#columns.find((c) => c.id === columnId);
-        if (column) this.#announce(this.#labels.columnMoveAnnouncement?.(column.title, to + 1, ids.length));
+        if (column)
+            this.#announce(this.#labels.columnMoveAnnouncement?.(column.title, to + 1, ids.length));
         this.#render();
         return true;
     }
 
-    #onColumnDragOver(event: DragEvent, td: HTMLElement, column: KanbanColumn, rowIndex: number, colIndex: number): void {
+    #onColumnDragOver(
+        event: DragEvent,
+        td: HTMLElement,
+        column: KanbanColumn,
+        rowIndex: number,
+        colIndex: number,
+    ): void {
         if (!this.#draggingCardId || this.readonly) return;
         const card = this.#findCard(this.#draggingCardId);
         const dragging = this.querySelectorAll("[data-dragging]").length;
         const overSlot = this.#layout().rows[rowIndex];
-        const blocked = !!card && this.#isRefused(card, column, Math.max(0, dragging - 1), this.#lanes && this.#lanes.length > 0 && overSlot ? overSlot.laneId : undefined);
+        const blocked =
+            !!card &&
+            this.#isRefused(
+                card,
+                column,
+                Math.max(0, dragging - 1),
+                this.#lanes && this.#lanes.length > 0 && overSlot ? overSlot.laneId : undefined,
+            );
         this.#dropBlocked = blocked;
         this.#dropTarget = `${rowIndex}-${colIndex}`;
         this.querySelectorAll("[data-drop-target], [data-drop-blocked]").forEach((el) => {
@@ -1697,7 +1999,9 @@ export class KanbanBoard extends HTMLElement {
             el.removeAttribute("data-drop-target");
             el.removeAttribute("data-drop-blocked");
         });
-        this.querySelectorAll("[data-dragging]").forEach((el) => el.removeAttribute("data-dragging"));
+        this.querySelectorAll("[data-dragging]").forEach((el) =>
+            el.removeAttribute("data-dragging"),
+        );
         if (this.readonly) return;
         const card = this.#cards.find((c) => c.id === cardId);
         if (!card) return;
@@ -1705,10 +2009,18 @@ export class KanbanBoard extends HTMLElement {
         const slot = layout.rows[rowIndex];
         const hasLanes = !!this.#lanes && this.#lanes.length > 0;
         const dropLane = hasLanes && slot ? slot.laneId : undefined;
-        const shown = (slot ? layout.cell.get(`${column.id}\u0000${slot.laneId}`) : layout.cardsByColumn.get(column.id)) ?? [];
+        const shown =
+            (slot
+                ? layout.cell.get(`${column.id}\u0000${slot.laneId}`)
+                : layout.cardsByColumn.get(column.id)) ?? [];
         const overCard = slot ? shown[slot.laneRow] : shown[rowIndex];
         const dropIndex = slot ? slot.laneRow : rowIndex;
-        if (card.columnId === column.id && hasLanes && dropLane !== undefined && dropLane !== this.#laneOf(card)) {
+        if (
+            card.columnId === column.id &&
+            hasLanes &&
+            dropLane !== undefined &&
+            dropLane !== this.#laneOf(card)
+        ) {
             // Dropped into another lane of its own column: only the lane changes.
             this.#moveCard(card, column, undefined, dropLane);
             return;
@@ -1725,7 +2037,13 @@ export class KanbanBoard extends HTMLElement {
                         composed: true,
                     }),
                 );
-                this.#announce(this.#labels.reorderAnnouncement?.(this.#cardLabel(card), dropIndex + 1, shown.length));
+                this.#announce(
+                    this.#labels.reorderAnnouncement?.(
+                        this.#cardLabel(card),
+                        dropIndex + 1,
+                        shown.length,
+                    ),
+                );
             }
             return;
         }
@@ -1774,7 +2092,11 @@ export class KanbanBoard extends HTMLElement {
         const card = this.#cardAt(this.#focusedCol, this.#focusedRow, layout);
         if (!card || card.locked) return;
         const slot = layout.rows[this.#focusedRow];
-        const total = (slot ? layout.cell.get(`${card.columnId}\u0000${slot.laneId}`) : layout.cardsByColumn.get(card.columnId))?.length ?? 0;
+        const total =
+            (slot
+                ? layout.cell.get(`${card.columnId}\u0000${slot.laneId}`)
+                : layout.cardsByColumn.get(card.columnId)
+            )?.length ?? 0;
         const laneRow = slot ? slot.laneRow : this.#focusedRow;
         const toIndex = laneRow + delta;
         if (toIndex < 0 || toIndex >= total) return;
@@ -1786,7 +2108,9 @@ export class KanbanBoard extends HTMLElement {
                 composed: true,
             }),
         );
-        this.#announce(this.#labels.reorderAnnouncement?.(this.#cardLabel(card), toIndex + 1, total));
+        this.#announce(
+            this.#labels.reorderAnnouncement?.(this.#cardLabel(card), toIndex + 1, total),
+        );
         this.#focusCard(card.id);
     }
 
@@ -1804,8 +2128,18 @@ export class KanbanBoard extends HTMLElement {
         // The horizontal arrows are visual: in a right-to-left layout the next column is on the left, so ArrowLeft goes forward.
         const key = logicalKey(event.key, isRtl(cell));
         // Ctrl/Cmd+Z undoes the last move while there is one (`undoable`), then the last field edit; Ctrl/Cmd+Shift+Z and Ctrl+Y redo field edits.
-        const historyAction = (this.#onFieldEdit || this.#editableFields) && !this.readonly ? historyKey(event) : null;
-        if (this.#undoable && ctrlOrMeta && !event.altKey && !event.shiftKey && (event.key === "z" || event.key === "Z") && this.#undoStack.length > 0) {
+        const historyAction =
+            (this.#onFieldEdit || this.#editableFields) && !this.readonly
+                ? historyKey(event)
+                : null;
+        if (
+            this.#undoable &&
+            ctrlOrMeta &&
+            !event.altKey &&
+            !event.shiftKey &&
+            (event.key === "z" || event.key === "Z") &&
+            this.#undoStack.length > 0
+        ) {
             event.preventDefault();
             void this.#undo();
             return;
@@ -1815,12 +2149,23 @@ export class KanbanBoard extends HTMLElement {
             this.#stepHistory(historyAction);
             return;
         }
-        if (this.#undoable && ctrlOrMeta && !event.altKey && !event.shiftKey && (event.key === "z" || event.key === "Z")) {
+        if (
+            this.#undoable &&
+            ctrlOrMeta &&
+            !event.altKey &&
+            !event.shiftKey &&
+            (event.key === "z" || event.key === "Z")
+        ) {
             event.preventDefault();
             void this.#undo();
             return;
         }
-        if (this.#movableColumns && event.altKey && event.shiftKey && (key === "ArrowLeft" || key === "ArrowRight")) {
+        if (
+            this.#movableColumns &&
+            event.altKey &&
+            event.shiftKey &&
+            (key === "ArrowLeft" || key === "ArrowRight")
+        ) {
             // Alt+Shift+ArrowLeft/Right: move this cell's column (the keyboard twin of dragging its header).
             event.preventDefault();
             const column = this.#ordered()[this.#focusedCol];
@@ -1828,7 +2173,9 @@ export class KanbanBoard extends HTMLElement {
             if (column && this.#moveColumnTo(column.id, to)) {
                 this.#focusedCol = to;
                 this.#render();
-                this.#cellEls.get(`${this.#focusedRow}-${this.#focusedCol}`)?.focus({ preventScroll: true });
+                this.#cellEls
+                    .get(`${this.#focusedRow}-${this.#focusedCol}`)
+                    ?.focus({ preventScroll: true });
             }
             return;
         }
@@ -1844,7 +2191,9 @@ export class KanbanBoard extends HTMLElement {
         if (event.key === "F2" && (this.#onFieldEdit || this.#editableFields)) {
             // F2: edit the card's first editable field (the keyboard twin of clicking its value).
             const card = this.#cardAt(this.#focusedCol, this.#focusedRow, layout);
-            const first = card ? this.#resolvedFields.find((f) => this.#isFieldEditable(f, card)) : undefined;
+            const first = card
+                ? this.#resolvedFields.find((f) => this.#isFieldEditable(f, card))
+                : undefined;
             if (card && first) {
                 event.preventDefault();
                 this.#startFieldEdit(card, first);
@@ -1872,7 +2221,12 @@ export class KanbanBoard extends HTMLElement {
                 }
             }
         }
-        if (this.#selectable && !ctrlOrMeta && !event.altKey && (event.key === "x" || event.key === "X")) {
+        if (
+            this.#selectable &&
+            !ctrlOrMeta &&
+            !event.altKey &&
+            (event.key === "x" || event.key === "X")
+        ) {
             const selectable = this.#cardAt(this.#focusedCol, this.#focusedRow, layout);
             if (selectable && !this.readonly) {
                 event.preventDefault();
@@ -1896,7 +2250,14 @@ export class KanbanBoard extends HTMLElement {
         const move = gridMove(
             event,
             { row: this.#focusedRow, col: this.#focusedCol },
-            { firstRow: 0, lastRow: maxRows - 1, lastCol: this.#ordered().length - 1, pageStep: pageStepFor(this.#virtualize), homeEnd: "column", rtl: isRtl(cell) },
+            {
+                firstRow: 0,
+                lastRow: maxRows - 1,
+                lastCol: this.#ordered().length - 1,
+                pageStep: pageStepFor(this.#virtualize),
+                homeEnd: "column",
+                rtl: isRtl(cell),
+            },
         );
         if (move) {
             event.preventDefault();
@@ -1942,9 +2303,7 @@ export class KanbanBoard extends HTMLElement {
         table.setAttribute("role", "grid");
         table.setAttribute("aria-label", this.label);
         if (this.#selectable) table.setAttribute("aria-multiselectable", "true");
-        table.addEventListener("keydown", (event) =>
-            this.#onGridKeydown(event as KeyboardEvent),
-        );
+        table.addEventListener("keydown", (event) => this.#onGridKeydown(event as KeyboardEvent));
         table.addEventListener("focusin", (event) => this.#onGridFocusin(event as FocusEvent));
 
         if (this.caption) {
@@ -1959,7 +2318,9 @@ export class KanbanBoard extends HTMLElement {
         const selectedSet = new Set(this.#selected);
         this.#exportCards = [];
         for (const column of this.#ordered()) {
-            for (const card of cardsByColumn.get(column.id) ?? []) if (this.#exportScope !== "selected" || selectedSet.has(card.id)) this.#exportCards.push(card);
+            for (const card of cardsByColumn.get(column.id) ?? [])
+                if (this.#exportScope !== "selected" || selectedSet.has(card.id))
+                    this.#exportCards.push(card);
         }
         const maxRows = layout.maxRows;
         const hasLanes = !!this.#lanes && this.#lanes.length > 0;
@@ -1996,7 +2357,10 @@ export class KanbanBoard extends HTMLElement {
         }
 
         // Clamp the roving cursor to whatever the new data still has.
-        this.#focusedCol = Math.min(Math.max(this.#focusedCol, 0), Math.max(this.#ordered().length - 1, 0));
+        this.#focusedCol = Math.min(
+            Math.max(this.#focusedCol, 0),
+            Math.max(this.#ordered().length - 1, 0),
+        );
         this.#focusedRow = Math.min(Math.max(this.#focusedRow, 0), Math.max(maxRows - 1, 0));
 
         const thead = document.createElement("thead");
@@ -2052,7 +2416,13 @@ export class KanbanBoard extends HTMLElement {
                 th.appendChild(flag);
             }
             if (this.renderColumnHeader) {
-                th.appendChild(this.renderColumnHeader({ column, cards: allByColumn.get(column.id) ?? [], count }));
+                th.appendChild(
+                    this.renderColumnHeader({
+                        column,
+                        cards: allByColumn.get(column.id) ?? [],
+                        count,
+                    }),
+                );
             }
             if (this.#labels.cardCount) {
                 const span = document.createElement("span");
@@ -2075,7 +2445,11 @@ export class KanbanBoard extends HTMLElement {
                 add.addEventListener("click", () => {
                     this.#onAddCard?.(column.id);
                     this.dispatchEvent(
-                        new CustomEvent<string>("addcard", { detail: column.id, bubbles: true, composed: true }),
+                        new CustomEvent<string>("addcard", {
+                            detail: column.id,
+                            bubbles: true,
+                            composed: true,
+                        }),
                     );
                 });
                 th.appendChild(add);
@@ -2103,7 +2477,8 @@ export class KanbanBoard extends HTMLElement {
             tbody.appendChild(tr);
         };
         for (const slotIndex of windowIdx) {
-            if (this.#virtualize && slotIndex - previousIdx > 1) spacer(slotIndex - previousIdx - 1);
+            if (this.#virtualize && slotIndex - previousIdx > 1)
+                spacer(slotIndex - previousIdx - 1);
             previousIdx = slotIndex;
             const item = layout.slots[slotIndex];
             if (item.kind === "lane") {
@@ -2122,7 +2497,10 @@ export class KanbanBoard extends HTMLElement {
                     toggle.type = "button";
                     toggle.className = "kanban-board-lane-toggle";
                     toggle.setAttribute("aria-expanded", String(!laneCollapsed));
-                    toggle.setAttribute("aria-label", this.#labels.collapseLane(item.lane, laneCollapsed));
+                    toggle.setAttribute(
+                        "aria-label",
+                        this.#labels.collapseLane(item.lane, laneCollapsed),
+                    );
                     toggle.textContent = laneCollapsed ? "▸" : "▾";
                     toggle.addEventListener("click", () => this.#toggleLane(item.lane));
                     laneTh.appendChild(toggle);
@@ -2133,7 +2511,9 @@ export class KanbanBoard extends HTMLElement {
                 laneTh.appendChild(laneTitle);
                 if (this.#labels.laneCount) {
                     let laneCards = 0;
-                    for (const column of this.#ordered()) laneCards += layout.cell.get(`${column.id}\u0000${item.lane.id}`)?.length ?? 0;
+                    for (const column of this.#ordered())
+                        laneCards +=
+                            layout.cell.get(`${column.id}\u0000${item.lane.id}`)?.length ?? 0;
                     const laneCountEl = document.createElement("span");
                     laneCountEl.className = "kanban-board-lane-count";
                     laneCountEl.textContent = this.#labels.laneCount(item.lane, laneCards);
@@ -2183,7 +2563,13 @@ export class KanbanBoard extends HTMLElement {
                     td.setAttribute("data-flag", card.flag);
                     td.setAttribute("aria-describedby", `${this.#baseId}-flag-${card.id}`);
                 }
-                if (!card && !hasLanes && rowIndex === 0 && this.#labels.emptyColumn && this.#isEmptyColumn(column, cardsByColumn)) {
+                if (
+                    !card &&
+                    !hasLanes &&
+                    rowIndex === 0 &&
+                    this.#labels.emptyColumn &&
+                    this.#isEmptyColumn(column, cardsByColumn)
+                ) {
                     td.setAttribute("data-empty", "");
                 }
                 td.addEventListener("dragover", (event) =>
@@ -2197,20 +2583,32 @@ export class KanbanBoard extends HTMLElement {
                     this.#onColumnDrop(column, rowIndex, event as DragEvent),
                 );
                 if (card && this.#cardAttrs) {
-                    for (const [name, value] of Object.entries(this.#cardAttrs(card))) td.setAttribute(name, value);
+                    for (const [name, value] of Object.entries(this.#cardAttrs(card)))
+                        td.setAttribute(name, value);
                 }
 
                 if (card) {
                     const titleSpan = document.createElement("span");
                     titleSpan.className = "kanban-board-card-title";
                     const editingThisTitle = this.#editingTitle?.cardId === card.id;
-                    if (!this.readonly && !card.locked && card.draggable !== false && !editingThisTitle) titleSpan.setAttribute("draggable", "true");
+                    if (
+                        !this.readonly &&
+                        !card.locked &&
+                        card.draggable !== false &&
+                        !editingThisTitle
+                    )
+                        titleSpan.setAttribute("draggable", "true");
                     titleSpan.addEventListener("dblclick", () => this.#startTitleEdit(card));
                     if (editingThisTitle) {
                         const input = document.createElement("input");
                         input.className = "kanban-board-title-editor";
                         input.type = "text";
-                        input.setAttribute("aria-label", this.#labels.titleEditor ? this.#labels.titleEditor(this.#cardLabel(card)) : this.#cardLabel(card));
+                        input.setAttribute(
+                            "aria-label",
+                            this.#labels.titleEditor
+                                ? this.#labels.titleEditor(this.#cardLabel(card))
+                                : this.#cardLabel(card),
+                        );
                         input.value = this.#editingTitle!.draft;
                         input.addEventListener("input", () => {
                             if (this.#editingTitle) this.#editingTitle.draft = input.value;
@@ -2233,7 +2631,12 @@ export class KanbanBoard extends HTMLElement {
                         titleSpan.appendChild(input);
                     } else if (this.renderCard) {
                         titleSpan.appendChild(
-                            this.renderCard({ card, label: this.#cardLabel(card), column, pending: card.id in this.#optimistic }),
+                            this.renderCard({
+                                card,
+                                label: this.#cardLabel(card),
+                                column,
+                                pending: card.id in this.#optimistic,
+                            }),
                         );
                     } else if (card.href) {
                         const link = document.createElement("a");
@@ -2305,7 +2708,13 @@ export class KanbanBoard extends HTMLElement {
                     }
                 }
 
-                if (!card && !hasLanes && rowIndex === 0 && this.#labels.emptyColumn && this.#isEmptyColumn(column, cardsByColumn)) {
+                if (
+                    !card &&
+                    !hasLanes &&
+                    rowIndex === 0 &&
+                    this.#labels.emptyColumn &&
+                    this.#isEmptyColumn(column, cardsByColumn)
+                ) {
                     const empty = document.createElement("span");
                     empty.className = "kanban-board-empty";
                     empty.textContent = this.#labels.emptyColumn(column);
@@ -2317,7 +2726,8 @@ export class KanbanBoard extends HTMLElement {
 
             tbody.appendChild(tr);
         }
-        if (this.#virtualize && layout.slots.length - 1 - previousIdx > 0) spacer(layout.slots.length - 1 - previousIdx);
+        if (this.#virtualize && layout.slots.length - 1 - previousIdx > 0)
+            spacer(layout.slots.length - 1 - previousIdx);
         table.appendChild(tbody);
         if (this.renderColumnFooter) {
             const tfoot = document.createElement("tfoot");
@@ -2329,13 +2739,21 @@ export class KanbanBoard extends HTMLElement {
                 fcell.className = "kanban-table-td kanban-board-column-footer";
                 if (column.accent) fcell.setAttribute("data-accent", column.accent);
                 const cardsAll = allByColumn.get(column.id) ?? [];
-                fcell.appendChild(this.renderColumnFooter({ column, cards: cardsAll, count: cardsAll.length }));
+                fcell.appendChild(
+                    this.renderColumnFooter({ column, cards: cardsAll, count: cardsAll.length }),
+                );
                 frow.appendChild(fcell);
             }
             tfoot.appendChild(frow);
             table.appendChild(tfoot);
         }
-        if (this.#labels.exportHeaders && (this.#labels.copy || this.#labels.exportCsv || this.#labels.exportTsv || this.#labels.exportExcel)) {
+        if (
+            this.#labels.exportHeaders &&
+            (this.#labels.copy ||
+                this.#labels.exportCsv ||
+                this.#labels.exportTsv ||
+                this.#labels.exportExcel)
+        ) {
             const group = document.createElement("div");
             group.className = "kanban-board-export";
             group.setAttribute("role", "group");

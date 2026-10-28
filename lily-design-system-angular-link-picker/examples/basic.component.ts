@@ -10,9 +10,9 @@ import { LinkPicker, type LinkItem } from "../link-picker.component";
 })
 export class Basic {
   links: LinkItem[] = [
-  { label: "Home", href: "/" },
-  { label: "About Us", href: "/about/" },
-  { label: "Contact Us", href: "/contact/" },
-  { label: "Privacy Policy", href: "/privacy/" },
-];
+    { label: "Home", href: "/" },
+    { label: "About Us", href: "/about/" },
+    { label: "Contact Us", href: "/contact/" },
+    { label: "Privacy Policy", href: "/privacy/" },
+  ];
 }

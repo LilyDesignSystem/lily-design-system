@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<input
   class="bulgaria-edinen-grazhdanski-nomer-input"
@@ -8,9 +8,9 @@ const html = `<input
   aria-label="Uniform Civil Number">`;
 
 const meta = {
-  title: 'Headless/BulgariaEdinenGrazhdanskiNomerInput',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/BulgariaEdinenGrazhdanskiNomerInput",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

@@ -31,6 +31,4 @@ import { Banner } from "../components/Banner";
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class DashboardPage {
-
-}
+export default class DashboardPage {}

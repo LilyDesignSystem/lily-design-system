@@ -83,10 +83,7 @@ function todayIso(): string {
     return new Date().toISOString().slice(0, 10);
 }
 
-function statusFor(
-    step: Step,
-    n: 1 | 2 | 3 | 4,
-): "waiting" | "in-progress" | "finished" {
+function statusFor(step: Step, n: 1 | 2 | 3 | 4): "waiting" | "in-progress" | "finished" {
     if (step >= 5) return "finished";
     if (n < step) return "finished";
     if (n === step) return "in-progress";
@@ -148,8 +145,7 @@ export default function BookAnAppointmentPage() {
         if (!appointmentDate) e.appointmentDate = "Enter your preferred date";
         else if (appointmentDate < todayIso())
             e.appointmentDate = "Enter a date that is today or in the future";
-        if (!appointmentTime)
-            e.appointmentTime = "Select a preferred time of day";
+        if (!appointmentTime) e.appointmentTime = "Select a preferred time of day";
         setErrors(e);
         return Object.keys(e).length === 0;
     }
@@ -158,8 +154,7 @@ export default function BookAnAppointmentPage() {
         const e: Record<string, string> = {};
         if (!fullName.trim()) e.fullName = "Enter your full name";
         if (!email.trim()) e.email = "Enter your email address";
-        else if (!email.includes("@"))
-            e.email = "Enter an email address in the correct format";
+        else if (!email.includes("@")) e.email = "Enter an email address in the correct format";
         setErrors(e);
         return Object.keys(e).length === 0;
     }
@@ -167,8 +162,7 @@ export default function BookAnAppointmentPage() {
     function validateCheckAnswers(): boolean {
         const e: Record<string, string> = {};
         if (!confirmedAccurate)
-            e.confirmedAccurate =
-                "Confirm that the information above is correct";
+            e.confirmedAccurate = "Confirm that the information above is correct";
         setErrors(e);
         return Object.keys(e).length === 0;
     }
@@ -189,9 +183,7 @@ export default function BookAnAppointmentPage() {
 
     function submitBooking() {
         if (validateCheckAnswers()) {
-            setReferenceNumber(
-                `APT-${Math.floor(100000 + Math.random() * 900000)}`,
-            );
+            setReferenceNumber(`APT-${Math.floor(100000 + Math.random() * 900000)}`);
             setStep(5);
         }
     }
@@ -218,7 +210,10 @@ export default function BookAnAppointmentPage() {
             <h1>Book an appointment</h1>
 
             {step >= 1 && step <= 4 && (
-                <StepList label="Booking progress" current={step - 1}>
+                <StepList
+                    label="Booking progress"
+                    current={step - 1}
+                >
                     <StepListItem
                         status={statusFor(step, 1)}
                         current={step === 1}
@@ -247,7 +242,10 @@ export default function BookAnAppointmentPage() {
             )}
 
             {Object.keys(errors).length > 0 && (
-                <ErrorSummary title="There is a problem" id="booking-error-summary">
+                <ErrorSummary
+                    title="There is a problem"
+                    id="booking-error-summary"
+                >
                     <ul>
                         {errors.reason && (
                             <li>
@@ -256,23 +254,17 @@ export default function BookAnAppointmentPage() {
                         )}
                         {errors.reasonOther && (
                             <li>
-                                <a href="#reason-other-detail">
-                                    {errors.reasonOther}
-                                </a>
+                                <a href="#reason-other-detail">{errors.reasonOther}</a>
                             </li>
                         )}
                         {errors.appointmentDate && (
                             <li>
-                                <a href="#appointment-date">
-                                    {errors.appointmentDate}
-                                </a>
+                                <a href="#appointment-date">{errors.appointmentDate}</a>
                             </li>
                         )}
                         {errors.appointmentTime && (
                             <li>
-                                <a href="#appointment-time">
-                                    {errors.appointmentTime}
-                                </a>
+                                <a href="#appointment-time">{errors.appointmentTime}</a>
                             </li>
                         )}
                         {errors.fullName && (
@@ -287,9 +279,7 @@ export default function BookAnAppointmentPage() {
                         )}
                         {errors.confirmedAccurate && (
                             <li>
-                                <a href="#confirmed-accurate">
-                                    {errors.confirmedAccurate}
-                                </a>
+                                <a href="#confirmed-accurate">{errors.confirmedAccurate}</a>
                             </li>
                         )}
                     </ul>
@@ -298,33 +288,33 @@ export default function BookAnAppointmentPage() {
 
             {step === 0 && (
                 <>
-                    <h2 id="step-heading" tabIndex={-1}>
+                    <h2
+                        id="step-heading"
+                        tabIndex={-1}
+                    >
                         Before you start
                     </h2>
 
                     <WarningCallout label="Emergency notice">
                         <p>
-                            If you have a medical emergency, call 999 or go to
-                            your nearest A&amp;E.
+                            If you have a medical emergency, call 999 or go to your nearest A&amp;E.
                         </p>
                     </WarningCallout>
 
                     <p>
-                        Use this service to book a routine appointment with
-                        your GP surgery online. It takes about 5 minutes.
+                        Use this service to book a routine appointment with your GP surgery online.
+                        It takes about 5 minutes.
                     </p>
 
                     <InsetText>
-                        Appointments are available Monday to Friday, 8am to
-                        6pm. Most requests are confirmed within 2 working
-                        days.
+                        Appointments are available Monday to Friday, 8am to 6pm. Most requests are
+                        confirmed within 2 working days.
                     </InsetText>
 
                     <Details summary="What happens at your appointment">
                         <p>
-                            A clinician will review the reason you gave for
-                            the appointment and may ask follow-up questions.
-                            Bring a list of any medicines you are currently
+                            A clinician will review the reason you gave for the appointment and may
+                            ask follow-up questions. Bring a list of any medicines you are currently
                             taking.
                         </p>
                     </Details>
@@ -337,7 +327,10 @@ export default function BookAnAppointmentPage() {
 
             {step === 1 && (
                 <>
-                    <h2 id="step-heading" tabIndex={-1}>
+                    <h2
+                        id="step-heading"
+                        tabIndex={-1}
+                    >
                         Reason for your appointment
                     </h2>
 
@@ -392,9 +385,7 @@ export default function BookAnAppointmentPage() {
                                 {REASON_LABELS.other}
                             </Label>
                         </RadioGroup>
-                        {errors.reason && (
-                            <ErrorMessage>{errors.reason}</ErrorMessage>
-                        )}
+                        {errors.reason && <ErrorMessage>{errors.reason}</ErrorMessage>}
 
                         {reason === "other" && (
                             <>
@@ -430,14 +421,14 @@ export default function BookAnAppointmentPage() {
 
             {step === 2 && (
                 <>
-                    <h2 id="step-heading" tabIndex={-1}>
+                    <h2
+                        id="step-heading"
+                        tabIndex={-1}
+                    >
                         Choose a date and time
                     </h2>
 
-                    <InsetText>
-                        Appointments are available Monday to Friday, 8am to
-                        6pm.
-                    </InsetText>
+                    <InsetText>Appointments are available Monday to Friday, 8am to 6pm.</InsetText>
 
                     <Form
                         label="Choose a date and time"
@@ -452,8 +443,7 @@ export default function BookAnAppointmentPage() {
                                 inputId="appointment-date"
                             >
                                 <Hint id="appointment-date-hint">
-                                    We will try to match your preference, but
-                                    availability may vary.
+                                    We will try to match your preference, but availability may vary.
                                 </Hint>
                                 <DateInput
                                     id="appointment-date"
@@ -476,25 +466,13 @@ export default function BookAnAppointmentPage() {
                                     id="appointment-time"
                                     label="Preferred time of day"
                                     value={appointmentTime}
-                                    onChange={(value) =>
-                                        setAppointmentTime(
-                                            value as TimeOfDay,
-                                        )
-                                    }
+                                    onChange={(value) => setAppointmentTime(value as TimeOfDay)}
                                     required
                                 >
-                                    <Option value="">
-                                        Select a time of day
-                                    </Option>
-                                    <Option value="morning">
-                                        {TIME_LABELS.morning}
-                                    </Option>
-                                    <Option value="afternoon">
-                                        {TIME_LABELS.afternoon}
-                                    </Option>
-                                    <Option value="evening">
-                                        {TIME_LABELS.evening}
-                                    </Option>
+                                    <Option value="">Select a time of day</Option>
+                                    <Option value="morning">{TIME_LABELS.morning}</Option>
+                                    <Option value="afternoon">{TIME_LABELS.afternoon}</Option>
+                                    <Option value="evening">{TIME_LABELS.evening}</Option>
                                 </Select>
                             </Field>
                         </Fieldset>
@@ -519,7 +497,10 @@ export default function BookAnAppointmentPage() {
 
             {step === 3 && (
                 <>
-                    <h2 id="step-heading" tabIndex={-1}>
+                    <h2
+                        id="step-heading"
+                        tabIndex={-1}
+                    >
                         Your details
                     </h2>
 
@@ -549,9 +530,7 @@ export default function BookAnAppointmentPage() {
                             error={errors.email}
                             inputId="email"
                         >
-                            <Hint id="email-hint">
-                                We will use this to send your confirmation.
-                            </Hint>
+                            <Hint id="email-hint">We will use this to send your confirmation.</Hint>
                             <EmailInput
                                 id="email"
                                 label="Email address"
@@ -562,10 +541,12 @@ export default function BookAnAppointmentPage() {
                             />
                         </Field>
 
-                        <Field label="Phone number" inputId="phone">
+                        <Field
+                            label="Phone number"
+                            inputId="phone"
+                        >
                             <Hint id="phone-hint">
-                                Optional — only needed if we must contact you
-                                about a change.
+                                Optional — only needed if we must contact you about a change.
                             </Hint>
                             <TelInput
                                 id="phone"
@@ -607,7 +588,10 @@ export default function BookAnAppointmentPage() {
 
             {step === 4 && (
                 <>
-                    <h2 id="step-heading" tabIndex={-1}>
+                    <h2
+                        id="step-heading"
+                        tabIndex={-1}
+                    >
                         Check your answers
                     </h2>
 
@@ -628,10 +612,7 @@ export default function BookAnAppointmentPage() {
                                 }}
                             >
                                 Change
-                                <span className="visually-hidden">
-                                    {" "}
-                                    reason
-                                </span>
+                                <span className="visually-hidden"> reason</span>
                             </a>
                         </SummaryListItem>
                         <SummaryListItem term="Date">
@@ -644,16 +625,11 @@ export default function BookAnAppointmentPage() {
                                 }}
                             >
                                 Change
-                                <span className="visually-hidden">
-                                    {" "}
-                                    date
-                                </span>
+                                <span className="visually-hidden"> date</span>
                             </a>
                         </SummaryListItem>
                         <SummaryListItem term="Time of day">
-                            {appointmentTime
-                                ? TIME_LABELS[appointmentTime]
-                                : "Not answered"}{" "}
+                            {appointmentTime ? TIME_LABELS[appointmentTime] : "Not answered"}{" "}
                             <a
                                 href="#time"
                                 onClick={(e) => {
@@ -662,10 +638,7 @@ export default function BookAnAppointmentPage() {
                                 }}
                             >
                                 Change
-                                <span className="visually-hidden">
-                                    {" "}
-                                    time of day
-                                </span>
+                                <span className="visually-hidden"> time of day</span>
                             </a>
                         </SummaryListItem>
                         <SummaryListItem term="Full name">
@@ -678,10 +651,7 @@ export default function BookAnAppointmentPage() {
                                 }}
                             >
                                 Change
-                                <span className="visually-hidden">
-                                    {" "}
-                                    full name
-                                </span>
+                                <span className="visually-hidden"> full name</span>
                             </a>
                         </SummaryListItem>
                         <SummaryListItem term="Email address">
@@ -694,18 +664,11 @@ export default function BookAnAppointmentPage() {
                                 }}
                             >
                                 Change
-                                <span className="visually-hidden">
-                                    {" "}
-                                    email address
-                                </span>
+                                <span className="visually-hidden"> email address</span>
                             </a>
                         </SummaryListItem>
                         <SummaryListItem term="Phone number">
-                            {phone ? (
-                                phone
-                            ) : (
-                                <StatusTag>Not provided</StatusTag>
-                            )}{" "}
+                            {phone ? phone : <StatusTag>Not provided</StatusTag>}{" "}
                             <a
                                 href="#phone-review"
                                 onClick={(e) => {
@@ -714,10 +677,7 @@ export default function BookAnAppointmentPage() {
                                 }}
                             >
                                 Change
-                                <span className="visually-hidden">
-                                    {" "}
-                                    phone number
-                                </span>
+                                <span className="visually-hidden"> phone number</span>
                             </a>
                         </SummaryListItem>
                         <SummaryListItem term="Interpreter or additional support">
@@ -754,9 +714,7 @@ export default function BookAnAppointmentPage() {
                                 I confirm the information above is correct
                             </Label>
                             {errors.confirmedAccurate && (
-                                <ErrorMessage>
-                                    {errors.confirmedAccurate}
-                                </ErrorMessage>
+                                <ErrorMessage>{errors.confirmedAccurate}</ErrorMessage>
                             )}
                         </p>
 
@@ -780,49 +738,38 @@ export default function BookAnAppointmentPage() {
 
             {step === 5 && (
                 <>
-                    <h2 id="step-heading" tabIndex={-1}>
+                    <h2
+                        id="step-heading"
+                        tabIndex={-1}
+                    >
                         Booking confirmed
                     </h2>
 
                     <SuccessPanel label="Booking confirmed">
                         <p>
-                            Your appointment reference number is{" "}
-                            <strong>{referenceNumber}</strong>. We have sent
-                            a confirmation to {email}.
+                            Your appointment reference number is <strong>{referenceNumber}</strong>.
+                            We have sent a confirmation to {email}.
                         </p>
                     </SuccessPanel>
 
                     <StepList label="Booking progress">
-                        <StepListItem status="finished">
-                            Reason
-                        </StepListItem>
-                        <StepListItem status="finished">
-                            Date and time
-                        </StepListItem>
-                        <StepListItem status="finished">
-                            Your details
-                        </StepListItem>
-                        <StepListItem status="finished">
-                            Check your answers
-                        </StepListItem>
+                        <StepListItem status="finished">Reason</StepListItem>
+                        <StepListItem status="finished">Date and time</StepListItem>
+                        <StepListItem status="finished">Your details</StepListItem>
+                        <StepListItem status="finished">Check your answers</StepListItem>
                     </StepList>
 
                     <Panel label="What happens next">
                         <p>
                             A member of the practice team will confirm your{" "}
-                            {appointmentTime
-                                ? TIME_LABELS[appointmentTime].toLowerCase()
-                                : ""}{" "}
-                            appointment on {appointmentDate} by email. Keep
-                            your reference number in case you need to change
-                            or cancel.
+                            {appointmentTime ? TIME_LABELS[appointmentTime].toLowerCase() : ""}{" "}
+                            appointment on {appointmentDate} by email. Keep your reference number in
+                            case you need to change or cancel.
                         </p>
                     </Panel>
 
                     <p>
-                        <Button onClick={startOver}>
-                            Book another appointment
-                        </Button>
+                        <Button onClick={startOver}>Book another appointment</Button>
                     </p>
                 </>
             )}

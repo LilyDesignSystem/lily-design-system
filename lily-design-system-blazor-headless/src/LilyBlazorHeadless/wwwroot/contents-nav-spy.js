@@ -32,20 +32,19 @@
  * never reaches the line); before the first section, the first.
  */
 export function activeSectionIndex(tops, offset, atBottom) {
-    if (tops.length === 0)
-        return -1;
-    if (atBottom)
-        return tops.length - 1;
+    if (tops.length === 0) return -1;
+    if (atBottom) return tops.length - 1;
     let index = 0;
     for (let i = 0; i < tops.length; i++) {
-        if (tops[i] <= offset + 1)
-            index = i;
+        if (tops[i] <= offset + 1) index = i;
     }
     return index;
 }
 /** The in-page `<a href="#id">` links inside `nav`. */
 export function contentsLinks(nav) {
-    return Array.from(nav.querySelectorAll('a[href^="#"]')).filter((a) => a.getAttribute("href").length > 1);
+    return Array.from(nav.querySelectorAll('a[href^="#"]')).filter(
+        (a) => a.getAttribute("href").length > 1,
+    );
 }
 export function contentsLinkId(link) {
     return decodeURIComponent((link.getAttribute("href") ?? "").slice(1));
@@ -59,8 +58,7 @@ export function contentsTarget(link, doc) {
  * that stops listening.
  */
 export function startScrollspy(nav, options = {}) {
-    if (typeof window === "undefined")
-        return () => { };
+    if (typeof window === "undefined") return () => {};
     const offset = options.offset ?? 0;
     const spyRoot = options.root ?? null;
     const token = options.current ?? "true";
@@ -76,8 +74,7 @@ export function startScrollspy(nav, options = {}) {
             if (a === link) {
                 a.setAttribute("aria-current", token);
                 a.setAttribute("data-active", "");
-            }
-            else {
+            } else {
                 a.removeAttribute("aria-current");
                 a.removeAttribute("data-active");
             }
@@ -85,24 +82,23 @@ export function startScrollspy(nav, options = {}) {
         for (const li of nav.querySelectorAll("li")) {
             if (link && li.contains(link) && li.querySelector(":scope > a") !== link) {
                 li.setAttribute("data-descendant-active", "");
-            }
-            else {
+            } else {
                 li.removeAttribute("data-descendant-active");
             }
         }
         const id = link ? contentsLinkId(link) : "";
         if (id !== last) {
             last = id;
-            if (id)
-                options.onChange?.(id);
+            if (id) options.onChange?.(id);
         }
     }
     function update() {
-        if (locked)
-            return;
+        if (locked) return;
         if (hashPending) {
             const id = decodeURIComponent(window.location.hash.slice(1));
-            const hashed = id ? contentsLinks(nav).find((a) => contentsLinkId(a) === id) : undefined;
+            const hashed = id
+                ? contentsLinks(nav).find((a) => contentsLinkId(a) === id)
+                : undefined;
             if (hashed) {
                 mark(hashed);
                 return;
@@ -123,8 +119,7 @@ export function startScrollspy(nav, options = {}) {
         mark(pairs[activeSectionIndex(tops, offset, atBottom)].a);
     }
     function schedule() {
-        if (frame)
-            return;
+        if (frame) return;
         frame = requestAnimationFrame(() => {
             frame = 0;
             update();
@@ -136,26 +131,22 @@ export function startScrollspy(nav, options = {}) {
     }
     function release() {
         locked = false;
-        if (lockTimer)
-            clearTimeout(lockTimer);
+        if (lockTimer) clearTimeout(lockTimer);
         update();
     }
     function onClick(event) {
         const link = event.target?.closest?.("a");
-        if (!link || !nav.contains(link) || !contentsTarget(link, nav.ownerDocument))
-            return;
+        if (!link || !nav.contains(link) || !contentsTarget(link, nav.ownerDocument)) return;
         // The link is current at once; updates wait until the scroll settles.
         mark(link);
         locked = true;
-        if (lockTimer)
-            clearTimeout(lockTimer);
+        if (lockTimer) clearTimeout(lockTimer);
         lockTimer = setTimeout(release, 1000);
     }
     function onHashChange() {
         const id = decodeURIComponent(window.location.hash.slice(1));
         const link = contentsLinks(nav).find((a) => contentsLinkId(a) === id);
-        if (link)
-            mark(link);
+        if (link) mark(link);
     }
     scroller.addEventListener("scroll", onScroll, { passive: true });
     scroller.addEventListener("scrollend", release);
@@ -163,16 +154,22 @@ export function startScrollspy(nav, options = {}) {
     window.addEventListener("hashchange", onHashChange);
     nav.addEventListener("click", onClick);
     // Links rendered or re-pointed after mount (a list built from data) are picked up too.
-    const mutations = typeof MutationObserver === "undefined" ? null : new MutationObserver(schedule);
-    mutations?.observe(nav, { childList: true, subtree: true, attributes: true, attributeFilter: ["href"] });
+    const mutations =
+        typeof MutationObserver === "undefined" ? null : new MutationObserver(schedule);
+    mutations?.observe(nav, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ["href"],
+    });
     // The URL hash wins on load; otherwise the position decides.
     const initial = decodeURIComponent(window.location.hash.slice(1));
     hashPending = initial !== "";
-    const hashLink = initial ? contentsLinks(nav).find((a) => contentsLinkId(a) === initial) : undefined;
-    if (hashLink)
-        mark(hashLink);
-    else
-        update();
+    const hashLink = initial
+        ? contentsLinks(nav).find((a) => contentsLinkId(a) === initial)
+        : undefined;
+    if (hashLink) mark(hashLink);
+    else update();
     return () => {
         scroller.removeEventListener("scroll", onScroll);
         scroller.removeEventListener("scrollend", release);
@@ -180,10 +177,8 @@ export function startScrollspy(nav, options = {}) {
         window.removeEventListener("hashchange", onHashChange);
         nav.removeEventListener("click", onClick);
         mutations?.disconnect();
-        if (frame)
-            cancelAnimationFrame(frame);
-        if (lockTimer)
-            clearTimeout(lockTimer);
+        if (frame) cancelAnimationFrame(frame);
+        if (lockTimer) clearTimeout(lockTimer);
     };
 }
 

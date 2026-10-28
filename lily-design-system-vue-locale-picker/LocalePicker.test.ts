@@ -155,8 +155,7 @@ describe("LocalePicker — markup contract (§4.3, §7.1)", () => {
         const wrapper = build({ name: "lang" });
         await flush();
         expect(parts(wrapper).options.length).toBe(LOCALES.length);
-        const hidden = wrapper.find('input[type="hidden"]')
-            .element as HTMLInputElement;
+        const hidden = wrapper.find('input[type="hidden"]').element as HTMLInputElement;
         expect(hidden.name).toBe("lang");
         expect(hidden.value).toBe("en");
     });
@@ -242,9 +241,7 @@ describe("LocalePicker — keyboard contract (APG listbox, §7.6)", () => {
 
     test("§7.24 ArrowUp opens with the last option active", async () => {
         const { el } = await openWith("ArrowUp");
-        expect(el.getAttribute("aria-activedescendant")).toBe(
-            el.children[LOCALES.length - 1].id,
-        );
+        expect(el.getAttribute("aria-activedescendant")).toBe(el.children[LOCALES.length - 1].id);
     });
 
     test("§7.24 opening moves focus to the listbox", async () => {
@@ -272,9 +269,7 @@ describe("LocalePicker — keyboard contract (APG listbox, §7.6)", () => {
     test("§7.25 ArrowDown clamps at the bottom rather than wrapping", async () => {
         const { list, el } = await openWith("ArrowUp");
         await list.trigger("keydown", { key: "ArrowDown" });
-        expect(el.getAttribute("aria-activedescendant")).toBe(
-            el.children[LOCALES.length - 1].id,
-        );
+        expect(el.getAttribute("aria-activedescendant")).toBe(el.children[LOCALES.length - 1].id);
     });
 
     test("§7.25 the active option carries data-active", async () => {
@@ -288,9 +283,7 @@ describe("LocalePicker — keyboard contract (APG listbox, §7.6)", () => {
     test("§7.25 Home and End jump to the first and last option", async () => {
         const { list, el } = await openWith("ArrowDown");
         await list.trigger("keydown", { key: "End" });
-        expect(el.getAttribute("aria-activedescendant")).toBe(
-            el.children[LOCALES.length - 1].id,
-        );
+        expect(el.getAttribute("aria-activedescendant")).toBe(el.children[LOCALES.length - 1].id);
         await list.trigger("keydown", { key: "Home" });
         expect(el.getAttribute("aria-activedescendant")).toBe(el.children[0].id);
     });
@@ -430,9 +423,7 @@ describe("LocalePicker — locale application (§5.5, §7.3)", () => {
 
     test("§7.16 change receives the consumer-form code (not BCP 47)", async () => {
         const seen: string[] = [];
-        const wrapper = build(
-            { defaultValue: "en", onChange: (v: string) => seen.push(v) },
-        );
+        const wrapper = build({ defaultValue: "en", onChange: (v: string) => seen.push(v) });
         await flush();
         await pick(wrapper, "en_US");
         await flush();
@@ -477,10 +468,7 @@ describe("LocalePicker — initial-value resolution (§5.2, §5.3, §7.4)", () =
     });
 
     test("§7.20 navigator detection resolves exact match", async () => {
-        const original = Object.getOwnPropertyDescriptor(
-            window.navigator,
-            "languages",
-        );
+        const original = Object.getOwnPropertyDescriptor(window.navigator, "languages");
         Object.defineProperty(window.navigator, "languages", {
             configurable: true,
             get: () => ["fr-CA", "fr"],
@@ -492,10 +480,7 @@ describe("LocalePicker — initial-value resolution (§5.2, §5.3, §7.4)", () =
     });
 
     test("§7.21 navigator detection falls back to language-only match", async () => {
-        const original = Object.getOwnPropertyDescriptor(
-            window.navigator,
-            "languages",
-        );
+        const original = Object.getOwnPropertyDescriptor(window.navigator, "languages");
         Object.defineProperty(window.navigator, "languages", {
             configurable: true,
             get: () => ["fr-CA"],
@@ -529,9 +514,7 @@ describe("LocalePicker — spread + custom slot (§4.1, §7.5)", () => {
         );
         await flush();
         // The custom glyph replaces the default globe inside the button.
-        expect(wrapper.find("button.locale-picker-button").text()).toContain(
-            "custom glyph",
-        );
+        expect(wrapper.find("button.locale-picker-button").text()).toContain("custom glyph");
         expect(wrapper.find(".locale-picker-icon").exists()).toBe(false);
         expect(captured.open).toBe(false);
         expect(captured.value).toBe("fr");
@@ -563,10 +546,7 @@ describe("LocalePicker — spread + custom slot (§4.1, §7.5)", () => {
 });
 
 describe("LocalePicker — accessibility hardening (§7.28–§7.32)", () => {
-    async function openPicker(
-        locales: string[] = LOCALES,
-        extra: Record<string, unknown> = {},
-    ) {
+    async function openPicker(locales: string[] = LOCALES, extra: Record<string, unknown> = {}) {
         const wrapper = build({ locales, ...extra });
         await flush();
         const { button, list } = parts(wrapper);
@@ -575,8 +555,7 @@ describe("LocalePicker — accessibility hardening (§7.28–§7.32)", () => {
         return { button, list, el: list.element as HTMLElement };
     }
 
-    const active = (el: HTMLElement) =>
-        el.querySelector("[data-active]")?.textContent?.trim();
+    const active = (el: HTMLElement) => el.querySelector("[data-active]")?.textContent?.trim();
 
     test("§7.28 Tab from the open list puts focus on the button before closing", async () => {
         const { button, list, el } = await openPicker();
@@ -620,10 +599,7 @@ describe("LocalePicker — accessibility hardening (§7.28–§7.32)", () => {
     });
 
     test("§7.31 PageUp and PageDown move the cursor by ten, clamped", async () => {
-        const many = Array.from(
-            { length: 25 },
-            (_, i) => `x${String(i).padStart(2, "0")}`,
-        );
+        const many = Array.from({ length: 25 }, (_, i) => `x${String(i).padStart(2, "0")}`);
         const labels = Object.fromEntries(many.map((l) => [l, l.toUpperCase()]));
         const { list, el } = await openPicker(many, { localeLabels: labels });
         await list.trigger("keydown", { key: "PageDown" });
@@ -678,7 +654,9 @@ describe("LocalePicker — tooltip (§7.34–§7.39)", () => {
         expect(tip.textContent!.length).toBeGreaterThan(0);
         expect(tip.hasAttribute("hidden")).toBe(true);
         expect(tip.id).toBeTruthy();
-        expect(button.previousElementSibling === tip || button.nextElementSibling === tip).toBe(true);
+        expect(button.previousElementSibling === tip || button.nextElementSibling === tip).toBe(
+            true,
+        );
         expect(button.hasAttribute("aria-describedby")).toBe(false);
     });
 
@@ -757,7 +735,8 @@ describe("LocalePicker — tooltip (§7.34–§7.39)", () => {
     test("§7.40 hover-only tooltip: Escape on another element dismisses it; listener removed after hide/unmount", async () => {
         const addSpy = vi.spyOn(document, "addEventListener");
         const removeSpy = vi.spyOn(document, "removeEventListener");
-        const keydownCalls = (spy: typeof addSpy) => spy.mock.calls.filter((c) => c[0] === "keydown").length;
+        const keydownCalls = (spy: typeof addSpy) =>
+            spy.mock.calls.filter((c) => c[0] === "keydown").length;
         const wrapper = build({});
         const button = wrapper.element.querySelector(".locale-picker-button") as HTMLButtonElement;
         const tip = wrapper.element.querySelector(".locale-picker-tooltip") as HTMLElement;
@@ -794,7 +773,10 @@ describe("LocalePicker — open state and disabled", () => {
     const settle = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
     const mounted: VueWrapper[] = [];
     const make = (extra: Record<string, unknown> = {}) => {
-        const wrapper = mount(LocalePicker, { props: { ...{ label: "Language", locales: LOCALES }, ...extra }, attachTo: document.body });
+        const wrapper = mount(LocalePicker, {
+            props: { ...{ label: "Language", locales: LOCALES }, ...extra },
+            attachTo: document.body,
+        });
         mounted.push(wrapper);
         return wrapper;
     };
@@ -822,7 +804,9 @@ describe("LocalePicker — open state and disabled", () => {
 
     test("v-model:open: a click asks for the change and the parent applies it", async () => {
         const wrapper = make({ open: false });
-        await wrapper.setProps({ "onUpdate:open": (v: boolean) => wrapper.setProps({ open: v }) } as never);
+        await wrapper.setProps({
+            "onUpdate:open": (v: boolean) => wrapper.setProps({ open: v }),
+        } as never);
         button().click();
         await settle();
         expect(button().getAttribute("aria-expanded")).toBe("true");
@@ -843,4 +827,3 @@ describe("LocalePicker — open state and disabled", () => {
         expect(button().getAttribute("aria-expanded")).toBe("false");
     });
 });
-

@@ -55,7 +55,8 @@ const LABELS: GanttLabels = {
   cancelLabel: "Cancel",
   dependencySummary: (preds) => `Blocked by: ${preds.join(", ")}`,
   dateAnnouncement: (title, start, end) => `${title} moved to ${start} - ${end}`,
-  collapseButton: (task, collapsed) => (collapsed ? `Expand ${task.label}` : `Collapse ${task.label}`),
+  collapseButton: (task, collapsed) =>
+    collapsed ? `Expand ${task.label}` : `Collapse ${task.label}`,
 };
 
 let fixtures: ComponentFixture<unknown>[] = [];
@@ -79,21 +80,15 @@ function mount(inputs: Record<string, unknown> = {}): ComponentFixture<GanttChar
 }
 
 function tabbableCells(fixture: ComponentFixture<unknown>): Element[] {
-  return Array.from(
-    fixture.nativeElement.querySelectorAll('.gantt-table-td[tabindex="0"]'),
-  );
+  return Array.from(fixture.nativeElement.querySelectorAll('.gantt-table-td[tabindex="0"]'));
 }
 
 function rows(fixture: ComponentFixture<unknown>): Element[] {
-  return Array.from(
-    fixture.nativeElement.querySelectorAll(".gantt-table-tbody > .gantt-table-tr"),
-  );
+  return Array.from(fixture.nativeElement.querySelectorAll(".gantt-table-tbody > .gantt-table-tr"));
 }
 
 function headers(fixture: ComponentFixture<unknown>): Element[] {
-  return Array.from(
-    fixture.nativeElement.querySelectorAll(".gantt-table-thead .gantt-table-th"),
-  );
+  return Array.from(fixture.nativeElement.querySelectorAll(".gantt-table-thead .gantt-table-th"));
 }
 
 function press(
@@ -182,7 +177,10 @@ describe("GanttChart — hierarchy helpers (§8.5)", () => {
   });
 
   test("effectiveRange derives a parent's start/end from its descendants", () => {
-    const range = effectiveRange(TASKS.find((t) => t.id === "parent")!, TASKS);
+    const range = effectiveRange(
+      TASKS.find((t) => t.id === "parent")!,
+      TASKS,
+    );
     expect(range).toEqual({ start: "2026-10-08", end: "2026-10-09" });
   });
 });
@@ -445,7 +443,9 @@ describe("GanttChart — focus, tab stop, hierarchy and edit edge cases", () => 
   test("§8.17 depth is a data-depth attribute, never an inline style", () => {
     const fixture = mount();
     const rowHeaders = Array.from(
-      (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLElement>(".gantt-table-tbody .gantt-table-th"),
+      (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLElement>(
+        ".gantt-table-tbody .gantt-table-th",
+      ),
     );
     expect(rowHeaders.map((h) => h.dataset["depth"])).toEqual(["0", "0", "0", "0", "1", "1"]);
     expect(rowHeaders.filter((h) => h.hasAttribute("style"))).toHaveLength(0);
@@ -532,7 +532,11 @@ describe("GanttChart — focus, tab stop, hierarchy and edit edge cases", () => 
     field.dispatchEvent(new FocusEvent("blur"));
     await settle(fixture);
     click(fixture, editButton(fixture, "gantt-chart-save-button"));
-    expect(onChange).toHaveBeenCalledWith({ taskId: "design", start: "2026-10-03", end: "2026-10-09" });
+    expect(onChange).toHaveBeenCalledWith({
+      taskId: "design",
+      start: "2026-10-03",
+      end: "2026-10-09",
+    });
   });
 
   test("§8.16 controls whose labels are absent do not render unnamed", () => {
@@ -564,7 +568,9 @@ describe("GanttChart — markers, working calendar, task data, readonly", () => 
   });
 
   test("isNonWorking marks a column only when every day in it is non-working", () => {
-    const fixture = mount({ isNonWorking: (d: string) => d === "2026-10-03" || d === "2026-10-04" });
+    const fixture = mount({
+      isNonWorking: (d: string) => d === "2026-10-03" || d === "2026-10-04",
+    });
     expect(heads(fixture)[2].hasAttribute("data-non-working")).toBe(true);
     expect(heads(fixture)[3].hasAttribute("data-non-working")).toBe(true);
     expect(heads(fixture)[1].hasAttribute("data-non-working")).toBe(false);
@@ -577,7 +583,17 @@ describe("GanttChart — markers, working calendar, task data, readonly", () => 
 
   test("task type, critical and slack become data attributes on the row", () => {
     const fixture = mount({
-      tasks: [{ id: "a", label: "A", start: "2026-10-01", end: "2026-10-02", type: "design", critical: true, slack: 2 } as GanttTask],
+      tasks: [
+        {
+          id: "a",
+          label: "A",
+          start: "2026-10-01",
+          end: "2026-10-02",
+          type: "design",
+          critical: true,
+          slack: 2,
+        } as GanttTask,
+      ],
     });
     const row = rows(fixture)[0];
     expect(row.getAttribute("data-task-type")).toBe("design");
@@ -587,17 +603,30 @@ describe("GanttChart — markers, working calendar, task data, readonly", () => 
 
   test("labels.criticalLabel is visible text on a critical task, beside its unchanged label", () => {
     const fixture = mount({
-      tasks: [{ id: "a", label: "A", start: "2026-10-01", end: "2026-10-02", critical: true }, { id: "b", label: "B", start: "2026-10-03", end: "2026-10-04", dependsOn: ["a"] }] as GanttTask[],
-      labels: { criticalLabel: "Critical path", dependencySummary: (l: string[]) => `Depends on ${l.join(", ")}` },
+      tasks: [
+        { id: "a", label: "A", start: "2026-10-01", end: "2026-10-02", critical: true },
+        { id: "b", label: "B", start: "2026-10-03", end: "2026-10-04", dependsOn: ["a"] },
+      ] as GanttTask[],
+      labels: {
+        criticalLabel: "Critical path",
+        dependencySummary: (l: string[]) => `Depends on ${l.join(", ")}`,
+      },
     });
     const found = fixture.nativeElement.querySelectorAll(".gantt-chart-critical-label");
     expect(found.length).toBe(1);
     expect(found[0].textContent).toBe("Critical path");
-    expect(fixture.nativeElement.querySelector(".gantt-chart-dependency-summary").textContent.trim()).toBe("Depends on A");
+    expect(
+      fixture.nativeElement.querySelector(".gantt-chart-dependency-summary").textContent.trim(),
+    ).toBe("Depends on A");
   });
 
   test("without labels.criticalLabel no critical text renders", () => {
-    const fixture = mount({ tasks: [{ id: "a", label: "A", start: "2026-10-01", end: "2026-10-02", critical: true }, { id: "b", label: "B", start: "2026-10-03", end: "2026-10-04", dependsOn: ["a"] }] as GanttTask[] });
+    const fixture = mount({
+      tasks: [
+        { id: "a", label: "A", start: "2026-10-01", end: "2026-10-02", critical: true },
+        { id: "b", label: "B", start: "2026-10-03", end: "2026-10-04", dependsOn: ["a"] },
+      ] as GanttTask[],
+    });
     expect(fixture.nativeElement.querySelector(".gantt-chart-critical-label")).toBeNull();
   });
 
@@ -606,7 +635,9 @@ describe("GanttChart — markers, working calendar, task data, readonly", () => 
     press(fixture, tabbableCells(fixture)[0], "Enter");
     expect(fixture.nativeElement.querySelector(".gantt-chart-edit-row")).toBeNull();
     expect(fixture.nativeElement.querySelector(".gantt-chart-bar[draggable='true']")).toBeNull();
-    expect(fixture.nativeElement.querySelector(".gantt-chart").hasAttribute("data-readonly")).toBe(true);
+    expect(fixture.nativeElement.querySelector(".gantt-chart").hasAttribute("data-readonly")).toBe(
+      true,
+    );
     press(fixture, tabbableCells(fixture)[0], "ArrowRight");
     expect(tabbableCells(fixture)[0].getAttribute("data-col")).toBe("1");
     click(fixture, fixture.nativeElement.querySelector('[aria-label="Collapse Phase 1"]'));
@@ -650,7 +681,9 @@ describe("GanttChart — progress field, baselines, typed dependencies", () => {
     expect(percentInput(f)!.value).toBe("40");
     setPercent(f, "75");
     click(f, saveBtn(f));
-    expect(events).toEqual([{ taskId: "build", start: "2026-10-04", end: "2026-10-06", percentComplete: 75 }]);
+    expect(events).toEqual([
+      { taskId: "build", start: "2026-10-04", end: "2026-10-06", percentComplete: 75 },
+    ]);
   });
 
   test("progress is clamped to 0–100", () => {
@@ -674,9 +707,19 @@ describe("GanttChart — progress field, baselines, typed dependencies", () => {
 
   test("a baseline marks the cells it covers with data-baseline, apart from the current span", () => {
     const f = mount({
-      tasks: [{ id: "a", label: "A", start: "2026-10-04", end: "2026-10-06", baseline: { start: "2026-10-02", end: "2026-10-04" } } as GanttTask],
+      tasks: [
+        {
+          id: "a",
+          label: "A",
+          start: "2026-10-04",
+          end: "2026-10-06",
+          baseline: { start: "2026-10-02", end: "2026-10-04" },
+        } as GanttTask,
+      ],
     });
-    const withBaseline = cellsOf(f, 0).map((c, i) => (c.hasAttribute("data-baseline") ? i : -1)).filter((i) => i >= 0);
+    const withBaseline = cellsOf(f, 0)
+      .map((c, i) => (c.hasAttribute("data-baseline") ? i : -1))
+      .filter((i) => i >= 0);
     expect(withBaseline).toEqual([1, 2, 3]);
     expect(cellsOf(f, 0)[3].hasAttribute("data-in-range")).toBe(true);
     expect(cellsOf(f, 0)[1].hasAttribute("data-in-range")).toBe(false);
@@ -684,8 +727,19 @@ describe("GanttChart — progress field, baselines, typed dependencies", () => {
 
   test("baselineSummary renders as hidden text with the slip in days, and describes the row's cells", () => {
     const f = mount({
-      tasks: [{ id: "a", label: "A", start: "2026-10-04", end: "2026-10-06", baseline: { start: "2026-10-02", end: "2026-10-04" } } as GanttTask],
-      labels: { baselineSummary: (t: string, b: { start: string; end: string }, v: number) => `${t}: planned ${b.start} to ${b.end}, ${v} days late` },
+      tasks: [
+        {
+          id: "a",
+          label: "A",
+          start: "2026-10-04",
+          end: "2026-10-06",
+          baseline: { start: "2026-10-02", end: "2026-10-04" },
+        } as GanttTask,
+      ],
+      labels: {
+        baselineSummary: (t: string, b: { start: string; end: string }, v: number) =>
+          `${t}: planned ${b.start} to ${b.end}, ${v} days late`,
+      },
     });
     const summary = f.nativeElement.querySelector(".gantt-chart-baseline-summary") as HTMLElement;
     expect(summary.hidden).toBe(true);
@@ -703,38 +757,68 @@ describe("GanttChart — progress field, baselines, typed dependencies", () => {
     const f = mount({
       tasks: [
         { id: "a", label: "Design", start: "2026-10-01", end: "2026-10-02" },
-        { id: "b", label: "Build", start: "2026-10-03", end: "2026-10-04", dependsOn: [{ id: "a", type: "s2s", lag: 2 }, "a"] },
+        {
+          id: "b",
+          label: "Build",
+          start: "2026-10-03",
+          end: "2026-10-04",
+          dependsOn: [{ id: "a", type: "s2s", lag: 2 }, "a"],
+        },
       ] as GanttTask[],
       labels: {
         dependencySummary: (preds: string[]) => `After: ${preds.join("; ")}`,
-        dependencyDetail: (label: string, type: string, lag: number) => `${label} (${type}, lag ${lag})`,
+        dependencyDetail: (label: string, type: string, lag: number) =>
+          `${label} (${type}, lag ${lag})`,
       },
     });
-    expect(f.nativeElement.querySelector(".gantt-chart-dependency-summary").textContent.trim()).toBe("After: Design (s2s, lag 2); Design");
+    expect(
+      f.nativeElement.querySelector(".gantt-chart-dependency-summary").textContent.trim(),
+    ).toBe("After: Design (s2s, lag 2); Design");
   });
 
   test("a typed dependency without a lag or type defaults to e2s and 0", () => {
     const f = mount({
       tasks: [
         { id: "a", label: "Design", start: "2026-10-01", end: "2026-10-02" },
-        { id: "b", label: "Build", start: "2026-10-03", end: "2026-10-04", dependsOn: [{ id: "a" }] },
+        {
+          id: "b",
+          label: "Build",
+          start: "2026-10-03",
+          end: "2026-10-04",
+          dependsOn: [{ id: "a" }],
+        },
       ] as GanttTask[],
-      labels: { dependencySummary: (p: string[]) => p.join(), dependencyDetail: (l: string, t: string, g: number) => `${l}/${t}/${g}` },
+      labels: {
+        dependencySummary: (p: string[]) => p.join(),
+        dependencyDetail: (l: string, t: string, g: number) => `${l}/${t}/${g}`,
+      },
     });
-    expect(f.nativeElement.querySelector(".gantt-chart-dependency-summary").textContent.trim()).toBe("Design/e2s/0");
+    expect(
+      f.nativeElement.querySelector(".gantt-chart-dependency-summary").textContent.trim(),
+    ).toBe("Design/e2s/0");
   });
 });
 
 describe("GanttChart — zoom, resize handles, selection, Alt+Arrow, taskAttrs (§14.1–§14.17)", () => {
-  const zl = { ...LABELS, zoomIn: "Zoom in", zoomOut: "Zoom out", zoomAnnouncement: (u: string) => `Showing ${u}s` };
+  const zl = {
+    ...LABELS,
+    zoomIn: "Zoom in",
+    zoomOut: "Zoom out",
+    zoomAnnouncement: (u: string) => `Showing ${u}s`,
+  };
   const cols = (f: ComponentFixture<unknown>) => headers(f).length - 1;
   const btn = (f: ComponentFixture<unknown>, n: string) =>
-    Array.from(f.nativeElement.querySelectorAll("button")).find((b) => (b as HTMLElement).getAttribute("aria-label") === n) as HTMLButtonElement;
-  const cellAt = (f: ComponentFixture<unknown>, i: number) => rows(f)[0].querySelectorAll(".gantt-table-td")[i] as HTMLElement;
+    Array.from(f.nativeElement.querySelectorAll("button")).find(
+      (b) => (b as HTMLElement).getAttribute("aria-label") === n,
+    ) as HTMLButtonElement;
+  const cellAt = (f: ComponentFixture<unknown>, i: number) =>
+    rows(f)[0].querySelectorAll(".gantt-table-td")[i] as HTMLElement;
   const dt = () => ({ setData: () => {}, getData: () => "design" });
   const changes = (f: ComponentFixture<GanttChart>) => {
     const out: { taskId: string; start: string; end: string }[] = [];
-    f.componentInstance.taskChange.subscribe((e) => out.push({ taskId: e.taskId, start: e.start, end: e.end }));
+    f.componentInstance.taskChange.subscribe((e) =>
+      out.push({ taskId: e.taskId, start: e.start, end: e.end }),
+    );
     return out;
   };
 
@@ -767,11 +851,17 @@ describe("GanttChart — zoom, resize handles, selection, Alt+Arrow, taskAttrs (
   test("§14.6 the end handle extends the end; §14.7 the start handle moves the start and the range cannot invert", () => {
     const f = mount();
     const out = changes(f);
-    cellAt(f, 2).querySelector(".gantt-chart-bar-handle-end")!.dispatchEvent(dragEvent("dragstart", dt()));
+    cellAt(f, 2)
+      .querySelector(".gantt-chart-bar-handle-end")!
+      .dispatchEvent(dragEvent("dragstart", dt()));
     cellAt(f, 5).dispatchEvent(dragEvent("drop", dt()));
-    rows(f)[0].querySelector(".gantt-chart-bar-handle-start")!.dispatchEvent(dragEvent("dragstart", dt()));
+    rows(f)[0]
+      .querySelector(".gantt-chart-bar-handle-start")!
+      .dispatchEvent(dragEvent("dragstart", dt()));
     cellAt(f, 1).dispatchEvent(dragEvent("drop", dt()));
-    rows(f)[0].querySelector(".gantt-chart-bar-handle-start")!.dispatchEvent(dragEvent("dragstart", dt()));
+    rows(f)[0]
+      .querySelector(".gantt-chart-bar-handle-start")!
+      .dispatchEvent(dragEvent("dragstart", dt()));
     cellAt(f, 7).dispatchEvent(dragEvent("drop", dt()));
     expect(out).toEqual([
       { taskId: "design", start: "2026-10-01", end: "2026-10-06" },
@@ -814,7 +904,9 @@ describe("GanttChart — zoom, resize handles, selection, Alt+Arrow, taskAttrs (
   });
 
   test("§14.17 taskAttrs adds attributes to each task's row", () => {
-    const f = mount({ taskAttrs: (t: { id: string }) => ({ "data-team": t.id === "design" ? "ux" : "eng" }) });
+    const f = mount({
+      taskAttrs: (t: { id: string }) => ({ "data-team": t.id === "design" ? "ux" : "eng" }),
+    });
     f.detectChanges();
     expect(rows(f)[0].getAttribute("data-team")).toBe("ux");
     expect(rows(f)[1].getAttribute("data-team")).toBe("eng");
@@ -830,7 +922,10 @@ describe("GanttChart — unscheduled tasks and collapse-all (§14.18–§14.24)"
     f.nativeElement.querySelector('[data-task-id="u"] [data-row][data-col="0"]') as HTMLElement;
   const byLabel = (f: ComponentFixture<unknown>, name: string) =>
     Array.from(f.nativeElement.querySelectorAll("button")).find(
-      (b) => ((b as HTMLElement).getAttribute("aria-label") ?? (b as HTMLElement).textContent)?.trim() === name,
+      (b) =>
+        (
+          (b as HTMLElement).getAttribute("aria-label") ?? (b as HTMLElement).textContent
+        )?.trim() === name,
     ) as HTMLButtonElement;
 
   test("§14.18 a task with no dates renders a row with no bar and data-unscheduled", () => {
@@ -839,7 +934,9 @@ describe("GanttChart — unscheduled tasks and collapse-all (§14.18–§14.24)"
     expect(row.hasAttribute("data-unscheduled")).toBe(true);
     expect(row.querySelector(".gantt-chart-bar")).toBeNull();
     expect(row.querySelector("[data-in-range]")).toBeNull();
-    expect(f.nativeElement.querySelector('[data-task-id="a"]').hasAttribute("data-unscheduled")).toBe(false);
+    expect(
+      f.nativeElement.querySelector('[data-task-id="a"]').hasAttribute("data-unscheduled"),
+    ).toBe(false);
   });
 
   test("§14.19 an unscheduled child does not shape its parent's span", () => {
@@ -864,7 +961,9 @@ describe("GanttChart — unscheduled tasks and collapse-all (§14.18–§14.24)"
     const changes: unknown[] = [];
     f.componentInstance.taskChange.subscribe((e) => changes.push(e));
     unscheduledCell(f).dispatchEvent(new FocusEvent("focusin", { bubbles: true }));
-    unscheduledCell(f).dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", altKey: true, bubbles: true }));
+    unscheduledCell(f).dispatchEvent(
+      new KeyboardEvent("keydown", { key: "ArrowRight", altKey: true, bubbles: true }),
+    );
     f.detectChanges();
     expect(changes).toEqual([]);
   });
@@ -893,7 +992,10 @@ describe("GanttChart — unscheduled tasks and collapse-all (§14.18–§14.24)"
 
   test("§14.24 no collapse-all buttons without labels or without parents", () => {
     expect(mount().nativeElement.querySelector(".gantt-chart-collapse-all")).toBeNull();
-    const f = mount({ tasks: [TASKS[0]], labels: { expandAll: "Expand all", collapseAll: "Collapse all" } });
+    const f = mount({
+      tasks: [TASKS[0]],
+      labels: { expandAll: "Expand all", collapseAll: "Collapse all" },
+    });
     expect(f.nativeElement.querySelector(".gantt-chart-collapse-all")).toBeNull();
   });
 });
@@ -933,11 +1035,28 @@ async function tick(): Promise<void> {
 }
 
 const fireEvent = {
-  async click(el: Element) { (el as HTMLElement).click(); await tick(); },
-  async input(el: Element, init: { target: { value: string } }) { (el as HTMLInputElement).value = init.target.value; el.dispatchEvent(new Event("input", { bubbles: true })); await tick(); },
-  async change(el: Element, init: { target: { value: string } }) { (el as HTMLInputElement).value = init.target.value; el.dispatchEvent(new Event("change", { bubbles: true })); await tick(); },
-  async keyDown(el: Element, init: KeyboardEventInit & { keyCode?: number }) { el.dispatchEvent(new KeyboardEvent("keydown", { bubbles: true, cancelable: true, ...init })); await tick(); },
-  async scroll(el: Element) { el.dispatchEvent(new Event("scroll")); await tick(); },
+  async click(el: Element) {
+    (el as HTMLElement).click();
+    await tick();
+  },
+  async input(el: Element, init: { target: { value: string } }) {
+    (el as HTMLInputElement).value = init.target.value;
+    el.dispatchEvent(new Event("input", { bubbles: true }));
+    await tick();
+  },
+  async change(el: Element, init: { target: { value: string } }) {
+    (el as HTMLInputElement).value = init.target.value;
+    el.dispatchEvent(new Event("change", { bubbles: true }));
+    await tick();
+  },
+  async keyDown(el: Element, init: KeyboardEventInit & { keyCode?: number }) {
+    el.dispatchEvent(new KeyboardEvent("keydown", { bubbles: true, cancelable: true, ...init }));
+    await tick();
+  },
+  async scroll(el: Element) {
+    el.dispatchEvent(new Event("scroll"));
+    await tick();
+  },
 };
 
 async function waitFor(assertion: () => void, timeout = 1000): Promise<void> {
@@ -956,211 +1075,321 @@ async function waitFor(assertion: () => void, timeout = 1000): Promise<void> {
 afterEach(cleanup);
 
 describe("GanttChart — typed fields, editing, export, virtualization (§14.25–§14.40)", () => {
-    const FIELDS = [
-        { id: "owner", header: "Owner", type: "select" as const, options: [{ id: "a", label: "Ann" }, { id: "b", label: "Bo" }] },
-        { id: "points", header: "Points", type: "number" as const },
-    ];
-    const FT: GanttTask[] = [
-        { id: "t1", label: "Design", start: "2026-10-01", end: "2026-10-03", percentComplete: 50, values: { owner: "a", points: 3 }, baseline: { start: "2026-10-01", end: "2026-10-02" } },
-        { id: "t2", label: "Build =x", start: "2026-10-04", end: "2026-10-06", dependsOn: ["t1"], values: { points: 5 } },
-        { id: "p", label: "Phase", parentId: undefined },
-        { id: "k", label: "Kid", start: "2026-10-08", end: "2026-10-09", parentId: "p" },
-    ];
-    const EXPORT_LABELS: GanttLabels = {
+  const FIELDS = [
+    {
+      id: "owner",
+      header: "Owner",
+      type: "select" as const,
+      options: [
+        { id: "a", label: "Ann" },
+        { id: "b", label: "Bo" },
+      ],
+    },
+    { id: "points", header: "Points", type: "number" as const },
+  ];
+  const FT: GanttTask[] = [
+    {
+      id: "t1",
+      label: "Design",
+      start: "2026-10-01",
+      end: "2026-10-03",
+      percentComplete: 50,
+      values: { owner: "a", points: 3 },
+      baseline: { start: "2026-10-01", end: "2026-10-02" },
+    },
+    {
+      id: "t2",
+      label: "Build =x",
+      start: "2026-10-04",
+      end: "2026-10-06",
+      dependsOn: ["t1"],
+      values: { points: 5 },
+    },
+    { id: "p", label: "Phase", parentId: undefined },
+    { id: "k", label: "Kid", start: "2026-10-08", end: "2026-10-09", parentId: "p" },
+  ];
+  const EXPORT_LABELS: GanttLabels = {
+    export: "Export",
+    exportCsv: "CSV",
+    exportTsv: "TSV",
+    exportExcel: "Excel",
+    exportHeaders: {
+      task: "Task",
+      start: "Start",
+      end: "End",
+      percentComplete: "Done",
+      parent: "Parent",
+      dependsOn: "After",
+    },
+    exportAnnouncement: (f, n, name) => `${n} tasks as ${f}: ${name}`,
+    editAnnouncement: (t, h, text) => `${t} ${h} is ${text}`,
+    editInvalid: (t, h) => `${t}: bad ${h}`,
+  };
+  const base = { label: "Q4", range: RANGE, tasks: FT, fields: FIELDS };
+  const rowOf = (id: string) => document.querySelector<HTMLElement>(`[data-task-id="${id}"]`)!;
+
+  test("§14.25 each field is a column between the task name and the timeline, with a header and formatted cells", () => {
+    render(base);
+    const heads = Array.from(document.querySelectorAll(".gantt-table-thead th"))
+      .slice(0, 3)
+      .map((e) => e.textContent?.trim());
+    expect(heads).toEqual(["", "Owner", "Points"]);
+    const cells = rowOf("t1").querySelectorAll("[data-field]");
+    expect(Array.from(cells).map((c) => c.textContent?.trim())).toEqual(["Ann", "3"]);
+  });
+
+  test("§14.26 fields are plain text without onFieldEdit and in a readonly chart", () => {
+    render(base);
+    expect(document.querySelector(".gantt-chart-field-button")).toBeNull();
+    document.body.innerHTML = "";
+    render({ ...base, onFieldEdit: vi.fn(), readonly: true });
+    expect(document.querySelector(".gantt-chart-field-button")).toBeNull();
+  });
+
+  test("§14.27 clicking a value opens a typed editor; Enter commits the parsed value and announces", async () => {
+    const onFieldEdit = vi.fn();
+    render({ ...base, onFieldEdit, labels: EXPORT_LABELS });
+    await fireEvent.click(
+      rowOf("t1").querySelectorAll<HTMLElement>(".gantt-chart-field-button")[1],
+    );
+    const input = document.querySelector<HTMLInputElement>(".gantt-chart-field-editor")!;
+    expect(input.type).toBe("number");
+    expect(input.getAttribute("aria-label")).toBe("Points");
+    await fireEvent.input(input, { target: { value: "8" } });
+    await fireEvent.keyDown(input, { key: "Enter" });
+    expect(onFieldEdit).toHaveBeenCalledWith({
+      taskId: "t1",
+      fieldId: "points",
+      value: 8,
+      previous: 3,
+    });
+    expect(document.querySelector(".gantt-chart-status")!.textContent).toBe("Design Points is 8");
+    expect(document.querySelector(".gantt-chart-field-editor")).toBeNull();
+  });
+
+  test("§14.28 a select field edits through its options", async () => {
+    const onFieldEdit = vi.fn();
+    render({ ...base, onFieldEdit });
+    await fireEvent.click(
+      rowOf("t2").querySelectorAll<HTMLElement>(".gantt-chart-field-button")[0],
+    );
+    await fireEvent.change(document.querySelector("select.gantt-chart-field-editor")!, {
+      target: { value: "b" },
+    });
+    expect(onFieldEdit).toHaveBeenCalledWith({
+      taskId: "t2",
+      fieldId: "owner",
+      value: "b",
+      previous: undefined,
+    });
+  });
+
+  test("§14.29 Escape cancels; an unchanged value reports nothing", async () => {
+    const onFieldEdit = vi.fn();
+    render({ ...base, onFieldEdit });
+    const open = () =>
+      fireEvent.click(rowOf("t1").querySelectorAll<HTMLElement>(".gantt-chart-field-button")[1]);
+    await open();
+    await fireEvent.input(document.querySelector(".gantt-chart-field-editor")!, {
+      target: { value: "9" },
+    });
+    await fireEvent.keyDown(document.querySelector(".gantt-chart-field-editor")!, {
+      key: "Escape",
+    });
+    await open();
+    await fireEvent.keyDown(document.querySelector(".gantt-chart-field-editor")!, { key: "Enter" });
+    expect(onFieldEdit).not.toHaveBeenCalled();
+  });
+
+  test("§14.30 a value that does not fit the type is refused: the editor stays open and the refusal is announced", async () => {
+    const onFieldEdit = vi.fn();
+    render({
+      ...base,
+      fields: [{ id: "p", header: "P", type: "number", parse: () => Number.NaN }],
+      tasks: [{ ...FT[0], values: { p: 1 } }],
+      onFieldEdit,
+      labels: EXPORT_LABELS,
+    });
+    await fireEvent.click(document.querySelector(".gantt-chart-field-button")!);
+    await fireEvent.keyDown(document.querySelector(".gantt-chart-field-editor")!, { key: "Enter" });
+    expect(onFieldEdit).not.toHaveBeenCalled();
+    expect(document.querySelector(".gantt-chart-field-editor")).not.toBeNull();
+    expect(document.querySelector(".gantt-chart-status")!.textContent).toBe("Design: bad P");
+  });
+
+  test("§14.31 F2 on a timeline cell edits the row's first editable field; Tab commits and moves to the next", async () => {
+    const onFieldEdit = vi.fn();
+    render({ ...base, onFieldEdit });
+    const cell = rowOf("t1").querySelector<HTMLElement>("[data-row][data-col]")!;
+    await fireEvent.keyDown(cell, { key: "F2" });
+    const first = document.querySelector<HTMLSelectElement>("select.gantt-chart-field-editor")!;
+    expect(first).not.toBeNull();
+    await fireEvent.change(first, { target: { value: "b" } });
+    expect(onFieldEdit).toHaveBeenCalledTimes(1);
+    await fireEvent.click(
+      rowOf("t1").querySelectorAll<HTMLElement>(".gantt-chart-field-button")[0],
+    );
+    await fireEvent.keyDown(document.querySelector(".gantt-chart-field-editor")!, { key: "Tab" });
+    expect(document.querySelector<HTMLInputElement>("input.gantt-chart-field-editor")!.type).toBe(
+      "number",
+    );
+  });
+
+  test("§14.32 IME: Enter while composing does not commit", async () => {
+    const onFieldEdit = vi.fn();
+    render({
+      ...base,
+      fields: [{ id: "n", header: "N" }],
+      tasks: [{ ...FT[0], values: { n: "a" } }],
+      onFieldEdit,
+    });
+    await fireEvent.click(document.querySelector(".gantt-chart-field-button")!);
+    const input = document.querySelector<HTMLInputElement>(".gantt-chart-field-editor")!;
+    await fireEvent.input(input, { target: { value: "かな" } });
+    await fireEvent.keyDown(input, { key: "Enter", isComposing: true });
+    await fireEvent.keyDown(input, { key: "Enter", keyCode: 229 });
+    expect(onFieldEdit).not.toHaveBeenCalled();
+    await fireEvent.keyDown(input, { key: "Enter" });
+    expect(onFieldEdit).toHaveBeenCalledWith({
+      taskId: "t1",
+      fieldId: "n",
+      value: "かな",
+      previous: "a",
+    });
+  });
+
+  async function exported(
+    props: Record<string, unknown> = {},
+    format: "csv" | "tsv" | "xlsx" = "csv",
+  ) {
+    const exportHandler = vi.fn(
+      (_file: { format: string; filename: string; taskCount: number; blob: Blob }) =>
+        false as const,
+    );
+    render({ ...base, labels: EXPORT_LABELS, exportHandler, ...props });
+    await fireEvent.click(document.querySelector(`[data-gantt-export-format="${format}"]`)!);
+    const file = exportHandler.mock.calls[0][0];
+    const text = new TextDecoder("utf-8", { ignoreBOM: true }).decode(
+      await file.blob.arrayBuffer(),
+    );
+    return { file, text };
+  }
+
+  test("§14.33 export buttons need a label and exportHeaders; each label gates its button", () => {
+    render(base);
+    expect(document.querySelector(".gantt-chart-export")).toBeNull();
+    document.body.innerHTML = "";
+    render({ ...base, labels: { exportCsv: "CSV" } });
+    expect(document.querySelector(".gantt-chart-export")).toBeNull();
+    document.body.innerHTML = "";
+    render({
+      ...base,
+      labels: {
         export: "Export",
-        exportCsv: "CSV",
-        exportTsv: "TSV",
         exportExcel: "Excel",
-        exportHeaders: { task: "Task", start: "Start", end: "End", percentComplete: "Done", parent: "Parent", dependsOn: "After" },
-        exportAnnouncement: (f, n, name) => `${n} tasks as ${f}: ${name}`,
-        editAnnouncement: (t, h, text) => `${t} ${h} is ${text}`,
-        editInvalid: (t, h) => `${t}: bad ${h}`,
-    };
-    const base = { label: "Q4", range: RANGE, tasks: FT, fields: FIELDS };
-    const rowOf = (id: string) => document.querySelector<HTMLElement>(`[data-task-id="${id}"]`)!;
-
-    test("§14.25 each field is a column between the task name and the timeline, with a header and formatted cells", () => {
-        render(base);
-        const heads = Array.from(document.querySelectorAll(".gantt-table-thead th")).slice(0, 3).map((e) => e.textContent?.trim());
-        expect(heads).toEqual(["", "Owner", "Points"]);
-        const cells = rowOf("t1").querySelectorAll("[data-field]");
-        expect(Array.from(cells).map((c) => c.textContent?.trim())).toEqual(["Ann", "3"]);
+        exportHeaders: EXPORT_LABELS.exportHeaders,
+      },
     });
+    expect(document.querySelector("[role=group][aria-label=Export]")).toBeTruthy();
+    expect(document.querySelectorAll(".gantt-chart-export-button")).toHaveLength(1);
+  });
 
-    test("§14.26 fields are plain text without onFieldEdit and in a readonly chart", () => {
-        render(base);
-        expect(document.querySelector(".gantt-chart-field-button")).toBeNull();
-        document.body.innerHTML = "";
-        render({ ...base, onFieldEdit: vi.fn(), readonly: true });
-        expect(document.querySelector(".gantt-chart-field-button")).toBeNull();
+  test("§14.34 CSV holds task, effective start/end, percent, parent, predecessors and the fields; parents export their derived span", async () => {
+    const { file, text } = await exported();
+    expect(file.filename).toBe("gantt-chart.csv");
+    expect(file.taskCount).toBe(4);
+    const lines = text.replace("﻿", "").split("\r\n");
+    expect(lines[0]).toBe("Task,Start,End,Done,Parent,After,Owner,Points");
+    expect(lines[1]).toMatch(/^Design,2026-10-01,2026-10-03,50,,,Ann,3$/);
+    expect(lines[2]).toMatch(/^'=x|^Build/);
+    expect(lines[2]).toContain("Design");
+    expect(lines[3]).toMatch(/^Phase,2026-10-08,2026-10-09,,,,/);
+    expect(lines[4]).toMatch(/^Kid,2026-10-08,2026-10-09,,Phase,,/);
+  });
+
+  test("§14.35 exportScope visible leaves out tasks under a collapsed parent", async () => {
+    const { file } = await exported({ collapsedTaskIds: ["p"], exportScope: "visible" });
+    expect(file.taskCount).toBe(3);
+  });
+
+  test("§14.36 baseline columns and exportable false", async () => {
+    const { text } = await exported({
+      fields: [{ ...FIELDS[0], exportable: false }, FIELDS[1]],
+      labels: {
+        ...EXPORT_LABELS,
+        exportHeaders: { ...EXPORT_LABELS.exportHeaders!, baselineStart: "BS", baselineEnd: "BE" },
+      },
     });
+    const lines = text.replace("﻿", "").split("\r\n");
+    expect(lines[0]).toBe("Task,Start,End,Done,Parent,After,BS,BE,Points");
+    expect(lines[1]).toBe("Design,2026-10-01,2026-10-03,50,,,2026-10-01,2026-10-02,3");
+  });
 
-    test("§14.27 clicking a value opens a typed editor; Enter commits the parsed value and announces", async () => {
-        const onFieldEdit = vi.fn();
-        render({ ...base, onFieldEdit, labels: EXPORT_LABELS });
-        await fireEvent.click(rowOf("t1").querySelectorAll<HTMLElement>(".gantt-chart-field-button")[1]);
-        const input = document.querySelector<HTMLInputElement>(".gantt-chart-field-editor")!;
-        expect(input.type).toBe("number");
-        expect(input.getAttribute("aria-label")).toBe("Points");
-        await fireEvent.input(input, { target: { value: "8" } });
-        await fireEvent.keyDown(input, { key: "Enter" });
-        expect(onFieldEdit).toHaveBeenCalledWith({ taskId: "t1", fieldId: "points", value: 8, previous: 3 });
-        expect(document.querySelector(".gantt-chart-status")!.textContent).toBe("Design Points is 8");
-        expect(document.querySelector(".gantt-chart-field-editor")).toBeNull();
-    });
-
-    test("§14.28 a select field edits through its options", async () => {
-        const onFieldEdit = vi.fn();
-        render({ ...base, onFieldEdit });
-        await fireEvent.click(rowOf("t2").querySelectorAll<HTMLElement>(".gantt-chart-field-button")[0]);
-        await fireEvent.change(document.querySelector("select.gantt-chart-field-editor")!, { target: { value: "b" } });
-        expect(onFieldEdit).toHaveBeenCalledWith({ taskId: "t2", fieldId: "owner", value: "b", previous: undefined });
-    });
-
-    test("§14.29 Escape cancels; an unchanged value reports nothing", async () => {
-        const onFieldEdit = vi.fn();
-        render({ ...base, onFieldEdit });
-        const open = () => fireEvent.click(rowOf("t1").querySelectorAll<HTMLElement>(".gantt-chart-field-button")[1]);
-        await open();
-        await fireEvent.input(document.querySelector(".gantt-chart-field-editor")!, { target: { value: "9" } });
-        await fireEvent.keyDown(document.querySelector(".gantt-chart-field-editor")!, { key: "Escape" });
-        await open();
-        await fireEvent.keyDown(document.querySelector(".gantt-chart-field-editor")!, { key: "Enter" });
-        expect(onFieldEdit).not.toHaveBeenCalled();
-    });
-
-    test("§14.30 a value that does not fit the type is refused: the editor stays open and the refusal is announced", async () => {
-        const onFieldEdit = vi.fn();
-        render({ ...base, fields: [{ id: "p", header: "P", type: "number", parse: () => Number.NaN }], tasks: [{ ...FT[0], values: { p: 1 } }], onFieldEdit, labels: EXPORT_LABELS });
-        await fireEvent.click(document.querySelector(".gantt-chart-field-button")!);
-        await fireEvent.keyDown(document.querySelector(".gantt-chart-field-editor")!, { key: "Enter" });
-        expect(onFieldEdit).not.toHaveBeenCalled();
-        expect(document.querySelector(".gantt-chart-field-editor")).not.toBeNull();
-        expect(document.querySelector(".gantt-chart-status")!.textContent).toBe("Design: bad P");
-    });
-
-    test("§14.31 F2 on a timeline cell edits the row's first editable field; Tab commits and moves to the next", async () => {
-        const onFieldEdit = vi.fn();
-        render({ ...base, onFieldEdit });
-        const cell = rowOf("t1").querySelector<HTMLElement>("[data-row][data-col]")!;
-        await fireEvent.keyDown(cell, { key: "F2" });
-        const first = document.querySelector<HTMLSelectElement>("select.gantt-chart-field-editor")!;
-        expect(first).not.toBeNull();
-        await fireEvent.change(first, { target: { value: "b" } });
-        expect(onFieldEdit).toHaveBeenCalledTimes(1);
-        await fireEvent.click(rowOf("t1").querySelectorAll<HTMLElement>(".gantt-chart-field-button")[0]);
-        await fireEvent.keyDown(document.querySelector(".gantt-chart-field-editor")!, { key: "Tab" });
-        expect(document.querySelector<HTMLInputElement>("input.gantt-chart-field-editor")!.type).toBe("number");
-    });
-
-    test("§14.32 IME: Enter while composing does not commit", async () => {
-        const onFieldEdit = vi.fn();
-        render({ ...base, fields: [{ id: "n", header: "N" }], tasks: [{ ...FT[0], values: { n: "a" } }], onFieldEdit });
-        await fireEvent.click(document.querySelector(".gantt-chart-field-button")!);
-        const input = document.querySelector<HTMLInputElement>(".gantt-chart-field-editor")!;
-        await fireEvent.input(input, { target: { value: "かな" } });
-        await fireEvent.keyDown(input, { key: "Enter", isComposing: true });
-        await fireEvent.keyDown(input, { key: "Enter", keyCode: 229 });
-        expect(onFieldEdit).not.toHaveBeenCalled();
-        await fireEvent.keyDown(input, { key: "Enter" });
-        expect(onFieldEdit).toHaveBeenCalledWith({ taskId: "t1", fieldId: "n", value: "かな", previous: "a" });
-    });
-
-    async function exported(props: Record<string, unknown> = {}, format: "csv" | "tsv" | "xlsx" = "csv") {
-        const exportHandler = vi.fn((_file: { format: string; filename: string; taskCount: number; blob: Blob }) => false as const);
-        render({ ...base, labels: EXPORT_LABELS, exportHandler, ...props });
-        await fireEvent.click(document.querySelector(`[data-gantt-export-format="${format}"]`)!);
-        const file = exportHandler.mock.calls[0][0];
-        const text = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await file.blob.arrayBuffer());
-        return { file, text };
+  test("§14.37 saving announces unless exportHandler returns false; no tasks disables the buttons", async () => {
+    const created: Blob[] = [];
+    const original = { create: URL.createObjectURL, revoke: URL.revokeObjectURL };
+    URL.createObjectURL = (b: Blob | MediaSource) => (created.push(b as Blob), "blob:test");
+    URL.revokeObjectURL = () => {};
+    try {
+      render({ ...base, labels: EXPORT_LABELS });
+      await fireEvent.click(document.querySelector('[data-gantt-export-format="tsv"]')!);
+      expect(created).toHaveLength(1);
+      expect(document.querySelector(".gantt-chart-status")!.textContent).toBe(
+        "4 tasks as tsv: gantt-chart.tsv",
+      );
+      document.body.innerHTML = "";
+      render({ ...base, tasks: [], labels: EXPORT_LABELS });
+      expect(
+        (document.querySelector('[data-gantt-export-format="csv"]') as HTMLButtonElement).disabled,
+      ).toBe(true);
+    } finally {
+      URL.createObjectURL = original.create;
+      URL.revokeObjectURL = original.revoke;
     }
+  });
 
-    test("§14.33 export buttons need a label and exportHeaders; each label gates its button", () => {
-        render(base);
-        expect(document.querySelector(".gantt-chart-export")).toBeNull();
-        document.body.innerHTML = "";
-        render({ ...base, labels: { exportCsv: "CSV" } });
-        expect(document.querySelector(".gantt-chart-export")).toBeNull();
-        document.body.innerHTML = "";
-        render({ ...base, labels: { export: "Export", exportExcel: "Excel", exportHeaders: EXPORT_LABELS.exportHeaders } });
-        expect(document.querySelector("[role=group][aria-label=Export]")).toBeTruthy();
-        expect(document.querySelectorAll(".gantt-chart-export-button")).toHaveLength(1);
+  const MANY: GanttTask[] = Array.from({ length: 200 }, (_, i) => ({
+    id: `r${i}`,
+    label: `Task ${i}`,
+    start: "2026-10-01",
+    end: "2026-10-02",
+  }));
+
+  test("§14.38 virtualize renders only the rows in view plus spacers, with aria-rowcount and aria-rowindex", () => {
+    render({
+      label: "Q4",
+      range: RANGE,
+      tasks: MANY,
+      virtualize: { rowHeight: 20, height: 100, overscan: 1 },
     });
+    const rendered = document.querySelectorAll("[data-task-id]").length;
+    expect(rendered).toBeGreaterThan(0);
+    expect(rendered).toBeLessThan(20);
+    expect(document.querySelector(".gantt-table")!.getAttribute("aria-rowcount")).toBe("201");
+    expect(document.querySelector('[data-task-id="r0"]')!.getAttribute("aria-rowindex")).toBe("2");
+    expect(document.querySelector(".gantt-chart-spacer")).not.toBeNull();
+    expect(document.querySelector(".gantt-chart-scroll")!.getAttribute("style")).toContain(
+      "height: 100px",
+    );
+  });
 
-    test("§14.34 CSV holds task, effective start/end, percent, parent, predecessors and the fields; parents export their derived span", async () => {
-        const { file, text } = await exported();
-        expect(file.filename).toBe("gantt-chart.csv");
-        expect(file.taskCount).toBe(4);
-        const lines = text.replace("﻿", "").split("\r\n");
-        expect(lines[0]).toBe("Task,Start,End,Done,Parent,After,Owner,Points");
-        expect(lines[1]).toMatch(/^Design,2026-10-01,2026-10-03,50,,,Ann,3$/);
-        expect(lines[2]).toMatch(/^'=x|^Build/);
-        expect(lines[2]).toContain("Design");
-        expect(lines[3]).toMatch(/^Phase,2026-10-08,2026-10-09,,,,/);
-        expect(lines[4]).toMatch(/^Kid,2026-10-08,2026-10-09,,Phase,,/);
-    });
+  test("§14.39 scrolling brings later rows in; keyboard focus to the last row reveals it", async () => {
+    render({ label: "Q4", range: RANGE, tasks: MANY, virtualize: { rowHeight: 20, height: 100 } });
+    const scroll = document.querySelector<HTMLElement>(".gantt-chart-scroll")!;
+    scroll.scrollTop = 2000;
+    await fireEvent.scroll(scroll);
+    expect(document.querySelector('[data-task-id="r100"]')).not.toBeNull();
+    expect(document.querySelector('[data-task-id="r1"]')).toBeNull(); // r0 stays: it holds the roving tab stop
+    const cell = document.querySelector<HTMLElement>("[data-row][data-col]")!;
+    await fireEvent.keyDown(cell, { key: "End", ctrlKey: true });
+    await waitFor(() => expect(document.querySelector('[data-task-id="r199"]')).not.toBeNull());
+  });
 
-    test("§14.35 exportScope visible leaves out tasks under a collapsed parent", async () => {
-        const { file } = await exported({ collapsedTaskIds: ["p"], exportScope: "visible" });
-        expect(file.taskCount).toBe(3);
-    });
-
-    test("§14.36 baseline columns and exportable false", async () => {
-        const { text } = await exported({ fields: [{ ...FIELDS[0], exportable: false }, FIELDS[1]], labels: { ...EXPORT_LABELS, exportHeaders: { ...EXPORT_LABELS.exportHeaders!, baselineStart: "BS", baselineEnd: "BE" } } });
-        const lines = text.replace("﻿", "").split("\r\n");
-        expect(lines[0]).toBe("Task,Start,End,Done,Parent,After,BS,BE,Points");
-        expect(lines[1]).toBe("Design,2026-10-01,2026-10-03,50,,,2026-10-01,2026-10-02,3");
-    });
-
-    test("§14.37 saving announces unless exportHandler returns false; no tasks disables the buttons", async () => {
-        const created: Blob[] = [];
-        const original = { create: URL.createObjectURL, revoke: URL.revokeObjectURL };
-        URL.createObjectURL = (b: Blob | MediaSource) => (created.push(b as Blob), "blob:test");
-        URL.revokeObjectURL = () => {};
-        try {
-            render({ ...base, labels: EXPORT_LABELS });
-            await fireEvent.click(document.querySelector('[data-gantt-export-format="tsv"]')!);
-            expect(created).toHaveLength(1);
-            expect(document.querySelector(".gantt-chart-status")!.textContent).toBe("4 tasks as tsv: gantt-chart.tsv");
-            document.body.innerHTML = "";
-            render({ ...base, tasks: [], labels: EXPORT_LABELS });
-            expect((document.querySelector('[data-gantt-export-format="csv"]') as HTMLButtonElement).disabled).toBe(true);
-        } finally {
-            URL.createObjectURL = original.create;
-            URL.revokeObjectURL = original.revoke;
-        }
-    });
-
-    const MANY: GanttTask[] = Array.from({ length: 200 }, (_, i) => ({ id: `r${i}`, label: `Task ${i}`, start: "2026-10-01", end: "2026-10-02" }));
-
-    test("§14.38 virtualize renders only the rows in view plus spacers, with aria-rowcount and aria-rowindex", () => {
-        render({ label: "Q4", range: RANGE, tasks: MANY, virtualize: { rowHeight: 20, height: 100, overscan: 1 } });
-        const rendered = document.querySelectorAll("[data-task-id]").length;
-        expect(rendered).toBeGreaterThan(0);
-        expect(rendered).toBeLessThan(20);
-        expect(document.querySelector(".gantt-table")!.getAttribute("aria-rowcount")).toBe("201");
-        expect(document.querySelector('[data-task-id="r0"]')!.getAttribute("aria-rowindex")).toBe("2");
-        expect(document.querySelector(".gantt-chart-spacer")).not.toBeNull();
-        expect(document.querySelector(".gantt-chart-scroll")!.getAttribute("style")).toContain("height: 100px");
-    });
-
-    test("§14.39 scrolling brings later rows in; keyboard focus to the last row reveals it", async () => {
-        render({ label: "Q4", range: RANGE, tasks: MANY, virtualize: { rowHeight: 20, height: 100 } });
-        const scroll = document.querySelector<HTMLElement>(".gantt-chart-scroll")!;
-        scroll.scrollTop = 2000;
-        await fireEvent.scroll(scroll);
-        expect(document.querySelector('[data-task-id="r100"]')).not.toBeNull();
-        expect(document.querySelector('[data-task-id="r1"]')).toBeNull(); // r0 stays: it holds the roving tab stop
-        const cell = document.querySelector<HTMLElement>("[data-row][data-col]")!;
-        await fireEvent.keyDown(cell, { key: "End", ctrlKey: true });
-        await waitFor(() => expect(document.querySelector('[data-task-id="r199"]')).not.toBeNull());
-    });
-
-    test("§14.40 without virtualize every row renders, and the roving tab stop stays unique", () => {
-        render({ label: "Q4", range: RANGE, tasks: MANY });
-        expect(document.querySelectorAll("[data-task-id]")).toHaveLength(200);
-        expect(Array.from(document.querySelectorAll('.gantt-table-td[tabindex="0"]'))).toHaveLength(1);
-    });
+  test("§14.40 without virtualize every row renders, and the roving tab stop stays unique", () => {
+    render({ label: "Q4", range: RANGE, tasks: MANY });
+    expect(document.querySelectorAll("[data-task-id]")).toHaveLength(200);
+    expect(Array.from(document.querySelectorAll('.gantt-table-td[tabindex="0"]'))).toHaveLength(1);
+  });
 });
 
 // =====================================================================
@@ -1169,13 +1398,17 @@ describe("GanttChart — typed fields, editing, export, virtualization (§14.25�
 
 describe("weekend shading and dependency arrows", () => {
   const headText = (f: ComponentFixture<unknown>) =>
-    Array.from(f.nativeElement.querySelectorAll("thead th[data-weekend]")).map((h) => (h as HTMLElement).textContent?.trim());
+    Array.from(f.nativeElement.querySelectorAll("thead th[data-weekend]")).map((h) =>
+      (h as HTMLElement).textContent?.trim(),
+    );
 
   // 2026-10-03 is a Saturday, 2026-10-04 a Sunday.
   test("§17.1 weekends marks day columns on the header and every cell, and nothing without it", () => {
     const f = mount({ labels: LABELS, weekends: [0, 6] });
     expect(headText(f)).toEqual(["2026-10-03", "2026-10-04", "2026-10-10"]);
-    expect(f.nativeElement.querySelectorAll("tbody td[data-weekend]")).toHaveLength(3 * TASKS.length);
+    expect(f.nativeElement.querySelectorAll("tbody td[data-weekend]")).toHaveLength(
+      3 * TASKS.length,
+    );
   });
 
   test("§17.2 with no weekends nothing is shaded, and the weekend is never defaulted", () => {
@@ -1189,13 +1422,24 @@ describe("weekend shading and dependency arrows", () => {
   });
 
   test("§17.4 week and month columns are not marked", () => {
-    const f = mount({ labels: LABELS, range: { start: "2026-10-01", end: "2026-12-31" }, weekends: [0, 6], timeUnit: "week" });
+    const f = mount({
+      labels: LABELS,
+      range: { start: "2026-10-01", end: "2026-12-31" },
+      weekends: [0, 6],
+      timeUnit: "week",
+    });
     expect(f.nativeElement.querySelector("[data-weekend]")).toBeNull();
   });
 
   test("§17.5 weekends can combine with isNonWorking", () => {
-    const f = mount({ labels: LABELS, weekends: [6], isNonWorking: (d: string) => d === "2026-10-03" });
-    const th = (Array.from(f.nativeElement.querySelectorAll("thead th")) as HTMLElement[]).find((h) => h.textContent?.trim() === "2026-10-03")!;
+    const f = mount({
+      labels: LABELS,
+      weekends: [6],
+      isNonWorking: (d: string) => d === "2026-10-03",
+    });
+    const th = (Array.from(f.nativeElement.querySelectorAll("thead th")) as HTMLElement[]).find(
+      (h) => h.textContent?.trim() === "2026-10-03",
+    )!;
     expect(th.hasAttribute("data-weekend") && th.hasAttribute("data-non-working")).toBe(true);
   });
 
@@ -1206,7 +1450,17 @@ describe("weekend shading and dependency arrows", () => {
       if (!cell) return original.call(this);
       const col = Number(cell.dataset["col"]);
       const row = Number(cell.dataset["row"]);
-      return { left: col * 20, right: col * 20 + 20, top: row * 20, bottom: row * 20 + 20, width: 20, height: 20, x: col * 20, y: row * 20, toJSON() {} } as DOMRect;
+      return {
+        left: col * 20,
+        right: col * 20 + 20,
+        top: row * 20,
+        bottom: row * 20 + 20,
+        width: 20,
+        height: 20,
+        x: col * 20,
+        y: row * 20,
+        toJSON() {},
+      } as DOMRect;
     };
     return () => {
       Element.prototype.getBoundingClientRect = original;
@@ -1227,7 +1481,9 @@ describe("weekend shading and dependency arrows", () => {
       const f = mountMeasured({ labels: LABELS, dependencyArrows: true });
       const arrows = f.nativeElement.querySelectorAll(".gantt-chart-dependency-arrow");
       expect(arrows).toHaveLength(1);
-      expect(f.nativeElement.querySelector(".gantt-chart-dependency-arrows").getAttribute("aria-hidden")).toBe("true");
+      expect(
+        f.nativeElement.querySelector(".gantt-chart-dependency-arrows").getAttribute("aria-hidden"),
+      ).toBe("true");
       expect(arrows[0].getAttribute("data-from")).toBe("design");
       expect(arrows[0].getAttribute("data-to")).toBe("build");
       expect(arrows[0].getAttribute("data-dependency-type")).toBe("e2s");
@@ -1241,7 +1497,9 @@ describe("weekend shading and dependency arrows", () => {
     const restore = stubLayout();
     try {
       const f = mountMeasured({ labels: LABELS, dependencyArrows: true });
-      expect(f.nativeElement.querySelector(".gantt-chart-dependency-summary")?.textContent?.trim()).toBe("Blocked by: Design");
+      expect(
+        f.nativeElement.querySelector(".gantt-chart-dependency-summary")?.textContent?.trim(),
+      ).toBe("Blocked by: Design");
     } finally {
       restore();
     }
@@ -1252,7 +1510,13 @@ describe("weekend shading and dependency arrows", () => {
     try {
       const tasks: GanttTask[] = [
         { id: "a", label: "A", start: "2026-10-01", end: "2026-10-03" },
-        { id: "b", label: "B", start: "2026-10-05", end: "2026-10-06", dependsOn: [{ id: "a", type: "s2s" }, { id: "ghost" }] },
+        {
+          id: "b",
+          label: "B",
+          start: "2026-10-05",
+          end: "2026-10-06",
+          dependsOn: [{ id: "a", type: "s2s" }, { id: "ghost" }],
+        },
       ];
       const f = mountMeasured({ labels: LABELS, tasks, dependencyArrows: true });
       const arrows = f.nativeElement.querySelectorAll(".gantt-chart-dependency-arrow");
@@ -1276,7 +1540,12 @@ describe("weekend shading and dependency arrows", () => {
         { id: "c", label: "C", start: "2026-10-01", end: "2026-10-02", parentId: "p" },
         { id: "d", label: "D", start: "2026-10-05", end: "2026-10-06", dependsOn: ["c"] },
       ];
-      const f = mountMeasured({ labels: LABELS, tasks, dependencyArrows: true, collapsedTaskIds: ["p"] });
+      const f = mountMeasured({
+        labels: LABELS,
+        tasks,
+        dependencyArrows: true,
+        collapsedTaskIds: ["p"],
+      });
       expect(f.nativeElement.querySelectorAll("[data-task-id]").length).toBe(2);
       expect(f.nativeElement.querySelector(".gantt-chart-dependency-arrow")).toBeNull();
     } finally {
@@ -1284,4 +1553,3 @@ describe("weekend shading and dependency arrows", () => {
     }
   });
 });
-

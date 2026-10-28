@@ -1,12 +1,34 @@
-<script lang="ts" module>
+<script
+    lang="ts"
+    module
+>
     import type { Snippet } from "svelte";
-    import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
+    import {
+        copyToClipboard,
+        downloadBlob,
+        exportBlob,
+        exportFilename,
+        toClipboardText,
+        type ExportFormat,
+    } from "./export-data";
     import { foldText, searchTerms } from "./search-text";
     import { isRtl, logicalKey } from "./direction";
     import { gridMove } from "./grid-navigation";
     import { missingLabels, type LabelFeatures } from "./label-coverage";
-    import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
-    import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
+    import {
+        EMPTY_HISTORY,
+        historyKey,
+        recordEdit,
+        redoEdit,
+        undoEdit,
+        type EditHistory,
+    } from "./edit-history";
+    import {
+        findTypeaheadMatch,
+        isTypeaheadKey,
+        nextTypeaheadState,
+        type TypeaheadState,
+    } from "./typeahead";
     import {
         isInvalidForType,
         linkParts,
@@ -117,7 +139,17 @@
         /** Cells can be edited in place: F2 or Enter on a focused cell, a double click, or the button `labels.editCell` gates. Enter commits, Escape cancels, leaving the field commits. */
         editable?: boolean;
         /** The editor's control. Default `"text"`; a `type` sets its own (`"number"`, `"link"`, `"date"`, `"time"`, `"time-zone"`, `"select"`, `"radio"`, `"person"`, `"formula"`). */
-        editor?: "text" | "number" | "link" | "date" | "time" | "time-zone" | "select" | "radio" | "person" | "formula";
+        editor?:
+            | "text"
+            | "number"
+            | "link"
+            | "date"
+            | "time"
+            | "time-zone"
+            | "select"
+            | "radio"
+            | "person"
+            | "formula";
         /** `time-zone`: the zones the editor's select offers. */
         timeZones?: DataGridOption[];
         /** `time-zone`: the date (ISO) that orders zoned times and names a zone. Never computed by the grid. */
@@ -125,7 +157,17 @@
         /** `time-zone`: an export adds a second column holding the UTC time of day at `referenceDate`, headed by `labels.exportUtcHeader`. */
         exportUtc?: boolean;
         /** `rollup`: how the related values are reduced. */
-        aggregate?: "count" | "countUnique" | "sum" | "avg" | "median" | "min" | "max" | "range" | "percentTrue" | "percentEmpty";
+        aggregate?:
+            | "count"
+            | "countUnique"
+            | "sum"
+            | "avg"
+            | "median"
+            | "min"
+            | "max"
+            | "range"
+            | "percentTrue"
+            | "percentEmpty";
         /** `rollup`: a reduction the named aggregates do not cover. */
         reduce?: (values: unknown[], row: DataGridRow) => unknown;
         /** `rollup`: reads the related values. Defaults to the row's own array at the column id. */
@@ -133,13 +175,18 @@
         /** `rollup` and `formula`: the result's type, so it formats and sorts like one. */
         resultType?: "number" | "date" | "text";
         /** `formula`: evaluates an expression. Lily ships no engine and never evaluates a string itself. */
-        evaluate?: (expression: string, context: { row: DataGridRow; rows: DataGridRow[]; columnId: string }) => { value: unknown } | { error: string };
+        evaluate?: (
+            expression: string,
+            context: { row: DataGridRow; rows: DataGridRow[]; columnId: string },
+        ) => { value: unknown } | { error: string };
         /** `person`: how many people show before "+N" (`labels.morePeople`). */
         maxPeople?: number;
         /** `person`: an avatar beside the name. Decorative: the name is always shown as text. */
         avatar?: Snippet<[{ person: DataGridPerson }]>;
         /** `person`: the editor, given `{ value, commit, cancel }`. Lily cannot look people up; the consumer builds the combobox. Without it a person cell is read-only. */
-        personEditor?: Snippet<[{ value: unknown; commit: (value: unknown) => void; cancel: () => void }]>;
+        personEditor?: Snippet<
+            [{ value: unknown; commit: (value: unknown) => void; cancel: () => void }]
+        >;
         /** `file`: formats a size in bytes (no unit strings are bundled). */
         formatSize?: (bytes: number) => string;
         /** `file`: the `accept` of the file input. */
@@ -332,7 +379,16 @@
         /** Shown in one row spanning every column when no row is to be shown. */
         empty?: Snippet;
         /** Rendered inside a `<tfoot>`. */
-        footer?: Snippet<[{ columns: DataGridColumn[]; rows: DataGridRow[]; allRows: DataGridRow[]; aggregate: (columnId: string, kind: DataGridAggregate) => unknown }]>;
+        footer?: Snippet<
+            [
+                {
+                    columns: DataGridColumn[];
+                    rows: DataGridRow[];
+                    allRows: DataGridRow[];
+                    aggregate: (columnId: string, kind: DataGridAggregate) => unknown;
+                },
+            ]
+        >;
         /** Sets `aria-busy` on the table. */
         busy?: boolean;
         /** Wrap the table in a scrollable `data-grid-scroll` region. Default true. */
@@ -348,9 +404,19 @@
         /** Called with the file before it is saved. Return `false` to keep the grid from saving it (to upload it, say). */
         onExport?: (file: DataGridExport) => boolean | void;
         /** `file` columns: called with the `File` objects the person chose. Lily does not upload: the consumer does, then updates `rows`. */
-        onFilesSelected?: (event: { rowId: string; row: DataGridRow; columnId: string; files: File[] }) => void;
+        onFilesSelected?: (event: {
+            rowId: string;
+            row: DataGridRow;
+            columnId: string;
+            files: File[];
+        }) => void;
         /** `file` columns: called when a file's remove button is pressed. The consumer updates `rows`. */
-        onFileRemove?: (event: { rowId: string; row: DataGridRow; columnId: string; fileId: string }) => void;
+        onFileRemove?: (event: {
+            rowId: string;
+            row: DataGridRow;
+            columnId: string;
+            fileId: string;
+        }) => void;
         /** Called after a cell edit is committed. The consumer updates `rows`; the grid never mutates them. */
         onCellEdit?: (edit: DataGridCellEdit) => void;
         /**
@@ -385,7 +451,8 @@
 
     /** Default cell formatter: `String(value)`, `""` for null/undefined. */
     /** A missing value: `null`, `undefined` or an empty string. */
-    const isMissing = (value: unknown): boolean => value === null || value === undefined || value === "";
+    const isMissing = (value: unknown): boolean =>
+        value === null || value === undefined || value === "";
 
     function formatCell(column: DataGridColumn, row: DataGridRow): string {
         const value = defaultAccessor(column, row);
@@ -490,16 +557,24 @@
     });
     const reportedLabels = new Set<string>();
     $effect(() => {
-        const env = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env;
+        const env = (globalThis as { process?: { env?: Record<string, string | undefined> } })
+            .process?.env;
         if (!warnMissingLabels || env?.NODE_ENV === "production") return;
-        const fresh = missingLabels(labelFeatures, labels as Record<string, unknown>).filter((m) => !reportedLabels.has(m.key));
+        const fresh = missingLabels(labelFeatures, labels as Record<string, unknown>).filter(
+            (m) => !reportedLabels.has(m.key),
+        );
         if (fresh.length === 0) return;
         for (const m of fresh) reportedLabels.add(m.key);
         const controls = fresh.filter((m) => m.kind === "control").map((m) => m.key);
         const announcements = fresh.filter((m) => m.kind === "announcement").map((m) => m.key);
         console.warn(
             `[data-grid] "${label}": labels left out — ` +
-                [controls.length ? `controls with no name: ${controls.join(", ")}` : "", announcements.length ? `silent announcements: ${announcements.join(", ")}` : ""].filter(Boolean).join("; "),
+                [
+                    controls.length ? `controls with no name: ${controls.join(", ")}` : "",
+                    announcements.length ? `silent announcements: ${announcements.join(", ")}` : "",
+                ]
+                    .filter(Boolean)
+                    .join("; "),
         );
     });
     const colOffset = $derived(hasSelection ? 1 : 0);
@@ -531,7 +606,13 @@
     // One folded text per filterable cell, in `filterableColumns` order, so a search can look at one field or at the row.
     const searchIndex = $derived.by(() =>
         entries.map((entry) =>
-            filterableColumns.map((column) => foldText(column.filterText ? column.filterText(defaultAccessor(column, entry.row), entry.row) : formatCell(column, entry.row))),
+            filterableColumns.map((column) =>
+                foldText(
+                    column.filterText
+                        ? column.filterText(defaultAccessor(column, entry.row), entry.row)
+                        : formatCell(column, entry.row),
+                ),
+            ),
         ),
     );
 
@@ -543,13 +624,20 @@
         // With a field chosen, every word must be in that field's cell; otherwise anywhere in the row.
         const only = filterField ? filterableColumns.findIndex((c) => c.id === filterField) : -1;
         const rowText = (i: number): string => (only >= 0 ? index![i][only] : index![i].join(" "));
-        return entries.filter((entry, i) => (!rowFilter || rowFilter(entry.row)) && (!index || terms.every((term) => rowText(i).includes(term))));
+        return entries.filter(
+            (entry, i) =>
+                (!rowFilter || rowFilter(entry.row)) &&
+                (!index || terms.every((term) => rowText(i).includes(term))),
+        );
     });
 
     /** The sort keys in order: the primary, then `thenBy`, each with a real, sortable column and a direction. */
     const sortKeys = $derived(
         [sort, ...thenBy]
-            .map((k) => ({ column: columns.find((c) => c.id === k.columnId), dir: k.direction === "ascending" ? 1 : k.direction === "descending" ? -1 : 0 }))
+            .map((k) => ({
+                column: columns.find((c) => c.id === k.columnId),
+                dir: k.direction === "ascending" ? 1 : k.direction === "descending" ? -1 : 0,
+            }))
             .filter((k): k is { column: DataGridColumn; dir: 1 | -1 } => !!k.column && k.dir !== 0),
     );
 
@@ -560,7 +648,10 @@
             const tag = k.column.locale ?? locale;
             return tag ? new Intl.Collator(tag, { numeric: true }) : null;
         });
-        const keyed = filteredEntries.map((entry) => ({ entry, keys: sortKeys.map((k) => defaultAccessor(k.column, entry.row)) }));
+        const keyed = filteredEntries.map((entry) => ({
+            entry,
+            keys: sortKeys.map((k) => defaultAccessor(k.column, entry.row)),
+        }));
         keyed.sort((a, b) => {
             for (let i = 0; i < sortKeys.length; i++) {
                 const { column, dir } = sortKeys[i];
@@ -570,13 +661,18 @@
                 // Missing values sort together at one end, in both directions (`nulls`).
                 const aMissing = av === null || av === undefined;
                 const bMissing = bv === null || bv === undefined;
-                if (aMissing || bMissing) return aMissing === bMissing ? 0 : (aMissing ? 1 : -1) * (nulls === "first" ? -1 : 1);
+                if (aMissing || bMissing)
+                    return aMissing === bMissing
+                        ? 0
+                        : (aMissing ? 1 : -1) * (nulls === "first" ? -1 : 1);
                 const collator = collators[i];
                 const result = column.compare
                     ? column.compare(av, bv) * dir
                     : collator && typeof av === "string" && typeof bv === "string"
                       ? collator.compare(av, bv) * dir
-                      : (av as never) > (bv as never) ? dir : -dir;
+                      : (av as never) > (bv as never)
+                        ? dir
+                        : -dir;
                 if (result !== 0) return result;
             }
             return 0;
@@ -612,24 +708,34 @@
     // ---- Windowing (virtualize): only the rows in view, plus the roving tab stop's row ----
     let scrollTop = $state(0);
     let scrollEl: HTMLDivElement | undefined = $state();
-    type RenderItem = { kind: "row"; index: number } | { kind: "spacer"; rows: number; key: string };
+    type RenderItem =
+        { kind: "row"; index: number } | { kind: "spacer"; rows: number; key: string };
     const renderItems = $derived.by<RenderItem[]>(() => {
         const total = pageEntries.length;
         if (!virtualize) return pageEntries.map((_, index) => ({ kind: "row", index }));
         const overscan = virtualize.overscan ?? 3;
         const start = Math.max(0, Math.floor(scrollTop / virtualize.rowHeight) - overscan);
-        const end = Math.min(total, Math.ceil((scrollTop + virtualize.height) / virtualize.rowHeight) + overscan);
+        const end = Math.min(
+            total,
+            Math.ceil((scrollTop + virtualize.height) / virtualize.rowHeight) + overscan,
+        );
         const indices = new Set<number>();
         for (let i = start; i < end; i++) indices.add(i);
         if (activeRow >= 0 && activeRow < total) indices.add(activeRow);
         const items: RenderItem[] = [];
         let previous = -1;
         for (const index of [...indices].sort((a, b) => a - b)) {
-            if (index - previous > 1) items.push({ kind: "spacer", rows: index - previous - 1, key: `spacer-${previous}` });
+            if (index - previous > 1)
+                items.push({
+                    kind: "spacer",
+                    rows: index - previous - 1,
+                    key: `spacer-${previous}`,
+                });
             items.push({ kind: "row", index });
             previous = index;
         }
-        if (total - 1 - previous > 0) items.push({ kind: "spacer", rows: total - 1 - previous, key: `spacer-${previous}` });
+        if (total - 1 - previous > 0)
+            items.push({ kind: "spacer", rows: total - 1 - previous, key: `spacer-${previous}` });
         return items;
     });
 
@@ -639,7 +745,8 @@
         const top = index * virtualize.rowHeight;
         let next = scrollTop;
         if (top < scrollTop) next = top;
-        else if (top + virtualize.rowHeight > scrollTop + virtualize.height) next = top + virtualize.rowHeight - virtualize.height;
+        else if (top + virtualize.rowHeight > scrollTop + virtualize.height)
+            next = top + virtualize.rowHeight - virtualize.height;
         if (next === scrollTop) return;
         scrollTop = next;
         if (scrollEl) scrollEl.scrollTop = next;
@@ -650,7 +757,9 @@
     const allSelected = $derived(
         sortedEntries.length > 0 && sortedEntries.every((entry) => selectedSet.has(entry.id)),
     );
-    const someSelected = $derived(!allSelected && sortedEntries.some((entry) => selectedSet.has(entry.id)));
+    const someSelected = $derived(
+        !allSelected && sortedEntries.some((entry) => selectedSet.has(entry.id)),
+    );
 
     function announce(message: string | undefined): void {
         if (message) statusMessage = message;
@@ -659,7 +768,6 @@
     // ---------------------------------------------------------------
     // Sorting
     // ---------------------------------------------------------------
-
 
     function ariaSortFor(column: DataGridColumn): DataGridSortDirection | undefined {
         if (!column.sortable) return undefined;
@@ -681,11 +789,20 @@
             const nextThen: DataGridSort[] = !current
                 ? [...thenBy, { columnId: column.id, direction: "ascending" }]
                 : current.direction === "ascending"
-                  ? thenBy.map((k) => (k.columnId === column.id ? { columnId: column.id, direction: "descending" as const } : k))
+                  ? thenBy.map((k) =>
+                        k.columnId === column.id
+                            ? { columnId: column.id, direction: "descending" as const }
+                            : k,
+                    )
                   : thenBy.filter((k) => k.columnId !== column.id);
             thenBy = nextThen;
             onThenByChange?.(nextThen);
-            announce(labels.sortAnnouncement?.(column.header, nextThen.find((k) => k.columnId === column.id)?.direction ?? "none"));
+            announce(
+                labels.sortAnnouncement?.(
+                    column.header,
+                    nextThen.find((k) => k.columnId === column.id)?.direction ?? "none",
+                ),
+            );
             return;
         }
         if (thenBy.length > 0) {
@@ -743,13 +860,19 @@
     }
 
     /** `index` is the row's position in `sortedEntries`, not on the current page. */
-    function toggleRow(index: number, event?: { shiftKey?: boolean; ctrlKey?: boolean; metaKey?: boolean }): void {
+    function toggleRow(
+        index: number,
+        event?: { shiftKey?: boolean; ctrlKey?: boolean; metaKey?: boolean },
+    ): void {
         const id = sortedEntries[index].id;
         if (selectionMode === "single") {
             setSelected(isSelected(id) ? [] : [id]);
         } else if (selectionMode === "multiple") {
             if (event?.shiftKey && lastSelectedIndex >= 0) {
-                const [start, end] = lastSelectedIndex < index ? [lastSelectedIndex, index] : [index, lastSelectedIndex];
+                const [start, end] =
+                    lastSelectedIndex < index
+                        ? [lastSelectedIndex, index]
+                        : [index, lastSelectedIndex];
                 const range = sortedEntries.slice(start, end + 1).map((entry) => entry.id);
                 setSelected([...new Set([...selected, ...range])]);
             } else if (event?.ctrlKey || event?.metaKey) {
@@ -786,9 +909,14 @@
         // A pinned column's distance from its edge: the widths of the pinned columns before it (start) or after it (end), once all are known.
         if (column.pinned) {
             const i = visibleColumns.findIndex((c) => c.id === column.id);
-            const before = (column.pinned === "start" ? visibleColumns.slice(0, i) : visibleColumns.slice(i + 1)).filter((c) => c.pinned === column.pinned);
+            const before = (
+                column.pinned === "start" ? visibleColumns.slice(0, i) : visibleColumns.slice(i + 1)
+            ).filter((c) => c.pinned === column.pinned);
             const widths = before.map((c) => widthFor(c));
-            if (widths.every((w) => w !== undefined)) parts.push(`--data-grid-pinned-offset:${widths.reduce((a, w) => a + (w ?? 0), 0)}px`);
+            if (widths.every((w) => w !== undefined))
+                parts.push(
+                    `--data-grid-pinned-offset:${widths.reduce((a, w) => a + (w ?? 0), 0)}px`,
+                );
         }
         return parts.length > 0 ? parts.join(";") : undefined;
     }
@@ -797,7 +925,10 @@
     function footerAggregate(columnId: string, kind: DataGridAggregate): unknown {
         const column = columns.find((c) => c.id === columnId);
         if (!column) return undefined;
-        return aggregateValues(kind, sortedEntries.map((e) => defaultAccessor(column, e.row)));
+        return aggregateValues(
+            kind,
+            sortedEntries.map((e) => defaultAccessor(column, e.row)),
+        );
     }
 
     function setWidth(column: DataGridColumn, width: number): void {
@@ -823,7 +954,10 @@
     function onResizePointerDown(column: DataGridColumn, event: PointerEvent): void {
         event.preventDefault();
         const startX = event.clientX;
-        const startWidth = widthFor(column) ?? (event.target as HTMLElement).closest("th")?.getBoundingClientRect().width ?? 120;
+        const startWidth =
+            widthFor(column) ??
+            (event.target as HTMLElement).closest("th")?.getBoundingClientRect().width ??
+            120;
         const target = event.target as HTMLElement;
         target.setPointerCapture?.(event.pointerId);
 
@@ -867,7 +1001,9 @@
     function focusActiveCell(): void {
         queueMicrotask(() => {
             rootEl
-                ?.querySelector<HTMLElement>('.data-table-th[tabindex="0"], .data-table-td[tabindex="0"]')
+                ?.querySelector<HTMLElement>(
+                    '.data-table-th[tabindex="0"], .data-table-td[tabindex="0"]',
+                )
                 ?.focus({ preventScroll: true });
         });
     }
@@ -914,24 +1050,31 @@
 
     const exportColumns = $derived(visibleColumns.filter((c) => c.exportable !== false));
     const exportEntries = $derived(
-        exportScope === "selected" ? sortedEntries.filter((entry) => selectedSet.has(entry.id)) : sortedEntries,
+        exportScope === "selected"
+            ? sortedEntries.filter((entry) => selectedSet.has(entry.id))
+            : sortedEntries,
     );
-    const hasExportButtons = $derived(!!(labels.exportCsv || labels.exportTsv || labels.exportExcel || labels.copy));
+    const hasExportButtons = $derived(
+        !!(labels.exportCsv || labels.exportTsv || labels.exportExcel || labels.copy),
+    );
 
     /** One cell for an export: typed values stay typed, everything else is the text the grid shows. */
     function exportCell(column: DataGridColumn, row: DataGridRow): unknown {
         if (column.exportValue) return column.exportValue(row);
         const value = defaultAccessor(column, row);
         if (value === null || value === undefined) return null;
-        if (typeof value === "number" || typeof value === "boolean" || value instanceof Date) return value;
+        if (typeof value === "number" || typeof value === "boolean" || value instanceof Date)
+            return value;
         return formatCell(column, row);
     }
 
     /** The extra column a `time-zone` column asks for: its UTC time of day at the reference date. */
-    const hasUtcColumn = (c: DataGridColumn) => c.type === "time-zone" && !!c.exportUtc && !!c.referenceDate && !!labels.exportUtcHeader;
+    const hasUtcColumn = (c: DataGridColumn) =>
+        c.type === "time-zone" && !!c.exportUtc && !!c.referenceDate && !!labels.exportUtcHeader;
 
     function buildExportTable(format: ExportFormat) {
-        const live = (c: DataGridColumn) => format === "xlsx" && exportFormulas && c.type === "formula" && !!c.source;
+        const live = (c: DataGridColumn) =>
+            format === "xlsx" && exportFormulas && c.type === "formula" && !!c.source;
         const headers: string[] = [];
         for (const c of exportColumns) {
             headers.push(c.header);
@@ -941,8 +1084,13 @@
             const cells: unknown[] = [];
             for (const c of exportColumns) {
                 const expression = live(c) ? c.source!(entry.row) : undefined;
-                cells.push(typeof expression === "string" && expression !== "" && !c.errorOf?.(entry.row) ? { formula: expression, result: exportCell(c, entry.row) } : exportCell(c, entry.row));
-                if (hasUtcColumn(c)) cells.push(zonedUtcTime(defaultAccessor(c, entry.row), c.referenceDate));
+                cells.push(
+                    typeof expression === "string" && expression !== "" && !c.errorOf?.(entry.row)
+                        ? { formula: expression, result: exportCell(c, entry.row) }
+                        : exportCell(c, entry.row),
+                );
+                if (hasUtcColumn(c))
+                    cells.push(zonedUtcTime(defaultAccessor(c, entry.row), c.referenceDate));
             }
             return cells;
         });
@@ -981,7 +1129,14 @@
     // Cell editing
     // ---------------------------------------------------------------
 
-    type Editing = { rowId: string; columnId: string; draft: string; zone?: string; error?: string; invalid?: boolean };
+    type Editing = {
+        rowId: string;
+        columnId: string;
+        draft: string;
+        zone?: string;
+        error?: string;
+        invalid?: boolean;
+    };
 
     /** A cell the person can edit through the grid's edit model (not a rollup, a file cell with its own widgets, or a person cell with no editor). */
     function isEditable(column: DataGridColumn): boolean {
@@ -995,21 +1150,41 @@
     function startEdit(entry: Entry, column: DataGridColumn): void {
         if (!isEditable(column)) return;
         // A formula's editor shows the expression the row holds, not the result.
-        const raw = column.type === "formula" && column.source ? column.source(entry.row) : defaultAccessor(column, entry.row);
+        const raw =
+            column.type === "formula" && column.source
+                ? column.source(entry.row)
+                : defaultAccessor(column, entry.row);
         if (column.type === "time-zone") {
             const zoned = isZonedTime(raw) ? raw : null;
-            editing = { rowId: entry.id, columnId: column.id, draft: zoned?.time ?? "", zone: zoned?.timeZone ?? column.timeZones?.[0]?.id ?? "" };
+            editing = {
+                rowId: entry.id,
+                columnId: column.id,
+                draft: zoned?.time ?? "",
+                zone: zoned?.timeZone ?? column.timeZones?.[0]?.id ?? "",
+            };
             return;
         }
-        const text = column.type === "link" ? (linkParts(raw)?.href ?? "") : raw === null || raw === undefined ? "" : String(raw);
+        const text =
+            column.type === "link"
+                ? (linkParts(raw)?.href ?? "")
+                : raw === null || raw === undefined
+                  ? ""
+                  : String(raw);
         editing = { rowId: entry.id, columnId: column.id, draft: text };
     }
 
-    function parseDraft(column: DataGridColumn, row: DataGridRow, draft: string, zone?: string): unknown {
+    function parseDraft(
+        column: DataGridColumn,
+        row: DataGridRow,
+        draft: string,
+        zone?: string,
+    ): unknown {
         if (column.parse) return column.parse(draft, row);
-        if (column.type === "time-zone") return draft === "" ? null : { time: draft, timeZone: zone ?? "" };
+        if (column.type === "time-zone")
+            return draft === "" ? null : { time: draft, timeZone: zone ?? "" };
         if (column.editor === "number") return draft.trim() === "" ? null : Number(draft);
-        if (column.editor === "date" || column.editor === "time" || column.editor === "select") return draft === "" ? null : draft;
+        if (column.editor === "date" || column.editor === "time" || column.editor === "select")
+            return draft === "" ? null : draft;
         return draft;
     }
 
@@ -1023,12 +1198,25 @@
             announce(labels.editError?.(column.header, text));
             return false;
         }
-        const previous = column.type === "formula" && column.source ? column.source(entry.row) : defaultAccessor(column, entry.row);
+        const previous =
+            column.type === "formula" && column.source
+                ? column.source(entry.row)
+                : defaultAccessor(column, entry.row);
         editing = null;
-        if (value !== previous && !(isStructurallyEqual(value, previous))) {
-            history = recordEdit(history, { ownerId: entry.id, fieldId: column.id, value, previous });
+        if (value !== previous && !isStructurallyEqual(value, previous)) {
+            history = recordEdit(history, {
+                ownerId: entry.id,
+                fieldId: column.id,
+                value,
+                previous,
+            });
             onCellEdit?.({ rowId: entry.id, row: entry.row, columnId: column.id, value, previous });
-            announce(labels.editAnnouncement?.(column.header, column.format ? column.format(value, entry.row) : String(value ?? "")));
+            announce(
+                labels.editAnnouncement?.(
+                    column.header,
+                    column.format ? column.format(value, entry.row) : String(value ?? ""),
+                ),
+            );
         }
         return true;
     }
@@ -1047,14 +1235,31 @@
         if (!entry || !column) return;
         const restored = direction === "undo" ? previous : value;
         const replaced = direction === "undo" ? value : previous;
-        onCellEdit?.({ rowId: entry.id, row: entry.row, columnId: column.id, value: restored, previous: replaced });
+        onCellEdit?.({
+            rowId: entry.id,
+            row: entry.row,
+            columnId: column.id,
+            value: restored,
+            previous: replaced,
+        });
         const text = column.format ? column.format(restored, entry.row) : String(restored ?? "");
-        announce((direction === "undo" ? labels.undoAnnouncement : labels.redoAnnouncement)?.(column.header, text));
+        announce(
+            (direction === "undo" ? labels.undoAnnouncement : labels.redoAnnouncement)?.(
+                column.header,
+                text,
+            ),
+        );
     }
 
     /** Two link values with the same address and label are the same edit. */
     function isStructurallyEqual(a: unknown, b: unknown): boolean {
-        return typeof a === "object" && typeof b === "object" && a !== null && b !== null && JSON.stringify(a) === JSON.stringify(b);
+        return (
+            typeof a === "object" &&
+            typeof b === "object" &&
+            a !== null &&
+            b !== null &&
+            JSON.stringify(a) === JSON.stringify(b)
+        );
     }
 
     function commitEdit(): void {
@@ -1066,7 +1271,8 @@
             editing = null;
             return;
         }
-        if (commitValue(entry, column, parseDraft(column, entry.row, current.draft, current.zone))) focusActiveCell();
+        if (commitValue(entry, column, parseDraft(column, entry.row, current.draft, current.zone)))
+            focusActiveCell();
     }
 
     function cancelEdit(): void {
@@ -1172,7 +1378,11 @@
         focusedRow = Number(cell.dataset.row);
         focusedCol = Number(cell.dataset.col);
         // Focus arriving on a widget (a click, or Tab inside the cell) makes the cell's widgets tab stops.
-        if (target !== cell && !target.closest("[data-grid-own]") && cell.closest(".data-table-body")) {
+        if (
+            target !== cell &&
+            !target.closest("[data-grid-own]") &&
+            cell.closest(".data-table-body")
+        ) {
             cell.setAttribute("data-grid-entered", "true");
             setWidgetTabindex(cell, "0");
         }
@@ -1201,7 +1411,12 @@
     function onGridDblclick(event: MouseEvent): void {
         const target = event.target as HTMLElement;
         const cell = target.closest<HTMLElement>("[data-row][data-col]");
-        if (!cell || cell.closest(".data-table-head") || target.closest("input, button, select, textarea")) return;
+        if (
+            !cell ||
+            cell.closest(".data-table-head") ||
+            target.closest("input, button, select, textarea")
+        )
+            return;
         const entry = pageEntries[Number(cell.dataset.row)];
         const column = visibleColumns[Number(cell.dataset.col) - colOffset];
         if (entry && column && isEditable(column)) startEdit(entry, column);
@@ -1230,7 +1445,8 @@
             if (column && isMovable(column)) {
                 event.preventDefault();
                 const delta = key === "ArrowRight" ? 1 : -1;
-                if (moveColumn(column.id, activeCol - colOffset + delta)) moveFocus(-1, activeCol + delta);
+                if (moveColumn(column.id, activeCol - colOffset + delta))
+                    moveFocus(-1, activeCol + delta);
                 return;
             }
         }
@@ -1244,8 +1460,17 @@
         if (isTypeaheadKey(event) && target === cell && activeRow >= 0) {
             const column = visibleColumns[activeCol - colOffset];
             if (column) {
-                const state = nextTypeaheadState(typeahead, event.key, Date.now(), TYPEAHEAD_WINDOW_MS);
-                const hit = findTypeaheadMatch(pageEntries.map((entry) => formatCell(column, entry.row)), activeRow, state.prefix);
+                const state = nextTypeaheadState(
+                    typeahead,
+                    event.key,
+                    Date.now(),
+                    TYPEAHEAD_WINDOW_MS,
+                );
+                const hit = findTypeaheadMatch(
+                    pageEntries.map((entry) => formatCell(column, entry.row)),
+                    activeRow,
+                    state.prefix,
+                );
                 if (hit !== -1) {
                     typeahead = state;
                     event.preventDefault();
@@ -1257,7 +1482,13 @@
         const move = gridMove(
             event,
             { row: activeRow, col: activeCol },
-            { firstRow: -1, lastRow: pageEntries.length - 1, lastCol, pageStep: pageSize ?? 10, rtl: isRtl(cell) },
+            {
+                firstRow: -1,
+                lastRow: pageEntries.length - 1,
+                lastCol,
+                pageStep: pageSize ?? 10,
+                rtl: isRtl(cell),
+            },
         );
         if (move) {
             event.preventDefault();
@@ -1285,7 +1516,11 @@
                         break;
                     }
                 }
-                if (target === cell && cell.closest(".data-table-body") && !cell.querySelector("[data-grid-own]")) {
+                if (
+                    target === cell &&
+                    cell.closest(".data-table-body") &&
+                    !cell.querySelector("[data-grid-own]")
+                ) {
                     // A cell with a widget in it is entered; one without activates its row.
                     if (enterCell(cell)) break;
                     if (event.key === "Enter" && onRowActivate) {
@@ -1345,26 +1580,32 @@
 </script>
 
 {#snippet pager()}
-            <button
-                type="button"
-                class="data-grid-page-previous"
-                disabled={clampedPage <= 1}
-                onclick={() => goToPage(clampedPage - 1)}
-            >
-                {labels.previousPage}
-            </button>
-            <span class="data-grid-page-status">{labels.pageStatus?.(clampedPage, pageCount, sortedEntries.length)}</span>
-            <button
-                type="button"
-                class="data-grid-page-next"
-                disabled={clampedPage >= pageCount}
-                onclick={() => goToPage(clampedPage + 1)}
-            >
-                {labels.nextPage}
-            </button>
+    <button
+        type="button"
+        class="data-grid-page-previous"
+        disabled={clampedPage <= 1}
+        onclick={() => goToPage(clampedPage - 1)}
+    >
+        {labels.previousPage}
+    </button>
+    <span class="data-grid-page-status"
+        >{labels.pageStatus?.(clampedPage, pageCount, sortedEntries.length)}</span
+    >
+    <button
+        type="button"
+        class="data-grid-page-next"
+        disabled={clampedPage >= pageCount}
+        onclick={() => goToPage(clampedPage + 1)}
+    >
+        {labels.nextPage}
+    </button>
 {/snippet}
 
-<div bind:this={rootEl} class={`data-grid ${className}`.trim()} {...restProps}>
+<div
+    bind:this={rootEl}
+    class={`data-grid ${className}`.trim()}
+    {...restProps}
+>
     {#if labels.search || hidableColumns.length > 0 || hasExportButtons}
         <div class="data-grid-toolbar">
             {#if labels.search && labels.searchField && labels.searchAllFields}
@@ -1395,18 +1636,46 @@
                 />
             {/if}
             {#if hasExportButtons}
-                <div class="data-grid-export" role="group" aria-label={labels.export}>
+                <div
+                    class="data-grid-export"
+                    role="group"
+                    aria-label={labels.export}
+                >
                     {#if labels.copy}
-                        <button type="button" class="data-grid-export-button" data-grid-export-format="copy" disabled={exportEntries.length === 0} onclick={() => void runCopy()}>{labels.copy}</button>
+                        <button
+                            type="button"
+                            class="data-grid-export-button"
+                            data-grid-export-format="copy"
+                            disabled={exportEntries.length === 0}
+                            onclick={() => void runCopy()}>{labels.copy}</button
+                        >
                     {/if}
                     {#if labels.exportCsv}
-                        <button type="button" class="data-grid-export-button" data-grid-export-format="csv" disabled={exportEntries.length === 0} onclick={() => runExport("csv")}>{labels.exportCsv}</button>
+                        <button
+                            type="button"
+                            class="data-grid-export-button"
+                            data-grid-export-format="csv"
+                            disabled={exportEntries.length === 0}
+                            onclick={() => runExport("csv")}>{labels.exportCsv}</button
+                        >
                     {/if}
                     {#if labels.exportTsv}
-                        <button type="button" class="data-grid-export-button" data-grid-export-format="tsv" disabled={exportEntries.length === 0} onclick={() => runExport("tsv")}>{labels.exportTsv}</button>
+                        <button
+                            type="button"
+                            class="data-grid-export-button"
+                            data-grid-export-format="tsv"
+                            disabled={exportEntries.length === 0}
+                            onclick={() => runExport("tsv")}>{labels.exportTsv}</button
+                        >
                     {/if}
                     {#if labels.exportExcel}
-                        <button type="button" class="data-grid-export-button" data-grid-export-format="xlsx" disabled={exportEntries.length === 0} onclick={() => runExport("xlsx")}>{labels.exportExcel}</button>
+                        <button
+                            type="button"
+                            class="data-grid-export-button"
+                            data-grid-export-format="xlsx"
+                            disabled={exportEntries.length === 0}
+                            onclick={() => runExport("xlsx")}>{labels.exportExcel}</button
+                        >
                     {/if}
                 </div>
             {/if}
@@ -1431,13 +1700,27 @@
     {#snippet cellBody(entry: Entry, column: DataGridColumn, ctx: DataGridCellContext)}
         {#if editing && editing.rowId === entry.id && editing.columnId === column.id}
             {#if column.editor === "person" && column.personEditor}
-                {@render column.personEditor({ value: ctx.value, commit: (v: unknown) => { commitValue(entry, column, v); }, cancel: cancelEdit })}
+                {@render column.personEditor({
+                    value: ctx.value,
+                    commit: (v: unknown) => {
+                        commitValue(entry, column, v);
+                    },
+                    cancel: cancelEdit,
+                })}
             {:else if column.editor === "time-zone"}
                 <span
                     class="data-grid-zoned-editor"
                     role="group"
                     aria-label={labels.cellEditor?.(column.header) ?? column.header}
-                    onfocusout={(e: FocusEvent) => { if (editing && !(e.currentTarget as HTMLElement).contains(e.relatedTarget as Node | null)) commitEdit(); }}
+                    onfocusout={(e: FocusEvent) => {
+                        if (
+                            editing &&
+                            !(e.currentTarget as HTMLElement).contains(
+                                e.relatedTarget as Node | null,
+                            )
+                        )
+                            commitEdit();
+                    }}
                 >
                     <input
                         class="data-grid-cell-editor"
@@ -1445,9 +1728,19 @@
                         step="1"
                         aria-label={labels.cellEditor?.(column.header) ?? column.header}
                         aria-invalid={editing.error || editing.invalid ? "true" : undefined}
-                        aria-describedby={editing.error ? `${entry.id}-${column.id}-error` : undefined}
+                        aria-describedby={editing.error
+                            ? `${entry.id}-${column.id}-error`
+                            : undefined}
                         value={editing.draft}
-                        oninput={(e: Event) => { if (editing) editing = { ...editing, draft: (e.target as HTMLInputElement).value, error: undefined, invalid: false }; }}
+                        oninput={(e: Event) => {
+                            if (editing)
+                                editing = {
+                                    ...editing,
+                                    draft: (e.target as HTMLInputElement).value,
+                                    error: undefined,
+                                    invalid: false,
+                                };
+                        }}
                         onkeydown={onEditorKeydown}
                         use:focusEditor
                     />
@@ -1455,11 +1748,22 @@
                         class="data-grid-cell-editor data-grid-zone-editor"
                         aria-label={labels.timeZone?.(column.header) ?? column.header}
                         value={editing.zone}
-                        onchange={(e: Event) => { if (editing) editing = { ...editing, zone: (e.target as HTMLSelectElement).value, error: undefined, invalid: false }; }}
+                        onchange={(e: Event) => {
+                            if (editing)
+                                editing = {
+                                    ...editing,
+                                    zone: (e.target as HTMLSelectElement).value,
+                                    error: undefined,
+                                    invalid: false,
+                                };
+                        }}
                         onkeydown={onEditorKeydown}
                     >
                         {#each column.timeZones ?? [] as option (option.id)}
-                            <option value={option.id} selected={option.id === editing.zone}>{option.label}</option>
+                            <option
+                                value={option.id}
+                                selected={option.id === editing.zone}>{option.label}</option
+                            >
                         {/each}
                     </select>
                 </span>
@@ -1470,19 +1774,39 @@
                     aria-invalid={editing.error || editing.invalid ? "true" : undefined}
                     aria-describedby={editing.error ? `${entry.id}-${column.id}-error` : undefined}
                     value={editing.draft}
-                    onchange={(e: Event) => { if (editing) editing = { ...editing, draft: (e.target as HTMLSelectElement).value, error: undefined, invalid: false }; }}
+                    onchange={(e: Event) => {
+                        if (editing)
+                            editing = {
+                                ...editing,
+                                draft: (e.target as HTMLSelectElement).value,
+                                error: undefined,
+                                invalid: false,
+                            };
+                    }}
                     onkeydown={onEditorKeydown}
-                    onblur={() => { if (editing) commitEdit(); }}
+                    onblur={() => {
+                        if (editing) commitEdit();
+                    }}
                     use:focusEditor
                 >
                     <option value=""></option>
                     {#each (column.options ?? []).filter((o) => !o.group) as option (option.id)}
-                        <option value={option.id} disabled={option.disabled} selected={option.id === editing.draft}>{option.label}</option>
+                        <option
+                            value={option.id}
+                            disabled={option.disabled}
+                            selected={option.id === editing.draft}>{option.label}</option
+                        >
                     {/each}
-                    {#each [...new Set((column.options ?? []).filter((o) => o.group).map((o) => o.group as string))] as group (group)}
+                    {#each [...new Set((column.options ?? [])
+                                .filter((o) => o.group)
+                                .map((o) => o.group as string))] as group (group)}
                         <optgroup label={group}>
                             {#each (column.options ?? []).filter((o) => o.group === group) as option (option.id)}
-                                <option value={option.id} disabled={option.disabled} selected={option.id === editing.draft}>{option.label}</option>
+                                <option
+                                    value={option.id}
+                                    disabled={option.disabled}
+                                    selected={option.id === editing.draft}>{option.label}</option
+                                >
                             {/each}
                         </optgroup>
                     {/each}
@@ -1490,25 +1814,56 @@
             {:else}
                 <input
                     class="data-grid-cell-editor"
-                    type={column.editor === "number" ? "number" : column.editor === "date" ? "date" : column.editor === "time" ? "time" : "text"}
+                    type={column.editor === "number"
+                        ? "number"
+                        : column.editor === "date"
+                          ? "date"
+                          : column.editor === "time"
+                            ? "time"
+                            : "text"}
                     step={column.editor === "time" ? 1 : undefined}
                     inputmode={column.editor === "number" ? "decimal" : undefined}
-                    aria-label={(column.type === "formula" ? labels.formulaEditor?.(column.header) : undefined) ?? labels.cellEditor?.(column.header) ?? column.header}
+                    aria-label={(column.type === "formula"
+                        ? labels.formulaEditor?.(column.header)
+                        : undefined) ??
+                        labels.cellEditor?.(column.header) ??
+                        column.header}
                     aria-invalid={editing.error || editing.invalid ? "true" : undefined}
                     aria-describedby={editing.error ? `${entry.id}-${column.id}-error` : undefined}
                     value={editing.draft}
-                    oninput={(e: Event) => { if (editing) editing = { ...editing, draft: (e.target as HTMLInputElement).value, error: undefined, invalid: false }; }}
+                    oninput={(e: Event) => {
+                        if (editing)
+                            editing = {
+                                ...editing,
+                                draft: (e.target as HTMLInputElement).value,
+                                error: undefined,
+                                invalid: false,
+                            };
+                    }}
                     onkeydown={onEditorKeydown}
-                    onblur={() => { if (editing) commitEdit(); }}
+                    onblur={() => {
+                        if (editing) commitEdit();
+                    }}
                     use:focusEditor
                 />
             {/if}
             {#if editing.error}
-                <span class="data-grid-cell-error" id={`${entry.id}-${column.id}-error`}>{editing.error}</span>
+                <span
+                    class="data-grid-cell-error"
+                    id={`${entry.id}-${column.id}-error`}>{editing.error}</span
+                >
             {/if}
         {:else if column.type === "radio" && column.editable}
-            <fieldset class="data-grid-radio-group" data-grid-own-group>
-                <legend class="data-grid-radio-legend">{labels.radioGroup?.(column.header, visibleColumns[0] ? formatCell(visibleColumns[0], entry.row) : entry.id) ?? column.header}</legend>
+            <fieldset
+                class="data-grid-radio-group"
+                data-grid-own-group
+            >
+                <legend class="data-grid-radio-legend"
+                    >{labels.radioGroup?.(
+                        column.header,
+                        visibleColumns[0] ? formatCell(visibleColumns[0], entry.row) : entry.id,
+                    ) ?? column.header}</legend
+                >
                 {#each column.options ?? [] as option (option.id)}
                     <label class="data-grid-radio-option">
                         <input
@@ -1519,17 +1874,35 @@
                             disabled={option.disabled}
                             tabindex={isGrid ? -1 : undefined}
                             onchange={() => commitValue(entry, column, option.id)}
-                        />{option.label}</label>
+                        />{option.label}</label
+                    >
                 {/each}
             </fieldset>
         {:else}
-            {#if column.cell}{@render column.cell(ctx)}{:else if isMissing(ctx.value) && (column.emptyValue ?? emptyValue)}{column.emptyValue ?? emptyValue}{:else if column.type === "person"}{@render personBody(column, ctx)}{:else if column.type === "file"}{@render fileBody(entry, column, ctx)}{:else if column.type === "link"}{@render linkBody(ctx)}{:else if column.type === "date" || column.type === "time"}{#if ctx.formatted !== ""}<time datetime={String(ctx.value)}>{ctx.formatted}</time>{/if}{:else}{ctx.formatted}{/if}{#if isEditable(column) && column.type !== "radio" && labels.editCell}
+            {#if column.cell}{@render column.cell(
+                    ctx,
+                )}{:else if isMissing(ctx.value) && (column.emptyValue ?? emptyValue)}{column.emptyValue ??
+                    emptyValue}{:else if column.type === "person"}{@render personBody(
+                    column,
+                    ctx,
+                )}{:else if column.type === "file"}{@render fileBody(
+                    entry,
+                    column,
+                    ctx,
+                )}{:else if column.type === "link"}{@render linkBody(
+                    ctx,
+                )}{:else if column.type === "date" || column.type === "time"}{#if ctx.formatted !== ""}<time
+                        datetime={String(ctx.value)}>{ctx.formatted}</time
+                    >{/if}{:else}{ctx.formatted}{/if}{#if isEditable(column) && column.type !== "radio" && labels.editCell}
                 <button
                     type="button"
                     class="data-grid-edit-button"
                     data-grid-own
                     tabindex={isGrid ? -1 : undefined}
-                    aria-label={labels.editCell(column.header, visibleColumns[0] ? formatCell(visibleColumns[0], entry.row) : entry.id)}
+                    aria-label={labels.editCell(
+                        column.header,
+                        visibleColumns[0] ? formatCell(visibleColumns[0], entry.row) : entry.id,
+                    )}
                     onclick={() => startEdit(entry, column)}
                 ></button>{/if}
         {/if}
@@ -1538,13 +1911,23 @@
     {#snippet personBody(column: DataGridColumn, ctx: DataGridCellContext)}
         {@const people = peopleOf(ctx.value)}
         {#if people.length > 0}
-            {@const shown = column.maxPeople !== undefined ? people.slice(0, Math.max(0, column.maxPeople)) : people}
+            {@const shown =
+                column.maxPeople !== undefined
+                    ? people.slice(0, Math.max(0, column.maxPeople))
+                    : people}
             <ul class="data-grid-people">
                 {#each shown as person (person.id)}
-                    <li class="data-grid-person">{#if column.avatar}<span class="data-grid-avatar" aria-hidden="true">{@render column.avatar({ person })}</span>{/if}<span class="data-grid-person-name">{personName(person)}</span></li>
+                    <li class="data-grid-person">
+                        {#if column.avatar}<span
+                                class="data-grid-avatar"
+                                aria-hidden="true">{@render column.avatar({ person })}</span
+                            >{/if}<span class="data-grid-person-name">{personName(person)}</span>
+                    </li>
                 {/each}
                 {#if shown.length < people.length && labels.morePeople}
-                    <li class="data-grid-people-more">{labels.morePeople(people.length - shown.length)}</li>
+                    <li class="data-grid-people-more">
+                        {labels.morePeople(people.length - shown.length)}
+                    </li>
                 {/if}
             </ul>
         {/if}
@@ -1557,14 +1940,26 @@
                 {#each files as file (file.id)}
                     {@const href = file.href ? safeHref(file.href) : null}
                     <li class="data-grid-file">
-                        {#if href}<a class="data-grid-link" {href}>{file.name}</a>{:else}<span class="data-grid-file-name">{file.name}</span>{/if}{#if file.size !== undefined && column.formatSize} <span class="data-grid-file-size">{column.formatSize(file.size)}</span>{/if}{#if column.editable && labels.removeFile}
+                        {#if href}<a
+                                class="data-grid-link"
+                                {href}>{file.name}</a
+                            >{:else}<span class="data-grid-file-name">{file.name}</span
+                            >{/if}{#if file.size !== undefined && column.formatSize}
+                            <span class="data-grid-file-size">{column.formatSize(file.size)}</span
+                            >{/if}{#if column.editable && labels.removeFile}
                             <button
                                 type="button"
                                 class="data-grid-file-remove"
                                 data-grid-own
                                 tabindex={isGrid ? -1 : undefined}
                                 aria-label={labels.removeFile(file.name)}
-                                onclick={() => onFileRemove?.({ rowId: entry.id, row: entry.row, columnId: column.id, fileId: file.id })}
+                                onclick={() =>
+                                    onFileRemove?.({
+                                        rowId: entry.id,
+                                        row: entry.row,
+                                        columnId: column.id,
+                                        fileId: file.id,
+                                    })}
                             ></button>{/if}
                     </li>
                 {/each}
@@ -1574,14 +1969,23 @@
             <input
                 type="file"
                 class="data-grid-file-input"
-                aria-label={labels.fileInput?.(column.header, visibleColumns[0] ? formatCell(visibleColumns[0], entry.row) : entry.id) ?? column.header}
+                aria-label={labels.fileInput?.(
+                    column.header,
+                    visibleColumns[0] ? formatCell(visibleColumns[0], entry.row) : entry.id,
+                ) ?? column.header}
                 multiple={column.multiple !== false}
                 accept={column.accept}
                 tabindex={isGrid ? -1 : undefined}
                 onchange={(e: Event) => {
                     const input = e.target as HTMLInputElement;
                     const chosen = Array.from(input.files ?? []);
-                    if (chosen.length > 0) onFilesSelected?.({ rowId: entry.id, row: entry.row, columnId: column.id, files: chosen });
+                    if (chosen.length > 0)
+                        onFilesSelected?.({
+                            rowId: entry.id,
+                            row: entry.row,
+                            columnId: column.id,
+                            files: chosen,
+                        });
                     input.value = "";
                 }}
             />
@@ -1593,7 +1997,16 @@
         {@const href = link ? safeHref(link.href) : null}
         {#if link}
             {#if href}
-                <a class="data-grid-link" {href} target={link.external ? "_blank" : undefined} rel={link.external ? "noopener noreferrer" : undefined}>{link.label ?? link.href}{#if link.external && labels.opensInNewTab}{" "}<span class="data-grid-visually-hidden">{labels.opensInNewTab(link.label ?? link.href)}</span>{/if}</a>
+                <a
+                    class="data-grid-link"
+                    {href}
+                    target={link.external ? "_blank" : undefined}
+                    rel={link.external ? "noopener noreferrer" : undefined}
+                    >{link.label ?? link.href}{#if link.external && labels.opensInNewTab}{" "}<span
+                            class="data-grid-visually-hidden"
+                            >{labels.opensInNewTab(link.label ?? link.href)}</span
+                        >{/if}</a
+                >
             {:else}
                 <!-- An address with an unsafe scheme is shown as text, never as a link. -->
                 <span class="data-grid-link data-grid-link-unsafe">{link.label ?? link.href}</span>
@@ -1602,214 +2015,292 @@
     {/snippet}
 
     {#snippet table()}
-    <DataTable
-        {label}
-        {caption}
-        role={isGrid ? "grid" : "table"}
-        aria-rowcount={isGrid ? rowCount : undefined}
-        aria-busy={busy ? "true" : undefined}
-        onkeydown={isGrid ? onGridKeydown : undefined}
-        onfocusin={isGrid ? onGridFocusin : undefined}
-        onfocusout={isGrid ? onGridFocusout : undefined}
-        onclick={onRowActivate ? onGridClick : undefined}
-        ondblclick={onGridDblclick}
-    >
-        <DataTableHead>
-            <DataTableRow aria-rowindex={indexed ? 1 : undefined}>
-                {#if hasSelection}
-                    <DataTableTH
-                        data-row={-1}
-                        data-col={0}
-                        tabindex={isGrid ? (activeRow === -1 && activeCol === 0 ? 0 : -1) : undefined}
-                    >
-                        {#if selectionMode === "multiple"}
-                            <input
-                                type="checkbox"
-                                data-grid-own
-                                tabindex={isGrid ? -1 : undefined}
-                                aria-label={labels.selectAll}
-                                checked={allSelected}
-                                use:indeterminateAction={someSelected}
-                                onclick={toggleSelectAll}
-                            />
-                        {:else}
-                            <span class="data-grid-selection-header-label">{labels.selectionColumn}</span>
-                        {/if}
-                    </DataTableTH>
-                {/if}
-                {#each visibleColumns as column, i (column.id)}
-                    <DataTableTH
-                        data-row={-1}
-                        data-col={colOffset + i}
-                        data-align={column.align}
-                        data-cell-type={column.type}
-                        data-pinned={column.pinned}
-                        tabindex={isGrid ? (activeRow === -1 && activeCol === colOffset + i ? 0 : -1) : undefined}
-                        aria-sort={ariaSortFor(column)}
-                        data-sort-order={sortOrderFor(column)}
-                        aria-describedby={column.type === "rollup" && labels.rollupDescription ? `${gridId}-${column.id}-description` : undefined}
-                        style={cellStyle(column)}
-                        draggable={isMovable(column) ? "true" : undefined}
-                        ondragstart={isMovable(column) ? (e: DragEvent) => { draggingColumnId = column.id; e.dataTransfer?.setData("text/plain", column.id); } : undefined}
-                        ondragover={isMovable(column) ? (e: DragEvent) => { if (draggingColumnId) e.preventDefault(); } : undefined}
-                        ondrop={isMovable(column) ? (e: DragEvent) => onHeaderDrop(column.id, e) : undefined}
-                    >
-                        {#if column.sortable}
-                            <button
-                                type="button"
-                                class="data-grid-sort-button"
-                                data-grid-own
-                                tabindex={isGrid ? -1 : undefined}
-                                onclick={(e) => toggleSort(column, e.shiftKey)}
-                            >
-                                {#if column.headerCell}{@render column.headerCell({ column })}{:else}{column.header}{/if}
-                            </button>
-                        {:else if column.headerCell}
-                            {@render column.headerCell({ column })}
-                        {:else}
-                            {column.header}
-                        {/if}
-                        {#if column.type === "rollup" && labels.rollupDescription}
-                            <span class="data-grid-visually-hidden" id={`${gridId}-${column.id}-description`}>{labels.rollupDescription(column.header)}</span>
-                        {/if}
-                        {#if column.resizable}
-                            <!-- WAI-ARIA "window splitter" pattern: role="separator" plus
+        <DataTable
+            {label}
+            {caption}
+            role={isGrid ? "grid" : "table"}
+            aria-rowcount={isGrid ? rowCount : undefined}
+            aria-busy={busy ? "true" : undefined}
+            onkeydown={isGrid ? onGridKeydown : undefined}
+            onfocusin={isGrid ? onGridFocusin : undefined}
+            onfocusout={isGrid ? onGridFocusout : undefined}
+            onclick={onRowActivate ? onGridClick : undefined}
+            ondblclick={onGridDblclick}
+        >
+            <DataTableHead>
+                <DataTableRow aria-rowindex={indexed ? 1 : undefined}>
+                    {#if hasSelection}
+                        <DataTableTH
+                            data-row={-1}
+                            data-col={0}
+                            tabindex={isGrid
+                                ? activeRow === -1 && activeCol === 0
+                                    ? 0
+                                    : -1
+                                : undefined}
+                        >
+                            {#if selectionMode === "multiple"}
+                                <input
+                                    type="checkbox"
+                                    data-grid-own
+                                    tabindex={isGrid ? -1 : undefined}
+                                    aria-label={labels.selectAll}
+                                    checked={allSelected}
+                                    use:indeterminateAction={someSelected}
+                                    onclick={toggleSelectAll}
+                                />
+                            {:else}
+                                <span class="data-grid-selection-header-label"
+                                    >{labels.selectionColumn}</span
+                                >
+                            {/if}
+                        </DataTableTH>
+                    {/if}
+                    {#each visibleColumns as column, i (column.id)}
+                        <DataTableTH
+                            data-row={-1}
+                            data-col={colOffset + i}
+                            data-align={column.align}
+                            data-cell-type={column.type}
+                            data-pinned={column.pinned}
+                            tabindex={isGrid
+                                ? activeRow === -1 && activeCol === colOffset + i
+                                    ? 0
+                                    : -1
+                                : undefined}
+                            aria-sort={ariaSortFor(column)}
+                            data-sort-order={sortOrderFor(column)}
+                            aria-describedby={column.type === "rollup" && labels.rollupDescription
+                                ? `${gridId}-${column.id}-description`
+                                : undefined}
+                            style={cellStyle(column)}
+                            draggable={isMovable(column) ? "true" : undefined}
+                            ondragstart={isMovable(column)
+                                ? (e: DragEvent) => {
+                                      draggingColumnId = column.id;
+                                      e.dataTransfer?.setData("text/plain", column.id);
+                                  }
+                                : undefined}
+                            ondragover={isMovable(column)
+                                ? (e: DragEvent) => {
+                                      if (draggingColumnId) e.preventDefault();
+                                  }
+                                : undefined}
+                            ondrop={isMovable(column)
+                                ? (e: DragEvent) => onHeaderDrop(column.id, e)
+                                : undefined}
+                        >
+                            {#if column.sortable}
+                                <button
+                                    type="button"
+                                    class="data-grid-sort-button"
+                                    data-grid-own
+                                    tabindex={isGrid ? -1 : undefined}
+                                    onclick={(e) => toggleSort(column, e.shiftKey)}
+                                >
+                                    {#if column.headerCell}{@render column.headerCell({
+                                            column,
+                                        })}{:else}{column.header}{/if}
+                                </button>
+                            {:else if column.headerCell}
+                                {@render column.headerCell({ column })}
+                            {:else}
+                                {column.header}
+                            {/if}
+                            {#if column.type === "rollup" && labels.rollupDescription}
+                                <span
+                                    class="data-grid-visually-hidden"
+                                    id={`${gridId}-${column.id}-description`}
+                                    >{labels.rollupDescription(column.header)}</span
+                                >
+                            {/if}
+                            {#if column.resizable}
+                                <!-- WAI-ARIA "window splitter" pattern: role="separator" plus
                                  tabindex/aria-valuenow is exactly how a resize handle becomes
                                  focusable and operable, which the static a11y linter does not
                                  special-case (it flags focusable non-interactive roles
                                  generically) — same accepted shape as Splitter/Resizable in the
                                  headless catalog. -->
-                            <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-                            <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-                            <span
-                                class="data-grid-resize-handle"
-                                role="separator"
-                                data-grid-own
-                                aria-orientation="vertical"
-                                aria-label={labels.resizeHandle?.(column.header)}
-                                aria-valuenow={widthFor(column) ?? 120}
-                                aria-valuemin={MIN_COLUMN_WIDTH}
-                                tabindex="0"
-                                onkeydown={(e: KeyboardEvent) => onResizeKeydown(column, e)}
-                                onpointerdown={(e: PointerEvent) => onResizePointerDown(column, e)}
-                            ></span>
-                        {/if}
-                    </DataTableTH>
-                {/each}
-            </DataTableRow>
-        </DataTableHead>
-        <DataTableBody>
-            {#each renderItems as item (item.kind === "row" ? pageEntries[item.index].id : item.key)}
-              {#if item.kind === "spacer"}
-                <tr class="data-grid-spacer" aria-hidden="true" style={`height:${item.rows * (virtualize?.rowHeight ?? 0)}px`}>
-                    <td colspan={lastCol + 1}></td>
-                </tr>
-              {:else}
-                {@const rowIndex = item.index}
-                {@const entry = pageEntries[rowIndex]}
-                {@const row = entry.row}
-                {@const id = entry.id}
-                <DataTableRow
-                    class={rowClass?.(row)}
-                    aria-selected={hasSelection ? isSelected(id) : undefined}
-                    aria-rowindex={indexed ? pageStart + rowIndex + 2 : undefined}
-                    {...rowAttrs?.(row) ?? {}}
-                >
-                    {#if hasSelection}
-                        <DataTableTD
-                            data-row={rowIndex}
-                            data-col={0}
-                            role={isGrid ? "gridcell" : "cell"}
-                            {...isGrid ? { active: activeRow === rowIndex && activeCol === 0 } : { tabindex: undefined }}
-                            aria-selected={undefined}
-                        >
-                            <input
-                                type={selectionMode === "single" ? "radio" : "checkbox"}
-                                data-grid-own
-                                tabindex={isGrid ? -1 : undefined}
-                                aria-label={labels.selectRow?.(
-                                    visibleColumns[0] ? formatCell(visibleColumns[0], row) : String(rowIndex + 1),
-                                )}
-                                checked={isSelected(id)}
-                                onclick={(e: MouseEvent) => toggleRow(pageStart + rowIndex, e)}
-                            />
-                        </DataTableTD>
-                    {/if}
-                    {#each visibleColumns as column, colIndex (column.id)}
-                        {@const ctx = {
-                            value: defaultAccessor(column, row),
-                            formatted: formatCell(column, row),
-                            row,
-                            column,
-                        }}
-                        {@const extra = column.cellAttrs?.(ctx) ?? {}}
-                        {@const extraClass = typeof column.cellClass === "function" ? column.cellClass(ctx) : column.cellClass}
-                        {#if column.rowHeader}
-                            <DataTableTH
-                                scope="row"
-                                role="rowheader"
-                                class={extraClass}
-                                data-row={rowIndex}
-                                data-col={colOffset + colIndex}
-                                data-align={column.align}
-                        data-cell-type={column.type}
-                        data-pinned={column.pinned}
-                                data-error={column.errorOf?.(row) !== undefined ? "" : undefined}
-                                data-empty={isMissing(ctx.value) ? "" : undefined}
-                                tabindex={isGrid ? (activeRow === rowIndex && activeCol === colOffset + colIndex ? 0 : -1) : undefined}
-                                style={cellStyle(column)}
-                                {...extra}
-                            >
-                                {@render cellBody(entry, column, ctx)}
-                            </DataTableTH>
-                        {:else}
-                            <DataTableTD
-                                class={extraClass}
-                                data-row={rowIndex}
-                                data-col={colOffset + colIndex}
-                                data-align={column.align}
-                        data-cell-type={column.type}
-                        data-pinned={column.pinned}
-                                data-editable={isEditable(column) ? "" : undefined}
-                                data-readonly={column.type === "rollup" ? "" : undefined}
-                                ondragover={column.type === "file" && column.editable ? (e: DragEvent) => { if (Array.from(e.dataTransfer?.types ?? []).includes("Files")) e.preventDefault(); } : undefined}
-                                ondrop={column.type === "file" && column.editable ? (e: DragEvent) => onFileDrop(entry, column, e) : undefined}
-                                aria-readonly={column.type === "rollup" ? "true" : undefined}
-                                data-error={column.errorOf?.(row) !== undefined ? "" : undefined}
-                                data-empty={isMissing(ctx.value) ? "" : undefined}
-                                data-editing={editing?.rowId === id && editing.columnId === column.id ? "" : undefined}
-                                role={isGrid ? "gridcell" : "cell"}
-                                {...isGrid ? { active: activeRow === rowIndex && activeCol === colOffset + colIndex } : { tabindex: undefined }}
-                                aria-selected={undefined}
-                                style={cellStyle(column)}
-                                {...extra}
-                            >
-                                {@render cellBody(entry, column, ctx)}
-                            </DataTableTD>
-                        {/if}
+                                <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+                                <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+                                <span
+                                    class="data-grid-resize-handle"
+                                    role="separator"
+                                    data-grid-own
+                                    aria-orientation="vertical"
+                                    aria-label={labels.resizeHandle?.(column.header)}
+                                    aria-valuenow={widthFor(column) ?? 120}
+                                    aria-valuemin={MIN_COLUMN_WIDTH}
+                                    tabindex="0"
+                                    onkeydown={(e: KeyboardEvent) => onResizeKeydown(column, e)}
+                                    onpointerdown={(e: PointerEvent) =>
+                                        onResizePointerDown(column, e)}
+                                ></span>
+                            {/if}
+                        </DataTableTH>
                     {/each}
                 </DataTableRow>
-              {/if}
-            {/each}
-            {#if pageEntries.length === 0 && empty}
-                <DataTableRow class="data-grid-empty-row">
-                    <DataTableTD
-                        class="data-grid-empty"
-                        colspan={lastCol + 1}
-                        role={isGrid ? "gridcell" : "cell"}
-                        tabindex={undefined}
-                    >
-                        {@render empty()}
-                    </DataTableTD>
-                </DataTableRow>
+            </DataTableHead>
+            <DataTableBody>
+                {#each renderItems as item (item.kind === "row" ? pageEntries[item.index].id : item.key)}
+                    {#if item.kind === "spacer"}
+                        <tr
+                            class="data-grid-spacer"
+                            aria-hidden="true"
+                            style={`height:${item.rows * (virtualize?.rowHeight ?? 0)}px`}
+                        >
+                            <td colspan={lastCol + 1}></td>
+                        </tr>
+                    {:else}
+                        {@const rowIndex = item.index}
+                        {@const entry = pageEntries[rowIndex]}
+                        {@const row = entry.row}
+                        {@const id = entry.id}
+                        <DataTableRow
+                            class={rowClass?.(row)}
+                            aria-selected={hasSelection ? isSelected(id) : undefined}
+                            aria-rowindex={indexed ? pageStart + rowIndex + 2 : undefined}
+                            {...rowAttrs?.(row) ?? {}}
+                        >
+                            {#if hasSelection}
+                                <DataTableTD
+                                    data-row={rowIndex}
+                                    data-col={0}
+                                    role={isGrid ? "gridcell" : "cell"}
+                                    {...isGrid
+                                        ? { active: activeRow === rowIndex && activeCol === 0 }
+                                        : { tabindex: undefined }}
+                                    aria-selected={undefined}
+                                >
+                                    <input
+                                        type={selectionMode === "single" ? "radio" : "checkbox"}
+                                        data-grid-own
+                                        tabindex={isGrid ? -1 : undefined}
+                                        aria-label={labels.selectRow?.(
+                                            visibleColumns[0]
+                                                ? formatCell(visibleColumns[0], row)
+                                                : String(rowIndex + 1),
+                                        )}
+                                        checked={isSelected(id)}
+                                        onclick={(e: MouseEvent) =>
+                                            toggleRow(pageStart + rowIndex, e)}
+                                    />
+                                </DataTableTD>
+                            {/if}
+                            {#each visibleColumns as column, colIndex (column.id)}
+                                {@const ctx = {
+                                    value: defaultAccessor(column, row),
+                                    formatted: formatCell(column, row),
+                                    row,
+                                    column,
+                                }}
+                                {@const extra = column.cellAttrs?.(ctx) ?? {}}
+                                {@const extraClass =
+                                    typeof column.cellClass === "function"
+                                        ? column.cellClass(ctx)
+                                        : column.cellClass}
+                                {#if column.rowHeader}
+                                    <DataTableTH
+                                        scope="row"
+                                        role="rowheader"
+                                        class={extraClass}
+                                        data-row={rowIndex}
+                                        data-col={colOffset + colIndex}
+                                        data-align={column.align}
+                                        data-cell-type={column.type}
+                                        data-pinned={column.pinned}
+                                        data-error={column.errorOf?.(row) !== undefined
+                                            ? ""
+                                            : undefined}
+                                        data-empty={isMissing(ctx.value) ? "" : undefined}
+                                        tabindex={isGrid
+                                            ? activeRow === rowIndex &&
+                                              activeCol === colOffset + colIndex
+                                                ? 0
+                                                : -1
+                                            : undefined}
+                                        style={cellStyle(column)}
+                                        {...extra}
+                                    >
+                                        {@render cellBody(entry, column, ctx)}
+                                    </DataTableTH>
+                                {:else}
+                                    <DataTableTD
+                                        class={extraClass}
+                                        data-row={rowIndex}
+                                        data-col={colOffset + colIndex}
+                                        data-align={column.align}
+                                        data-cell-type={column.type}
+                                        data-pinned={column.pinned}
+                                        data-editable={isEditable(column) ? "" : undefined}
+                                        data-readonly={column.type === "rollup" ? "" : undefined}
+                                        ondragover={column.type === "file" && column.editable
+                                            ? (e: DragEvent) => {
+                                                  if (
+                                                      Array.from(
+                                                          e.dataTransfer?.types ?? [],
+                                                      ).includes("Files")
+                                                  )
+                                                      e.preventDefault();
+                                              }
+                                            : undefined}
+                                        ondrop={column.type === "file" && column.editable
+                                            ? (e: DragEvent) => onFileDrop(entry, column, e)
+                                            : undefined}
+                                        aria-readonly={column.type === "rollup"
+                                            ? "true"
+                                            : undefined}
+                                        data-error={column.errorOf?.(row) !== undefined
+                                            ? ""
+                                            : undefined}
+                                        data-empty={isMissing(ctx.value) ? "" : undefined}
+                                        data-editing={editing?.rowId === id &&
+                                        editing.columnId === column.id
+                                            ? ""
+                                            : undefined}
+                                        role={isGrid ? "gridcell" : "cell"}
+                                        {...isGrid
+                                            ? {
+                                                  active:
+                                                      activeRow === rowIndex &&
+                                                      activeCol === colOffset + colIndex,
+                                              }
+                                            : { tabindex: undefined }}
+                                        aria-selected={undefined}
+                                        style={cellStyle(column)}
+                                        {...extra}
+                                    >
+                                        {@render cellBody(entry, column, ctx)}
+                                    </DataTableTD>
+                                {/if}
+                            {/each}
+                        </DataTableRow>
+                    {/if}
+                {/each}
+                {#if pageEntries.length === 0 && empty}
+                    <DataTableRow class="data-grid-empty-row">
+                        <DataTableTD
+                            class="data-grid-empty"
+                            colspan={lastCol + 1}
+                            role={isGrid ? "gridcell" : "cell"}
+                            tabindex={undefined}
+                        >
+                            {@render empty()}
+                        </DataTableTD>
+                    </DataTableRow>
+                {/if}
+            </DataTableBody>
+            {#if footer}
+                <DataTableFoot>
+                    {@render footer({
+                        columns: visibleColumns,
+                        rows: pageEntries.map((e) => e.row),
+                        allRows: sortedEntries.map((e) => e.row),
+                        aggregate: footerAggregate,
+                    })}
+                </DataTableFoot>
             {/if}
-        </DataTableBody>
-        {#if footer}
-            <DataTableFoot>
-                {@render footer({ columns: visibleColumns, rows: pageEntries.map((e) => e.row), allRows: sortedEntries.map((e) => e.row), aggregate: footerAggregate })}
-            </DataTableFoot>
-        {/if}
-    </DataTable>
+        </DataTable>
     {/snippet}
 
     {#if scroll}
@@ -1823,7 +2314,11 @@
             aria-label={label}
             tabindex={isGrid ? undefined : 0}
             style={virtualize ? `height:${virtualize.height}px;overflow:auto` : undefined}
-            onscroll={virtualize ? (e: Event) => { scrollTop = (e.currentTarget as HTMLElement).scrollTop; } : undefined}
+            onscroll={virtualize
+                ? (e: Event) => {
+                      scrollTop = (e.currentTarget as HTMLElement).scrollTop;
+                  }
+                : undefined}
         >
             {@render table()}
         </div>
@@ -1833,11 +2328,19 @@
 
     {#if pageSize}
         {#if labels.pagination}
-            <PaginationNav class="data-grid-pagination" label={labels.pagination}>{@render pager()}</PaginationNav>
+            <PaginationNav
+                class="data-grid-pagination"
+                label={labels.pagination}>{@render pager()}</PaginationNav
+            >
         {:else}
             <div class="data-grid-pagination">{@render pager()}</div>
         {/if}
     {/if}
 
-    <p class="data-grid-status" aria-live="polite">{statusMessage}</p>
+    <p
+        class="data-grid-status"
+        aria-live="polite"
+    >
+        {statusMessage}
+    </p>
 </div>

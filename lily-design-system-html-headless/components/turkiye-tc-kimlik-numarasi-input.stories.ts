@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<input
   class="turkiye-tc-kimlik-numarasi-input"
@@ -8,9 +8,9 @@ const html = `<input
 >`;
 
 const meta = {
-  title: 'Headless/TurkiyeTcKimlikNumarasiInput',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/TurkiyeTcKimlikNumarasiInput",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

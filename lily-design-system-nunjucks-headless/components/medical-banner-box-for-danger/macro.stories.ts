@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="medical-banner-box-for-danger"
@@ -6,9 +6,9 @@ const html = `<div
   data-severity="danger"></div>`;
 
 const meta = {
-  title: 'Headless/MedicalBannerBoxForDanger',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/MedicalBannerBoxForDanger",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

@@ -38,15 +38,15 @@ const NATIVE: Record<string, string> = {
 </script>
 
 <template>
-    <header class="utility-banner" aria-label="Site utilities">
+    <header
+        class="utility-banner"
+        aria-label="Site utilities"
+    >
         <span>NHS</span>
 
         <LocalePicker
             label="Language"
-            :locales="[
-                'en', 'cy', 'gd', 'ga',
-                'fr', 'pl', 'ur', 'bn', 'zh_Hant',
-            ]"
+            :locales="['en', 'cy', 'gd', 'ga', 'fr', 'pl', 'ur', 'bn', 'zh_Hant']"
             :locale-labels="NATIVE"
             v-model:value="locale"
             storage-key="nhs-locale"
@@ -58,16 +58,19 @@ const NATIVE: Record<string, string> = {
             language in text as well. `lang` on the name keeps the
             endonym pronounced correctly (WCAG 3.1.2).
         -->
-        <p class="locale-picker-status" aria-live="polite">
+        <p
+            class="locale-picker-status"
+            aria-live="polite"
+        >
             Language:
-            <span :lang="locale.replace(/_/g, '-')">{{
-                NATIVE[locale] ?? locale
-            }}</span>
+            <span :lang="locale.replace(/_/g, '-')">{{ NATIVE[locale] ?? locale }}</span>
         </p>
     </header>
 
     <main :lang="locale.replace(/_/g, '-')">
         <h1>Welcome</h1>
-        <p>Current locale: <code>{{ locale }}</code></p>
+        <p>
+            Current locale: <code>{{ locale }}</code>
+        </p>
     </main>
 </template>

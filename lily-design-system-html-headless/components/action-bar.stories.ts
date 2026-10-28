@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<button class="action-bar-clear" type="button" aria-label="Clear selection">×</button>
     </div>
@@ -16,9 +16,9 @@ const html = `<button class="action-bar-clear" type="button" aria-label="Clear s
 </div>`;
 
 const meta = {
-  title: 'Headless/ActionBar',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/ActionBar",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

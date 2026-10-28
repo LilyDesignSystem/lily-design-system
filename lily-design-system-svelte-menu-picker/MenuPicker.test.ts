@@ -140,7 +140,9 @@ describe("MenuPicker", () => {
     test("7.13 activating a link or button closes; keep-open and closeOnSelect=false do not", async () => {
         mount();
         await fireEvent.click(button());
-        panel().querySelector("a")!.addEventListener("click", (e) => e.preventDefault());
+        panel()
+            .querySelector("a")!
+            .addEventListener("click", (e) => e.preventDefault());
         await fireEvent.click(panel().querySelector("a")!);
         await flush();
         expect(panel().hidden).toBe(true);

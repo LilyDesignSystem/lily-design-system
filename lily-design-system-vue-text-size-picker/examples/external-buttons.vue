@@ -33,7 +33,10 @@ const size = ref("");
         v-model:value="size"
     />
 
-    <div role="group" aria-label="Text size presets">
+    <div
+        role="group"
+        aria-label="Text size presets"
+    >
         <button
             v-for="slug in sizes"
             :key="slug"
@@ -45,7 +48,10 @@ const size = ref("");
         </button>
     </div>
 
-    <p class="text-size-picker-status" aria-live="polite">
+    <p
+        class="text-size-picker-status"
+        aria-live="polite"
+    >
         Text size: {{ size ? sizeName(size) : "none" }}
     </p>
 </template>

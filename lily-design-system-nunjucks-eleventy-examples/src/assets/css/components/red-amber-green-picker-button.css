@@ -11,9 +11,15 @@
   min-width: 4.5rem;
 }
 
-.red-amber-green-picker-button[data-status="red"] { border-color: var(--nhsuk-red); }
-.red-amber-green-picker-button[data-status="amber"] { border-color: var(--nhsuk-warm-yellow); }
-.red-amber-green-picker-button[data-status="green"] { border-color: var(--nhsuk-green); }
+.red-amber-green-picker-button[data-status="red"] {
+  border-color: var(--nhsuk-red);
+}
+.red-amber-green-picker-button[data-status="amber"] {
+  border-color: var(--nhsuk-warm-yellow);
+}
+.red-amber-green-picker-button[data-status="green"] {
+  border-color: var(--nhsuk-green);
+}
 
 .red-amber-green-picker-button[aria-checked="true"][data-status="red"] {
   background: var(--nhsuk-red);

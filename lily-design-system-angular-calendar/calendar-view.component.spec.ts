@@ -27,7 +27,8 @@ const LABELS: CalendarViewLabels = {
   periodAnnouncement: (view, start, end) => `${view}: ${start} to ${end}`,
   weekday: (wd) => WEEKDAYS[wd],
   weekdayAbbr: (wd) => WEEKDAYS[wd].slice(0, 3),
-  day: (iso, wd, outside) => `${Number(iso.slice(8))}, ${WEEKDAYS[wd]}${outside ? " (outside)" : ""}`,
+  day: (iso, wd, outside) =>
+    `${Number(iso.slice(8))}, ${WEEKDAYS[wd]}${outside ? " (outside)" : ""}`,
 };
 
 const EVENTS: CalendarEvent[] = [
@@ -60,9 +61,16 @@ const tabbable = (f: ComponentFixture<unknown>) => q(f, '.calendar-table-td[tabi
 const cellFor = (f: ComponentFixture<unknown>, iso: string) =>
   f.nativeElement.querySelector(`.calendar-table-td[data-date="${iso}"]`) as HTMLElement | null;
 const button = (f: ComponentFixture<unknown>, name: string) =>
-  q(f, "button").find((b) => (b.getAttribute("aria-label") ?? b.textContent)?.trim() === name) as HTMLElement;
+  q(f, "button").find(
+    (b) => (b.getAttribute("aria-label") ?? b.textContent)?.trim() === name,
+  ) as HTMLElement;
 
-function press(f: ComponentFixture<unknown>, target: Element, key: string, extra: KeyboardEventInit = {}): void {
+function press(
+  f: ComponentFixture<unknown>,
+  target: Element,
+  key: string,
+  extra: KeyboardEventInit = {},
+): void {
   target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, ...extra }));
   f.detectChanges();
 }
@@ -170,7 +178,11 @@ describe("CalendarView — view switcher and navigation", () => {
     expect(calls[0]).toEqual({ view: "week", start: "2026-01-12", end: "2026-01-18" });
     click(f, button(f, "Previous week"));
     click(f, button(f, "Previous week"));
-    expect(calls[calls.length - 1]).toEqual({ view: "week", start: "2025-12-29", end: "2026-01-04" });
+    expect(calls[calls.length - 1]).toEqual({
+      view: "week",
+      start: "2025-12-29",
+      end: "2026-01-04",
+    });
   });
   test("§8.6 four-week steps 28 days, month steps one month", () => {
     const f1 = mount({ view: "four-week", labels: LABELS });
@@ -192,7 +204,9 @@ describe("CalendarView — view switcher and navigation", () => {
   test("§8.13 every navigation announces the new period", () => {
     const f = mount({ labels: LABELS });
     click(f, button(f, "Next week"));
-    expect(f.nativeElement.querySelector(".calendar-view-status").textContent).toBe("week: 2026-01-12 to 2026-01-18");
+    expect(f.nativeElement.querySelector(".calendar-view-status").textContent).toBe(
+      "week: 2026-01-12 to 2026-01-18",
+    );
   });
   test("§8.14 a Sunday-first locale shifts the computed week start", () => {
     const f = mount({ locale: "en-US" });
@@ -248,7 +262,10 @@ describe("CalendarView — keyboard", () => {
 describe("CalendarView — events", () => {
   test("§8.12 events render as buttons inside every day they cover", () => {
     const f = mount({ events: EVENTS });
-    const titles = (iso: string) => Array.from(cellFor(f, iso)!.querySelectorAll(".calendar-view-event")).map((b) => b.textContent!.trim());
+    const titles = (iso: string) =>
+      Array.from(cellFor(f, iso)!.querySelectorAll(".calendar-view-event")).map((b) =>
+        b.textContent!.trim(),
+      );
     expect(titles("2026-01-06")).toEqual(["Single-day"]);
     expect(titles("2026-01-09")).toEqual(["Multi-day"]);
     expect(titles("2026-01-11")).toEqual(["Multi-day"]);
@@ -268,7 +285,12 @@ describe("CalendarView — interaction", () => {
     expect(tabbable(f)[0].getAttribute("data-date")).toBe("2026-01-08");
   });
   test("§8.18 minDate, maxDate and isDisabled mark days aria-disabled; focusable but not pickable", () => {
-    const f = mount({ ...base, minDate: "2026-01-06", maxDate: "2026-01-10", isDisabled: (d: string) => d === "2026-01-07" });
+    const f = mount({
+      ...base,
+      minDate: "2026-01-06",
+      maxDate: "2026-01-10",
+      isDisabled: (d: string) => d === "2026-01-07",
+    });
     const clicks = collectDayClicks(f);
     expect(cellFor(f, "2026-01-05")!.getAttribute("aria-disabled")).toBe("true");
     expect(cellFor(f, "2026-01-07")!.getAttribute("aria-disabled")).toBe("true");
@@ -312,7 +334,8 @@ describe("CalendarView — week numbers, marked ranges and range selection", () 
     weekNumber: (n) => `Week ${n}`,
     rangeAnnouncement: (s, e) => `Selected ${s} to ${e}`,
   };
-  const shift = (f: ComponentFixture<unknown>, el: Element, key: string) => press(f, el, key, { shiftKey: true });
+  const shift = (f: ComponentFixture<unknown>, el: Element, key: string) =>
+    press(f, el, key, { shiftKey: true });
   const shiftClick = (f: ComponentFixture<unknown>, el: Element) => {
     el.dispatchEvent(new MouseEvent("click", { bubbles: true, shiftKey: true }));
     f.detectChanges();
@@ -325,8 +348,12 @@ describe("CalendarView — week numbers, marked ranges and range selection", () 
 
   test("§8.22 showWeekNumbers adds a leading header and a row header per week with the ISO week number", () => {
     const f = mount({ ...base, showWeekNumbers: true, labels: rangeLabels });
-    expect(f.nativeElement.querySelector("[data-week-number-header]").textContent.trim()).toBe("Wk");
-    const rowHeaders = Array.from(f.nativeElement.querySelectorAll("[data-week-number]")) as HTMLElement[];
+    expect(f.nativeElement.querySelector("[data-week-number-header]").textContent.trim()).toBe(
+      "Wk",
+    );
+    const rowHeaders = Array.from(
+      f.nativeElement.querySelectorAll("[data-week-number]"),
+    ) as HTMLElement[];
     expect(rowHeaders).toHaveLength(6);
     const week2 = rowHeaders.find((h) => h.getAttribute("data-week-number") === "2")!;
     expect(week2.textContent!.trim()).toBe("2");
@@ -341,7 +368,13 @@ describe("CalendarView — week numbers, marked ranges and range selection", () 
   });
 
   test("§8.23 ranges mark each day inside with data-range={kind}", () => {
-    const f = mount({ ...base, ranges: [{ start: "2026-01-05", end: "2026-01-07", kind: "holiday" }, { start: "2026-01-07", end: "2026-01-08" }] });
+    const f = mount({
+      ...base,
+      ranges: [
+        { start: "2026-01-05", end: "2026-01-07", kind: "holiday" },
+        { start: "2026-01-07", end: "2026-01-08" },
+      ],
+    });
     expect(cellFor(f, "2026-01-05")!.getAttribute("data-range")).toBe("holiday");
     expect(cellFor(f, "2026-01-07")!.getAttribute("data-range")).toBe("holiday range");
     expect(cellFor(f, "2026-01-08")!.getAttribute("data-range")).toBe("range");
@@ -356,7 +389,9 @@ describe("CalendarView — week numbers, marked ranges and range selection", () 
     expect(cellFor(f, "2026-01-17")!.hasAttribute("data-range-end")).toBe(true);
     expect(cellFor(f, "2026-01-16")!.hasAttribute("data-in-range")).toBe(true);
     expect(cellFor(f, "2026-01-18")!.hasAttribute("data-in-range")).toBe(false);
-    expect(f.nativeElement.querySelector(".calendar-view-status").textContent).toBe("Selected 2026-01-15 to 2026-01-17");
+    expect(f.nativeElement.querySelector(".calendar-view-status").textContent).toBe(
+      "Selected 2026-01-15 to 2026-01-17",
+    );
   });
 
   test("§8.24 extending backwards orders the range", () => {
@@ -409,7 +444,12 @@ describe("CalendarView — week numbers, marked ranges and range selection", () 
 });
 
 describe("CalendarView — day view, maxEvents, event drag-and-drop, title, weekends, multiple selection", () => {
-  const dayProps = { view: "day", anchorDate: "2026-01-06", today: "2026-01-08", labels: { ...LABELS, dayView: "Day" } };
+  const dayProps = {
+    view: "day",
+    anchorDate: "2026-01-06",
+    today: "2026-01-08",
+    labels: { ...LABELS, dayView: "Day" },
+  };
   const evs: CalendarEvent[] = [
     { id: "a", date: "2026-01-06", title: "A" },
     { id: "b", date: "2026-01-06", title: "B" },
@@ -455,7 +495,11 @@ describe("CalendarView — day view, maxEvents, event drag-and-drop, title, week
   });
 
   test("§8.31 maxEvents caps the events shown and a +N more button (labels.moreEvents) fires moreClick", () => {
-    const f = mount({ events: evs, maxEvents: 2, labels: { ...LABELS, moreEvents: (n: number) => `+${n} more` } });
+    const f = mount({
+      events: evs,
+      maxEvents: 2,
+      labels: { ...LABELS, moreEvents: (n: number) => `+${n} more` },
+    });
     const more: string[] = [];
     f.componentInstance.moreClick.subscribe((d) => more.push(d));
     expect(q(f, ".calendar-view-event")).toHaveLength(2);
@@ -467,7 +511,10 @@ describe("CalendarView — day view, maxEvents, event drag-and-drop, title, week
   });
 
   test("§8.32 without maxEvents every event shows and no more button", () => {
-    const f = mount({ events: evs, labels: { ...LABELS, moreEvents: (n: number) => `+${n} more` } });
+    const f = mount({
+      events: evs,
+      labels: { ...LABELS, moreEvents: (n: number) => `+${n} more` },
+    });
     expect(q(f, ".calendar-view-event")).toHaveLength(3);
     expect(q(f, ".calendar-view-more-button")).toHaveLength(0);
   });
@@ -503,15 +550,29 @@ describe("CalendarView — day view, maxEvents, event drag-and-drop, title, week
   });
 
   test("§8.42 labels.periodTitle renders the shown period's title and updates on navigation", () => {
-    const f = mount({ view: "month", anchorDate: "2026-01-15", labels: { ...LABELS, periodTitle: (v: string, s: string, e: string, a: string) => `${v}:${s}..${e}@${a.slice(0, 7)}` } });
-    expect(q(f, ".calendar-view-title")[0].textContent).toBe("month:2026-01-01..2026-01-31@2026-01");
+    const f = mount({
+      view: "month",
+      anchorDate: "2026-01-15",
+      labels: {
+        ...LABELS,
+        periodTitle: (v: string, s: string, e: string, a: string) =>
+          `${v}:${s}..${e}@${a.slice(0, 7)}`,
+      },
+    });
+    expect(q(f, ".calendar-view-title")[0].textContent).toBe(
+      "month:2026-01-01..2026-01-31@2026-01",
+    );
     click(f, button(f, "Next month"));
-    expect(q(f, ".calendar-view-title")[0].textContent).toBe("month:2026-02-01..2026-02-28@2026-02");
+    expect(q(f, ".calendar-view-title")[0].textContent).toBe(
+      "month:2026-02-01..2026-02-28@2026-02",
+    );
   });
 
   test("§8.44 hideOutsideDays leaves outside cells empty but in the grid", () => {
     const f = mount({ view: "month", anchorDate: "2026-01-15", hideOutsideDays: true });
-    expect((q(f, ".calendar-table-td[data-outside-period]")[0] as HTMLElement).textContent!.trim()).toBe("");
+    expect(
+      (q(f, ".calendar-table-td[data-outside-period]")[0] as HTMLElement).textContent!.trim(),
+    ).toBe("");
     expect(cellFor(f, "2026-01-15")!.textContent!.trim()).toBe("15");
     expect(dayCells(f)).toHaveLength(42);
   });
@@ -540,13 +601,26 @@ describe("CalendarView — day view, maxEvents, event drag-and-drop, title, week
 
 describe("CalendarView — agenda view", () => {
   const agenda = (inputs: Record<string, unknown> = {}) =>
-    mount({ view: "agenda", anchorDate: "2026-01-15", events: EVENTS, today: "2026-01-09", ...inputs });
+    mount({
+      view: "agenda",
+      anchorDate: "2026-01-15",
+      events: EVENTS,
+      today: "2026-01-09",
+      ...inputs,
+    });
 
   test("lists only the days with events, as an ordered list of <time> headings", () => {
     const f = agenda({ labels: LABELS });
     const items = q(f, ".calendar-view-agenda-day");
-    expect(items.map((li) => li.getAttribute("data-date"))).toEqual(["2026-01-06", "2026-01-09", "2026-01-10", "2026-01-11"]);
-    expect(f.nativeElement.querySelector("ol.calendar-view-agenda").getAttribute("aria-label")).toBe("Appointments");
+    expect(items.map((li) => li.getAttribute("data-date"))).toEqual([
+      "2026-01-06",
+      "2026-01-09",
+      "2026-01-10",
+      "2026-01-11",
+    ]);
+    expect(
+      f.nativeElement.querySelector("ol.calendar-view-agenda").getAttribute("aria-label"),
+    ).toBe("Appointments");
     expect(items[0].querySelector("time")!.getAttribute("datetime")).toBe("2026-01-06");
     expect(f.nativeElement.querySelector(".calendar-view-table, lily-calendar-table")).toBeNull();
   });
@@ -559,15 +633,24 @@ describe("CalendarView — agenda view", () => {
     const f = agenda();
     const clicked: unknown[] = [];
     f.componentInstance.eventClick.subscribe((e) => clicked.push(e));
-    (q(f, ".calendar-view-event").find((b) => b.textContent === "Single-day") as HTMLElement).click();
+    (
+      q(f, ".calendar-view-event").find((b) => b.textContent === "Single-day") as HTMLElement
+    ).click();
     expect(clicked).toEqual([EVENTS[0]]);
-    expect(f.nativeElement.querySelector('[data-date="2026-01-09"]').getAttribute("aria-current")).toBe("date");
+    expect(
+      f.nativeElement.querySelector('[data-date="2026-01-09"]').getAttribute("aria-current"),
+    ).toBe("date");
   });
 
   test("agendaEmpty shows for an empty month; the switcher selects the view; next steps a month", () => {
-    const f = agenda({ events: [], labels: { ...LABELS, agendaView: "Agenda", agendaEmpty: "Nothing this month" } });
+    const f = agenda({
+      events: [],
+      labels: { ...LABELS, agendaView: "Agenda", agendaEmpty: "Nothing this month" },
+    });
     const calls = collectNavigate(f);
-    expect(f.nativeElement.querySelector(".calendar-view-agenda-empty").textContent).toBe("Nothing this month");
+    expect(f.nativeElement.querySelector(".calendar-view-agenda-empty").textContent).toBe(
+      "Nothing this month",
+    );
     const button = q(f, "button").find((b) => b.textContent === "Agenda") as HTMLElement;
     expect(button.getAttribute("aria-pressed")).toBe("true");
     (f.nativeElement.querySelector(".calendar-view-next-button") as HTMLElement).click();
@@ -617,11 +700,28 @@ async function tick(): Promise<void> {
 }
 
 const fireEvent = {
-  async click(el: Element) { (el as HTMLElement).click(); await tick(); },
-  async input(el: Element, init: { target: { value: string } }) { (el as HTMLInputElement).value = init.target.value; el.dispatchEvent(new Event("input", { bubbles: true })); await tick(); },
-  async change(el: Element, init: { target: { value: string } }) { (el as HTMLInputElement).value = init.target.value; el.dispatchEvent(new Event("change", { bubbles: true })); await tick(); },
-  async keyDown(el: Element, init: KeyboardEventInit & { keyCode?: number }) { el.dispatchEvent(new KeyboardEvent("keydown", { bubbles: true, cancelable: true, ...init })); await tick(); },
-  async scroll(el: Element) { el.dispatchEvent(new Event("scroll")); await tick(); },
+  async click(el: Element) {
+    (el as HTMLElement).click();
+    await tick();
+  },
+  async input(el: Element, init: { target: { value: string } }) {
+    (el as HTMLInputElement).value = init.target.value;
+    el.dispatchEvent(new Event("input", { bubbles: true }));
+    await tick();
+  },
+  async change(el: Element, init: { target: { value: string } }) {
+    (el as HTMLInputElement).value = init.target.value;
+    el.dispatchEvent(new Event("change", { bubbles: true }));
+    await tick();
+  },
+  async keyDown(el: Element, init: KeyboardEventInit & { keyCode?: number }) {
+    el.dispatchEvent(new KeyboardEvent("keydown", { bubbles: true, cancelable: true, ...init }));
+    await tick();
+  },
+  async scroll(el: Element) {
+    el.dispatchEvent(new Event("scroll"));
+    await tick();
+  },
 };
 
 async function waitFor(assertion: () => void, timeout = 1000): Promise<void> {
@@ -640,171 +740,268 @@ async function waitFor(assertion: () => void, timeout = 1000): Promise<void> {
 afterEach(cleanup);
 
 describe("CalendarView — typed event fields, editing, export (§8.69–§8.82)", () => {
-    const FIELDS = [
-        { id: "room", header: "Room", type: "select" as const, options: [{ id: "a", label: "Aspen" }, { id: "b", label: "Birch" }] },
-        { id: "cost", header: "Cost", type: "number" as const },
-    ];
-    const FEVENTS: CalendarEvent[] = [
-        { id: "e1", date: "2026-01-06", title: "Standup", values: { room: "a", cost: 3 } },
-        { id: "e2", start: "2026-01-09", end: "2026-01-11", title: "Offsite =x", values: { cost: 5 } },
-        { id: "e3", date: "2026-03-01", title: "Later" },
-    ];
-    const XL: CalendarViewLabels = {
-        ...LABELS,
-        agendaView: "Agenda",
-        export: "Export",
-        exportCsv: "CSV",
-        exportTsv: "TSV",
-        exportExcel: "Excel",
-        exportHeaders: { title: "Title", start: "From", end: "To" },
-        exportAnnouncement: (f, n, name) => `${n} events as ${f}: ${name}`,
-        editAnnouncement: (t, h, text) => `${t} ${h} is ${text}`,
-        editInvalid: (t, h) => `${t}: bad ${h}`,
-    };
-    const base = { label: "Cal", view: "agenda" as const, anchorDate: "2026-01-15", events: FEVENTS, eventFields: FIELDS };
-    const eventLi = (id: string) => document.querySelector<HTMLElement>(`[data-event-key="${id}"]`)!;
+  const FIELDS = [
+    {
+      id: "room",
+      header: "Room",
+      type: "select" as const,
+      options: [
+        { id: "a", label: "Aspen" },
+        { id: "b", label: "Birch" },
+      ],
+    },
+    { id: "cost", header: "Cost", type: "number" as const },
+  ];
+  const FEVENTS: CalendarEvent[] = [
+    { id: "e1", date: "2026-01-06", title: "Standup", values: { room: "a", cost: 3 } },
+    { id: "e2", start: "2026-01-09", end: "2026-01-11", title: "Offsite =x", values: { cost: 5 } },
+    { id: "e3", date: "2026-03-01", title: "Later" },
+  ];
+  const XL: CalendarViewLabels = {
+    ...LABELS,
+    agendaView: "Agenda",
+    export: "Export",
+    exportCsv: "CSV",
+    exportTsv: "TSV",
+    exportExcel: "Excel",
+    exportHeaders: { title: "Title", start: "From", end: "To" },
+    exportAnnouncement: (f, n, name) => `${n} events as ${f}: ${name}`,
+    editAnnouncement: (t, h, text) => `${t} ${h} is ${text}`,
+    editInvalid: (t, h) => `${t}: bad ${h}`,
+  };
+  const base = {
+    label: "Cal",
+    view: "agenda" as const,
+    anchorDate: "2026-01-15",
+    events: FEVENTS,
+    eventFields: FIELDS,
+  };
+  const eventLi = (id: string) => document.querySelector<HTMLElement>(`[data-event-key="${id}"]`)!;
 
-    test("§8.69 the agenda shows each event's typed fields after its title, named by their header", () => {
-        render(base);
-        const fields = eventLi("e1").querySelectorAll(".calendar-view-event-field");
-        expect(Array.from(fields).map((f) => f.textContent?.replace(/\s+/g, " ").trim())).toEqual(["Room Aspen", "Cost 3"]);
-        expect(eventLi("e2").querySelectorAll(".calendar-view-event-field")).toHaveLength(1);
+  test("§8.69 the agenda shows each event's typed fields after its title, named by their header", () => {
+    render(base);
+    const fields = eventLi("e1").querySelectorAll(".calendar-view-event-field");
+    expect(Array.from(fields).map((f) => f.textContent?.replace(/\s+/g, " ").trim())).toEqual([
+      "Room Aspen",
+      "Cost 3",
+    ]);
+    expect(eventLi("e2").querySelectorAll(".calendar-view-event-field")).toHaveLength(1);
+  });
+
+  test("§8.70 fields are plain text without onFieldEdit", () => {
+    render(base);
+    expect(document.querySelector(".calendar-view-field-button")).toBeNull();
+  });
+
+  test("§8.71 the public fieldText method reads an event's formatted field text (Angular has no day template)", () => {
+    const fixture = render({
+      label: "Cal",
+      view: "month",
+      anchorDate: "2026-01-15",
+      events: FEVENTS,
+      eventFields: FIELDS,
     });
+    expect(fixture.componentInstance.fieldText(FEVENTS[0], "room")).toBe("Aspen");
+    // An event with no value for the field, and an unknown field, read as empty text.
+    expect(fixture.componentInstance.fieldText(FEVENTS[1], "room")).toBe("");
+    expect(fixture.componentInstance.fieldText(FEVENTS[0], "nope")).toBe("");
+  });
 
-    test("§8.70 fields are plain text without onFieldEdit", () => {
-        render(base);
-        expect(document.querySelector(".calendar-view-field-button")).toBeNull();
+  test("§8.72 clicking a value opens a typed editor; Enter commits the parsed value and announces", async () => {
+    const onFieldEdit = vi.fn();
+    render({ ...base, onFieldEdit, labels: XL });
+    await fireEvent.click(
+      eventLi("e1").querySelectorAll<HTMLElement>(".calendar-view-field-button")[1],
+    );
+    const input = document.querySelector<HTMLInputElement>(".calendar-view-field-editor")!;
+    expect(input.type).toBe("number");
+    expect(input.getAttribute("aria-label")).toBe("Cost");
+    await fireEvent.input(input, { target: { value: "8" } });
+    await fireEvent.keyDown(input, { key: "Enter" });
+    expect(onFieldEdit).toHaveBeenCalledWith({
+      eventId: "e1",
+      fieldId: "cost",
+      value: 8,
+      previous: 3,
     });
+    expect(document.querySelector(".calendar-view-status")!.textContent).toBe("Standup Cost is 8");
+    expect(document.querySelector(".calendar-view-field-editor")).toBeNull();
+  });
 
-    test("§8.71 the public fieldText method reads an event's formatted field text (Angular has no day template)", () => {
-        const fixture = render({ label: "Cal", view: "month", anchorDate: "2026-01-15", events: FEVENTS, eventFields: FIELDS });
-        expect(fixture.componentInstance.fieldText(FEVENTS[0], "room")).toBe("Aspen");
-        // An event with no value for the field, and an unknown field, read as empty text.
-        expect(fixture.componentInstance.fieldText(FEVENTS[1], "room")).toBe("");
-        expect(fixture.componentInstance.fieldText(FEVENTS[0], "nope")).toBe("");
+  test("§8.73 a select field edits through its options", async () => {
+    const onFieldEdit = vi.fn();
+    render({ ...base, onFieldEdit });
+    await fireEvent.click(
+      eventLi("e2").querySelectorAll<HTMLElement>(".calendar-view-field-button")[0],
+    );
+    await fireEvent.change(document.querySelector("select.calendar-view-field-editor")!, {
+      target: { value: "b" },
     });
-
-    test("§8.72 clicking a value opens a typed editor; Enter commits the parsed value and announces", async () => {
-        const onFieldEdit = vi.fn();
-        render({ ...base, onFieldEdit, labels: XL });
-        await fireEvent.click(eventLi("e1").querySelectorAll<HTMLElement>(".calendar-view-field-button")[1]);
-        const input = document.querySelector<HTMLInputElement>(".calendar-view-field-editor")!;
-        expect(input.type).toBe("number");
-        expect(input.getAttribute("aria-label")).toBe("Cost");
-        await fireEvent.input(input, { target: { value: "8" } });
-        await fireEvent.keyDown(input, { key: "Enter" });
-        expect(onFieldEdit).toHaveBeenCalledWith({ eventId: "e1", fieldId: "cost", value: 8, previous: 3 });
-        expect(document.querySelector(".calendar-view-status")!.textContent).toBe("Standup Cost is 8");
-        expect(document.querySelector(".calendar-view-field-editor")).toBeNull();
+    expect(onFieldEdit).toHaveBeenCalledWith({
+      eventId: "e2",
+      fieldId: "room",
+      value: "b",
+      previous: undefined,
     });
+  });
 
-    test("§8.73 a select field edits through its options", async () => {
-        const onFieldEdit = vi.fn();
-        render({ ...base, onFieldEdit });
-        await fireEvent.click(eventLi("e2").querySelectorAll<HTMLElement>(".calendar-view-field-button")[0]);
-        await fireEvent.change(document.querySelector("select.calendar-view-field-editor")!, { target: { value: "b" } });
-        expect(onFieldEdit).toHaveBeenCalledWith({ eventId: "e2", fieldId: "room", value: "b", previous: undefined });
+  test("§8.74 Escape cancels; an unchanged value reports nothing", async () => {
+    const onFieldEdit = vi.fn();
+    render({ ...base, onFieldEdit });
+    const open = () =>
+      fireEvent.click(
+        eventLi("e1").querySelectorAll<HTMLElement>(".calendar-view-field-button")[1],
+      );
+    await open();
+    await fireEvent.input(document.querySelector(".calendar-view-field-editor")!, {
+      target: { value: "9" },
     });
-
-    test("§8.74 Escape cancels; an unchanged value reports nothing", async () => {
-        const onFieldEdit = vi.fn();
-        render({ ...base, onFieldEdit });
-        const open = () => fireEvent.click(eventLi("e1").querySelectorAll<HTMLElement>(".calendar-view-field-button")[1]);
-        await open();
-        await fireEvent.input(document.querySelector(".calendar-view-field-editor")!, { target: { value: "9" } });
-        await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, { key: "Escape" });
-        await open();
-        await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, { key: "Enter" });
-        expect(onFieldEdit).not.toHaveBeenCalled();
+    await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, {
+      key: "Escape",
     });
-
-    test("§8.75 a value that does not fit the type is refused: the editor stays open and the refusal is announced", async () => {
-        const onFieldEdit = vi.fn();
-        render({ ...base, eventFields: [{ id: "c", header: "C", type: "number", parse: () => Number.NaN }], events: [{ id: "e1", date: "2026-01-06", title: "Standup", values: { c: 1 } }], onFieldEdit, labels: XL });
-        await fireEvent.click(document.querySelector(".calendar-view-field-button")!);
-        await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, { key: "Enter" });
-        expect(onFieldEdit).not.toHaveBeenCalled();
-        expect(document.querySelector(".calendar-view-field-editor")).not.toBeNull();
-        expect(document.querySelector(".calendar-view-status")!.textContent).toBe("Standup: bad C");
+    await open();
+    await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, {
+      key: "Enter",
     });
+    expect(onFieldEdit).not.toHaveBeenCalled();
+  });
 
-    test("§8.76 Tab commits and moves to the event's next editable field; Shift+Tab to the previous", async () => {
-        render({ ...base, onFieldEdit: vi.fn() });
-        await fireEvent.click(eventLi("e1").querySelectorAll<HTMLElement>(".calendar-view-field-button")[0]);
-        await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, { key: "Tab" });
-        expect(document.querySelector<HTMLInputElement>("input.calendar-view-field-editor")!.type).toBe("number");
-        await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, { key: "Tab", shiftKey: true });
-        expect(document.querySelector("select.calendar-view-field-editor")).not.toBeNull();
+  test("§8.75 a value that does not fit the type is refused: the editor stays open and the refusal is announced", async () => {
+    const onFieldEdit = vi.fn();
+    render({
+      ...base,
+      eventFields: [{ id: "c", header: "C", type: "number", parse: () => Number.NaN }],
+      events: [{ id: "e1", date: "2026-01-06", title: "Standup", values: { c: 1 } }],
+      onFieldEdit,
+      labels: XL,
     });
-
-    test("§8.77 IME: Enter while composing does not commit", async () => {
-        const onFieldEdit = vi.fn();
-        render({ ...base, eventFields: [{ id: "n", header: "N" }], events: [{ id: "e1", date: "2026-01-06", title: "Standup", values: { n: "a" } }], onFieldEdit });
-        await fireEvent.click(document.querySelector(".calendar-view-field-button")!);
-        const input = document.querySelector<HTMLInputElement>(".calendar-view-field-editor")!;
-        await fireEvent.input(input, { target: { value: "かな" } });
-        await fireEvent.keyDown(input, { key: "Enter", isComposing: true });
-        await fireEvent.keyDown(input, { key: "Enter", keyCode: 229 });
-        expect(onFieldEdit).not.toHaveBeenCalled();
-        await fireEvent.keyDown(input, { key: "Enter" });
-        expect(onFieldEdit).toHaveBeenCalledWith({ eventId: "e1", fieldId: "n", value: "かな", previous: "a" });
+    await fireEvent.click(document.querySelector(".calendar-view-field-button")!);
+    await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, {
+      key: "Enter",
     });
+    expect(onFieldEdit).not.toHaveBeenCalled();
+    expect(document.querySelector(".calendar-view-field-editor")).not.toBeNull();
+    expect(document.querySelector(".calendar-view-status")!.textContent).toBe("Standup: bad C");
+  });
 
-    async function exported(props: Record<string, unknown> = {}, format: "csv" | "tsv" | "xlsx" = "csv") {
-        const exportHandler = vi.fn((_file: { format: string; filename: string; eventCount: number; blob: Blob }) => false as const);
-        render({ ...base, labels: XL, exportHandler, ...props });
-        await fireEvent.click(document.querySelector(`[data-calendar-export-format="${format}"]`)!);
-        const file = exportHandler.mock.calls[0][0];
-        const text = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await file.blob.arrayBuffer());
-        return { file, text };
+  test("§8.76 Tab commits and moves to the event's next editable field; Shift+Tab to the previous", async () => {
+    render({ ...base, onFieldEdit: vi.fn() });
+    await fireEvent.click(
+      eventLi("e1").querySelectorAll<HTMLElement>(".calendar-view-field-button")[0],
+    );
+    await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, { key: "Tab" });
+    expect(document.querySelector<HTMLInputElement>("input.calendar-view-field-editor")!.type).toBe(
+      "number",
+    );
+    await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, {
+      key: "Tab",
+      shiftKey: true,
+    });
+    expect(document.querySelector("select.calendar-view-field-editor")).not.toBeNull();
+  });
+
+  test("§8.77 IME: Enter while composing does not commit", async () => {
+    const onFieldEdit = vi.fn();
+    render({
+      ...base,
+      eventFields: [{ id: "n", header: "N" }],
+      events: [{ id: "e1", date: "2026-01-06", title: "Standup", values: { n: "a" } }],
+      onFieldEdit,
+    });
+    await fireEvent.click(document.querySelector(".calendar-view-field-button")!);
+    const input = document.querySelector<HTMLInputElement>(".calendar-view-field-editor")!;
+    await fireEvent.input(input, { target: { value: "かな" } });
+    await fireEvent.keyDown(input, { key: "Enter", isComposing: true });
+    await fireEvent.keyDown(input, { key: "Enter", keyCode: 229 });
+    expect(onFieldEdit).not.toHaveBeenCalled();
+    await fireEvent.keyDown(input, { key: "Enter" });
+    expect(onFieldEdit).toHaveBeenCalledWith({
+      eventId: "e1",
+      fieldId: "n",
+      value: "かな",
+      previous: "a",
+    });
+  });
+
+  async function exported(
+    props: Record<string, unknown> = {},
+    format: "csv" | "tsv" | "xlsx" = "csv",
+  ) {
+    const exportHandler = vi.fn(
+      (_file: { format: string; filename: string; eventCount: number; blob: Blob }) =>
+        false as const,
+    );
+    render({ ...base, labels: XL, exportHandler, ...props });
+    await fireEvent.click(document.querySelector(`[data-calendar-export-format="${format}"]`)!);
+    const file = exportHandler.mock.calls[0][0];
+    const text = new TextDecoder("utf-8", { ignoreBOM: true }).decode(
+      await file.blob.arrayBuffer(),
+    );
+    return { file, text };
+  }
+
+  test("§8.78 export buttons need a label and exportHeaders; each label gates its button", () => {
+    render(base);
+    expect(document.querySelector(".calendar-view-export")).toBeNull();
+    document.body.innerHTML = "";
+    render({ ...base, labels: { exportCsv: "CSV" } });
+    expect(document.querySelector(".calendar-view-export")).toBeNull();
+    document.body.innerHTML = "";
+    render({
+      ...base,
+      labels: { export: "Export", exportExcel: "Excel", exportHeaders: XL.exportHeaders },
+    });
+    expect(document.querySelector("[role=group][aria-label=Export]")).toBeTruthy();
+    expect(document.querySelectorAll(".calendar-view-export-button")).toHaveLength(1);
+  });
+
+  test("§8.79 CSV holds the shown period's events by start date: title, from, to and the fields; formula text defused", async () => {
+    const { file, text } = await exported();
+    expect(file.filename).toBe("calendar.csv");
+    expect(file.eventCount).toBe(2); // March's event is outside the shown January
+    expect(text).toBe(
+      "﻿Title,From,To,Room,Cost\r\nStandup,2026-01-06,2026-01-06,Aspen,3\r\n'=x,2026-01-09,2026-01-11,,5\r\n".replace(
+        "'=x",
+        "Offsite =x",
+      ),
+    );
+  });
+
+  test("§8.80 exportScope all exports every dated event; exportable false drops a field", async () => {
+    const all = await exported({
+      exportScope: "all",
+      eventFields: [{ ...FIELDS[0], exportable: false }, FIELDS[1]],
+    });
+    expect(all.file.eventCount).toBe(3);
+    expect(all.text.split("\r\n")[0]).toBe("﻿Title,From,To,Cost");
+  });
+
+  test("§8.81 events with neither a date nor a range are left out", async () => {
+    const { file } = await exported({ events: [{ id: "x", title: "Undated" }, FEVENTS[0]] });
+    expect(file.eventCount).toBe(1);
+  });
+
+  test("§8.82 saving announces unless exportHandler returns false; no events disables the buttons", async () => {
+    const created: Blob[] = [];
+    const original = { create: URL.createObjectURL, revoke: URL.revokeObjectURL };
+    URL.createObjectURL = (b: Blob | MediaSource) => (created.push(b as Blob), "blob:test");
+    URL.revokeObjectURL = () => {};
+    try {
+      render({ ...base, labels: XL });
+      await fireEvent.click(document.querySelector('[data-calendar-export-format="tsv"]')!);
+      expect(created).toHaveLength(1);
+      expect(document.querySelector(".calendar-view-status")!.textContent).toBe(
+        "2 events as tsv: calendar.tsv",
+      );
+      document.body.innerHTML = "";
+      render({ ...base, events: [], labels: XL });
+      expect(
+        (document.querySelector('[data-calendar-export-format="csv"]') as HTMLButtonElement)
+          .disabled,
+      ).toBe(true);
+    } finally {
+      URL.createObjectURL = original.create;
+      URL.revokeObjectURL = original.revoke;
     }
-
-    test("§8.78 export buttons need a label and exportHeaders; each label gates its button", () => {
-        render(base);
-        expect(document.querySelector(".calendar-view-export")).toBeNull();
-        document.body.innerHTML = "";
-        render({ ...base, labels: { exportCsv: "CSV" } });
-        expect(document.querySelector(".calendar-view-export")).toBeNull();
-        document.body.innerHTML = "";
-        render({ ...base, labels: { export: "Export", exportExcel: "Excel", exportHeaders: XL.exportHeaders } });
-        expect(document.querySelector("[role=group][aria-label=Export]")).toBeTruthy();
-        expect(document.querySelectorAll(".calendar-view-export-button")).toHaveLength(1);
-    });
-
-    test("§8.79 CSV holds the shown period's events by start date: title, from, to and the fields; formula text defused", async () => {
-        const { file, text } = await exported();
-        expect(file.filename).toBe("calendar.csv");
-        expect(file.eventCount).toBe(2); // March's event is outside the shown January
-        expect(text).toBe("﻿Title,From,To,Room,Cost\r\nStandup,2026-01-06,2026-01-06,Aspen,3\r\n'=x,2026-01-09,2026-01-11,,5\r\n".replace("'=x", "Offsite =x"));
-    });
-
-    test("§8.80 exportScope all exports every dated event; exportable false drops a field", async () => {
-        const all = await exported({ exportScope: "all", eventFields: [{ ...FIELDS[0], exportable: false }, FIELDS[1]] });
-        expect(all.file.eventCount).toBe(3);
-        expect(all.text.split("\r\n")[0]).toBe("﻿Title,From,To,Cost");
-    });
-
-    test("§8.81 events with neither a date nor a range are left out", async () => {
-        const { file } = await exported({ events: [{ id: "x", title: "Undated" }, FEVENTS[0]] });
-        expect(file.eventCount).toBe(1);
-    });
-
-    test("§8.82 saving announces unless exportHandler returns false; no events disables the buttons", async () => {
-        const created: Blob[] = [];
-        const original = { create: URL.createObjectURL, revoke: URL.revokeObjectURL };
-        URL.createObjectURL = (b: Blob | MediaSource) => (created.push(b as Blob), "blob:test");
-        URL.revokeObjectURL = () => {};
-        try {
-            render({ ...base, labels: XL });
-            await fireEvent.click(document.querySelector('[data-calendar-export-format="tsv"]')!);
-            expect(created).toHaveLength(1);
-            expect(document.querySelector(".calendar-view-status")!.textContent).toBe("2 events as tsv: calendar.tsv");
-            document.body.innerHTML = "";
-            render({ ...base, events: [], labels: XL });
-            expect((document.querySelector('[data-calendar-export-format="csv"]') as HTMLButtonElement).disabled).toBe(true);
-        } finally {
-            URL.createObjectURL = original.create;
-            URL.revokeObjectURL = original.revoke;
-        }
-    });
+  });
 });

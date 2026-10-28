@@ -29,7 +29,19 @@ export {
   valueArity,
 } from "./filter-model";
 export type {
-  FilterCombinator, FilterField, FilterFieldType, FilterGroup, FilterJson, FilterNode, FilterOperator, FilterOption, FilterOutputFormat, FilterRule,
-  RuleIssue, SqlDialect, SqlOptions, SqlResult,
+  FilterCombinator,
+  FilterField,
+  FilterFieldType,
+  FilterGroup,
+  FilterJson,
+  FilterNode,
+  FilterOperator,
+  FilterOption,
+  FilterOutputFormat,
+  FilterRule,
+  RuleIssue,
+  SqlDialect,
+  SqlOptions,
+  SqlResult,
 } from "./filter-model";
 export { foldText, highlightSegments, matchesSearch, searchTerms } from "./search-text";

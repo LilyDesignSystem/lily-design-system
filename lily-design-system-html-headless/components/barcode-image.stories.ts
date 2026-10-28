@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<img
   class="barcode-image"
@@ -7,9 +7,9 @@ const html = `<img
 >`;
 
 const meta = {
-  title: 'Headless/BarcodeImage',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/BarcodeImage",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

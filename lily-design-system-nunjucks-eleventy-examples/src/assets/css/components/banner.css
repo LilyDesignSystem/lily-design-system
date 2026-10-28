@@ -9,4 +9,6 @@
   border-bottom: 4px solid var(--nhsuk-dark-blue);
 }
 
-.banner a { color: var(--nhsuk-white); }
+.banner a {
+  color: var(--nhsuk-white);
+}

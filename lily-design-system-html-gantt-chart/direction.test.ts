@@ -14,7 +14,8 @@ describe("direction", () => {
         expect(isRtl(document.getElementById("x"))).toBe(false);
     });
     test("the nearest dir attribute wins", () => {
-        document.body.innerHTML = '<div dir="rtl"><div id=a></div><div dir="ltr"><div id=b></div></div></div>';
+        document.body.innerHTML =
+            '<div dir="rtl"><div id=a></div><div dir="ltr"><div id=b></div></div></div>';
         expect(isRtl(document.getElementById("a"))).toBe(true);
         expect(isRtl(document.getElementById("b"))).toBe(false);
     });

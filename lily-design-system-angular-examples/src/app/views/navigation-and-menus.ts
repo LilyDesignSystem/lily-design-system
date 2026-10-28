@@ -32,6 +32,4 @@ import { HamburgerMenu } from "../components/HamburgerMenu";
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class NavigationAndMenusPage {
-
-}
+export default class NavigationAndMenusPage {}

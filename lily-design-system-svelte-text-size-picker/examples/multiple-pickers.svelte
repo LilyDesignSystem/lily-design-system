@@ -15,26 +15,26 @@
   <html> element.
 -->
 <script lang="ts">
-  import TextSizePicker from "../TextSizePicker.svelte";
+    import TextSizePicker from "../TextSizePicker.svelte";
 
-  let mainRegion: HTMLElement | undefined = $state();
-  let sidebarRegion: HTMLElement | undefined = $state();
+    let mainRegion: HTMLElement | undefined = $state();
+    let sidebarRegion: HTMLElement | undefined = $state();
 </script>
 
 <section bind:this={mainRegion}>
-  <TextSizePicker
-    label="Main content text size"
-    name="main-text-size"
-    sizes={["small", "medium", "large", "x-large"]}
-    target={mainRegion}
-  />
+    <TextSizePicker
+        label="Main content text size"
+        name="main-text-size"
+        sizes={["small", "medium", "large", "x-large"]}
+        target={mainRegion}
+    />
 </section>
 
 <aside bind:this={sidebarRegion}>
-  <TextSizePicker
-    label="Sidebar text size"
-    name="sidebar-text-size"
-    sizes={["small", "medium", "large"]}
-    target={sidebarRegion}
-  />
+    <TextSizePicker
+        label="Sidebar text size"
+        name="sidebar-text-size"
+        sizes={["small", "medium", "large"]}
+        target={sidebarRegion}
+    />
 </aside>

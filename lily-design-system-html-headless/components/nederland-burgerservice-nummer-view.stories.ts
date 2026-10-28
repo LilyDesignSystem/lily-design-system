@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<span
   class="nederland-burgerservice-nummer-view"
@@ -6,9 +6,9 @@ const html = `<span
 >sample-value</span>`;
 
 const meta = {
-  title: 'Headless/NederlandBurgerserviceNummerView',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/NederlandBurgerserviceNummerView",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

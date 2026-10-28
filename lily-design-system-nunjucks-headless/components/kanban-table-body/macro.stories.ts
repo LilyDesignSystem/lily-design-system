@@ -1,12 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<tbody
   class="kanban-table-body"></tbody>`;
 
 const meta = {
-  title: 'Headless/KanbanTableBody',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/KanbanTableBody",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

@@ -20,10 +20,10 @@ const showCompleted = ref(true);
 
 const completedCount = computed(() => tasks.value.filter((t) => t.done).length);
 const percent = computed(() =>
-    tasks.value.length > 0 ? Math.round((completedCount.value / tasks.value.length) * 100) : 0
+    tasks.value.length > 0 ? Math.round((completedCount.value / tasks.value.length) * 100) : 0,
 );
 const visibleTasks = computed(() =>
-    showCompleted.value ? tasks.value : tasks.value.filter((t) => !t.done)
+    showCompleted.value ? tasks.value : tasks.value.filter((t) => !t.done),
 );
 
 function priorityBadgeType(p: string): string {
@@ -58,16 +58,28 @@ function toggleTask(id: number) {
             <Badge>{{ tasks.length - completedCount }} remaining</Badge>
         </div>
 
-        <Progress label="Overall completion" :value="percent" :max="100" />
+        <Progress
+            label="Overall completion"
+            :value="percent"
+            :max="100"
+        />
         <p>{{ percent }}% complete</p>
 
         <div class="section">
-            <TextInput label="New task title" v-model="newTitle" placeholder="Enter a task..." />
+            <TextInput
+                label="New task title"
+                v-model="newTitle"
+                placeholder="Enter a task..."
+            />
             <Button @click="addTask">Add Task</Button>
         </div>
 
         <div class="section">
-            <CheckboxInput label="Show completed tasks" :checked="showCompleted" @change="showCompleted = !showCompleted" />
+            <CheckboxInput
+                label="Show completed tasks"
+                :checked="showCompleted"
+                @change="showCompleted = !showCompleted"
+            />
             <span>Show completed</span>
         </div>
 
@@ -85,7 +97,11 @@ function toggleTask(id: number) {
 
         <h2>Priority Overview</h2>
         <div>
-            <Badge v-for="p in ['high', 'medium', 'low']" :key="p" :type="priorityBadgeType(p)">
+            <Badge
+                v-for="p in ['high', 'medium', 'low']"
+                :key="p"
+                :type="priorityBadgeType(p)"
+            >
                 {{ p }}: {{ tasks.filter((t) => t.priority === p).length }}
             </Badge>
         </div>

@@ -1,6 +1,11 @@
 import { describe, expect, test } from "vitest";
 import { components } from "../../app/data/components";
-import { suffixPatternOf, SUFFIX_LABEL, SUFFIX_PATTERNS, STANDALONE_ID } from "../../app/data/suffix-pattern";
+import {
+    suffixPatternOf,
+    SUFFIX_LABEL,
+    SUFFIX_PATTERNS,
+    STANDALONE_ID,
+} from "../../app/data/suffix-pattern";
 
 describe("suffixPatternOf", () => {
     test("matches the most specific (longest) suffix first", () => {

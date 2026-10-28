@@ -12,4 +12,6 @@
   font-weight: var(--nhsuk-font-weight-bold);
 }
 
-.medical-banner-box-for-danger > :last-child { margin-bottom: 0; }
+.medical-banner-box-for-danger > :last-child {
+  margin-bottom: 0;
+}

@@ -6,12 +6,12 @@
   decorative.
 -->
 <script lang="ts">
-  import MenuPicker from "../MenuPicker.svelte";
+    import MenuPicker from "../MenuPicker.svelte";
 </script>
 
 <MenuPicker label="More">
-  {#snippet icon({ open })}
-    <span aria-hidden="true">{open ? "×" : "⋯"}</span>
-  {/snippet}
-  <a href="/help/">Help</a>
+    {#snippet icon({ open })}
+        <span aria-hidden="true">{open ? "×" : "⋯"}</span>
+    {/snippet}
+    <a href="/help/">Help</a>
 </MenuPicker>

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<pre
   class="code-block"
@@ -8,9 +8,9 @@ const html = `<pre
 </pre>`;
 
 const meta = {
-  title: 'Headless/CodeBlock',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/CodeBlock",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

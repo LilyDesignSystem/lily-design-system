@@ -33,7 +33,10 @@ export default function CustomGlyphSharePicker() {
             copyFailedLabel="Could not copy — copy it from the address bar"
         >
             {({ open }) => (
-                <span aria-hidden="true" data-open={open ? "" : undefined}>
+                <span
+                    aria-hidden="true"
+                    data-open={open ? "" : undefined}
+                >
                     {open ? "▾" : "▸"}
                 </span>
             )}

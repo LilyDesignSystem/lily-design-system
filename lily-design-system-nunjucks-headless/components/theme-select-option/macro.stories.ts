@@ -1,13 +1,13 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<option
   class="theme-select-option"
   value=""></option>`;
 
 const meta = {
-  title: 'Headless/ThemeSelectOption',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/ThemeSelectOption",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

@@ -165,11 +165,17 @@ describe("LinkPicker", () => {
 
     test("7.14 current marks only that link aria-current=page", () => {
         const w = build({ links: [LINKS[0], { ...LINKS[1], current: true }, LINKS[2]] });
-        expect(anchors(w).map((a) => a.attributes("aria-current") ?? null)).toEqual([null, "page", null]);
+        expect(anchors(w).map((a) => a.attributes("aria-current") ?? null)).toEqual([
+            null,
+            "page",
+            null,
+        ]);
     });
 
     test("7.15 newTab adds target and rel", () => {
-        const w = build({ links: [{ label: "Docs", href: "https://example.test/", newTab: true }, LINKS[0]] });
+        const w = build({
+            links: [{ label: "Docs", href: "https://example.test/", newTab: true }, LINKS[0]],
+        });
         expect(anchors(w)[0].attributes("target")).toBe("_blank");
         expect(anchors(w)[0].attributes("rel")).toBe("noopener noreferrer");
         expect(anchors(w)[1].attributes("target")).toBeUndefined();
@@ -183,13 +189,19 @@ describe("LinkPicker", () => {
         await flush();
         await parts(w).button.trigger("click");
         await anchors(w)[1].trigger("click");
-        expect(w.emitted("navigate")).toEqual([["about", "/about/"], ["/", "/"]]);
+        expect(w.emitted("navigate")).toEqual([
+            ["about", "/about/"],
+            ["/", "/"],
+        ]);
         expect(linkId({ label: "x", href: "/y" })).toBe("/y");
     });
 
     test("7.17 navigate handles a plain left click only", async () => {
         const navigate = vi.fn();
-        const w = build({ navigate, links: [LINKS[1], { label: "Docs", href: "https://example.test/", newTab: true }] });
+        const w = build({
+            navigate,
+            links: [LINKS[1], { label: "Docs", href: "https://example.test/", newTab: true }],
+        });
         await parts(w).button.trigger("click");
         const plain = new MouseEvent("click", { bubbles: true, cancelable: true, button: 0 });
         anchors(w)[0].element.dispatchEvent(plain);
@@ -198,7 +210,12 @@ describe("LinkPicker", () => {
         navigate.mockClear();
         await flush();
         await parts(w).button.trigger("click");
-        const ctrl = new MouseEvent("click", { bubbles: true, cancelable: true, button: 0, ctrlKey: true });
+        const ctrl = new MouseEvent("click", {
+            bubbles: true,
+            cancelable: true,
+            button: 0,
+            ctrlKey: true,
+        });
         anchors(w)[0].element.dispatchEvent(ctrl);
         expect(navigate).not.toHaveBeenCalled();
         expect(ctrl.defaultPrevented).toBe(false);
@@ -272,7 +289,10 @@ describe("LinkPicker — open state and disabled", () => {
     const settle = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
     const mounted: VueWrapper[] = [];
     const make = (extra: Record<string, unknown> = {}) => {
-        const wrapper = mount(LinkPicker, { props: { ...{ label: "Pages", links: LINKS }, ...extra }, attachTo: document.body });
+        const wrapper = mount(LinkPicker, {
+            props: { ...{ label: "Pages", links: LINKS }, ...extra },
+            attachTo: document.body,
+        });
         mounted.push(wrapper);
         return wrapper;
     };
@@ -300,7 +320,9 @@ describe("LinkPicker — open state and disabled", () => {
 
     test("v-model:open: a click asks for the change and the parent applies it", async () => {
         const wrapper = make({ open: false });
-        await wrapper.setProps({ "onUpdate:open": (v: boolean) => wrapper.setProps({ open: v }) } as never);
+        await wrapper.setProps({
+            "onUpdate:open": (v: boolean) => wrapper.setProps({ open: v }),
+        } as never);
         button().click();
         await settle();
         expect(button().getAttribute("aria-expanded")).toBe("true");
@@ -321,4 +343,3 @@ describe("LinkPicker — open state and disabled", () => {
         expect(button().getAttribute("aria-expanded")).toBe("false");
     });
 });
-

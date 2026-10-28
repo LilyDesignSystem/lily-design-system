@@ -46,7 +46,8 @@ function setup(attrs: Record<string, string | true> = {}, props: { labels?: obje
     document.body.append(el);
     const textarea = el.querySelector("textarea") as HTMLTextAreaElement;
     const buttons = () => Array.from(el.querySelectorAll<HTMLButtonElement>("button"));
-    const button = (name: string) => el.querySelector<HTMLButtonElement>(`button[aria-label="${name}"]`)!;
+    const button = (name: string) =>
+        el.querySelector<HTMLButtonElement>(`button[aria-label="${name}"]`)!;
     return { el, textarea, buttons, button };
 }
 
@@ -76,11 +77,16 @@ describe("structure", () => {
     test("renders one named button per labelled tool, in the default order", () => {
         const { buttons } = setup();
         expect(buttons().map((b) => b.getAttribute("data-tool"))).toEqual([...TOOL_IDS]);
-        expect(buttons().map((b) => b.getAttribute("aria-label"))).toEqual(TOOL_IDS.map((t) => (labels as Record<string, string>)[t]));
+        expect(buttons().map((b) => b.getAttribute("aria-label"))).toEqual(
+            TOOL_IDS.map((t) => (labels as Record<string, string>)[t]),
+        );
     });
 
     test("every button carries its group", () => {
-        for (const b of setup().buttons()) expect(b.getAttribute("data-group")).toBe(TOOL_GROUPS[b.getAttribute("data-tool") as keyof typeof TOOL_GROUPS]);
+        for (const b of setup().buttons())
+            expect(b.getAttribute("data-group")).toBe(
+                TOOL_GROUPS[b.getAttribute("data-tool") as keyof typeof TOOL_GROUPS],
+            );
     });
 
     test("omits a tool that has no label", () => {
@@ -88,7 +94,11 @@ describe("structure", () => {
     });
 
     test("honours the tools attribute for subset and order", () => {
-        expect(setup({ tools: "contact todo" }).buttons().map((b) => b.getAttribute("data-tool"))).toEqual(["contact", "todo"]);
+        expect(
+            setup({ tools: "contact todo" })
+                .buttons()
+                .map((b) => b.getAttribute("data-tool")),
+        ).toEqual(["contact", "todo"]);
     });
 
     test("ignores an unknown tool id", () => {
@@ -110,17 +120,25 @@ describe("structure", () => {
 
     test("icons are decorative and draw one path each", () => {
         const { el } = setup();
-        for (const svg of Array.from(el.querySelectorAll("svg"))) expect(svg.getAttribute("aria-hidden")).toBe("true");
+        for (const svg of Array.from(el.querySelectorAll("svg")))
+            expect(svg.getAttribute("aria-hidden")).toBe("true");
         expect(el.querySelectorAll("svg path").length).toBe(TOOL_IDS.length);
     });
 
     test("the toolbar controls the textarea", () => {
         const { el, textarea } = setup();
-        expect(el.querySelector('[role="toolbar"]')!.getAttribute("aria-controls")).toBe(textarea.id);
+        expect(el.querySelector('[role="toolbar"]')!.getAttribute("aria-controls")).toBe(
+            textarea.id,
+        );
     });
 
     test("passes name, rows, placeholder, required through to the textarea", () => {
-        const { textarea } = setup({ name: "body", rows: "6", placeholder: "Type", required: true });
+        const { textarea } = setup({
+            name: "body",
+            rows: "6",
+            placeholder: "Type",
+            required: true,
+        });
         expect(textarea.name).toBe("body");
         expect(textarea.rows).toBe(6);
         expect(textarea.placeholder).toBe("Type");
@@ -128,7 +146,9 @@ describe("structure", () => {
     });
 
     test("the host class goes onto the root after the base class", () => {
-        expect(setup({ class: "mine" }).el.querySelector(".org-editor")!.getAttribute("class")).toBe("org-editor mine");
+        expect(
+            setup({ class: "mine" }).el.querySelector(".org-editor")!.getAttribute("class"),
+        ).toBe("org-editor mine");
     });
 
     test("ships no English of its own: no labels, no buttons, no placeholder", () => {
@@ -217,11 +237,13 @@ describe("tools", () => {
         select(textarea, 0, 5);
         button("Link").click();
         expect(textarea.value).toBe("[[https://][hello]] world");
-        expect(textarea.value.slice(textarea.selectionStart, textarea.selectionEnd)).toBe("https://");
+        expect(textarea.value.slice(textarea.selectionStart, textarea.selectionEnd)).toBe(
+            "https://",
+        );
     });
 
     test("heading uses the headingLevel", () => {
-        const { textarea, button } = setup({ value: "hello world", ...{"heading-level": "2"} });
+        const { textarea, button } = setup({ value: "hello world", ...{ "heading-level": "2" } });
         select(textarea, 0, 0);
         button("Heading").click();
         expect(textarea.value).toBe("** hello world");
@@ -267,7 +289,10 @@ describe("tools", () => {
     });
 
     test("the keywords are an option", () => {
-        const { textarea, button } = setup({ value: "* Ship", ...{"todo-keywords": "NEXT DONE"} });
+        const { textarea, button } = setup({
+            value: "* Ship",
+            ...{ "todo-keywords": "NEXT DONE" },
+        });
         select(textarea, 0, 0);
         button("Task").click();
         expect(textarea.value).toBe("* NEXT Ship");
@@ -285,7 +310,9 @@ describe("tools", () => {
         select(textarea, 0, 0);
         button("Scheduled").click();
         expect(textarea.value).toBe("* Ship\nSCHEDULED: <2026-10-24 Sat>\nbody");
-        expect(textarea.value.slice(textarea.selectionStart, textarea.selectionEnd)).toBe("2026-10-24 Sat");
+        expect(textarea.value.slice(textarea.selectionStart, textarea.selectionEnd)).toBe(
+            "2026-10-24 Sat",
+        );
     });
 
     test("scheduled again removes it", () => {
@@ -349,14 +376,14 @@ describe("tools", () => {
     });
 
     test("property adds a drawer with the key, and the key is an option", () => {
-        const { textarea, button } = setup({ value: "* Ship", ...{"property-key": "CUSTOM_ID"} });
+        const { textarea, button } = setup({ value: "* Ship", ...{ "property-key": "CUSTOM_ID" } });
         select(textarea, 0, 0);
         button("Property").click();
         expect(textarea.value).toBe("* Ship\n:PROPERTIES:\n:CUSTOM_ID: \n:END:");
     });
 
     test("drawer wraps the lines, and the name is an option", () => {
-        const { textarea, button } = setup({ value: "note", ...{"drawer-name": "NOTES"} });
+        const { textarea, button } = setup({ value: "note", ...{ "drawer-name": "NOTES" } });
         select(textarea, 0, 4);
         button("Drawer").click();
         expect(textarea.value).toBe(":NOTES:\nnote\n:END:");
@@ -366,11 +393,16 @@ describe("tools", () => {
         const { textarea, button } = setup({ value: "Ada Lovelace", ...{} });
         select(textarea, 0, 12);
         button("Contact").click();
-        expect(textarea.value).toBe("* Ada Lovelace\n:PROPERTIES:\n:EMAIL: \n:PHONE: \n:ADDRESS: \n:BIRTHDAY: \n:END:");
+        expect(textarea.value).toBe(
+            "* Ada Lovelace\n:PROPERTIES:\n:EMAIL: \n:PHONE: \n:ADDRESS: \n:BIRTHDAY: \n:END:",
+        );
     });
 
     test("the contact properties are an option", () => {
-        const { textarea, button } = setup({ value: "Ada", ...{"contact-properties": "NICKNAME"} });
+        const { textarea, button } = setup({
+            value: "Ada",
+            ...{ "contact-properties": "NICKNAME" },
+        });
         select(textarea, 0, 3);
         button("Contact").click();
         expect(textarea.value).toBe("* Ada\n:PROPERTIES:\n:NICKNAME: \n:END:");
@@ -450,7 +482,9 @@ describe("shortcuts", () => {
 
 describe("toolbar keyboard", () => {
     test("only one button is in the tab order (roving tabindex)", () => {
-        const tabbable = setup().buttons().filter((b) => b.getAttribute("tabindex") === "0");
+        const tabbable = setup()
+            .buttons()
+            .filter((b) => b.getAttribute("tabindex") === "0");
         expect(tabbable.length).toBe(1);
         expect(tabbable[0].getAttribute("data-tool")).toBe("heading");
     });
@@ -497,7 +531,8 @@ describe("disabled and readonly", () => {
 describe("icons", () => {
     test("renderIcon can be overridden", () => {
         const { el } = setup();
-        el.renderIcon = (tool) => Object.assign(document.createElement("span"), { textContent: tool });
+        el.renderIcon = (tool) =>
+            Object.assign(document.createElement("span"), { textContent: tool });
         el.labels = labels; // re-render the toolbar with the override
         expect(el.querySelectorAll("svg").length).toBe(0);
         expect(el.querySelectorAll("button span").length).toBe(TOOL_IDS.length);

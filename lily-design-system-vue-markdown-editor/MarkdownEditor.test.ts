@@ -23,7 +23,13 @@ afterEach(() => {
 
 function setup(props: Record<string, unknown> = {}, options: Record<string, unknown> = {}) {
     const wrapper = mount(MarkdownEditor, {
-        props: { label: "Message", toolbarLabel: "Formatting", labels, modelValue: "hello world", ...props },
+        props: {
+            label: "Message",
+            toolbarLabel: "Formatting",
+            labels,
+            modelValue: "hello world",
+            ...props,
+        },
         attachTo: document.body,
         ...options,
     });
@@ -51,7 +57,9 @@ describe("structure", () => {
 
     it("renders one named button per labelled tool, in order", () => {
         const { wrapper } = setup();
-        expect(wrapper.findAll("button").map((b) => b.attributes("aria-label"))).toEqual(Object.values(labels));
+        expect(wrapper.findAll("button").map((b) => b.attributes("aria-label"))).toEqual(
+            Object.values(labels),
+        );
     });
 
     it("omits a tool that has no label", () => {
@@ -61,7 +69,10 @@ describe("structure", () => {
 
     it("honours the tools prop for subset and order", () => {
         const { wrapper } = setup({ tools: ["link", "bold"] });
-        expect(wrapper.findAll("button").map((b) => b.attributes("data-tool"))).toEqual(["link", "bold"]);
+        expect(wrapper.findAll("button").map((b) => b.attributes("data-tool"))).toEqual([
+            "link",
+            "bold",
+        ]);
     });
 
     it("every button is type=button so it never submits a form", () => {
@@ -71,7 +82,8 @@ describe("structure", () => {
 
     it("icons are decorative", () => {
         const { wrapper } = setup();
-        for (const svg of wrapper.findAll("svg")) expect(svg.attributes("aria-hidden")).toBe("true");
+        for (const svg of wrapper.findAll("svg"))
+            expect(svg.attributes("aria-hidden")).toBe("true");
     });
 
     it("the toolbar controls the textarea", () => {
@@ -142,7 +154,9 @@ describe("tools", () => {
         select(textarea, 0, 5);
         await button("Link").trigger("click");
         expect(textarea.value).toBe("[hello](https://) world");
-        expect(textarea.value.slice(textarea.selectionStart, textarea.selectionEnd)).toBe("https://");
+        expect(textarea.value.slice(textarea.selectionStart, textarea.selectionEnd)).toBe(
+            "https://",
+        );
     });
 
     it("the heading level is a prop", async () => {
@@ -240,7 +254,8 @@ describe("disabled and readonly", () => {
     it("disabled disables the textarea and every button", () => {
         const { wrapper, textarea } = setup({ disabled: true });
         expect(textarea.disabled).toBe(true);
-        for (const b of wrapper.findAll("button")) expect((b.element as HTMLButtonElement).disabled).toBe(true);
+        for (const b of wrapper.findAll("button"))
+            expect((b.element as HTMLButtonElement).disabled).toBe(true);
     });
 
     it("readonly keeps the text unchangeable by a tool", async () => {
@@ -258,7 +273,10 @@ describe("icon slot", () => {
     });
 
     it("the icon slot replaces them", () => {
-        const { wrapper } = setup({}, { slots: { icon: (p: { tool: string }) => h("span", { "data-icon": p.tool }, "x") } });
+        const { wrapper } = setup(
+            {},
+            { slots: { icon: (p: { tool: string }) => h("span", { "data-icon": p.tool }, "x") } },
+        );
         expect(wrapper.findAll("svg").length).toBe(0);
         expect(wrapper.findAll("[data-icon]").length).toBe(9);
     });

@@ -4,12 +4,12 @@ import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const headlessComponents = path.resolve(
-  here,
-  "..",
-  "..",
-  "..",
-  "lily-design-system-nunjucks-headless",
-  "components",
+    here,
+    "..",
+    "..",
+    "..",
+    "lily-design-system-nunjucks-headless",
+    "components",
 );
 const categoriesTsv = path.resolve(here, "..", "..", "..", "components-categories.tsv");
 
@@ -18,48 +18,48 @@ const categoriesTsv = path.resolve(here, "..", "..", "..", "components-categorie
 // source every other example app's registry reads for plan P6-T5's
 // category + suffix-pattern /components search filters.
 function loadCategories() {
-  const map = {};
-  if (!existsSync(categoriesTsv)) return map;
-  for (const line of readFileSync(categoriesTsv, "utf-8").split("\n")) {
-    if (!line.trim()) continue;
-    const [slug, tag, category] = line.split("\t");
-    map[slug] = { tag, category };
-  }
-  return map;
+    const map = {};
+    if (!existsSync(categoriesTsv)) return map;
+    for (const line of readFileSync(categoriesTsv, "utf-8").split("\n")) {
+        if (!line.trim()) continue;
+        const [slug, tag, category] = line.split("\t");
+        map[slug] = { tag, category };
+    }
+    return map;
 }
 
 function kebabToTitle(s) {
-  return s
-    .split("-")
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ");
+    return s
+        .split("-")
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" ");
 }
 
 function kebabToCamel(s) {
-  return s.replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase());
+    return s.replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase());
 }
 
 function scan() {
-  // Fail the build rather than render "No components are implemented
-  // yet": a wrong path here emptied /components unnoticed for weeks.
-  if (!existsSync(headlessComponents)) {
-    throw new Error(`components.js: no headless components at ${headlessComponents}`);
-  }
-  const categories = loadCategories();
-  return readdirSync(headlessComponents)
-    .filter((name) => {
-      const p = path.join(headlessComponents, name);
-      if (!statSync(p).isDirectory()) return false;
-      return existsSync(path.join(p, "macro.njk"));
-    })
-    .sort()
-    .map((name) => ({
-      kebab: name,
-      title: kebabToTitle(name),
-      macro: kebabToCamel(name),
-      tag: categories[name]?.tag || "",
-      category: categories[name]?.category || "content",
-    }));
+    // Fail the build rather than render "No components are implemented
+    // yet": a wrong path here emptied /components unnoticed for weeks.
+    if (!existsSync(headlessComponents)) {
+        throw new Error(`components.js: no headless components at ${headlessComponents}`);
+    }
+    const categories = loadCategories();
+    return readdirSync(headlessComponents)
+        .filter((name) => {
+            const p = path.join(headlessComponents, name);
+            if (!statSync(p).isDirectory()) return false;
+            return existsSync(path.join(p, "macro.njk"));
+        })
+        .sort()
+        .map((name) => ({
+            kebab: name,
+            title: kebabToTitle(name),
+            macro: kebabToCamel(name),
+            tag: categories[name]?.tag || "",
+            category: categories[name]?.category || "content",
+        }));
 }
 
 export default scan();

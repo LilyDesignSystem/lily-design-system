@@ -81,7 +81,10 @@
     const currentPage = 2;
 </script>
 
-<div dir="rtl" lang="ar">
+<div
+    dir="rtl"
+    lang="ar"
+>
     <Header label="ترويسة الموقع">
         <div class="page-wrapper">
             <h1>عرض توضيحي للكتابة من اليمين إلى اليسار</h1>
@@ -100,8 +103,8 @@
         </BreadcrumbNav>
 
         <InsetText>
-            هذه صفحة تجريبية لاختبار الاتجاه من اليمين إلى اليسار. جميع
-            المكوّنات هنا بلا تنسيق مسبق؛ التنسيق البصري كله من هذا التطبيق.
+            هذه صفحة تجريبية لاختبار الاتجاه من اليمين إلى اليسار. جميع المكوّنات هنا بلا تنسيق
+            مسبق؛ التنسيق البصري كله من هذا التطبيق.
         </InsetText>
 
         <h2>جدول الموظفين</h2>
@@ -141,7 +144,10 @@
         <h2>نموذج التواصل</h2>
         <Form label="نموذج التواصل">
             <Field label="الاسم الكامل">
-                <TextInput label="الاسم الكامل" bind:value={name} />
+                <TextInput
+                    label="الاسم الكامل"
+                    bind:value={name}
+                />
             </Field>
 
             <Fieldset legend="طريقة التواصل المفضلة">
@@ -171,7 +177,10 @@
 
             <p>
                 <Label>
-                    <CheckboxInput label="أوافق على الشروط" bind:checked={agreeTerms} />
+                    <CheckboxInput
+                        label="أوافق على الشروط"
+                        bind:checked={agreeTerms}
+                    />
                     أوافق على الشروط
                 </Label>
             </p>

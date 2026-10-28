@@ -13,7 +13,7 @@ test.describe("component page: lietuva-asmens-kodas-view", () => {
 
   test("renders the H1 with the component name", async ({ page }) => {
     await expect(
-      page.getByRole("heading", { level: 1, name: new RegExp("^LietuvaAsmensKodasView$") })
+      page.getByRole("heading", { level: 1, name: new RegExp("^LietuvaAsmensKodasView$") }),
     ).toBeVisible();
   });
 

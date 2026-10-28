@@ -18,7 +18,13 @@ const LABELS = {
 /** Render with a spy `navigate`, open the panel, and return the parts. */
 function openPanel(props: Partial<Props> = {}) {
     const navigate = vi.fn();
-    render(<SearchPicker {...LABELS} navigate={navigate} {...props} />);
+    render(
+        <SearchPicker
+            {...LABELS}
+            navigate={navigate}
+            {...props}
+        />,
+    );
     const button = screen.getByRole("button", { name: LABELS.label });
     fireEvent.click(button);
     const panel = document.querySelector(".search-picker-panel") as HTMLElement;
@@ -78,9 +84,16 @@ describe("SearchPicker — structure (§7.1–§7.6)", () => {
 
     test("§7.4 children replaces the icon and receives ChildArgs", () => {
         render(
-            <SearchPicker {...LABELS} defaultValue="foo">
+            <SearchPicker
+                {...LABELS}
+                defaultValue="foo"
+            >
                 {({ open, query }) => (
-                    <span data-testid="custom" data-open={String(open)} data-query={query} />
+                    <span
+                        data-testid="custom"
+                        data-open={String(open)}
+                        data-query={query}
+                    />
                 )}
             </SearchPicker>,
         );
@@ -103,7 +116,9 @@ describe("SearchPicker — structure (§7.1–§7.6)", () => {
         expect(input.className).toContain("search-picker-input");
         expect(submit.getAttribute("type")).toBe("submit");
         expect(submit.className).toContain("search-picker-submit");
-        expect(input.compareDocumentPosition(submit) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+        expect(
+            input.compareDocumentPosition(submit) & Node.DOCUMENT_POSITION_FOLLOWING,
+        ).toBeTruthy();
     });
 
     test("§7.6 the submit button shows ⏎ in an aria-hidden span", () => {
@@ -170,9 +185,17 @@ describe("SearchPicker — searching (§7.7–§7.15)", () => {
         const calls: string[] = [];
         const onSearch = vi.fn((q: string, h: string) => calls.push(`search:${q}:${h}`));
         const navigate = vi.fn((h: string) => calls.push(`navigate:${h}`));
-        render(<SearchPicker {...LABELS} onSearch={onSearch} navigate={navigate} />);
+        render(
+            <SearchPicker
+                {...LABELS}
+                onSearch={onSearch}
+                navigate={navigate}
+            />,
+        );
         fireEvent.click(screen.getByRole("button", { name: LABELS.label }));
-        const input = screen.getByRole("searchbox", { name: LABELS.inputLabel }) as HTMLInputElement;
+        const input = screen.getByRole("searchbox", {
+            name: LABELS.inputLabel,
+        }) as HTMLInputElement;
         type(input, " foo ");
         fireEvent.submit(document.querySelector(".search-picker-form")!);
         expect(calls).toEqual(["search:foo:/?foo", "navigate:/?foo"]);
@@ -183,7 +206,9 @@ describe("SearchPicker — searching (§7.7–§7.15)", () => {
         vi.stubGlobal("location", { assign });
         render(<SearchPicker {...LABELS} />);
         fireEvent.click(screen.getByRole("button", { name: LABELS.label }));
-        const input = screen.getByRole("searchbox", { name: LABELS.inputLabel }) as HTMLInputElement;
+        const input = screen.getByRole("searchbox", {
+            name: LABELS.inputLabel,
+        }) as HTMLInputElement;
         type(input, "foo");
         fireEvent.submit(document.querySelector(".search-picker-form")!);
         expect(assign).toHaveBeenCalledWith("/?foo");
@@ -252,7 +277,9 @@ describe("SearchPicker — value, exports, root (§7.19–§7.23)", () => {
         }
         render(<Controlled />);
         fireEvent.click(screen.getByRole("button", { name: LABELS.label }));
-        const input = screen.getByRole("searchbox", { name: LABELS.inputLabel }) as HTMLInputElement;
+        const input = screen.getByRole("searchbox", {
+            name: LABELS.inputLabel,
+        }) as HTMLInputElement;
         expect(input.value).toBe("preset");
         type(input, "typed");
         expect(seen).toEqual(["typed"]);
@@ -276,7 +303,14 @@ describe("SearchPicker — value, exports, root (§7.19–§7.23)", () => {
     });
 
     test("§7.22 className and rest props land on the root", () => {
-        render(<SearchPicker {...LABELS} className="site-search" data-testid="root" id="s" />);
+        render(
+            <SearchPicker
+                {...LABELS}
+                className="site-search"
+                data-testid="root"
+                id="s"
+            />,
+        );
         const root = screen.getByTestId("root");
         expect(root.className).toBe("search-picker site-search");
         expect(root.id).toBe("s");
@@ -311,10 +345,14 @@ describe("SearchPicker — Safari focus regression (§7.24)", () => {
     });
 });
 
-
 describe("SearchPicker — tooltip (§7.25–§7.32)", () => {
     function setupTooltip() {
-        render(<SearchPicker {...LABELS} navigate={vi.fn()} />);
+        render(
+            <SearchPicker
+                {...LABELS}
+                navigate={vi.fn()}
+            />,
+        );
         const button = document.querySelector(".search-picker-button") as HTMLButtonElement;
         const tip = document.querySelector(".search-picker-tooltip") as HTMLElement;
         return { button, tip };
@@ -351,7 +389,9 @@ describe("SearchPicker — tooltip (§7.25–§7.32)", () => {
     test("§7.28 keyboard focus shows it; blur hides it; mouse-induced focus does not show it", () => {
         const { button, tip } = setupTooltip();
         // jsdom has no input-modality tracking; stand in for the keyboard.
-        const matches = vi.spyOn(button, "matches").mockImplementation((q) => q === ":focus-visible");
+        const matches = vi
+            .spyOn(button, "matches")
+            .mockImplementation((q) => q === ":focus-visible");
         fireEvent.focus(button);
         expect(tip.hasAttribute("hidden")).toBe(false);
         fireEvent.blur(button);
@@ -406,7 +446,12 @@ describe("SearchPicker — tooltip (§7.25–§7.32)", () => {
         const add = vi.spyOn(document, "addEventListener");
         const remove = vi.spyOn(document, "removeEventListener");
         const count = (spy: typeof add) => spy.mock.calls.filter((c) => c[0] === "keydown").length;
-        const view = render(<SearchPicker {...LABELS} navigate={vi.fn()} />);
+        const view = render(
+            <SearchPicker
+                {...LABELS}
+                navigate={vi.fn()}
+            />,
+        );
         const button = document.querySelector(".search-picker-button") as HTMLButtonElement;
         const addBase = count(add);
         const baseRemove = count(remove);
@@ -428,15 +473,28 @@ describe("SearchPicker — tooltip (§7.25–§7.32)", () => {
 describe("SearchPicker — open state and disabled", () => {
     test("open starts the popup open without calling onOpenChange", async () => {
         const onOpenChange = vi.fn();
-        render(<SearchPicker {...LABELS} open onOpenChange={onOpenChange} />);
+        render(
+            <SearchPicker
+                {...LABELS}
+                open
+                onOpenChange={onOpenChange}
+            />,
+        );
         await flush();
-        expect(screen.getByRole("button", { name: LABELS.label }).getAttribute("aria-expanded")).toBe("true");
+        expect(
+            screen.getByRole("button", { name: LABELS.label }).getAttribute("aria-expanded"),
+        ).toBe("true");
         expect(onOpenChange).not.toHaveBeenCalled();
     });
 
     test("uncontrolled: onOpenChange fires once for each open and close by the user", async () => {
         const onOpenChange = vi.fn();
-        render(<SearchPicker {...LABELS} onOpenChange={onOpenChange} />);
+        render(
+            <SearchPicker
+                {...LABELS}
+                onOpenChange={onOpenChange}
+            />,
+        );
         const button = screen.getByRole("button", { name: LABELS.label });
         fireEvent.click(button);
         await flush();
@@ -449,19 +507,41 @@ describe("SearchPicker — open state and disabled", () => {
 
     test("controlled: a click asks for the change and the parent applies it", async () => {
         const onOpenChange = vi.fn();
-        const { rerender } = render(<SearchPicker {...LABELS} open={false} onOpenChange={onOpenChange} />);
+        const { rerender } = render(
+            <SearchPicker
+                {...LABELS}
+                open={false}
+                onOpenChange={onOpenChange}
+            />,
+        );
         fireEvent.click(screen.getByRole("button", { name: LABELS.label }));
         await flush();
         expect(onOpenChange).toHaveBeenCalledWith(true);
-        expect(screen.getByRole("button", { name: LABELS.label }).getAttribute("aria-expanded")).toBe("false");
-        rerender(<SearchPicker {...LABELS} open onOpenChange={onOpenChange} />);
+        expect(
+            screen.getByRole("button", { name: LABELS.label }).getAttribute("aria-expanded"),
+        ).toBe("false");
+        rerender(
+            <SearchPicker
+                {...LABELS}
+                open
+                onOpenChange={onOpenChange}
+            />,
+        );
         await flush();
-        expect(screen.getByRole("button", { name: LABELS.label }).getAttribute("aria-expanded")).toBe("true");
+        expect(
+            screen.getByRole("button", { name: LABELS.label }).getAttribute("aria-expanded"),
+        ).toBe("true");
     });
 
     test("disabled disables the button and it cannot open", async () => {
         const onOpenChange = vi.fn();
-        render(<SearchPicker {...LABELS} disabled onOpenChange={onOpenChange} />);
+        render(
+            <SearchPicker
+                {...LABELS}
+                disabled
+                onOpenChange={onOpenChange}
+            />,
+        );
         const button = screen.getByRole("button", { name: LABELS.label }) as HTMLButtonElement;
         expect(button.disabled).toBe(true);
         fireEvent.click(button);
@@ -471,9 +551,16 @@ describe("SearchPicker — open state and disabled", () => {
     });
 
     test("disabled closes a popup that was open", async () => {
-        render(<SearchPicker {...LABELS} open disabled />);
+        render(
+            <SearchPicker
+                {...LABELS}
+                open
+                disabled
+            />,
+        );
         await flush();
-        expect(screen.getByRole("button", { name: LABELS.label }).getAttribute("aria-expanded")).toBe("false");
+        expect(
+            screen.getByRole("button", { name: LABELS.label }).getAttribute("aria-expanded"),
+        ).toBe("false");
     });
 });
-

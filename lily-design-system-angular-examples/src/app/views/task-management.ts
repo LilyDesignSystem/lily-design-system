@@ -20,6 +20,4 @@ import { Badge } from "../components/Badge";
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class TaskManagementPage {
-
-}
+export default class TaskManagementPage {}

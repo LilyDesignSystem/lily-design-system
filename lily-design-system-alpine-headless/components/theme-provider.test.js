@@ -5,16 +5,15 @@ import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("div.theme-provider");
 
-
 describe("ThemeProvider", () => {
-  it("renders the element with its base class", async () => {
-    await mount("theme-provider");
-    expect(el()).not.toBeNull();
-    expect(el().classList.contains("theme-provider")).toBe(true);
-  });
+    it("renders the element with its base class", async () => {
+        await mount("theme-provider");
+        expect(el()).not.toBeNull();
+        expect(el().classList.contains("theme-provider")).toBe(true);
+    });
 
-  it("uses the div element", async () => {
-    await mount("theme-provider");
-    expect(el().tagName.toLowerCase()).toBe("div");
-  });
+    it("uses the div element", async () => {
+        await mount("theme-provider");
+        expect(el().tagName.toLowerCase()).toBe("div");
+    });
 });

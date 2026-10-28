@@ -5,16 +5,15 @@ import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("div.notification");
 
-
 describe("Notification", () => {
-  it("renders the element with its base class", async () => {
-    await mount("notification");
-    expect(el()).not.toBeNull();
-    expect(el().classList.contains("notification")).toBe(true);
-  });
+    it("renders the element with its base class", async () => {
+        await mount("notification");
+        expect(el()).not.toBeNull();
+        expect(el().classList.contains("notification")).toBe(true);
+    });
 
-  it("uses the div element", async () => {
-    await mount("notification");
-    expect(el().tagName.toLowerCase()).toBe("div");
-  });
+    it("uses the div element", async () => {
+        await mount("notification");
+        expect(el().tagName.toLowerCase()).toBe("div");
+    });
 });

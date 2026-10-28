@@ -11,15 +11,22 @@ import Sidebar from "@lily/Sidebar";
 export default function PageLayoutPage() {
     return (
         <div>
-
             <Header label="Site header">
                 <h1>My Application</h1>
                 <NavigationMenu label="Main navigation">
                     <ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/products">Products</a></li>
-                        <li><a href="/about">About</a></li>
-                        <li><a href="/contact">Contact</a></li>
+                        <li>
+                            <a href="/">Home</a>
+                        </li>
+                        <li>
+                            <a href="/products">Products</a>
+                        </li>
+                        <li>
+                            <a href="/about">About</a>
+                        </li>
+                        <li>
+                            <a href="/contact">Contact</a>
+                        </li>
                     </ul>
                 </NavigationMenu>
             </Header>
@@ -32,9 +39,7 @@ export default function PageLayoutPage() {
                     <BreadcrumbListItem>
                         <a href="/products">Products</a>
                     </BreadcrumbListItem>
-                    <BreadcrumbListItem current>
-                        Widget Pro
-                    </BreadcrumbListItem>
+                    <BreadcrumbListItem current>Widget Pro</BreadcrumbListItem>
                 </BreadcrumbList>
             </BreadcrumbNav>
 
@@ -42,10 +47,18 @@ export default function PageLayoutPage() {
                 <Sidebar label="Side navigation">
                     <nav>
                         <ul>
-                            <li><a href="#overview">Overview</a></li>
-                            <li><a href="#features">Features</a></li>
-                            <li><a href="#pricing">Pricing</a></li>
-                            <li><a href="#reviews">Reviews</a></li>
+                            <li>
+                                <a href="#overview">Overview</a>
+                            </li>
+                            <li>
+                                <a href="#features">Features</a>
+                            </li>
+                            <li>
+                                <a href="#pricing">Pricing</a>
+                            </li>
+                            <li>
+                                <a href="#reviews">Reviews</a>
+                            </li>
                         </ul>
                     </nav>
                 </Sidebar>

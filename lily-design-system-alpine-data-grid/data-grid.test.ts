@@ -69,14 +69,23 @@ async function mount(extra: Partial<DataGridOptions> = {}) {
     return document.querySelector(".data-grid") as HTMLElement;
 }
 
-const state = () => Alpine.$data(document.querySelector(".data-grid") as HTMLElement) as ReturnType<typeof createDataGrid>;
+const state = () =>
+    Alpine.$data(document.querySelector(".data-grid") as HTMLElement) as ReturnType<
+        typeof createDataGrid
+    >;
 const headers = () => [...document.querySelectorAll("th[scope=col]")] as HTMLElement[];
-const names = () => [...document.querySelectorAll("tbody tr")].map((tr) => (tr.querySelectorAll("td")[1] as HTMLElement).textContent);
+const names = () =>
+    [...document.querySelectorAll("tbody tr")].map(
+        (tr) => (tr.querySelectorAll("td")[1] as HTMLElement).textContent,
+    );
 const press = async (target: Element, key: string, init: KeyboardEventInit = {}) => {
-    target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...init }));
+    target.dispatchEvent(
+        new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...init }),
+    );
     await tick();
 };
-const cell = (row: number, col: number) => document.querySelector(`[data-row="${row}"][data-col="${col}"]`) as HTMLElement;
+const cell = (row: number, col: number) =>
+    document.querySelector(`[data-row="${row}"][data-col="${col}"]`) as HTMLElement;
 
 describe("rendering", () => {
     test("is a role=grid table with column headers and one row per record", async () => {
@@ -129,24 +138,31 @@ describe("sort", () => {
         const button = headers()[1].querySelector("button") as HTMLElement;
         expect(headers()[1].getAttribute("aria-sort")).toBe("none");
         expect(headers()[2].hasAttribute("aria-sort")).toBe(false);
-        button.click(); await tick();
+        button.click();
+        await tick();
         expect(headers()[1].getAttribute("aria-sort")).toBe("ascending");
         expect(document.querySelector(".data-grid-status")?.textContent).toBe("Age asc");
         // 25, 31, 31, 40 and the missing value last; ties keep their input order.
         expect(names()).toEqual(["bob", "Alice", "Carol", "Éve", "Dave"]);
-        button.click(); await tick();
+        button.click();
+        await tick();
         expect(headers()[1].getAttribute("aria-sort")).toBe("descending");
         expect(names()).toEqual(["Éve", "Alice", "Carol", "bob", "Dave"]);
-        button.click(); await tick();
+        button.click();
+        await tick();
         expect(headers()[1].getAttribute("aria-sort")).toBe("none");
         expect(names()).toEqual(["Alice", "bob", "Carol", "Dave", "Éve"]);
     });
 
     test("Shift adds a key; data-sort-order shows only while there is more than one", async () => {
         await mount();
-        (headers()[1].querySelector("button") as HTMLElement).click(); await tick();
+        (headers()[1].querySelector("button") as HTMLElement).click();
+        await tick();
         expect(headers()[1].hasAttribute("data-sort-order")).toBe(false);
-        headers()[0].querySelector("button")?.dispatchEvent(new MouseEvent("click", { bubbles: true, shiftKey: true })); await tick();
+        headers()[0]
+            .querySelector("button")
+            ?.dispatchEvent(new MouseEvent("click", { bubbles: true, shiftKey: true }));
+        await tick();
         expect(headers()[1].getAttribute("data-sort-order")).toBe("1");
         expect(headers()[0].getAttribute("data-sort-order")).toBe("2");
         // Age first, then Name inside equal ages: Alice before Carol.
@@ -155,8 +171,10 @@ describe("sort", () => {
 
     test("a plain click on another header replaces the keys", async () => {
         await mount();
-        (headers()[1].querySelector("button") as HTMLElement).click(); await tick();
-        (headers()[0].querySelector("button") as HTMLElement).click(); await tick();
+        (headers()[1].querySelector("button") as HTMLElement).click();
+        await tick();
+        (headers()[0].querySelector("button") as HTMLElement).click();
+        await tick();
         expect(headers()[1].getAttribute("aria-sort")).toBe("none");
         expect(state().sort).toEqual([{ id: "name", dir: "asc" }]);
     });
@@ -171,33 +189,44 @@ describe("sort", () => {
 describe("selection", () => {
     test("multiple: rows toggle and aria-selected follows", async () => {
         await mount();
-        const boxes = () => [...document.querySelectorAll("tbody input[type=checkbox]")] as HTMLInputElement[];
+        const boxes = () =>
+            [...document.querySelectorAll("tbody input[type=checkbox]")] as HTMLInputElement[];
         expect(boxes()[0].getAttribute("aria-label")).toBe("Select Alice");
-        boxes()[0].click(); boxes()[2].click(); await tick();
+        boxes()[0].click();
+        boxes()[2].click();
+        await tick();
         expect(state().selected).toEqual(["a", "c"]);
         expect(document.querySelectorAll("tbody tr")[0].getAttribute("aria-selected")).toBe("true");
-        expect(document.querySelectorAll("tbody tr")[1].getAttribute("aria-selected")).toBe("false");
-        boxes()[0].click(); await tick();
+        expect(document.querySelectorAll("tbody tr")[1].getAttribute("aria-selected")).toBe(
+            "false",
+        );
+        boxes()[0].click();
+        await tick();
         expect(state().selected).toEqual(["c"]);
     });
 
     test("select all covers the current page and shows the mixed state", async () => {
         await mount();
         const all = document.querySelector(".data-grid-select-all input") as HTMLInputElement;
-        (document.querySelectorAll("tbody input[type=checkbox]")[0] as HTMLInputElement).click(); await tick();
+        (document.querySelectorAll("tbody input[type=checkbox]")[0] as HTMLInputElement).click();
+        await tick();
         expect(all.indeterminate).toBe(true);
-        all.click(); await tick();
+        all.click();
+        await tick();
         expect(state().selected).toHaveLength(5);
         expect(all.checked).toBe(true);
-        all.click(); await tick();
+        all.click();
+        await tick();
         expect(state().selected).toEqual([]);
     });
 
     test("single mode replaces the selection and has no select-all box", async () => {
         await mount({ selectionMode: "single" });
         expect(document.querySelector(".data-grid-select-all input")).toBeNull();
-        (document.querySelectorAll("tbody input[type=checkbox]")[0] as HTMLInputElement).click(); await tick();
-        (document.querySelectorAll("tbody input[type=checkbox]")[1] as HTMLInputElement).click(); await tick();
+        (document.querySelectorAll("tbody input[type=checkbox]")[0] as HTMLInputElement).click();
+        await tick();
+        (document.querySelectorAll("tbody input[type=checkbox]")[1] as HTMLInputElement).click();
+        await tick();
         expect(state().selected).toEqual(["b"]);
     });
 
@@ -205,7 +234,8 @@ describe("selection", () => {
         const grid = await mount();
         const seen = vi.fn();
         grid.addEventListener("lily:select", (e) => seen((e as CustomEvent).detail));
-        (document.querySelectorAll("tbody input[type=checkbox]")[1] as HTMLInputElement).click(); await tick();
+        (document.querySelectorAll("tbody input[type=checkbox]")[1] as HTMLInputElement).click();
+        await tick();
         expect(seen).toHaveBeenCalledWith({ selected: ["b"] });
     });
 });
@@ -213,16 +243,21 @@ describe("selection", () => {
 describe("pagination", () => {
     test("shows pageSize rows, a status and prev/next that disable at the ends", async () => {
         await mount({ pageSize: 2 });
-        const [prev, next] = [...document.querySelectorAll(".data-grid-pager-button")] as HTMLButtonElement[];
+        const [prev, next] = [
+            ...document.querySelectorAll(".data-grid-pager-button"),
+        ] as HTMLButtonElement[];
         expect(names()).toEqual(["Alice", "bob"]);
         expect(document.querySelector(".data-grid-pager-status")?.textContent).toBe("1 of 3");
         expect(prev.disabled).toBe(true);
-        next.click(); await tick();
+        next.click();
+        await tick();
         expect(names()).toEqual(["Carol", "Dave"]);
-        next.click(); await tick();
+        next.click();
+        await tick();
         expect(names()).toEqual(["Éve"]);
         expect(next.disabled).toBe(true);
-        prev.click(); await tick();
+        prev.click();
+        await tick();
         expect(document.querySelector(".data-grid-pager-status")?.textContent).toBe("2 of 3");
     });
 
@@ -243,14 +278,18 @@ describe("pagination", () => {
 describe("columns", () => {
     test("a hidable column can be hidden and shown; others cannot", async () => {
         await mount();
-        const toggle = document.querySelectorAll(".data-grid-column-toggle input")[0] as HTMLInputElement;
+        const toggle = document.querySelectorAll(
+            ".data-grid-column-toggle input",
+        )[0] as HTMLInputElement;
         expect(toggle.getAttribute("aria-label")).toBe("Show Age");
-        toggle.click(); await tick();
+        toggle.click();
+        await tick();
         expect(headers().map((h) => h.textContent?.trim())).toEqual(["Name", "Team"]);
         expect(document.querySelector("table")?.getAttribute("aria-colcount")).toBe("3");
         state().toggleColumn("name");
         expect(headers()).toHaveLength(2);
-        toggle.click(); await tick();
+        toggle.click();
+        await tick();
         expect(headers()).toHaveLength(3);
     });
 });
@@ -339,7 +378,13 @@ describe("export", () => {
         state().toggleColumn("team");
         expect(state().exportTable()).toEqual({
             headers: ["Name", "Age"],
-            rows: [["bob", "25"], ["Alice", "31"], ["Carol", "31"], ["Éve", "40"], ["Dave", ""]],
+            rows: [
+                ["bob", "25"],
+                ["Alice", "31"],
+                ["Carol", "31"],
+                ["Éve", "40"],
+                ["Dave", ""],
+            ],
         });
         state().setFilter("31");
         expect(state().exportTable().rows).toHaveLength(2);
@@ -349,7 +394,11 @@ describe("export", () => {
     });
 
     test("a column's format is used for display, filter and export", async () => {
-        await mount({ columns: [{ id: "age", header: "Age", format: (v) => (v == null ? "n/a" : v + " yrs") }] });
+        await mount({
+            columns: [
+                { id: "age", header: "Age", format: (v) => (v == null ? "n/a" : v + " yrs") },
+            ],
+        });
         expect(state().exportTable().rows[3]).toEqual(["n/a"]);
         state().setFilter("40 yrs");
         expect(state().filteredRows).toHaveLength(1);
@@ -360,7 +409,8 @@ describe("export", () => {
         const writeText = vi.fn().mockResolvedValue(undefined);
         Object.defineProperty(navigator, "clipboard", { value: { writeText }, configurable: true });
         (document.querySelector("[data-export-format=copy]") as HTMLElement).click();
-        await tick(); await tick();
+        await tick();
+        await tick();
         expect(writeText.mock.calls[0][0].split("\r\n")[0]).toBe("Name\tAge\tTeam");
         expect(document.querySelector(".data-grid-status")?.textContent).toBe("Copied 5");
     });
@@ -370,7 +420,8 @@ describe("export", () => {
         const create = vi.fn(() => "blob:x");
         Object.assign(URL, { createObjectURL: create, revokeObjectURL: vi.fn() });
         const click = vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(() => {});
-        (document.querySelector("[data-export-format=csv]") as HTMLElement).click(); await tick();
+        (document.querySelector("[data-export-format=csv]") as HTMLElement).click();
+        await tick();
         expect(create).toHaveBeenCalled();
         expect(click).toHaveBeenCalled();
         click.mockRestore();

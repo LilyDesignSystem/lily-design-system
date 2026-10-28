@@ -13,7 +13,7 @@ test.describe("component page: grail-layout-left-aside", () => {
 
   test("renders the H1 with the component name", async ({ page }) => {
     await expect(
-      page.getByRole("heading", { level: 1, name: new RegExp("^GrailLayoutLeftAside$") })
+      page.getByRole("heading", { level: 1, name: new RegExp("^GrailLayoutLeftAside$") }),
     ).toBeVisible();
   });
 

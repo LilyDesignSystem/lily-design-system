@@ -2,13 +2,32 @@
 // DataGrid (Vue helper). A Vue 3 port of the canonical Svelte data grid; the
 // contract is that package's spec/index.md. Types and module-level helpers
 // live here so they can be exported; the component is the <script setup>.
-import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
+import {
+    copyToClipboard,
+    downloadBlob,
+    exportBlob,
+    exportFilename,
+    toClipboardText,
+    type ExportFormat,
+} from "./export-data";
 import { foldText, searchTerms } from "./search-text";
 import { isRtl, logicalKey } from "./direction";
 import { gridMove } from "./grid-navigation";
 import { missingLabels, type LabelFeatures } from "./label-coverage";
-import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
-import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
+import {
+    EMPTY_HISTORY,
+    historyKey,
+    recordEdit,
+    redoEdit,
+    undoEdit,
+    type EditHistory,
+} from "./edit-history";
+import {
+    findTypeaheadMatch,
+    isTypeaheadKey,
+    nextTypeaheadState,
+    type TypeaheadState,
+} from "./typeahead";
 import {
     aggregateValues,
     filesOf,
@@ -106,7 +125,17 @@ export type DataGridColumn = {
     /** Cells can be edited in place: F2 or Enter on a focused cell, a double click, or the button `labels.editCell` gates. */
     editable?: boolean;
     /** The editor's control. Default `"text"`; a `type` sets its own. */
-    editor?: "text" | "number" | "link" | "date" | "time" | "time-zone" | "select" | "radio" | "person" | "formula";
+    editor?:
+        | "text"
+        | "number"
+        | "link"
+        | "date"
+        | "time"
+        | "time-zone"
+        | "select"
+        | "radio"
+        | "person"
+        | "formula";
     /** The kind of value in this column: a bundle of defaults for `format`, `compare`, `filterText`, `exportValue`, `align` and `editor`. */
     type?: DataGridCellType;
     /** Shown instead of nothing when this column's value is missing (`null`, `undefined` or `""`). Overrides the grid's `emptyValue`. A missing value always carries `data-empty` on its cell. */
@@ -122,7 +151,17 @@ export type DataGridColumn = {
     /** `time-zone`: an export adds a second column holding the UTC time of day at `referenceDate`. */
     exportUtc?: boolean;
     /** `rollup`: how the related values are reduced. */
-    aggregate?: "count" | "countUnique" | "sum" | "avg" | "median" | "min" | "max" | "range" | "percentTrue" | "percentEmpty";
+    aggregate?:
+        | "count"
+        | "countUnique"
+        | "sum"
+        | "avg"
+        | "median"
+        | "min"
+        | "max"
+        | "range"
+        | "percentTrue"
+        | "percentEmpty";
     /** `rollup`: a reduction the named aggregates do not cover. */
     reduce?: (values: unknown[], row: DataGridRow) => unknown;
     /** `rollup`: reads the related values. */
@@ -130,13 +169,20 @@ export type DataGridColumn = {
     /** `rollup` and `formula`: the result's type. */
     resultType?: "number" | "date" | "text";
     /** `formula`: evaluates an expression. Lily ships no engine and never evaluates a string itself. */
-    evaluate?: (expression: string, context: { row: DataGridRow; rows: DataGridRow[]; columnId: string }) => { value: unknown } | { error: string };
+    evaluate?: (
+        expression: string,
+        context: { row: DataGridRow; rows: DataGridRow[]; columnId: string },
+    ) => { value: unknown } | { error: string };
     /** `person`: how many people show before "+N". */
     maxPeople?: number;
     /** `person`: an avatar beside the name. Decorative. */
     avatar?: (ctx: { person: DataGridPerson }) => DataGridNode;
     /** `person`: the editor, given `{ value, commit, cancel }`. Without it a person cell is read-only. */
-    personEditor?: (ctx: { value: unknown; commit: (value: unknown) => void; cancel: () => void }) => DataGridNode;
+    personEditor?: (ctx: {
+        value: unknown;
+        commit: (value: unknown) => void;
+        cancel: () => void;
+    }) => DataGridNode;
     /** `file`: formats a size in bytes. */
     formatSize?: (bytes: number) => string;
     /** `file`: the `accept` of the file input. */
@@ -294,7 +340,8 @@ export function nextDataGridId(): string {
 }
 
 /** What counts as a widget inside a cell: something a person can operate. */
-const WIDGET_SELECTOR = 'a[href], button, input, select, textarea, summary, [contenteditable="true"]';
+const WIDGET_SELECTOR =
+    'a[href], button, input, select, textarea, summary, [contenteditable="true"]';
 
 const MIN_COLUMN_WIDTH = 40;
 const RESIZE_STEP = 16;
@@ -312,14 +359,16 @@ function formatCell(column: DataGridColumn, row: DataGridRow): string {
 }
 
 /** A missing value: `null`, `undefined` or an empty string. */
-const isMissing = (value: unknown): boolean => value === null || value === undefined || value === "";
+const isMissing = (value: unknown): boolean =>
+    value === null || value === undefined || value === "";
 
 /** Renders a vnode a column's render function returned. */
 const RenderNode = (props: { node: unknown }) => props.node as never;
 RenderNode.props = ["node"];
 
 /** Renders its default slot and nothing else (the table when there is no scroll region around it). */
-const Passthrough = (_props: unknown, ctx: { slots: { default?: () => unknown } }) => ctx.slots.default?.() as never;
+const Passthrough = (_props: unknown, ctx: { slots: { default?: () => unknown } }) =>
+    ctx.slots.default?.() as never;
 Passthrough.inheritAttrs = false;
 </script>
 
@@ -372,7 +421,9 @@ const filterField = defineModel<string>("filterField", { default: "" });
 /** Further sort keys after `sort`, for ties: Shift+click on another sortable header adds it (`v-model:thenBy`). */
 const thenBy = defineModel<DataGridSort[]>("thenBy", { default: () => [] });
 /** Current sort (`v-model:sort`). */
-const sort = defineModel<DataGridSort>("sort", { default: () => ({ columnId: "", direction: "none" }) });
+const sort = defineModel<DataGridSort>("sort", {
+    default: () => ({ columnId: "", direction: "none" }),
+});
 /** Column ids in display order (`v-model:columnOrder`); columns it does not name follow in their `columns` order. */
 const columnOrder = defineModel<string[]>("columnOrder", { default: () => [] });
 /** Current 1-indexed page (`v-model:page`). */
@@ -380,8 +431,14 @@ const page = defineModel<number>("page", { default: 1 });
 
 const emit = defineEmits<{
     (event: "cell-edit", edit: DataGridCellEdit): void;
-    (event: "files-selected", payload: { rowId: string; row: DataGridRow; columnId: string; files: File[] }): void;
-    (event: "file-remove", payload: { rowId: string; row: DataGridRow; columnId: string; fileId: string }): void;
+    (
+        event: "files-selected",
+        payload: { rowId: string; row: DataGridRow; columnId: string; files: File[] },
+    ): void;
+    (
+        event: "file-remove",
+        payload: { rowId: string; row: DataGridRow; columnId: string; fileId: string },
+    ): void;
     (event: "row-activate", row: DataGridRow, id: string): void;
     (event: "export-file", file: DataGridExport): void;
     (event: "copy", copy: { text: string; rowCount: number }): void;
@@ -390,16 +447,25 @@ const emit = defineEmits<{
 defineSlots<{
     empty?: () => unknown;
     /** `rows` is the current page; `allRows` is every row that passes the filter, and `aggregate(columnId, kind)` reduces one column over `allRows` (a footer total that does not change with the page). */
-    footer?: (ctx: { columns: DataGridColumn[]; rows: DataGridRow[]; allRows: DataGridRow[]; aggregate: (columnId: string, kind: DataGridAggregate) => unknown }) => unknown;
+    footer?: (ctx: {
+        columns: DataGridColumn[];
+        rows: DataGridRow[];
+        allRows: DataGridRow[];
+        aggregate: (columnId: string, kind: DataGridAggregate) => unknown;
+    }) => unknown;
 }>();
 
 // The listener's presence changes behaviour (Enter on a cell, a click on a row), so it is read from the vnode.
-const hasRowActivate = !!(getCurrentInstance()?.vnode.props as Record<string, unknown> | null)?.onRowActivate;
+const hasRowActivate = !!(getCurrentInstance()?.vnode.props as Record<string, unknown> | null)
+    ?.onRowActivate;
 // Undo and redo only mean something when the consumer listens for edits, so the listener's presence is read from the vnode too.
-const hasCellEdit = !!(getCurrentInstance()?.vnode.props as Record<string, unknown> | null)?.onCellEdit;
+const hasCellEdit = !!(getCurrentInstance()?.vnode.props as Record<string, unknown> | null)
+    ?.onCellEdit;
 
 // Each column with its type's defaults filled in under its own props.
-const columns = computed(() => props.columns.map((c) => resolveColumn(c, props.locale, props.rows)));
+const columns = computed(() =>
+    props.columns.map((c) => resolveColumn(c, props.locale, props.rows)),
+);
 
 const gridId = nextDataGridId();
 const isGrid = computed(() => props.mode === "grid");
@@ -428,7 +494,9 @@ const orderedColumns = computed(() => {
         .sort((a, b) => rank(a.c.id) - rank(b.c.id) || a.i - b.i)
         .map((x) => x.c);
 });
-const visibleColumns = computed(() => orderedColumns.value.filter((c) => !hiddenColumnIds.value.has(c.id)));
+const visibleColumns = computed(() =>
+    orderedColumns.value.filter((c) => !hiddenColumnIds.value.has(c.id)),
+);
 /** A column the user can move: its own `movable`, else the grid's `movableColumns`. */
 const isMovable = (column: DataGridColumn): boolean => column.movable ?? props.movableColumns;
 
@@ -441,22 +509,36 @@ const labelFeatures = computed<LabelFeatures>(() => ({
     editing: hasCellEdit,
     sorting: columns.value.some((c) => c.sortable),
     search: !!props.labels.search,
-    exporting: !!(props.labels.exportCsv || props.labels.exportTsv || props.labels.exportExcel || props.labels.copy),
+    exporting: !!(
+        props.labels.exportCsv ||
+        props.labels.exportTsv ||
+        props.labels.exportExcel ||
+        props.labels.copy
+    ),
 }));
 const reportedLabels = new Set<string>();
 watch(
     [labelFeatures, () => props.labels, () => props.warnMissingLabels],
     () => {
-        const env = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env;
+        const env = (globalThis as { process?: { env?: Record<string, string | undefined> } })
+            .process?.env;
         if (!props.warnMissingLabels || env?.NODE_ENV === "production") return;
-        const fresh = missingLabels(labelFeatures.value, props.labels as Record<string, unknown>).filter((m) => !reportedLabels.has(m.key));
+        const fresh = missingLabels(
+            labelFeatures.value,
+            props.labels as Record<string, unknown>,
+        ).filter((m) => !reportedLabels.has(m.key));
         if (fresh.length === 0) return;
         for (const m of fresh) reportedLabels.add(m.key);
         const controls = fresh.filter((m) => m.kind === "control").map((m) => m.key);
         const announcements = fresh.filter((m) => m.kind === "announcement").map((m) => m.key);
         console.warn(
             `[data-grid] "${props.label}": labels left out — ` +
-                [controls.length ? `controls with no name: ${controls.join(", ")}` : "", announcements.length ? `silent announcements: ${announcements.join(", ")}` : ""].filter(Boolean).join("; "),
+                [
+                    controls.length ? `controls with no name: ${controls.join(", ")}` : "",
+                    announcements.length ? `silent announcements: ${announcements.join(", ")}` : "",
+                ]
+                    .filter(Boolean)
+                    .join("; "),
         );
     },
     { immediate: true, flush: "post" },
@@ -481,20 +563,31 @@ function cellFor(column: DataGridColumn, row: DataGridRow): DataGridCellContext 
     }
     let ctx = perRow.get(column.id);
     if (!ctx) {
-        ctx = { value: defaultAccessor(column, row), formatted: formatCell(column, row), row, column };
+        ctx = {
+            value: defaultAccessor(column, row),
+            formatted: formatCell(column, row),
+            row,
+            column,
+        };
         perRow.set(column.id, ctx);
     }
     return ctx;
 }
 
-const entries = computed<Entry[]>(() => props.rows.map((row, index) => ({ row, id: props.rowId(row, index) })));
+const entries = computed<Entry[]>(() =>
+    props.rows.map((row, index) => ({ row, id: props.rowId(row, index) })),
+);
 
 // One folded (lower-case, no diacritics) text per filterable cell, built once per rows/columns change.
 const filterableColumns = computed(() => columns.value.filter((c) => c.filterable !== false));
 const searchIndex = computed(() =>
     entries.value.map((entry) =>
         filterableColumns.value.map((column) =>
-            foldText(column.filterText ? column.filterText(cellFor(column, entry.row).value, entry.row) : cellFor(column, entry.row).formatted),
+            foldText(
+                column.filterText
+                    ? column.filterText(cellFor(column, entry.row).value, entry.row)
+                    : cellFor(column, entry.row).formatted,
+            ),
         ),
     ),
 );
@@ -505,15 +598,24 @@ const filteredEntries = computed(() => {
     if (terms.length === 0 && !props.rowFilter) return entries.value;
     const index = terms.length > 0 ? searchIndex.value : null;
     // With a field chosen, every word must be in that field's cell; otherwise anywhere in the row.
-    const only = filterField.value ? filterableColumns.value.findIndex((c) => c.id === filterField.value) : -1;
+    const only = filterField.value
+        ? filterableColumns.value.findIndex((c) => c.id === filterField.value)
+        : -1;
     const rowText = (i: number): string => (only >= 0 ? index![i][only] : index![i].join(" "));
-    return entries.value.filter((entry, i) => (!props.rowFilter || props.rowFilter(entry.row)) && (!index || terms.every((term) => rowText(i).includes(term))));
+    return entries.value.filter(
+        (entry, i) =>
+            (!props.rowFilter || props.rowFilter(entry.row)) &&
+            (!index || terms.every((term) => rowText(i).includes(term))),
+    );
 });
 
 /** The sort keys in order: the primary, then `thenBy`, each with a real column and a direction. */
 const sortKeys = computed(() =>
     [sort.value, ...thenBy.value]
-        .map((k) => ({ column: columns.value.find((c) => c.id === k.columnId), dir: k.direction === "ascending" ? 1 : k.direction === "descending" ? -1 : 0 }))
+        .map((k) => ({
+            column: columns.value.find((c) => c.id === k.columnId),
+            dir: k.direction === "ascending" ? 1 : k.direction === "descending" ? -1 : 0,
+        }))
         .filter((k): k is { column: DataGridColumn; dir: 1 | -1 } => !!k.column && k.dir !== 0),
 );
 
@@ -525,7 +627,10 @@ const sortedEntries = computed(() => {
         return tag ? new Intl.Collator(tag, { numeric: true }) : null;
     });
     // Read each sort key once per column (n accessor calls), not twice per comparison.
-    const keyed = filteredEntries.value.map((entry) => ({ entry, keys: keys.map((k) => cellFor(k.column, entry.row).value) }));
+    const keyed = filteredEntries.value.map((entry) => ({
+        entry,
+        keys: keys.map((k) => cellFor(k.column, entry.row).value),
+    }));
     keyed.sort((a, b) => {
         for (let i = 0; i < keys.length; i++) {
             const { column, dir } = keys[i];
@@ -535,7 +640,10 @@ const sortedEntries = computed(() => {
             // Missing values sort together at one end, in both directions (`nulls`).
             const aMissing = av === null || av === undefined;
             const bMissing = bv === null || bv === undefined;
-            if (aMissing || bMissing) return aMissing === bMissing ? 0 : (aMissing ? 1 : -1) * (props.nulls === "first" ? -1 : 1);
+            if (aMissing || bMissing)
+                return aMissing === bMissing
+                    ? 0
+                    : (aMissing ? 1 : -1) * (props.nulls === "first" ? -1 : 1);
             const collator = collators[i];
             const result = column.compare
                 ? column.compare(av, bv) * dir
@@ -551,22 +659,32 @@ const sortedEntries = computed(() => {
     return keyed.map((k) => k.entry);
 });
 
-const pageCount = computed(() => (props.pageSize ? Math.max(1, Math.ceil(sortedEntries.value.length / props.pageSize)) : 1));
+const pageCount = computed(() =>
+    props.pageSize ? Math.max(1, Math.ceil(sortedEntries.value.length / props.pageSize)) : 1,
+);
 const clampedPage = computed(() => Math.min(Math.max(page.value, 1), pageCount.value));
 const pageStart = computed(() => (props.pageSize ? (clampedPage.value - 1) * props.pageSize : 0));
 const pageEntries = computed(() =>
-    props.pageSize ? sortedEntries.value.slice(pageStart.value, pageStart.value + props.pageSize) : sortedEntries.value,
+    props.pageSize
+        ? sortedEntries.value.slice(pageStart.value, pageStart.value + props.pageSize)
+        : sortedEntries.value,
 );
 
 const lastCol = computed(() => colOffset.value + visibleColumns.value.length - 1);
 
 // The roving position clamped to the cells that exist now.
-const activeRow = computed(() => Math.max(-1, Math.min(focusedRow.value, pageEntries.value.length - 1)));
+const activeRow = computed(() =>
+    Math.max(-1, Math.min(focusedRow.value, pageEntries.value.length - 1)),
+);
 const activeCol = computed(() => Math.max(0, Math.min(focusedCol.value, lastCol.value)));
 
 // Row position for assistive technology, only when the DOM holds a subset of the rows. Header row is 1.
 const rowCount = computed(() =>
-    props.pageSize ? sortedEntries.value.length + 1 : props.virtualize ? pageEntries.value.length + 1 : undefined,
+    props.pageSize
+        ? sortedEntries.value.length + 1
+        : props.virtualize
+          ? pageEntries.value.length + 1
+          : undefined,
 );
 const indexed = computed(() => !!props.pageSize || !!props.virtualize);
 
@@ -587,11 +705,13 @@ const renderItems = computed<RenderItem[]>(() => {
     const items: RenderItem[] = [];
     let previous = -1;
     for (const index of [...indices].sort((a, b) => a - b)) {
-        if (index - previous > 1) items.push({ kind: "spacer", rows: index - previous - 1, key: `spacer-${previous}` });
+        if (index - previous > 1)
+            items.push({ kind: "spacer", rows: index - previous - 1, key: `spacer-${previous}` });
         items.push({ kind: "row", index });
         previous = index;
     }
-    if (total - 1 - previous > 0) items.push({ kind: "spacer", rows: total - 1 - previous, key: `spacer-${previous}` });
+    if (total - 1 - previous > 0)
+        items.push({ kind: "spacer", rows: total - 1 - previous, key: `spacer-${previous}` });
     return items;
 });
 
@@ -610,8 +730,15 @@ function revealRow(index: number): void {
 
 // O(1) membership instead of `selected.includes` per row.
 const selectedSet = computed(() => new Set(selected.value));
-const allSelected = computed(() => sortedEntries.value.length > 0 && sortedEntries.value.every((entry) => selectedSet.value.has(entry.id)));
-const someSelected = computed(() => !allSelected.value && sortedEntries.value.some((entry) => selectedSet.value.has(entry.id)));
+const allSelected = computed(
+    () =>
+        sortedEntries.value.length > 0 &&
+        sortedEntries.value.every((entry) => selectedSet.value.has(entry.id)),
+);
+const someSelected = computed(
+    () =>
+        !allSelected.value && sortedEntries.value.some((entry) => selectedSet.value.has(entry.id)),
+);
 
 function announce(message: string | undefined): void {
     if (message) statusMessage.value = message;
@@ -637,15 +764,29 @@ function sortOrderFor(column: DataGridColumn): number | undefined {
 function toggleSort(column: DataGridColumn, additive = false): void {
     if (!column.sortable) return;
     const current = sort.value;
-    if (additive && current.direction !== "none" && current.columnId && current.columnId !== column.id) {
+    if (
+        additive &&
+        current.direction !== "none" &&
+        current.columnId &&
+        current.columnId !== column.id
+    ) {
         const existing = thenBy.value.find((k) => k.columnId === column.id);
         const nextThen: DataGridSort[] = !existing
             ? [...thenBy.value, { columnId: column.id, direction: "ascending" }]
             : existing.direction === "ascending"
-              ? thenBy.value.map((k) => (k.columnId === column.id ? { columnId: column.id, direction: "descending" as const } : k))
+              ? thenBy.value.map((k) =>
+                    k.columnId === column.id
+                        ? { columnId: column.id, direction: "descending" as const }
+                        : k,
+                )
               : thenBy.value.filter((k) => k.columnId !== column.id);
         thenBy.value = nextThen;
-        announce(props.labels.sortAnnouncement?.(column.header, nextThen.find((k) => k.columnId === column.id)?.direction ?? "none"));
+        announce(
+            props.labels.sortAnnouncement?.(
+                column.header,
+                nextThen.find((k) => k.columnId === column.id)?.direction ?? "none",
+            ),
+        );
         return;
     }
     if (thenBy.value.length > 0) thenBy.value = [];
@@ -698,17 +839,23 @@ function setSelected(next: string[]): void {
 }
 
 /** `index` is the row's position in `sortedEntries`, not on the current page. */
-function toggleRow(index: number, event?: { shiftKey?: boolean; ctrlKey?: boolean; metaKey?: boolean }): void {
+function toggleRow(
+    index: number,
+    event?: { shiftKey?: boolean; ctrlKey?: boolean; metaKey?: boolean },
+): void {
     const id = sortedEntries.value[index].id;
     if (props.selectionMode === "single") {
         setSelected(isSelected(id) ? [] : [id]);
     } else if (props.selectionMode === "multiple") {
         if (event?.shiftKey && lastSelectedIndex >= 0) {
-            const [start, end] = lastSelectedIndex < index ? [lastSelectedIndex, index] : [index, lastSelectedIndex];
+            const [start, end] =
+                lastSelectedIndex < index ? [lastSelectedIndex, index] : [index, lastSelectedIndex];
             const range = sortedEntries.value.slice(start, end + 1).map((entry) => entry.id);
             setSelected([...new Set([...selected.value, ...range])]);
         } else if (event?.ctrlKey || event?.metaKey) {
-            setSelected(isSelected(id) ? selected.value.filter((x) => x !== id) : [...selected.value, id]);
+            setSelected(
+                isSelected(id) ? selected.value.filter((x) => x !== id) : [...selected.value, id],
+            );
         } else {
             setSelected(isSelected(id) && selected.value.length === 1 ? [] : [id]);
         }
@@ -725,7 +872,8 @@ function toggleSelectAll(): void {
 // Column resize
 // ---------------------------------------------------------------
 
-const widthFor = (column: DataGridColumn): number | undefined => columnWidths.value[column.id] ?? column.width;
+const widthFor = (column: DataGridColumn): number | undefined =>
+    columnWidths.value[column.id] ?? column.width;
 
 /** Inline style of a column's cells: its width, and its alignment where one is set. */
 function cellStyle(column: DataGridColumn): string | undefined {
@@ -736,9 +884,14 @@ function cellStyle(column: DataGridColumn): string | undefined {
     // A pinned column's distance from its edge: the widths of the pinned columns before it (start) or after it (end), once all are known.
     if (column.pinned) {
         const i = visibleColumns.value.findIndex((c) => c.id === column.id);
-        const before = (column.pinned === "start" ? visibleColumns.value.slice(0, i) : visibleColumns.value.slice(i + 1)).filter((c) => c.pinned === column.pinned);
+        const before = (
+            column.pinned === "start"
+                ? visibleColumns.value.slice(0, i)
+                : visibleColumns.value.slice(i + 1)
+        ).filter((c) => c.pinned === column.pinned);
         const widths = before.map((c) => widthFor(c));
-        if (widths.every((w) => w !== undefined)) parts.push(`--data-grid-pinned-offset:${widths.reduce((a, w) => a + (w ?? 0), 0)}px`);
+        if (widths.every((w) => w !== undefined))
+            parts.push(`--data-grid-pinned-offset:${widths.reduce((a, w) => a + (w ?? 0), 0)}px`);
     }
     return parts.length > 0 ? parts.join(";") : undefined;
 }
@@ -747,7 +900,10 @@ function cellStyle(column: DataGridColumn): string | undefined {
 function footerAggregate(columnId: string, kind: DataGridAggregate): unknown {
     const column = columns.value.find((c) => c.id === columnId);
     if (!column) return undefined;
-    return aggregateValues(kind, sortedEntries.value.map((e) => defaultAccessor(column, e.row)));
+    return aggregateValues(
+        kind,
+        sortedEntries.value.map((e) => defaultAccessor(column, e.row)),
+    );
 }
 
 function setWidth(column: DataGridColumn, width: number): void {
@@ -772,7 +928,8 @@ function onResizePointerDown(column: DataGridColumn, event: PointerEvent): void 
     event.preventDefault();
     const startX = event.clientX;
     const target = event.target as HTMLElement;
-    const startWidth = widthFor(column) ?? target.closest("th")?.getBoundingClientRect().width ?? 120;
+    const startWidth =
+        widthFor(column) ?? target.closest("th")?.getBoundingClientRect().width ?? 120;
     target.setPointerCapture?.(event.pointerId);
 
     function onMove(moveEvent: PointerEvent): void {
@@ -815,7 +972,9 @@ function goToPage(next: number): void {
 function focusActiveCell(): void {
     nextTick(() => {
         rootEl.value
-            ?.querySelector<HTMLElement>('.data-table-th[tabindex="0"], .data-table-td[tabindex="0"]')
+            ?.querySelector<HTMLElement>(
+                '.data-table-th[tabindex="0"], .data-table-td[tabindex="0"]',
+            )
             ?.focus({ preventScroll: true });
     });
 }
@@ -861,24 +1020,37 @@ function moveFocus(row: number, col: number): void {
 
 const exportColumns = computed(() => visibleColumns.value.filter((c) => c.exportable !== false));
 const exportEntries = computed(() =>
-    props.exportScope === "selected" ? sortedEntries.value.filter((entry) => selectedSet.value.has(entry.id)) : sortedEntries.value,
+    props.exportScope === "selected"
+        ? sortedEntries.value.filter((entry) => selectedSet.value.has(entry.id))
+        : sortedEntries.value,
 );
-const hasExportButtons = computed(() => !!(props.labels.exportCsv || props.labels.exportTsv || props.labels.exportExcel || props.labels.copy));
+const hasExportButtons = computed(
+    () =>
+        !!(
+            props.labels.exportCsv ||
+            props.labels.exportTsv ||
+            props.labels.exportExcel ||
+            props.labels.copy
+        ),
+);
 
 /** One cell for an export: typed values stay typed, everything else is the text the grid shows. */
 function exportCell(column: DataGridColumn, row: DataGridRow): unknown {
     if (column.exportValue) return column.exportValue(row);
     const value = defaultAccessor(column, row);
     if (value === null || value === undefined) return null;
-    if (typeof value === "number" || typeof value === "boolean" || value instanceof Date) return value;
+    if (typeof value === "number" || typeof value === "boolean" || value instanceof Date)
+        return value;
     return formatCell(column, row);
 }
 
 /** The extra column a `time-zone` column asks for: its UTC time of day at the reference date. */
-const hasUtcColumn = (c: DataGridColumn) => c.type === "time-zone" && !!c.exportUtc && !!c.referenceDate && !!props.labels.exportUtcHeader;
+const hasUtcColumn = (c: DataGridColumn) =>
+    c.type === "time-zone" && !!c.exportUtc && !!c.referenceDate && !!props.labels.exportUtcHeader;
 
 function buildExportTable(format: ExportFormat) {
-    const live = (c: DataGridColumn) => format === "xlsx" && props.exportFormulas && c.type === "formula" && !!c.source;
+    const live = (c: DataGridColumn) =>
+        format === "xlsx" && props.exportFormulas && c.type === "formula" && !!c.source;
     const headers: string[] = [];
     for (const c of exportColumns.value) {
         headers.push(c.header);
@@ -893,7 +1065,8 @@ function buildExportTable(format: ExportFormat) {
                     ? { formula: expression, result: exportCell(c, entry.row) }
                     : exportCell(c, entry.row),
             );
-            if (hasUtcColumn(c)) cells.push(zonedUtcTime(defaultAccessor(c, entry.row), c.referenceDate));
+            if (hasUtcColumn(c))
+                cells.push(zonedUtcTime(defaultAccessor(c, entry.row), c.referenceDate));
         }
         return cells;
     });
@@ -935,7 +1108,13 @@ function onFileDrop(entry: Entry, column: DataGridColumn, event: DragEvent): voi
 function onFileInput(entry: Entry, column: DataGridColumn, event: Event): void {
     const input = event.target as HTMLInputElement;
     const chosen = Array.from(input.files ?? []);
-    if (chosen.length > 0) emit("files-selected", { rowId: entry.id, row: entry.row, columnId: column.id, files: chosen });
+    if (chosen.length > 0)
+        emit("files-selected", {
+            rowId: entry.id,
+            row: entry.row,
+            columnId: column.id,
+            files: chosen,
+        });
     input.value = "";
 }
 
@@ -943,7 +1122,14 @@ function onFileInput(entry: Entry, column: DataGridColumn, event: Event): void {
 // Cell editing
 // ---------------------------------------------------------------
 
-type Editing = { rowId: string; columnId: string; draft: string; zone?: string; error?: string; invalid?: boolean };
+type Editing = {
+    rowId: string;
+    columnId: string;
+    draft: string;
+    zone?: string;
+    error?: string;
+    invalid?: boolean;
+};
 const editing = ref<Editing | null>(null);
 
 /** A cell the person can edit through the grid's edit model (not a rollup, a file cell with its own widgets, or a person cell with no editor). */
@@ -957,21 +1143,41 @@ function isEditable(column: DataGridColumn): boolean {
 function startEdit(entry: Entry, column: DataGridColumn): void {
     if (!isEditable(column)) return;
     // A formula's editor shows the expression the row holds, not the result.
-    const raw = column.type === "formula" && column.source ? column.source(entry.row) : defaultAccessor(column, entry.row);
+    const raw =
+        column.type === "formula" && column.source
+            ? column.source(entry.row)
+            : defaultAccessor(column, entry.row);
     if (column.type === "time-zone") {
         const zoned = isZonedTime(raw) ? raw : null;
-        editing.value = { rowId: entry.id, columnId: column.id, draft: zoned?.time ?? "", zone: zoned?.timeZone ?? column.timeZones?.[0]?.id ?? "" };
+        editing.value = {
+            rowId: entry.id,
+            columnId: column.id,
+            draft: zoned?.time ?? "",
+            zone: zoned?.timeZone ?? column.timeZones?.[0]?.id ?? "",
+        };
         return;
     }
-    const text = column.type === "link" ? (linkParts(raw)?.href ?? "") : raw === null || raw === undefined ? "" : String(raw);
+    const text =
+        column.type === "link"
+            ? (linkParts(raw)?.href ?? "")
+            : raw === null || raw === undefined
+              ? ""
+              : String(raw);
     editing.value = { rowId: entry.id, columnId: column.id, draft: text };
 }
 
-function parseDraft(column: DataGridColumn, row: DataGridRow, draft: string, zone?: string): unknown {
+function parseDraft(
+    column: DataGridColumn,
+    row: DataGridRow,
+    draft: string,
+    zone?: string,
+): unknown {
     if (column.parse) return column.parse(draft, row);
-    if (column.type === "time-zone") return draft === "" ? null : { time: draft, timeZone: zone ?? "" };
+    if (column.type === "time-zone")
+        return draft === "" ? null : { time: draft, timeZone: zone ?? "" };
     if (column.editor === "number") return draft.trim() === "" ? null : Number(draft);
-    if (column.editor === "date" || column.editor === "time" || column.editor === "select") return draft === "" ? null : draft;
+    if (column.editor === "date" || column.editor === "time" || column.editor === "select")
+        return draft === "" ? null : draft;
     return draft;
 }
 
@@ -989,14 +1195,31 @@ function stepHistory(direction: "undo" | "redo"): void {
     if (!entry || !column) return;
     const restored = direction === "undo" ? previous : value;
     const replaced = direction === "undo" ? value : previous;
-    emit("cell-edit", { rowId: entry.id, row: entry.row, columnId: column.id, value: restored, previous: replaced });
+    emit("cell-edit", {
+        rowId: entry.id,
+        row: entry.row,
+        columnId: column.id,
+        value: restored,
+        previous: replaced,
+    });
     const text = column.format ? column.format(restored, entry.row) : String(restored ?? "");
-    announce((direction === "undo" ? props.labels.undoAnnouncement : props.labels.redoAnnouncement)?.(column.header, text));
+    announce(
+        (direction === "undo" ? props.labels.undoAnnouncement : props.labels.redoAnnouncement)?.(
+            column.header,
+            text,
+        ),
+    );
 }
 
 /** Two link values with the same address and label are the same edit. */
 function isStructurallyEqual(a: unknown, b: unknown): boolean {
-    return typeof a === "object" && typeof b === "object" && a !== null && b !== null && JSON.stringify(a) === JSON.stringify(b);
+    return (
+        typeof a === "object" &&
+        typeof b === "object" &&
+        a !== null &&
+        b !== null &&
+        JSON.stringify(a) === JSON.stringify(b)
+    );
 }
 
 /** Validate and report one new value for a cell. Returns false (and keeps editing, if the editor is open) when it is refused. */
@@ -1005,16 +1228,31 @@ function commitValue(entry: Entry, column: DataGridColumn, value: unknown): bool
     const invalidType = isInvalidForType(column, value);
     if (message || invalidType) {
         const text = message ?? props.labels.invalidValue?.(column.header, column.type ?? "") ?? "";
-        if (editing.value) editing.value = { ...editing.value, error: text || undefined, invalid: true };
+        if (editing.value)
+            editing.value = { ...editing.value, error: text || undefined, invalid: true };
         announce(props.labels.editError?.(column.header, text));
         return false;
     }
-    const previous = column.type === "formula" && column.source ? column.source(entry.row) : defaultAccessor(column, entry.row);
+    const previous =
+        column.type === "formula" && column.source
+            ? column.source(entry.row)
+            : defaultAccessor(column, entry.row);
     editing.value = null;
     if (value !== previous && !isStructurallyEqual(value, previous)) {
         history = recordEdit(history, { ownerId: entry.id, fieldId: column.id, value, previous });
-        emit("cell-edit", { rowId: entry.id, row: entry.row, columnId: column.id, value, previous });
-        announce(props.labels.editAnnouncement?.(column.header, column.format ? column.format(value, entry.row) : String(value ?? "")));
+        emit("cell-edit", {
+            rowId: entry.id,
+            row: entry.row,
+            columnId: column.id,
+            value,
+            previous,
+        });
+        announce(
+            props.labels.editAnnouncement?.(
+                column.header,
+                column.format ? column.format(value, entry.row) : String(value ?? ""),
+            ),
+        );
     }
     return true;
 }
@@ -1028,7 +1266,8 @@ function commitEdit(): void {
         editing.value = null;
         return;
     }
-    if (commitValue(entry, column, parseDraft(column, entry.row, current.draft, current.zone))) focusActiveCell();
+    if (commitValue(entry, column, parseDraft(column, entry.row, current.draft, current.zone)))
+        focusActiveCell();
 }
 
 function cancelEdit(): void {
@@ -1057,7 +1296,8 @@ function onEditorKeydown(event: KeyboardEvent): void {
 }
 
 function setDraft(draft: string): void {
-    if (editing.value) editing.value = { ...editing.value, draft, error: undefined, invalid: false };
+    if (editing.value)
+        editing.value = { ...editing.value, draft, error: undefined, invalid: false };
 }
 
 function setZone(zone: string): void {
@@ -1092,7 +1332,9 @@ function activateFocusedCell(): void {
 
 /** The widgets a consumer put in a body cell (never the grid's own controls). */
 function widgetsIn(cell: Element): HTMLElement[] {
-    return Array.from(cell.querySelectorAll<HTMLElement>(WIDGET_SELECTOR)).filter((el) => !el.closest("[data-grid-own]"));
+    return Array.from(cell.querySelectorAll<HTMLElement>(WIDGET_SELECTOR)).filter(
+        (el) => !el.closest("[data-grid-own]"),
+    );
 }
 
 function setWidgetTabindex(cell: Element, value: "0" | "-1"): void {
@@ -1109,7 +1351,9 @@ function normaliseWidgets(): void {
 }
 
 // Re-run whenever what is on screen could have changed.
-watch([pageEntries, visibleColumns, isGrid, scrollTop, editing], () => nextTick(normaliseWidgets), { flush: "post" });
+watch([pageEntries, visibleColumns, isGrid, scrollTop, editing], () => nextTick(normaliseWidgets), {
+    flush: "post",
+});
 onMounted(normaliseWidgets);
 
 /** Focus the first widget of a cell; its widgets are tab stops while focus stays inside it. */
@@ -1165,7 +1409,12 @@ function onGridClick(event: MouseEvent): void {
 function onGridDblclick(event: MouseEvent): void {
     const target = event.target as HTMLElement;
     const cell = target.closest<HTMLElement>("[data-row][data-col]");
-    if (!cell || cell.closest(".data-table-head") || target.closest("input, button, select, textarea")) return;
+    if (
+        !cell ||
+        cell.closest(".data-table-head") ||
+        target.closest("input, button, select, textarea")
+    )
+        return;
     const entry = pageEntries.value[Number(cell.dataset.row)];
     const column = visibleColumns.value[Number(cell.dataset.col) - colOffset.value];
     if (entry && column && isEditable(column)) startEdit(entry, column);
@@ -1194,7 +1443,8 @@ function onGridKeydown(event: KeyboardEvent): void {
         if (column && isMovable(column)) {
             event.preventDefault();
             const delta = key === "ArrowRight" ? 1 : -1;
-            if (moveColumn(column.id, activeCol.value - colOffset.value + delta)) moveFocus(-1, activeCol.value + delta);
+            if (moveColumn(column.id, activeCol.value - colOffset.value + delta))
+                moveFocus(-1, activeCol.value + delta);
             return;
         }
     }
@@ -1209,7 +1459,11 @@ function onGridKeydown(event: KeyboardEvent): void {
         const column = visibleColumns.value[activeCol.value - colOffset.value];
         if (column) {
             const state = nextTypeaheadState(typeahead, event.key, Date.now(), TYPEAHEAD_WINDOW_MS);
-            const hit = findTypeaheadMatch(pageEntries.value.map((entry) => cellFor(column, entry.row).formatted), activeRow.value, state.prefix);
+            const hit = findTypeaheadMatch(
+                pageEntries.value.map((entry) => cellFor(column, entry.row).formatted),
+                activeRow.value,
+                state.prefix,
+            );
             if (hit !== -1) {
                 typeahead = state;
                 event.preventDefault();
@@ -1221,7 +1475,13 @@ function onGridKeydown(event: KeyboardEvent): void {
     const move = gridMove(
         event,
         { row: activeRow.value, col: activeCol.value },
-        { firstRow: -1, lastRow: pageEntries.value.length - 1, lastCol: lastCol.value, pageStep: props.pageSize ?? 10, rtl: isRtl(cell) },
+        {
+            firstRow: -1,
+            lastRow: pageEntries.value.length - 1,
+            lastCol: lastCol.value,
+            pageStep: props.pageSize ?? 10,
+            rtl: isRtl(cell),
+        },
     );
     if (move) {
         event.preventDefault();
@@ -1249,7 +1509,11 @@ function onGridKeydown(event: KeyboardEvent): void {
                     break;
                 }
             }
-            if (target === cell && cell.closest(".data-table-body") && !cell.querySelector("[data-grid-own]")) {
+            if (
+                target === cell &&
+                cell.closest(".data-table-body") &&
+                !cell.querySelector("[data-grid-own]")
+            ) {
                 // A cell with a widget in it is entered; one without activates its row.
                 if (enterCell(cell)) break;
                 if (event.key === "Enter" && hasRowActivate) {
@@ -1299,12 +1563,17 @@ watch(
         try {
             localStorage.setItem(
                 props.storageKey,
-                JSON.stringify({ columnWidths: columnWidths.value, hiddenColumnIds: [...hiddenColumnIds.value], sort: sort.value, columnOrder: columnOrder.value }),
+                JSON.stringify({
+                    columnWidths: columnWidths.value,
+                    hiddenColumnIds: [...hiddenColumnIds.value],
+                    sort: sort.value,
+                    columnOrder: columnOrder.value,
+                }),
             );
         } catch {
             // ignore quota / privacy errors
         }
-        },
+    },
     { immediate: true },
 );
 
@@ -1312,7 +1581,8 @@ watch(
 // Template helpers
 // ---------------------------------------------------------------
 
-const rowLabelOf = (entry: Entry): string => (visibleColumns.value[0] ? cellFor(visibleColumns.value[0], entry.row).formatted : entry.id);
+const rowLabelOf = (entry: Entry): string =>
+    visibleColumns.value[0] ? cellFor(visibleColumns.value[0], entry.row).formatted : entry.id;
 
 function shownPeople(column: DataGridColumn, value: unknown): DataGridPerson[] {
     const people = peopleOf(value);
@@ -1320,7 +1590,9 @@ function shownPeople(column: DataGridColumn, value: unknown): DataGridPerson[] {
 }
 
 /** A node that is the cell's own content (not a built-in type body). */
-const groupsOf = (column: DataGridColumn): string[] => [...new Set((column.options ?? []).filter((o) => o.group).map((o) => o.group as string))];
+const groupsOf = (column: DataGridColumn): string[] => [
+    ...new Set((column.options ?? []).filter((o) => o.group).map((o) => o.group as string)),
+];
 
 /** `indeterminate` is a JS-only DOM property, not an attribute. */
 function setIndeterminate(node: unknown): void {
@@ -1328,9 +1600,16 @@ function setIndeterminate(node: unknown): void {
 }
 
 /** The attributes a body cell's headless element gets (the cell is a TD, or a TH for a row-header column). */
-function cellProps(column: DataGridColumn, rowIndex: number, colIndex: number, ctx: DataGridCellContext, id: string): Record<string, unknown> {
+function cellProps(
+    column: DataGridColumn,
+    rowIndex: number,
+    colIndex: number,
+    ctx: DataGridCellContext,
+    id: string,
+): Record<string, unknown> {
     const extra = column.cellAttrs?.(ctx) ?? {};
-    const extraClass = typeof column.cellClass === "function" ? column.cellClass(ctx) : column.cellClass;
+    const extraClass =
+        typeof column.cellClass === "function" ? column.cellClass(ctx) : column.cellClass;
     const isActive = activeRow.value === rowIndex && activeCol.value === colOffset.value + colIndex;
     const common: Record<string, unknown> = {
         class: extraClass,
@@ -1344,23 +1623,34 @@ function cellProps(column: DataGridColumn, rowIndex: number, colIndex: number, c
         style: cellStyle(column),
     };
     if (column.rowHeader) {
-        return { ...common, scope: "row", role: "rowheader", tabindex: isGrid.value ? (isActive ? 0 : -1) : undefined, ...extra };
+        return {
+            ...common,
+            scope: "row",
+            role: "rowheader",
+            tabindex: isGrid.value ? (isActive ? 0 : -1) : undefined,
+            ...extra,
+        };
     }
     return {
         ...common,
         "data-editable": isEditable(column) ? "" : undefined,
         "data-readonly": column.type === "rollup" ? "" : undefined,
         "aria-readonly": column.type === "rollup" ? "true" : undefined,
-        "data-editing": editing.value?.rowId === id && editing.value.columnId === column.id ? "" : undefined,
+        "data-editing":
+            editing.value?.rowId === id && editing.value.columnId === column.id ? "" : undefined,
         role: isGrid.value ? "gridcell" : "cell",
         ...(isGrid.value ? { active: isActive } : { tabindex: undefined }),
         onDragover:
             column.type === "file" && column.editable
                 ? (e: DragEvent) => {
-                      if (Array.from(e.dataTransfer?.types ?? []).includes("Files")) e.preventDefault();
+                      if (Array.from(e.dataTransfer?.types ?? []).includes("Files"))
+                          e.preventDefault();
                   }
                 : undefined,
-        onDrop: column.type === "file" && column.editable ? (e: DragEvent) => onFileDrop(entryById(id)!, column, e) : undefined,
+        onDrop:
+            column.type === "file" && column.editable
+                ? (e: DragEvent) => onFileDrop(entryById(id)!, column, e)
+                : undefined,
         ...extra,
     };
 }
@@ -1372,8 +1662,14 @@ function entryById(id: string): Entry | undefined {
 
 <template>
     <!-- DataGrid.vue -->
-    <div ref="rootEl" class="data-grid">
-        <div v-if="labels.search || hidableColumns.length > 0 || hasExportButtons" class="data-grid-toolbar">
+    <div
+        ref="rootEl"
+        class="data-grid"
+    >
+        <div
+            v-if="labels.search || hidableColumns.length > 0 || hasExportButtons"
+            class="data-grid-toolbar"
+        >
             <select
                 v-if="labels.search && labels.searchField && labels.searchAllFields"
                 class="data-grid-search-field"
@@ -1382,7 +1678,13 @@ function entryById(id: string): Entry | undefined {
                 @change="onFilterFieldChange"
             >
                 <option value="">{{ labels.searchAllFields }}</option>
-                <option v-for="c in filterableColumns" :key="c.id" :value="c.id">{{ c.header }}</option>
+                <option
+                    v-for="c in filterableColumns"
+                    :key="c.id"
+                    :value="c.id"
+                >
+                    {{ c.header }}
+                </option>
             </select>
             <SearchInput
                 v-if="labels.search"
@@ -1392,7 +1694,12 @@ function entryById(id: string): Entry | undefined {
                 @update:model-value="setFilter"
                 @keydown="onFilterKeydown"
             />
-            <div v-if="hasExportButtons" class="data-grid-export" role="group" :aria-label="labels.export">
+            <div
+                v-if="hasExportButtons"
+                class="data-grid-export"
+                role="group"
+                :aria-label="labels.export"
+            >
                 <button
                     v-if="labels.copy"
                     type="button"
@@ -1400,7 +1707,9 @@ function entryById(id: string): Entry | undefined {
                     data-grid-export-format="copy"
                     :disabled="exportEntries.length === 0"
                     @click="runCopy()"
-                >{{ labels.copy }}</button>
+                >
+                    {{ labels.copy }}
+                </button>
                 <button
                     v-if="labels.exportCsv"
                     type="button"
@@ -1408,7 +1717,9 @@ function entryById(id: string): Entry | undefined {
                     data-grid-export-format="csv"
                     :disabled="exportEntries.length === 0"
                     @click="runExport('csv')"
-                >{{ labels.exportCsv }}</button>
+                >
+                    {{ labels.exportCsv }}
+                </button>
                 <button
                     v-if="labels.exportTsv"
                     type="button"
@@ -1416,7 +1727,9 @@ function entryById(id: string): Entry | undefined {
                     data-grid-export-format="tsv"
                     :disabled="exportEntries.length === 0"
                     @click="runExport('tsv')"
-                >{{ labels.exportTsv }}</button>
+                >
+                    {{ labels.exportTsv }}
+                </button>
                 <button
                     v-if="labels.exportExcel"
                     type="button"
@@ -1424,12 +1737,24 @@ function entryById(id: string): Entry | undefined {
                     data-grid-export-format="xlsx"
                     :disabled="exportEntries.length === 0"
                     @click="runExport('xlsx')"
-                >{{ labels.exportExcel }}</button>
+                >
+                    {{ labels.exportExcel }}
+                </button>
             </div>
-            <fieldset v-if="hidableColumns.length > 0 && labels.columnVisibility" class="data-grid-column-visibility">
+            <fieldset
+                v-if="hidableColumns.length > 0 && labels.columnVisibility"
+                class="data-grid-column-visibility"
+            >
                 <legend>{{ labels.columnVisibility }}</legend>
-                <label v-for="column in hidableColumns" :key="column.id">
-                    <input type="checkbox" :checked="!hiddenColumnIds.has(column.id)" @change="toggleColumnVisibility(column.id)" />
+                <label
+                    v-for="column in hidableColumns"
+                    :key="column.id"
+                >
+                    <input
+                        type="checkbox"
+                        :checked="!hiddenColumnIds.has(column.id)"
+                        @change="toggleColumnVisibility(column.id)"
+                    />
                     {{ labels.columnVisibilityOption?.(column.header) ?? column.header }}
                 </label>
             </fieldset>
@@ -1437,15 +1762,25 @@ function entryById(id: string): Entry | undefined {
 
         <component
             :is="scroll ? 'div' : Passthrough"
-            v-bind="scroll ? {
-                ref: (n: unknown) => (scrollEl = n as HTMLDivElement | null),
-                class: 'data-grid-scroll',
-                role: 'region',
-                'aria-label': label,
-                tabindex: isGrid ? undefined : 0,
-                style: virtualize ? `height:${virtualize.height}px;overflow:auto` : undefined,
-                onScroll: virtualize ? (e: Event) => { scrollTop = (e.currentTarget as HTMLElement).scrollTop; } : undefined,
-            } : {}"
+            v-bind="
+                scroll
+                    ? {
+                          ref: (n: unknown) => (scrollEl = n as HTMLDivElement | null),
+                          class: 'data-grid-scroll',
+                          role: 'region',
+                          'aria-label': label,
+                          tabindex: isGrid ? undefined : 0,
+                          style: virtualize
+                              ? `height:${virtualize.height}px;overflow:auto`
+                              : undefined,
+                          onScroll: virtualize
+                              ? (e: Event) => {
+                                    scrollTop = (e.currentTarget as HTMLElement).scrollTop;
+                                }
+                              : undefined,
+                      }
+                    : {}
+            "
         >
             <DataTable
                 :label="label"
@@ -1465,7 +1800,9 @@ function entryById(id: string): Entry | undefined {
                             v-if="hasSelection"
                             :data-row="-1"
                             :data-col="0"
-                            :tabindex="isGrid ? (activeRow === -1 && activeCol === 0 ? 0 : -1) : undefined"
+                            :tabindex="
+                                isGrid ? (activeRow === -1 && activeCol === 0 ? 0 : -1) : undefined
+                            "
                         >
                             <input
                                 v-if="selectionMode === 'multiple'"
@@ -1477,7 +1814,11 @@ function entryById(id: string): Entry | undefined {
                                 :ref="setIndeterminate"
                                 @click="toggleSelectAll"
                             />
-                            <span v-else class="data-grid-selection-header-label">{{ labels.selectionColumn }}</span>
+                            <span
+                                v-else
+                                class="data-grid-selection-header-label"
+                                >{{ labels.selectionColumn }}</span
+                            >
                         </DataTableTH>
                         <DataTableTH
                             v-for="(column, i) in visibleColumns"
@@ -1487,14 +1828,37 @@ function entryById(id: string): Entry | undefined {
                             :data-align="column.align"
                             :data-cell-type="column.type"
                             :data-pinned="column.pinned"
-                            :tabindex="isGrid ? (activeRow === -1 && activeCol === colOffset + i ? 0 : -1) : undefined"
+                            :tabindex="
+                                isGrid
+                                    ? activeRow === -1 && activeCol === colOffset + i
+                                        ? 0
+                                        : -1
+                                    : undefined
+                            "
                             :aria-sort="ariaSortFor(column)"
                             :data-sort-order="sortOrderFor(column)"
-                            :aria-describedby="column.type === 'rollup' && labels.rollupDescription ? `${gridId}-${column.id}-description` : undefined"
+                            :aria-describedby="
+                                column.type === 'rollup' && labels.rollupDescription
+                                    ? `${gridId}-${column.id}-description`
+                                    : undefined
+                            "
                             :style="cellStyle(column)"
                             :draggable="isMovable(column) ? 'true' : undefined"
-                            @dragstart="isMovable(column) ? ((e: DragEvent) => { draggingColumnId = column.id; e.dataTransfer?.setData('text/plain', column.id); })($event) : undefined"
-                            @dragover="isMovable(column) ? ((e: DragEvent) => { if (draggingColumnId) e.preventDefault(); })($event) : undefined"
+                            @dragstart="
+                                isMovable(column)
+                                    ? ((e: DragEvent) => {
+                                          draggingColumnId = column.id;
+                                          e.dataTransfer?.setData('text/plain', column.id);
+                                      })($event)
+                                    : undefined
+                            "
+                            @dragover="
+                                isMovable(column)
+                                    ? ((e: DragEvent) => {
+                                          if (draggingColumnId) e.preventDefault();
+                                      })($event)
+                                    : undefined
+                            "
                             @drop="isMovable(column) ? onHeaderDrop(column.id, $event) : undefined"
                         >
                             <button
@@ -1505,12 +1869,23 @@ function entryById(id: string): Entry | undefined {
                                 :tabindex="isGrid ? -1 : undefined"
                                 @click="toggleSort(column, $event.shiftKey)"
                             >
-                                <RenderNode v-if="column.headerCell" :node="column.headerCell({ column })" />
+                                <RenderNode
+                                    v-if="column.headerCell"
+                                    :node="column.headerCell({ column })"
+                                />
                                 <template v-else>{{ column.header }}</template>
                             </button>
-                            <RenderNode v-else-if="column.headerCell" :node="column.headerCell({ column })" />
+                            <RenderNode
+                                v-else-if="column.headerCell"
+                                :node="column.headerCell({ column })"
+                            />
                             <template v-else>{{ column.header }}</template>
-                            <span v-if="column.type === 'rollup' && labels.rollupDescription" class="data-grid-visually-hidden" :id="`${gridId}-${column.id}-description`">{{ labels.rollupDescription(column.header) }}</span>
+                            <span
+                                v-if="column.type === 'rollup' && labels.rollupDescription"
+                                class="data-grid-visually-hidden"
+                                :id="`${gridId}-${column.id}-description`"
+                                >{{ labels.rollupDescription(column.header) }}</span
+                            >
                             <!-- WAI-ARIA "window splitter" pattern: role="separator" plus tabindex/aria-valuenow is exactly how a resize handle becomes focusable and operable. -->
                             <span
                                 v-if="column.resizable"
@@ -1529,14 +1904,24 @@ function entryById(id: string): Entry | undefined {
                     </DataTableRow>
                 </DataTableHead>
                 <DataTableBody>
-                    <template v-for="item in renderItems" :key="item.kind === 'row' ? pageEntries[item.index].id : item.key">
-                        <tr v-if="item.kind === 'spacer'" class="data-grid-spacer" aria-hidden="true" :style="`height:${item.rows * (virtualize?.rowHeight ?? 0)}px`">
+                    <template
+                        v-for="item in renderItems"
+                        :key="item.kind === 'row' ? pageEntries[item.index].id : item.key"
+                    >
+                        <tr
+                            v-if="item.kind === 'spacer'"
+                            class="data-grid-spacer"
+                            aria-hidden="true"
+                            :style="`height:${item.rows * (virtualize?.rowHeight ?? 0)}px`"
+                        >
                             <td :colspan="lastCol + 1"></td>
                         </tr>
                         <DataTableRow
                             v-else
                             :class="rowClass?.(pageEntries[item.index].row)"
-                            :aria-selected="hasSelection ? isSelected(pageEntries[item.index].id) : undefined"
+                            :aria-selected="
+                                hasSelection ? isSelected(pageEntries[item.index].id) : undefined
+                            "
                             :aria-rowindex="indexed ? pageStart + item.index + 2 : undefined"
                             v-bind="rowAttrs?.(pageEntries[item.index].row) ?? {}"
                         >
@@ -1545,124 +1930,423 @@ function entryById(id: string): Entry | undefined {
                                 :data-row="item.index"
                                 :data-col="0"
                                 :role="isGrid ? 'gridcell' : 'cell'"
-                                v-bind="isGrid ? { active: activeRow === item.index && activeCol === 0 } : { tabindex: undefined }"
+                                v-bind="
+                                    isGrid
+                                        ? { active: activeRow === item.index && activeCol === 0 }
+                                        : { tabindex: undefined }
+                                "
                             >
                                 <input
                                     :type="selectionMode === 'single' ? 'radio' : 'checkbox'"
                                     data-grid-own
                                     :tabindex="isGrid ? -1 : undefined"
-                                    :aria-label="labels.selectRow?.(visibleColumns[0] ? cellFor(visibleColumns[0], pageEntries[item.index].row).formatted : String(item.index + 1))"
+                                    :aria-label="
+                                        labels.selectRow?.(
+                                            visibleColumns[0]
+                                                ? cellFor(
+                                                      visibleColumns[0],
+                                                      pageEntries[item.index].row,
+                                                  ).formatted
+                                                : String(item.index + 1),
+                                        )
+                                    "
                                     :checked="isSelected(pageEntries[item.index].id)"
                                     @click="toggleRow(pageStart + item.index, $event)"
                                 />
                             </DataTableTD>
-                            <template v-for="(column, colIndex) in visibleColumns" :key="column.id">
+                            <template
+                                v-for="(column, colIndex) in visibleColumns"
+                                :key="column.id"
+                            >
                                 <component
                                     :is="column.rowHeader ? DataTableTH : DataTableTD"
-                                    v-bind="cellProps(column, item.index, colIndex, cellFor(column, pageEntries[item.index].row), pageEntries[item.index].id)"
+                                    v-bind="
+                                        cellProps(
+                                            column,
+                                            item.index,
+                                            colIndex,
+                                            cellFor(column, pageEntries[item.index].row),
+                                            pageEntries[item.index].id,
+                                        )
+                                    "
                                 >
-                                    <template v-if="editing && editing.rowId === pageEntries[item.index].id && editing.columnId === column.id">
+                                    <template
+                                        v-if="
+                                            editing &&
+                                            editing.rowId === pageEntries[item.index].id &&
+                                            editing.columnId === column.id
+                                        "
+                                    >
                                         <RenderNode
                                             v-if="column.editor === 'person' && column.personEditor"
-                                            :node="column.personEditor({ value: cellFor(column, pageEntries[item.index].row).value, commit: (v: unknown) => { commitValue(pageEntries[item.index], column, v); }, cancel: cancelEdit })"
+                                            :node="
+                                                column.personEditor({
+                                                    value: cellFor(
+                                                        column,
+                                                        pageEntries[item.index].row,
+                                                    ).value,
+                                                    commit: (v: unknown) => {
+                                                        commitValue(
+                                                            pageEntries[item.index],
+                                                            column,
+                                                            v,
+                                                        );
+                                                    },
+                                                    cancel: cancelEdit,
+                                                })
+                                            "
                                         />
                                         <span
                                             v-else-if="column.editor === 'time-zone'"
                                             class="data-grid-zoned-editor"
                                             role="group"
-                                            :aria-label="labels.cellEditor?.(column.header) ?? column.header"
-                                            @focusout="(e: FocusEvent) => { if (editing && !(e.currentTarget as HTMLElement).contains(e.relatedTarget as Node | null)) commitEdit(); }"
+                                            :aria-label="
+                                                labels.cellEditor?.(column.header) ?? column.header
+                                            "
+                                            @focusout="
+                                                (e: FocusEvent) => {
+                                                    if (
+                                                        editing &&
+                                                        !(e.currentTarget as HTMLElement).contains(
+                                                            e.relatedTarget as Node | null,
+                                                        )
+                                                    )
+                                                        commitEdit();
+                                                }
+                                            "
                                         >
                                             <input
                                                 v-focus-editor
                                                 class="data-grid-cell-editor"
                                                 type="time"
                                                 step="1"
-                                                :aria-label="labels.cellEditor?.(column.header) ?? column.header"
-                                                :aria-invalid="editing.error || editing.invalid ? 'true' : undefined"
-                                                :aria-describedby="editing.error ? `${pageEntries[item.index].id}-${column.id}-error` : undefined"
+                                                :aria-label="
+                                                    labels.cellEditor?.(column.header) ??
+                                                    column.header
+                                                "
+                                                :aria-invalid="
+                                                    editing.error || editing.invalid
+                                                        ? 'true'
+                                                        : undefined
+                                                "
+                                                :aria-describedby="
+                                                    editing.error
+                                                        ? `${pageEntries[item.index].id}-${column.id}-error`
+                                                        : undefined
+                                                "
                                                 :value="editing.draft"
-                                                @input="setDraft(($event.target as HTMLInputElement).value)"
+                                                @input="
+                                                    setDraft(
+                                                        ($event.target as HTMLInputElement).value,
+                                                    )
+                                                "
                                                 @keydown="onEditorKeydown"
                                             />
                                             <select
                                                 class="data-grid-cell-editor data-grid-zone-editor"
-                                                :aria-label="labels.timeZone?.(column.header) ?? column.header"
+                                                :aria-label="
+                                                    labels.timeZone?.(column.header) ??
+                                                    column.header
+                                                "
                                                 :value="editing.zone"
-                                                @change="setZone(($event.target as HTMLSelectElement).value)"
+                                                @change="
+                                                    setZone(
+                                                        ($event.target as HTMLSelectElement).value,
+                                                    )
+                                                "
                                                 @keydown="onEditorKeydown"
                                             >
-                                                <option v-for="option in column.timeZones ?? []" :key="option.id" :value="option.id" :selected="option.id === editing.zone">{{ option.label }}</option>
+                                                <option
+                                                    v-for="option in column.timeZones ?? []"
+                                                    :key="option.id"
+                                                    :value="option.id"
+                                                    :selected="option.id === editing.zone"
+                                                >
+                                                    {{ option.label }}
+                                                </option>
                                             </select>
                                         </span>
                                         <select
                                             v-else-if="column.editor === 'select'"
                                             v-focus-editor
                                             class="data-grid-cell-editor"
-                                            :aria-label="labels.cellEditor?.(column.header) ?? column.header"
-                                            :aria-invalid="editing.error || editing.invalid ? 'true' : undefined"
-                                            :aria-describedby="editing.error ? `${pageEntries[item.index].id}-${column.id}-error` : undefined"
+                                            :aria-label="
+                                                labels.cellEditor?.(column.header) ?? column.header
+                                            "
+                                            :aria-invalid="
+                                                editing.error || editing.invalid
+                                                    ? 'true'
+                                                    : undefined
+                                            "
+                                            :aria-describedby="
+                                                editing.error
+                                                    ? `${pageEntries[item.index].id}-${column.id}-error`
+                                                    : undefined
+                                            "
                                             :value="editing.draft"
-                                            @change="setDraft(($event.target as HTMLSelectElement).value)"
+                                            @change="
+                                                setDraft(($event.target as HTMLSelectElement).value)
+                                            "
                                             @keydown="onEditorKeydown"
                                             @blur="editing && commitEdit()"
                                         >
                                             <option value=""></option>
-                                            <option v-for="option in (column.options ?? []).filter((o) => !o.group)" :key="option.id" :value="option.id" :disabled="option.disabled" :selected="option.id === editing.draft">{{ option.label }}</option>
-                                            <optgroup v-for="group in groupsOf(column)" :key="group" :label="group">
-                                                <option v-for="option in (column.options ?? []).filter((o) => o.group === group)" :key="option.id" :value="option.id" :disabled="option.disabled" :selected="option.id === editing.draft">{{ option.label }}</option>
+                                            <option
+                                                v-for="option in (column.options ?? []).filter(
+                                                    (o) => !o.group,
+                                                )"
+                                                :key="option.id"
+                                                :value="option.id"
+                                                :disabled="option.disabled"
+                                                :selected="option.id === editing.draft"
+                                            >
+                                                {{ option.label }}
+                                            </option>
+                                            <optgroup
+                                                v-for="group in groupsOf(column)"
+                                                :key="group"
+                                                :label="group"
+                                            >
+                                                <option
+                                                    v-for="option in (column.options ?? []).filter(
+                                                        (o) => o.group === group,
+                                                    )"
+                                                    :key="option.id"
+                                                    :value="option.id"
+                                                    :disabled="option.disabled"
+                                                    :selected="option.id === editing.draft"
+                                                >
+                                                    {{ option.label }}
+                                                </option>
                                             </optgroup>
                                         </select>
                                         <input
                                             v-else
                                             v-focus-editor
                                             class="data-grid-cell-editor"
-                                            :type="column.editor === 'number' ? 'number' : column.editor === 'date' ? 'date' : column.editor === 'time' ? 'time' : 'text'"
+                                            :type="
+                                                column.editor === 'number'
+                                                    ? 'number'
+                                                    : column.editor === 'date'
+                                                      ? 'date'
+                                                      : column.editor === 'time'
+                                                        ? 'time'
+                                                        : 'text'
+                                            "
                                             :step="column.editor === 'time' ? 1 : undefined"
-                                            :inputmode="column.editor === 'number' ? 'decimal' : undefined"
-                                            :aria-label="(column.type === 'formula' ? labels.formulaEditor?.(column.header) : undefined) ?? labels.cellEditor?.(column.header) ?? column.header"
-                                            :aria-invalid="editing.error || editing.invalid ? 'true' : undefined"
-                                            :aria-describedby="editing.error ? `${pageEntries[item.index].id}-${column.id}-error` : undefined"
+                                            :inputmode="
+                                                column.editor === 'number' ? 'decimal' : undefined
+                                            "
+                                            :aria-label="
+                                                (column.type === 'formula'
+                                                    ? labels.formulaEditor?.(column.header)
+                                                    : undefined) ??
+                                                labels.cellEditor?.(column.header) ??
+                                                column.header
+                                            "
+                                            :aria-invalid="
+                                                editing.error || editing.invalid
+                                                    ? 'true'
+                                                    : undefined
+                                            "
+                                            :aria-describedby="
+                                                editing.error
+                                                    ? `${pageEntries[item.index].id}-${column.id}-error`
+                                                    : undefined
+                                            "
                                             :value="editing.draft"
-                                            @input="setDraft(($event.target as HTMLInputElement).value)"
+                                            @input="
+                                                setDraft(($event.target as HTMLInputElement).value)
+                                            "
                                             @keydown="onEditorKeydown"
                                             @blur="editing && commitEdit()"
                                         />
-                                        <span v-if="editing.error" class="data-grid-cell-error" :id="`${pageEntries[item.index].id}-${column.id}-error`">{{ editing.error }}</span>
+                                        <span
+                                            v-if="editing.error"
+                                            class="data-grid-cell-error"
+                                            :id="`${pageEntries[item.index].id}-${column.id}-error`"
+                                            >{{ editing.error }}</span
+                                        >
                                     </template>
-                                    <fieldset v-else-if="column.type === 'radio' && column.editable" class="data-grid-radio-group" data-grid-own-group>
-                                        <legend class="data-grid-radio-legend">{{ labels.radioGroup?.(column.header, rowLabelOf(pageEntries[item.index])) ?? column.header }}</legend>
-                                        <label v-for="option in column.options ?? []" :key="option.id" class="data-grid-radio-option">
+                                    <fieldset
+                                        v-else-if="column.type === 'radio' && column.editable"
+                                        class="data-grid-radio-group"
+                                        data-grid-own-group
+                                    >
+                                        <legend class="data-grid-radio-legend">
+                                            {{
+                                                labels.radioGroup?.(
+                                                    column.header,
+                                                    rowLabelOf(pageEntries[item.index]),
+                                                ) ?? column.header
+                                            }}
+                                        </legend>
+                                        <label
+                                            v-for="option in column.options ?? []"
+                                            :key="option.id"
+                                            class="data-grid-radio-option"
+                                        >
                                             <input
                                                 type="radio"
                                                 :name="`${gridId}-${pageEntries[item.index].id}-${column.id}`"
                                                 :value="option.id"
-                                                :checked="cellFor(column, pageEntries[item.index].row).value === option.id"
+                                                :checked="
+                                                    cellFor(column, pageEntries[item.index].row)
+                                                        .value === option.id
+                                                "
                                                 :disabled="option.disabled"
                                                 :tabindex="isGrid ? -1 : undefined"
-                                                @change="commitValue(pageEntries[item.index], column, option.id)"
-                                            />{{ option.label }}</label>
+                                                @change="
+                                                    commitValue(
+                                                        pageEntries[item.index],
+                                                        column,
+                                                        option.id,
+                                                    )
+                                                "
+                                            />{{ option.label }}</label
+                                        >
                                     </fieldset>
                                     <template v-else>
-                                        <RenderNode v-if="column.cell" :node="column.cell(cellFor(column, pageEntries[item.index].row))" />
-                                        <template v-else-if="isMissing(cellFor(column, pageEntries[item.index].row).value) && (column.emptyValue ?? emptyValue)">{{ column.emptyValue ?? emptyValue }}</template>
-                                        <ul v-else-if="column.type === 'person'" class="data-grid-people">
-                                            <template v-if="peopleOf(cellFor(column, pageEntries[item.index].row).value).length > 0">
-                                                <li v-for="person in shownPeople(column, cellFor(column, pageEntries[item.index].row).value)" :key="person.id" class="data-grid-person"><span v-if="column.avatar" class="data-grid-avatar" aria-hidden="true"><RenderNode :node="column.avatar({ person })" /></span><span class="data-grid-person-name">{{ personName(person) }}</span></li>
-                                                <li v-if="shownPeople(column, cellFor(column, pageEntries[item.index].row).value).length < peopleOf(cellFor(column, pageEntries[item.index].row).value).length && labels.morePeople" class="data-grid-people-more">{{ labels.morePeople(peopleOf(cellFor(column, pageEntries[item.index].row).value).length - shownPeople(column, cellFor(column, pageEntries[item.index].row).value).length) }}</li>
+                                        <RenderNode
+                                            v-if="column.cell"
+                                            :node="
+                                                column.cell(
+                                                    cellFor(column, pageEntries[item.index].row),
+                                                )
+                                            "
+                                        />
+                                        <template
+                                            v-else-if="
+                                                isMissing(
+                                                    cellFor(column, pageEntries[item.index].row)
+                                                        .value,
+                                                ) &&
+                                                (column.emptyValue ?? emptyValue)
+                                            "
+                                            >{{ column.emptyValue ?? emptyValue }}</template
+                                        >
+                                        <ul
+                                            v-else-if="column.type === 'person'"
+                                            class="data-grid-people"
+                                        >
+                                            <template
+                                                v-if="
+                                                    peopleOf(
+                                                        cellFor(column, pageEntries[item.index].row)
+                                                            .value,
+                                                    ).length > 0
+                                                "
+                                            >
+                                                <li
+                                                    v-for="person in shownPeople(
+                                                        column,
+                                                        cellFor(column, pageEntries[item.index].row)
+                                                            .value,
+                                                    )"
+                                                    :key="person.id"
+                                                    class="data-grid-person"
+                                                >
+                                                    <span
+                                                        v-if="column.avatar"
+                                                        class="data-grid-avatar"
+                                                        aria-hidden="true"
+                                                        ><RenderNode
+                                                            :node="
+                                                                column.avatar({ person })
+                                                            " /></span
+                                                    ><span class="data-grid-person-name">{{
+                                                        personName(person)
+                                                    }}</span>
+                                                </li>
+                                                <li
+                                                    v-if="
+                                                        shownPeople(
+                                                            column,
+                                                            cellFor(
+                                                                column,
+                                                                pageEntries[item.index].row,
+                                                            ).value,
+                                                        ).length <
+                                                            peopleOf(
+                                                                cellFor(
+                                                                    column,
+                                                                    pageEntries[item.index].row,
+                                                                ).value,
+                                                            ).length && labels.morePeople
+                                                    "
+                                                    class="data-grid-people-more"
+                                                >
+                                                    {{
+                                                        labels.morePeople(
+                                                            peopleOf(
+                                                                cellFor(
+                                                                    column,
+                                                                    pageEntries[item.index].row,
+                                                                ).value,
+                                                            ).length -
+                                                                shownPeople(
+                                                                    column,
+                                                                    cellFor(
+                                                                        column,
+                                                                        pageEntries[item.index].row,
+                                                                    ).value,
+                                                                ).length,
+                                                        )
+                                                    }}
+                                                </li>
                                             </template>
                                         </ul>
                                         <template v-else-if="column.type === 'file'">
-                                            <ul v-if="filesOf(cellFor(column, pageEntries[item.index].row).value).length > 0" class="data-grid-files">
-                                                <li v-for="file in filesOf(cellFor(column, pageEntries[item.index].row).value)" :key="file.id" class="data-grid-file">
-                                                    <a v-if="file.href && safeHref(file.href)" class="data-grid-link" :href="safeHref(file.href)!">{{ file.name }}</a><span v-else class="data-grid-file-name">{{ file.name }}</span><template v-if="file.size !== undefined && column.formatSize">{{ " " }}<span class="data-grid-file-size">{{ column.formatSize(file.size) }}</span></template><button
+                                            <ul
+                                                v-if="
+                                                    filesOf(
+                                                        cellFor(column, pageEntries[item.index].row)
+                                                            .value,
+                                                    ).length > 0
+                                                "
+                                                class="data-grid-files"
+                                            >
+                                                <li
+                                                    v-for="file in filesOf(
+                                                        cellFor(column, pageEntries[item.index].row)
+                                                            .value,
+                                                    )"
+                                                    :key="file.id"
+                                                    class="data-grid-file"
+                                                >
+                                                    <a
+                                                        v-if="file.href && safeHref(file.href)"
+                                                        class="data-grid-link"
+                                                        :href="safeHref(file.href)!"
+                                                        >{{ file.name }}</a
+                                                    ><span
+                                                        v-else
+                                                        class="data-grid-file-name"
+                                                        >{{ file.name }}</span
+                                                    ><template
+                                                        v-if="
+                                                            file.size !== undefined &&
+                                                            column.formatSize
+                                                        "
+                                                        >{{ " "
+                                                        }}<span class="data-grid-file-size">{{
+                                                            column.formatSize(file.size)
+                                                        }}</span></template
+                                                    ><button
                                                         v-if="column.editable && labels.removeFile"
                                                         type="button"
                                                         class="data-grid-file-remove"
                                                         data-grid-own
                                                         :tabindex="isGrid ? -1 : undefined"
                                                         :aria-label="labels.removeFile(file.name)"
-                                                        @click="emit('file-remove', { rowId: pageEntries[item.index].id, row: pageEntries[item.index].row, columnId: column.id, fileId: file.id })"
+                                                        @click="
+                                                            emit('file-remove', {
+                                                                rowId: pageEntries[item.index].id,
+                                                                row: pageEntries[item.index].row,
+                                                                columnId: column.id,
+                                                                fileId: file.id,
+                                                            })
+                                                        "
                                                     ></button>
                                                 </li>
                                             </ul>
@@ -1670,37 +2354,179 @@ function entryById(id: string): Entry | undefined {
                                                 v-if="column.editable"
                                                 type="file"
                                                 class="data-grid-file-input"
-                                                :aria-label="labels.fileInput?.(column.header, rowLabelOf(pageEntries[item.index])) ?? column.header"
+                                                :aria-label="
+                                                    labels.fileInput?.(
+                                                        column.header,
+                                                        rowLabelOf(pageEntries[item.index]),
+                                                    ) ?? column.header
+                                                "
                                                 :multiple="column.multiple !== false"
                                                 :accept="column.accept"
                                                 :tabindex="isGrid ? -1 : undefined"
-                                                @change="onFileInput(pageEntries[item.index], column, $event)"
+                                                @change="
+                                                    onFileInput(
+                                                        pageEntries[item.index],
+                                                        column,
+                                                        $event,
+                                                    )
+                                                "
                                             />
                                         </template>
                                         <template v-else-if="column.type === 'link'">
-                                            <template v-if="linkParts(cellFor(column, pageEntries[item.index].row).value)">
+                                            <template
+                                                v-if="
+                                                    linkParts(
+                                                        cellFor(column, pageEntries[item.index].row)
+                                                            .value,
+                                                    )
+                                                "
+                                            >
                                                 <a
-                                                    v-if="safeHref(linkParts(cellFor(column, pageEntries[item.index].row).value)!.href)"
+                                                    v-if="
+                                                        safeHref(
+                                                            linkParts(
+                                                                cellFor(
+                                                                    column,
+                                                                    pageEntries[item.index].row,
+                                                                ).value,
+                                                            )!.href,
+                                                        )
+                                                    "
                                                     class="data-grid-link"
-                                                    :href="safeHref(linkParts(cellFor(column, pageEntries[item.index].row).value)!.href)!"
-                                                    :target="linkParts(cellFor(column, pageEntries[item.index].row).value)!.external ? '_blank' : undefined"
-                                                    :rel="linkParts(cellFor(column, pageEntries[item.index].row).value)!.external ? 'noopener noreferrer' : undefined"
-                                                >{{ linkParts(cellFor(column, pageEntries[item.index].row).value)!.label ?? linkParts(cellFor(column, pageEntries[item.index].row).value)!.href }}<template v-if="linkParts(cellFor(column, pageEntries[item.index].row).value)!.external && labels.opensInNewTab">{{ " " }}<span class="data-grid-visually-hidden">{{ labels.opensInNewTab(linkParts(cellFor(column, pageEntries[item.index].row).value)!.label ?? linkParts(cellFor(column, pageEntries[item.index].row).value)!.href) }}</span></template></a>
+                                                    :href="
+                                                        safeHref(
+                                                            linkParts(
+                                                                cellFor(
+                                                                    column,
+                                                                    pageEntries[item.index].row,
+                                                                ).value,
+                                                            )!.href,
+                                                        )!
+                                                    "
+                                                    :target="
+                                                        linkParts(
+                                                            cellFor(
+                                                                column,
+                                                                pageEntries[item.index].row,
+                                                            ).value,
+                                                        )!.external
+                                                            ? '_blank'
+                                                            : undefined
+                                                    "
+                                                    :rel="
+                                                        linkParts(
+                                                            cellFor(
+                                                                column,
+                                                                pageEntries[item.index].row,
+                                                            ).value,
+                                                        )!.external
+                                                            ? 'noopener noreferrer'
+                                                            : undefined
+                                                    "
+                                                    >{{
+                                                        linkParts(
+                                                            cellFor(
+                                                                column,
+                                                                pageEntries[item.index].row,
+                                                            ).value,
+                                                        )!.label ??
+                                                        linkParts(
+                                                            cellFor(
+                                                                column,
+                                                                pageEntries[item.index].row,
+                                                            ).value,
+                                                        )!.href
+                                                    }}<template
+                                                        v-if="
+                                                            linkParts(
+                                                                cellFor(
+                                                                    column,
+                                                                    pageEntries[item.index].row,
+                                                                ).value,
+                                                            )!.external && labels.opensInNewTab
+                                                        "
+                                                        >{{ " "
+                                                        }}<span class="data-grid-visually-hidden">{{
+                                                            labels.opensInNewTab(
+                                                                linkParts(
+                                                                    cellFor(
+                                                                        column,
+                                                                        pageEntries[item.index].row,
+                                                                    ).value,
+                                                                )!.label ??
+                                                                    linkParts(
+                                                                        cellFor(
+                                                                            column,
+                                                                            pageEntries[item.index]
+                                                                                .row,
+                                                                        ).value,
+                                                                    )!.href,
+                                                            )
+                                                        }}</span></template
+                                                    ></a
+                                                >
                                                 <!-- An address with an unsafe scheme is shown as text, never as a link. -->
-                                                <span v-else class="data-grid-link data-grid-link-unsafe">{{ linkParts(cellFor(column, pageEntries[item.index].row).value)!.label ?? linkParts(cellFor(column, pageEntries[item.index].row).value)!.href }}</span>
+                                                <span
+                                                    v-else
+                                                    class="data-grid-link data-grid-link-unsafe"
+                                                    >{{
+                                                        linkParts(
+                                                            cellFor(
+                                                                column,
+                                                                pageEntries[item.index].row,
+                                                            ).value,
+                                                        )!.label ??
+                                                        linkParts(
+                                                            cellFor(
+                                                                column,
+                                                                pageEntries[item.index].row,
+                                                            ).value,
+                                                        )!.href
+                                                    }}</span
+                                                >
                                             </template>
                                         </template>
-                                        <template v-else-if="column.type === 'date' || column.type === 'time'">
-                                            <time v-if="cellFor(column, pageEntries[item.index].row).formatted !== ''" :datetime="String(cellFor(column, pageEntries[item.index].row).value)">{{ cellFor(column, pageEntries[item.index].row).formatted }}</time>
+                                        <template
+                                            v-else-if="
+                                                column.type === 'date' || column.type === 'time'
+                                            "
+                                        >
+                                            <time
+                                                v-if="
+                                                    cellFor(column, pageEntries[item.index].row)
+                                                        .formatted !== ''
+                                                "
+                                                :datetime="
+                                                    String(
+                                                        cellFor(column, pageEntries[item.index].row)
+                                                            .value,
+                                                    )
+                                                "
+                                                >{{
+                                                    cellFor(column, pageEntries[item.index].row)
+                                                        .formatted
+                                                }}</time
+                                            >
                                         </template>
-                                        <template v-else>{{ cellFor(column, pageEntries[item.index].row).formatted }}</template>
+                                        <template v-else>{{
+                                            cellFor(column, pageEntries[item.index].row).formatted
+                                        }}</template>
                                         <button
-                                            v-if="isEditable(column) && column.type !== 'radio' && labels.editCell"
+                                            v-if="
+                                                isEditable(column) &&
+                                                column.type !== 'radio' &&
+                                                labels.editCell
+                                            "
                                             type="button"
                                             class="data-grid-edit-button"
                                             data-grid-own
                                             :tabindex="isGrid ? -1 : undefined"
-                                            :aria-label="labels.editCell(column.header, rowLabelOf(pageEntries[item.index]))"
+                                            :aria-label="
+                                                labels.editCell(
+                                                    column.header,
+                                                    rowLabelOf(pageEntries[item.index]),
+                                                )
+                                            "
                                             @click="startEdit(pageEntries[item.index], column)"
                                         ></button>
                                     </template>
@@ -1708,14 +2534,28 @@ function entryById(id: string): Entry | undefined {
                             </template>
                         </DataTableRow>
                     </template>
-                    <DataTableRow v-if="pageEntries.length === 0 && $slots.empty" class="data-grid-empty-row">
-                        <DataTableTD class="data-grid-empty" :colspan="lastCol + 1" :role="isGrid ? 'gridcell' : 'cell'" :tabindex="undefined">
+                    <DataTableRow
+                        v-if="pageEntries.length === 0 && $slots.empty"
+                        class="data-grid-empty-row"
+                    >
+                        <DataTableTD
+                            class="data-grid-empty"
+                            :colspan="lastCol + 1"
+                            :role="isGrid ? 'gridcell' : 'cell'"
+                            :tabindex="undefined"
+                        >
                             <slot name="empty" />
                         </DataTableTD>
                     </DataTableRow>
                 </DataTableBody>
                 <DataTableFoot v-if="$slots.footer">
-                    <slot name="footer" :columns="visibleColumns" :rows="pageEntries.map((e) => e.row)" :allRows="sortedEntries.map((e) => e.row)" :aggregate="footerAggregate" />
+                    <slot
+                        name="footer"
+                        :columns="visibleColumns"
+                        :rows="pageEntries.map((e) => e.row)"
+                        :allRows="sortedEntries.map((e) => e.row)"
+                        :aggregate="footerAggregate"
+                    />
                 </DataTableFoot>
             </DataTable>
         </component>
@@ -1726,11 +2566,32 @@ function entryById(id: string): Entry | undefined {
             v-bind="labels.pagination ? { label: labels.pagination } : {}"
             class="data-grid-pagination"
         >
-            <button type="button" class="data-grid-page-previous" :disabled="clampedPage <= 1" @click="goToPage(clampedPage - 1)">{{ labels.previousPage }}</button>
-            <span class="data-grid-page-status">{{ labels.pageStatus?.(clampedPage, pageCount, sortedEntries.length) }}</span>
-            <button type="button" class="data-grid-page-next" :disabled="clampedPage >= pageCount" @click="goToPage(clampedPage + 1)">{{ labels.nextPage }}</button>
+            <button
+                type="button"
+                class="data-grid-page-previous"
+                :disabled="clampedPage <= 1"
+                @click="goToPage(clampedPage - 1)"
+            >
+                {{ labels.previousPage }}
+            </button>
+            <span class="data-grid-page-status">{{
+                labels.pageStatus?.(clampedPage, pageCount, sortedEntries.length)
+            }}</span>
+            <button
+                type="button"
+                class="data-grid-page-next"
+                :disabled="clampedPage >= pageCount"
+                @click="goToPage(clampedPage + 1)"
+            >
+                {{ labels.nextPage }}
+            </button>
         </component>
 
-        <p class="data-grid-status" aria-live="polite">{{ statusMessage }}</p>
+        <p
+            class="data-grid-status"
+            aria-live="polite"
+        >
+            {{ statusMessage }}
+        </p>
     </div>
 </template>

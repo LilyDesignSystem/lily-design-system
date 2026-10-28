@@ -5,16 +5,15 @@ import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("tfoot.calendar-table-foot");
 
-
 describe("CalendarTableFoot", () => {
-  it("renders the element with its base class", async () => {
-    await mount("calendar-table-foot");
-    expect(el()).not.toBeNull();
-    expect(el().classList.contains("calendar-table-foot")).toBe(true);
-  });
+    it("renders the element with its base class", async () => {
+        await mount("calendar-table-foot");
+        expect(el()).not.toBeNull();
+        expect(el().classList.contains("calendar-table-foot")).toBe(true);
+    });
 
-  it("uses the tfoot element", async () => {
-    await mount("calendar-table-foot");
-    expect(el().tagName.toLowerCase()).toBe("tfoot");
-  });
+    it("uses the tfoot element", async () => {
+        await mount("calendar-table-foot");
+        expect(el().tagName.toLowerCase()).toBe("tfoot");
+    });
 });

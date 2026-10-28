@@ -32,7 +32,11 @@ export default function SettingsPage() {
             <h1>Settings</h1>
 
             {saved && (
-                <Banner type="success" dismissible closeLabel="Dismiss">
+                <Banner
+                    type="success"
+                    dismissible
+                    closeLabel="Dismiss"
+                >
                     Settings saved successfully.
                 </Banner>
             )}

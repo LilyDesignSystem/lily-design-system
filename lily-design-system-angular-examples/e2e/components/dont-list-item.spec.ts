@@ -13,7 +13,7 @@ test.describe("component page: dont-list-item", () => {
 
   test("renders the H1 with the component name", async ({ page }) => {
     await expect(
-      page.getByRole("heading", { level: 1, name: new RegExp("^DontListItem$") })
+      page.getByRole("heading", { level: 1, name: new RegExp("^DontListItem$") }),
     ).toBeVisible();
   });
 

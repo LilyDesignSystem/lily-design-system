@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<input
   class="schweiz-ahv-nummer-input"
@@ -8,9 +8,9 @@ const html = `<input
   aria-label="Switzerland's AHV-Nummer / Numéro AVS">`;
 
 const meta = {
-  title: 'Headless/SchweizAhvNummerInput',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/SchweizAhvNummerInput",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

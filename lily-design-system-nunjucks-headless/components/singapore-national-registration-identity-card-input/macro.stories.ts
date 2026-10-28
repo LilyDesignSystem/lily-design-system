@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<input
   class="singapore-national-registration-identity-card-input"
@@ -8,9 +8,9 @@ const html = `<input
   aria-label="Singapore's National Registration Identity Card Number / Foreign Identification Number (NRIC/FIN)">`;
 
 const meta = {
-  title: 'Headless/SingaporeNationalRegistrationIdentityCardInput',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/SingaporeNationalRegistrationIdentityCardInput",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

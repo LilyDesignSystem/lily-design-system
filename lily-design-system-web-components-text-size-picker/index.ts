@@ -8,21 +8,11 @@
  * `customElements.define(...)` themselves.
  */
 
-import {
-    TextSizePicker,
-    sizeName,
-    nextTextSizePickerId,
-} from "./text-size-picker.js";
+import { TextSizePicker, sizeName, nextTextSizePickerId } from "./text-size-picker.js";
 
 export { TextSizePicker, sizeName, nextTextSizePickerId };
-export type {
-    TextSizePickerProps,
-    TextSizePickerChangeDetail,
-} from "./text-size-picker.js";
+export type { TextSizePickerProps, TextSizePickerChangeDetail } from "./text-size-picker.js";
 
-if (
-    typeof customElements !== "undefined" &&
-    !customElements.get("lily-text-size-picker")
-) {
+if (typeof customElements !== "undefined" && !customElements.get("lily-text-size-picker")) {
     customElements.define("lily-text-size-picker", TextSizePicker);
 }

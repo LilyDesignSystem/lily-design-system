@@ -37,8 +37,15 @@
 
 /** Split into user-perceived characters. */
 function splitGraphemes(text        )           {
-    const Segmenter = (Intl                                                                                                                                            ).Segmenter;
-    if (Segmenter) return Array.from(new Segmenter(undefined, { granularity: "grapheme" }).segment(text), (s) => s.segment);
+    const Segmenter = (
+        Intl
+
+    ).Segmenter;
+    if (Segmenter)
+        return Array.from(
+            new Segmenter(undefined, { granularity: "grapheme" }).segment(text),
+            (s) => s.segment,
+        );
     return Array.from(text);
 }
 

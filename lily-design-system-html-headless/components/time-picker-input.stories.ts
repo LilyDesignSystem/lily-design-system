@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<input
   class="time-picker-input"
@@ -19,9 +19,9 @@ const html = `<input
 </script>`;
 
 const meta = {
-  title: 'Headless/TimePickerInput',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/TimePickerInput",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

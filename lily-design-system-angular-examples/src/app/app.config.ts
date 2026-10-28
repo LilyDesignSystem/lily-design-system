@@ -1,8 +1,9 @@
+import { ApplicationConfig, provideZonelessChangeDetection } from "@angular/core";
 import {
-  ApplicationConfig,
-  provideZonelessChangeDetection,
-} from "@angular/core";
-import { provideRouter, withEnabledBlockingInitialNavigation, withDebugTracing } from "@angular/router";
+  provideRouter,
+  withEnabledBlockingInitialNavigation,
+  withDebugTracing,
+} from "@angular/router";
 import { routes } from "./app.routes";
 import { provideHttpClient, withFetch } from "@angular/common/http";
 

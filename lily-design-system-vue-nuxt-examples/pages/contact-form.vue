@@ -28,30 +28,63 @@ function handleSubmit() {
 
 <template>
     <main class="page-wrapper">
-        <div v-if="submitted" role="status">
+        <div
+            v-if="submitted"
+            role="status"
+        >
             <p>Thank you, {{ data.name }}! Your message has been sent.</p>
         </div>
         <template v-else>
             <h1>Contact Us</h1>
-            <Form label="Contact us" @submit="handleSubmit">
-                <ErrorSummary v-if="Object.keys(errors).length > 0" title="Please fix the following errors">
+            <Form
+                label="Contact us"
+                @submit="handleSubmit"
+            >
+                <ErrorSummary
+                    v-if="Object.keys(errors).length > 0"
+                    title="Please fix the following errors"
+                >
                     <ul>
-                        <li v-for="(msg, field) in errors" :key="field">
+                        <li
+                            v-for="(msg, field) in errors"
+                            :key="field"
+                        >
                             <a :href="`#${field}`">{{ msg }}</a>
                         </li>
                     </ul>
                 </ErrorSummary>
 
-                <Field label="Full name" required :error="errors.name">
-                    <TextInput label="Full name" v-model="data.name" id="name" required />
+                <Field
+                    label="Full name"
+                    required
+                    :error="errors.name"
+                >
+                    <TextInput
+                        label="Full name"
+                        v-model="data.name"
+                        id="name"
+                        required
+                    />
                 </Field>
 
-                <Field label="Email address" required :error="errors.email">
-                    <EmailInput label="Email address" v-model="data.email" id="email" required />
+                <Field
+                    label="Email address"
+                    required
+                    :error="errors.email"
+                >
+                    <EmailInput
+                        label="Email address"
+                        v-model="data.email"
+                        id="email"
+                        required
+                    />
                 </Field>
 
                 <Field label="Subject">
-                    <Select label="Subject" v-model="data.subject">
+                    <Select
+                        label="Subject"
+                        v-model="data.subject"
+                    >
                         <Option value="general">General inquiry</Option>
                         <Option value="support">Technical support</Option>
                         <Option value="billing">Billing question</Option>
@@ -59,8 +92,18 @@ function handleSubmit() {
                     </Select>
                 </Field>
 
-                <Field label="Message" required :error="errors.message">
-                    <TextAreaInput label="Message" v-model="data.message" id="message" :rows="5" required />
+                <Field
+                    label="Message"
+                    required
+                    :error="errors.message"
+                >
+                    <TextAreaInput
+                        label="Message"
+                        v-model="data.message"
+                        id="message"
+                        :rows="5"
+                        required
+                    />
                 </Field>
 
                 <Button type="submit">Send Message</Button>

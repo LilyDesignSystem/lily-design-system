@@ -41,10 +41,10 @@ import { createListboxKeyboard } from "@lilydesignsystem/nunjucks-listbox-behavi
  * a test rather than by delegation.
  */
 export function themeName(theme) {
-  return String(theme || "")
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
+    return String(theme || "")
+        .split("-")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
 }
 
 /**
@@ -54,55 +54,50 @@ export function themeName(theme) {
  * (SSR, and jsdom, which does not implement it either).
  */
 export function matchSystemTheme(themes) {
-  if (
-    typeof window === "undefined" ||
-    typeof window.matchMedia !== "function"
-  ) {
-    return "";
-  }
-  const wanted = window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
-  return (themes || []).includes(wanted) ? wanted : "";
+    if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+        return "";
+    }
+    const wanted = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    return (themes || []).includes(wanted) ? wanted : "";
 }
 
 /** Normalise a themes-directory URL to end with exactly one "/". */
 export function normaliseThemesUrl(themesUrl) {
-  if (!themesUrl) return "/";
-  return themesUrl.endsWith("/") ? themesUrl : themesUrl + "/";
+    if (!themesUrl) return "/";
+    return themesUrl.endsWith("/") ? themesUrl : themesUrl + "/";
 }
 
 /** Construct the href for a given theme slug. */
 export function themeHref(themesUrl, slug, extension) {
-  return normaliseThemesUrl(themesUrl) + slug + (extension || ".css");
+    return normaliseThemesUrl(themesUrl) + slug + (extension || ".css");
 }
 
 function safeStorageGet(key) {
-  try {
-    return localStorage.getItem(key);
-  } catch (_e) {
-    return null;
-  }
+    try {
+        return localStorage.getItem(key);
+    } catch (_e) {
+        return null;
+    }
 }
 
 function safeStorageSet(key, value) {
-  try {
-    localStorage.setItem(key, value);
-  } catch (_e) {
-    // ignore quota / privacy errors
-  }
+    try {
+        localStorage.setItem(key, value);
+    } catch (_e) {
+        // ignore quota / privacy errors
+    }
 }
 
 function getManagedLink(name) {
-  const selector = `link[data-lily-theme-picker="${name}"]`;
-  let link = document.head.querySelector(selector);
-  if (!link) {
-    link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.setAttribute("data-lily-theme-picker", name);
-    document.head.appendChild(link);
-  }
-  return link;
+    const selector = `link[data-lily-theme-picker="${name}"]`;
+    let link = document.head.querySelector(selector);
+    if (!link) {
+        link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.setAttribute("data-lily-theme-picker", name);
+        document.head.appendChild(link);
+    }
+    return link;
 }
 
 // ---------------------------------------------------------------------
@@ -118,123 +113,120 @@ function getManagedLink(name) {
 const tooltipWirings = new WeakMap();
 
 function wireTooltip(root, button, selector, popup) {
-  const tooltip = root.querySelector(selector);
-  if (!tooltip || !button || !popup) return () => {};
-  const previous = tooltipWirings.get(tooltip);
-  if (previous) previous();
+    const tooltip = root.querySelector(selector);
+    if (!tooltip || !button || !popup) return () => {};
+    const previous = tooltipWirings.get(tooltip);
+    if (previous) previous();
 
-  let hoverButton = false;
-  let hoverTooltip = false;
-  let focusButton = false;
-  let dismissed = false;
+    let hoverButton = false;
+    let hoverTooltip = false;
+    let focusButton = false;
+    let dismissed = false;
 
-  // WCAG 1.4.13 "dismissable": Escape must work wherever focus is while
-  // the tooltip is visible (pointer hover alone leaves focus elsewhere).
-  // The document listener exists only while visible; never preventDefault
-  // or stopPropagation, never move focus.
-  let docListening = false;
-  const onDocumentKeydown = (event) => {
-    if (event.key === "Escape") {
-      dismissed = true;
-      update();
+    // WCAG 1.4.13 "dismissable": Escape must work wherever focus is while
+    // the tooltip is visible (pointer hover alone leaves focus elsewhere).
+    // The document listener exists only while visible; never preventDefault
+    // or stopPropagation, never move focus.
+    let docListening = false;
+    const onDocumentKeydown = (event) => {
+        if (event.key === "Escape") {
+            dismissed = true;
+            update();
+        }
+    };
+    function syncDocumentListener() {
+        const want = !tooltip.hidden;
+        if (want && !docListening) {
+            document.addEventListener("keydown", onDocumentKeydown);
+            docListening = true;
+        } else if (!want && docListening) {
+            document.removeEventListener("keydown", onDocumentKeydown);
+            docListening = false;
+        }
     }
-  };
-  function syncDocumentListener() {
-    const want = !tooltip.hidden;
-    if (want && !docListening) {
-      document.addEventListener("keydown", onDocumentKeydown);
-      docListening = true;
-    } else if (!want && docListening) {
-      document.removeEventListener("keydown", onDocumentKeydown);
-      docListening = false;
+
+    function update() {
+        tooltip.hidden = !(
+            popup.hidden &&
+            !dismissed &&
+            (hoverButton || hoverTooltip || focusButton)
+        );
+        syncDocumentListener();
     }
-  }
 
-  function update() {
-    tooltip.hidden = !(
-      popup.hidden &&
-      !dismissed &&
-      (hoverButton || hoverTooltip || focusButton)
-    );
-    syncDocumentListener();
-  }
+    const onButtonEnter = () => {
+        hoverButton = true;
+        dismissed = false;
+        update();
+    };
+    const onButtonLeave = () => {
+        hoverButton = false;
+        update();
+    };
+    const onTooltipEnter = () => {
+        hoverTooltip = true;
+        update();
+    };
+    const onTooltipLeave = () => {
+        hoverTooltip = false;
+        update();
+    };
+    const onButtonFocus = () => {
+        try {
+            focusButton = button.matches(":focus-visible");
+        } catch {
+            focusButton = true; // engine without :focus-visible
+        }
+        update();
+    };
+    const onButtonBlur = () => {
+        focusButton = false;
+        dismissed = false;
+        update();
+    };
+    const onButtonKeydown = (event) => {
+        if (event.key === "Escape" && !tooltip.hidden) dismissed = true;
+        update();
+    };
+    const onButtonClick = () => {
+        hoverButton = false;
+        update();
+    };
 
-  const onButtonEnter = () => {
-    hoverButton = true;
-    dismissed = false;
-    update();
-  };
-  const onButtonLeave = () => {
-    hoverButton = false;
-    update();
-  };
-  const onTooltipEnter = () => {
-    hoverTooltip = true;
-    update();
-  };
-  const onTooltipLeave = () => {
-    hoverTooltip = false;
-    update();
-  };
-  const onButtonFocus = () => {
-    try {
-      focusButton = button.matches(":focus-visible");
-    } catch {
-      focusButton = true; // engine without :focus-visible
-    }
-    update();
-  };
-  const onButtonBlur = () => {
-    focusButton = false;
-    dismissed = false;
-    update();
-  };
-  const onButtonKeydown = (event) => {
-    if (event.key === "Escape" && !tooltip.hidden) dismissed = true;
-    update();
-  };
-  const onButtonClick = () => {
-    hoverButton = false;
-    update();
-  };
+    button.addEventListener("mouseenter", onButtonEnter);
+    button.addEventListener("mouseleave", onButtonLeave);
+    button.addEventListener("focus", onButtonFocus);
+    button.addEventListener("blur", onButtonBlur);
+    button.addEventListener("keydown", onButtonKeydown);
+    button.addEventListener("click", onButtonClick);
+    tooltip.addEventListener("mouseenter", onTooltipEnter);
+    tooltip.addEventListener("mouseleave", onTooltipLeave);
 
-  button.addEventListener("mouseenter", onButtonEnter);
-  button.addEventListener("mouseleave", onButtonLeave);
-  button.addEventListener("focus", onButtonFocus);
-  button.addEventListener("blur", onButtonBlur);
-  button.addEventListener("keydown", onButtonKeydown);
-  button.addEventListener("click", onButtonClick);
-  tooltip.addEventListener("mouseenter", onTooltipEnter);
-  tooltip.addEventListener("mouseleave", onTooltipLeave);
+    // The popup's own open/close (including the programmatic API) flips its
+    // `hidden` attribute; follow it so the tooltip never shows over it.
+    const observer = typeof MutationObserver === "function" ? new MutationObserver(update) : null;
+    if (observer) observer.observe(popup, { attributes: true, attributeFilter: ["hidden"] });
 
-  // The popup's own open/close (including the programmatic API) flips its
-  // `hidden` attribute; follow it so the tooltip never shows over it.
-  const observer =
-    typeof MutationObserver === "function"
-      ? new MutationObserver(update)
-      : null;
-  if (observer) observer.observe(popup, { attributes: true, attributeFilter: ["hidden"] });
+    update();
 
-  update();
-
-  const destroy = () => {
-    button.removeEventListener("mouseenter", onButtonEnter);
-    button.removeEventListener("mouseleave", onButtonLeave);
-    button.removeEventListener("focus", onButtonFocus);
-    button.removeEventListener("blur", onButtonBlur);
-    button.removeEventListener("keydown", onButtonKeydown);
-    button.removeEventListener("click", onButtonClick);
-    tooltip.removeEventListener("mouseenter", onTooltipEnter);
-    tooltip.removeEventListener("mouseleave", onTooltipLeave);
-    if (observer) observer.disconnect();
-    if (docListening) {
-      document.removeEventListener("keydown", onDocumentKeydown);
-      docListening = false;
-    }
-    if (tooltipWirings.get(tooltip) === destroy) tooltipWirings.delete(tooltip);
-  };
-  tooltipWirings.set(tooltip, destroy);
-  return destroy;
+    const destroy = () => {
+        button.removeEventListener("mouseenter", onButtonEnter);
+        button.removeEventListener("mouseleave", onButtonLeave);
+        button.removeEventListener("focus", onButtonFocus);
+        button.removeEventListener("blur", onButtonBlur);
+        button.removeEventListener("keydown", onButtonKeydown);
+        button.removeEventListener("click", onButtonClick);
+        tooltip.removeEventListener("mouseenter", onTooltipEnter);
+        tooltip.removeEventListener("mouseleave", onTooltipLeave);
+        if (observer) observer.disconnect();
+        if (docListening) {
+            document.removeEventListener("keydown", onDocumentKeydown);
+            docListening = false;
+        }
+        if (tooltipWirings.get(tooltip) === destroy) tooltipWirings.delete(tooltip);
+    };
+    tooltipWirings.set(tooltip, destroy);
+    return destroy;
 }
 
 /**
@@ -245,274 +237,268 @@ function wireTooltip(root, button, selector, popup) {
  * @returns {{setTheme: (slug: string) => void, destroy: () => void}}
  */
 export function initThemePicker(root, opts = {}) {
-  const noop = { setTheme: () => {}, destroy: () => {} };
-  if (typeof document === "undefined" || !root) return noop;
+    const noop = { setTheme: () => {}, destroy: () => {} };
+    if (typeof document === "undefined" || !root) return noop;
 
-  const button = root.querySelector("[data-lily-theme-picker-button]");
-  const list = root.querySelector("[data-lily-theme-picker-list]");
-  const input = root.querySelector("[data-lily-theme-picker-input]");
-  if (!button || !list) return noop;
+    const button = root.querySelector("[data-lily-theme-picker-button]");
+    const list = root.querySelector("[data-lily-theme-picker-list]");
+    const input = root.querySelector("[data-lily-theme-picker-input]");
+    if (!button || !list) return noop;
 
-  const options = Array.from(list.querySelectorAll('[role="option"]'));
-  const values = options.map((o) => o.getAttribute("data-value") || "");
+    const options = Array.from(list.querySelectorAll('[role="option"]'));
+    const values = options.map((o) => o.getAttribute("data-value") || "");
 
-  const name = root.getAttribute("data-lily-theme-picker-name") || "theme";
-  const themesUrl =
-    root.getAttribute("data-lily-theme-picker-themes-url") || "";
-  const extension =
-    root.getAttribute("data-lily-theme-picker-extension") || ".css";
-  const storageKey =
-    root.getAttribute("data-lily-theme-picker-storage-key") || "";
-  const defaultValue =
-    root.getAttribute("data-lily-theme-picker-default-value") || "";
-  const detectFromSystem =
-    root.getAttribute("data-lily-theme-picker-detect-from-system") === "true";
-  // The consumer's `value` prop. The macro emits it as a data
-  // attribute rather than baking it into a control the browser would
-  // paint before hydration.
-  const valueAttr = root.getAttribute("data-lily-theme-picker-value") || "";
+    const name = root.getAttribute("data-lily-theme-picker-name") || "theme";
+    const themesUrl = root.getAttribute("data-lily-theme-picker-themes-url") || "";
+    const extension = root.getAttribute("data-lily-theme-picker-extension") || ".css";
+    const storageKey = root.getAttribute("data-lily-theme-picker-storage-key") || "";
+    const defaultValue = root.getAttribute("data-lily-theme-picker-default-value") || "";
+    const detectFromSystem =
+        root.getAttribute("data-lily-theme-picker-detect-from-system") === "true";
+    // The consumer's `value` prop. The macro emits it as a data
+    // attribute rather than baking it into a control the browser would
+    // paint before hydration.
+    const valueAttr = root.getAttribute("data-lily-theme-picker-value") || "";
 
-  let current = "";
-  let open = !list.hidden && !button.disabled;
+    let current = "";
+    let open = !list.hidden && !button.disabled;
 
-  // -----------------------------------------------------------------
-  // Applying a theme
-  // -----------------------------------------------------------------
+    // -----------------------------------------------------------------
+    // Applying a theme
+    // -----------------------------------------------------------------
 
-  // The theme the DOM currently carries. Applying is idempotent: a
-  // theme already applied is a no-op, so `onChange` fires once per
-  // changed value. `setTheme` on the returned api is this same
-  // function, so without the guard a consumer that mirrors the value
-  // back from `onChange` re-enters it forever.
-  let appliedValue = "";
+    // The theme the DOM currently carries. Applying is idempotent: a
+    // theme already applied is a no-op, so `onChange` fires once per
+    // changed value. `setTheme` on the returned api is this same
+    // function, so without the guard a consumer that mirrors the value
+    // back from `onChange` re-enters it forever.
+    let appliedValue = "";
 
-  function applyTheme(slug) {
-    if (!slug) return;
-    if (slug === appliedValue) return;
-    appliedValue = slug;
-    current = slug;
-    getManagedLink(name).href = themeHref(themesUrl, slug, extension);
-    const target = opts.target || document.documentElement;
-    target.setAttribute("data-theme", slug);
-    if (storageKey) safeStorageSet(storageKey, slug);
-    // The hidden input carries the value into any enclosing form.
-    if (input) input.value = slug;
-    // Keep the listbox's selected state in sync with the applied theme.
-    options.forEach((o, i) => {
-      o.setAttribute("aria-selected", values[i] === slug ? "true" : "false");
-    });
-    if (typeof opts.onChange === "function") opts.onChange(slug);
-  }
-
-  // -----------------------------------------------------------------
-  // Open / close / active-option movement
-  //
-  // Arrow move/clamp, Home/End, typeahead, PageUp/PageDown, and
-  // Enter/Space/Escape/Tab are owned by the shared listbox-behavior
-  // controller below (`keyboard`); this picker only decides what
-  // open/close/choose mean.
-  // -----------------------------------------------------------------
-
-  /** True while an open comes from outside (`setOpen`): state only, focus stays put. */
-  let quiet = false;
-
-  /** Report an open or close to `opts.onOpenChange` and as a bubbling `openchange` event on the root. */
-  function emitOpenChange(isOpen) {
-    if (typeof opts.onOpenChange === "function") opts.onOpenChange(isOpen);
-    root.dispatchEvent(new CustomEvent("openchange", { detail: isOpen, bubbles: true }));
-  }
-
-  function openList(startIndex) {
-    if (button.disabled) return;
-    const selected = values.indexOf(current);
-    // An empty list has no option to activate; -1 keeps
-    // aria-activedescendant off rather than pointing at an id that
-    // does not exist.
-    const start =
-      options.length === 0
-        ? -1
-        : typeof startIndex === "number"
-          ? startIndex
-          : selected >= 0
-            ? selected
-            : 0;
-    open = true;
-    emitOpenChange(true);
-    list.hidden = false;
-    button.setAttribute("aria-expanded", "true");
-    keyboard.setActive(start);
-    // Focus moves to the listbox; the active option is conveyed via
-    // aria-activedescendant, per the APG listbox pattern.
-    if (!quiet) list.focus({ preventScroll: true });
-  }
-
-  function closeList(refocus = true) {
-    if (!open) return;
-    open = false;
-    emitOpenChange(false);
-    list.hidden = true;
-    button.setAttribute("aria-expanded", "false");
-    keyboard.setActive(-1);
-    if (refocus) button.focus({ preventScroll: true });
-  }
-
-  function choose(index) {
-    const slug = values[index];
-    if (slug) applyTheme(slug);
-    closeList();
-  }
-
-  const keyboard = createListboxKeyboard(list, {
-    clamp: true,
-    typeahead: true,
-    pageSize: 10,
-    onActivate: choose,
-    onEscape: () => closeList(),
-    onTabOut: () => {
-      // Tab moves on — but focus goes to the button FIRST, without
-      // cancelling the key (the shared controller never prevents Tab's
-      // default). Hiding the focused list drops focus to <body>, and
-      // the browser then computes the default Tab move from the top of
-      // the document, so tabbing out of an open picker teleported the
-      // user to the page's first tab stop. From the button, the default
-      // Tab lands exactly where leaving the picker should. Guard the
-      // METHOD, not just the element: this shape has bitten these
-      // helpers before.
-      button?.focus?.({ preventScroll: true });
-      closeList(false);
-    },
-  });
-
-  // -----------------------------------------------------------------
-  // Event handlers
-  // -----------------------------------------------------------------
-
-  function onButtonClick() {
-    if (open) closeList();
-    else openList();
-  }
-
-  function onButtonKeydown(event) {
-    switch (event.key) {
-      case "ArrowDown":
-      case "Enter":
-      case " ":
-        event.preventDefault();
-        openList();
-        break;
-      case "ArrowUp":
-        event.preventDefault();
-        openList(options.length - 1);
-        break;
-      default:
-        break;
+    function applyTheme(slug) {
+        if (!slug) return;
+        if (slug === appliedValue) return;
+        appliedValue = slug;
+        current = slug;
+        getManagedLink(name).href = themeHref(themesUrl, slug, extension);
+        const target = opts.target || document.documentElement;
+        target.setAttribute("data-theme", slug);
+        if (storageKey) safeStorageSet(storageKey, slug);
+        // The hidden input carries the value into any enclosing form.
+        if (input) input.value = slug;
+        // Keep the listbox's selected state in sync with the applied theme.
+        options.forEach((o, i) => {
+            o.setAttribute("aria-selected", values[i] === slug ? "true" : "false");
+        });
+        if (typeof opts.onChange === "function") opts.onChange(slug);
     }
-  }
 
-  function onListClick(event) {
-    const li =
-      event.target && event.target.closest
-        ? event.target.closest('[role="option"]')
-        : null;
-    if (!li) return;
-    const index = options.indexOf(li);
-    if (index >= 0) choose(index);
-  }
+    // -----------------------------------------------------------------
+    // Open / close / active-option movement
+    //
+    // Arrow move/clamp, Home/End, typeahead, PageUp/PageDown, and
+    // Enter/Space/Escape/Tab are owned by the shared listbox-behavior
+    // controller below (`keyboard`); this picker only decides what
+    // open/close/choose mean.
+    // -----------------------------------------------------------------
 
-  function onRootFocusOut(event) {
-    const next = event.relatedTarget;
-    if (next && root.contains(next)) return;
-    closeList(false);
-  }
+    /** True while an open comes from outside (`setOpen`): state only, focus stays put. */
+    let quiet = false;
 
-  function onDocumentClick(event) {
-    if (!open) return;
-    const t = event.target;
-    if (t && !root.contains(t)) closeList(false);
-  }
+    /** Report an open or close to `opts.onOpenChange` and as a bubbling `openchange` event on the root. */
+    function emitOpenChange(isOpen) {
+        if (typeof opts.onOpenChange === "function") opts.onOpenChange(isOpen);
+        root.dispatchEvent(new CustomEvent("openchange", { detail: isOpen, bubbles: true }));
+    }
 
-  button.addEventListener("click", onButtonClick);
-  button.addEventListener("keydown", onButtonKeydown);
-  list.addEventListener("click", onListClick);
-  root.addEventListener("focusout", onRootFocusOut);
-  document.addEventListener("click", onDocumentClick);
+    function openList(startIndex) {
+        if (button.disabled) return;
+        const selected = values.indexOf(current);
+        // An empty list has no option to activate; -1 keeps
+        // aria-activedescendant off rather than pointing at an id that
+        // does not exist.
+        const start =
+            options.length === 0
+                ? -1
+                : typeof startIndex === "number"
+                  ? startIndex
+                  : selected >= 0
+                    ? selected
+                    : 0;
+        open = true;
+        emitOpenChange(true);
+        list.hidden = false;
+        button.setAttribute("aria-expanded", "true");
+        keyboard.setActive(start);
+        // Focus moves to the listbox; the active option is conveyed via
+        // aria-activedescendant, per the APG listbox pattern.
+        if (!quiet) list.focus({ preventScroll: true });
+    }
 
-  // -----------------------------------------------------------------
-  // §5.2 initial value resolution
-  // value attribute > storage > system > default > "light" > first
-  //
-  // BREAKING (Unreleased): `value` now beats storage. It used to be the
-  // other way round, which meant a consumer who resolved the theme on
-  // the server (cookie, session, header) and passed it as `opts.value`
-  // had it silently overridden by whatever was left in localStorage.
-  // That is the SSR case this catalog exists for, and every other Lily
-  // helper — including the canonical Svelte one — resolves value-first.
-  // -----------------------------------------------------------------
+    function closeList(refocus = true) {
+        if (!open) return;
+        open = false;
+        emitOpenChange(false);
+        list.hidden = true;
+        button.setAttribute("aria-expanded", "false");
+        keyboard.setActive(-1);
+        if (refocus) button.focus({ preventScroll: true });
+    }
 
-  let initial = "";
+    function choose(index) {
+        const slug = values[index];
+        if (slug) applyTheme(slug);
+        closeList();
+    }
 
-  // 1. value prop — read from `data-lily-theme-picker-value`.
-  initial = valueAttr;
+    const keyboard = createListboxKeyboard(list, {
+        clamp: true,
+        typeahead: true,
+        pageSize: 10,
+        onActivate: choose,
+        onEscape: () => closeList(),
+        onTabOut: () => {
+            // Tab moves on — but focus goes to the button FIRST, without
+            // cancelling the key (the shared controller never prevents Tab's
+            // default). Hiding the focused list drops focus to <body>, and
+            // the browser then computes the default Tab move from the top of
+            // the document, so tabbing out of an open picker teleported the
+            // user to the page's first tab stop. From the button, the default
+            // Tab lands exactly where leaving the picker should. Guard the
+            // METHOD, not just the element: this shape has bitten these
+            // helpers before.
+            button?.focus?.({ preventScroll: true });
+            closeList(false);
+        },
+    });
 
-  // 2. storage
-  const storedValue = storageKey ? safeStorageGet(storageKey) || "" : "";
+    // -----------------------------------------------------------------
+    // Event handlers
+    // -----------------------------------------------------------------
 
-  // The precedence between these two reversed in 0.4.0, so a consumer
-  // who set both and relied on storage winning would otherwise change
-  // behaviour silently on upgrade. Warn once per select, and only when
-  // the two actually disagree — when they agree, or only one is set,
-  // the outcome is identical to 0.3.x and there is nothing to say.
-  if (valueAttr && storedValue && valueAttr !== storedValue) {
-    warnResolutionOrderChanged(root, valueAttr, storedValue);
-  }
+    function onButtonClick() {
+        if (open) closeList();
+        else openList();
+    }
 
-  if (!initial) initial = storedValue;
+    function onButtonKeydown(event) {
+        switch (event.key) {
+            case "ArrowDown":
+            case "Enter":
+            case " ":
+                event.preventDefault();
+                openList();
+                break;
+            case "ArrowUp":
+                event.preventDefault();
+                openList(options.length - 1);
+                break;
+            default:
+                break;
+        }
+    }
 
-  // 3. system colour-scheme preference
-  if (!initial && detectFromSystem) initial = matchSystemTheme(values);
+    function onListClick(event) {
+        const li =
+            event.target && event.target.closest ? event.target.closest('[role="option"]') : null;
+        if (!li) return;
+        const index = options.indexOf(li);
+        if (index >= 0) choose(index);
+    }
 
-  // 4. default-value
-  if (!initial && defaultValue) initial = defaultValue;
+    function onRootFocusOut(event) {
+        const next = event.relatedTarget;
+        if (next && root.contains(next)) return;
+        closeList(false);
+    }
 
-  // 5. "light" if present
-  if (!initial && values.includes("light")) initial = "light";
+    function onDocumentClick(event) {
+        if (!open) return;
+        const t = event.target;
+        if (t && !root.contains(t)) closeList(false);
+    }
 
-  // 6. first option
-  if (!initial && values.length > 0) initial = values[0];
+    button.addEventListener("click", onButtonClick);
+    button.addEventListener("keydown", onButtonKeydown);
+    list.addEventListener("click", onListClick);
+    root.addEventListener("focusout", onRootFocusOut);
+    document.addEventListener("click", onDocumentClick);
 
-  if (initial) applyTheme(initial);
+    // -----------------------------------------------------------------
+    // §5.2 initial value resolution
+    // value attribute > storage > system > default > "light" > first
+    //
+    // BREAKING (Unreleased): `value` now beats storage. It used to be the
+    // other way round, which meant a consumer who resolved the theme on
+    // the server (cookie, session, header) and passed it as `opts.value`
+    // had it silently overridden by whatever was left in localStorage.
+    // That is the SSR case this catalog exists for, and every other Lily
+    // helper — including the canonical Svelte one — resolves value-first.
+    // -----------------------------------------------------------------
 
-  const tooltipDestroy = wireTooltip(root, button, ".theme-picker-tooltip", list);
+    let initial = "";
 
-  return {
-    isOpen: () => open,
-    /** Open or close from outside: state only, focus stays put. Opening is ignored while disabled. */
-    setOpen: (next) => {
-      if (!!next === open) return;
-      quiet = true;
-      try {
-        if (next) openList();
-        else closeList(false);
-      } finally {
-        quiet = false;
-      }
-    },
-    /** Disable or enable the button; disabling closes an open popup. */
-    setDisabled: (next) => {
-      button.disabled = !!next;
-      if (next) closeList(false);
-    },
-    setTheme: applyTheme,
-    destroy: () => {
-      tooltipDestroy();
-      keyboard.destroy();
-      button.removeEventListener("click", onButtonClick);
-      button.removeEventListener("keydown", onButtonKeydown);
-      list.removeEventListener("click", onListClick);
-      root.removeEventListener("focusout", onRootFocusOut);
-      document.removeEventListener("click", onDocumentClick);
-    },
-  };
+    // 1. value prop — read from `data-lily-theme-picker-value`.
+    initial = valueAttr;
+
+    // 2. storage
+    const storedValue = storageKey ? safeStorageGet(storageKey) || "" : "";
+
+    // The precedence between these two reversed in 0.4.0, so a consumer
+    // who set both and relied on storage winning would otherwise change
+    // behaviour silently on upgrade. Warn once per select, and only when
+    // the two actually disagree — when they agree, or only one is set,
+    // the outcome is identical to 0.3.x and there is nothing to say.
+    if (valueAttr && storedValue && valueAttr !== storedValue) {
+        warnResolutionOrderChanged(root, valueAttr, storedValue);
+    }
+
+    if (!initial) initial = storedValue;
+
+    // 3. system colour-scheme preference
+    if (!initial && detectFromSystem) initial = matchSystemTheme(values);
+
+    // 4. default-value
+    if (!initial && defaultValue) initial = defaultValue;
+
+    // 5. "light" if present
+    if (!initial && values.includes("light")) initial = "light";
+
+    // 6. first option
+    if (!initial && values.length > 0) initial = values[0];
+
+    if (initial) applyTheme(initial);
+
+    const tooltipDestroy = wireTooltip(root, button, ".theme-picker-tooltip", list);
+
+    return {
+        isOpen: () => open,
+        /** Open or close from outside: state only, focus stays put. Opening is ignored while disabled. */
+        setOpen: (next) => {
+            if (!!next === open) return;
+            quiet = true;
+            try {
+                if (next) openList();
+                else closeList(false);
+            } finally {
+                quiet = false;
+            }
+        },
+        /** Disable or enable the button; disabling closes an open popup. */
+        setDisabled: (next) => {
+            button.disabled = !!next;
+            if (next) closeList(false);
+        },
+        setTheme: applyTheme,
+        destroy: () => {
+            tooltipDestroy();
+            keyboard.destroy();
+            button.removeEventListener("click", onButtonClick);
+            button.removeEventListener("keydown", onButtonKeydown);
+            list.removeEventListener("click", onListClick);
+            root.removeEventListener("focusout", onRootFocusOut);
+            document.removeEventListener("click", onDocumentClick);
+        },
+    };
 }
 
 /** Selects that have already warned, so the message appears once each. */
@@ -528,20 +514,20 @@ const warnedRoots = new WeakSet();
  * @param {string} stored
  */
 function warnResolutionOrderChanged(root, value, stored) {
-  try {
-    if (warnedRoots.has(root)) return;
-    warnedRoots.add(root);
-    if (typeof console === "undefined" || !console.warn) return;
-    console.warn(
-      `[lily theme-picker] value="${value}" now takes precedence over ` +
-        `the stored theme "${stored}". This reversed in 0.4.0: ` +
-        `previously the stored value won. If you want the stored ` +
-        `value to keep winning, stop passing "value" and let storage ` +
-        `resolve it. See the package CHANGELOG for the rationale.`,
-    );
-  } catch {
-    // never let a warning break initialisation
-  }
+    try {
+        if (warnedRoots.has(root)) return;
+        warnedRoots.add(root);
+        if (typeof console === "undefined" || !console.warn) return;
+        console.warn(
+            `[lily theme-picker] value="${value}" now takes precedence over ` +
+                `the stored theme "${stored}". This reversed in 0.4.0: ` +
+                `previously the stored value won. If you want the stored ` +
+                `value to keep winning, stop passing "value" and let storage ` +
+                `resolve it. See the package CHANGELOG for the rationale.`,
+        );
+    } catch {
+        // never let a warning break initialisation
+    }
 }
 
 /**
@@ -551,9 +537,7 @@ function warnResolutionOrderChanged(root, value, stored) {
  * @returns {Array<{setTheme: (slug:string)=>void, destroy: ()=>void}>}
  */
 export function autoInit(opts = {}) {
-  if (typeof document === "undefined") return [];
-  const roots = Array.from(
-    document.querySelectorAll("[data-lily-theme-picker-root]"),
-  );
-  return roots.map((root) => initThemePicker(root, opts));
+    if (typeof document === "undefined") return [];
+    const roots = Array.from(document.querySelectorAll("[data-lily-theme-picker-root]"));
+    return roots.map((root) => initThemePicker(root, opts));
 }

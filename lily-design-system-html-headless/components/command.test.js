@@ -1,23 +1,23 @@
 // command.test.js
 // Command component test
 
-const path = require('path');
+const path = require("path");
 
-describe('Command', function() {
-  beforeEach(async function() {
-    await browser.url('file://' + path.resolve(__dirname, 'command.html'));
-  });
+describe("Command", function () {
+    beforeEach(async function () {
+        await browser.url("file://" + path.resolve(__dirname, "command.html"));
+    });
 
-  it('should render the div element with correct class', async function() {
-    const el = await $('div.command');
-    await expect(el).toExist();
-    const className = await el.getAttribute('class');
-    expect(className).toContain('command');
-  });
+    it("should render the div element with correct class", async function () {
+        const el = await $("div.command");
+        await expect(el).toExist();
+        const className = await el.getAttribute("class");
+        expect(className).toContain("command");
+    });
 
-  it('should have an aria-label attribute', async function() {
-    const el = await $('div.command');
-    const label = await el.getAttribute('aria-label');
-    expect(label).not.toBeNull();
-  });
+    it("should have an aria-label attribute", async function () {
+        const el = await $("div.command");
+        const label = await el.getAttribute("aria-label");
+        expect(label).not.toBeNull();
+    });
 });

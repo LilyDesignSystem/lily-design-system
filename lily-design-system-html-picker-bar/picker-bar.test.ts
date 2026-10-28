@@ -9,304 +9,329 @@ import type { PickerBarLabels } from "./picker-bar.js";
 // here, since this file imports the class directly rather than the
 // barrel).
 if (typeof customElements !== "undefined" && !customElements.get("picker-bar")) {
-  customElements.define("picker-bar", PickerBar);
+    customElements.define("picker-bar", PickerBar);
 }
 
 const LABELS: PickerBarLabels = {
-  search: "Search this site",
-  searchInput: "Search terms",
-  searchSubmit: "Search",
-  theme: "Theme",
-  locale: "Language",
-  textSize: "Text size",
-  share: "Share",
+    search: "Search this site",
+    searchInput: "Search terms",
+    searchSubmit: "Search",
+    theme: "Theme",
+    locale: "Language",
+    textSize: "Text size",
+    share: "Share",
 };
 const THEMES_URL = "/assets/themes/";
 const LOCALES = ["en", "cy"];
 
 function mount(overrides: Record<string, unknown> = {}): PickerBar {
-  const el = document.createElement("picker-bar") as PickerBar;
-  el.labels = (overrides.labels as PickerBarLabels) ?? LABELS;
-  el.themesUrl = (overrides.themesUrl as string) ?? THEMES_URL;
-  el.locales = (overrides.locales as string[]) ?? LOCALES;
-  if ("themes" in overrides) el.themes = overrides.themes as string[];
-  if ("sizes" in overrides) el.sizes = overrides.sizes as string[];
-  if ("shareTargets" in overrides) el.shareTargets = overrides.shareTargets as [];
-  if ("links" in overrides) el.links = overrides.links as [];
-  if ("linkProps" in overrides) el.linkProps = overrides.linkProps as object;
-  if ("searchProps" in overrides)
-    el.searchProps = overrides.searchProps as object;
-  if ("themeProps" in overrides) el.themeProps = overrides.themeProps as object;
-  if ("timeZoneProps" in overrides)
-    el.timeZoneProps = overrides.timeZoneProps as object;
-  if ("textSizeProps" in overrides)
-    el.textSizeProps = overrides.textSizeProps as object;
-  if ("class" in overrides) el.setAttribute("class", overrides.class as string);
-  if ("data-testid" in overrides)
-    el.setAttribute("data-testid", overrides["data-testid"] as string);
-  document.body.appendChild(el);
-  return el;
+    const el = document.createElement("picker-bar") as PickerBar;
+    el.labels = (overrides.labels as PickerBarLabels) ?? LABELS;
+    el.themesUrl = (overrides.themesUrl as string) ?? THEMES_URL;
+    el.locales = (overrides.locales as string[]) ?? LOCALES;
+    if ("themes" in overrides) el.themes = overrides.themes as string[];
+    if ("sizes" in overrides) el.sizes = overrides.sizes as string[];
+    if ("shareTargets" in overrides) el.shareTargets = overrides.shareTargets as [];
+    if ("links" in overrides) el.links = overrides.links as [];
+    if ("linkProps" in overrides) el.linkProps = overrides.linkProps as object;
+    if ("searchProps" in overrides) el.searchProps = overrides.searchProps as object;
+    if ("themeProps" in overrides) el.themeProps = overrides.themeProps as object;
+    if ("timeZoneProps" in overrides) el.timeZoneProps = overrides.timeZoneProps as object;
+    if ("textSizeProps" in overrides) el.textSizeProps = overrides.textSizeProps as object;
+    if ("class" in overrides) el.setAttribute("class", overrides.class as string);
+    if ("data-testid" in overrides)
+        el.setAttribute("data-testid", overrides["data-testid"] as string);
+    document.body.appendChild(el);
+    return el;
 }
 
 beforeEach(() => {
-  document.documentElement.removeAttribute("data-theme");
-  document.documentElement.removeAttribute("lang");
-  document.documentElement.removeAttribute("dir");
-  document.documentElement.removeAttribute("data-text-size");
-  document.head
-    .querySelectorAll("link[data-lily-theme-picker]")
-    .forEach((n) => n.remove());
-  document.body.innerHTML = "";
-  try {
-    localStorage.clear();
-  } catch {
-    /* ignore */
-  }
+    document.documentElement.removeAttribute("data-theme");
+    document.documentElement.removeAttribute("lang");
+    document.documentElement.removeAttribute("dir");
+    document.documentElement.removeAttribute("data-text-size");
+    document.head.querySelectorAll("link[data-lily-theme-picker]").forEach((n) => n.remove());
+    document.body.innerHTML = "";
+    try {
+        localStorage.clear();
+    } catch {
+        /* ignore */
+    }
 });
 
 afterEach(() => {
-  document.documentElement.removeAttribute("data-theme");
-  document.documentElement.removeAttribute("lang");
-  document.documentElement.removeAttribute("dir");
-  document.documentElement.removeAttribute("data-text-size");
-  document.body.innerHTML = "";
+    document.documentElement.removeAttribute("data-theme");
+    document.documentElement.removeAttribute("lang");
+    document.documentElement.removeAttribute("dir");
+    document.documentElement.removeAttribute("data-text-size");
+    document.body.innerHTML = "";
 });
 
 describe("PickerBar — DEFAULT_THEMES (§3, §5.1)", () => {
-  test("has all 57 Lily reference theme slugs", () => {
-    expect(DEFAULT_THEMES).toHaveLength(57);
-  });
+    test("has all 57 Lily reference theme slugs", () => {
+        expect(DEFAULT_THEMES).toHaveLength(57);
+    });
 
-  test("is alphabetical, with the UK & US themes moved to the bottom as one alphabetical group", () => {
-    const nonUkUs = DEFAULT_THEMES.filter((t) => !t.startsWith("united-"));
-    const ukUs = DEFAULT_THEMES.filter((t) => t.startsWith("united-"));
-    expect(nonUkUs).toEqual([...nonUkUs].sort());
-    expect(ukUs).toEqual([...ukUs].sort());
-    expect(DEFAULT_THEMES).toEqual([...nonUkUs, ...ukUs]);
-  });
+    test("is alphabetical, with the UK & US themes moved to the bottom as one alphabetical group", () => {
+        const nonUkUs = DEFAULT_THEMES.filter((t) => !t.startsWith("united-"));
+        const ukUs = DEFAULT_THEMES.filter((t) => t.startsWith("united-"));
+        expect(nonUkUs).toEqual([...nonUkUs].sort());
+        expect(ukUs).toEqual([...ukUs].sort());
+        expect(DEFAULT_THEMES).toEqual([...nonUkUs, ...ukUs]);
+    });
 
-  test("first entry is 'abyss', last is 'united-states-web-design-system'", () => {
-    expect(DEFAULT_THEMES[0]).toBe("abyss");
-    expect(DEFAULT_THEMES[DEFAULT_THEMES.length - 1]).toBe(
-      "united-states-web-design-system",
-    );
-  });
+    test("first entry is 'abyss', last is 'united-states-web-design-system'", () => {
+        expect(DEFAULT_THEMES[0]).toBe("abyss");
+        expect(DEFAULT_THEMES[DEFAULT_THEMES.length - 1]).toBe("united-states-web-design-system");
+    });
 });
 
 describe("PickerBar — DEFAULT_SIZES (§3, §5.2)", () => {
-  test("is the seven-step scale, largest first", () => {
-    expect(DEFAULT_SIZES).toEqual([
-      "largest",
-      "larger",
-      "large",
-      "normal",
-      "small",
-      "smaller",
-      "smallest",
-    ]);
-  });
+    test("is the seven-step scale, largest first", () => {
+        expect(DEFAULT_SIZES).toEqual([
+            "largest",
+            "larger",
+            "large",
+            "normal",
+            "small",
+            "smaller",
+            "smallest",
+        ]);
+    });
 });
 
 describe("PickerBar — composition (§4, §7.1–§7.4)", () => {
-  test("§7.1 renders the root with the base class plus the consumer's class", () => {
-    const el = mount({ class: "my-picker-bar" });
-    const root = el.querySelector(".picker-bar");
-    expect(root).toBeTruthy();
-    expect(root?.classList.contains("my-picker-bar")).toBe(true);
-  });
+    test("§7.1 renders the root with the base class plus the consumer's class", () => {
+        const el = mount({ class: "my-picker-bar" });
+        const root = el.querySelector(".picker-bar");
+        expect(root).toBeTruthy();
+        expect(root?.classList.contains("my-picker-bar")).toBe(true);
+    });
 
-  test("§7.2 renders all five pickers, each named from `labels`", () => {
-    const el = mount();
-    expect(el.searchPicker?.label).toBe("Search this site");
-    expect(el.themePicker?.label).toBe("Theme");
-    expect(el.localePicker?.label).toBe("Language");
-    expect(el.textSizePicker?.label).toBe("Text size");
-    expect(el.sharePicker?.label).toBe("Share");
-  });
+    test("§7.2 renders all five pickers, each named from `labels`", () => {
+        const el = mount();
+        expect(el.searchPicker?.label).toBe("Search this site");
+        expect(el.themePicker?.label).toBe("Theme");
+        expect(el.localePicker?.label).toBe("Language");
+        expect(el.textSizePicker?.label).toBe("Text size");
+        expect(el.sharePicker?.label).toBe("Share");
+    });
 
-  test("§7.2 renders the five picker tags in search, theme, locale, text-size, share order", () => {
-    const el = mount();
-    const root = el.querySelector(".picker-bar") as HTMLElement;
-    const tags = Array.from(root.children).map((c) => c.tagName.toLowerCase());
-    expect(tags).toEqual([
-      "search-picker",
-      "theme-picker",
-      "locale-picker",
-      "text-size-picker",
-      "share-picker",
-    ]);
-  });
+    test("§7.2 renders the five picker tags in search, theme, locale, text-size, share order", () => {
+        const el = mount();
+        const root = el.querySelector(".picker-bar") as HTMLElement;
+        const tags = Array.from(root.children).map((c) => c.tagName.toLowerCase());
+        expect(tags).toEqual([
+            "search-picker",
+            "theme-picker",
+            "locale-picker",
+            "text-size-picker",
+            "share-picker",
+        ]);
+    });
 
-  test("§7.5 extra attributes set on the host stay on the host, not the root wrapper", () => {
-    const el = mount({ "data-testid": "header-picker-bar" });
-    expect(el.getAttribute("data-testid")).toBe("header-picker-bar");
-  });
+    test("§7.5 extra attributes set on the host stay on the host, not the root wrapper", () => {
+        const el = mount({ "data-testid": "header-picker-bar" });
+        expect(el.getAttribute("data-testid")).toBe("header-picker-bar");
+    });
 });
 
 describe("PickerBar — theme-picker wiring (§5.1, §7.3, §7.6)", () => {
-  test("§7.3 forwards themesUrl and uses DEFAULT_THEMES when `themes` is omitted", () => {
-    const el = mount();
-    expect(el.themePicker?.themesUrl).toBe(THEMES_URL);
-    expect(el.themePicker?.themes).toEqual(DEFAULT_THEMES);
-  });
+    test("§7.3 forwards themesUrl and uses DEFAULT_THEMES when `themes` is omitted", () => {
+        const el = mount();
+        expect(el.themePicker?.themesUrl).toBe(THEMES_URL);
+        expect(el.themePicker?.themes).toEqual(DEFAULT_THEMES);
+    });
 
-  test("§7.6 an explicit `themes` prop overrides the default", () => {
-    const el = mount({ themes: ["light", "dark"] });
-    expect(el.themePicker?.themes).toEqual(["light", "dark"]);
-  });
+    test("§7.6 an explicit `themes` prop overrides the default", () => {
+        const el = mount({ themes: ["light", "dark"] });
+        expect(el.themePicker?.themes).toEqual(["light", "dark"]);
+    });
 
-  test("§7.7 `themeProps` reaches ThemePicker (storageKey persists a selection)", async () => {
-    const el = mount({ themeProps: { storageKey: "lily-theme" } });
-    expect(el.themePicker?.storageKey).toBe("lily-theme");
-    // Trigger a selection and confirm persistence actually took effect,
-    // not just that the property was assigned.
-    el.themePicker?.openList();
-    await new Promise((r) => setTimeout(r, 0));
-    const option = document.querySelector(".theme-picker-option");
-    (option as HTMLElement)?.click();
-    expect(localStorage.getItem("lily-theme")).toBeTruthy();
-  });
+    test("§7.7 `themeProps` reaches ThemePicker (storageKey persists a selection)", async () => {
+        const el = mount({ themeProps: { storageKey: "lily-theme" } });
+        expect(el.themePicker?.storageKey).toBe("lily-theme");
+        // Trigger a selection and confirm persistence actually took effect,
+        // not just that the property was assigned.
+        el.themePicker?.openList();
+        await new Promise((r) => setTimeout(r, 0));
+        const option = document.querySelector(".theme-picker-option");
+        (option as HTMLElement)?.click();
+        expect(localStorage.getItem("lily-theme")).toBeTruthy();
+    });
 });
 
 describe("PickerBar — locale-picker wiring (§5.2, §7.4)", () => {
-  test("§7.4 forwards the required `locales` list", () => {
-    const el = mount();
-    expect(el.localePicker?.locales).toEqual(LOCALES);
-  });
+    test("§7.4 forwards the required `locales` list", () => {
+        const el = mount();
+        expect(el.localePicker?.locales).toEqual(LOCALES);
+    });
 });
 
 describe("PickerBar — text-size-picker wiring (§5.3, §7.8, §7.9)", () => {
-  test("§7.8 uses DEFAULT_SIZES when `sizes` is omitted, in largest-to-smallest order", () => {
-    const el = mount();
-    expect(el.textSizePicker?.sizes).toEqual(DEFAULT_SIZES);
-  });
+    test("§7.8 uses DEFAULT_SIZES when `sizes` is omitted, in largest-to-smallest order", () => {
+        const el = mount();
+        expect(el.textSizePicker?.sizes).toEqual(DEFAULT_SIZES);
+    });
 
-  test("§7.9 defaults the initial value to 'normal'", () => {
-    const el = mount();
-    expect(el.textSizePicker?.value).toBe("normal");
-  });
+    test("§7.9 defaults the initial value to 'normal'", () => {
+        const el = mount();
+        expect(el.textSizePicker?.value).toBe("normal");
+    });
 
-  test("§7.9 `textSizeProps.defaultValue` overrides the built-in 'normal' default", () => {
-    const el = mount({ textSizeProps: { defaultValue: "small" } });
-    expect(el.textSizePicker?.value).toBe("small");
-  });
+    test("§7.9 `textSizeProps.defaultValue` overrides the built-in 'normal' default", () => {
+        const el = mount({ textSizeProps: { defaultValue: "small" } });
+        expect(el.textSizePicker?.value).toBe("small");
+    });
 });
 
 describe("PickerBar — share-picker wiring (§5.4, §7.10)", () => {
-  test("§7.10 forwards `shareTargets` to SharePicker's list", () => {
-    const targets = [
-      {
-        id: "email",
-        label: "Email",
-        href: (url: string) => `mailto:?body=${url}`,
-      },
-    ];
-    const el = mount({ shareTargets: targets });
-    expect(el.sharePicker?.targets).toEqual(targets);
-  });
+    test("§7.10 forwards `shareTargets` to SharePicker's list", () => {
+        const targets = [
+            {
+                id: "email",
+                label: "Email",
+                href: (url: string) => `mailto:?body=${url}`,
+            },
+        ];
+        const el = mount({ shareTargets: targets });
+        expect(el.sharePicker?.targets).toEqual(targets);
+    });
 });
 
 describe("PickerBar — search-picker wiring (§7.12, §7.13)", () => {
-  test("§7.12 search is the first picker, with its field and ⏎ button named from `labels`", () => {
-    const el = mount();
-    const root = el.querySelector(".picker-bar") as HTMLElement;
-    expect(root.firstElementChild?.tagName.toLowerCase()).toBe("search-picker");
-    expect(root.firstElementChild).toBe(el.searchPicker);
-    el.querySelector<HTMLButtonElement>(".search-picker-button")!.click();
-    const input = el.querySelector(".search-picker-input")!;
-    const submit = el.querySelector(".search-picker-submit")!;
-    expect(
-      el.querySelector(".search-picker-button")!.getAttribute("aria-label"),
-    ).toBe("Search this site");
-    expect(input.getAttribute("aria-label")).toBe("Search terms");
-    expect(submit.getAttribute("aria-label")).toBe("Search");
-  });
+    test("§7.12 search is the first picker, with its field and ⏎ button named from `labels`", () => {
+        const el = mount();
+        const root = el.querySelector(".picker-bar") as HTMLElement;
+        expect(root.firstElementChild?.tagName.toLowerCase()).toBe("search-picker");
+        expect(root.firstElementChild).toBe(el.searchPicker);
+        el.querySelector<HTMLButtonElement>(".search-picker-button")!.click();
+        const input = el.querySelector(".search-picker-input")!;
+        const submit = el.querySelector(".search-picker-submit")!;
+        expect(el.querySelector(".search-picker-button")!.getAttribute("aria-label")).toBe(
+            "Search this site",
+        );
+        expect(input.getAttribute("aria-label")).toBe("Search terms");
+        expect(submit.getAttribute("aria-label")).toBe("Search");
+    });
 
-  test("§7.13 `searchProps` reaches SearchPicker (action + navigate)", () => {
-    const navigate = vi.fn();
-    const el = mount({ searchProps: { action: "/search", navigate } });
-    el.querySelector<HTMLButtonElement>(".search-picker-button")!.click();
-    const input = el.querySelector<HTMLInputElement>(".search-picker-input")!;
-    input.value = "foo";
-    input.dispatchEvent(new Event("input", { bubbles: true }));
-    el.querySelector(".search-picker-form")!.dispatchEvent(
-      new Event("submit", { bubbles: true, cancelable: true }),
-    );
-    expect(navigate).toHaveBeenCalledWith("/search?foo");
-  });
+    test("§7.13 `searchProps` reaches SearchPicker (action + navigate)", () => {
+        const navigate = vi.fn();
+        const el = mount({ searchProps: { action: "/search", navigate } });
+        el.querySelector<HTMLButtonElement>(".search-picker-button")!.click();
+        const input = el.querySelector<HTMLInputElement>(".search-picker-input")!;
+        input.value = "foo";
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        el.querySelector(".search-picker-form")!.dispatchEvent(
+            new Event("submit", { bubbles: true, cancelable: true }),
+        );
+        expect(navigate).toHaveBeenCalledWith("/search?foo");
+    });
 });
 
 const LINKS = [
-  { label: "Home", href: "/" },
-  { label: "About Us", href: "/about/" },
-  { label: "Contact Us", href: "/contact/" },
-  { label: "Privacy Policy", href: "/privacy/" },
+    { label: "Home", href: "/" },
+    { label: "About Us", href: "/about/" },
+    { label: "Contact Us", href: "/contact/" },
+    { label: "Privacy Policy", href: "/privacy/" },
 ];
 
 describe("PickerBar — link-picker wiring (§L1–§L4)", () => {
-  test("§L1 a link picker renders FIRST when `links` and `labels.link` are given", () => {
-    const el = mount({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
-    const tags = Array.from(el.querySelectorAll(".picker-bar > *")).map((n) => n.tagName.toLowerCase());
-    expect(tags).toEqual(["link-picker", "search-picker", "theme-picker", "locale-picker", "text-size-picker", "share-picker"]);
-    expect(el.linkPicker).toBeTruthy();
-    expect(Array.from(el.querySelectorAll(".link-picker-link")).map((a) => a.textContent)).toEqual([
-      "Home", "About Us", "Contact Us", "Privacy Policy",
-    ]);
-    expect(el.querySelector(".link-picker-button")!.getAttribute("aria-label")).toBe("Pages");
-  });
+    test("§L1 a link picker renders FIRST when `links` and `labels.link` are given", () => {
+        const el = mount({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
+        const tags = Array.from(el.querySelectorAll(".picker-bar > *")).map((n) =>
+            n.tagName.toLowerCase(),
+        );
+        expect(tags).toEqual([
+            "link-picker",
+            "search-picker",
+            "theme-picker",
+            "locale-picker",
+            "text-size-picker",
+            "share-picker",
+        ]);
+        expect(el.linkPicker).toBeTruthy();
+        expect(
+            Array.from(el.querySelectorAll(".link-picker-link")).map((a) => a.textContent),
+        ).toEqual(["Home", "About Us", "Contact Us", "Privacy Policy"]);
+        expect(el.querySelector(".link-picker-button")!.getAttribute("aria-label")).toBe("Pages");
+    });
 
-  test("§L2 no link picker without links, with empty links, or without labels.link", () => {
-    for (const overrides of [{}, { links: [], labels: { ...LABELS, link: "Pages" } }, { links: LINKS }]) {
-      const el = mount(overrides);
-      expect(el.querySelector("link-picker")).toBeNull();
-      expect(el.linkPicker).toBeNull();
-      expect(el.querySelector(".picker-bar > *")!.tagName.toLowerCase()).toBe("search-picker");
-      document.body.innerHTML = "";
-    }
-  });
+    test("§L2 no link picker without links, with empty links, or without labels.link", () => {
+        for (const overrides of [
+            {},
+            { links: [], labels: { ...LABELS, link: "Pages" } },
+            { links: LINKS },
+        ]) {
+            const el = mount(overrides);
+            expect(el.querySelector("link-picker")).toBeNull();
+            expect(el.linkPicker).toBeNull();
+            expect(el.querySelector(".picker-bar > *")!.tagName.toLowerCase()).toBe(
+                "search-picker",
+            );
+            document.body.innerHTML = "";
+        }
+    });
 
-  test("§L3 `linkProps` reaches the LinkPicker (onNavigate)", () => {
-    const onNavigate = vi.fn();
-    const el = mount({ links: LINKS, labels: { ...LABELS, link: "Pages" }, linkProps: { onNavigate } });
-    (el.querySelector(".link-picker-button") as HTMLButtonElement).click();
-    el.querySelector<HTMLAnchorElement>('.link-picker-link[href="/about/"]')!.dispatchEvent(
-      new MouseEvent("click", { bubbles: true, cancelable: true, button: 0 }),
-    );
-    expect(onNavigate).toHaveBeenCalledWith("/about/", "/about/");
-  });
+    test("§L3 `linkProps` reaches the LinkPicker (onNavigate)", () => {
+        const onNavigate = vi.fn();
+        const el = mount({
+            links: LINKS,
+            labels: { ...LABELS, link: "Pages" },
+            linkProps: { onNavigate },
+        });
+        (el.querySelector(".link-picker-button") as HTMLButtonElement).click();
+        el.querySelector<HTMLAnchorElement>('.link-picker-link[href="/about/"]')!.dispatchEvent(
+            new MouseEvent("click", { bubbles: true, cancelable: true, button: 0 }),
+        );
+        expect(onNavigate).toHaveBeenCalledWith("/about/", "/about/");
+    });
 
-  test("§L4 the links are real anchors, not menu items", () => {
-    const el = mount({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
-    expect(el.querySelectorAll(".link-picker-list a[href]")).toHaveLength(4);
-    expect(el.querySelector('.link-picker-list [role="menuitem"]')).toBeNull();
-  });
+    test("§L4 the links are real anchors, not menu items", () => {
+        const el = mount({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
+        expect(el.querySelectorAll(".link-picker-list a[href]")).toHaveLength(4);
+        expect(el.querySelector('.link-picker-list [role="menuitem"]')).toBeNull();
+    });
 });
 
 describe("picker-bar — time-zone-picker wiring (§T1–§T4)", () => {
-  const TZ = { locale: "en", zones: ["UTC", "Europe/London"], date: new Date("2026-01-15T12:00:00Z") };
-  const WITH = { ...LABELS, timeZone: "Time zone" };
+    const TZ = {
+        locale: "en",
+        zones: ["UTC", "Europe/London"],
+        date: new Date("2026-01-15T12:00:00Z"),
+    };
+    const WITH = { ...LABELS, timeZone: "Time zone" };
 
-  test("§T1 a time-zone-picker renders after the locale-picker when `labels.timeZone` and `timeZoneProps.locale` are given", () => {
-    const el = mount({ labels: WITH, timeZoneProps: TZ });
-    const kids = Array.from(el.querySelector(".picker-bar")!.children).map((c) => c.localName);
-    expect(kids).toEqual(["search-picker", "theme-picker", "locale-picker", "time-zone-picker", "text-size-picker", "share-picker"]);
-    expect(el.querySelector(".time-zone-picker-button")!.getAttribute("aria-label")).toBe("Time zone");
-  });
+    test("§T1 a time-zone-picker renders after the locale-picker when `labels.timeZone` and `timeZoneProps.locale` are given", () => {
+        const el = mount({ labels: WITH, timeZoneProps: TZ });
+        const kids = Array.from(el.querySelector(".picker-bar")!.children).map((c) => c.localName);
+        expect(kids).toEqual([
+            "search-picker",
+            "theme-picker",
+            "locale-picker",
+            "time-zone-picker",
+            "text-size-picker",
+            "share-picker",
+        ]);
+        expect(el.querySelector(".time-zone-picker-button")!.getAttribute("aria-label")).toBe(
+            "Time zone",
+        );
+    });
 
-  test("§T2 no time-zone-picker without labels.timeZone or without a locale", () => {
-    for (const extra of [{}, { timeZoneProps: TZ }, { labels: WITH }]) {
-      document.body.innerHTML = "";
-      expect(mount(extra).querySelector("time-zone-picker")).toBeNull();
-    }
-  });
+    test("§T2 no time-zone-picker without labels.timeZone or without a locale", () => {
+        for (const extra of [{}, { timeZoneProps: TZ }, { labels: WITH }]) {
+            document.body.innerHTML = "";
+            expect(mount(extra).querySelector("time-zone-picker")).toBeNull();
+        }
+    });
 
-  test("§T3 `timeZoneProps` reaches the time-zone-picker (zones)", () => {
-    const el = mount({ labels: WITH, timeZoneProps: TZ });
-    expect(el.querySelectorAll(".time-zone-picker-option")).toHaveLength(2);
-  });
+    test("§T3 `timeZoneProps` reaches the time-zone-picker (zones)", () => {
+        const el = mount({ labels: WITH, timeZoneProps: TZ });
+        expect(el.querySelectorAll(".time-zone-picker-option")).toHaveLength(2);
+    });
 
-  test("§T4 `textSizeProps.sizeLabels` names the sizes", () => {
-    const el = mount({ textSizeProps: { sizeLabels: { largest: "el más grande" } } });
-    expect(el.textContent).toContain("el más grande");
-  });
+    test("§T4 `textSizeProps.sizeLabels` names the sizes", () => {
+        const el = mount({ textSizeProps: { sizeLabels: { largest: "el más grande" } } });
+        expect(el.textContent).toContain("el más grande");
+    });
 });

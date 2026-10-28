@@ -43,10 +43,7 @@ export type Props = Omit<React.HTMLAttributes<HTMLDivElement>, "children"> & {
  * control. Purely visual: the text is the button's own aria-label, so it
  * is deliberately not linked with aria-describedby.
  */
-function usePickerTooltip(
-    buttonRef: React.RefObject<HTMLButtonElement | null>,
-    open: boolean,
-) {
+function usePickerTooltip(buttonRef: React.RefObject<HTMLButtonElement | null>, open: boolean) {
     const [hoverButton, setHoverButton] = React.useState(false);
     const [hoverTooltip, setHoverTooltip] = React.useState(false);
     const [focusButton, setFocusButton] = React.useState(false);

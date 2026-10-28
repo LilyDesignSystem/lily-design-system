@@ -15,10 +15,22 @@
 
 {#snippet emailCell(ctx: { formatted: string })}
     <span>
-        <a class="w-link" href="#{ctx.formatted}">{ctx.formatted}</a>
-        <input class="w-input" aria-label="Edit {ctx.formatted}" value={ctx.formatted} />
+        <a
+            class="w-link"
+            href="#{ctx.formatted}">{ctx.formatted}</a
+        >
+        <input
+            class="w-input"
+            aria-label="Edit {ctx.formatted}"
+            value={ctx.formatted}
+        />
     </span>
 {/snippet}
 
-<DataGrid label="Users" {columns} {rows} onRowActivate={(row) => (activated = String(row.name))} />
+<DataGrid
+    label="Users"
+    {columns}
+    {rows}
+    onRowActivate={(row) => (activated = String(row.name))}
+/>
 <p id="activated">{activated}</p>

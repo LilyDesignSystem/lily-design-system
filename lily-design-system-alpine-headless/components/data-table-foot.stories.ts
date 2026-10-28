@@ -1,11 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = "<table><tfoot class=\"data-table-foot\" aria-label=\"Example\">\n    <!-- Consumer provides child content -->\n</tfoot></table>";
+const html =
+    '<table><tfoot class="data-table-foot" aria-label="Example">\n    <!-- Consumer provides child content -->\n</tfoot></table>';
 
 const meta = {
-  title: 'Headless/Data Table Foot',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/Data Table Foot",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

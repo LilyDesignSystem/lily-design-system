@@ -29,7 +29,15 @@ export {
     TOOL_GROUPS,
     WRAP_MARKERS,
 } from "./org-format.js";
-export type { ToolId, WrapTool, LineTool, BlockTool, TaskTool, OrgOptions, Edit } from "./org-format.js";
+export type {
+    ToolId,
+    WrapTool,
+    LineTool,
+    BlockTool,
+    TaskTool,
+    OrgOptions,
+    Edit,
+} from "./org-format.js";
 
 if (typeof customElements !== "undefined" && !customElements.get("lily-org-editor")) {
     customElements.define("lily-org-editor", OrgEditor);

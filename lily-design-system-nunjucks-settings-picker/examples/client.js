@@ -4,5 +4,5 @@ import { autoInit } from "@lilydesignsystem/nunjucks-settings-picker";
 // button or [role="menuitem"] inside it is activated; opt one element out with a
 // data-settings-picker-keep-open ancestor.
 autoInit({
-  onOpenChange: (open) => console.log("open:", open),
+    onOpenChange: (open) => console.log("open:", open),
 });

@@ -15,9 +15,7 @@ const URL_TRAILING = "/assets/themes/";
 const URL_NO_TRAILING = "/assets/themes";
 
 function getManagedLink(name = "theme"): HTMLLinkElement | null {
-  return document.head.querySelector<HTMLLinkElement>(
-    `link[data-lily-theme-picker="${name}"]`,
-  );
+  return document.head.querySelector<HTMLLinkElement>(`link[data-lily-theme-picker="${name}"]`);
 }
 
 function flush(): Promise<void> {
@@ -28,9 +26,7 @@ function flush(): Promise<void> {
 let fixtures: ComponentFixture<unknown>[] = [];
 
 /** Create + render a ThemePicker with the supplied inputs. */
-function mount(
-  inputs: Record<string, unknown> = {},
-): ComponentFixture<ThemePicker> {
+function mount(inputs: Record<string, unknown> = {}): ComponentFixture<ThemePicker> {
   const fixture = TestBed.createComponent(ThemePicker);
   fixture.componentRef.setInput("label", "Theme");
   fixture.componentRef.setInput("themesUrl", URL_TRAILING);
@@ -53,10 +49,7 @@ async function mountSettled(
   return fixture;
 }
 
-function q<T extends Element>(
-  fixture: ComponentFixture<unknown>,
-  sel: string,
-): T {
+function q<T extends Element>(fixture: ComponentFixture<unknown>, sel: string): T {
   return fixture.nativeElement.querySelector(sel) as T;
 }
 
@@ -75,11 +68,7 @@ function options(fixture: ComponentFixture<unknown>): HTMLLIElement[] {
 }
 
 /** Dispatch a bubbling keydown and re-render. */
-function press(
-  fixture: ComponentFixture<unknown>,
-  target: HTMLElement,
-  key: string,
-): void {
+function press(fixture: ComponentFixture<unknown>, target: HTMLElement, key: string): void {
   target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true }));
   fixture.detectChanges();
 }
@@ -104,9 +93,7 @@ async function pick(
 
 beforeEach(() => {
   document.documentElement.removeAttribute("data-theme");
-  document.head
-    .querySelectorAll("link[data-lily-theme-picker]")
-    .forEach((n) => n.remove());
+  document.head.querySelectorAll("link[data-lily-theme-picker]").forEach((n) => n.remove());
   try {
     localStorage.clear();
   } catch {
@@ -235,9 +222,7 @@ describe("ThemePicker — markup contract (§4.2, §7.1–§7.5)", () => {
 });
 
 describe("ThemePicker — keyboard contract (APG listbox, §7.14–§7.18)", () => {
-  async function openWith(
-    key: string,
-  ): Promise<ComponentFixture<ThemePicker>> {
+  async function openWith(key: string): Promise<ComponentFixture<ThemePicker>> {
     const fixture = await mountSettled();
     press(fixture, button(fixture), key);
     await flush();
@@ -256,9 +241,7 @@ describe("ThemePicker — keyboard contract (APG listbox, §7.14–§7.18)", () 
   test("§7.14 opening puts the active descendant on the selected theme", async () => {
     const fixture = await openWith("ArrowDown");
     // "light" resolves as the initial theme, so it is index 0.
-    expect(list(fixture).getAttribute("aria-activedescendant")).toBe(
-      list(fixture).children[0].id,
-    );
+    expect(list(fixture).getAttribute("aria-activedescendant")).toBe(list(fixture).children[0].id);
   });
 
   test("§7.14 ArrowUp opens with the last option active", async () => {
@@ -290,18 +273,14 @@ describe("ThemePicker — keyboard contract (APG listbox, §7.14–§7.18)", () 
     const fixture = await openWith("ArrowUp");
     const ul = list(fixture);
     press(fixture, ul, "ArrowDown");
-    expect(ul.getAttribute("aria-activedescendant")).toBe(
-      ul.children[THEMES.length - 1].id,
-    );
+    expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[THEMES.length - 1].id);
   });
 
   test("§7.15 Home and End jump to the first and last option", async () => {
     const fixture = await openWith("ArrowDown");
     const ul = list(fixture);
     press(fixture, ul, "End");
-    expect(ul.getAttribute("aria-activedescendant")).toBe(
-      ul.children[THEMES.length - 1].id,
-    );
+    expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[THEMES.length - 1].id);
     press(fixture, ul, "Home");
     expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[0].id);
   });
@@ -442,18 +421,14 @@ describe("ThemePicker — dynamic loading (§5, §7.6–§7.11)", () => {
     fixture.componentInstance.themeChange.subscribe(onChange);
     await pick(fixture, "abyss");
     expect(document.documentElement.dataset["theme"]).toBe("abyss");
-    expect(getManagedLink()!.href.endsWith("/assets/themes/abyss.css")).toBe(
-      true,
-    );
+    expect(getManagedLink()!.href.endsWith("/assets/themes/abyss.css")).toBe(true);
     expect(onChange).toHaveBeenCalledWith("abyss");
   });
 
   test("§7.8 the hidden input tracks the selected value", async () => {
     const fixture = await mountSettled();
     await pick(fixture, "abyss");
-    expect(q<HTMLInputElement>(fixture, 'input[type="hidden"]').value).toBe(
-      "abyss",
-    );
+    expect(q<HTMLInputElement>(fixture, 'input[type="hidden"]').value).toBe("abyss");
   });
 
   test("§7.8 name discriminates the managed <link>", async () => {
@@ -469,9 +444,7 @@ describe("ThemePicker — dynamic loading (§5, §7.6–§7.11)", () => {
     fixture.destroy();
 
     document.documentElement.removeAttribute("data-theme");
-    document.head
-      .querySelectorAll("link[data-lily-theme-picker]")
-      .forEach((n) => n.remove());
+    document.head.querySelectorAll("link[data-lily-theme-picker]").forEach((n) => n.remove());
 
     await mountSettled({ storageKey: "lily-theme" });
     expect(document.documentElement.dataset["theme"]).toBe("dark");
@@ -485,9 +458,7 @@ describe("ThemePicker — dynamic loading (§5, §7.6–§7.11)", () => {
 
   test("§7.11 missing trailing slash on themesUrl still yields one slash", async () => {
     await mountSettled({ themesUrl: URL_NO_TRAILING });
-    expect(getManagedLink()!.href.endsWith("/assets/themes/light.css")).toBe(
-      true,
-    );
+    expect(getManagedLink()!.href.endsWith("/assets/themes/light.css")).toBe(true);
   });
 
   test("§7.11 a custom target receives data-theme", async () => {
@@ -530,9 +501,7 @@ class IconTemplateHost {
 describe("ThemePicker — custom icon template (§7.12–§7.13)", () => {
   test("§7.12 className is appended to the root div", () => {
     const fixture = mount({ className: "extra" });
-    expect(
-      q<HTMLElement>(fixture, ".theme-picker").classList.contains("extra"),
-    ).toBe(true);
+    expect(q<HTMLElement>(fixture, ".theme-picker").classList.contains("extra")).toBe(true);
   });
 
   test("§7.13 a projected ng-template replaces the icon and receives ChildArgs", async () => {
@@ -545,12 +514,8 @@ describe("ThemePicker — custom icon template (§7.12–§7.13)", () => {
     const custom = q<HTMLElement>(fixture, '[data-testid="custom"]');
     expect(custom).toBeTruthy();
     // The custom template replaces the default SVG icon inside the button.
-    expect(custom.closest("button")?.className).toContain(
-      "theme-picker-button",
-    );
-    expect(
-      fixture.nativeElement.querySelector(".theme-picker-icon"),
-    ).toBeNull();
+    expect(custom.closest("button")?.className).toContain("theme-picker-button");
+    expect(fixture.nativeElement.querySelector(".theme-picker-icon")).toBeNull();
     expect(custom.getAttribute("data-open")).toBe("false");
     expect(custom.getAttribute("data-value")).toBe("dark");
     expect(custom.getAttribute("data-label-light")).toBe("Light");
@@ -590,16 +555,14 @@ describe("ThemePicker — themeName (§7.19)", () => {
   });
 
   test("themeName handles a long multi-word slug", () => {
-    expect(
-      themeName("united-kingdom-national-health-service-england-for-patients"),
-    ).toBe("United Kingdom National Health Service England For Patients");
+    expect(themeName("united-kingdom-national-health-service-england-for-patients")).toBe(
+      "United Kingdom National Health Service England For Patients",
+    );
   });
 
   test("labelFor delegates to themeName so there is one implementation", async () => {
     const fixture = await mountSettled();
-    expect(fixture.componentInstance.labelFor("high-contrast")).toBe(
-      themeName("high-contrast"),
-    );
+    expect(fixture.componentInstance.labelFor("high-contrast")).toBe(themeName("high-contrast"));
   });
 
   test("themeLabels still override themeName", async () => {
@@ -675,9 +638,7 @@ describe("ThemePicker — detectFromSystem (§7.20)", () => {
 });
 
 describe("ThemePicker — accessibility hardening (§7.21–§7.24)", () => {
-  async function openPicker(
-    themes: string[] = THEMES,
-  ): Promise<ComponentFixture<ThemePicker>> {
+  async function openPicker(themes: string[] = THEMES): Promise<ComponentFixture<ThemePicker>> {
     const fixture = await mountSettled({ themes });
     click(fixture, button(fixture));
     await flush();
@@ -724,10 +685,7 @@ describe("ThemePicker — accessibility hardening (§7.21–§7.24)", () => {
   });
 
   test("§7.23 PageUp and PageDown move the cursor by ten, clamped", async () => {
-    const many = Array.from(
-      { length: 25 },
-      (_, i) => `t${String(i).padStart(2, "0")}`,
-    );
+    const many = Array.from({ length: 25 }, (_, i) => `t${String(i).padStart(2, "0")}`);
     const fixture = await openPicker(many);
     const ul = list(fixture);
     press(fixture, ul, "PageDown");
@@ -880,14 +838,19 @@ describe("theme-picker — tooltip (§7.25–§7.30)", () => {
 describe("ThemePicker — open state and disabled", () => {
   function build(extra: Record<string, unknown> = {}): ComponentFixture<ThemePicker> {
     const fixture = TestBed.createComponent(ThemePicker);
-    for (const [key, value] of Object.entries({ ...{ label: "Theme", themesUrl: URL_TRAILING, themes: THEMES }, ...extra })) {
+    for (const [key, value] of Object.entries({
+      ...{ label: "Theme", themesUrl: URL_TRAILING, themes: THEMES },
+      ...extra,
+    })) {
       fixture.componentRef.setInput(key, value);
     }
     fixture.detectChanges();
     return fixture;
   }
   const button = (f: ComponentFixture<unknown>) =>
-    f.nativeElement.querySelector(".theme-picker-button button, button.theme-picker-button") as HTMLButtonElement;
+    f.nativeElement.querySelector(
+      ".theme-picker-button button, button.theme-picker-button",
+    ) as HTMLButtonElement;
   const settle = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
 
   test("open starts the popup open without emitting openChange", async () => {
@@ -933,4 +896,3 @@ describe("ThemePicker — open state and disabled", () => {
     expect(button(fixture).getAttribute("aria-expanded")).toBe("false");
   });
 });
-

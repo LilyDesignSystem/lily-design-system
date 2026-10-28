@@ -9,16 +9,16 @@
 import SearchPicker from "../SearchPicker.vue";
 
 function onSearch(query: string, href: string): void {
-  console.log("searching for", query, "at", href);
+    console.log("searching for", query, "at", href);
 }
 </script>
 
 <template>
-  <SearchPicker
-    label="Search this site"
-    input-label="Search terms"
-    submit-label="Search"
-    placeholder="Search…"
-    @search="onSearch"
-  />
+    <SearchPicker
+        label="Search this site"
+        input-label="Search terms"
+        submit-label="Search"
+        placeholder="Search…"
+        @search="onSearch"
+    />
 </template>

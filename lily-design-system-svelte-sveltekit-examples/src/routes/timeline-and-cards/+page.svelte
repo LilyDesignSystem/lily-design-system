@@ -41,25 +41,31 @@
 
     <h2>Patient Timeline</h2>
     <TimelineList label="Patient care timeline">
-        <TimelineListItem datetime="2026-03-01" heading="Initial Consultation">
-            <p>
-                Patient presented with recurring headaches. Referred for MRI
-                scan.
-            </p>
+        <TimelineListItem
+            datetime="2026-03-01"
+            heading="Initial Consultation"
+        >
+            <p>Patient presented with recurring headaches. Referred for MRI scan.</p>
             <Badge type="info">Neurology</Badge>
         </TimelineListItem>
-        <TimelineListItem datetime="2026-02-15" heading="Blood Test Results">
+        <TimelineListItem
+            datetime="2026-02-15"
+            heading="Blood Test Results"
+        >
             <p>All results within normal range. No further action required.</p>
             <Badge type="success">Complete</Badge>
         </TimelineListItem>
-        <TimelineListItem datetime="2026-02-01" heading="GP Registration">
-            <p>
-                Patient registered at practice. Initial health assessment
-                completed.
-            </p>
+        <TimelineListItem
+            datetime="2026-02-01"
+            heading="GP Registration"
+        >
+            <p>Patient registered at practice. Initial health assessment completed.</p>
             <Badge>Administrative</Badge>
         </TimelineListItem>
-        <TimelineListItem datetime="2026-01-15" heading="Referral Received">
+        <TimelineListItem
+            datetime="2026-01-15"
+            heading="Referral Received"
+        >
             <p>Referral received from previous GP. Records transferred.</p>
             <Badge type="warning">Pending review</Badge>
         </TimelineListItem>
@@ -71,7 +77,10 @@
     <div
         style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: var(--nhs-space-4);"
     >
-        <Card heading="Dr. Sarah Chen" headingLevel={3}>
+        <Card
+            heading="Dr. Sarah Chen"
+            headingLevel={3}
+        >
             <div
                 style="display: flex; align-items: center; gap: var(--nhs-space-3); margin-bottom: var(--nhs-space-2);"
             >
@@ -79,9 +88,7 @@
                     <AvatarText>SC</AvatarText>
                 </Avatar>
                 <div>
-                    <p style="margin: 0; font-weight: 700;">
-                        Consultant Neurologist
-                    </p>
+                    <p style="margin: 0; font-weight: 700;">Consultant Neurologist</p>
                     <p
                         style="margin: 0; font-size: var(--nhs-font-size-14); color: var(--nhs-dark-grey);"
                     >
@@ -92,7 +99,10 @@
             <Badge type="success">Available</Badge>
         </Card>
 
-        <Card heading="Nurse James Patel" headingLevel={3}>
+        <Card
+            heading="Nurse James Patel"
+            headingLevel={3}
+        >
             <div
                 style="display: flex; align-items: center; gap: var(--nhs-space-3); margin-bottom: var(--nhs-space-2);"
             >
@@ -111,7 +121,10 @@
             <Badge type="warning">On call</Badge>
         </Card>
 
-        <Card heading="Dr. Emily Watson" headingLevel={3}>
+        <Card
+            heading="Dr. Emily Watson"
+            headingLevel={3}
+        >
             <div
                 style="display: flex; align-items: center; gap: var(--nhs-space-3); margin-bottom: var(--nhs-space-2);"
             >
@@ -152,13 +165,9 @@
         <div
             style="background: var(--nhs-pale-grey); height: 200px; display: flex; align-items: center; justify-content: center; border-radius: var(--nhs-border-radius);"
         >
-            <p style="color: var(--nhs-mid-grey);">
-                [Medical illustration placeholder]
-            </p>
+            <p style="color: var(--nhs-mid-grey);">[Medical illustration placeholder]</p>
         </div>
-        <Caption
-            >Figure 1: Example medical illustration for educational purposes.</Caption
-        >
+        <Caption>Figure 1: Example medical illustration for educational purposes.</Caption>
     </Figure>
 
     <Separator />
@@ -166,27 +175,31 @@
     <h2>Text Elements</h2>
     <p>
         This section demonstrates inline text components:
-        <Flair>highlighted text</Flair>, special characters like <Character
-            label="Letter A"
+        <Flair>highlighted text</Flair>, special characters like <Character label="Letter A"
             >A</Character
-        >, and emoji: <Emoji emoji="heart" label="heart" />
-        <Emoji emoji="star" label="star" />
-        <Emoji emoji="check" label="check mark" />.
+        >, and emoji: <Emoji
+            emoji="heart"
+            label="heart"
+        />
+        <Emoji
+            emoji="star"
+            label="star"
+        />
+        <Emoji
+            emoji="check"
+            label="check mark"
+        />.
     </p>
 
     <p>
         Icons: <Icon label="info"
-            ><span style="font-weight: 700; color: var(--nhs-blue);">i</span
-            ></Icon
+            ><span style="font-weight: 700; color: var(--nhs-blue);">i</span></Icon
         >
         <Icon label="warning"
-            ><span style="font-weight: 700; color: var(--nhs-orange);">!</span
-            ></Icon
+            ><span style="font-weight: 700; color: var(--nhs-orange);">!</span></Icon
         >
         <Icon label="success"
-            ><span style="font-weight: 700; color: var(--nhs-green);"
-                >&#10003;</span
-            ></Icon
+            ><span style="font-weight: 700; color: var(--nhs-green);">&#10003;</span></Icon
         >
     </p>
 
@@ -196,21 +209,25 @@
             class="text-area-input"
             aria-label="Clinical notes"
             bind:value={noteText}
-            maxlength="200"
-        ></textarea>
+            maxlength="200"></textarea>
         <CharacterCounter>{noteText.length}/200 characters</CharacterCounter>
     </div>
 
     <Footnote>
-        <sup>1</sup> All patient data shown is fictional and for demonstration purposes
-        only.
+        <sup>1</sup> All patient data shown is fictional and for demonstration purposes only.
     </Footnote>
 
     <Separator />
 
     <h2>Tour Guide</h2>
-    <Tour label="Getting started tour" bind:active={tourActive}>
-        <button class="button" onclick={() => (tourActive = !tourActive)}>
+    <Tour
+        label="Getting started tour"
+        bind:active={tourActive}
+    >
+        <button
+            class="button"
+            onclick={() => (tourActive = !tourActive)}
+        >
             {tourActive ? "End Tour" : "Start Tour"}
         </button>
         {#if tourActive}
@@ -221,18 +238,20 @@
                     stepNumber={1}
                     totalSteps={3}
                 >
-                    <p>
-                        Welcome to the NHS Clinical Dashboard. Let us show you
-                        around.
-                    </p>
+                    <p>Welcome to the NHS Clinical Dashboard. Let us show you around.</p>
                 </TourListItem>
-                <TourListItem label="Navigation" stepNumber={2} totalSteps={3}>
-                    <p>
-                        Use the menu bar at the top to navigate between
-                        sections.
-                    </p>
+                <TourListItem
+                    label="Navigation"
+                    stepNumber={2}
+                    totalSteps={3}
+                >
+                    <p>Use the menu bar at the top to navigate between sections.</p>
                 </TourListItem>
-                <TourListItem label="Help" stepNumber={3} totalSteps={3}>
+                <TourListItem
+                    label="Help"
+                    stepNumber={3}
+                    totalSteps={3}
+                >
                     <p>Click the help icon at any time for assistance.</p>
                 </TourListItem>
             </TourList>

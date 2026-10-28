@@ -9,4 +9,6 @@
   min-width: 12rem;
   position: absolute;
 }
-.dropdown-menu[hidden] { display: none; }
+.dropdown-menu[hidden] {
+  display: none;
+}

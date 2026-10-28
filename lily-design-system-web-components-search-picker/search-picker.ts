@@ -152,16 +152,16 @@ export class SearchPicker extends HTMLElement {
     // propagation, and never moves focus.
     #tipDocListening = false;
     readonly #onTipDocKeydown = (event: KeyboardEvent): void => {
-      if (event.key === "Escape" && this.#tooltipVisible()) {
-        this.#tipDismissed = true;
-        this.#syncTooltip();
-      }
+        if (event.key === "Escape" && this.#tooltipVisible()) {
+            this.#tipDismissed = true;
+            this.#syncTooltip();
+        }
     };
     #setTipDocListener(on: boolean): void {
-      if (on === this.#tipDocListening || typeof document === "undefined") return;
-      this.#tipDocListening = on;
-      if (on) document.addEventListener("keydown", this.#onTipDocKeydown);
-      else document.removeEventListener("keydown", this.#onTipDocKeydown);
+        if (on === this.#tipDocListening || typeof document === "undefined") return;
+        this.#tipDocListening = on;
+        if (on) document.addEventListener("keydown", this.#onTipDocKeydown);
+        else document.removeEventListener("keydown", this.#onTipDocKeydown);
     }
 
     #tooltipVisible(): boolean {
@@ -178,7 +178,7 @@ export class SearchPicker extends HTMLElement {
         if (!el) return;
         if (el.textContent !== this.label) el.textContent = this.label;
         const hide = !this.#tooltipVisible();
-      this.#setTipDocListener(!hide);
+        this.#setTipDocListener(!hide);
         if (el.hasAttribute("hidden") !== hide) {
             if (hide) el.setAttribute("hidden", "");
             else el.removeAttribute("hidden");
@@ -186,7 +186,7 @@ export class SearchPicker extends HTMLElement {
     }
 
     #resetTooltip(): void {
-      this.#setTipDocListener(false);
+        this.#setTipDocListener(false);
         this.#hoverButton = false;
         this.#hoverTooltip = false;
         this.#focusButton = false;
@@ -289,7 +289,9 @@ export class SearchPicker extends HTMLElement {
     #emitOpenChange(open: boolean): void {
         if (this.#silentOpen) return;
         this.onOpenChange?.(open);
-        this.dispatchEvent(new CustomEvent<boolean>("openchange", { detail: open, bubbles: true, composed: true }));
+        this.dispatchEvent(
+            new CustomEvent<boolean>("openchange", { detail: open, bubbles: true, composed: true }),
+        );
     }
 
     /** The `open` and `disabled` attributes, applied to the rendered button and popup. */

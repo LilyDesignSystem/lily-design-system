@@ -4,10 +4,10 @@ import { useRoute, useRouter } from "vue-router";
 import LinkPicker from "../LinkPicker.vue";
 
 const pages = [
-  { label: "Home", href: "/" },
-  { label: "About Us", href: "/about/" },
-  { label: "Contact Us", href: "/contact/" },
-  { label: "Privacy Policy", href: "/privacy/" },
+    { label: "Home", href: "/" },
+    { label: "About Us", href: "/about/" },
+    { label: "Contact Us", href: "/contact/" },
+    { label: "Privacy Policy", href: "/privacy/" },
 ];
 const route = useRoute();
 const router = useRouter();
@@ -17,5 +17,9 @@ const links = computed(() => pages.map((p) => ({ ...p, current: route.path === p
 </script>
 
 <template>
-  <LinkPicker label="Pages" :links="links" :navigate="(href) => router.push(href)" />
+    <LinkPicker
+        label="Pages"
+        :links="links"
+        :navigate="(href) => router.push(href)"
+    />
 </template>

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<fieldset
   class="fieldset"
@@ -9,9 +9,9 @@ const html = `<fieldset
 </fieldset>`;
 
 const meta = {
-  title: 'Headless/Fieldset',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/Fieldset",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

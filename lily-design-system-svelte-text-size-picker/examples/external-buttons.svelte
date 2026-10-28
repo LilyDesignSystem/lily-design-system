@@ -19,23 +19,38 @@
   localStorage, and onChange in sync.
 -->
 <script lang="ts">
-  import TextSizePicker, { sizeName } from "../TextSizePicker.svelte";
+    import TextSizePicker, { sizeName } from "../TextSizePicker.svelte";
 
-  const sizes = ["small", "medium", "large", "x-large"];
+    const sizes = ["small", "medium", "large", "x-large"];
 
-  let size = $state("");
+    let size = $state("");
 </script>
 
-<TextSizePicker label="Text size" {sizes} bind:value={size} storageKey="my-app:text-size" />
+<TextSizePicker
+    label="Text size"
+    {sizes}
+    bind:value={size}
+    storageKey="my-app:text-size"
+/>
 
-<div role="group" aria-label="Text size presets">
-  {#each sizes as slug (slug)}
-    <button type="button" aria-pressed={slug === size} onclick={() => (size = slug)}>
-      {sizeName(slug)}
-    </button>
-  {/each}
+<div
+    role="group"
+    aria-label="Text size presets"
+>
+    {#each sizes as slug (slug)}
+        <button
+            type="button"
+            aria-pressed={slug === size}
+            onclick={() => (size = slug)}
+        >
+            {sizeName(slug)}
+        </button>
+    {/each}
 </div>
 
-<p class="text-size-picker-status" aria-live="polite">
-  Text size: {size ? sizeName(size) : "none"}
+<p
+    class="text-size-picker-status"
+    aria-live="polite"
+>
+    Text size: {size ? sizeName(size) : "none"}
 </p>

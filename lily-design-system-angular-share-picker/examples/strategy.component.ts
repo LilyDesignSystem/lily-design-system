@@ -92,8 +92,7 @@ export class StrategyExample {
     {
       id: "mastodon",
       label: "Mastodon",
-      href: (url) =>
-        `https://mastodon.social/share?text=${encodeURIComponent(url)}`,
+      href: (url) => `https://mastodon.social/share?text=${encodeURIComponent(url)}`,
     },
   ];
 }

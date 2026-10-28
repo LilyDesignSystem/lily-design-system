@@ -32,7 +32,14 @@ const labels = {
 
 function setup(props: Record<string, unknown> = {}) {
     const utils = render(OrgEditor, {
-        props: { label: "Notes", toolbarLabel: "Formatting", labels, value: "hello world", today: "2026-10-24", ...props },
+        props: {
+            label: "Notes",
+            toolbarLabel: "Formatting",
+            labels,
+            value: "hello world",
+            today: "2026-10-24",
+            ...props,
+        },
     });
     const textarea = screen.getByRole("textbox", { name: "Notes" }) as HTMLTextAreaElement;
     return { ...utils, textarea };
@@ -49,20 +56,29 @@ describe("structure", () => {
     it("renders a toolbar and a textarea under the base classes", () => {
         const { container, textarea } = setup();
         expect(container.querySelector("div.org-editor")).toBeTruthy();
-        expect(screen.getByRole("toolbar", { name: "Formatting" }).className).toContain("org-editor-toolbar");
+        expect(screen.getByRole("toolbar", { name: "Formatting" }).className).toContain(
+            "org-editor-toolbar",
+        );
         expect(textarea.className).toContain("org-editor-textarea");
         expect(textarea.tagName).toBe("TEXTAREA");
     });
 
     it("renders one named button per labelled tool, in the default order", () => {
         setup();
-        expect(screen.getAllByRole("button").map((b) => b.getAttribute("data-tool"))).toEqual([...TOOL_IDS]);
-        expect(screen.getAllByRole("button").map((b) => b.getAttribute("aria-label"))).toEqual(TOOL_IDS.map((t) => labels[t]));
+        expect(screen.getAllByRole("button").map((b) => b.getAttribute("data-tool"))).toEqual([
+            ...TOOL_IDS,
+        ]);
+        expect(screen.getAllByRole("button").map((b) => b.getAttribute("aria-label"))).toEqual(
+            TOOL_IDS.map((t) => labels[t]),
+        );
     });
 
     it("every button carries its group, for the consumer's separators", () => {
         setup();
-        for (const b of screen.getAllByRole("button")) expect(b.getAttribute("data-group")).toBe(TOOL_GROUPS[b.getAttribute("data-tool") as keyof typeof TOOL_GROUPS]);
+        for (const b of screen.getAllByRole("button"))
+            expect(b.getAttribute("data-group")).toBe(
+                TOOL_GROUPS[b.getAttribute("data-tool") as keyof typeof TOOL_GROUPS],
+            );
     });
 
     it("omits a tool that has no label", () => {
@@ -72,17 +88,22 @@ describe("structure", () => {
 
     it("honours the tools prop for subset and order", () => {
         setup({ tools: ["contact", "todo"] });
-        expect(screen.getAllByRole("button").map((b) => b.getAttribute("data-tool"))).toEqual(["contact", "todo"]);
+        expect(screen.getAllByRole("button").map((b) => b.getAttribute("data-tool"))).toEqual([
+            "contact",
+            "todo",
+        ]);
     });
 
     it("every button is type=button", () => {
         setup();
-        for (const b of screen.getAllByRole("button")) expect(b.getAttribute("type")).toBe("button");
+        for (const b of screen.getAllByRole("button"))
+            expect(b.getAttribute("type")).toBe("button");
     });
 
     it("icons are decorative and draw one path each", () => {
         const { container } = setup();
-        for (const svg of container.querySelectorAll("svg")) expect(svg.getAttribute("aria-hidden")).toBe("true");
+        for (const svg of container.querySelectorAll("svg"))
+            expect(svg.getAttribute("aria-hidden")).toBe("true");
         expect(container.querySelectorAll("svg path").length).toBe(TOOL_IDS.length);
     });
 
@@ -128,7 +149,13 @@ describe("text tools", () => {
     });
 
     it("italic, underline, strikethrough, code and verbatim use org's markers", async () => {
-        for (const [name, out] of [["Italic", "/hello/ world"], ["Underline", "_hello_ world"], ["Strikethrough", "+hello+ world"], ["Code", "~hello~ world"], ["Verbatim", "=hello= world"]] as const) {
+        for (const [name, out] of [
+            ["Italic", "/hello/ world"],
+            ["Underline", "_hello_ world"],
+            ["Strikethrough", "+hello+ world"],
+            ["Code", "~hello~ world"],
+            ["Verbatim", "=hello= world"],
+        ] as const) {
             const { textarea, unmount } = setup();
             select(textarea, 0, 5);
             await click(name);
@@ -151,7 +178,9 @@ describe("text tools", () => {
         select(textarea, 0, 5);
         await click("Link");
         expect(textarea.value).toBe("[[https://][hello]] world");
-        expect(textarea.value.slice(textarea.selectionStart, textarea.selectionEnd)).toBe("https://");
+        expect(textarea.value.slice(textarea.selectionStart, textarea.selectionEnd)).toBe(
+            "https://",
+        );
     });
 
     it("moves focus back to the textarea after a tool runs", async () => {
@@ -209,7 +238,9 @@ describe("structure and task tools", () => {
         select(textarea, 0, 0);
         await click("Scheduled");
         expect(textarea.value).toBe("* Ship\nSCHEDULED: <2026-10-24 Sat>\nbody");
-        expect(textarea.value.slice(textarea.selectionStart, textarea.selectionEnd)).toBe("2026-10-24 Sat");
+        expect(textarea.value.slice(textarea.selectionStart, textarea.selectionEnd)).toBe(
+            "2026-10-24 Sat",
+        );
         await click("Scheduled");
         expect(textarea.value).toBe("* Ship\nbody");
     });
@@ -274,7 +305,9 @@ describe("data tools", () => {
         const { textarea } = setup({ value: "Ada Lovelace" });
         select(textarea, 0, 12);
         await click("Contact");
-        expect(textarea.value).toBe("* Ada Lovelace\n:PROPERTIES:\n:EMAIL: \n:PHONE: \n:ADDRESS: \n:BIRTHDAY: \n:END:");
+        expect(textarea.value).toBe(
+            "* Ada Lovelace\n:PROPERTIES:\n:EMAIL: \n:PHONE: \n:ADDRESS: \n:BIRTHDAY: \n:END:",
+        );
     });
 
     it("the contact properties are a prop", async () => {
@@ -332,7 +365,9 @@ describe("typing and shortcuts", () => {
 describe("toolbar keyboard", () => {
     it("only one button is in the tab order (roving tabindex)", () => {
         setup();
-        const tabbable = screen.getAllByRole("button").filter((b) => b.getAttribute("tabindex") === "0");
+        const tabbable = screen
+            .getAllByRole("button")
+            .filter((b) => b.getAttribute("tabindex") === "0");
         expect(tabbable.length).toBe(1);
         expect(tabbable[0].getAttribute("data-tool")).toBe("heading");
     });
@@ -364,7 +399,8 @@ describe("disabled and readonly", () => {
     it("disabled disables the textarea and every button", () => {
         const { textarea } = setup({ disabled: true });
         expect(textarea.disabled).toBe(true);
-        for (const b of screen.getAllByRole("button")) expect((b as HTMLButtonElement).disabled).toBe(true);
+        for (const b of screen.getAllByRole("button"))
+            expect((b as HTMLButtonElement).disabled).toBe(true);
     });
 
     it("readonly keeps the text unchangeable by a tool", async () => {

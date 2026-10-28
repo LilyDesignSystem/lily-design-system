@@ -62,7 +62,10 @@
     };
 </script>
 
-<header class="utility-banner" aria-label="Site utilities">
+<header
+    class="utility-banner"
+    aria-label="Site utilities"
+>
     <span>NHS</span>
 
     <LocalePicker
@@ -75,7 +78,10 @@
     >
         {#snippet children({ value, labelFor })}
             <span aria-hidden="true">🌐︎</span>
-            <span class="locale-picker-text" lang={bcp47LocaleTag(value)}>
+            <span
+                class="locale-picker-text"
+                lang={bcp47LocaleTag(value)}
+            >
                 {labelFor(value)}
             </span>
         {/snippet}

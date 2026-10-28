@@ -45,8 +45,14 @@ const suffixOptions: FilterOption[] = Object.entries(SUFFIX_LABEL)
     .sort((a, b) => b.count - a.count)
     .concat(
         suffixCounts.has(STANDALONE_ID)
-            ? [{ id: STANDALONE_ID, label: SUFFIX_LABEL[STANDALONE_ID], count: suffixCounts.get(STANDALONE_ID) ?? 0 }]
-            : []
+            ? [
+                  {
+                      id: STANDALONE_ID,
+                      label: SUFFIX_LABEL[STANDALONE_ID],
+                      count: suffixCounts.get(STANDALONE_ID) ?? 0,
+                  },
+              ]
+            : [],
     );
 
 export default function ComponentsPage() {
@@ -82,7 +88,12 @@ export default function ComponentsPage() {
             <p>{components.length} headless components</p>
 
             <div className="field">
-                <label className="label" htmlFor="search">Filter components</label>
+                <label
+                    className="label"
+                    htmlFor="search"
+                >
+                    Filter components
+                </label>
                 <input
                     id="search"
                     type="search"
@@ -94,7 +105,12 @@ export default function ComponentsPage() {
             </div>
 
             <div className="field">
-                <label className="label" htmlFor="category-filter">Category</label>
+                <label
+                    className="label"
+                    htmlFor="category-filter"
+                >
+                    Category
+                </label>
                 <select
                     id="category-filter"
                     className="select"
@@ -103,13 +119,23 @@ export default function ComponentsPage() {
                 >
                     <option value="">All categories ({components.length})</option>
                     {categoryOptions.map((opt) => (
-                        <option key={opt.id} value={opt.id}>{opt.label} ({opt.count})</option>
+                        <option
+                            key={opt.id}
+                            value={opt.id}
+                        >
+                            {opt.label} ({opt.count})
+                        </option>
                     ))}
                 </select>
             </div>
 
             <div className="field">
-                <label className="label" htmlFor="suffix-filter">Suffix pattern</label>
+                <label
+                    className="label"
+                    htmlFor="suffix-filter"
+                >
+                    Suffix pattern
+                </label>
                 <select
                     id="suffix-filter"
                     className="select"
@@ -118,24 +144,55 @@ export default function ComponentsPage() {
                 >
                     <option value="">All suffix patterns ({components.length})</option>
                     {suffixOptions.map((opt) => (
-                        <option key={opt.id} value={opt.id}>{opt.label} ({opt.count})</option>
+                        <option
+                            key={opt.id}
+                            value={opt.id}
+                        >
+                            {opt.label} ({opt.count})
+                        </option>
                     ))}
                 </select>
             </div>
 
             {hasActiveFilters && (
                 <p>
-                    <button type="button" className="button" onClick={resetFilters}>Clear filters</button>
+                    <button
+                        type="button"
+                        className="button"
+                        onClick={resetFilters}
+                    >
+                        Clear filters
+                    </button>
                 </p>
             )}
 
-            <p role="status">{filtered.length} of {components.length} components</p>
+            <p role="status">
+                {filtered.length} of {components.length} components
+            </p>
 
             <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
                 {filtered.map((c) => (
-                    <li key={c.slug} style={{ borderBottom: "1px solid var(--nhs-color-border, #d8dde0)", padding: "var(--nhs-space-3) 0" }}>
-                        <Link href={`/components/${c.slug}`} style={{ fontWeight: 700 }}>{c.name}</Link>
-                        <span style={{ color: "var(--nhs-color-secondary, #4c6272)", marginLeft: "0.5rem" }}>{c.description}</span>
+                    <li
+                        key={c.slug}
+                        style={{
+                            borderBottom: "1px solid var(--nhs-color-border, #d8dde0)",
+                            padding: "var(--nhs-space-3) 0",
+                        }}
+                    >
+                        <Link
+                            href={`/components/${c.slug}`}
+                            style={{ fontWeight: 700 }}
+                        >
+                            {c.name}
+                        </Link>
+                        <span
+                            style={{
+                                color: "var(--nhs-color-secondary, #4c6272)",
+                                marginLeft: "0.5rem",
+                            }}
+                        >
+                            {c.description}
+                        </span>
                     </li>
                 ))}
             </ul>

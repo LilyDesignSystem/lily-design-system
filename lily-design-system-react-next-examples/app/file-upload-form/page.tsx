@@ -62,11 +62,17 @@ export default function FileUploadFormPage() {
 
     return (
         <main>
-            <Form label="File upload" onSubmit={handleSubmit}>
+            <Form
+                label="File upload"
+                onSubmit={handleSubmit}
+            >
                 <h1>Upload Documents</h1>
 
                 {done && (
-                    <Alert type="success" heading="Upload complete">
+                    <Alert
+                        type="success"
+                        heading="Upload complete"
+                    >
                         {files.length} file(s) uploaded successfully.
                     </Alert>
                 )}
@@ -90,9 +96,7 @@ export default function FileUploadFormPage() {
                                     {file.name}
                                     <Badge>{formatSize(file.size)}</Badge>
                                     {!uploading && !done && (
-                                        <Button onClick={() => removeFile(index)}>
-                                            Remove
-                                        </Button>
+                                        <Button onClick={() => removeFile(index)}>Remove</Button>
                                     )}
                                 </li>
                             ))}
@@ -101,10 +105,17 @@ export default function FileUploadFormPage() {
                 )}
 
                 {uploading && (
-                    <Progress label="Upload progress" value={progress} max={100} />
+                    <Progress
+                        label="Upload progress"
+                        value={progress}
+                        max={100}
+                    />
                 )}
 
-                <Button type="submit" disabled={files.length === 0 || uploading || done}>
+                <Button
+                    type="submit"
+                    disabled={files.length === 0 || uploading || done}
+                >
                     {uploading ? "Uploading..." : "Upload Files"}
                 </Button>
             </Form>

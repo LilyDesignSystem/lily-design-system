@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<tbody
   class="data-table-body"
@@ -7,9 +7,9 @@ const html = `<tbody
 </tbody>`;
 
 const meta = {
-  title: 'Headless/DataTableBody',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/DataTableBody",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

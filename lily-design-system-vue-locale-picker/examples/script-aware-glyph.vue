@@ -24,10 +24,7 @@
 -->
 <script setup lang="ts">
 import { ref } from "vue";
-import LocalePicker, {
-    bcp47LocaleTag,
-    isRtlLocale,
-} from "../LocalePicker.vue";
+import LocalePicker, { bcp47LocaleTag, isRtlLocale } from "../LocalePicker.vue";
 
 const locale = ref("en");
 
@@ -57,11 +54,15 @@ const SHORT: Record<string, string> = {
                 aria-hidden="true"
                 >{{ SHORT[value] ?? value.toUpperCase() }}</span
             >
-            <span class="locale-picker-caret" aria-hidden="true">{{
-                open ? "▴" : "▾"
-            }}</span>
+            <span
+                class="locale-picker-caret"
+                aria-hidden="true"
+                >{{ open ? "▴" : "▾" }}</span
+            >
         </template>
     </LocalePicker>
 
-    <p>Selected: <code>{{ locale }}</code></p>
+    <p>
+        Selected: <code>{{ locale }}</code>
+    </p>
 </template>

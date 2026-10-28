@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<span
   class="nihon-kojin-bango-view"
@@ -6,9 +6,9 @@ const html = `<span
 >sample-value</span>`;
 
 const meta = {
-  title: 'Headless/NihonKojinBangoView',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/NihonKojinBangoView",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

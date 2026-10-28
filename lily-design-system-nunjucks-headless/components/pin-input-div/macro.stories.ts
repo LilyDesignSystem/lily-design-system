@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="pin-input-div"
@@ -53,9 +53,9 @@ const html = `<div
     aria-label="Digit 6 of 6"  ></div>`;
 
 const meta = {
-  title: 'Headless/PinInputDiv',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/PinInputDiv",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

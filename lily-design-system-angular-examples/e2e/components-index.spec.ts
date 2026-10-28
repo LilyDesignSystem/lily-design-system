@@ -17,7 +17,8 @@ const pickerButtonSlugs = new Set(
 );
 const starPickerButtonSlugs = new Set(
   [...pickerButtonSlugs].filter(
-    (slug) => slug.includes("star") && components.find((c) => c.slug === slug)?.category === "pickers",
+    (slug) =>
+      slug.includes("star") && components.find((c) => c.slug === slug)?.category === "pickers",
   ),
 );
 
@@ -75,7 +76,10 @@ test.describe("/components search filters", () => {
   });
 
   test("category, suffix-pattern, and search combine as an intersection", async ({ page }) => {
-    test.skip(starPickerButtonSlugs.size === 0, "no star + picker-button component in the current catalog");
+    test.skip(
+      starPickerButtonSlugs.size === 0,
+      "no star + picker-button component in the current catalog",
+    );
 
     await page.goto("/components");
     await page.getByLabel("Category").selectOption("pickers");

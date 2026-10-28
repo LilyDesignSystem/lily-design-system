@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<span
   class="five-star-rating-view"
@@ -8,9 +8,9 @@ const html = `<span
   data-max="5"></span>`;
 
 const meta = {
-  title: 'Headless/FiveStarRatingView',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/FiveStarRatingView",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

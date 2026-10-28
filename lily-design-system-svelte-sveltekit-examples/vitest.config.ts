@@ -8,10 +8,10 @@ import { svelteTesting } from "@testing-library/svelte/vite";
 // `lifecycle_function_unavailable`. The `svelteTesting()` plugin restores
 // the browser/client conditions for tests.
 export default defineConfig({
-  plugins: [svelte(), svelteTesting()],
-  test: {
-    include: ["src/**/*.test.ts"],
-    environment: "jsdom",
-    setupFiles: ["./vitest-setup.js"],
-  },
+    plugins: [svelte(), svelteTesting()],
+    test: {
+        include: ["src/**/*.test.ts"],
+        environment: "jsdom",
+        setupFiles: ["./vitest-setup.js"],
+    },
 });

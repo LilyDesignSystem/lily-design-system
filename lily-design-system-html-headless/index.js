@@ -11,22 +11,24 @@ const componentsDir = path.join(__dirname, "components");
 
 /** Read one component's annotated HTML snippet by kebab-case slug. */
 function readComponent(slug) {
-  if (!/^[a-z0-9-]+$/.test(slug)) {
-    throw new Error(`invalid component slug: ${slug}`);
-  }
-  return fs.readFileSync(path.join(componentsDir, slug + ".html"), "utf8");
+    if (!/^[a-z0-9-]+$/.test(slug)) {
+        throw new Error(`invalid component slug: ${slug}`);
+    }
+    return fs.readFileSync(path.join(componentsDir, slug + ".html"), "utf8");
 }
 
 /** List every available component slug, sorted. */
 function listComponents() {
-  return fs
-    .readdirSync(componentsDir)
-    // listbox-controller.fixture.html is test-only harness markup for
-    // listbox-controller.test.js, not a shipped component -- excluded so
-    // it doesn't leak into a real consumer's component listing.
-    .filter((f) => f.endsWith(".html") && !f.endsWith(".fixture.html"))
-    .map((f) => f.slice(0, -5))
-    .sort();
+    return (
+        fs
+            .readdirSync(componentsDir)
+            // listbox-controller.fixture.html is test-only harness markup for
+            // listbox-controller.test.js, not a shipped component -- excluded so
+            // it doesn't leak into a real consumer's component listing.
+            .filter((f) => f.endsWith(".html") && !f.endsWith(".fixture.html"))
+            .map((f) => f.slice(0, -5))
+            .sort()
+    );
 }
 
 module.exports = { componentsDir, readComponent, listComponents };

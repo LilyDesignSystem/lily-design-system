@@ -42,7 +42,10 @@ export function ButtonsExample() {
                 {({ value, labelFor }) => (
                     // aria-hidden: the accessible name is the `label`
                     // prop, applied to the button as aria-label.
-                    <span aria-hidden="true" title={labelFor(value)}>
+                    <span
+                        aria-hidden="true"
+                        title={labelFor(value)}
+                    >
                         {SHORT[value] ?? value.toUpperCase()}
                     </span>
                 )}

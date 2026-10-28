@@ -61,15 +61,25 @@ export default function TaskManagementPage() {
             <h1>Task Management</h1>
 
             <div>
-                <Badge type="success" label={`${completedCount} completed`}>
+                <Badge
+                    type="success"
+                    label={`${completedCount} completed`}
+                >
                     {completedCount} done
                 </Badge>
-                <Badge type="default" label={`${tasks.length - completedCount} remaining`}>
+                <Badge
+                    type="default"
+                    label={`${tasks.length - completedCount} remaining`}
+                >
                     {tasks.length - completedCount} remaining
                 </Badge>
             </div>
 
-            <Progress label="Overall completion" value={percent} max={100} />
+            <Progress
+                label="Overall completion"
+                value={percent}
+                max={100}
+            />
             <p>{percent}% complete</p>
 
             <div>
@@ -105,7 +115,11 @@ export default function TaskManagementPage() {
             <h2>Priority Overview</h2>
             <div>
                 {["high", "medium", "low"].map((p) => (
-                    <Badge key={p} type={priorityBadgeType(p)} label={`${p} priority tasks`}>
+                    <Badge
+                        key={p}
+                        type={priorityBadgeType(p)}
+                        label={`${p} priority tasks`}
+                    >
                         {p}: {tasks.filter((t) => t.priority === p).length}
                     </Badge>
                 ))}

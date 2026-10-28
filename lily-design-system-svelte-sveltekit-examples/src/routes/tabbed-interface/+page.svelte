@@ -65,29 +65,35 @@
 
     <div style="margin-bottom: var(--nhs-space-4);">
         {#if activeTab === "overview"}
-            <Panel label="Overview panel" id="overview">
+            <Panel
+                label="Overview panel"
+                id="overview"
+            >
                 <h3>Patient Overview</h3>
                 <p>
-                    General information about the patient, including
-                    demographics, primary conditions, and care team.
+                    General information about the patient, including demographics, primary
+                    conditions, and care team.
                 </p>
-                <Card heading="Primary Condition" headingLevel={4}>
-                    <p>
-                        Type 2 Diabetes — managed with medication and lifestyle
-                        changes.
-                    </p>
+                <Card
+                    heading="Primary Condition"
+                    headingLevel={4}
+                >
+                    <p>Type 2 Diabetes — managed with medication and lifestyle changes.</p>
                 </Card>
             </Panel>
         {:else if activeTab === "records"}
-            <Panel label="Records panel" id="records">
+            <Panel
+                label="Records panel"
+                id="records"
+            >
                 <h3>Medical Records</h3>
-                <p>
-                    12 records on file. Most recent: Blood test results from 28
-                    February 2026.
-                </p>
+                <p>12 records on file. Most recent: Blood test results from 28 February 2026.</p>
             </Panel>
         {:else if activeTab === "appointments"}
-            <Panel label="Appointments panel" id="appointments">
+            <Panel
+                label="Appointments panel"
+                id="appointments"
+            >
                 <h3>Upcoming Appointments</h3>
                 <ul>
                     <li>10 March 2026 — GP Follow-up</li>
@@ -96,7 +102,10 @@
                 </ul>
             </Panel>
         {:else if activeTab === "notes"}
-            <Panel label="Notes panel" id="notes">
+            <Panel
+                label="Notes panel"
+                id="notes"
+            >
                 <h3>Clinical Notes</h3>
                 <p>No new notes since last consultation.</p>
             </Panel>
@@ -113,9 +122,8 @@
                     <summary>How do I register with a GP?</summary>
                     <div style="padding: var(--nhs-space-3);">
                         <p>
-                            You can register with any GP surgery that covers
-                            your area. Visit the surgery or register online
-                            through their website.
+                            You can register with any GP surgery that covers your area. Visit the
+                            surgery or register online through their website.
                         </p>
                     </div>
                 </details>
@@ -125,8 +133,8 @@
                     <summary>How do I book an appointment?</summary>
                     <div style="padding: var(--nhs-space-3);">
                         <p>
-                            Call your GP surgery, use their online booking
-                            system, or use the NHS App to book appointments.
+                            Call your GP surgery, use their online booking system, or use the NHS
+                            App to book appointments.
                         </p>
                     </div>
                 </details>
@@ -136,9 +144,8 @@
                     <summary>What should I do in an emergency?</summary>
                     <div style="padding: var(--nhs-space-3);">
                         <p>
-                            Call 999 for life-threatening emergencies. Call 111
-                            for urgent medical help when it's not a 999
-                            emergency.
+                            Call 999 for life-threatening emergencies. Call 111 for urgent medical
+                            help when it's not a 999 emergency.
                         </p>
                     </div>
                 </details>
@@ -151,27 +158,79 @@
     <h2>Tree Navigation</h2>
     <TreeNav label="Department hierarchy">
         <TreeList label="Hospital">
-            <li role="treeitem" aria-expanded="true" tabindex="0">
+            <li
+                role="treeitem"
+                aria-expanded="true"
+                tabindex="0"
+            >
                 Medicine
                 <TreeList label="Medicine departments">
-                    <li role="treeitem" tabindex="-1">Cardiology</li>
-                    <li role="treeitem" tabindex="-1">Neurology</li>
-                    <li role="treeitem" tabindex="-1">Gastroenterology</li>
+                    <li
+                        role="treeitem"
+                        tabindex="-1"
+                    >
+                        Cardiology
+                    </li>
+                    <li
+                        role="treeitem"
+                        tabindex="-1"
+                    >
+                        Neurology
+                    </li>
+                    <li
+                        role="treeitem"
+                        tabindex="-1"
+                    >
+                        Gastroenterology
+                    </li>
                 </TreeList>
             </li>
-            <li role="treeitem" aria-expanded="true" tabindex="-1">
+            <li
+                role="treeitem"
+                aria-expanded="true"
+                tabindex="-1"
+            >
                 Surgery
                 <TreeList label="Surgery departments">
-                    <li role="treeitem" tabindex="-1">General Surgery</li>
-                    <li role="treeitem" tabindex="-1">Orthopaedics</li>
-                    <li role="treeitem" tabindex="-1">Urology</li>
+                    <li
+                        role="treeitem"
+                        tabindex="-1"
+                    >
+                        General Surgery
+                    </li>
+                    <li
+                        role="treeitem"
+                        tabindex="-1"
+                    >
+                        Orthopaedics
+                    </li>
+                    <li
+                        role="treeitem"
+                        tabindex="-1"
+                    >
+                        Urology
+                    </li>
                 </TreeList>
             </li>
-            <li role="treeitem" aria-expanded="true" tabindex="-1">
+            <li
+                role="treeitem"
+                aria-expanded="true"
+                tabindex="-1"
+            >
                 Diagnostics
                 <TreeList label="Diagnostics departments">
-                    <li role="treeitem" tabindex="-1">Radiology</li>
-                    <li role="treeitem" tabindex="-1">Pathology</li>
+                    <li
+                        role="treeitem"
+                        tabindex="-1"
+                    >
+                        Radiology
+                    </li>
+                    <li
+                        role="treeitem"
+                        tabindex="-1"
+                    >
+                        Pathology
+                    </li>
                 </TreeList>
             </li>
         </TreeList>
@@ -181,13 +240,22 @@
 
     <h2>Toggle Group</h2>
     <ToggleGroup label="Text formatting">
-        <ToggleButton label="Bold" bind:pressed={boldPressed}>
+        <ToggleButton
+            label="Bold"
+            bind:pressed={boldPressed}
+        >
             <strong>B</strong>
         </ToggleButton>
-        <ToggleButton label="Italic" bind:pressed={italicPressed}>
+        <ToggleButton
+            label="Italic"
+            bind:pressed={italicPressed}
+        >
             <em>I</em>
         </ToggleButton>
-        <ToggleButton label="Underline" bind:pressed={underlinePressed}>
+        <ToggleButton
+            label="Underline"
+            bind:pressed={underlinePressed}
+        >
             <u>U</u>
         </ToggleButton>
     </ToggleGroup>

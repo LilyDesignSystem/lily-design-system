@@ -1,13 +1,13 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<span
   class="schweiz-ahv-nummer-view"
   aria-label="Switzerland's AHV-Nummer / Numéro AVS">Sample value</span>`;
 
 const meta = {
-  title: 'Headless/SchweizAhvNummerView',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/SchweizAhvNummerView",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

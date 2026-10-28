@@ -1,4 +1,7 @@
-<script lang="ts" module>
+<script
+    lang="ts"
+    module
+>
     import {
         GanttTable,
         GanttTableTD,
@@ -11,15 +14,39 @@
     } from "@lilydesignsystem/svelte-headless";
     import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
     import type { DateTimePickerLabels } from "@lilydesignsystem/svelte-date-time-picker";
-    import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
+    import {
+        copyToClipboard,
+        downloadBlob,
+        exportBlob,
+        exportFilename,
+        toClipboardText,
+        type ExportFormat,
+    } from "./export-data";
     import { civilDateToDate } from "./cell-types";
     import { highlightSegments, matchesSearch } from "./search-text";
     import { isRtl, logicalKey } from "./direction";
     import { gridMove, pageStepFor } from "./grid-navigation";
     import { unavailableIn, unavailableKinds, type Unavailable } from "./unavailable";
-    import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
-    import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
-    import { dependencyPath, weekdayOfEpochDay, type ArrowBox, type DependencyKind } from "./dependency-arrows";
+    import {
+        EMPTY_HISTORY,
+        historyKey,
+        recordEdit,
+        redoEdit,
+        undoEdit,
+        type EditHistory,
+    } from "./edit-history";
+    import {
+        findTypeaheadMatch,
+        isTypeaheadKey,
+        nextTypeaheadState,
+        type TypeaheadState,
+    } from "./typeahead";
+    import {
+        dependencyPath,
+        weekdayOfEpochDay,
+        type ArrowBox,
+        type DependencyKind,
+    } from "./dependency-arrows";
     import {
         draftOf as fieldDraft,
         evaluateEdit,
@@ -42,13 +69,27 @@
     export type GanttField = FieldDef;
 
     /** What `onExport` receives. Return `false` to take over the download. */
-    export type GanttExport = { format: ExportFormat; filename: string; taskCount: number; blob: Blob };
+    export type GanttExport = {
+        format: ExportFormat;
+        filename: string;
+        taskCount: number;
+        blob: Blob;
+    };
 
     /** What `onFieldEdit` receives. */
-    export type GanttFieldEdit = { taskId: string; fieldId: string; value: unknown; previous: unknown };
+    export type GanttFieldEdit = {
+        taskId: string;
+        fieldId: string;
+        value: unknown;
+        previous: unknown;
+    };
 
     /** A dependency with its type (`e2s` finish-to-start, `s2s`, `s2e`, `e2e`) and lag in days; data and text only. */
-    export type GanttDependency = { id: string; type?: "e2s" | "s2s" | "s2e" | "e2e"; lag?: number };
+    export type GanttDependency = {
+        id: string;
+        type?: "e2s" | "s2s" | "s2e" | "e2e";
+        lag?: number;
+    };
 
     export type GanttTask = {
         /** Stable task identifier. */
@@ -110,7 +151,11 @@
         /** Text for one typed dependency: (predecessor label, type, lag in days). Untyped dependencies use the label. */
         dependencyDetail?: (predecessorLabel: string, type: string, lag: number) => string;
         /** Text for a task with a baseline: (task label, baseline, days the end has slipped; negative = early). */
-        baselineSummary?: (taskLabel: string, baseline: { start: string; end: string }, varianceDays: number) => string;
+        baselineSummary?: (
+            taskLabel: string,
+            baseline: { start: string; end: string },
+            varianceDays: number,
+        ) => string;
         collapseButton?: (task: GanttTask, collapsed: boolean) => string;
         /** Accessible name for the button that expands every parent task. Gates the button. */
         expandAll?: string;
@@ -137,7 +182,16 @@
         /** Announced when the clipboard could not be written. */
         copyFailed?: string;
         /** Headers of the export's own columns. An export needs `exportHeaders`; there is no English default. The others are included only when named. */
-        exportHeaders?: { task: string; start: string; end: string; percentComplete?: string; parent?: string; dependsOn?: string; baselineStart?: string; baselineEnd?: string };
+        exportHeaders?: {
+            task: string;
+            start: string;
+            end: string;
+            percentComplete?: string;
+            parent?: string;
+            dependsOn?: string;
+            baselineStart?: string;
+            baselineEnd?: string;
+        };
         /** Announced after a field edit: (task label, field header, the new text). */
         editAnnouncement?: (taskLabel: string, fieldHeader: string, text: string) => string;
         /** Announced when an edit is refused as invalid for the field's type: (task label, field header). */
@@ -178,7 +232,12 @@
         /** Resolves a task to its display label. Defaults to `task.label`. */
         taskLabel?: (task: GanttTask) => string;
         /** Called after a task's start/end changes, by pointer or by the edit region. */
-        onTaskChange?: (taskId: string, start: string, end: string, percentComplete?: number) => void;
+        onTaskChange?: (
+            taskId: string,
+            start: string,
+            end: string,
+            percentComplete?: number,
+        ) => void;
         /** Dated markers; each marks the column that contains its date with `data-marker`. */
         markers?: GanttMarker[];
         /** Consumer's own working calendar; true marks the column `data-non-working` when every day in it is non-working. */
@@ -265,7 +324,10 @@
     export type GanttColumn = { start: string; end: string };
 
     /** Generate the fixed set of columns a `range`/`timeUnit` pair produces. */
-    export function generateColumns(range: { start: string; end: string }, timeUnit: GanttTimeUnit): GanttColumn[] {
+    export function generateColumns(
+        range: { start: string; end: string },
+        timeUnit: GanttTimeUnit,
+    ): GanttColumn[] {
         const columns: GanttColumn[] = [];
         let cursor = range.start;
         let guard = 0;
@@ -314,8 +376,16 @@
     }
 
     /** A parent's start/end are derived (min start / max end of descendants), never its own data. */
-    export function effectiveRange(task: GanttTask, allTasks: GanttTask[]): { start: string; end: string } {
-        return effectiveRanges(allTasks).get(task.id) ?? { start: task.start ?? "", end: task.end ?? "" };
+    export function effectiveRange(
+        task: GanttTask,
+        allTasks: GanttTask[],
+    ): { start: string; end: string } {
+        return (
+            effectiveRanges(allTasks).get(task.id) ?? {
+                start: task.start ?? "",
+                end: task.end ?? "",
+            }
+        );
     }
 
     /**
@@ -324,7 +394,9 @@
      * A `parentId` cycle cannot recurse forever: a task already on the walk is
      * read as a leaf.
      */
-    export function effectiveRanges(tasks: GanttTask[]): Map<string, { start: string; end: string }> {
+    export function effectiveRanges(
+        tasks: GanttTask[],
+    ): Map<string, { start: string; end: string }> {
         const childrenOf = new Map<string, GanttTask[]>();
         for (const task of tasks) {
             if (task.parentId == null) continue;
@@ -338,7 +410,8 @@
             const known = ranges.get(task.id);
             if (known) return known;
             const children = childrenOf.get(task.id) ?? [];
-            if (children.length === 0 || onWalk.has(task.id)) return { start: task.start ?? "", end: task.end ?? "" };
+            if (children.length === 0 || onWalk.has(task.id))
+                return { start: task.start ?? "", end: task.end ?? "" };
             onWalk.add(task.id);
             let start = "";
             let end = "";
@@ -425,11 +498,21 @@
     const columns = $derived(generateColumns(range, timeUnit));
     const searching = $derived(search.trim() !== "");
     const narrowing = $derived(searching || !!filter);
-    const defaultSearchText = (task: GanttTask): string => [taskLabel(task), ...resolvedFields.map((f) => fieldText(f, task))].join(" ");
+    const defaultSearchText = (task: GanttTask): string =>
+        [taskLabel(task), ...resolvedFields.map((f) => fieldText(f, task))].join(" ");
     /** The tasks the search matches, found once per query / task change. */
     const matchedIds = $derived(
         narrowing
-            ? new Set(tasks.filter((t) => (!filter || filter(t)) && (!searching || matchesSearch((searchText ?? defaultSearchText)(t), search))).map((t) => t.id))
+            ? new Set(
+                  tasks
+                      .filter(
+                          (t) =>
+                              (!filter || filter(t)) &&
+                              (!searching ||
+                                  matchesSearch((searchText ?? defaultSearchText)(t), search)),
+                      )
+                      .map((t) => t.id),
+              )
             : null,
     );
     /** Matches plus their ancestors, so a match is never shown without its context. */
@@ -438,7 +521,11 @@
         const keep = new Set(matchedIds);
         for (const id of matchedIds) {
             const seen = new Set<string>([id]);
-            for (let parent = taskById.get(id)?.parentId; parent != null && taskById.has(parent) && !seen.has(parent); parent = taskById.get(parent)?.parentId) {
+            for (
+                let parent = taskById.get(id)?.parentId;
+                parent != null && taskById.has(parent) && !seen.has(parent);
+                parent = taskById.get(parent)?.parentId
+            ) {
                 keep.add(parent);
                 seen.add(parent);
             }
@@ -447,7 +534,11 @@
     });
     // Searching ignores collapse (a match under a collapsed parent must be findable); clearing the search restores it.
     const orderedTasks = $derived(compare ? [...tasks].sort(compare) : tasks);
-    const rows = $derived(shownIds ? flattenTasks(orderedTasks, new Set()).filter((r) => shownIds.has(r.task.id)) : flattenTasks(orderedTasks, collapsed));
+    const rows = $derived(
+        shownIds
+            ? flattenTasks(orderedTasks, new Set()).filter((r) => shownIds.has(r.task.id))
+            : flattenTasks(orderedTasks, collapsed),
+    );
     let searchAnnounced = $state(false);
     $effect(() => {
         const query = search;
@@ -468,13 +559,26 @@
 
     /** Editing needs every label its controls show; an unnamed Save is worse than none. */
     const canEdit = $derived(
-        !readonly && !!labels.dateTimePickerLabels && !!labels.startLabel && !!labels.endLabel && !!labels.saveLabel && !!labels.cancelLabel,
+        !readonly &&
+            !!labels.dateTimePickerLabels &&
+            !!labels.startLabel &&
+            !!labels.endLabel &&
+            !!labels.saveLabel &&
+            !!labels.cancelLabel,
     );
 
     // Markers per column, found once per `markers` / `columns` change rather than once per cell per render.
-    const markersByColumn = $derived(columns.map((column) => markers.filter((m) => rangesOverlap(column.start, column.end, m.date, m.date))));
+    const markersByColumn = $derived(
+        columns.map((column) =>
+            markers.filter((m) => rangesOverlap(column.start, column.end, m.date, m.date)),
+        ),
+    );
     const markersAt = (colIndex: number): GanttMarker[] => markersByColumn[colIndex] ?? [];
-    const todayColumns = $derived(columns.map((column) => today != null && rangesOverlap(column.start, column.end, today, today)));
+    const todayColumns = $derived(
+        columns.map(
+            (column) => today != null && rangesOverlap(column.start, column.end, today, today),
+        ),
+    );
     const taskById = $derived(new Map(tasks.map((t) => [t.id, t])));
 
     function columnNonWorking(column: GanttColumn): boolean {
@@ -488,11 +592,18 @@
     const nonWorking = $derived(columns.map(columnNonWorking));
 
     // What `unavailable` holds per column, found once per `unavailable` / `columns` change.
-    const unavailableByColumn = $derived(columns.map((column) => unavailableIn(unavailable, column.start, column.end)));
+    const unavailableByColumn = $derived(
+        columns.map((column) => unavailableIn(unavailable, column.start, column.end)),
+    );
 
     // Day columns that fall on a shaded weekday, found once per `weekends` / `columns` change.
     const weekendColumns = $derived(
-        columns.map((column) => !!weekends?.length && column.start === column.end && weekends.includes(weekdayOfEpochDay(parseISOToEpochDay(column.start)))),
+        columns.map(
+            (column) =>
+                !!weekends?.length &&
+                column.start === column.end &&
+                weekends.includes(weekdayOfEpochDay(parseISOToEpochDay(column.start))),
+        ),
     );
 
     // ---------------------------------------------------------------
@@ -518,7 +629,12 @@
             if (!cells.length) continue;
             const first = cells[0].getBoundingClientRect();
             const last = cells[cells.length - 1].getBoundingClientRect();
-            boxes.set(tr.dataset.taskId ?? "", { left: first.left + dx, right: last.right + dx, top: first.top + dy, bottom: first.bottom + dy });
+            boxes.set(tr.dataset.taskId ?? "", {
+                left: first.left + dx,
+                right: last.right + dx,
+                top: first.top + dy,
+                bottom: first.bottom + dy,
+            });
         }
         const next: Arrow[] = [];
         for (const [id, to] of boxes) {
@@ -526,8 +642,15 @@
                 const predecessorId = typeof dep === "string" ? dep : dep.id;
                 const from = boxes.get(predecessorId);
                 if (!from) continue;
-                const kind: DependencyKind = (typeof dep === "string" ? undefined : dep.type) ?? "e2s";
-                next.push({ key: `${predecessorId}>${id}`, from: predecessorId, to: id, kind, d: dependencyPath(kind, from, to) });
+                const kind: DependencyKind =
+                    (typeof dep === "string" ? undefined : dep.type) ?? "e2s";
+                next.push({
+                    key: `${predecessorId}>${id}`,
+                    from: predecessorId,
+                    to: id,
+                    kind,
+                    d: dependencyPath(kind, from, to),
+                });
             }
         }
         arrows = next;
@@ -550,7 +673,9 @@
     });
 
     function rangeFor(task: GanttTask, hasChildren: boolean): { start: string; end: string } {
-        return hasChildren ? (ranges.get(task.id) ?? { start: "", end: "" }) : { start: task.start ?? "", end: task.end ?? "" };
+        return hasChildren
+            ? (ranges.get(task.id) ?? { start: "", end: "" })
+            : { start: task.start ?? "", end: task.end ?? "" };
     }
 
     const ZOOM_ORDER: GanttTimeUnit[] = ["month", "week", "day"];
@@ -577,7 +702,12 @@
     const fieldText = (f: ResolvedField, task: GanttTask): string => fieldTextOf(f, task.values);
 
     /** The field being edited, if any: the draft is the editor's text. */
-    let editingField = $state<{ taskId: string; fieldId: string; draft: Draft; invalid?: boolean } | null>(null);
+    let editingField = $state<{
+        taskId: string;
+        fieldId: string;
+        draft: Draft;
+        invalid?: boolean;
+    } | null>(null);
     /** Accepted field edits, for Ctrl/Cmd+Z. The consumer owns the data, so an undo is reported through `onFieldEdit` like any edit. */
     let history: EditHistory = EMPTY_HISTORY;
     let committing = false;
@@ -589,7 +719,14 @@
         await tick();
         const editor = rootEl?.querySelector<HTMLInputElement>(".gantt-chart-field-editor");
         editor?.focus({ preventScroll: true });
-        if (editor && "select" in editor && editor.type !== "number" && editor.type !== "date" && editor.type !== "time") editor.select();
+        if (
+            editor &&
+            "select" in editor &&
+            editor.type !== "number" &&
+            editor.type !== "date" &&
+            editor.type !== "time"
+        )
+            editor.select();
     }
 
     /** Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. Returns whether it was accepted or unchanged. */
@@ -605,13 +742,22 @@
         const outcome = evaluateEdit(f, task.values, draft);
         if (outcome.invalid) {
             editingField.invalid = true;
-            announce((outcome.message ? labels.editRefused?.(taskLabel(task), f.header, outcome.message) : undefined) ?? labels.editInvalid?.(taskLabel(task), f.header));
+            announce(
+                (outcome.message
+                    ? labels.editRefused?.(taskLabel(task), f.header, outcome.message)
+                    : undefined) ?? labels.editInvalid?.(taskLabel(task), f.header),
+            );
             return false;
         }
         committing = true;
         editingField = null;
         if (outcome.changed) {
-            history = recordEdit(history, { ownerId: taskId, fieldId, value: outcome.value, previous: outcome.previous });
+            history = recordEdit(history, {
+                ownerId: taskId,
+                fieldId,
+                value: outcome.value,
+                previous: outcome.previous,
+            });
             onFieldEdit?.({ taskId, fieldId, value: outcome.value, previous: outcome.previous });
             announce(labels.editAnnouncement?.(taskLabel(task), f.header, outcome.text));
         }
@@ -631,8 +777,19 @@
         const task = taskById.get(ownerId);
         const f = resolvedFields.find((x) => x.id === fieldId);
         if (!task || !f) return;
-        const text = restored === null || restored === undefined ? "" : f.format ? f.format(restored, { ...(task.values ?? {}), [fieldId]: restored }) : String(restored);
-        announce((direction === "undo" ? labels.undoAnnouncement : labels.redoAnnouncement)?.(taskLabel(task), f.header, text));
+        const text =
+            restored === null || restored === undefined
+                ? ""
+                : f.format
+                  ? f.format(restored, { ...(task.values ?? {}), [fieldId]: restored })
+                  : String(restored);
+        announce(
+            (direction === "undo" ? labels.undoAnnouncement : labels.redoAnnouncement)?.(
+                taskLabel(task),
+                f.header,
+                text,
+            ),
+        );
     }
 
     function cancelFieldEdit(): void {
@@ -654,7 +811,11 @@
         } else if (event.key === "Tab" && editingField) {
             // Tab commits and moves to the task's next (Shift+Tab: previous) editable field; past the last, it moves on.
             const task = taskById.get(editingField.taskId);
-            const next = neighbourField(resolvedFields.filter(isFieldEditable), editingField.fieldId, event.shiftKey);
+            const next = neighbourField(
+                resolvedFields.filter(isFieldEditable),
+                editingField.fieldId,
+                event.shiftKey,
+            );
             if (task && next) {
                 event.preventDefault();
                 if (commitFieldEdit()) void startFieldEdit(task, next);
@@ -664,12 +825,20 @@
         }
     }
 
-    const exportRows = $derived(exportScope === "visible" ? rows.map((r) => r.task) : flattenTasks(orderedTasks, new Set()).map((r) => r.task));
-    const hasExportButtons = $derived(!!labels.exportHeaders && !!(labels.copy || labels.exportCsv || labels.exportTsv || labels.exportExcel));
+    const exportRows = $derived(
+        exportScope === "visible"
+            ? rows.map((r) => r.task)
+            : flattenTasks(orderedTasks, new Set()).map((r) => r.task),
+    );
+    const hasExportButtons = $derived(
+        !!labels.exportHeaders &&
+            !!(labels.copy || labels.exportCsv || labels.exportTsv || labels.exportExcel),
+    );
     const exportFieldList = $derived(exportableFields(resolvedFields));
 
     /** A civil date as a real date for the spreadsheet; an unscheduled task's empty date as null. */
-    const exportDate = (iso: string | undefined): Date | null => (iso ? civilDateToDate(iso) : null);
+    const exportDate = (iso: string | undefined): Date | null =>
+        iso ? civilDateToDate(iso) : null;
 
     async function finishCopy(table: { headers: string[]; rows: unknown[][] }): Promise<void> {
         const text = toClipboardText(table);
@@ -689,12 +858,27 @@
         if (h.baselineStart) headers.push(h.baselineStart);
         if (h.baselineEnd) headers.push(h.baselineEnd);
         for (const f of exportFieldList) headers.push(f.header);
-        const hasChildren = new Set(tasks.filter((t) => t.parentId != null && taskById.has(t.parentId)).map((t) => t.parentId as string));
+        const hasChildren = new Set(
+            tasks
+                .filter((t) => t.parentId != null && taskById.has(t.parentId))
+                .map((t) => t.parentId as string),
+        );
         const body = exportRows.map((task) => {
-            const span = hasChildren.has(task.id) ? (ranges.get(task.id) ?? { start: "", end: "" }) : { start: task.start ?? "", end: task.end ?? "" };
-            const cells: unknown[] = [taskLabel(task), exportDate(span.start), exportDate(span.end)];
+            const span = hasChildren.has(task.id)
+                ? (ranges.get(task.id) ?? { start: "", end: "" })
+                : { start: task.start ?? "", end: task.end ?? "" };
+            const cells: unknown[] = [
+                taskLabel(task),
+                exportDate(span.start),
+                exportDate(span.end),
+            ];
             if (h.percentComplete) cells.push(task.percentComplete ?? null);
-            if (h.parent) cells.push(task.parentId != null && taskById.has(task.parentId) ? taskLabel(taskById.get(task.parentId)!) : null);
+            if (h.parent)
+                cells.push(
+                    task.parentId != null && taskById.has(task.parentId)
+                        ? taskLabel(taskById.get(task.parentId)!)
+                        : null,
+                );
             if (h.dependsOn) {
                 cells.push(
                     (task.dependsOn ?? [])
@@ -728,24 +912,40 @@
 
     let scrollTop = $state(0);
     let scrollEl: HTMLDivElement | undefined = $state();
-    type RenderItem = { kind: "spacer"; height: number; key: string } | { kind: "row"; row: FlatRow; index: number; key: string };
+    type RenderItem =
+        | { kind: "spacer"; height: number; key: string }
+        | { kind: "row"; row: FlatRow; index: number; key: string };
     /** What renders: the rows in view plus the roving tab stop's row (so the grid never leaves the tab order), with spacers for the gaps. */
     const renderItems = $derived.by((): RenderItem[] => {
-        if (!virtualize) return rows.map((row, index) => ({ kind: "row", row, index, key: row.task.id }));
+        if (!virtualize)
+            return rows.map((row, index) => ({ kind: "row", row, index, key: row.task.id }));
         const overscan = virtualize.overscan ?? 3;
         const start = Math.max(0, Math.floor(scrollTop / virtualize.rowHeight) - overscan);
-        const end = Math.min(rows.length, Math.ceil((scrollTop + virtualize.height) / virtualize.rowHeight) + overscan);
+        const end = Math.min(
+            rows.length,
+            Math.ceil((scrollTop + virtualize.height) / virtualize.rowHeight) + overscan,
+        );
         const indices = new Set<number>();
         for (let i = start; i < end; i++) indices.add(i);
         if (activeRow >= 0 && activeRow < rows.length) indices.add(activeRow);
         const items: RenderItem[] = [];
         let previous = -1;
         for (const index of [...indices].sort((a, b) => a - b)) {
-            if (index - previous > 1) items.push({ kind: "spacer", height: (index - previous - 1) * virtualize.rowHeight, key: `spacer:${previous}` });
+            if (index - previous > 1)
+                items.push({
+                    kind: "spacer",
+                    height: (index - previous - 1) * virtualize.rowHeight,
+                    key: `spacer:${previous}`,
+                });
             items.push({ kind: "row", row: rows[index], index, key: rows[index].task.id });
             previous = index;
         }
-        if (rows.length - 1 - previous > 0) items.push({ kind: "spacer", height: (rows.length - 1 - previous) * virtualize.rowHeight, key: `spacer:${previous}` });
+        if (rows.length - 1 - previous > 0)
+            items.push({
+                kind: "spacer",
+                height: (rows.length - 1 - previous) * virtualize.rowHeight,
+                key: `spacer:${previous}`,
+            });
         return items;
     });
 
@@ -754,7 +954,8 @@
         if (!virtualize) return;
         const top = rowIndex * virtualize.rowHeight;
         if (top < scrollTop) scrollTop = top;
-        else if (top + virtualize.rowHeight > scrollTop + virtualize.height) scrollTop = top + virtualize.rowHeight - virtualize.height;
+        else if (top + virtualize.rowHeight > scrollTop + virtualize.height)
+            scrollTop = top + virtualize.rowHeight - virtualize.height;
         if (scrollEl) scrollEl.scrollTop = scrollTop;
     }
 
@@ -763,11 +964,17 @@
     // ---------------------------------------------------------------
 
     function toggleCollapse(taskId: string): void {
-        collapsedTaskIds = collapsed.has(taskId) ? collapsedTaskIds.filter((id) => id !== taskId) : [...collapsedTaskIds, taskId];
+        collapsedTaskIds = collapsed.has(taskId)
+            ? collapsedTaskIds.filter((id) => id !== taskId)
+            : [...collapsedTaskIds, taskId];
     }
 
     /** Every task that has children (the ones a collapse button applies to). */
-    const parentIds = $derived(Array.from(new Set(tasks.filter((t) => t.parentId != null).map((t) => t.parentId as string))).filter((id) => taskById.has(id)));
+    const parentIds = $derived(
+        Array.from(
+            new Set(tasks.filter((t) => t.parentId != null).map((t) => t.parentId as string)),
+        ).filter((id) => taskById.has(id)),
+    );
 
     function setAllCollapsed(value: boolean): void {
         collapsedTaskIds = value ? parentIds : [];
@@ -811,7 +1018,12 @@
     // Edit — keyboard (composed DateTimePicker) and pointer (native DnD)
     // ---------------------------------------------------------------
 
-    function applyChange(task: GanttTask, start: string, end: string, percentComplete?: number): void {
+    function applyChange(
+        task: GanttTask,
+        start: string,
+        end: string,
+        percentComplete?: number,
+    ): void {
         if (percentComplete === undefined) onTaskChange?.(task.id, start, end);
         else onTaskChange?.(task.id, start, end, percentComplete);
         announce(labels.dateAnnouncement?.(taskLabel(task), start, end));
@@ -825,14 +1037,20 @@
         editPercent = task.percentComplete != null ? String(task.percentComplete) : "";
         // Focus moves into the region it opened, onto the start date's field.
         await tick();
-        rootEl?.querySelector<HTMLElement>(".gantt-chart-edit-row .date-time-picker-input")?.focus({ preventScroll: true });
+        rootEl
+            ?.querySelector<HTMLElement>(".gantt-chart-edit-row .date-time-picker-input")
+            ?.focus({ preventScroll: true });
     }
 
     /** A range entered end-first is saved start-first; Save is disabled while either date is empty. */
     function saveEdit(task: GanttTask): void {
         if (!editStart || !editEnd) return;
-        const [start, end] = compareISO(editStart, editEnd) <= 0 ? [editStart, editEnd] : [editEnd, editStart];
-        const percent = labels.percentLabel && editPercent !== "" ? Math.min(100, Math.max(0, Math.round(Number(editPercent)))) : undefined;
+        const [start, end] =
+            compareISO(editStart, editEnd) <= 0 ? [editStart, editEnd] : [editEnd, editStart];
+        const percent =
+            labels.percentLabel && editPercent !== ""
+                ? Math.min(100, Math.max(0, Math.round(Number(editPercent))))
+                : undefined;
         applyChange(task, start, end, Number.isFinite(percent) ? percent : undefined);
         closeEdit();
     }
@@ -875,7 +1093,8 @@
         if (!task.start || !task.end) return; // an unscheduled task has nothing to shift
         if (endOnly) {
             const target = columns[columnIndexOf(task.end) + delta];
-            if (target && compareISO(task.start, target.end) <= 0) applyChange(task, task.start, target.end);
+            if (target && compareISO(task.start, target.end) <= 0)
+                applyChange(task, task.start, target.end);
             return;
         }
         const target = columns[columnIndexOf(task.start) + delta];
@@ -901,7 +1120,8 @@
             // Resizing moves one edge to the dropped column; the other stays, and the range cannot invert.
             const start = edge === "start" ? column.start : task.start;
             const end = edge === "end" ? column.end : task.end;
-            if (compareISO(start, end) <= 0 && (start !== task.start || end !== task.end)) applyChange(task, start, end);
+            if (compareISO(start, end) <= 0 && (start !== task.start || end !== task.end))
+                applyChange(task, start, end);
             return;
         }
         const duration = parseISOToEpochDay(task.end) - parseISOToEpochDay(task.start);
@@ -914,7 +1134,9 @@
 
     async function focusActiveCell(): Promise<void> {
         await tick();
-        rootEl?.querySelector<HTMLElement>('.gantt-table-td[tabindex="0"]')?.focus({ preventScroll: true });
+        rootEl
+            ?.querySelector<HTMLElement>('.gantt-table-td[tabindex="0"]')
+            ?.focus({ preventScroll: true });
     }
 
     /** The cursor follows focus however it arrives — a click, or a consumer's own focus(). */
@@ -924,8 +1146,14 @@
     }
 
     function onGridClick(event: MouseEvent): void {
-        if ((event.target as HTMLElement).closest("button, input, select, .gantt-chart-edit-row, .gantt-chart-field-editor")) return;
-        const taskId = (event.target as HTMLElement).closest<HTMLElement>("[data-task-id]")?.dataset.taskId;
+        if (
+            (event.target as HTMLElement).closest(
+                "button, input, select, .gantt-chart-edit-row, .gantt-chart-field-editor",
+            )
+        )
+            return;
+        const taskId = (event.target as HTMLElement).closest<HTMLElement>("[data-task-id]")?.dataset
+            .taskId;
         if (taskId) selectTask(taskId);
     }
 
@@ -967,7 +1195,12 @@
         if (event.altKey && (key === "ArrowLeft" || key === "ArrowRight")) {
             // Alt+Arrow shifts the task one column; Alt+Shift+Arrow moves only its end (the keyboard twins of dragging the bar and its end handle).
             const row = rows[activeRow];
-            if (row && !row.hasChildren && !readonly && (event.target as HTMLElement).closest(".gantt-table-td")) {
+            if (
+                row &&
+                !row.hasChildren &&
+                !readonly &&
+                (event.target as HTMLElement).closest(".gantt-table-td")
+            ) {
                 event.preventDefault();
                 shiftTask(row.task, key === "ArrowLeft" ? -1 : 1, event.shiftKey);
                 return;
@@ -980,7 +1213,11 @@
             const continuing = typeahead.prefix !== "" && now - typeahead.at <= TYPEAHEAD_WINDOW_MS;
             if (continuing || (event.key !== "s" && event.key !== "S")) {
                 const state = nextTypeaheadState(typeahead, event.key, now, TYPEAHEAD_WINDOW_MS);
-                const hit = findTypeaheadMatch(rows.map((r) => taskLabel(r.task)), activeRow, state.prefix);
+                const hit = findTypeaheadMatch(
+                    rows.map((r) => taskLabel(r.task)),
+                    activeRow,
+                    state.prefix,
+                );
                 if (hit !== -1) {
                     typeahead = state;
                     event.preventDefault();
@@ -992,7 +1229,13 @@
         const move = gridMove(
             event,
             { row: activeRow, col: activeCol },
-            { firstRow: 0, lastRow: rows.length - 1, lastCol: columns.length - 1, pageStep: pageStepFor(virtualize), rtl: isRtl(cell) },
+            {
+                firstRow: 0,
+                lastRow: rows.length - 1,
+                lastCol: columns.length - 1,
+                pageStep: pageStepFor(virtualize),
+                rtl: isRtl(cell),
+            },
         );
         if (move) {
             event.preventDefault();
@@ -1021,7 +1264,12 @@
     }
 </script>
 
-<div bind:this={rootEl} class={`gantt-chart ${className}`.trim()} data-readonly={readonly ? "" : undefined} {...restProps}>
+<div
+    bind:this={rootEl}
+    class={`gantt-chart ${className}`.trim()}
+    data-readonly={readonly ? "" : undefined}
+    {...restProps}
+>
     {#if labels.search}
         <SearchInput
             class="gantt-chart-search"
@@ -1036,38 +1284,96 @@
         />
     {/if}
     {#if parentIds.length > 0 && (labels.expandAll || labels.collapseAll)}
-        <div class="gantt-chart-collapse-all" role="group" aria-label={label}>
+        <div
+            class="gantt-chart-collapse-all"
+            role="group"
+            aria-label={label}
+        >
             {#if labels.expandAll}
-                <button type="button" class="gantt-chart-expand-all-button" disabled={collapsedTaskIds.length === 0} onclick={() => setAllCollapsed(false)}>{labels.expandAll}</button>
+                <button
+                    type="button"
+                    class="gantt-chart-expand-all-button"
+                    disabled={collapsedTaskIds.length === 0}
+                    onclick={() => setAllCollapsed(false)}>{labels.expandAll}</button
+                >
             {/if}
             {#if labels.collapseAll}
-                <button type="button" class="gantt-chart-collapse-all-button" disabled={parentIds.every((id) => collapsed.has(id))} onclick={() => setAllCollapsed(true)}>{labels.collapseAll}</button>
+                <button
+                    type="button"
+                    class="gantt-chart-collapse-all-button"
+                    disabled={parentIds.every((id) => collapsed.has(id))}
+                    onclick={() => setAllCollapsed(true)}>{labels.collapseAll}</button
+                >
             {/if}
         </div>
     {/if}
     {#if hasExportButtons}
-        <div class="gantt-chart-export" role="group" aria-label={labels.export}>
+        <div
+            class="gantt-chart-export"
+            role="group"
+            aria-label={labels.export}
+        >
             {#if labels.copy}
-                <button type="button" class="gantt-chart-export-button" data-gantt-export-format="copy" disabled={exportRows.length === 0} onclick={() => runExport("copy")}>{labels.copy}</button>
+                <button
+                    type="button"
+                    class="gantt-chart-export-button"
+                    data-gantt-export-format="copy"
+                    disabled={exportRows.length === 0}
+                    onclick={() => runExport("copy")}>{labels.copy}</button
+                >
             {/if}
             {#if labels.exportCsv}
-                <button type="button" class="gantt-chart-export-button" data-gantt-export-format="csv" disabled={exportRows.length === 0} onclick={() => runExport("csv")}>{labels.exportCsv}</button>
+                <button
+                    type="button"
+                    class="gantt-chart-export-button"
+                    data-gantt-export-format="csv"
+                    disabled={exportRows.length === 0}
+                    onclick={() => runExport("csv")}>{labels.exportCsv}</button
+                >
             {/if}
             {#if labels.exportTsv}
-                <button type="button" class="gantt-chart-export-button" data-gantt-export-format="tsv" disabled={exportRows.length === 0} onclick={() => runExport("tsv")}>{labels.exportTsv}</button>
+                <button
+                    type="button"
+                    class="gantt-chart-export-button"
+                    data-gantt-export-format="tsv"
+                    disabled={exportRows.length === 0}
+                    onclick={() => runExport("tsv")}>{labels.exportTsv}</button
+                >
             {/if}
             {#if labels.exportExcel}
-                <button type="button" class="gantt-chart-export-button" data-gantt-export-format="xlsx" disabled={exportRows.length === 0} onclick={() => runExport("xlsx")}>{labels.exportExcel}</button>
+                <button
+                    type="button"
+                    class="gantt-chart-export-button"
+                    data-gantt-export-format="xlsx"
+                    disabled={exportRows.length === 0}
+                    onclick={() => runExport("xlsx")}>{labels.exportExcel}</button
+                >
             {/if}
         </div>
     {/if}
     {#if labels.zoomIn || labels.zoomOut}
-        <div class="gantt-chart-zoom" role="group" aria-label={label}>
+        <div
+            class="gantt-chart-zoom"
+            role="group"
+            aria-label={label}
+        >
             {#if labels.zoomOut}
-                <button type="button" class="gantt-chart-zoom-out-button" aria-label={labels.zoomOut} disabled={zoomIndex <= 0} onclick={() => zoom(-1)}>−</button>
+                <button
+                    type="button"
+                    class="gantt-chart-zoom-out-button"
+                    aria-label={labels.zoomOut}
+                    disabled={zoomIndex <= 0}
+                    onclick={() => zoom(-1)}>−</button
+                >
             {/if}
             {#if labels.zoomIn}
-                <button type="button" class="gantt-chart-zoom-in-button" aria-label={labels.zoomIn} disabled={zoomIndex >= ZOOM_ORDER.length - 1} onclick={() => zoom(1)}>+</button>
+                <button
+                    type="button"
+                    class="gantt-chart-zoom-in-button"
+                    aria-label={labels.zoomIn}
+                    disabled={zoomIndex >= ZOOM_ORDER.length - 1}
+                    onclick={() => zoom(1)}>+</button
+                >
             {/if}
         </div>
     {/if}
@@ -1075,230 +1381,396 @@
     <div
         bind:this={scrollEl}
         class={virtualize ? "gantt-chart-scroll" : "gantt-chart-body"}
-        style={[virtualize ? `height:${virtualize.height}px;overflow:auto` : "", dependencyArrows ? "position:relative" : ""].filter(Boolean).join(";") || undefined}
-        onscroll={virtualize ? (e) => (scrollTop = (e.currentTarget as HTMLElement).scrollTop) : undefined}
+        style={[
+            virtualize ? `height:${virtualize.height}px;overflow:auto` : "",
+            dependencyArrows ? "position:relative" : "",
+        ]
+            .filter(Boolean)
+            .join(";") || undefined}
+        onscroll={virtualize
+            ? (e) => (scrollTop = (e.currentTarget as HTMLElement).scrollTop)
+            : undefined}
     >
-    <GanttTable {label} {caption} onkeydown={onGridKeydown} onfocusin={onGridFocusin} onclick={onGridClick} aria-rowcount={virtualize ? rows.length + 1 : undefined}>
-        <GanttTableThead>
-            <GanttTableTr>
-                <GanttTableTH scope="col">{labels.taskColumnHeader ?? ""}</GanttTableTH>
-                {#each resolvedFields as f (f.id)}
-                    <GanttTableTH scope="col" data-field={f.id}>{f.header}</GanttTableTH>
-                {/each}
-                {#each columns as column, colIndex (column.start)}
-                    {@const colMarkers = markersAt(colIndex)}
-                    <GanttTableTH
-                        scope="col"
-                        data-today={todayColumns[colIndex] ? "" : undefined}
-                        data-non-working={nonWorking[colIndex] ? "" : undefined}
-                        data-weekend={weekendColumns[colIndex] ? "" : undefined}
-                        data-unavailable={unavailableByColumn[colIndex].all ? unavailableKinds(unavailableByColumn[colIndex].items) : undefined}
-                        data-partly-unavailable={!unavailableByColumn[colIndex].all && unavailableByColumn[colIndex].items.length ? unavailableKinds(unavailableByColumn[colIndex].items) : undefined}
-                        data-marker={colMarkers.length ? colMarkers.map((m) => m.kind ?? "marker").join(" ") : undefined}
-                    >
-                        {labels.columnLabel?.(column.start, column.end, timeUnit) ?? column.start}
-                        {#each colMarkers as marker (marker.date + (marker.kind ?? ""))}
-                            {#if marker.label}<span class="gantt-chart-marker-label">{marker.label}</span>{/if}
-                        {/each}
-                        {#each unavailableByColumn[colIndex].items as item (item.start + (item.end ?? "") + (item.kind ?? "") + (item.label ?? ""))}
-                            {#if item.label}<span class="gantt-chart-unavailable-label">{item.label}</span>{/if}
-                        {/each}
-                    </GanttTableTH>
-                {/each}
-            </GanttTableTr>
-        </GanttTableThead>
-        <GanttTableTbody>
-            {#each renderItems as item (item.key)}
-                {#if item.kind === "spacer"}
-                    <tr class="gantt-chart-spacer" aria-hidden="true" style={`height:${item.height}px`}><td colspan={columns.length + 1 + resolvedFields.length}></td></tr>
-                {:else}
-                {@const row = item.row}
-                {@const rowIndex = item.index}
-                {@const { start, end } = rangeFor(row.task, row.hasChildren)}
-                {@const deps = predecessorLabels(row.task)}
-                <GanttTableTr
-                    data-task-type={row.task.type}
-                    data-critical={row.task.critical ? "" : undefined}
-                    data-slack={row.task.slack}
-                    aria-rowindex={virtualize ? rowIndex + 2 : undefined}
-                    data-task-id={row.task.id}
-                    data-unscheduled={!row.hasChildren && (!row.task.start || !row.task.end) ? "" : undefined}
-                    aria-selected={selectedTaskId === row.task.id ? "true" : undefined}
-                    data-selected={selectedTaskId === row.task.id ? "" : undefined}
-                    {...(taskAttrs?.(row.task) ?? {})}
-                >
-                    <!-- Depth is data for the consumer's CSS (indentation), never an inline style. -->
-                    <GanttTableTH scope="row" data-depth={row.depth}>
-                        {#if row.hasChildren && labels.collapseButton}
-                            <button
-                                type="button"
-                                class="gantt-chart-collapse-button"
-                                aria-expanded={!collapsed.has(row.task.id)}
-                                aria-label={labels.collapseButton(row.task, collapsed.has(row.task.id))}
-                                onclick={() => toggleCollapse(row.task.id)}
-                            >
-                                {collapsed.has(row.task.id) ? "▸" : "▾"}
-                            </button>
-                        {/if}
-                        {#if searching}{#each highlightSegments(taskLabel(row.task), search) as part, i (i)}{#if part.match}<Mark class="gantt-chart-match">{part.text}</Mark>{:else}{part.text}{/if}{/each}{:else}{taskLabel(row.task)}{/if}
-                        {#if row.task.critical && labels.criticalLabel}<span class="gantt-chart-critical-label">{labels.criticalLabel}</span>{/if}
-                        {#if deps.length > 0 && labels.dependencySummary}
-                            <span id={dependencyId(row.task.id)} class="gantt-chart-dependency-summary" hidden>
-                                {labels.dependencySummary(deps)}
-                            </span>
-                        {/if}
-                        {#if row.task.baseline && labels.baselineSummary}
-                            <span id={baselineId(row.task.id)} class="gantt-chart-baseline-summary" hidden>
-                                {labels.baselineSummary(taskLabel(row.task), row.task.baseline, baselineVariance(row.task, end))}
-                            </span>
-                        {/if}
-                    </GanttTableTH>
+        <GanttTable
+            {label}
+            {caption}
+            onkeydown={onGridKeydown}
+            onfocusin={onGridFocusin}
+            onclick={onGridClick}
+            aria-rowcount={virtualize ? rows.length + 1 : undefined}
+        >
+            <GanttTableThead>
+                <GanttTableTr>
+                    <GanttTableTH scope="col">{labels.taskColumnHeader ?? ""}</GanttTableTH>
                     {#each resolvedFields as f (f.id)}
-                        {@const text = fieldText(f, row.task)}
-                        {@const editable = isFieldEditable(f)}
-                        {@const nameId = `${baseId}-fn-${row.task.id}-${f.id}`}
-                        {@const valueId = `${baseId}-fv-${row.task.id}-${f.id}`}
-                        <GanttTableTD data-field={f.id} data-type={f.type ?? "text"} data-align={f.align}>
-                            {#if editingField && editingField.taskId === row.task.id && editingField.fieldId === f.id}
-                                {#if editorKind(f) === "select" || editorKind(f) === "radio"}
-                                    <select class="gantt-chart-field-editor" aria-label={f.editLabel ?? f.header} aria-invalid={editingField.invalid ? "true" : undefined} oninput={() => { if (editingField) editingField.invalid = false; }} bind:value={editingField.draft} onkeydown={onFieldEditorKeydown} onchange={() => { if (commitFieldEdit()) void focusActiveCell(); }} onblur={() => void commitFieldEdit()}>
-                                        <option value=""></option>
-                                        {#each (f.options ?? []) as option (option.id)}
-                                            <option value={option.id} disabled={option.disabled}>{option.label}</option>
-                                        {/each}
-                                    </select>
-                                {:else}
-                                    <input
-                                        class="gantt-chart-field-editor"
-                                        aria-label={f.editLabel ?? f.header}
-                                        aria-invalid={editingField.invalid ? "true" : undefined}
-                                        oninput={() => { if (editingField) editingField.invalid = false; }}
-                                        type={editorKind(f) === "number" ? "number" : editorKind(f) === "date" ? "date" : editorKind(f) === "time" ? "time" : "text"}
-                                        inputmode={editorKind(f) === "number" ? "decimal" : undefined}
-                                        bind:value={editingField.draft}
-                                        onkeydown={onFieldEditorKeydown}
-                                        onblur={() => void commitFieldEdit()}
-                                    />
-                                {/if}
-                            {:else if editable}
-                                <span id={nameId} hidden>{f.header}</span>
-                                <button type="button" class="gantt-chart-field-button" id={valueId} tabindex="-1" aria-labelledby={`${nameId} ${valueId}`} onclick={() => void startFieldEdit(row.task, f)}>{text}</button>
-                            {:else}
-                                {text}
-                            {/if}
-                        </GanttTableTD>
+                        <GanttTableTH
+                            scope="col"
+                            data-field={f.id}>{f.header}</GanttTableTH
+                        >
                     {/each}
                     {#each columns as column, colIndex (column.start)}
-                        {@const inRange = !!start && !!end && rangesOverlap(column.start, column.end, start, end)}
-                        {@const isMilestone = inRange && start === end}
-                        {@const isToday = todayColumns[colIndex]}
-                        {@const isLeadingCell = inRange && rangesOverlap(column.start, column.end, start, start)}
-                        <GanttTableTD
-                            data-row={rowIndex}
-                            data-col={colIndex}
-                            active={activeRow === rowIndex && activeCol === colIndex}
-                            data-in-range={inRange ? "" : undefined}
-                            data-milestone={isMilestone ? "" : undefined}
-                            data-today={isToday ? "" : undefined}
+                        {@const colMarkers = markersAt(colIndex)}
+                        <GanttTableTH
+                            scope="col"
+                            data-today={todayColumns[colIndex] ? "" : undefined}
                             data-non-working={nonWorking[colIndex] ? "" : undefined}
                             data-weekend={weekendColumns[colIndex] ? "" : undefined}
-                            data-unavailable={unavailableByColumn[colIndex].all ? unavailableKinds(unavailableByColumn[colIndex].items) : undefined}
-                            data-partly-unavailable={!unavailableByColumn[colIndex].all && unavailableByColumn[colIndex].items.length ? unavailableKinds(unavailableByColumn[colIndex].items) : undefined}
-                            data-marker={markersAt(colIndex).length ? "" : undefined}
-                            aria-describedby={describedBy(row.task, deps.length > 0)}
-                            data-baseline={row.task.baseline && rangesOverlap(column.start, column.end, row.task.baseline.start, row.task.baseline.end) ? "" : undefined}
-                            ondragover={onCellDragOver}
-                            ondrop={(e: DragEvent) => onCellDrop(column, e)}
+                            data-unavailable={unavailableByColumn[colIndex].all
+                                ? unavailableKinds(unavailableByColumn[colIndex].items)
+                                : undefined}
+                            data-partly-unavailable={!unavailableByColumn[colIndex].all &&
+                            unavailableByColumn[colIndex].items.length
+                                ? unavailableKinds(unavailableByColumn[colIndex].items)
+                                : undefined}
+                            data-marker={colMarkers.length
+                                ? colMarkers.map((m) => m.kind ?? "marker").join(" ")
+                                : undefined}
                         >
-                            {#if isLeadingCell}
-                                <!-- svelte-ignore a11y_no_static_element_interactions -->
-                                <span
-                                    class="gantt-chart-bar"
-                                    data-percent-complete={row.task.percentComplete ?? undefined}
-                                    draggable={!row.hasChildren && !readonly ? "true" : undefined}
-                                    ondragstart={(e: DragEvent) => onBarDragStart(row.task, e)}
-                                >{#if !row.hasChildren && !readonly}<span
-                                        class="gantt-chart-bar-handle gantt-chart-bar-handle-start"
-                                        draggable="true"
-                                        aria-hidden="true"
-                                        ondragstart={(e: DragEvent) => onHandleDragStart(row.task, "start", e)}
-                                    ></span>{/if}</span>
-                            {/if}
-                            {#if !row.hasChildren && !readonly && inRange && rangesOverlap(column.start, column.end, end, end)}
-                                <span
-                                    class="gantt-chart-bar-handle gantt-chart-bar-handle-end"
-                                    draggable="true"
-                                    aria-hidden="true"
-                                    ondragstart={(e: DragEvent) => onHandleDragStart(row.task, "end", e)}
-                                ></span>
-                            {/if}
-                        </GanttTableTD>
+                            {labels.columnLabel?.(column.start, column.end, timeUnit) ??
+                                column.start}
+                            {#each colMarkers as marker (marker.date + (marker.kind ?? ""))}
+                                {#if marker.label}<span class="gantt-chart-marker-label"
+                                        >{marker.label}</span
+                                    >{/if}
+                            {/each}
+                            {#each unavailableByColumn[colIndex].items as item (item.start + (item.end ?? "") + (item.kind ?? "") + (item.label ?? ""))}
+                                {#if item.label}<span class="gantt-chart-unavailable-label"
+                                        >{item.label}</span
+                                    >{/if}
+                            {/each}
+                        </GanttTableTH>
                     {/each}
                 </GanttTableTr>
-                {#if editingTaskId === row.task.id && canEdit && labels.dateTimePickerLabels}
-                    <tr class="gantt-chart-edit-row">
-                        <td colspan={columns.length + 1 + resolvedFields.length} onkeydown={onEditKeydown}>
-                            <DateTimePicker
-                                label={labels.startLabel ?? ""}
-                                labels={labels.dateTimePickerLabels}
-                                mode="date"
-                                bind:value={editStart}
-                            />
-                            <DateTimePicker
-                                label={labels.endLabel ?? ""}
-                                labels={labels.dateTimePickerLabels}
-                                mode="date"
-                                bind:value={editEnd}
-                            />
-                            {#if labels.percentLabel}
-                                <label class="gantt-chart-percent-label">
-                                    {labels.percentLabel}
-                                    <input
-                                        class="gantt-chart-percent-input"
-                                        type="number"
-                                        min="0"
-                                        max="100"
-                                        step="1"
-                                        bind:value={editPercent}
-                                    />
-                                </label>
-                            {/if}
-                            <button
-                                type="button"
-                                class="gantt-chart-save-button"
-                                disabled={!editStart || !editEnd}
-                                onclick={() => saveEdit(row.task)}
+            </GanttTableThead>
+            <GanttTableTbody>
+                {#each renderItems as item (item.key)}
+                    {#if item.kind === "spacer"}
+                        <tr
+                            class="gantt-chart-spacer"
+                            aria-hidden="true"
+                            style={`height:${item.height}px`}
+                            ><td colspan={columns.length + 1 + resolvedFields.length}></td></tr
+                        >
+                    {:else}
+                        {@const row = item.row}
+                        {@const rowIndex = item.index}
+                        {@const { start, end } = rangeFor(row.task, row.hasChildren)}
+                        {@const deps = predecessorLabels(row.task)}
+                        <GanttTableTr
+                            data-task-type={row.task.type}
+                            data-critical={row.task.critical ? "" : undefined}
+                            data-slack={row.task.slack}
+                            aria-rowindex={virtualize ? rowIndex + 2 : undefined}
+                            data-task-id={row.task.id}
+                            data-unscheduled={!row.hasChildren && (!row.task.start || !row.task.end)
+                                ? ""
+                                : undefined}
+                            aria-selected={selectedTaskId === row.task.id ? "true" : undefined}
+                            data-selected={selectedTaskId === row.task.id ? "" : undefined}
+                            {...taskAttrs?.(row.task) ?? {}}
+                        >
+                            <!-- Depth is data for the consumer's CSS (indentation), never an inline style. -->
+                            <GanttTableTH
+                                scope="row"
+                                data-depth={row.depth}
                             >
-                                {labels.saveLabel ?? ""}
-                            </button>
-                            <button type="button" class="gantt-chart-cancel-button" onclick={closeEdit}>
-                                {labels.cancelLabel ?? ""}
-                            </button>
-                        </td>
-                    </tr>
-                {/if}
-                {/if}
-            {/each}
-        </GanttTableTbody>
-    </GanttTable>
-    {#if dependencyArrows && arrows.length}
-        <svg
-            class="gantt-chart-dependency-arrows"
-            aria-hidden="true"
-            focusable="false"
-            width={overlaySize.width}
-            height={overlaySize.height}
-            style="position:absolute;left:0;top:0;pointer-events:none"
-        >
-            <defs>
-                <marker id={arrowHeadId} markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L6 3L0 6z" fill="currentColor" /></marker>
-            </defs>
-            {#each arrows as arrow (arrow.key)}
-                <path class="gantt-chart-dependency-arrow" data-from={arrow.from} data-to={arrow.to} data-dependency-type={arrow.kind} d={arrow.d} fill="none" stroke="currentColor" stroke-width="1.5" marker-end={`url(#${arrowHeadId})`} />
-            {/each}
-        </svg>
-    {/if}
+                                {#if row.hasChildren && labels.collapseButton}
+                                    <button
+                                        type="button"
+                                        class="gantt-chart-collapse-button"
+                                        aria-expanded={!collapsed.has(row.task.id)}
+                                        aria-label={labels.collapseButton(
+                                            row.task,
+                                            collapsed.has(row.task.id),
+                                        )}
+                                        onclick={() => toggleCollapse(row.task.id)}
+                                    >
+                                        {collapsed.has(row.task.id) ? "▸" : "▾"}
+                                    </button>
+                                {/if}
+                                {#if searching}{#each highlightSegments(taskLabel(row.task), search) as part, i (i)}{#if part.match}<Mark
+                                                class="gantt-chart-match">{part.text}</Mark
+                                            >{:else}{part.text}{/if}{/each}{:else}{taskLabel(
+                                        row.task,
+                                    )}{/if}
+                                {#if row.task.critical && labels.criticalLabel}<span
+                                        class="gantt-chart-critical-label"
+                                        >{labels.criticalLabel}</span
+                                    >{/if}
+                                {#if deps.length > 0 && labels.dependencySummary}
+                                    <span
+                                        id={dependencyId(row.task.id)}
+                                        class="gantt-chart-dependency-summary"
+                                        hidden
+                                    >
+                                        {labels.dependencySummary(deps)}
+                                    </span>
+                                {/if}
+                                {#if row.task.baseline && labels.baselineSummary}
+                                    <span
+                                        id={baselineId(row.task.id)}
+                                        class="gantt-chart-baseline-summary"
+                                        hidden
+                                    >
+                                        {labels.baselineSummary(
+                                            taskLabel(row.task),
+                                            row.task.baseline,
+                                            baselineVariance(row.task, end),
+                                        )}
+                                    </span>
+                                {/if}
+                            </GanttTableTH>
+                            {#each resolvedFields as f (f.id)}
+                                {@const text = fieldText(f, row.task)}
+                                {@const editable = isFieldEditable(f)}
+                                {@const nameId = `${baseId}-fn-${row.task.id}-${f.id}`}
+                                {@const valueId = `${baseId}-fv-${row.task.id}-${f.id}`}
+                                <GanttTableTD
+                                    data-field={f.id}
+                                    data-type={f.type ?? "text"}
+                                    data-align={f.align}
+                                >
+                                    {#if editingField && editingField.taskId === row.task.id && editingField.fieldId === f.id}
+                                        {#if editorKind(f) === "select" || editorKind(f) === "radio"}
+                                            <select
+                                                class="gantt-chart-field-editor"
+                                                aria-label={f.editLabel ?? f.header}
+                                                aria-invalid={editingField.invalid
+                                                    ? "true"
+                                                    : undefined}
+                                                oninput={() => {
+                                                    if (editingField) editingField.invalid = false;
+                                                }}
+                                                bind:value={editingField.draft}
+                                                onkeydown={onFieldEditorKeydown}
+                                                onchange={() => {
+                                                    if (commitFieldEdit()) void focusActiveCell();
+                                                }}
+                                                onblur={() => void commitFieldEdit()}
+                                            >
+                                                <option value=""></option>
+                                                {#each f.options ?? [] as option (option.id)}
+                                                    <option
+                                                        value={option.id}
+                                                        disabled={option.disabled}
+                                                        >{option.label}</option
+                                                    >
+                                                {/each}
+                                            </select>
+                                        {:else}
+                                            <input
+                                                class="gantt-chart-field-editor"
+                                                aria-label={f.editLabel ?? f.header}
+                                                aria-invalid={editingField.invalid
+                                                    ? "true"
+                                                    : undefined}
+                                                oninput={() => {
+                                                    if (editingField) editingField.invalid = false;
+                                                }}
+                                                type={editorKind(f) === "number"
+                                                    ? "number"
+                                                    : editorKind(f) === "date"
+                                                      ? "date"
+                                                      : editorKind(f) === "time"
+                                                        ? "time"
+                                                        : "text"}
+                                                inputmode={editorKind(f) === "number"
+                                                    ? "decimal"
+                                                    : undefined}
+                                                bind:value={editingField.draft}
+                                                onkeydown={onFieldEditorKeydown}
+                                                onblur={() => void commitFieldEdit()}
+                                            />
+                                        {/if}
+                                    {:else if editable}
+                                        <span
+                                            id={nameId}
+                                            hidden>{f.header}</span
+                                        >
+                                        <button
+                                            type="button"
+                                            class="gantt-chart-field-button"
+                                            id={valueId}
+                                            tabindex="-1"
+                                            aria-labelledby={`${nameId} ${valueId}`}
+                                            onclick={() => void startFieldEdit(row.task, f)}
+                                            >{text}</button
+                                        >
+                                    {:else}
+                                        {text}
+                                    {/if}
+                                </GanttTableTD>
+                            {/each}
+                            {#each columns as column, colIndex (column.start)}
+                                {@const inRange =
+                                    !!start &&
+                                    !!end &&
+                                    rangesOverlap(column.start, column.end, start, end)}
+                                {@const isMilestone = inRange && start === end}
+                                {@const isToday = todayColumns[colIndex]}
+                                {@const isLeadingCell =
+                                    inRange &&
+                                    rangesOverlap(column.start, column.end, start, start)}
+                                <GanttTableTD
+                                    data-row={rowIndex}
+                                    data-col={colIndex}
+                                    active={activeRow === rowIndex && activeCol === colIndex}
+                                    data-in-range={inRange ? "" : undefined}
+                                    data-milestone={isMilestone ? "" : undefined}
+                                    data-today={isToday ? "" : undefined}
+                                    data-non-working={nonWorking[colIndex] ? "" : undefined}
+                                    data-weekend={weekendColumns[colIndex] ? "" : undefined}
+                                    data-unavailable={unavailableByColumn[colIndex].all
+                                        ? unavailableKinds(unavailableByColumn[colIndex].items)
+                                        : undefined}
+                                    data-partly-unavailable={!unavailableByColumn[colIndex].all &&
+                                    unavailableByColumn[colIndex].items.length
+                                        ? unavailableKinds(unavailableByColumn[colIndex].items)
+                                        : undefined}
+                                    data-marker={markersAt(colIndex).length ? "" : undefined}
+                                    aria-describedby={describedBy(row.task, deps.length > 0)}
+                                    data-baseline={row.task.baseline &&
+                                    rangesOverlap(
+                                        column.start,
+                                        column.end,
+                                        row.task.baseline.start,
+                                        row.task.baseline.end,
+                                    )
+                                        ? ""
+                                        : undefined}
+                                    ondragover={onCellDragOver}
+                                    ondrop={(e: DragEvent) => onCellDrop(column, e)}
+                                >
+                                    {#if isLeadingCell}
+                                        <!-- svelte-ignore a11y_no_static_element_interactions -->
+                                        <span
+                                            class="gantt-chart-bar"
+                                            data-percent-complete={row.task.percentComplete ??
+                                                undefined}
+                                            draggable={!row.hasChildren && !readonly
+                                                ? "true"
+                                                : undefined}
+                                            ondragstart={(e: DragEvent) =>
+                                                onBarDragStart(row.task, e)}
+                                            >{#if !row.hasChildren && !readonly}<span
+                                                    class="gantt-chart-bar-handle gantt-chart-bar-handle-start"
+                                                    draggable="true"
+                                                    aria-hidden="true"
+                                                    ondragstart={(e: DragEvent) =>
+                                                        onHandleDragStart(row.task, "start", e)}
+                                                ></span>{/if}</span
+                                        >
+                                    {/if}
+                                    {#if !row.hasChildren && !readonly && inRange && rangesOverlap(column.start, column.end, end, end)}
+                                        <span
+                                            class="gantt-chart-bar-handle gantt-chart-bar-handle-end"
+                                            draggable="true"
+                                            aria-hidden="true"
+                                            ondragstart={(e: DragEvent) =>
+                                                onHandleDragStart(row.task, "end", e)}
+                                        ></span>
+                                    {/if}
+                                </GanttTableTD>
+                            {/each}
+                        </GanttTableTr>
+                        {#if editingTaskId === row.task.id && canEdit && labels.dateTimePickerLabels}
+                            <tr class="gantt-chart-edit-row">
+                                <td
+                                    colspan={columns.length + 1 + resolvedFields.length}
+                                    onkeydown={onEditKeydown}
+                                >
+                                    <DateTimePicker
+                                        label={labels.startLabel ?? ""}
+                                        labels={labels.dateTimePickerLabels}
+                                        mode="date"
+                                        bind:value={editStart}
+                                    />
+                                    <DateTimePicker
+                                        label={labels.endLabel ?? ""}
+                                        labels={labels.dateTimePickerLabels}
+                                        mode="date"
+                                        bind:value={editEnd}
+                                    />
+                                    {#if labels.percentLabel}
+                                        <label class="gantt-chart-percent-label">
+                                            {labels.percentLabel}
+                                            <input
+                                                class="gantt-chart-percent-input"
+                                                type="number"
+                                                min="0"
+                                                max="100"
+                                                step="1"
+                                                bind:value={editPercent}
+                                            />
+                                        </label>
+                                    {/if}
+                                    <button
+                                        type="button"
+                                        class="gantt-chart-save-button"
+                                        disabled={!editStart || !editEnd}
+                                        onclick={() => saveEdit(row.task)}
+                                    >
+                                        {labels.saveLabel ?? ""}
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="gantt-chart-cancel-button"
+                                        onclick={closeEdit}
+                                    >
+                                        {labels.cancelLabel ?? ""}
+                                    </button>
+                                </td>
+                            </tr>
+                        {/if}
+                    {/if}
+                {/each}
+            </GanttTableTbody>
+        </GanttTable>
+        {#if dependencyArrows && arrows.length}
+            <svg
+                class="gantt-chart-dependency-arrows"
+                aria-hidden="true"
+                focusable="false"
+                width={overlaySize.width}
+                height={overlaySize.height}
+                style="position:absolute;left:0;top:0;pointer-events:none"
+            >
+                <defs>
+                    <marker
+                        id={arrowHeadId}
+                        markerWidth="6"
+                        markerHeight="6"
+                        refX="6"
+                        refY="3"
+                        orient="auto"
+                        markerUnits="userSpaceOnUse"
+                        ><path
+                            d="M0 0L6 3L0 6z"
+                            fill="currentColor"
+                        /></marker
+                    >
+                </defs>
+                {#each arrows as arrow (arrow.key)}
+                    <path
+                        class="gantt-chart-dependency-arrow"
+                        data-from={arrow.from}
+                        data-to={arrow.to}
+                        data-dependency-type={arrow.kind}
+                        d={arrow.d}
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        marker-end={`url(#${arrowHeadId})`}
+                    />
+                {/each}
+            </svg>
+        {/if}
     </div>
 
-    <p class="gantt-chart-status" aria-live="polite">{statusMessage}</p>
+    <p
+        class="gantt-chart-status"
+        aria-live="polite"
+    >
+        {statusMessage}
+    </p>
 </div>

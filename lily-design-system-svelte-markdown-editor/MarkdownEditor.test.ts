@@ -17,7 +17,13 @@ const labels = {
 
 function setup(props: Record<string, unknown> = {}) {
     const utils = render(MarkdownEditor, {
-        props: { label: "Message", toolbarLabel: "Formatting", labels, value: "hello world", ...props },
+        props: {
+            label: "Message",
+            toolbarLabel: "Formatting",
+            labels,
+            value: "hello world",
+            ...props,
+        },
     });
     const textarea = screen.getByRole("textbox", { name: "Message" }) as HTMLTextAreaElement;
     return { ...utils, textarea };
@@ -32,7 +38,9 @@ describe("structure", () => {
     it("renders a toolbar and a textarea under the base classes", () => {
         const { container, textarea } = setup();
         expect(container.querySelector("div.markdown-editor")).toBeTruthy();
-        expect(screen.getByRole("toolbar", { name: "Formatting" }).className).toContain("markdown-editor-toolbar");
+        expect(screen.getByRole("toolbar", { name: "Formatting" }).className).toContain(
+            "markdown-editor-toolbar",
+        );
         expect(textarea.className).toContain("markdown-editor-textarea");
         expect(textarea.tagName).toBe("TEXTAREA");
     });
@@ -50,17 +58,22 @@ describe("structure", () => {
 
     it("honours the tools prop for subset and order", () => {
         setup({ tools: ["link", "bold"] });
-        expect(screen.getAllByRole("button").map((b) => b.getAttribute("data-tool"))).toEqual(["link", "bold"]);
+        expect(screen.getAllByRole("button").map((b) => b.getAttribute("data-tool"))).toEqual([
+            "link",
+            "bold",
+        ]);
     });
 
     it("every button is type=button so it never submits a form", () => {
         setup();
-        for (const b of screen.getAllByRole("button")) expect(b.getAttribute("type")).toBe("button");
+        for (const b of screen.getAllByRole("button"))
+            expect(b.getAttribute("type")).toBe("button");
     });
 
     it("icons are decorative", () => {
         const { container } = setup();
-        for (const svg of container.querySelectorAll("svg")) expect(svg.getAttribute("aria-hidden")).toBe("true");
+        for (const svg of container.querySelectorAll("svg"))
+            expect(svg.getAttribute("aria-hidden")).toBe("true");
     });
 
     it("the toolbar controls the textarea", () => {
@@ -131,7 +144,9 @@ describe("tools", () => {
         select(textarea, 0, 5);
         await userEvent.click(screen.getByRole("button", { name: "Link" }));
         expect(textarea.value).toBe("[hello](https://) world");
-        expect(textarea.value.slice(textarea.selectionStart, textarea.selectionEnd)).toBe("https://");
+        expect(textarea.value.slice(textarea.selectionStart, textarea.selectionEnd)).toBe(
+            "https://",
+        );
     });
 
     it("the heading level is a prop", async () => {
@@ -188,7 +203,9 @@ describe("shortcuts", () => {
 describe("toolbar keyboard", () => {
     it("only one button is in the tab order (roving tabindex)", () => {
         setup();
-        const tabbable = screen.getAllByRole("button").filter((b) => b.getAttribute("tabindex") === "0");
+        const tabbable = screen
+            .getAllByRole("button")
+            .filter((b) => b.getAttribute("tabindex") === "0");
         expect(tabbable.length).toBe(1);
         expect(tabbable[0].getAttribute("data-tool")).toBe("heading");
     });
@@ -220,7 +237,8 @@ describe("disabled and readonly", () => {
     it("disabled disables the textarea and every button", () => {
         const { textarea } = setup({ disabled: true });
         expect(textarea.disabled).toBe(true);
-        for (const b of screen.getAllByRole("button")) expect((b as HTMLButtonElement).disabled).toBe(true);
+        for (const b of screen.getAllByRole("button"))
+            expect((b as HTMLButtonElement).disabled).toBe(true);
     });
 
     it("readonly keeps the text unchangeable by a tool", async () => {

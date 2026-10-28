@@ -7,14 +7,25 @@
     new Intl.DateTimeFormat(locale, { timeZone }).format(date)
 -->
 <script lang="ts">
-  import TimeZonePicker from "@lilydesignsystem/svelte-time-zone-picker";
+    import TimeZonePicker from "@lilydesignsystem/svelte-time-zone-picker";
 
-  let zone = $state("");
-  const when = new Date();
+    let zone = $state("");
+    const when = new Date();
 </script>
 
-<TimeZonePicker label="Time zone" locale="en-GB" bind:value={zone} storageKey="lily-time-zone" />
+<TimeZonePicker
+    label="Time zone"
+    locale="en-GB"
+    bind:value={zone}
+    storageKey="lily-time-zone"
+/>
 
 <p aria-live="polite">
-  Now: {zone ? new Intl.DateTimeFormat("en-GB", { timeZone: zone, dateStyle: "medium", timeStyle: "short" }).format(when) : ""}
+    Now: {zone
+        ? new Intl.DateTimeFormat("en-GB", {
+              timeZone: zone,
+              dateStyle: "medium",
+              timeStyle: "short",
+          }).format(when)
+        : ""}
 </p>

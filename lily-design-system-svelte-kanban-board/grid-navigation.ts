@@ -24,11 +24,17 @@ export type GridNavigation = {
 };
 
 /** How many rows a page key moves: the rows that fit a virtualized viewport, else `fallback` (10 by default). */
-export function pageStepFor(virtualize: { height: number; rowHeight: number } | undefined, fallback = 10): number {
-    return virtualize ? Math.max(1, Math.floor(virtualize.height / virtualize.rowHeight)) : fallback;
+export function pageStepFor(
+    virtualize: { height: number; rowHeight: number } | undefined,
+    fallback = 10,
+): number {
+    return virtualize
+        ? Math.max(1, Math.floor(virtualize.height / virtualize.rowHeight))
+        : fallback;
 }
 
-const clamp = (value: number, low: number, high: number): number => Math.min(Math.max(value, low), high);
+const clamp = (value: number, low: number, high: number): number =>
+    Math.min(Math.max(value, low), high);
 
 /** The position the key moves to, kept inside the grid, or `null` when the key is not a movement key. */
 export function gridMove(

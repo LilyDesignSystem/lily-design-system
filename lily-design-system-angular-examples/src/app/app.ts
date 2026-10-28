@@ -70,6 +70,8 @@ export class App {
   };
   protected readonly sizes = ["small", "medium", "large"];
   protected readonly sizeLabels: Record<string, string> = {
-    small: "Small", medium: "Medium", large: "Large",
+    small: "Small",
+    medium: "Medium",
+    large: "Large",
   };
 }

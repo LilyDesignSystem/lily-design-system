@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="accordion-checkbox">
@@ -19,9 +19,9 @@ const html = `<div
 </div>`;
 
 const meta = {
-  title: 'Headless/AccordionCheckbox',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/AccordionCheckbox",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

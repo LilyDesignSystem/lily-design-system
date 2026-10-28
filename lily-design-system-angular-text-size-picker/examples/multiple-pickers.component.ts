@@ -20,12 +20,7 @@
     `Signal<ElementRef<HTMLElement> | undefined>`, so the signal must
     be called and its `.nativeElement` read before it can be passed in.
 */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  viewChild,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, ElementRef, viewChild } from "@angular/core";
 import { TextSizePicker } from "../text-size-picker.component";
 
 @Component({

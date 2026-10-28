@@ -10,15 +10,9 @@ import SearchPicker from "@lilydesignsystem/vue-search-picker";
 import type { Props as ThemePickerProps } from "@lilydesignsystem/vue-theme-picker";
 import type { Props as LocalePickerProps } from "@lilydesignsystem/vue-locale-picker";
 import type { Props as TextSizePickerProps } from "@lilydesignsystem/vue-text-size-picker";
-import type {
-    Props as SharePickerProps,
-    ShareTarget,
-} from "@lilydesignsystem/vue-share-picker";
+import type { Props as SharePickerProps, ShareTarget } from "@lilydesignsystem/vue-share-picker";
 import type { Props as SearchPickerProps } from "@lilydesignsystem/vue-search-picker";
-import type {
-    Props as LinkPickerProps,
-    LinkItem,
-} from "@lilydesignsystem/vue-link-picker";
+import type { Props as LinkPickerProps, LinkItem } from "@lilydesignsystem/vue-link-picker";
 
 /**
  * All 57 Lily reference theme slugs (see `themes/` at the repo root),
@@ -150,9 +144,7 @@ export type Props = {
     /** Available theme slugs. Defaults to {@link DEFAULT_THEMES}. */
     themes?: string[];
     /** Extra ThemePicker props, bound after this bar's own (v-bind="themeProps"). */
-    themeProps?: Partial<
-        Omit<ThemePickerProps, "label" | "themesUrl" | "themes" | "class">
-    >;
+    themeProps?: Partial<Omit<ThemePickerProps, "label" | "themesUrl" | "themes" | "class">>;
 
     /** Available locale codes. No catalog default exists — supply the set you support. */
     locales: string[];
@@ -168,9 +160,7 @@ export type Props = {
     /** Available size slugs. Defaults to {@link DEFAULT_SIZES}. */
     sizes?: string[];
     /** Extra TextSizePicker props, bound after this bar's own. */
-    textSizeProps?: Partial<
-        Omit<TextSizePickerProps, "label" | "sizes" | "class">
-    >;
+    textSizeProps?: Partial<Omit<TextSizePickerProps, "label" | "sizes" | "class">>;
 
     /** Destinations offered by the share picker. Empty is valid if `shareProps.copyLabel` is set. */
     shareTargets?: ShareTarget[];

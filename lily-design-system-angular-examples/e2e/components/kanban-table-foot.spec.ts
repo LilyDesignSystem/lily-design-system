@@ -13,7 +13,7 @@ test.describe("component page: kanban-table-foot", () => {
 
   test("renders the H1 with the component name", async ({ page }) => {
     await expect(
-      page.getByRole("heading", { level: 1, name: new RegExp("^KanbanTableFoot$") })
+      page.getByRole("heading", { level: 1, name: new RegExp("^KanbanTableFoot$") }),
     ).toBeVisible();
   });
 

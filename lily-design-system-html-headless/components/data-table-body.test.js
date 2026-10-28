@@ -1,23 +1,23 @@
 // data-table-body.test.js
 // DataTableBody component test
 
-const path = require('path');
+const path = require("path");
 
-describe('DataTableBody', function() {
-  beforeEach(async function() {
-    await browser.url('file://' + path.resolve(__dirname, 'data-table-body.html'));
-  });
+describe("DataTableBody", function () {
+    beforeEach(async function () {
+        await browser.url("file://" + path.resolve(__dirname, "data-table-body.html"));
+    });
 
-  it('should render the tbody element with correct class', async function() {
-    const el = await $('tbody.data-table-body');
-    await expect(el).toExist();
-    const className = await el.getAttribute('class');
-    expect(className).toContain('data-table-body');
-  });
+    it("should render the tbody element with correct class", async function () {
+        const el = await $("tbody.data-table-body");
+        await expect(el).toExist();
+        const className = await el.getAttribute("class");
+        expect(className).toContain("data-table-body");
+    });
 
-  it('should have an aria-label attribute', async function() {
-    const el = await $('tbody.data-table-body');
-    const label = await el.getAttribute('aria-label');
-    expect(label).not.toBeNull();
-  });
+    it("should have an aria-label attribute", async function () {
+        const el = await $("tbody.data-table-body");
+        const label = await el.getAttribute("aria-label");
+        expect(label).not.toBeNull();
+    });
 });

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<figure
   class="video-player"
@@ -9,9 +9,9 @@ const html = `<figure
   ></video></figure>`;
 
 const meta = {
-  title: 'Headless/VideoPlayer',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/VideoPlayer",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

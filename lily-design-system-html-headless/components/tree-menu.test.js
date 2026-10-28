@@ -1,29 +1,29 @@
 // tree-menu.test.js
 // TreeMenu component test
 
-const path = require('path');
+const path = require("path");
 
-describe('TreeMenu', function() {
-  beforeEach(async function() {
-    await browser.url('file://' + path.resolve(__dirname, 'tree-menu.html'));
-  });
+describe("TreeMenu", function () {
+    beforeEach(async function () {
+        await browser.url("file://" + path.resolve(__dirname, "tree-menu.html"));
+    });
 
-  it('should render the div element with correct class', async function() {
-    const el = await $('div.tree-menu');
-    await expect(el).toExist();
-    const className = await el.getAttribute('class');
-    expect(className).toContain('tree-menu');
-  });
+    it("should render the div element with correct class", async function () {
+        const el = await $("div.tree-menu");
+        await expect(el).toExist();
+        const className = await el.getAttribute("class");
+        expect(className).toContain("tree-menu");
+    });
 
-  it('should have the correct ARIA role', async function() {
-    const el = await $('div.tree-menu');
-    const roleAttr = await el.getAttribute('role');
-    expect(roleAttr).toBe('tree');
-  });
+    it("should have the correct ARIA role", async function () {
+        const el = await $("div.tree-menu");
+        const roleAttr = await el.getAttribute("role");
+        expect(roleAttr).toBe("tree");
+    });
 
-  it('should have an aria-label attribute', async function() {
-    const el = await $('div.tree-menu');
-    const label = await el.getAttribute('aria-label');
-    expect(label).not.toBeNull();
-  });
+    it("should have an aria-label attribute", async function () {
+        const el = await $("div.tree-menu");
+        const label = await el.getAttribute("aria-label");
+        expect(label).not.toBeNull();
+    });
 });

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="splitter"
@@ -6,9 +6,9 @@ const html = `<div
   aria-orientation="vertical"  tabindex="0"></div>`;
 
 const meta = {
-  title: 'Headless/Splitter',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/Splitter",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

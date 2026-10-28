@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<input
   class="eire-individual-health-identifier-input"
@@ -13,9 +13,9 @@ const html = `<input
   spellcheck="false">`;
 
 const meta = {
-  title: 'Headless/EireIndividualHealthIdentifierInput',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/EireIndividualHealthIdentifierInput",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

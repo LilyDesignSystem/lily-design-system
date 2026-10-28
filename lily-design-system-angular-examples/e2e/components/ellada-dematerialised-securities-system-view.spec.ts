@@ -13,7 +13,10 @@ test.describe("component page: ellada-dematerialised-securities-system-view", ()
 
   test("renders the H1 with the component name", async ({ page }) => {
     await expect(
-      page.getByRole("heading", { level: 1, name: new RegExp("^ElladaDematerialisedSecuritiesSystemView$") })
+      page.getByRole("heading", {
+        level: 1,
+        name: new RegExp("^ElladaDematerialisedSecuritiesSystemView$"),
+      }),
     ).toBeVisible();
   });
 

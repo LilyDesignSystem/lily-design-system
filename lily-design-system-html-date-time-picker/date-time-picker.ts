@@ -320,10 +320,7 @@ export function formatIsoTime(time: CivilTime): string {
 }
 
 /** Pull the date and time halves out of a mode-appropriate ISO value. */
-export function splitValue(
-    value: string,
-    mode: DateTimeMode,
-): { date: string; time: string } {
+export function splitValue(value: string, mode: DateTimeMode): { date: string; time: string } {
     if (!value) return { date: "", time: "" };
     if (mode === "time") {
         return { date: "", time: parseIsoTime(value) ? value : "" };
@@ -359,13 +356,48 @@ function regionOf(locale?: string): string {
 }
 
 const SUNDAY_FIRST_REGIONS = new Set([
-    "AR", "BR", "CA", "CL", "CO", "DO", "GT", "HK", "IL", "IN", "JP",
-    "KR", "MO", "MX", "PE", "PH", "PK", "TH", "TW", "US", "VE", "ZA",
+    "AR",
+    "BR",
+    "CA",
+    "CL",
+    "CO",
+    "DO",
+    "GT",
+    "HK",
+    "IL",
+    "IN",
+    "JP",
+    "KR",
+    "MO",
+    "MX",
+    "PE",
+    "PH",
+    "PK",
+    "TH",
+    "TW",
+    "US",
+    "VE",
+    "ZA",
 ]);
 
 const SATURDAY_FIRST_REGIONS = new Set([
-    "AE", "AF", "BH", "DJ", "DZ", "EG", "IQ", "IR", "JO", "KW", "LY",
-    "OM", "QA", "SA", "SD", "SY", "YE",
+    "AE",
+    "AF",
+    "BH",
+    "DJ",
+    "DZ",
+    "EG",
+    "IQ",
+    "IR",
+    "JO",
+    "KW",
+    "LY",
+    "OM",
+    "QA",
+    "SA",
+    "SD",
+    "SY",
+    "YE",
 ]);
 
 /**
@@ -402,11 +434,7 @@ export function firstDayOfWeekFor(locale?: string): number {
  *
  * Fixed height on purpose — see `spec/index.md` §3.
  */
-export function monthMatrix(
-    year: number,
-    month: number,
-    firstDayOfWeek: number,
-): string[][] {
+export function monthMatrix(year: number, month: number, firstDayOfWeek: number): string[][] {
     const first = formatIsoDate({ year, month, day: 1 });
     const lead = (weekdayOf(first) - firstDayOfWeek + 7) % 7;
     const start = addDays(first, -lead);
@@ -468,7 +496,9 @@ export function numericFieldOrder(locale?: string): ("day" | "month" | "year")[]
         }).formatToParts(new Date(Date.UTC(2021, 4, 6)));
         const order = parts
             .map((p) => p.type)
-            .filter((t): t is "day" | "month" | "year" => t === "day" || t === "month" || t === "year");
+            .filter(
+                (t): t is "day" | "month" | "year" => t === "day" || t === "month" || t === "year",
+            );
         if (order.length === 3) return order;
     } catch {
         // Fall through.
@@ -1072,8 +1102,7 @@ export class DateTimePicker extends HTMLElement {
             this.#initialZone = this.timeZone;
             this.#today = todayIso();
             const anchor =
-                parseIsoDate(splitValue(this.value, this.mode).date) ??
-                parseIsoDate(this.#today);
+                parseIsoDate(splitValue(this.value, this.mode).date) ?? parseIsoDate(this.#today);
             if (anchor) {
                 this.#viewYear = anchor.year;
                 this.#viewMonth = anchor.month;
@@ -1495,10 +1524,15 @@ export class DateTimePicker extends HTMLElement {
                 return;
             }
 
-            const parsed = this.#parseInput ? this.#parseInput(text) : this.#parseTypedForMode(text);
+            const parsed = this.#parseInput
+                ? this.#parseInput(text)
+                : this.#parseTypedForMode(text);
             const parsedDate = parsed ? splitValue(parsed, this.mode).date : "";
             const outOfBounds =
-                parsed !== null && this.#usesDate() && parsedDate !== "" && this.#dayDisabled(parsedDate);
+                parsed !== null &&
+                this.#usesDate() &&
+                parsedDate !== "" &&
+                this.#dayDisabled(parsedDate);
 
             if (!parsed || outOfBounds) {
                 // Parseable-but-out-of-bounds gets the same outcome as
@@ -1791,10 +1825,7 @@ export class DateTimePicker extends HTMLElement {
             // for the assistive technologies that read aria-describedby
             // but not the newer aria-errormessage.
             const announceInvalid = this.#invalid && Boolean(this.#labels.invalid);
-            const describedBy = [
-                this.describedBy,
-                announceInvalid ? this.#statusId : undefined,
-            ]
+            const describedBy = [this.describedBy, announceInvalid ? this.#statusId : undefined]
                 .filter(Boolean)
                 .join(" ");
             if (describedBy) this.#fieldEl.setAttribute("aria-describedby", describedBy);
@@ -1810,9 +1841,7 @@ export class DateTimePicker extends HTMLElement {
             // Empty while valid: the region must exist before it has
             // content, because a live region born with its message is
             // routinely not announced at all.
-            this.#statusEl.textContent = this.#invalid
-                ? (this.#labels.invalid ?? "")
-                : "";
+            this.#statusEl.textContent = this.#invalid ? (this.#labels.invalid ?? "") : "";
         }
 
         if (this.#hiddenEl) {
@@ -2005,7 +2034,9 @@ export class DateTimePicker extends HTMLElement {
         buttonEl.setAttribute("aria-controls", this.dialogId);
         buttonEl.disabled = this.disabled || this.readonly;
         buttonEl.appendChild(this.renderButtonContent());
-        buttonEl.addEventListener("click", () => (this.#open ? this.#closeDialog() : this.openDialog()));
+        buttonEl.addEventListener("click", () =>
+            this.#open ? this.#closeDialog() : this.openDialog(),
+        );
         fieldWrap.appendChild(buttonEl);
         this.#tooltip?.destroy();
         const tooltip = createTooltip(
@@ -2252,7 +2283,9 @@ export class DateTimePicker extends HTMLElement {
             minuteSelect = document.createElement("select");
             minuteSelect.className = "date-time-picker-minute";
             minuteSelect.id = this.#minuteId;
-            minuteSelect.addEventListener("change", () => this.#setMinute(Number(minuteSelect!.value)));
+            minuteSelect.addEventListener("change", () =>
+                this.#setMinute(Number(minuteSelect!.value)),
+            );
             timeWrap.appendChild(minuteSelect);
 
             if (this.hour12) {
@@ -2376,71 +2409,70 @@ function createTooltip(
     // WCAG 1.4.13: Escape dismisses wherever focus is (pointer-only hover
     // has no focus on the button). Added only while visible.
     const onDocumentKeydown = (event: KeyboardEvent): void => {
-      if (event.key === "Escape") {
-        dismissed = true;
-        update();
-      }
+        if (event.key === "Escape") {
+            dismissed = true;
+            update();
+        }
     };
     const destroy = (): void => {
-      if (listening) {
-        document.removeEventListener("keydown", onDocumentKeydown);
-        listening = false;
-      }
+        if (listening) {
+            document.removeEventListener("keydown", onDocumentKeydown);
+            listening = false;
+        }
     };
     const update = (): void => {
-      const label = getLabel();
-      if (el.textContent !== label) el.textContent = label;
-      const visible =
-        !isOpen() && !dismissed && (hoverButton || hoverTooltip || focusButton);
-      if (visible) el.removeAttribute("hidden");
-      else if (!el.hasAttribute("hidden")) el.setAttribute("hidden", "");
-      if (visible && !listening) {
-        document.addEventListener("keydown", onDocumentKeydown);
-        listening = true;
-      } else if (!visible) destroy();
+        const label = getLabel();
+        if (el.textContent !== label) el.textContent = label;
+        const visible = !isOpen() && !dismissed && (hoverButton || hoverTooltip || focusButton);
+        if (visible) el.removeAttribute("hidden");
+        else if (!el.hasAttribute("hidden")) el.setAttribute("hidden", "");
+        if (visible && !listening) {
+            document.addEventListener("keydown", onDocumentKeydown);
+            listening = true;
+        } else if (!visible) destroy();
     };
     button.addEventListener("mouseenter", () => {
-      hoverButton = true;
-      dismissed = false;
-      update();
+        hoverButton = true;
+        dismissed = false;
+        update();
     });
     button.addEventListener("mouseleave", () => {
-      hoverButton = false;
-      update();
+        hoverButton = false;
+        update();
     });
     button.addEventListener("focus", () => {
-      // Keyboard focus only: a mouse click also focuses the button in
-      // Chromium, and the tooltip should not stick after a click.
-      try {
-        focusButton = button.matches(":focus-visible");
-      } catch {
-        focusButton = true; // engine without :focus-visible — err towards showing
-      }
-      update();
+        // Keyboard focus only: a mouse click also focuses the button in
+        // Chromium, and the tooltip should not stick after a click.
+        try {
+            focusButton = button.matches(":focus-visible");
+        } catch {
+            focusButton = true; // engine without :focus-visible — err towards showing
+        }
+        update();
     });
     button.addEventListener("blur", () => {
-      focusButton = false;
-      dismissed = false;
-      update();
+        focusButton = false;
+        dismissed = false;
+        update();
     });
     button.addEventListener("keydown", (event: KeyboardEvent) => {
-      if (event.key === "Escape" && !el.hasAttribute("hidden")) {
-        dismissed = true;
-        update();
-      }
+        if (event.key === "Escape" && !el.hasAttribute("hidden")) {
+            dismissed = true;
+            update();
+        }
     });
     // A click acts on the control, so the pointer hint gets out of the way.
     button.addEventListener("click", () => {
-      hoverButton = false;
-      update();
+        hoverButton = false;
+        update();
     });
     el.addEventListener("mouseenter", () => {
-      hoverTooltip = true;
-      update();
+        hoverTooltip = true;
+        update();
     });
     el.addEventListener("mouseleave", () => {
-      hoverTooltip = false;
-      update();
+        hoverTooltip = false;
+        update();
     });
     update();
     return { el, update, destroy };

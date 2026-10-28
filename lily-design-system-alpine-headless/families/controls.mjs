@@ -89,12 +89,14 @@ const splitterTests = `
   });`;
 
 export default {
-  slider: {
-    tag: "div", keyboard: "native range: arrows change by a step, Home/End jump, Page Up/Down change by more",
-    aria: "native input type=range named by aria-label; x-model keeps the number in data-value",
-    markup: `<input class="slider" type="range" min="0" max="100" aria-label="" x-data="{ value: 50 }" x-model.number="value" :data-value="value">`,
-    sel: "input.slider",
-    test: `
+    slider: {
+        tag: "div",
+        keyboard:
+            "native range: arrows change by a step, Home/End jump, Page Up/Down change by more",
+        aria: "native input type=range named by aria-label; x-model keeps the number in data-value",
+        markup: `<input class="slider" type="range" min="0" max="100" aria-label="" x-data="{ value: 50 }" x-model.number="value" :data-value="value">`,
+        sel: "input.slider",
+        test: `
   it("is a native range input at its initial value", async () => {
     await mount("slider");
     expect(el().type).toBe("range");
@@ -107,17 +109,19 @@ export default {
     el().dispatchEvent(new Event("input", { bubbles: true })); await tick();
     expect(el().getAttribute("data-value")).toBe("80");
   });`,
-  },
+    },
 
-  dial: {
-    tag: "div", keyboard: "Right/Up raise, Left/Down lower, Shift moves ten steps, Home and End jump to the bounds",
-    aria: 'role="slider" with aria-label, aria-valuenow/min/max; tabindex 0 (or -1) and aria-disabled only when disabled',
-    markup: `<div class="dial" aria-label="" x-data="lilyDial(50, 0, 100, 1)" x-bind="dial">
+    dial: {
+        tag: "div",
+        keyboard:
+            "Right/Up raise, Left/Down lower, Shift moves ten steps, Home and End jump to the bounds",
+        aria: 'role="slider" with aria-label, aria-valuenow/min/max; tabindex 0 (or -1) and aria-disabled only when disabled',
+        markup: `<div class="dial" aria-label="" x-data="lilyDial(50, 0, 100, 1)" x-bind="dial">
   <!-- Consumer provides the dial face -->
 </div>`,
-    sel: "div.dial",
-    extra: `import { snippet } from "../test/mount.js";\n${press}`,
-    test: `
+        sel: "div.dial",
+        extra: `import { snippet } from "../test/mount.js";\n${press}`,
+        test: `
   it('is role="slider" reporting value and bounds, focusable', async () => {
     await mount("dial");
     expect(el().getAttribute("role")).toBe("slider");
@@ -139,17 +143,19 @@ export default {
     await press(el(), "ArrowRight");
     expect(el().getAttribute("aria-valuenow")).toBe("50");
   });`,
-  },
+    },
 
-  "color-picker": {
-    tag: "div", keyboard: "Right/Left change x, Up/Down change y, Shift moves ten, Home/End set x to 0 / 100",
-    aria: 'role="slider" with aria-label and aria-valuenow (x) between 0 and 100; data-x and data-y position the cursor',
-    markup: `<div class="color-picker" aria-label="" x-data="lilyColorPicker(0, 0)" x-bind="area">
+    "color-picker": {
+        tag: "div",
+        keyboard:
+            "Right/Left change x, Up/Down change y, Shift moves ten, Home/End set x to 0 / 100",
+        aria: 'role="slider" with aria-label and aria-valuenow (x) between 0 and 100; data-x and data-y position the cursor',
+        markup: `<div class="color-picker" aria-label="" x-data="lilyColorPicker(0, 0)" x-bind="area">
   <!-- Consumer provides the colour area and cursor -->
 </div>`,
-    sel: "div.color-picker",
-    extra: `import { snippet } from "../test/mount.js";\n${press}`,
-    test: `
+        sel: "div.color-picker",
+        extra: `import { snippet } from "../test/mount.js";\n${press}`,
+        test: `
   it('is role="slider" on a 0 to 100 range, focusable', async () => {
     await mount("color-picker");
     expect(el().getAttribute("role")).toBe("slider");
@@ -187,29 +193,32 @@ export default {
     await press(el(), "ArrowRight");
     expect(el().dataset.x).toBe("0");
   });`,
-  },
+    },
 
-  splitter: {
-    tag: "div", keyboard: "Left/Right (side by side) or Up/Down (stacked) move it, Shift moves ten, Home/End jump; drag with a pointer",
-    aria: 'role="separator" with aria-label, aria-orientation and aria-valuenow/min/max as a percentage; tabindex 0',
-    markup: `<div x-data="lilySplitter(50, 'vertical')">
+    splitter: {
+        tag: "div",
+        keyboard:
+            "Left/Right (side by side) or Up/Down (stacked) move it, Shift moves ten, Home/End jump; drag with a pointer",
+        aria: 'role="separator" with aria-label, aria-orientation and aria-valuenow/min/max as a percentage; tabindex 0',
+        markup: `<div x-data="lilySplitter(50, 'vertical')">
   <!-- Consumer provides the first pane -->
   <div class="splitter" aria-label="" x-bind="separator"></div>
   <!-- Consumer provides the second pane -->
 </div>`,
-    sel: "div.splitter",
-    extra: `import { snippet } from "../test/mount.js";\n${press}`,
-    test: splitterTests,
-  },
+        sel: "div.splitter",
+        extra: `import { snippet } from "../test/mount.js";\n${press}`,
+        test: splitterTests,
+    },
 
-  resizable: {
-    tag: "div", keyboard: "None (passive element)",
-    aria: 'role="region" with aria-label; tabindex 0; data-resize says which way the consumer\'s CSS lets it resize',
-    markup: `<div class="resizable" role="region" tabindex="0" aria-label="" data-resize="both">
+    resizable: {
+        tag: "div",
+        keyboard: "None (passive element)",
+        aria: 'role="region" with aria-label; tabindex 0; data-resize says which way the consumer\'s CSS lets it resize',
+        markup: `<div class="resizable" role="region" tabindex="0" aria-label="" data-resize="both">
   <!-- Consumer provides content -->
 </div>`,
-    sel: "div.resizable",
-    test: `
+        sel: "div.resizable",
+        test: `
   it("is a focusable named region carrying its resize direction", async () => {
     await mount("resizable");
     expect(el().getAttribute("role")).toBe("region");
@@ -217,21 +226,22 @@ export default {
     expect(el().hasAttribute("aria-label")).toBe(true);
     expect(el().getAttribute("data-resize")).toBe("both");
   });`,
-  },
+    },
 
-  "scroll-area": {
-    tag: "div", keyboard: "Tab focuses it; arrows, Page Up/Down, Home/End scroll natively",
-    aria: 'role="region" with aria-label; tabindex 0 so the keyboard can scroll it',
-    markup: `<div class="scroll-area" role="region" tabindex="0" aria-label="">
+    "scroll-area": {
+        tag: "div",
+        keyboard: "Tab focuses it; arrows, Page Up/Down, Home/End scroll natively",
+        aria: 'role="region" with aria-label; tabindex 0 so the keyboard can scroll it',
+        markup: `<div class="scroll-area" role="region" tabindex="0" aria-label="">
   <!-- Consumer provides content; consumer CSS sets the overflow and size -->
 </div>`,
-    sel: "div.scroll-area",
-    test: `
+        sel: "div.scroll-area",
+        test: `
   it("is a focusable named region", async () => {
     await mount("scroll-area");
     expect(el().getAttribute("role")).toBe("region");
     expect(el().getAttribute("tabindex")).toBe("0");
     expect(el().hasAttribute("aria-label")).toBe(true);
   });`,
-  },
+    },
 };

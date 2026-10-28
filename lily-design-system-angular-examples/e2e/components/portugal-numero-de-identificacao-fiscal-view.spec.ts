@@ -13,7 +13,10 @@ test.describe("component page: portugal-numero-de-identificacao-fiscal-view", ()
 
   test("renders the H1 with the component name", async ({ page }) => {
     await expect(
-      page.getByRole("heading", { level: 1, name: new RegExp("^PortugalNumeroDeIdentificacaoFiscalView$") })
+      page.getByRole("heading", {
+        level: 1,
+        name: new RegExp("^PortugalNumeroDeIdentificacaoFiscalView$"),
+      }),
     ).toBeVisible();
   });
 

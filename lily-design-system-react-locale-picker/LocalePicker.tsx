@@ -1,10 +1,6 @@
 import * as React from "react";
 import { IconButton, Listbox } from "@lilydesignsystem/react-headless";
-import {
-    defaultLocaleLabels,
-    RTL_LANGUAGE_TAGS,
-    RTL_SCRIPT_SUBTAGS,
-} from "./locales.js";
+import { defaultLocaleLabels, RTL_LANGUAGE_TAGS, RTL_SCRIPT_SUBTAGS } from "./locales.js";
 
 /**
  * Default button icon: a bundled SVG (globe outline), not a Unicode
@@ -82,10 +78,7 @@ export type Props = Omit<
  * control. Purely visual: the text is the button's own aria-label, so it
  * is deliberately not linked with aria-describedby.
  */
-function usePickerTooltip(
-    buttonRef: React.RefObject<HTMLButtonElement | null>,
-    open: boolean,
-) {
+function usePickerTooltip(buttonRef: React.RefObject<HTMLButtonElement | null>, open: boolean) {
     const [hoverButton, setHoverButton] = React.useState(false);
     const [hoverTooltip, setHoverTooltip] = React.useState(false);
     const [focusButton, setFocusButton] = React.useState(false);
@@ -183,9 +176,7 @@ export function localeEndonym(locale: string): string {
         if (override) return override;
         const dn = new Intl.DisplayNames([tag], { type: "language" });
         const found = dn.of(tag) ?? "";
-        return found && found.toLowerCase() !== tag.toLowerCase()
-            ? found
-            : "";
+        return found && found.toLowerCase() !== tag.toLowerCase() ? found : "";
     } catch {
         return "";
     }
@@ -198,9 +189,7 @@ export { defaultLocaleLabels, RTL_LANGUAGE_TAGS, RTL_SCRIPT_SUBTAGS };
 function intlDisplayName(locale: string): string {
     try {
         const env =
-            typeof navigator !== "undefined" && navigator.language
-                ? navigator.language
-                : "en";
+            typeof navigator !== "undefined" && navigator.language ? navigator.language : "en";
         const dn = new Intl.DisplayNames([env], { type: "language" });
         return dn.of(bcp47LocaleTag(locale)) ?? "";
     } catch {
@@ -286,9 +275,7 @@ export function LocalePicker({
 }: Props): React.ReactElement {
     const isControlled = value !== undefined;
 
-    const [internalValue, setInternalValue] = React.useState<string>(
-        isControlled ? value : "",
-    );
+    const [internalValue, setInternalValue] = React.useState<string>(isControlled ? value : "");
 
     const currentValue = isControlled ? value : internalValue;
 
@@ -309,16 +296,16 @@ export function LocalePicker({
     const onOpenChangeRef = React.useRef(onOpenChange);
     onOpenChangeRef.current = onOpenChange;
     const setOpen = React.useCallback(
-      (next: boolean): void => {
-        if (next === openRef.current) return;
-        openRef.current = next;
-        if (openProp === undefined) setOpenInner(next);
-        onOpenChangeRef.current?.(next);
-      },
-      [openProp],
+        (next: boolean): void => {
+            if (next === openRef.current) return;
+            openRef.current = next;
+            if (openProp === undefined) setOpenInner(next);
+            onOpenChangeRef.current?.(next);
+        },
+        [openProp],
     );
     React.useEffect(() => {
-      if (disabled && openRaw) setOpen(false);
+        if (disabled && openRaw) setOpen(false);
     }, [disabled, openRaw, setOpen]);
     const [activeIndex, setActiveIndex] = React.useState(-1);
 
@@ -403,11 +390,7 @@ export function LocalePicker({
         // An empty list has no option to activate; -1 keeps
         // aria-activedescendant off rather than pointing at an id that
         // does not exist.
-        setActiveIndex(
-            locales.length === 0
-                ? -1
-                : (startIndex ?? (selected >= 0 ? selected : 0)),
-        );
+        setActiveIndex(locales.length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0)));
         setOpen(true);
     }
 
@@ -554,7 +537,11 @@ export function LocalePicker({
             onBlur={onRootBlur}
             {...restProps}
         >
-            <input type="hidden" name={name} value={currentValue ?? ""} />
+            <input
+                type="hidden"
+                name={name}
+                value={currentValue ?? ""}
+            />
 
             <IconButton
                 disabled={disabled}
@@ -590,8 +577,15 @@ export function LocalePicker({
                         strokeLinecap="round"
                         strokeLinejoin="round"
                     >
-                        <circle cx="8" cy="8" r="6" />
-                        <path strokeWidth="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7" />
+                        <circle
+                            cx="8"
+                            cy="8"
+                            r="6"
+                        />
+                        <path
+                            strokeWidth="1.1"
+                            d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"
+                        />
                     </svg>
                 )}
             </IconButton>

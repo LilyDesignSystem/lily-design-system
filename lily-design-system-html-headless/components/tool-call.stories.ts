@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<details class="tool-call" data-status="running" aria-busy="true" open>
   <summary class="tool-call-summary"><span class="tool-call-name">search_web</span> <span class="tool-call-status" data-status="running">Running</span></summary>
@@ -14,9 +14,9 @@ const html = `<details class="tool-call" data-status="running" aria-busy="true" 
 </details>`;
 
 const meta = {
-  title: 'Headless/ToolCall',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/ToolCall",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

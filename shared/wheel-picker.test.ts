@@ -1,5 +1,11 @@
 import { describe, expect, test } from "vitest";
-import { isWheelTypeaheadKey, nextWheelIndex, nextWheelPrefix, wheelTypeaheadIndex, type WheelOption } from "./wheel-picker";
+import {
+    isWheelTypeaheadKey,
+    nextWheelIndex,
+    nextWheelPrefix,
+    wheelTypeaheadIndex,
+    type WheelOption,
+} from "./wheel-picker";
 
 const opts = (labels: string[], disabled: number[] = []): WheelOption[] =>
     labels.map((label, i) => ({ value: String(i), label, disabled: disabled.includes(i) }));

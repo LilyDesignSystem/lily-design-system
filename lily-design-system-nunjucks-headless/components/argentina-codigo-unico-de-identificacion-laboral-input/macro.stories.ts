@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<input
   class="argentina-codigo-unico-de-identificacion-laboral-input"
@@ -8,9 +8,9 @@ const html = `<input
   aria-label="Código Único de Identificación Laboral (CUIL)">`;
 
 const meta = {
-  title: 'Headless/ArgentinaCodigoUnicoDeIdentificacionLaboralInput',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/ArgentinaCodigoUnicoDeIdentificacionLaboralInput",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

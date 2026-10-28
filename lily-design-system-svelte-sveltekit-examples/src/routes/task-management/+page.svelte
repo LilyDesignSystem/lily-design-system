@@ -54,9 +54,7 @@
     let projectTitle = $state("Q1 Care Quality Improvement");
 
     let completedCount = $derived(tasks.filter((t) => t.done).length);
-    let progressPercent = $derived(
-        Math.round((completedCount / tasks.length) * 100),
-    );
+    let progressPercent = $derived(Math.round((completedCount / tasks.length) * 100));
 
     function addTask() {
         if (!newTaskText.trim()) return;
@@ -92,13 +90,20 @@
 
     <h2>
         Project:
-        <Editable label="Project title" bind:value={projectTitle} />
+        <Editable
+            label="Project title"
+            bind:value={projectTitle}
+        />
     </h2>
 
     <div
         style="display: flex; align-items: center; gap: var(--nhs-space-3); margin-bottom: var(--nhs-space-4);"
     >
-        <Progress label="Task completion" value={progressPercent} max={100} />
+        <Progress
+            label="Task completion"
+            value={progressPercent}
+            max={100}
+        />
         <Badge>{completedCount}/{tasks.length} complete</Badge>
         <ClipboardCopyButton
             text={`${projectTitle}: ${completedCount}/${tasks.length} tasks complete`}
@@ -120,12 +125,18 @@
     </TaskList>
 
     <h3>Add New Task</h3>
-    <Form label="Add task form" onsubmit={addTask}>
+    <Form
+        label="Add task form"
+        onsubmit={addTask}
+    >
         <div
             style="display: flex; gap: var(--nhs-space-2); align-items: flex-end; margin-bottom: var(--nhs-space-4);"
         >
             <Field label="Task description">
-                <TextInput label="New task" bind:value={newTaskText} />
+                <TextInput
+                    label="New task"
+                    bind:value={newTaskText}
+                />
             </Field>
             <Button type="submit">Add</Button>
         </div>
@@ -136,10 +147,16 @@
         style="display: flex; gap: var(--nhs-space-3); flex-wrap: wrap; margin-bottom: var(--nhs-space-4);"
     >
         <Field label="Due date">
-            <DateInput label="Due date" bind:value={dueDate} />
+            <DateInput
+                label="Due date"
+                bind:value={dueDate}
+            />
         </Field>
         <Field label="Due time">
-            <TimeInput label="Due time" bind:value={dueTime} />
+            <TimeInput
+                label="Due time"
+                bind:value={dueTime}
+            />
         </Field>
     </div>
 
@@ -175,9 +192,7 @@
     <Separator />
 
     <h2>Guidelines</h2>
-    <div
-        style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--nhs-space-4);"
-    >
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--nhs-space-4);">
         <div>
             <h3>Do</h3>
             <DoList>

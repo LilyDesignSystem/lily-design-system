@@ -106,7 +106,14 @@ export function offsetMinutes(zone: string, date: Date): number | undefined {
         }
         const p: Record<string, string> = {};
         for (const part of f.formatToParts(date)) p[part.type] = part.value;
-        const wall = Date.UTC(Number(p["year"]), Number(p["month"]) - 1, Number(p["day"]), Number(p["hour"]), Number(p["minute"]), Number(p["second"]));
+        const wall = Date.UTC(
+            Number(p["year"]),
+            Number(p["month"]) - 1,
+            Number(p["day"]),
+            Number(p["hour"]),
+            Number(p["minute"]),
+            Number(p["second"]),
+        );
         const instant = Math.floor(date.getTime() / 1000) * 1000;
         return Math.round((wall - instant) / 60000);
     } catch {
@@ -141,12 +148,20 @@ export function formatOffset(minutes: number): string {
  * The zone's full name in `locale` on `date`: the caller's `names` entry when it has one (the daylight name while
  * daylight time is in force), else `Intl`'s; `undefined` when neither has one.
  */
-export function zoneName(zone: string, locale: string, date: Date, names?: ZoneNames): string | undefined {
+export function zoneName(
+    zone: string,
+    locale: string,
+    date: Date,
+    names?: ZoneNames,
+): string | undefined {
     const given = names?.[zone];
     if (typeof given === "string") return given;
     if (given) return isDaylightTime(zone, date) ? given[1] : given[0];
     try {
-        const parts = new Intl.DateTimeFormat(locale, { timeZone: zone, timeZoneName: "long" }).formatToParts(date);
+        const parts = new Intl.DateTimeFormat(locale, {
+            timeZone: zone,
+            timeZoneName: "long",
+        }).formatToParts(date);
         return parts.find((p) => p.type === "timeZoneName")?.value;
     } catch {
         return undefined;
@@ -154,14 +169,27 @@ export function zoneName(zone: string, locale: string, date: Date, names?: ZoneN
 }
 
 /** What an option shows by default. */
-export const defaultLabel = (zone: Pick<ZoneInfo, "offset" | "name">): string => `${zone.offset} – ${zone.name}`;
+export const defaultLabel = (zone: Pick<ZoneInfo, "offset" | "name">): string =>
+    `${zone.offset} – ${zone.name}`;
 
 /** One zone's info, or `undefined` when the runtime does not know it. */
-export function zoneInfo(zone: string, locale: string, date: Date, labelFor: (z: ZoneInfo) => string = defaultLabel, names?: ZoneNames): ZoneInfo | undefined {
+export function zoneInfo(
+    zone: string,
+    locale: string,
+    date: Date,
+    labelFor: (z: ZoneInfo) => string = defaultLabel,
+    names?: ZoneNames,
+): ZoneInfo | undefined {
     const minutes = offsetMinutes(zone, date);
     if (minutes === undefined) return undefined;
     const name = zoneName(zone, locale, date, names) ?? zone;
-    const info: ZoneInfo = { id: zone, offsetMinutes: minutes, offset: formatOffset(minutes), name, label: "" };
+    const info: ZoneInfo = {
+        id: zone,
+        offsetMinutes: minutes,
+        offset: formatOffset(minutes),
+        name,
+        label: "",
+    };
     info.label = labelFor(info);
     return info;
 }
@@ -170,7 +198,13 @@ export function zoneInfo(zone: string, locale: string, date: Date, labelFor: (z:
  * The zones that exist, ordered by offset (west to east), then by name, then by id. A repeated id appears once;
  * an id the runtime does not know is left out rather than shown unnamed.
  */
-export function orderedZones(zones: readonly string[], locale: string, date: Date, labelFor?: (z: ZoneInfo) => string, names?: ZoneNames): ZoneInfo[] {
+export function orderedZones(
+    zones: readonly string[],
+    locale: string,
+    date: Date,
+    labelFor?: (z: ZoneInfo) => string,
+    names?: ZoneNames,
+): ZoneInfo[] {
     const seen = new Set<string>();
     const out: ZoneInfo[] = [];
     for (const id of zones) {
@@ -180,7 +214,12 @@ export function orderedZones(zones: readonly string[], locale: string, date: Dat
         if (info) out.push(info);
     }
     const collator = new Intl.Collator(locale);
-    return out.sort((a, b) => a.offsetMinutes - b.offsetMinutes || collator.compare(a.name, b.name) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+    return out.sort(
+        (a, b) =>
+            a.offsetMinutes - b.offsetMinutes ||
+            collator.compare(a.name, b.name) ||
+            (a.id < b.id ? -1 : a.id > b.id ? 1 : 0),
+    );
 }
 
 /** The zone the browser is in, as an IANA id. `undefined` outside a browser or when it cannot be told. */
@@ -196,7 +235,13 @@ export function systemZone(): string | undefined {
  * Which of `zones` stands for `system`: the zone itself when listed, else the listed zone with the same offset and
  * name (Europe/Berlin → Europe/Paris), else `undefined`.
  */
-export function matchZone(system: string | undefined, zones: ZoneInfo[], locale: string, date: Date, names?: ZoneNames): string | undefined {
+export function matchZone(
+    system: string | undefined,
+    zones: ZoneInfo[],
+    locale: string,
+    date: Date,
+    names?: ZoneNames,
+): string | undefined {
     if (!system) return undefined;
     if (zones.some((z) => z.id === system)) return system;
     const info = zoneInfo(system, locale, date, undefined, names);

@@ -185,7 +185,9 @@ describe("LinkPicker", () => {
   });
 
   test("7.15 newTab adds target and rel", () => {
-    const f = mount({ links: [{ label: "Docs", href: "https://example.test/", newTab: true }, LINKS[0]] });
+    const f = mount({
+      links: [{ label: "Docs", href: "https://example.test/", newTab: true }, LINKS[0]],
+    });
     expect(links(f)[0].getAttribute("target")).toBe("_blank");
     expect(links(f)[0].getAttribute("rel")).toBe("noopener noreferrer");
     expect(links(f)[1].hasAttribute("target")).toBe(false);
@@ -197,17 +199,27 @@ describe("LinkPicker", () => {
     f.componentInstance.navigated.subscribe((e) => seen.push(e));
     await open(f);
     for (const a of links(f)) a.addEventListener("click", (e) => e.preventDefault());
-    links(f)[0].dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true, button: 0 }));
+    links(f)[0].dispatchEvent(
+      new MouseEvent("click", { bubbles: true, cancelable: true, button: 0 }),
+    );
     f.detectChanges();
     await open(f);
-    links(f)[1].dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true, button: 0 }));
-    expect(seen).toEqual([{ id: "about", href: "/about/" }, { id: "/", href: "/" }]);
+    links(f)[1].dispatchEvent(
+      new MouseEvent("click", { bubbles: true, cancelable: true, button: 0 }),
+    );
+    expect(seen).toEqual([
+      { id: "about", href: "/about/" },
+      { id: "/", href: "/" },
+    ]);
     expect(linkId({ label: "x", href: "/y" })).toBe("/y");
   });
 
   test("7.17 navigate handles a plain left click only", async () => {
     const navigate = vi.fn();
-    const f = mount({ navigate, links: [LINKS[1], { label: "Docs", href: "https://example.test/", newTab: true }] });
+    const f = mount({
+      navigate,
+      links: [LINKS[1], { label: "Docs", href: "https://example.test/", newTab: true }],
+    });
     await open(f);
     const plain = new MouseEvent("click", { bubbles: true, cancelable: true, button: 0 });
     links(f)[0].dispatchEvent(plain);
@@ -216,7 +228,12 @@ describe("LinkPicker", () => {
     navigate.mockClear();
     f.detectChanges();
     await open(f);
-    const ctrl = new MouseEvent("click", { bubbles: true, cancelable: true, button: 0, ctrlKey: true });
+    const ctrl = new MouseEvent("click", {
+      bubbles: true,
+      cancelable: true,
+      button: 0,
+      ctrlKey: true,
+    });
     links(f)[0].dispatchEvent(ctrl);
     expect(navigate).not.toHaveBeenCalled();
     expect(ctrl.defaultPrevented).toBe(false);
@@ -296,7 +313,9 @@ describe("LinkPicker — open state and disabled", () => {
     return fixture;
   }
   const button = (f: ComponentFixture<unknown>) =>
-    f.nativeElement.querySelector(".link-picker-button button, button.link-picker-button") as HTMLButtonElement;
+    f.nativeElement.querySelector(
+      ".link-picker-button button, button.link-picker-button",
+    ) as HTMLButtonElement;
   const settle = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
 
   test("open starts the popup open without emitting openChange", async () => {
@@ -342,4 +361,3 @@ describe("LinkPicker — open state and disabled", () => {
     expect(button(fixture).getAttribute("aria-expanded")).toBe("false");
   });
 });
-

@@ -9,8 +9,4 @@ export {
   matchNavigatorLanguage,
 } from "./locale-picker.component";
 export type { ChildArgs } from "./locale-picker.component";
-export {
-  defaultLocaleLabels,
-  RTL_LANGUAGE_TAGS,
-  RTL_SCRIPT_SUBTAGS,
-} from "./locales";
+export { defaultLocaleLabels, RTL_LANGUAGE_TAGS, RTL_SCRIPT_SUBTAGS } from "./locales";

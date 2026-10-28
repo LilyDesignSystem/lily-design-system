@@ -61,15 +61,10 @@ export function themeName(theme: string): string {
  * (SSR — jsdom does not implement it either).
  */
 export function matchSystemTheme(themes: readonly string[]): string {
-  if (
-    typeof window === "undefined" ||
-    typeof window.matchMedia !== "function"
-  ) {
+  if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
     return "";
   }
-  const wanted = window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
+  const wanted = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   return themes.includes(wanted) ? wanted : "";
 }
 
@@ -79,11 +74,7 @@ export function normaliseThemesUrl(themesUrl: string): string {
 }
 
 /** Construct the href for a given theme slug. */
-export function themeHref(
-  themesUrl: string,
-  slug: string,
-  extension: string,
-): string {
+export function themeHref(themesUrl: string, slug: string, extension: string): string {
   return normaliseThemesUrl(themesUrl) + slug + extension;
 }
 
@@ -246,8 +237,7 @@ export class ThemePicker {
   /** Projected icon template; replaces the default icon when supplied. */
   protected readonly iconTemplate = contentChild(TemplateRef);
 
-  private readonly rootRef =
-    viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
+  private readonly rootRef = viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
   // Angular resolves a template-ref-variable on a component tag to the
   // component INSTANCE by default (not its ElementRef) — exactly what's
   // needed to call the headless components' own public `focus()` methods.
@@ -290,9 +280,7 @@ export class ThemePicker {
     // Keyboard focus only: a mouse click also focuses the button in
     // Chromium, and the tooltip should not stick after a click.
     try {
-      this.focusButton.set(
-        this.buttonRef().element?.matches(":focus-visible") ?? false,
-      );
+      this.focusButton.set(this.buttonRef().element?.matches(":focus-visible") ?? false);
     } catch {
       this.focusButton.set(true); // engine without :focus-visible — err towards showing
     }
@@ -343,10 +331,7 @@ export class ThemePicker {
         const sk = this.storageKey();
         if (!initial && sk) {
           try {
-            initial =
-              (typeof localStorage !== "undefined"
-                ? localStorage.getItem(sk)
-                : null) ?? "";
+            initial = (typeof localStorage !== "undefined" ? localStorage.getItem(sk) : null) ?? "";
           } catch {
             // ignore privacy errors
           }
@@ -359,8 +344,7 @@ export class ThemePicker {
         if (!initial) {
           const themes = this.themes();
           const dv = this.defaultValue();
-          initial =
-            dv || (themes.includes("light") ? "light" : themes[0]) || "";
+          initial = dv || (themes.includes("light") ? "light" : themes[0]) || "";
         }
 
         if (initial && initial !== current) {
@@ -406,9 +390,7 @@ export class ThemePicker {
     // aria-activedescendant off rather than pointing at an id that
     // does not exist.
     this.activeIndex.set(
-      this.themes().length === 0
-        ? -1
-        : (startIndex ?? (selected >= 0 ? selected : 0)),
+      this.themes().length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0)),
     );
     this.open.set(true);
     // Focus moves to the listbox; the active option is conveyed via
@@ -520,10 +502,7 @@ export class ThemePicker {
     if (typeof document === "undefined" || !slug) return;
     const link = this.getManagedLink();
     if (link) link.href = themeHref(this.themesUrl(), slug, this.extension());
-    (this.target() ?? document.documentElement).setAttribute(
-      "data-theme",
-      slug,
-    );
+    (this.target() ?? document.documentElement).setAttribute("data-theme", slug);
 
     const sk = this.storageKey();
     if (sk) {

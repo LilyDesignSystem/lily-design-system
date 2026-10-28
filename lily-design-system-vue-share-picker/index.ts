@@ -5,10 +5,4 @@ export {
     canCopy,
     nextSharePickerId,
 } from "./SharePicker.vue";
-export type {
-    Props,
-    SlotArgs,
-    ChildArgs,
-    ShareTarget,
-    ShareStrategy,
-} from "./SharePicker.vue";
+export type { Props, SlotArgs, ChildArgs, ShareTarget, ShareStrategy } from "./SharePicker.vue";

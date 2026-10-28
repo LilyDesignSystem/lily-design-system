@@ -36,6 +36,4 @@ import { ReviewDate } from "../components/ReviewDate";
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class TimelineAndCardsPage {
-
-}
+export default class TimelineAndCardsPage {}

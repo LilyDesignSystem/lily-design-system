@@ -272,9 +272,7 @@ export function isoWeek(isoDate: string): number {
   const thursday = addDays(isoDate, 3 - mondayIndex);
   const parsed = parseIsoDate(thursday);
   if (!parsed) return 0;
-  const jan1 = parseIsoDate(
-    formatIsoDate({ year: parsed.year, month: 1, day: 1 }),
-  );
+  const jan1 = parseIsoDate(formatIsoDate({ year: parsed.year, month: 1, day: 1 }));
   if (!jan1) return 0;
   return Math.floor((toEpochDay(parsed) - toEpochDay(jan1)) / 7) + 1;
 }
@@ -295,10 +293,7 @@ export function formatIsoTime(time: CivilTime): string {
 }
 
 /** Pull the date and time halves out of a mode-appropriate ISO value. */
-export function splitValue(
-  value: string,
-  mode: DateTimeMode,
-): { date: string; time: string } {
+export function splitValue(value: string, mode: DateTimeMode): { date: string; time: string } {
   if (!value) return { date: "", time: "" };
   if (mode === "time") {
     return { date: "", time: parseIsoTime(value) ? value : "" };
@@ -311,22 +306,14 @@ export function splitValue(
 }
 
 /** Recombine the halves. Returns "" when the value is incomplete. */
-export function joinValue(
-  date: string,
-  time: string,
-  mode: DateTimeMode,
-): string {
+export function joinValue(date: string, time: string, mode: DateTimeMode): string {
   if (mode === "date") return date;
   if (mode === "time") return time;
   return date && time ? `${date}T${time}` : "";
 }
 
 /** Is `isoDate` inside the inclusive [min, max] window? Empty bounds pass. */
-export function withinRange(
-  isoDate: string,
-  min?: string,
-  max?: string,
-): boolean {
+export function withinRange(isoDate: string, min?: string, max?: string): boolean {
   if (min && isoDate < min) return false;
   if (max && isoDate > max) return false;
   return true;
@@ -342,13 +329,48 @@ function regionOf(locale?: string): string {
 }
 
 const SUNDAY_FIRST_REGIONS = new Set([
-  "AR", "BR", "CA", "CL", "CO", "DO", "GT", "HK", "IL", "IN", "JP",
-  "KR", "MO", "MX", "PE", "PH", "PK", "TH", "TW", "US", "VE", "ZA",
+  "AR",
+  "BR",
+  "CA",
+  "CL",
+  "CO",
+  "DO",
+  "GT",
+  "HK",
+  "IL",
+  "IN",
+  "JP",
+  "KR",
+  "MO",
+  "MX",
+  "PE",
+  "PH",
+  "PK",
+  "TH",
+  "TW",
+  "US",
+  "VE",
+  "ZA",
 ]);
 
 const SATURDAY_FIRST_REGIONS = new Set([
-  "AE", "AF", "BH", "DJ", "DZ", "EG", "IQ", "IR", "JO", "KW", "LY",
-  "OM", "QA", "SA", "SD", "SY", "YE",
+  "AE",
+  "AF",
+  "BH",
+  "DJ",
+  "DZ",
+  "EG",
+  "IQ",
+  "IR",
+  "JO",
+  "KW",
+  "LY",
+  "OM",
+  "QA",
+  "SA",
+  "SD",
+  "SY",
+  "YE",
 ]);
 
 /**
@@ -392,11 +414,7 @@ export function firstDayOfWeekFor(locale?: string): number {
  * and it makes the dialog jump under the pointer. A constant six rows
  * costs at most one extra trailing week.
  */
-export function monthMatrix(
-  year: number,
-  month: number,
-  firstDayOfWeek: number,
-): string[][] {
+export function monthMatrix(year: number, month: number, firstDayOfWeek: number): string[][] {
   const first = formatIsoDate({ year, month, day: 1 });
   const lead = (weekdayOf(first) - firstDayOfWeek + 7) % 7;
   const start = addDays(first, -lead);
@@ -422,9 +440,7 @@ export function monthNames(locale?: string): {
         month,
         timeZone: "UTC",
       });
-      return Array.from({ length: 12 }, (_, i) =>
-        fmt.format(new Date(Date.UTC(2021, i, 15))),
-      );
+      return Array.from({ length: 12 }, (_, i) => fmt.format(new Date(Date.UTC(2021, i, 15))));
     } catch {
       return [];
     }
@@ -433,12 +449,8 @@ export function monthNames(locale?: string): {
 }
 
 /** Match a token against a locale's month names. Returns 1-12, or 0. */
-function matchMonthName(
-  token: string,
-  names: { long: string[]; short: string[] },
-): number {
-  const norm = (s: string) =>
-    s.toLocaleLowerCase().replace(/\.$/, "").normalize("NFKD");
+function matchMonthName(token: string, names: { long: string[]; short: string[] }): number {
+  const norm = (s: string) => s.toLocaleLowerCase().replace(/\.$/, "").normalize("NFKD");
   const t = norm(token);
   if (!t || /^\d+$/.test(t)) return 0;
   for (let i = 0; i < 12; i++) {
@@ -461,9 +473,7 @@ function matchMonthName(
  * The order a locale writes a numeric date in — `["day","month","year"]`
  * for en-GB, `["month","day","year"]` for en-US.
  */
-export function numericFieldOrder(
-  locale?: string,
-): ("day" | "month" | "year")[] {
+export function numericFieldOrder(locale?: string): ("day" | "month" | "year")[] {
   try {
     const parts = new Intl.DateTimeFormat(locale, {
       day: "2-digit",
@@ -473,10 +483,7 @@ export function numericFieldOrder(
     }).formatToParts(new Date(Date.UTC(2021, 4, 6)));
     const order = parts
       .map((p) => p.type)
-      .filter(
-        (t): t is "day" | "month" | "year" =>
-          t === "day" || t === "month" || t === "year",
-      );
+      .filter((t): t is "day" | "month" | "year" => t === "day" || t === "month" || t === "year");
     if (order.length === 3) return order;
   } catch {
     // Fall through.
@@ -525,9 +532,7 @@ export function parseDateInput(text: string, locale?: string): string | null {
   let year = 0;
 
   if (monthIndex >= 0) {
-    const rest = parts
-      .filter((_, i) => i !== monthIndex)
-      .map((p) => Number(p));
+    const rest = parts.filter((_, i) => i !== monthIndex).map((p) => Number(p));
     if (rest.some((n) => Number.isNaN(n))) return null;
     [day, year] = rest[0] > rest[1] ? [rest[1], rest[0]] : rest;
   } else {
@@ -549,10 +554,9 @@ export function parseDateInput(text: string, locale?: string): string | null {
 
 /** Accepts `9:30`, `09:30`, `0930`, `9.30`, and a trailing am/pm. */
 export function parseTimeInput(text: string): string | null {
-  const m =
-    /^(\d{1,2})[:.]?(\d{2})\s*([ap])\.?m\.?$|^(\d{1,2})[:.]?(\d{2})$/.exec(
-      text.trim().toLowerCase(),
-    );
+  const m = /^(\d{1,2})[:.]?(\d{2})\s*([ap])\.?m\.?$|^(\d{1,2})[:.]?(\d{2})$/.exec(
+    text.trim().toLowerCase(),
+  );
   if (!m) return null;
   let hour = Number(m[1] ?? m[4]);
   const minute = Number(m[2] ?? m[5]);
@@ -1047,9 +1051,7 @@ export class DateTimePicker {
   /** Latest selectable date, ISO. */
   readonly max = input<string>("");
   /** Veto individual dates — true means "cannot be picked". */
-  readonly isDateDisabled = input<((isoDate: string) => boolean) | undefined>(
-    undefined,
-  );
+  readonly isDateDisabled = input<((isoDate: string) => boolean) | undefined>(undefined);
   /** 0 = Sunday … 6 = Saturday. Defaults to the locale's convention. */
   readonly firstDayOfWeek = input<number | undefined>(undefined);
   /** Granularity of the minute select. */
@@ -1101,13 +1103,9 @@ export class DateTimePicker {
   /** Mark the field required. */
   readonly required = input<boolean>(false);
   /** Override how a committed value is rendered into the text field. */
-  readonly formatValue = input<((value: string) => string) | undefined>(
-    undefined,
-  );
+  readonly formatValue = input<((value: string) => string) | undefined>(undefined);
   /** Override how typed text is turned back into an ISO value. */
-  readonly parseInput = input<((text: string) => string | null) | undefined>(
-    undefined,
-  );
+  readonly parseInput = input<((text: string) => string | null) | undefined>(undefined);
   /** Extra CSS class on the root `<div>`. */
   readonly className = input<string>("");
 
@@ -1121,18 +1119,15 @@ export class DateTimePicker {
   /** Projected icon template; replaces the default glyph when supplied. */
   protected readonly iconTemplate = contentChild(TemplateRef);
 
-  private readonly rootRef =
-    viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
+  private readonly rootRef = viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
   // Angular resolves a template-ref-variable on a component tag to the
   // component INSTANCE by default (not its ElementRef) — exactly what's
   // needed to call the headless component's own public `focus()`
   // method / `element` getter.
   private readonly buttonRef = viewChild.required<IconButton>("buttonEl");
-  private readonly dialogRef =
-    viewChild.required<ElementRef<HTMLDivElement>>("dialogEl");
+  private readonly dialogRef = viewChild.required<ElementRef<HTMLDivElement>>("dialogEl");
   /** Optional: the grid renders only when `mode` includes a date. */
-  private readonly gridRef =
-    viewChild<ElementRef<HTMLTableElement>>("gridEl");
+  private readonly gridRef = viewChild<ElementRef<HTMLTableElement>>("gridEl");
 
   protected readonly glyph = CALENDAR;
 
@@ -1187,9 +1182,7 @@ export class DateTimePicker {
     // Keyboard focus only: a mouse click also focuses the button in
     // Chromium, and the tooltip should not stick after a click.
     try {
-      this.focusButton.set(
-        this.buttonRef().element?.matches(":focus-visible") ?? false,
-      );
+      this.focusButton.set(this.buttonRef().element?.matches(":focus-visible") ?? false);
     } catch {
       this.focusButton.set(true); // engine without :focus-visible — err towards showing
     }
@@ -1262,18 +1255,12 @@ export class DateTimePicker {
    */
   protected readonly today = signal("");
 
-  protected readonly fieldId = computed(
-    () => this.inputId() || `${this.baseId}-input`,
-  );
-  protected readonly committed = computed(() =>
-    splitValue(this.value(), this.mode()),
-  );
+  protected readonly fieldId = computed(() => this.inputId() || `${this.baseId}-input`);
+  protected readonly committed = computed(() => splitValue(this.value(), this.mode()));
   protected readonly weekStart = computed(
     () => this.firstDayOfWeek() ?? firstDayOfWeekFor(this.locale() || undefined),
   );
-  protected readonly commitOnDay = computed(
-    () => this.confirmOnSelect() ?? this.mode() === "date",
-  );
+  protected readonly commitOnDay = computed(() => this.confirmOnSelect() ?? this.mode() === "date");
   protected readonly usesDate = computed(() => this.mode() !== "time");
   protected readonly usesTime = computed(() => this.mode() !== "date");
   protected readonly clock12 = computed(
@@ -1312,9 +1299,7 @@ export class DateTimePicker {
    */
   protected readonly zoneOptions = computed<string[]>(() => {
     if (this.timeZones() !== undefined) return this.timeZones() as string[];
-    return typeof Intl.supportedValuesOf === "function"
-      ? Intl.supportedValuesOf("timeZone")
-      : [];
+    return typeof Intl.supportedValuesOf === "function" ? Intl.supportedValuesOf("timeZone") : [];
   });
 
   protected readonly periodText = computed(() => {
@@ -1362,12 +1347,8 @@ export class DateTimePicker {
     monthMatrix(this.viewYear(), this.viewMonth(), this.weekStart()),
   );
 
-  protected readonly pendingHour = computed(
-    () => parseIsoTime(this.pendingTime())?.hour ?? 0,
-  );
-  protected readonly pendingMinute = computed(
-    () => parseIsoTime(this.pendingTime())?.minute ?? 0,
-  );
+  protected readonly pendingHour = computed(() => parseIsoTime(this.pendingTime())?.hour ?? 0);
+  protected readonly pendingMinute = computed(() => parseIsoTime(this.pendingTime())?.minute ?? 0);
 
   /**
    * The hours offered.
@@ -1553,9 +1534,7 @@ export class DateTimePicker {
             month: "short",
             year: "numeric",
             timeZone: "UTC",
-          }).format(
-            new Date(Date.UTC(parsed.year, parsed.month - 1, parsed.day)),
-          ),
+          }).format(new Date(Date.UTC(parsed.year, parsed.month - 1, parsed.day))),
         );
       } catch {
         chunks.push(date);
@@ -1602,8 +1581,7 @@ export class DateTimePicker {
     // there, per the APG dialog rule.
     const active = document.activeElement;
     this.openerEl =
-      active instanceof HTMLElement &&
-      this.rootRef().nativeElement.contains(active)
+      active instanceof HTMLElement && this.rootRef().nativeElement.contains(active)
         ? active
         : (this.buttonRef().element ?? null);
     const today = todayIso();
@@ -1698,10 +1676,7 @@ export class DateTimePicker {
     }
     this.cursor.set(nextIso);
     const parsed = parseIsoDate(nextIso);
-    if (
-      parsed &&
-      (parsed.year !== this.viewYear() || parsed.month !== this.viewMonth())
-    ) {
+    if (parsed && (parsed.year !== this.viewYear() || parsed.month !== this.viewMonth())) {
       this.viewYear.set(parsed.year);
       this.viewMonth.set(parsed.month);
     }
@@ -1746,8 +1721,7 @@ export class DateTimePicker {
     // click) must carry focus, or it dies with the unrendered cell —
     // but a header button must keep focus, or its user is yanked into
     // the grid after one activation and cannot page twice.
-    const hadGridFocus =
-      this.gridRef()?.nativeElement.contains(document.activeElement) === true;
+    const hadGridFocus = this.gridRef()?.nativeElement.contains(document.activeElement) === true;
     this.viewYear.set(next.year);
     this.viewMonth.set(next.month);
     // Carry the cursor into the new month rather than leaving the roving
@@ -1791,13 +1765,9 @@ export class DateTimePicker {
     if (!withinRange(next, this.min() || undefined, this.max() || undefined)) {
       return;
     }
-    const hadGridFocus =
-      this.gridRef()?.nativeElement.contains(document.activeElement) === true;
+    const hadGridFocus = this.gridRef()?.nativeElement.contains(document.activeElement) === true;
     const parsed = parseIsoDate(next);
-    if (
-      parsed &&
-      (parsed.year !== this.viewYear() || parsed.month !== this.viewMonth())
-    ) {
+    if (parsed && (parsed.year !== this.viewYear() || parsed.month !== this.viewMonth())) {
       this.viewYear.set(parsed.year);
       this.viewMonth.set(parsed.month);
     }
@@ -1822,9 +1792,7 @@ export class DateTimePicker {
    * genuinely can miss.
    */
   protected zoneLabel(zone: string): string {
-    return (
-      (this.timeZoneLabels() as Record<string, string | undefined>)[zone] ?? zone
-    );
+    return (this.timeZoneLabels() as Record<string, string | undefined>)[zone] ?? zone;
   }
 
   protected onGridKeydown(event: KeyboardEvent): void {

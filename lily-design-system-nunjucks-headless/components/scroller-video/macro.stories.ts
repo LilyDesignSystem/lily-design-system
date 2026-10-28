@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="scroller-video"
@@ -16,9 +16,9 @@ const html = `<div
 </div>`;
 
 const meta = {
-  title: 'Headless/ScrollerVideo',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/ScrollerVideo",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

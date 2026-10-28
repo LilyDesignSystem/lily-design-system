@@ -1,11 +1,11 @@
-import { test, expect, type Page } from '@playwright/test';
-import AxeBuilder from '@axe-core/playwright';
+import { test, expect, type Page } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 // WCAG conformance smoke check across the Blazor Web examples app.
 // See the SvelteKit examples app's accessibility.spec.ts for the rationale
 // — this file mirrors that pattern for the Blazor route shape.
 
-const wcagTags = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
+const wcagTags = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"];
 
 // P7-T17: two independent Blazor-circuit-timing races made this suite
 // flaky, both root-caused by scanning before the interactive circuit
@@ -39,86 +39,92 @@ const wcagTags = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 // gives that reconciliation a beat to finish before scanning, rather
 // than racing to catch its first truthy instant.
 async function gotoAndWaitForTheme(page: Page, path: string) {
-  await page.goto(path);
-  await page.waitForFunction(() => {
-    const link = document.querySelector('link[data-lily-theme-picker]') as HTMLLinkElement | null;
-    return link !== null && link.sheet !== null;
-  });
-  await page.waitForFunction(() => (window as unknown as { Blazor?: unknown }).Blazor !== undefined);
-  await page.waitForTimeout(300);
+    await page.goto(path);
+    await page.waitForFunction(() => {
+        const link = document.querySelector(
+            "link[data-lily-theme-picker]",
+        ) as HTMLLinkElement | null;
+        return link !== null && link.sheet !== null;
+    });
+    await page.waitForFunction(
+        () => (window as unknown as { Blazor?: unknown }).Blazor !== undefined,
+    );
+    await page.waitForTimeout(300);
 }
 
-async function expectNoViolations(page: import('@playwright/test').Page, label: string) {
-  const results = await new AxeBuilder({ page }).withTags(wcagTags).analyze();
-  if (results.violations.length > 0) {
-    const summary = results.violations
-      .map(v => `  - ${v.id} (${v.impact}): ${v.help} [${v.nodes.length} node(s)]`)
-      .join('\n');
-    throw new Error(`axe found ${results.violations.length} WCAG violations on ${label}:\n${summary}`);
-  }
+async function expectNoViolations(page: import("@playwright/test").Page, label: string) {
+    const results = await new AxeBuilder({ page }).withTags(wcagTags).analyze();
+    if (results.violations.length > 0) {
+        const summary = results.violations
+            .map((v) => `  - ${v.id} (${v.impact}): ${v.help} [${v.nodes.length} node(s)]`)
+            .join("\n");
+        throw new Error(
+            `axe found ${results.violations.length} WCAG violations on ${label}:\n${summary}`,
+        );
+    }
 }
 
-test.describe('accessibility: top-level routes', () => {
-  test('home /', async ({ page }) => {
-    await gotoAndWaitForTheme(page, '/');
-    await expectNoViolations(page, 'home');
-  });
+test.describe("accessibility: top-level routes", () => {
+    test("home /", async ({ page }) => {
+        await gotoAndWaitForTheme(page, "/");
+        await expectNoViolations(page, "home");
+    });
 
-  test('catalog /components', async ({ page }) => {
-    await gotoAndWaitForTheme(page, '/components');
-    await expectNoViolations(page, '/components');
-  });
+    test("catalog /components", async ({ page }) => {
+        await gotoAndWaitForTheme(page, "/components");
+        await expectNoViolations(page, "/components");
+    });
 });
 
 const componentSamples = [
-  'button',
-  'text-input',
-  'data-table',
-  'dialog',
-  'badge',
-  'breadcrumb-nav',
-  'check-list',
-  'header',
-  'footer',
-  'grail-layout',
-  'select',
-  'fieldset',
-  'figure',
-  'progress',
-  'meter',
+    "button",
+    "text-input",
+    "data-table",
+    "dialog",
+    "badge",
+    "breadcrumb-nav",
+    "check-list",
+    "header",
+    "footer",
+    "grail-layout",
+    "select",
+    "fieldset",
+    "figure",
+    "progress",
+    "meter",
 ];
 
-test.describe('accessibility: component-detail samples', () => {
-  for (const slug of componentSamples) {
-    test(`/components/${slug}`, async ({ page }) => {
-      await gotoAndWaitForTheme(page, `/components/${slug}`);
-      await expectNoViolations(page, `/components/${slug}`);
-    });
-  }
+test.describe("accessibility: component-detail samples", () => {
+    for (const slug of componentSamples) {
+        test(`/components/${slug}`, async ({ page }) => {
+            await gotoAndWaitForTheme(page, `/components/${slug}`);
+            await expectNoViolations(page, `/components/${slug}`);
+        });
+    }
 });
 
 const composedPages = [
-  '/book-an-appointment',
-  '/contact-form',
-  '/dashboard',
-  '/dialog-flow',
-  '/file-upload-form',
-  '/navigation-and-menus',
-  '/page-layout',
-  '/rating-and-feedback',
-  '/rtl-demo',
-  '/search-and-filter',
-  '/settings-page',
-  '/tabbed-interface',
-  '/task-management',
-  '/timeline-and-cards',
+    "/book-an-appointment",
+    "/contact-form",
+    "/dashboard",
+    "/dialog-flow",
+    "/file-upload-form",
+    "/navigation-and-menus",
+    "/page-layout",
+    "/rating-and-feedback",
+    "/rtl-demo",
+    "/search-and-filter",
+    "/settings-page",
+    "/tabbed-interface",
+    "/task-management",
+    "/timeline-and-cards",
 ];
 
-test.describe('accessibility: composed-page demos', () => {
-  for (const route of composedPages) {
-    test(route, async ({ page }) => {
-      await gotoAndWaitForTheme(page, route);
-      await expectNoViolations(page, route);
-    });
-  }
+test.describe("accessibility: composed-page demos", () => {
+    for (const route of composedPages) {
+        test(route, async ({ page }) => {
+            await gotoAndWaitForTheme(page, route);
+            await expectNoViolations(page, route);
+        });
+    }
 });

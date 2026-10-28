@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="file-manager"
@@ -19,9 +19,9 @@ const html = `<div
 </script>`;
 
 const meta = {
-  title: 'Headless/FileManager',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/FileManager",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

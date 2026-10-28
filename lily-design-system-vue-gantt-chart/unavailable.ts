@@ -15,7 +15,8 @@ export function epochDayOf(iso: string): number {
     const t = Date.UTC(y, mo - 1, d);
     const check = new Date(t);
     // Reject 2026-02-31 and the like: Date rolls them over.
-    if (check.getUTCFullYear() !== y || check.getUTCMonth() !== mo - 1 || check.getUTCDate() !== d) return Number.NaN;
+    if (check.getUTCFullYear() !== y || check.getUTCMonth() !== mo - 1 || check.getUTCDate() !== d)
+        return Number.NaN;
     return t / 86_400_000;
 }
 
@@ -27,7 +28,10 @@ const spanOf = (item: Unavailable): [number, number] | null => {
 };
 
 /** The entries that cover `isoDate`, in the order given. */
-export function unavailableOn(items: readonly Unavailable[] | undefined, isoDate: string): Unavailable[] {
+export function unavailableOn(
+    items: readonly Unavailable[] | undefined,
+    isoDate: string,
+): Unavailable[] {
     if (!items?.length) return [];
     const day = epochDayOf(isoDate);
     if (Number.isNaN(day)) return [];
@@ -38,7 +42,11 @@ export function unavailableOn(items: readonly Unavailable[] | undefined, isoDate
 }
 
 /** What a column (`start`..`end`, ISO) holds: the entries that touch it, and whether every one of its days is covered. */
-export function unavailableIn(items: readonly Unavailable[] | undefined, start: string, end: string): { items: Unavailable[]; all: boolean } {
+export function unavailableIn(
+    items: readonly Unavailable[] | undefined,
+    start: string,
+    end: string,
+): { items: Unavailable[]; all: boolean } {
     if (!items?.length) return { items: [], all: false };
     const from = epochDayOf(start);
     const to = epochDayOf(end);

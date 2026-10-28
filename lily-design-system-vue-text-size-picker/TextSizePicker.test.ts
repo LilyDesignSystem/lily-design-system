@@ -193,9 +193,7 @@ describe("TextSizePicker — keyboard contract (APG listbox)", () => {
 
     test("§7.14 ArrowUp opens with the last option active", async () => {
         const { el } = await openWith("ArrowUp");
-        expect(el.getAttribute("aria-activedescendant")).toBe(
-            el.children[SIZES.length - 1].id,
-        );
+        expect(el.getAttribute("aria-activedescendant")).toBe(el.children[SIZES.length - 1].id);
     });
 
     test("§7.14 opening moves focus to the listbox", async () => {
@@ -207,9 +205,7 @@ describe("TextSizePicker — keyboard contract (APG listbox)", () => {
         const { list, el } = await openWith("ArrowDown");
         expect(el.getAttribute("aria-activedescendant")).toBe(el.children[MEDIUM].id);
         await list.trigger("keydown", { key: "ArrowDown" });
-        expect(el.getAttribute("aria-activedescendant")).toBe(
-            el.children[MEDIUM + 1].id,
-        );
+        expect(el.getAttribute("aria-activedescendant")).toBe(el.children[MEDIUM + 1].id);
         // Clamp at the top: three ArrowUps from index 2 cannot pass index 0.
         await list.trigger("keydown", { key: "ArrowUp" });
         await list.trigger("keydown", { key: "ArrowUp" });
@@ -220,9 +216,7 @@ describe("TextSizePicker — keyboard contract (APG listbox)", () => {
     test("§7.15 ArrowDown clamps at the last option", async () => {
         const { list, el } = await openWith("ArrowUp");
         await list.trigger("keydown", { key: "ArrowDown" });
-        expect(el.getAttribute("aria-activedescendant")).toBe(
-            el.children[SIZES.length - 1].id,
-        );
+        expect(el.getAttribute("aria-activedescendant")).toBe(el.children[SIZES.length - 1].id);
     });
 
     test("§7.15 the active option carries data-active", async () => {
@@ -236,9 +230,7 @@ describe("TextSizePicker — keyboard contract (APG listbox)", () => {
     test("§7.15 Home and End jump to the first and last option", async () => {
         const { list, el } = await openWith("ArrowDown");
         await list.trigger("keydown", { key: "End" });
-        expect(el.getAttribute("aria-activedescendant")).toBe(
-            el.children[SIZES.length - 1].id,
-        );
+        expect(el.getAttribute("aria-activedescendant")).toBe(el.children[SIZES.length - 1].id);
         await list.trigger("keydown", { key: "Home" });
         expect(el.getAttribute("aria-activedescendant")).toBe(el.children[0].id);
     });
@@ -294,9 +286,7 @@ describe("TextSizePicker — keyboard contract (APG listbox)", () => {
         const { list, el } = await openWith("ArrowDown");
         await list.trigger("keydown", { key: "x" });
         // "X Large" is the last entry in SIZES.
-        expect(el.getAttribute("aria-activedescendant")).toBe(
-            el.children[SIZES.length - 1].id,
-        );
+        expect(el.getAttribute("aria-activedescendant")).toBe(el.children[SIZES.length - 1].id);
     });
 
     test("§7.17 typeahead wraps around to find an earlier match", async () => {
@@ -470,9 +460,7 @@ describe("TextSizePicker — spread + custom slot (§7.12–§7.13)", () => {
         );
         await flush();
         // The custom glyph replaces the default "A" inside the button.
-        expect(wrapper.find("button.text-size-picker-button").text()).toContain(
-            "custom glyph",
-        );
+        expect(wrapper.find("button.text-size-picker-button").text()).toContain("custom glyph");
         expect(wrapper.find(".text-size-picker-icon").exists()).toBe(false);
         expect(captured.open).toBe(false);
         expect(captured.value).toBe("large");
@@ -519,10 +507,7 @@ describe("TextSizePicker — spread + custom slot (§7.12–§7.13)", () => {
 });
 
 describe("TextSizePicker — accessibility hardening (§7.19–§7.22)", () => {
-    async function openPicker(
-        sizes: string[] = SIZES,
-        extra: Record<string, unknown> = {},
-    ) {
+    async function openPicker(sizes: string[] = SIZES, extra: Record<string, unknown> = {}) {
         const wrapper = build({ sizes, ...extra });
         await flush();
         const { button, list } = parts(wrapper);
@@ -531,8 +516,7 @@ describe("TextSizePicker — accessibility hardening (§7.19–§7.22)", () => {
         return { button, list, el: list.element as HTMLElement };
     }
 
-    const active = (el: HTMLElement) =>
-        el.querySelector("[data-active]")?.textContent?.trim();
+    const active = (el: HTMLElement) => el.querySelector("[data-active]")?.textContent?.trim();
 
     test("§7.19 Tab from the open list puts focus on the button before closing", async () => {
         const { button, list, el } = await openPicker();
@@ -570,10 +554,7 @@ describe("TextSizePicker — accessibility hardening (§7.19–§7.22)", () => {
     });
 
     test("§7.21 PageUp and PageDown move the cursor by ten, clamped", async () => {
-        const many = Array.from(
-            { length: 25 },
-            (_, i) => `s${String(i).padStart(2, "0")}`,
-        );
+        const many = Array.from({ length: 25 }, (_, i) => `s${String(i).padStart(2, "0")}`);
         const { list, el } = await openPicker(many);
         await list.trigger("keydown", { key: "PageDown" });
         expect(active(el)).toBe("S10");
@@ -595,7 +576,9 @@ describe("TextSizePicker — accessibility hardening (§7.19–§7.22)", () => {
 describe("TextSizePicker — tooltip (§7.23–§7.28)", () => {
     function tipSetup() {
         const wrapper = build();
-        const button = wrapper.element.querySelector(".text-size-picker-button") as HTMLButtonElement;
+        const button = wrapper.element.querySelector(
+            ".text-size-picker-button",
+        ) as HTMLButtonElement;
         const tip = wrapper.element.querySelector(".text-size-picker-tooltip") as HTMLElement;
         return { wrapper, button, tip };
     }
@@ -608,7 +591,9 @@ describe("TextSizePicker — tooltip (§7.23–§7.28)", () => {
         expect(tip.textContent!.length).toBeGreaterThan(0);
         expect(tip.hasAttribute("hidden")).toBe(true);
         expect(tip.id).toBeTruthy();
-        expect(button.previousElementSibling === tip || button.nextElementSibling === tip).toBe(true);
+        expect(button.previousElementSibling === tip || button.nextElementSibling === tip).toBe(
+            true,
+        );
         expect(button.hasAttribute("aria-describedby")).toBe(false);
     });
 
@@ -687,9 +672,12 @@ describe("TextSizePicker — tooltip (§7.23–§7.28)", () => {
     test("§7.29 hover-only tooltip: Escape on another element dismisses it; listener removed after hide/unmount", async () => {
         const addSpy = vi.spyOn(document, "addEventListener");
         const removeSpy = vi.spyOn(document, "removeEventListener");
-        const keydownCalls = (spy: typeof addSpy) => spy.mock.calls.filter((c) => c[0] === "keydown").length;
+        const keydownCalls = (spy: typeof addSpy) =>
+            spy.mock.calls.filter((c) => c[0] === "keydown").length;
         const wrapper = build();
-        const button = wrapper.element.querySelector(".text-size-picker-button") as HTMLButtonElement;
+        const button = wrapper.element.querySelector(
+            ".text-size-picker-button",
+        ) as HTMLButtonElement;
         const tip = wrapper.element.querySelector(".text-size-picker-tooltip") as HTMLElement;
         const other = document.createElement("button");
         document.body.appendChild(other);
@@ -724,7 +712,10 @@ describe("TextSizePicker — open state and disabled", () => {
     const settle = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
     const mounted: VueWrapper[] = [];
     const make = (extra: Record<string, unknown> = {}) => {
-        const wrapper = mount(TextSizePicker, { props: { ...{ label: "Text size", sizes: SIZES }, ...extra }, attachTo: document.body });
+        const wrapper = mount(TextSizePicker, {
+            props: { ...{ label: "Text size", sizes: SIZES }, ...extra },
+            attachTo: document.body,
+        });
         mounted.push(wrapper);
         return wrapper;
     };
@@ -752,7 +743,9 @@ describe("TextSizePicker — open state and disabled", () => {
 
     test("v-model:open: a click asks for the change and the parent applies it", async () => {
         const wrapper = make({ open: false });
-        await wrapper.setProps({ "onUpdate:open": (v: boolean) => wrapper.setProps({ open: v }) } as never);
+        await wrapper.setProps({
+            "onUpdate:open": (v: boolean) => wrapper.setProps({ open: v }),
+        } as never);
         button().click();
         await settle();
         expect(button().getAttribute("aria-expanded")).toBe("true");
@@ -773,4 +766,3 @@ describe("TextSizePicker — open state and disabled", () => {
         expect(button().getAttribute("aria-expanded")).toBe("false");
     });
 });
-

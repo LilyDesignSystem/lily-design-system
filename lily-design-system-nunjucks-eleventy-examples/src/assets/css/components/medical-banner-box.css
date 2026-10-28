@@ -3,5 +3,9 @@
   font-size: var(--nhsuk-font-size-16);
 }
 
-.medical-banner-box > :first-child { margin-top: 0; }
-.medical-banner-box > :last-child { margin-bottom: 0; }
+.medical-banner-box > :first-child {
+  margin-top: 0;
+}
+.medical-banner-box > :last-child {
+  margin-bottom: 0;
+}

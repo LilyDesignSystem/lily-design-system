@@ -7,7 +7,10 @@
 
 /** Lower-case and strip combining marks, so matching ignores case and diacritics. */
 export function foldText(text: string): string {
-    return text.normalize("NFD").replace(/\p{M}+/gu, "").toLowerCase();
+    return text
+        .normalize("NFD")
+        .replace(/\p{M}+/gu, "")
+        .toLowerCase();
 }
 
 /** The terms of a query, folded; empty when the query is blank. */

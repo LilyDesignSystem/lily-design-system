@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<aside
   class="grail-layout-right-aside"
@@ -8,9 +8,9 @@ const html = `<aside
 </aside>`;
 
 const meta = {
-  title: 'Headless/GrailLayoutRightAside',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/GrailLayoutRightAside",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

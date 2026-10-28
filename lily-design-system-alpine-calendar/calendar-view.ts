@@ -54,8 +54,10 @@ const format = (ms: number): string => new Date(ms).toISOString().slice(0, 10);
 export const addDays = (iso: string, n: number): string => format(parse(iso) + n * MS);
 /** Day of week, 0 = Sunday. */
 export const dayOfWeek = (iso: string): number => new Date(parse(iso)).getUTCDay();
-export const startOfWeek = (iso: string, weekStart: number): string => addDays(iso, -((dayOfWeek(iso) - weekStart + 7) % 7));
-export const daysInMonth = (iso: string): number => new Date(Date.UTC(+iso.slice(0, 4), +iso.slice(5, 7), 0)).getUTCDate();
+export const startOfWeek = (iso: string, weekStart: number): string =>
+    addDays(iso, -((dayOfWeek(iso) - weekStart + 7) % 7));
+export const daysInMonth = (iso: string): number =>
+    new Date(Date.UTC(+iso.slice(0, 4), +iso.slice(5, 7), 0)).getUTCDate();
 export const monthStart = (iso: string): string => iso.slice(0, 8) + "01";
 /** `n` months on, the day clamped to the target month's length (31 Jan + 1 month = 28/29 Feb). */
 export function addMonths(iso: string, n: number): string {
@@ -63,7 +65,9 @@ export function addMonths(iso: string, n: number): string {
     const year = Math.floor(total / 12);
     const month = (total % 12) + 1;
     const first = `${String(year).padStart(4, "0")}-${String(month).padStart(2, "0")}-01`;
-    return first.slice(0, 8) + String(Math.min(+iso.slice(8, 10), daysInMonth(first))).padStart(2, "0");
+    return (
+        first.slice(0, 8) + String(Math.min(+iso.slice(8, 10), daysInMonth(first))).padStart(2, "0")
+    );
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -92,7 +96,10 @@ export function createCalendarView(options: CalendarOptions = {}) {
                 return { start: first, end: addDays(first, 6) };
             }
             const first = monthStart(this.anchor);
-            return { start: first, end: first.slice(0, 8) + String(daysInMonth(first)).padStart(2, "0") };
+            return {
+                start: first,
+                end: first.slice(0, 8) + String(daysInMonth(first)).padStart(2, "0"),
+            };
         },
         /** Every day of the grid: whole weeks, so a month shows its neighbours' days too. */
         get days(): string[] {
@@ -125,7 +132,11 @@ export function createCalendarView(options: CalendarOptions = {}) {
             return this.view === "month" && (iso < this.range.start || iso > this.range.end);
         },
         isDisabled(iso: string): boolean {
-            return (!!options.minDate && iso < options.minDate) || (!!options.maxDate && iso > options.maxDate) || !!options.isDisabled?.(iso);
+            return (
+                (!!options.minDate && iso < options.minDate) ||
+                (!!options.maxDate && iso > options.maxDate) ||
+                !!options.isDisabled?.(iso)
+            );
         },
         dayName(iso: string): string {
             return this.labels.dayLabel?.(iso) ?? "";
@@ -134,15 +145,27 @@ export function createCalendarView(options: CalendarOptions = {}) {
         // ---- navigation ------------------------------------------------------------------------------------------
         /** Move the shown period by `n` (months in month view, weeks in week view); the keyboard day comes along. */
         shift(n: number): void {
-            const next = this.view === "week" ? addDays(this.anchor, 7 * n) : addMonths(this.anchor, n);
-            this.show(next, this.view === "week" ? addDays(this.active, 7 * n) : addMonths(this.active, n));
+            const next =
+                this.view === "week" ? addDays(this.anchor, 7 * n) : addMonths(this.anchor, n);
+            this.show(
+                next,
+                this.view === "week" ? addDays(this.active, 7 * n) : addMonths(this.active, n),
+            );
         },
         /** The period `n` steps away would lie wholly outside minDate / maxDate. */
         canShift(n: number): boolean {
-            const next = this.view === "week" ? addDays(this.anchor, 7 * n) : addMonths(this.anchor, n);
-            const first = this.view === "week" ? startOfWeek(next, this.weekStart) : monthStart(next);
-            const last = this.view === "week" ? addDays(first, 6) : first.slice(0, 8) + String(daysInMonth(first)).padStart(2, "0");
-            return !((options.minDate && last < options.minDate) || (options.maxDate && first > options.maxDate));
+            const next =
+                this.view === "week" ? addDays(this.anchor, 7 * n) : addMonths(this.anchor, n);
+            const first =
+                this.view === "week" ? startOfWeek(next, this.weekStart) : monthStart(next);
+            const last =
+                this.view === "week"
+                    ? addDays(first, 6)
+                    : first.slice(0, 8) + String(daysInMonth(first)).padStart(2, "0");
+            return !(
+                (options.minDate && last < options.minDate) ||
+                (options.maxDate && first > options.maxDate)
+            );
         },
         previous(): void {
             if (this.canShift(-1)) this.shift(-1);
@@ -166,7 +189,8 @@ export function createCalendarView(options: CalendarOptions = {}) {
             if (this.range.start + this.view !== before) this.announce();
         },
         announce(): void {
-            this.status = this.labels.periodAnnouncement?.(this.range.start, this.range.end, this.view) ?? "";
+            this.status =
+                this.labels.periodAnnouncement?.(this.range.start, this.range.end, this.view) ?? "";
         },
         pick(iso: string): void {
             if (this.isDisabled(iso)) return;
@@ -185,21 +209,45 @@ export function createCalendarView(options: CalendarOptions = {}) {
             this.active = iso;
         },
         focusDay(): void {
-            this.$nextTick?.(() => (this.$root?.querySelector(`[data-date="${this.active}"]`) as HTMLElement | null)?.focus());
+            this.$nextTick?.(() =>
+                (
+                    this.$root?.querySelector(`[data-date="${this.active}"]`) as HTMLElement | null
+                )?.focus(),
+            );
         },
         onKeydown(event: KeyboardEvent): void {
             if (event.ctrlKey || event.metaKey || event.altKey) return;
             const key = logicalKey(event.key, isRtl(this.$root));
             let next: string | null = null;
             switch (key) {
-                case "ArrowRight": next = addDays(this.active, 1); break;
-                case "ArrowLeft": next = addDays(this.active, -1); break;
-                case "ArrowDown": next = addDays(this.active, 7); break;
-                case "ArrowUp": next = addDays(this.active, -7); break;
-                case "Home": next = startOfWeek(this.active, this.weekStart); break;
-                case "End": next = addDays(startOfWeek(this.active, this.weekStart), 6); break;
-                case "PageDown": next = this.view === "week" ? addDays(this.active, 7) : addMonths(this.active, 1); break;
-                case "PageUp": next = this.view === "week" ? addDays(this.active, -7) : addMonths(this.active, -1); break;
+                case "ArrowRight":
+                    next = addDays(this.active, 1);
+                    break;
+                case "ArrowLeft":
+                    next = addDays(this.active, -1);
+                    break;
+                case "ArrowDown":
+                    next = addDays(this.active, 7);
+                    break;
+                case "ArrowUp":
+                    next = addDays(this.active, -7);
+                    break;
+                case "Home":
+                    next = startOfWeek(this.active, this.weekStart);
+                    break;
+                case "End":
+                    next = addDays(startOfWeek(this.active, this.weekStart), 6);
+                    break;
+                case "PageDown":
+                    next =
+                        this.view === "week" ? addDays(this.active, 7) : addMonths(this.active, 1);
+                    break;
+                case "PageUp":
+                    next =
+                        this.view === "week"
+                            ? addDays(this.active, -7)
+                            : addMonths(this.active, -1);
+                    break;
                 case "Enter":
                 case " ":
                     event.preventDefault();
@@ -226,6 +274,9 @@ export function createCalendarView(options: CalendarOptions = {}) {
 }
 
 /** The Alpine plugin: registers `Alpine.data("lilyCalendarView", options => …)`. */
-export default function lilyCalendarView(Alpine: { data: (name: string, factory: (...args: never[]) => object) => void }): void {
-    Alpine.data("lilyCalendarView", ((options?: CalendarOptions) => createCalendarView(options)) as (...args: never[]) => object);
+export default function lilyCalendarView(Alpine: {
+    data: (name: string, factory: (...args: never[]) => object) => void;
+}): void {
+    Alpine.data("lilyCalendarView", ((options?: CalendarOptions) =>
+        createCalendarView(options)) as (...args: never[]) => object);
 }

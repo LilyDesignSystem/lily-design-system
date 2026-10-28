@@ -25,7 +25,10 @@ export default function DialogFlowPage() {
 
             <div>
                 <Tooltip label="Opens a confirmation dialog">
-                    <Button onClick={() => setConfirmOpen(true)} disabled={deleted}>
+                    <Button
+                        onClick={() => setConfirmOpen(true)}
+                        disabled={deleted}
+                    >
                         Delete Account
                     </Button>
                 </Tooltip>
@@ -45,22 +48,22 @@ export default function DialogFlowPage() {
             </div>
 
             <div>
-                <Button onClick={() => setAlertOpen(true)}>
-                    Show Session Warning
-                </Button>
+                <Button onClick={() => setAlertOpen(true)}>Show Session Warning</Button>
 
-                <AlertDialog open={alertOpen} label="Session expiring">
-                    <p>Your session will expire in 5 minutes. Save your work to avoid losing changes.</p>
-                    <Button onClick={() => setAlertOpen(false)}>
-                        Dismiss
-                    </Button>
+                <AlertDialog
+                    open={alertOpen}
+                    label="Session expiring"
+                >
+                    <p>
+                        Your session will expire in 5 minutes. Save your work to avoid losing
+                        changes.
+                    </p>
+                    <Button onClick={() => setAlertOpen(false)}>Dismiss</Button>
                 </AlertDialog>
             </div>
 
             <div>
-                <Button onClick={() => setDrawerOpen(true)}>
-                    Open Help Panel
-                </Button>
+                <Button onClick={() => setDrawerOpen(true)}>Open Help Panel</Button>
 
                 <Drawer
                     open={drawerOpen}
@@ -70,17 +73,21 @@ export default function DialogFlowPage() {
                 >
                     <h3>Need help?</h3>
                     <ul>
-                        <li><a href="/docs/getting-started">Getting Started</a></li>
-                        <li><a href="/docs/faq">FAQ</a></li>
-                        <li><a href="/docs/api">API Reference</a></li>
+                        <li>
+                            <a href="/docs/getting-started">Getting Started</a>
+                        </li>
+                        <li>
+                            <a href="/docs/faq">FAQ</a>
+                        </li>
+                        <li>
+                            <a href="/docs/api">API Reference</a>
+                        </li>
                     </ul>
                     <Button onClick={() => setDrawerOpen(false)}>Close</Button>
                 </Drawer>
             </div>
 
-            {deleted && (
-                <p role="status">Account has been deleted.</p>
-            )}
+            {deleted && <p role="status">Account has been deleted.</p>}
         </main>
     );
 }

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<figure
   class="mockup-phone-portrait">
@@ -7,9 +7,9 @@ const html = `<figure
 </figure>`;
 
 const meta = {
-  title: 'Headless/MockupPhonePortrait',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/MockupPhonePortrait",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

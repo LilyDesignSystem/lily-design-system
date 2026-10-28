@@ -1,4 +1,7 @@
-<script lang="ts" module>
+<script
+    lang="ts"
+    module
+>
     import type { Snippet } from "svelte";
     import { IconButton } from "@lilydesignsystem/svelte-headless";
     // Only the trigger button composes a headless primitive. The panel is a
@@ -207,15 +210,23 @@
     <IconButton
         bind:ref={buttonEl}
         baseClass="menu-picker-button"
-        label={label}
+        {label}
         aria-expanded={open}
         aria-controls={panelId}
         onclick={onButtonClick}
         onkeydown={onButtonKeydown}
-        onmouseenter={() => { hoverButton = true; dismissed = false; }}
-        onmouseleave={() => { hoverButton = false; }}
+        onmouseenter={() => {
+            hoverButton = true;
+            dismissed = false;
+        }}
+        onmouseleave={() => {
+            hoverButton = false;
+        }}
         onfocus={onButtonFocus}
-        onblur={() => { focusButton = false; dismissed = false; }}
+        onblur={() => {
+            focusButton = false;
+            dismissed = false;
+        }}
     >
         {#if icon}
             {@render icon(api)}
@@ -246,9 +257,15 @@
         role="tooltip"
         id={tooltipId}
         hidden={!tooltipVisible}
-        onmouseenter={() => { hoverTooltip = true; }}
-        onmouseleave={() => { hoverTooltip = false; }}
-    >{label}</div>
+        onmouseenter={() => {
+            hoverTooltip = true;
+        }}
+        onmouseleave={() => {
+            hoverTooltip = false;
+        }}
+    >
+        {label}
+    </div>
 
     <!-- A named group, not a menu: the content is the app's. The handlers
          are pure delegation for whatever focusable content the app puts

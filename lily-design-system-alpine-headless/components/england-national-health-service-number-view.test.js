@@ -5,16 +5,15 @@ import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("span.england-national-health-service-number-view");
 
-
 describe("EnglandNationalHealthServiceNumberView", () => {
-  it("renders the element with its base class", async () => {
-    await mount("england-national-health-service-number-view");
-    expect(el()).not.toBeNull();
-    expect(el().classList.contains("england-national-health-service-number-view")).toBe(true);
-  });
+    it("renders the element with its base class", async () => {
+        await mount("england-national-health-service-number-view");
+        expect(el()).not.toBeNull();
+        expect(el().classList.contains("england-national-health-service-number-view")).toBe(true);
+    });
 
-  it("uses the span element", async () => {
-    await mount("england-national-health-service-number-view");
-    expect(el().tagName.toLowerCase()).toBe("span");
-  });
+    it("uses the span element", async () => {
+        await mount("england-national-health-service-number-view");
+        expect(el().tagName.toLowerCase()).toBe("span");
+    });
 });

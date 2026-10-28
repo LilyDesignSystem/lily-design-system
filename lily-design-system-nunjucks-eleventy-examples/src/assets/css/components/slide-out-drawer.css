@@ -10,4 +10,6 @@
   padding: var(--nhsuk-spacing-4);
   z-index: 90;
 }
-.slide-out-drawer[hidden] { display: none; }
+.slide-out-drawer[hidden] {
+  display: none;
+}

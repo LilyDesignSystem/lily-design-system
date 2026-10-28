@@ -9,13 +9,7 @@
     chosen panel switches independently. Two panels each scoped to
     their own select.
 */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  signal,
-  viewChild,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, ElementRef, signal, viewChild } from "@angular/core";
 import { LocalePicker } from "../locale-picker.component";
 
 @Component({

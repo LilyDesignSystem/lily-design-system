@@ -1,4 +1,7 @@
-<script lang="ts" module>
+<script
+    lang="ts"
+    module
+>
     import {
         CalendarTable,
         CalendarTableBody,
@@ -20,11 +23,25 @@
         parseIsoDate,
         weekdayOf,
     } from "@lilydesignsystem/svelte-date-time-picker";
-    import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
+    import {
+        copyToClipboard,
+        downloadBlob,
+        exportBlob,
+        exportFilename,
+        toClipboardText,
+        type ExportFormat,
+    } from "./export-data";
     import { civilDateToDate } from "./cell-types";
     import { highlightSegments, matchesSearch } from "./search-text";
     import { isRtl, logicalKey } from "./direction";
-    import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
+    import {
+        EMPTY_HISTORY,
+        historyKey,
+        recordEdit,
+        redoEdit,
+        undoEdit,
+        type EditHistory,
+    } from "./edit-history";
     import {
         draftOf as fieldDraft,
         evaluateEdit,
@@ -47,10 +64,20 @@
     export type CalendarEventField = FieldDef;
 
     /** What `onExport` receives. Return `false` to take over the download. */
-    export type CalendarExport = { format: ExportFormat; filename: string; eventCount: number; blob: Blob };
+    export type CalendarExport = {
+        format: ExportFormat;
+        filename: string;
+        eventCount: number;
+        blob: Blob;
+    };
 
     /** What `onFieldEdit` receives. */
-    export type CalendarFieldEdit = { eventId: string; fieldId: string; value: unknown; previous: unknown };
+    export type CalendarFieldEdit = {
+        eventId: string;
+        fieldId: string;
+        value: unknown;
+        previous: unknown;
+    };
 
     export type CalendarView = "day" | "week" | "four-week" | "month" | "agenda";
 
@@ -108,7 +135,12 @@
         /** Announced as a range is extended with Shift+arrows or confirmed. */
         rangeAnnouncement?: (start: string, end: string) => string;
         /** Visible title of the shown period (e.g. "January 2026"; `anchorDate` is the date the view is anchored on, so a month or agenda title can name its month), rendered between the previous and next buttons. Gates the title. */
-        periodTitle?: (view: CalendarView, start: string, end: string, anchorDate: string) => string;
+        periodTitle?: (
+            view: CalendarView,
+            start: string,
+            end: string,
+            anchorDate: string,
+        ) => string;
         /** Announced after an event is moved to another day. */
         eventMoveAnnouncement?: (calendarEvent: CalendarEvent, toDate: string) => string;
         /** Accessible name of the export button group. Gates the group (with at least one of the three buttons). */
@@ -260,7 +292,11 @@
      * The visible days for `view`, anchored around `anchorDate`, as rows of 7.
      * Week: 1 row. Four-week: 4 rows. Month: the fixed 6-row `monthMatrix`.
      */
-    export function periodDays(view: CalendarView, anchorDate: string, firstDayOfWeek: number): string[][] {
+    export function periodDays(
+        view: CalendarView,
+        anchorDate: string,
+        firstDayOfWeek: number,
+    ): string[][] {
         if (view === "agenda") return [];
         if (view === "month") {
             const parsed = parseIsoDate(anchorDate);
@@ -280,7 +316,11 @@
     }
 
     /** The inclusive [start, end] ISO range `view` covers, anchored around `anchorDate`. */
-    export function periodRange(view: CalendarView, anchorDate: string, firstDayOfWeek: number): [string, string] {
+    export function periodRange(
+        view: CalendarView,
+        anchorDate: string,
+        firstDayOfWeek: number,
+    ): [string, string] {
         if (view === "month" || view === "agenda") {
             const parsed = parseIsoDate(anchorDate);
             if (!parsed) return [anchorDate, anchorDate];
@@ -296,7 +336,11 @@
     }
 
     /** Whether `isoDate` falls outside `anchorDate`'s own calendar month. Always false for week/four-week (no padding). */
-    export function isOutsidePeriod(view: CalendarView, isoDate: string, anchorDate: string): boolean {
+    export function isOutsidePeriod(
+        view: CalendarView,
+        isoDate: string,
+        anchorDate: string,
+    ): boolean {
         if (view !== "month") return false;
         const day = parseIsoDate(isoDate);
         const anchor = parseIsoDate(anchorDate);
@@ -402,11 +446,16 @@
     const days = $derived.by(() => periodDays(view, anchorDate, firstDayOfWeek));
     const flatDays = $derived(days.flat());
     const searching = $derived(search.trim() !== "");
-    const defaultSearchText = (e: CalendarEvent): string => [eventTitle(e), ...resolvedFields.map((f) => eventFieldText(f, e))].join(" ");
+    const defaultSearchText = (e: CalendarEvent): string =>
+        [eventTitle(e), ...resolvedFields.map((f) => eventFieldText(f, e))].join(" ");
     /** The events the search leaves (all of them without one), found once per query / event change. */
     const narrowed = $derived(
         searching || filter
-            ? allEvents.filter((e) => (!filter || filter(e)) && (!searching || matchesSearch((searchText ?? defaultSearchText)(e), search)))
+            ? allEvents.filter(
+                  (e) =>
+                      (!filter || filter(e)) &&
+                      (!searching || matchesSearch((searchText ?? defaultSearchText)(e), search)),
+              )
             : allEvents,
     );
     const events = $derived(eventCompare ? [...narrowed].sort(eventCompare) : narrowed);
@@ -446,7 +495,10 @@
 
     /** The labels of the ranges a day is in, joined for a cell's description; undefined when none has one. */
     const rangeLabels = (dayRanges: CalendarRange[]): string | undefined => {
-        const text = dayRanges.map((r) => r.label).filter((l): l is string => !!l).join(", ");
+        const text = dayRanges
+            .map((r) => r.label)
+            .filter((l): l is string => !!l)
+            .join(", ");
         return text === "" ? undefined : text;
     };
 
@@ -461,7 +513,16 @@
     // ---------------------------------------------------------------
 
     let rangeAnchor: string | null = null;
-    const MOVE_KEYS = new Set(["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End", "PageUp", "PageDown"]);
+    const MOVE_KEYS = new Set([
+        "ArrowLeft",
+        "ArrowRight",
+        "ArrowUp",
+        "ArrowDown",
+        "Home",
+        "End",
+        "PageUp",
+        "PageDown",
+    ]);
 
     function setRange(a: string, b: string): void {
         const [start, end] = a <= b ? [a, b] : [b, a];
@@ -504,7 +565,9 @@
     function pick(isoDate: string): void {
         if (disabledDay(isoDate)) return;
         if (selectionMode === "multiple") {
-            selectedDates = selectedDates.includes(isoDate) ? selectedDates.filter((d) => d !== isoDate) : [...selectedDates, isoDate].sort();
+            selectedDates = selectedDates.includes(isoDate)
+                ? selectedDates.filter((d) => d !== isoDate)
+                : [...selectedDates, isoDate].sort();
         } else {
             selectedDate = isoDate;
         }
@@ -518,26 +581,44 @@
     // Type defaults (format, compare, export value) resolved once per `eventFields` / `locale` change, never per event or keystroke.
     const resolvedFields = $derived(resolveFields(eventFields, locale));
     const isFieldEditable = (f: CalendarEventField) => !!onFieldEdit && isEditableField(f);
-    const eventFieldText = (f: ResolvedField, calendarEvent: CalendarEvent): string => fieldTextOf(f, calendarEvent.values);
+    const eventFieldText = (f: ResolvedField, calendarEvent: CalendarEvent): string =>
+        fieldTextOf(f, calendarEvent.values);
     function fieldText(calendarEvent: CalendarEvent, fieldId: string): string {
         const f = resolvedFields.find((x) => x.id === fieldId);
         return f ? eventFieldText(f, calendarEvent) : "";
     }
-    const eventTitle = (calendarEvent: CalendarEvent): string => (typeof calendarEvent.title === "string" ? calendarEvent.title : calendarEvent.id);
+    const eventTitle = (calendarEvent: CalendarEvent): string =>
+        typeof calendarEvent.title === "string" ? calendarEvent.title : calendarEvent.id;
 
     /** The field being edited, if any: the draft is the editor's text. */
-    let editing = $state<{ eventId: string; fieldId: string; draft: Draft; invalid?: boolean } | null>(null);
+    let editing = $state<{
+        eventId: string;
+        fieldId: string;
+        draft: Draft;
+        invalid?: boolean;
+    } | null>(null);
     /** Accepted field edits, for Ctrl/Cmd+Z. The consumer owns the data, so an undo is reported through `onFieldEdit` like any edit. */
     let history: EditHistory = EMPTY_HISTORY;
     let committing = false;
 
     async function startFieldEdit(calendarEvent: CalendarEvent, f: ResolvedField): Promise<void> {
         if (!isFieldEditable(f)) return;
-        editing = { eventId: calendarEvent.id, fieldId: f.id, draft: fieldDraft(f, calendarEvent.values) };
+        editing = {
+            eventId: calendarEvent.id,
+            fieldId: f.id,
+            draft: fieldDraft(f, calendarEvent.values),
+        };
         await tick();
         const editor = rootEl?.querySelector<HTMLInputElement>(".calendar-view-field-editor");
         editor?.focus({ preventScroll: true });
-        if (editor && "select" in editor && editor.type !== "number" && editor.type !== "date" && editor.type !== "time") editor.select();
+        if (
+            editor &&
+            "select" in editor &&
+            editor.type !== "number" &&
+            editor.type !== "date" &&
+            editor.type !== "time"
+        )
+            editor.select();
     }
 
     /** Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. Returns whether it was accepted or unchanged. */
@@ -553,16 +634,28 @@
         const outcome = evaluateEdit(f, calendarEvent.values, draft);
         if (outcome.invalid) {
             editing.invalid = true;
-            const message = (outcome.message ? labels?.editRefused?.(eventTitle(calendarEvent), f.header, outcome.message) : undefined) ?? labels?.editInvalid?.(eventTitle(calendarEvent), f.header);
+            const message =
+                (outcome.message
+                    ? labels?.editRefused?.(eventTitle(calendarEvent), f.header, outcome.message)
+                    : undefined) ?? labels?.editInvalid?.(eventTitle(calendarEvent), f.header);
             if (message) statusMessage = message;
             return false;
         }
         committing = true;
         editing = null;
         if (outcome.changed) {
-            history = recordEdit(history, { ownerId: eventId, fieldId, value: outcome.value, previous: outcome.previous });
+            history = recordEdit(history, {
+                ownerId: eventId,
+                fieldId,
+                value: outcome.value,
+                previous: outcome.previous,
+            });
             onFieldEdit?.({ eventId, fieldId, value: outcome.value, previous: outcome.previous });
-            const message = labels?.editAnnouncement?.(eventTitle(calendarEvent), f.header, outcome.text);
+            const message = labels?.editAnnouncement?.(
+                eventTitle(calendarEvent),
+                f.header,
+                outcome.text,
+            );
             if (message) statusMessage = message;
         }
         committing = false;
@@ -582,14 +675,27 @@
         const calendarEvent = eventById.get(ownerId);
         const f = resolvedFields.find((x) => x.id === fieldId);
         if (!calendarEvent || !f) return;
-        const text = restored === null || restored === undefined ? "" : f.format ? f.format(restored, { ...(calendarEvent.values ?? {}), [fieldId]: restored }) : String(restored);
-        const message = (direction === "undo" ? labels?.undoAnnouncement : labels?.redoAnnouncement)?.(eventTitle(calendarEvent), f.header, text);
+        const text =
+            restored === null || restored === undefined
+                ? ""
+                : f.format
+                  ? f.format(restored, { ...(calendarEvent.values ?? {}), [fieldId]: restored })
+                  : String(restored);
+        const message = (
+            direction === "undo" ? labels?.undoAnnouncement : labels?.redoAnnouncement
+        )?.(eventTitle(calendarEvent), f.header, text);
         if (message) statusMessage = message;
     }
 
     /** Undo / redo from anywhere in the calendar except inside a field editor (which keeps the browser's own undo). */
     function onRootKeydown(event: KeyboardEvent): void {
-        if (!onFieldEdit || (event.target as HTMLElement).closest(".calendar-view-field-editor, input, select, textarea")) return;
+        if (
+            !onFieldEdit ||
+            (event.target as HTMLElement).closest(
+                ".calendar-view-field-editor, input, select, textarea",
+            )
+        )
+            return;
         const action = historyKey(event);
         if (!action) return;
         event.preventDefault();
@@ -605,7 +711,11 @@
 
     async function focusFieldButton(eventId: string, fieldId: string): Promise<void> {
         await tick();
-        rootEl?.querySelector<HTMLElement>(`[data-event-key="${CSS.escape(eventId)}"] [data-field="${CSS.escape(fieldId)}"] .calendar-view-field-button`)?.focus({ preventScroll: true });
+        rootEl
+            ?.querySelector<HTMLElement>(
+                `[data-event-key="${CSS.escape(eventId)}"] [data-field="${CSS.escape(fieldId)}"] .calendar-view-field-button`,
+            )
+            ?.focus({ preventScroll: true });
     }
 
     function onFieldEditorKeydown(event: KeyboardEvent): void {
@@ -622,7 +732,11 @@
         } else if (event.key === "Tab" && editing) {
             // Tab commits and moves to the event's next (Shift+Tab: previous) editable field; past the last, it moves on.
             const calendarEvent = eventById.get(editing.eventId);
-            const next = neighbourField(resolvedFields.filter(isFieldEditable), editing.fieldId, event.shiftKey);
+            const next = neighbourField(
+                resolvedFields.filter(isFieldEditable),
+                editing.fieldId,
+                event.shiftKey,
+            );
             if (calendarEvent && next) {
                 event.preventDefault();
                 if (commitFieldEdit(false)) void startFieldEdit(calendarEvent, next);
@@ -634,14 +748,27 @@
 
     /** The first and last day an event covers. */
     const eventSpan = (calendarEvent: CalendarEvent): { start: string; end: string } | null =>
-        calendarEvent.date ? { start: calendarEvent.date, end: calendarEvent.date } : calendarEvent.start && calendarEvent.end ? { start: calendarEvent.start, end: calendarEvent.end } : null;
+        calendarEvent.date
+            ? { start: calendarEvent.date, end: calendarEvent.date }
+            : calendarEvent.start && calendarEvent.end
+              ? { start: calendarEvent.start, end: calendarEvent.end }
+              : null;
 
     const exportEvents = $derived.by(() => {
         const dated = events.filter((e) => eventSpan(e) !== null);
-        const kept = exportScope === "all" ? dated : dated.filter((e) => { const span = eventSpan(e)!; return span.start <= periodEnd && span.end >= periodStart; });
+        const kept =
+            exportScope === "all"
+                ? dated
+                : dated.filter((e) => {
+                      const span = eventSpan(e)!;
+                      return span.start <= periodEnd && span.end >= periodStart;
+                  });
         return kept.sort((a, b) => eventSpan(a)!.start.localeCompare(eventSpan(b)!.start));
     });
-    const hasExportButtons = $derived(!!labels?.exportHeaders && !!(labels.copy || labels.exportCsv || labels.exportTsv || labels.exportExcel));
+    const hasExportButtons = $derived(
+        !!labels?.exportHeaders &&
+            !!(labels.copy || labels.exportCsv || labels.exportTsv || labels.exportExcel),
+    );
     const exportFieldList = $derived(exportableFields(resolvedFields));
 
     async function finishCopy(table: { headers: string[]; rows: unknown[][] }): Promise<void> {
@@ -658,7 +785,12 @@
         const headers = [h.title, h.start, h.end, ...exportFieldList.map((f) => f.header)];
         const body = exportEvents.map((calendarEvent) => {
             const span = eventSpan(calendarEvent)!;
-            return [eventTitle(calendarEvent), civilDateToDate(span.start), civilDateToDate(span.end), ...exportFieldList.map((f) => exportFieldCell(f, calendarEvent.values))];
+            return [
+                eventTitle(calendarEvent),
+                civilDateToDate(span.start),
+                civilDateToDate(span.end),
+                ...exportFieldList.map((f) => exportFieldCell(f, calendarEvent.values)),
+            ];
         });
         if (format === "copy") {
             void finishCopy({ headers, rows: body });
@@ -727,14 +859,18 @@
         }
         if (key === announcedPeriod) return;
         announcedPeriod = key;
-        if (labels?.periodAnnouncement) statusMessage = labels.periodAnnouncement(view, periodStart, periodEnd);
+        if (labels?.periodAnnouncement)
+            statusMessage = labels.periodAnnouncement(view, periodStart, periodEnd);
     });
 
     // minDate / maxDate bound navigation as well as picking.
     const atMinLimit = $derived(!!minDate && periodStart <= minDate);
     const atMaxLimit = $derived(!!maxDate && periodEnd >= maxDate);
-    const todayOutOfRange = $derived(today == null || (!!minDate && today < minDate) || (!!maxDate && today > maxDate));
-    const clampDate = (isoDate: string): string => (minDate && isoDate < minDate ? minDate : maxDate && isoDate > maxDate ? maxDate : isoDate);
+    const todayOutOfRange = $derived(
+        today == null || (!!minDate && today < minDate) || (!!maxDate && today > maxDate),
+    );
+    const clampDate = (isoDate: string): string =>
+        minDate && isoDate < minDate ? minDate : maxDate && isoDate > maxDate ? maxDate : isoDate;
     function announceLimit(limit: "min" | "max"): void {
         const date = limit === "min" ? minDate : maxDate;
         const message = date ? labels?.rangeLimit?.(limit, date) : undefined;
@@ -770,7 +906,9 @@
 
     function focusCursor(): void {
         queueMicrotask(() => {
-            rootEl?.querySelector<HTMLElement>('.calendar-table-td[tabindex="0"]')?.focus({ preventScroll: true });
+            rootEl
+                ?.querySelector<HTMLElement>('.calendar-table-td[tabindex="0"]')
+                ?.focus({ preventScroll: true });
         });
     }
 
@@ -822,20 +960,29 @@
     function onGridKeydown(event: KeyboardEvent): void {
         // The horizontal arrows are visual: in a right-to-left layout the next day is on the left, so ArrowLeft goes forward.
         const key = logicalKey(event.key, isRtl(event.target as Element));
-        if (onEventMove && event.altKey && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) {
+        if (
+            onEventMove &&
+            event.altKey &&
+            ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)
+        ) {
             const el = (event.target as HTMLElement).closest<HTMLElement>("[data-event-id]");
             const fromDate = el?.closest<HTMLElement>("[data-date]")?.dataset.date;
-            const calendarEvent = el?.dataset.eventId ? eventById.get(el.dataset.eventId) : undefined;
+            const calendarEvent = el?.dataset.eventId
+                ? eventById.get(el.dataset.eventId)
+                : undefined;
             if (el && fromDate && calendarEvent) {
                 event.preventDefault();
                 const week = view === "day" ? 1 : 7;
-                const delta = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -week, ArrowDown: week }[key]!;
+                const delta = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -week, ArrowDown: week }[
+                    key
+                ]!;
                 moveEventTo(calendarEvent, addDays(fromDate, delta));
                 return;
             }
         }
         const extending = event.shiftKey && MOVE_KEYS.has(event.key);
-        if (extending && rangeAnchor === null) rangeAnchor = selectedDate && !selectedRange ? selectedDate : cursor;
+        if (extending && rangeAnchor === null)
+            rangeAnchor = selectedDate && !selectedRange ? selectedDate : cursor;
         if (!extending && MOVE_KEYS.has(event.key)) rangeAnchor = null;
         switch (key) {
             case "ArrowLeft":
@@ -913,49 +1060,57 @@
 </script>
 
 <!-- CalendarView.svelte -->
-<div bind:this={rootEl} class={`calendar-view ${className}`.trim()} onkeydown={onRootKeydown} {...restProps}>
+<div
+    bind:this={rootEl}
+    class={`calendar-view ${className}`.trim()}
+    onkeydown={onRootKeydown}
+    {...restProps}
+>
     {#if labels?.periodTitle || labels?.dayView || labels?.weekView || labels?.fourWeekView || labels?.monthView || labels?.agendaView}
         <div class="calendar-view-toolbar">
-            <div class="calendar-view-switcher" role="group">
+            <div
+                class="calendar-view-switcher"
+                role="group"
+            >
                 {#if labels?.dayView}
                     <button
                         type="button"
                         class="calendar-view-switcher-button calendar-view-switcher-button-day"
                         aria-pressed={view === "day"}
-                        onclick={() => setView("day")}
-                    >{labels.dayView}</button>
+                        onclick={() => setView("day")}>{labels.dayView}</button
+                    >
                 {/if}
                 {#if labels?.weekView}
                     <button
                         type="button"
                         class="calendar-view-switcher-button calendar-view-switcher-button-week"
                         aria-pressed={view === "week"}
-                        onclick={() => setView("week")}
-                    >{labels.weekView}</button>
+                        onclick={() => setView("week")}>{labels.weekView}</button
+                    >
                 {/if}
                 {#if labels?.fourWeekView}
                     <button
                         type="button"
                         class="calendar-view-switcher-button calendar-view-switcher-button-four-week"
                         aria-pressed={view === "four-week"}
-                        onclick={() => setView("four-week")}
-                    >{labels.fourWeekView}</button>
+                        onclick={() => setView("four-week")}>{labels.fourWeekView}</button
+                    >
                 {/if}
                 {#if labels?.monthView}
                     <button
                         type="button"
                         class="calendar-view-switcher-button calendar-view-switcher-button-month"
                         aria-pressed={view === "month"}
-                        onclick={() => setView("month")}
-                    >{labels.monthView}</button>
+                        onclick={() => setView("month")}>{labels.monthView}</button
+                    >
                 {/if}
                 {#if labels?.agendaView}
                     <button
                         type="button"
                         class="calendar-view-switcher-button calendar-view-switcher-button-agenda"
                         aria-pressed={view === "agenda"}
-                        onclick={() => setView("agenda")}
-                    >{labels.agendaView}</button>
+                        onclick={() => setView("agenda")}>{labels.agendaView}</button
+                    >
                 {/if}
             </div>
             <div class="calendar-view-nav">
@@ -964,10 +1119,12 @@
                     class="calendar-view-previous-button"
                     aria-label={labels?.previous?.(view)}
                     aria-disabled={atMinLimit ? "true" : undefined}
-                    onclick={() => stepView(-1)}
-                >‹</button>
+                    onclick={() => stepView(-1)}>‹</button
+                >
                 {#if labels?.periodTitle}
-                    <span class="calendar-view-title">{labels.periodTitle(view, periodStart, periodEnd, anchorDate)}</span>
+                    <span class="calendar-view-title"
+                        >{labels.periodTitle(view, periodStart, periodEnd, anchorDate)}</span
+                    >
                 {/if}
                 {#if labels?.today}
                     <button
@@ -975,16 +1132,16 @@
                         class="calendar-view-today-button"
                         disabled={today == null}
                         aria-disabled={today != null && todayOutOfRange ? "true" : undefined}
-                        onclick={goToday}
-                    >{labels.today}</button>
+                        onclick={goToday}>{labels.today}</button
+                    >
                 {/if}
                 <button
                     type="button"
                     class="calendar-view-next-button"
                     aria-label={labels?.next?.(view)}
                     aria-disabled={atMaxLimit ? "true" : undefined}
-                    onclick={() => stepView(1)}
-                >›</button>
+                    onclick={() => stepView(1)}>›</button
+                >
             </div>
         </div>
     {/if}
@@ -1004,25 +1161,56 @@
     {/if}
 
     {#if hasExportButtons}
-        <div class="calendar-view-export" role="group" aria-label={labels?.export}>
+        <div
+            class="calendar-view-export"
+            role="group"
+            aria-label={labels?.export}
+        >
             {#if labels?.copy}
-                <button type="button" class="calendar-view-export-button" data-calendar-export-format="copy" disabled={exportEvents.length === 0} onclick={() => runExport("copy")}>{labels?.copy}</button>
+                <button
+                    type="button"
+                    class="calendar-view-export-button"
+                    data-calendar-export-format="copy"
+                    disabled={exportEvents.length === 0}
+                    onclick={() => runExport("copy")}>{labels?.copy}</button
+                >
             {/if}
             {#if labels?.exportCsv}
-                <button type="button" class="calendar-view-export-button" data-calendar-export-format="csv" disabled={exportEvents.length === 0} onclick={() => runExport("csv")}>{labels.exportCsv}</button>
+                <button
+                    type="button"
+                    class="calendar-view-export-button"
+                    data-calendar-export-format="csv"
+                    disabled={exportEvents.length === 0}
+                    onclick={() => runExport("csv")}>{labels.exportCsv}</button
+                >
             {/if}
             {#if labels?.exportTsv}
-                <button type="button" class="calendar-view-export-button" data-calendar-export-format="tsv" disabled={exportEvents.length === 0} onclick={() => runExport("tsv")}>{labels.exportTsv}</button>
+                <button
+                    type="button"
+                    class="calendar-view-export-button"
+                    data-calendar-export-format="tsv"
+                    disabled={exportEvents.length === 0}
+                    onclick={() => runExport("tsv")}>{labels.exportTsv}</button
+                >
             {/if}
             {#if labels?.exportExcel}
-                <button type="button" class="calendar-view-export-button" data-calendar-export-format="xlsx" disabled={exportEvents.length === 0} onclick={() => runExport("xlsx")}>{labels.exportExcel}</button>
+                <button
+                    type="button"
+                    class="calendar-view-export-button"
+                    data-calendar-export-format="xlsx"
+                    disabled={exportEvents.length === 0}
+                    onclick={() => runExport("xlsx")}>{labels.exportExcel}</button
+                >
             {/if}
         </div>
     {/if}
 
     {#if view === "agenda"}
         <!-- The agenda is a plain list of days, not a grid: ordinary tab stops, no roving cursor. -->
-        <ol class="calendar-view-agenda" aria-label={label}>
+        <ol
+            class="calendar-view-agenda"
+            aria-label={label}
+        >
             {#each agendaDays as d (d)}
                 {@const weekday = weekdayOf(d)}
                 {@const dayEvents = eventMap.get(d) ?? []}
@@ -1034,20 +1222,61 @@
                     data-date={d}
                     data-today={isToday ? "" : undefined}
                     data-weekend={weekendDays?.includes(weekday) ? "" : undefined}
-                    data-range={dayRanges.length ? dayRanges.map((r) => r.kind ?? "range").join(" ") : undefined}
+                    data-range={dayRanges.length
+                        ? dayRanges.map((r) => r.kind ?? "range").join(" ")
+                        : undefined}
                     aria-current={isToday ? "date" : undefined}
                 >
-                    <time class="calendar-view-agenda-date" datetime={d} data-visually-hidden={agendaDate ? undefined : ""} style={agendaDate ? undefined : "position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap"}>{labels?.day?.(d, weekday, false) ?? d}</time>
+                    <time
+                        class="calendar-view-agenda-date"
+                        datetime={d}
+                        data-visually-hidden={agendaDate ? undefined : ""}
+                        style={agendaDate
+                            ? undefined
+                            : "position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap"}
+                        >{labels?.day?.(d, weekday, false) ?? d}</time
+                    >
                     {#each dayRanges as range (range.start + range.end + (range.kind ?? "") + (range.label ?? ""))}
-                        {#if range.label}<span class="calendar-view-range-label">{range.label}</span>{/if}
+                        {#if range.label}<span class="calendar-view-range-label">{range.label}</span
+                            >{/if}
                     {/each}
                     {#if day}
-                        {@render day({ date: d, events: dayEvents, visibleEvents: maxEvents == null ? dayEvents : dayEvents.slice(0, Math.max(0, maxEvents)), hiddenCount: maxEvents == null ? 0 : Math.max(0, dayEvents.length - Math.max(0, maxEvents)), isToday, outsidePeriod: false, selected: false, disabled, inRange: false, ranges: dayRanges, openEvent, fieldText, eventProps })}
+                        {@render day({
+                            date: d,
+                            events: dayEvents,
+                            visibleEvents:
+                                maxEvents == null
+                                    ? dayEvents
+                                    : dayEvents.slice(0, Math.max(0, maxEvents)),
+                            hiddenCount:
+                                maxEvents == null
+                                    ? 0
+                                    : Math.max(0, dayEvents.length - Math.max(0, maxEvents)),
+                            isToday,
+                            outsidePeriod: false,
+                            selected: false,
+                            disabled,
+                            inRange: false,
+                            ranges: dayRanges,
+                            openEvent,
+                            fieldText,
+                            eventProps,
+                        })}
                     {:else if dayEvents.length > 0}
                         <ul class="calendar-view-agenda-events">
                             {#each dayEvents as calendarEvent (calendarEvent.id)}
                                 <li data-event-key={calendarEvent.id}>
-                                    <button type="button" class="calendar-view-event" onclick={() => openEvent(calendarEvent)}>{#if searching}{#each highlightSegments(eventTitle(calendarEvent), search) as part, i (i)}{#if part.match}<Mark class="calendar-view-match">{part.text}</Mark>{:else}{part.text}{/if}{/each}{:else}{eventTitle(calendarEvent)}{/if}</button>
+                                    <button
+                                        type="button"
+                                        class="calendar-view-event"
+                                        onclick={() => openEvent(calendarEvent)}
+                                        >{#if searching}{#each highlightSegments(eventTitle(calendarEvent), search) as part, i (i)}{#if part.match}<Mark
+                                                        class="calendar-view-match"
+                                                        >{part.text}</Mark
+                                                    >{:else}{part.text}{/if}{/each}{:else}{eventTitle(
+                                                calendarEvent,
+                                            )}{/if}</button
+                                    >
                                     {#if resolvedFields.length > 0}
                                         <span class="calendar-view-event-fields">
                                             {#each resolvedFields as f (f.id)}
@@ -1056,36 +1285,97 @@
                                                 {@const nameId = `${baseId}-fn-${calendarEvent.id}-${f.id}`}
                                                 {@const valueId = `${baseId}-fv-${calendarEvent.id}-${f.id}`}
                                                 {#if editing && editing.eventId === calendarEvent.id && editing.fieldId === f.id}
-                                                    <span class="calendar-view-event-field" data-field={f.id} data-editing="">
-                                                        <span class="calendar-view-event-field-name" id={nameId}>{f.header}</span>
+                                                    <span
+                                                        class="calendar-view-event-field"
+                                                        data-field={f.id}
+                                                        data-editing=""
+                                                    >
+                                                        <span
+                                                            class="calendar-view-event-field-name"
+                                                            id={nameId}>{f.header}</span
+                                                        >
                                                         {#if editorKind(f) === "select" || editorKind(f) === "radio"}
-                                                            <select class="calendar-view-field-editor" aria-label={f.editLabel ?? f.header} aria-invalid={editing.invalid ? "true" : undefined} oninput={() => { if (editing) editing.invalid = false; }} bind:value={editing.draft} onkeydown={onFieldEditorKeydown} onchange={() => commitFieldEdit()} onblur={() => commitFieldEdit(false)}>
+                                                            <select
+                                                                class="calendar-view-field-editor"
+                                                                aria-label={f.editLabel ?? f.header}
+                                                                aria-invalid={editing.invalid
+                                                                    ? "true"
+                                                                    : undefined}
+                                                                oninput={() => {
+                                                                    if (editing)
+                                                                        editing.invalid = false;
+                                                                }}
+                                                                bind:value={editing.draft}
+                                                                onkeydown={onFieldEditorKeydown}
+                                                                onchange={() => commitFieldEdit()}
+                                                                onblur={() =>
+                                                                    commitFieldEdit(false)}
+                                                            >
                                                                 <option value=""></option>
-                                                                {#each (f.options ?? []) as option (option.id)}
-                                                                    <option value={option.id} disabled={option.disabled}>{option.label}</option>
+                                                                {#each f.options ?? [] as option (option.id)}
+                                                                    <option
+                                                                        value={option.id}
+                                                                        disabled={option.disabled}
+                                                                        >{option.label}</option
+                                                                    >
                                                                 {/each}
                                                             </select>
                                                         {:else}
                                                             <input
                                                                 class="calendar-view-field-editor"
                                                                 aria-label={f.editLabel ?? f.header}
-                                                                aria-invalid={editing.invalid ? "true" : undefined}
-                                                                oninput={() => { if (editing) editing.invalid = false; }}
-                                                                type={editorKind(f) === "number" ? "number" : editorKind(f) === "date" ? "date" : editorKind(f) === "time" ? "time" : "text"}
-                                                                inputmode={editorKind(f) === "number" ? "decimal" : undefined}
+                                                                aria-invalid={editing.invalid
+                                                                    ? "true"
+                                                                    : undefined}
+                                                                oninput={() => {
+                                                                    if (editing)
+                                                                        editing.invalid = false;
+                                                                }}
+                                                                type={editorKind(f) === "number"
+                                                                    ? "number"
+                                                                    : editorKind(f) === "date"
+                                                                      ? "date"
+                                                                      : editorKind(f) === "time"
+                                                                        ? "time"
+                                                                        : "text"}
+                                                                inputmode={editorKind(f) ===
+                                                                "number"
+                                                                    ? "decimal"
+                                                                    : undefined}
                                                                 bind:value={editing.draft}
                                                                 onkeydown={onFieldEditorKeydown}
-                                                                onblur={() => commitFieldEdit(false)}
+                                                                onblur={() =>
+                                                                    commitFieldEdit(false)}
                                                             />
                                                         {/if}
                                                     </span>
                                                 {:else if text !== "" || editable}
-                                                    <span class="calendar-view-event-field" data-field={f.id} data-type={f.type ?? "text"}>
-                                                        <span class="calendar-view-event-field-name" id={nameId}>{f.header}</span>
+                                                    <span
+                                                        class="calendar-view-event-field"
+                                                        data-field={f.id}
+                                                        data-type={f.type ?? "text"}
+                                                    >
+                                                        <span
+                                                            class="calendar-view-event-field-name"
+                                                            id={nameId}>{f.header}</span
+                                                        >
                                                         {#if editable}
-                                                            <button type="button" class="calendar-view-field-button" id={valueId} aria-labelledby={`${nameId} ${valueId}`} onclick={() => void startFieldEdit(calendarEvent, f)}>{text}</button>
+                                                            <button
+                                                                type="button"
+                                                                class="calendar-view-field-button"
+                                                                id={valueId}
+                                                                aria-labelledby={`${nameId} ${valueId}`}
+                                                                onclick={() =>
+                                                                    void startFieldEdit(
+                                                                        calendarEvent,
+                                                                        f,
+                                                                    )}>{text}</button
+                                                            >
                                                         {:else}
-                                                            <span class="calendar-view-event-field-value">{text}</span>
+                                                            <span
+                                                                class="calendar-view-event-field-value"
+                                                                >{text}</span
+                                                            >
                                                         {/if}
                                                     </span>
                                                 {/if}
@@ -1103,77 +1393,136 @@
             <p class="calendar-view-agenda-empty">{labels.agendaEmpty}</p>
         {/if}
     {:else}
-    <CalendarTable {label} class="calendar-view-table" onkeydown={onGridKeydown}>
-        <CalendarTableHead>
-            <CalendarTableRow>
-                {#if showWeekNumbers}
-                    <CalendarTableTH scope="col" data-week-number-header>{labels?.weekNumberHeader ?? ""}</CalendarTableTH>
-                {/if}
-                {#each { length: view === "day" ? 1 : 7 } as _, i (i)}
-                    {@const weekday = view === "day" ? weekdayOf(anchorDate) : (firstDayOfWeek + i) % 7}
-                    <CalendarTableTH scope="col" data-weekend={weekendDays?.includes(weekday) ? "" : undefined}>
-                        {#if labels?.weekdayAbbr}
-                            <abbr title={labels.weekday?.(weekday) ?? labels.weekdayAbbr(weekday)}>{labels.weekdayAbbr(weekday)}</abbr>
-                        {:else if labels?.weekday}
-                            {labels.weekday(weekday)}
-                        {/if}
-                    </CalendarTableTH>
-                {/each}
-            </CalendarTableRow>
-        </CalendarTableHead>
-        <CalendarTableBody>
-            {#each days as week, rowIndex (rowIndex)}
+        <CalendarTable
+            {label}
+            class="calendar-view-table"
+            onkeydown={onGridKeydown}
+        >
+            <CalendarTableHead>
                 <CalendarTableRow>
                     {#if showWeekNumbers}
-                        {@const weekNo = weekNumberOf(week)}
-                        <CalendarTableTH scope="row" data-week-number={weekNo} aria-label={labels?.weekNumber?.(weekNo)}>{weekNo}</CalendarTableTH>
-                    {/if}
-                    {#each week as d (d)}
-                        {@const weekday = weekdayOf(d)}
-                        {@const outside = isOutsidePeriod(view, d, anchorDate)}
-                        {@const isToday = today != null && d === today}
-                        {@const dayEvents = eventMap.get(d) ?? []}
-                        {@const disabled = disabledDay(d)}
-                        {@const picked = selectionMode === "multiple" ? selectedDateSet.has(d) : selectedDate === d}
-                        {@const inRange = inSelectedRange(d)}
-                        {@const dayRanges = rangesFor(d)}
-                        <CalendarTableTD
-                            selected={d === cursor}
-                            today={isToday}
-                            data-date={d}
-                            data-outside-period={outside ? "" : undefined}
-                            data-weekend={weekendDays?.includes(weekday) ? "" : undefined}
-                            data-selected={picked ? "" : undefined}
-                            data-disabled={disabled ? "" : undefined}
-                            data-in-range={inRange ? "" : undefined}
-                            data-range-start={selectedRange?.start === d ? "" : undefined}
-                            data-range-end={selectedRange?.end === d ? "" : undefined}
-                            data-range={dayRanges.length ? dayRanges.map((r) => r.kind ?? "range").join(" ") : undefined}
-                            aria-disabled={disabled || undefined}
-                            aria-label={labels?.day?.(d, weekday, outside)}
-                            aria-describedby={rangeLabels(dayRanges) ? `${baseId}-rg-${d}` : undefined}
-                            onclick={(e: MouseEvent) => onDayCellClick(d, e)}
-                            ondragover={onDayDragOver}
-                            ondrop={(e: DragEvent) => onDayDrop(d, e)}
+                        <CalendarTableTH
+                            scope="col"
+                            data-week-number-header
+                            >{labels?.weekNumberHeader ?? ""}</CalendarTableTH
                         >
-                            {#if rangeLabels(dayRanges)}<span id={`${baseId}-rg-${d}`} hidden>{rangeLabels(dayRanges)}</span>{/if}
-                            {#if hideOutsideDays && outside}
-                                <!-- a hidden outside day stays an empty, focusable cell -->
-                            {:else if day}
-                                {@render day({ date: d, events: dayEvents, visibleEvents: maxEvents == null ? dayEvents : dayEvents.slice(0, Math.max(0, maxEvents)), hiddenCount: maxEvents == null ? 0 : Math.max(0, dayEvents.length - Math.max(0, maxEvents)), isToday, outsidePeriod: outside, selected: picked, disabled, inRange, ranges: dayRanges, openEvent, fieldText, eventProps })}
-                            {:else}
-                                {parseIsoDate(d)?.day}
-                                {#each dayRanges as range (range.start + range.end + (range.kind ?? "") + (range.label ?? ""))}
-                                    {#if range.label}<span class="calendar-view-range-label">{range.label}</span>{/if}
-                                {/each}
+                    {/if}
+                    {#each { length: view === "day" ? 1 : 7 } as _, i (i)}
+                        {@const weekday =
+                            view === "day" ? weekdayOf(anchorDate) : (firstDayOfWeek + i) % 7}
+                        <CalendarTableTH
+                            scope="col"
+                            data-weekend={weekendDays?.includes(weekday) ? "" : undefined}
+                        >
+                            {#if labels?.weekdayAbbr}
+                                <abbr
+                                    title={labels.weekday?.(weekday) ?? labels.weekdayAbbr(weekday)}
+                                    >{labels.weekdayAbbr(weekday)}</abbr
+                                >
+                            {:else if labels?.weekday}
+                                {labels.weekday(weekday)}
                             {/if}
-                        </CalendarTableTD>
+                        </CalendarTableTH>
                     {/each}
                 </CalendarTableRow>
-            {/each}
-        </CalendarTableBody>
-    </CalendarTable>
+            </CalendarTableHead>
+            <CalendarTableBody>
+                {#each days as week, rowIndex (rowIndex)}
+                    <CalendarTableRow>
+                        {#if showWeekNumbers}
+                            {@const weekNo = weekNumberOf(week)}
+                            <CalendarTableTH
+                                scope="row"
+                                data-week-number={weekNo}
+                                aria-label={labels?.weekNumber?.(weekNo)}>{weekNo}</CalendarTableTH
+                            >
+                        {/if}
+                        {#each week as d (d)}
+                            {@const weekday = weekdayOf(d)}
+                            {@const outside = isOutsidePeriod(view, d, anchorDate)}
+                            {@const isToday = today != null && d === today}
+                            {@const dayEvents = eventMap.get(d) ?? []}
+                            {@const disabled = disabledDay(d)}
+                            {@const picked =
+                                selectionMode === "multiple"
+                                    ? selectedDateSet.has(d)
+                                    : selectedDate === d}
+                            {@const inRange = inSelectedRange(d)}
+                            {@const dayRanges = rangesFor(d)}
+                            <CalendarTableTD
+                                selected={d === cursor}
+                                today={isToday}
+                                data-date={d}
+                                data-outside-period={outside ? "" : undefined}
+                                data-weekend={weekendDays?.includes(weekday) ? "" : undefined}
+                                data-selected={picked ? "" : undefined}
+                                data-disabled={disabled ? "" : undefined}
+                                data-in-range={inRange ? "" : undefined}
+                                data-range-start={selectedRange?.start === d ? "" : undefined}
+                                data-range-end={selectedRange?.end === d ? "" : undefined}
+                                data-range={dayRanges.length
+                                    ? dayRanges.map((r) => r.kind ?? "range").join(" ")
+                                    : undefined}
+                                aria-disabled={disabled || undefined}
+                                aria-label={labels?.day?.(d, weekday, outside)}
+                                aria-describedby={rangeLabels(dayRanges)
+                                    ? `${baseId}-rg-${d}`
+                                    : undefined}
+                                onclick={(e: MouseEvent) => onDayCellClick(d, e)}
+                                ondragover={onDayDragOver}
+                                ondrop={(e: DragEvent) => onDayDrop(d, e)}
+                            >
+                                {#if rangeLabels(dayRanges)}<span
+                                        id={`${baseId}-rg-${d}`}
+                                        hidden>{rangeLabels(dayRanges)}</span
+                                    >{/if}
+                                {#if hideOutsideDays && outside}
+                                    <!-- a hidden outside day stays an empty, focusable cell -->
+                                {:else if day}
+                                    {@render day({
+                                        date: d,
+                                        events: dayEvents,
+                                        visibleEvents:
+                                            maxEvents == null
+                                                ? dayEvents
+                                                : dayEvents.slice(0, Math.max(0, maxEvents)),
+                                        hiddenCount:
+                                            maxEvents == null
+                                                ? 0
+                                                : Math.max(
+                                                      0,
+                                                      dayEvents.length - Math.max(0, maxEvents),
+                                                  ),
+                                        isToday,
+                                        outsidePeriod: outside,
+                                        selected: picked,
+                                        disabled,
+                                        inRange,
+                                        ranges: dayRanges,
+                                        openEvent,
+                                        fieldText,
+                                        eventProps,
+                                    })}
+                                {:else}
+                                    {parseIsoDate(d)?.day}
+                                    {#each dayRanges as range (range.start + range.end + (range.kind ?? "") + (range.label ?? ""))}
+                                        {#if range.label}<span class="calendar-view-range-label"
+                                                >{range.label}</span
+                                            >{/if}
+                                    {/each}
+                                {/if}
+                            </CalendarTableTD>
+                        {/each}
+                    </CalendarTableRow>
+                {/each}
+            </CalendarTableBody>
+        </CalendarTable>
     {/if}
 
-    <div class="calendar-view-status" aria-live="polite">{statusMessage}</div>
+    <div
+        class="calendar-view-status"
+        aria-live="polite"
+    >
+        {statusMessage}
+    </div>
 </div>

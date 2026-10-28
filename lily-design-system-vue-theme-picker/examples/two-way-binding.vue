@@ -26,5 +26,7 @@ function trackThemeChange(slug: string) {
         @change="trackThemeChange"
     />
 
-    <p>Current theme: <strong>{{ theme || "(resolving…)" }}</strong></p>
+    <p>
+        Current theme: <strong>{{ theme || "(resolving…)" }}</strong>
+    </p>
 </template>

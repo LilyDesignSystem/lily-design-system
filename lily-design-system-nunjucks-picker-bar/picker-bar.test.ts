@@ -4,12 +4,7 @@ import nunjucks from "nunjucks";
 import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import {
-  autoInit,
-  initPickerBar,
-  DEFAULT_THEMES,
-  DEFAULT_SIZES,
-} from "./picker-bar.client.js";
+import { autoInit, initPickerBar, DEFAULT_THEMES, DEFAULT_SIZES } from "./picker-bar.client.js";
 import { timeZoneOptions } from "@lilydesignsystem/nunjucks-time-zone-picker";
 
 // ---------------------------------------------------------------------
@@ -24,403 +19,411 @@ import { timeZoneOptions } from "@lilydesignsystem/nunjucks-time-zone-picker";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const catalogRoot = path.join(__dirname, ".."); // the repository root since 2026-10-10
 const env = nunjucks.configure([__dirname, catalogRoot], {
-  autoescape: true,
-  throwOnUndefined: false,
-  trimBlocks: true,
-  lstripBlocks: true,
+    autoescape: true,
+    throwOnUndefined: false,
+    trimBlocks: true,
+    lstripBlocks: true,
 });
 
 const LABELS = {
-  search: "Search this site",
-  searchInput: "Search terms",
-  searchSubmit: "Search",
-  theme: "Theme",
-  locale: "Language",
-  textSize: "Text size",
-  share: "Share",
+    search: "Search this site",
+    searchInput: "Search terms",
+    searchSubmit: "Search",
+    theme: "Theme",
+    locale: "Language",
+    textSize: "Text size",
+    share: "Share",
 };
 const THEMES_URL = "/assets/themes/";
 const LOCALES = ["en", "cy"];
 
 function renderMacro(opts: Record<string, unknown>): string {
-  const src =
-    `{% from "./picker-bar.njk" import pickerBar %}` + `{{ pickerBar(opts) }}`;
-  return env.renderString(src, { opts });
+    const src = `{% from "./picker-bar.njk" import pickerBar %}` + `{{ pickerBar(opts) }}`;
+    return env.renderString(src, { opts });
 }
 
 function mountIntoBody(html: string): HTMLElement {
-  document.body.innerHTML = html;
-  return document.body.querySelector(
-    "[data-lily-picker-bar-root]",
-  ) as HTMLElement;
+    document.body.innerHTML = html;
+    return document.body.querySelector("[data-lily-picker-bar-root]") as HTMLElement;
 }
 
 function setup(opts: Record<string, unknown> = {}) {
-  const root = mountIntoBody(
-    renderMacro({
-      labels: LABELS,
-      themesUrl: THEMES_URL,
-      locales: LOCALES,
-      ...opts,
-    }),
-  );
-  const controller = initPickerBar(root);
-  return { root, controller };
+    const root = mountIntoBody(
+        renderMacro({
+            labels: LABELS,
+            themesUrl: THEMES_URL,
+            locales: LOCALES,
+            ...opts,
+        }),
+    );
+    const controller = initPickerBar(root);
+    return { root, controller };
 }
 
 function click(el: Element) {
-  el.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    el.dispatchEvent(new MouseEvent("click", { bubbles: true }));
 }
 
 beforeEach(() => {
-  document.documentElement.removeAttribute("data-theme");
-  document.documentElement.removeAttribute("lang");
-  document.documentElement.removeAttribute("dir");
-  document.documentElement.removeAttribute("data-text-size");
-  document.head
-    .querySelectorAll("link[data-lily-theme-picker]")
-    .forEach((n) => n.remove());
-  try {
-    localStorage.clear();
-  } catch {
-    /* ignore */
-  }
+    document.documentElement.removeAttribute("data-theme");
+    document.documentElement.removeAttribute("lang");
+    document.documentElement.removeAttribute("dir");
+    document.documentElement.removeAttribute("data-text-size");
+    document.head.querySelectorAll("link[data-lily-theme-picker]").forEach((n) => n.remove());
+    try {
+        localStorage.clear();
+    } catch {
+        /* ignore */
+    }
 });
 
 afterEach(() => {
-  document.documentElement.removeAttribute("data-theme");
-  document.documentElement.removeAttribute("lang");
-  document.documentElement.removeAttribute("dir");
-  document.documentElement.removeAttribute("data-text-size");
+    document.documentElement.removeAttribute("data-theme");
+    document.documentElement.removeAttribute("lang");
+    document.documentElement.removeAttribute("dir");
+    document.documentElement.removeAttribute("data-text-size");
 });
 
 describe("PickerBar — DEFAULT_THEMES / DEFAULT_SIZES agree with the macro (§3, §5.1, §5.2)", () => {
-  test("client.js DEFAULT_THEMES has 57 entries and matches the macro's rendered option order", () => {
-    expect(DEFAULT_THEMES).toHaveLength(57);
-    const html = renderMacro({ labels: LABELS, themesUrl: THEMES_URL, locales: LOCALES });
-    document.body.innerHTML = html;
-    const values = Array.from(
-      document.querySelectorAll(".theme-picker-option"),
-    ).map((el) => el.getAttribute("data-value"));
-    expect(values).toEqual(DEFAULT_THEMES);
-  });
+    test("client.js DEFAULT_THEMES has 57 entries and matches the macro's rendered option order", () => {
+        expect(DEFAULT_THEMES).toHaveLength(57);
+        const html = renderMacro({ labels: LABELS, themesUrl: THEMES_URL, locales: LOCALES });
+        document.body.innerHTML = html;
+        const values = Array.from(document.querySelectorAll(".theme-picker-option")).map((el) =>
+            el.getAttribute("data-value"),
+        );
+        expect(values).toEqual(DEFAULT_THEMES);
+    });
 
-  test("is alphabetical, with the UK & US themes moved to the bottom as one alphabetical group", () => {
-    const nonUkUs = DEFAULT_THEMES.filter((t) => !t.startsWith("united-"));
-    const ukUs = DEFAULT_THEMES.filter((t) => t.startsWith("united-"));
-    expect(nonUkUs).toEqual([...nonUkUs].sort());
-    expect(ukUs).toEqual([...ukUs].sort());
-    expect(DEFAULT_THEMES).toEqual([...nonUkUs, ...ukUs]);
-  });
+    test("is alphabetical, with the UK & US themes moved to the bottom as one alphabetical group", () => {
+        const nonUkUs = DEFAULT_THEMES.filter((t) => !t.startsWith("united-"));
+        const ukUs = DEFAULT_THEMES.filter((t) => t.startsWith("united-"));
+        expect(nonUkUs).toEqual([...nonUkUs].sort());
+        expect(ukUs).toEqual([...ukUs].sort());
+        expect(DEFAULT_THEMES).toEqual([...nonUkUs, ...ukUs]);
+    });
 
-  test("client.js DEFAULT_SIZES matches the macro's rendered option order, largest first", () => {
-    expect(DEFAULT_SIZES).toEqual([
-      "largest",
-      "larger",
-      "large",
-      "normal",
-      "small",
-      "smaller",
-      "smallest",
-    ]);
-    const html = renderMacro({ labels: LABELS, themesUrl: THEMES_URL, locales: LOCALES });
-    document.body.innerHTML = html;
-    const values = Array.from(
-      document.querySelectorAll(".text-size-picker-option"),
-    ).map((el) => el.getAttribute("data-value"));
-    expect(values).toEqual(DEFAULT_SIZES);
-  });
+    test("client.js DEFAULT_SIZES matches the macro's rendered option order, largest first", () => {
+        expect(DEFAULT_SIZES).toEqual([
+            "largest",
+            "larger",
+            "large",
+            "normal",
+            "small",
+            "smaller",
+            "smallest",
+        ]);
+        const html = renderMacro({ labels: LABELS, themesUrl: THEMES_URL, locales: LOCALES });
+        document.body.innerHTML = html;
+        const values = Array.from(document.querySelectorAll(".text-size-picker-option")).map((el) =>
+            el.getAttribute("data-value"),
+        );
+        expect(values).toEqual(DEFAULT_SIZES);
+    });
 });
 
 describe("PickerBar — composition (§4, §7.1–§7.4)", () => {
-  test("§7.1 renders the root with the base class plus the consumer's class", () => {
-    const { root } = setup({ classes: "my-picker-bar" });
-    expect(root.classList.contains("picker-bar")).toBe(true);
-    expect(root.classList.contains("my-picker-bar")).toBe(true);
-    expect(root.hasAttribute("data-lily-picker-bar-root")).toBe(true);
-  });
+    test("§7.1 renders the root with the base class plus the consumer's class", () => {
+        const { root } = setup({ classes: "my-picker-bar" });
+        expect(root.classList.contains("picker-bar")).toBe(true);
+        expect(root.classList.contains("my-picker-bar")).toBe(true);
+        expect(root.hasAttribute("data-lily-picker-bar-root")).toBe(true);
+    });
 
-  test("§7.2 renders all five pickers, each named from `labels`", () => {
-    const { root } = setup();
-    expect(
-      root.querySelector(".search-picker-button")?.getAttribute("aria-label"),
-    ).toBe("Search this site");
-    expect(
-      root.querySelector(".theme-picker-button")?.getAttribute("aria-label"),
-    ).toBe("Theme");
-    expect(
-      root.querySelector(".locale-picker-button")?.getAttribute("aria-label"),
-    ).toBe("Language");
-    expect(
-      root
-        .querySelector(".text-size-picker-button")
-        ?.getAttribute("aria-label"),
-    ).toBe("Text size");
-    expect(
-      root.querySelector(".share-picker-button")?.getAttribute("aria-label"),
-    ).toBe("Share");
-  });
+    test("§7.2 renders all five pickers, each named from `labels`", () => {
+        const { root } = setup();
+        expect(root.querySelector(".search-picker-button")?.getAttribute("aria-label")).toBe(
+            "Search this site",
+        );
+        expect(root.querySelector(".theme-picker-button")?.getAttribute("aria-label")).toBe(
+            "Theme",
+        );
+        expect(root.querySelector(".locale-picker-button")?.getAttribute("aria-label")).toBe(
+            "Language",
+        );
+        expect(root.querySelector(".text-size-picker-button")?.getAttribute("aria-label")).toBe(
+            "Text size",
+        );
+        expect(root.querySelector(".share-picker-button")?.getAttribute("aria-label")).toBe(
+            "Share",
+        );
+    });
 
-  test("§7.2 renders the five picker roots in search, theme, locale, text-size, share order", () => {
-    const { root } = setup();
-    const roots = Array.from(root.querySelectorAll(":scope > div")).map(
-      (el) => el.className.split(" ")[0],
-    );
-    expect(roots).toEqual([
-      "search-picker",
-      "theme-picker",
-      "locale-picker",
-      "text-size-picker",
-      "share-picker",
-    ]);
-  });
+    test("§7.2 renders the five picker roots in search, theme, locale, text-size, share order", () => {
+        const { root } = setup();
+        const roots = Array.from(root.querySelectorAll(":scope > div")).map(
+            (el) => el.className.split(" ")[0],
+        );
+        expect(roots).toEqual([
+            "search-picker",
+            "theme-picker",
+            "locale-picker",
+            "text-size-picker",
+            "share-picker",
+        ]);
+    });
 
-  test("§7.5 spreads extra attributes onto the root", () => {
-    const { root } = setup({ attributes: { "data-testid": "header-picker-bar" } });
-    expect(root.getAttribute("data-testid")).toBe("header-picker-bar");
-  });
+    test("§7.5 spreads extra attributes onto the root", () => {
+        const { root } = setup({ attributes: { "data-testid": "header-picker-bar" } });
+        expect(root.getAttribute("data-testid")).toBe("header-picker-bar");
+    });
 });
 
 describe("PickerBar — theme-picker wiring (§5.1, §7.3, §7.6)", () => {
-  test("§7.3 forwards themesUrl and uses DEFAULT_THEMES when `themes` is omitted", () => {
-    const { root } = setup();
-    const options = root.querySelectorAll(".theme-picker-option");
-    expect(options).toHaveLength(57);
-    expect(options[0].textContent?.trim()).toBe("Abyss");
-    expect(
-      root
-        .querySelector("[data-lily-theme-picker-root]")
-        ?.getAttribute("data-lily-theme-picker-themes-url"),
-    ).toBe(THEMES_URL);
-  });
+    test("§7.3 forwards themesUrl and uses DEFAULT_THEMES when `themes` is omitted", () => {
+        const { root } = setup();
+        const options = root.querySelectorAll(".theme-picker-option");
+        expect(options).toHaveLength(57);
+        expect(options[0].textContent?.trim()).toBe("Abyss");
+        expect(
+            root
+                .querySelector("[data-lily-theme-picker-root]")
+                ?.getAttribute("data-lily-theme-picker-themes-url"),
+        ).toBe(THEMES_URL);
+    });
 
-  test("§7.6 an explicit `themes` prop overrides the default", () => {
-    const { root } = setup({ themes: ["light", "dark"] });
-    expect(root.querySelectorAll(".theme-picker-option")).toHaveLength(2);
-  });
+    test("§7.6 an explicit `themes` prop overrides the default", () => {
+        const { root } = setup({ themes: ["light", "dark"] });
+        expect(root.querySelectorAll(".theme-picker-option")).toHaveLength(2);
+    });
 
-  test("§7.7 `themeProps` reaches ThemePicker (storageKey persists a selection)", async () => {
-    const { root } = setup({ themeProps: { storageKey: "lily-theme" } });
-    const button = root.querySelector(
-      ".theme-picker-button",
-    ) as HTMLButtonElement;
-    click(button);
-    const option = root.querySelector(".theme-picker-option") as HTMLElement;
-    click(option);
-    expect(localStorage.getItem("lily-theme")).toBe("abyss");
-  });
+    test("§7.7 `themeProps` reaches ThemePicker (storageKey persists a selection)", async () => {
+        const { root } = setup({ themeProps: { storageKey: "lily-theme" } });
+        const button = root.querySelector(".theme-picker-button") as HTMLButtonElement;
+        click(button);
+        const option = root.querySelector(".theme-picker-option") as HTMLElement;
+        click(option);
+        expect(localStorage.getItem("lily-theme")).toBe("abyss");
+    });
 });
 
 describe("PickerBar — locale-picker wiring (§5.2, §7.4)", () => {
-  test("§7.4 forwards the required `locales` list", () => {
-    const { root } = setup();
-    expect(root.querySelectorAll(".locale-picker-option")).toHaveLength(
-      LOCALES.length,
-    );
-  });
+    test("§7.4 forwards the required `locales` list", () => {
+        const { root } = setup();
+        expect(root.querySelectorAll(".locale-picker-option")).toHaveLength(LOCALES.length);
+    });
 });
 
 describe("PickerBar — text-size-picker wiring (§5.3, §7.8, §7.9)", () => {
-  test("§7.8 uses DEFAULT_SIZES when `sizes` is omitted, in largest-to-smallest order", () => {
-    const { root } = setup();
-    const options = Array.from(
-      root.querySelectorAll(".text-size-picker-option"),
-    ).map((el) => el.textContent?.trim());
-    expect(options).toEqual([
-      "Largest",
-      "Larger",
-      "Large",
-      "Normal",
-      "Small",
-      "Smaller",
-      "Smallest",
-    ]);
-  });
+    test("§7.8 uses DEFAULT_SIZES when `sizes` is omitted, in largest-to-smallest order", () => {
+        const { root } = setup();
+        const options = Array.from(root.querySelectorAll(".text-size-picker-option")).map((el) =>
+            el.textContent?.trim(),
+        );
+        expect(options).toEqual([
+            "Largest",
+            "Larger",
+            "Large",
+            "Normal",
+            "Small",
+            "Smaller",
+            "Smallest",
+        ]);
+    });
 
-  test("§7.9 defaults the initial (server-resolved) value to 'normal'", () => {
-    const { root } = setup();
-    const input = root.querySelector(
-      "[data-lily-text-size-picker-input]",
-    ) as HTMLInputElement;
-    expect(input.value).toBe("normal");
-  });
+    test("§7.9 defaults the initial (server-resolved) value to 'normal'", () => {
+        const { root } = setup();
+        const input = root.querySelector("[data-lily-text-size-picker-input]") as HTMLInputElement;
+        expect(input.value).toBe("normal");
+    });
 
-  test("§7.9 `textSizeProps.defaultValue` overrides the built-in 'normal' default", () => {
-    const { root } = setup({ textSizeProps: { defaultValue: "small" } });
-    const input = root.querySelector(
-      "[data-lily-text-size-picker-input]",
-    ) as HTMLInputElement;
-    expect(input.value).toBe("small");
-  });
+    test("§7.9 `textSizeProps.defaultValue` overrides the built-in 'normal' default", () => {
+        const { root } = setup({ textSizeProps: { defaultValue: "small" } });
+        const input = root.querySelector("[data-lily-text-size-picker-input]") as HTMLInputElement;
+        expect(input.value).toBe("small");
+    });
 });
 
 describe("PickerBar — share-picker wiring (§5.4, §7.10)", () => {
-  test("§7.10 forwards `shareTargets` to SharePicker's list", () => {
-    const { root } = setup({
-      shareTargets: [
-        { id: "email", label: "Email", href: "mailto:?body=x" },
-      ],
+    test("§7.10 forwards `shareTargets` to SharePicker's list", () => {
+        const { root } = setup({
+            shareTargets: [{ id: "email", label: "Email", href: "mailto:?body=x" }],
+        });
+        expect(root.querySelector(".share-picker-target")?.textContent?.trim()).toBe("Email");
     });
-    expect(root.querySelector(".share-picker-target")?.textContent?.trim()).toBe(
-      "Email",
-    );
-  });
 });
 
 describe("PickerBar — search-picker wiring (§7.12, §7.13)", () => {
-  test("§7.12 search is the first picker, with its field and ⏎ button named from `labels`", () => {
-    const { root } = setup();
-    const first = root.querySelector(":scope > div");
-    expect(first?.classList.contains("search-picker")).toBe(true);
-    const button = first!.querySelector(
-      ".search-picker-button",
-    ) as HTMLButtonElement;
-    click(button);
-    expect(button.getAttribute("aria-expanded")).toBe("true");
-    expect(
-      first!.querySelector(".search-picker-form")?.getAttribute("aria-label"),
-    ).toBe("Search this site");
-    expect(
-      first!.querySelector(".search-picker-input")?.getAttribute("aria-label"),
-    ).toBe("Search terms");
-    expect(
-      first!.querySelector(".search-picker-submit")?.getAttribute("aria-label"),
-    ).toBe("Search");
-  });
+    test("§7.12 search is the first picker, with its field and ⏎ button named from `labels`", () => {
+        const { root } = setup();
+        const first = root.querySelector(":scope > div");
+        expect(first?.classList.contains("search-picker")).toBe(true);
+        const button = first!.querySelector(".search-picker-button") as HTMLButtonElement;
+        click(button);
+        expect(button.getAttribute("aria-expanded")).toBe("true");
+        expect(first!.querySelector(".search-picker-form")?.getAttribute("aria-label")).toBe(
+            "Search this site",
+        );
+        expect(first!.querySelector(".search-picker-input")?.getAttribute("aria-label")).toBe(
+            "Search terms",
+        );
+        expect(first!.querySelector(".search-picker-submit")?.getAttribute("aria-label")).toBe(
+            "Search",
+        );
+    });
 
-  test("§7.13 `searchProps` reaches SearchPicker (action + navigate)", () => {
-    const navigate = vi.fn();
-    const root = mountIntoBody(
-      renderMacro({
-        labels: LABELS,
-        themesUrl: THEMES_URL,
-        locales: LOCALES,
-        // Macro side: rendered onto the form's `action` attribute.
-        searchProps: { action: "/search" },
-      }),
-    );
-    // Client side: a macro cannot carry a function, so `navigate`
-    // reaches search-picker through initPickerBar's `searchProps`.
-    initPickerBar(root, { searchProps: { navigate } });
-    click(root.querySelector(".search-picker-button")!);
-    const input = root.querySelector(
-      ".search-picker-input",
-    ) as HTMLInputElement;
-    input.value = "foo";
-    root
-      .querySelector(".search-picker-form")!
-      .dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
-    expect(navigate).toHaveBeenCalledWith("/search?foo");
-  });
+    test("§7.13 `searchProps` reaches SearchPicker (action + navigate)", () => {
+        const navigate = vi.fn();
+        const root = mountIntoBody(
+            renderMacro({
+                labels: LABELS,
+                themesUrl: THEMES_URL,
+                locales: LOCALES,
+                // Macro side: rendered onto the form's `action` attribute.
+                searchProps: { action: "/search" },
+            }),
+        );
+        // Client side: a macro cannot carry a function, so `navigate`
+        // reaches search-picker through initPickerBar's `searchProps`.
+        initPickerBar(root, { searchProps: { navigate } });
+        click(root.querySelector(".search-picker-button")!);
+        const input = root.querySelector(".search-picker-input") as HTMLInputElement;
+        input.value = "foo";
+        root.querySelector(".search-picker-form")!.dispatchEvent(
+            new Event("submit", { bubbles: true, cancelable: true }),
+        );
+        expect(navigate).toHaveBeenCalledWith("/search?foo");
+    });
 });
 
 describe("PickerBar — autoInit (§4.3)", () => {
-  test("wires every [data-lily-picker-bar-root] on the page", () => {
-    document.body.innerHTML =
-      renderMacro({ labels: LABELS, themesUrl: THEMES_URL, locales: LOCALES }) +
-      renderMacro({ labels: LABELS, themesUrl: THEMES_URL, locales: LOCALES });
-    const controllers = autoInit();
-    expect(controllers).toHaveLength(2);
-    expect(controllers[0].search).not.toBeNull();
-    expect(controllers[0].theme).not.toBeNull();
-    expect(controllers[0].locale).not.toBeNull();
-    expect(controllers[0].textSize).not.toBeNull();
-    expect(controllers[0].share).not.toBeNull();
-  });
+    test("wires every [data-lily-picker-bar-root] on the page", () => {
+        document.body.innerHTML =
+            renderMacro({ labels: LABELS, themesUrl: THEMES_URL, locales: LOCALES }) +
+            renderMacro({ labels: LABELS, themesUrl: THEMES_URL, locales: LOCALES });
+        const controllers = autoInit();
+        expect(controllers).toHaveLength(2);
+        expect(controllers[0].search).not.toBeNull();
+        expect(controllers[0].theme).not.toBeNull();
+        expect(controllers[0].locale).not.toBeNull();
+        expect(controllers[0].textSize).not.toBeNull();
+        expect(controllers[0].share).not.toBeNull();
+    });
 });
 
 describe("PickerBar — nested picker tooltips (§7.14)", () => {
-  test("§7.14 each of the five pickers renders its tooltip and initPickerBar wires it", () => {
-    const { root } = setup();
-    for (const helper of ["search", "theme", "locale", "text-size", "share"]) {
-      const button = root.querySelector(
-        `.${helper}-picker-button`,
-      ) as HTMLButtonElement;
-      const tip = root.querySelector(`.${helper}-picker-tooltip`) as HTMLElement;
-      expect(tip.getAttribute("role")).toBe("tooltip");
-      expect(tip.hasAttribute("hidden")).toBe(true);
-      button.dispatchEvent(new window.MouseEvent("mouseenter"));
-      expect(tip.hasAttribute("hidden")).toBe(false);
-      button.dispatchEvent(new window.MouseEvent("mouseleave"));
-      expect(tip.hasAttribute("hidden")).toBe(true);
-    }
-  });
+    test("§7.14 each of the five pickers renders its tooltip and initPickerBar wires it", () => {
+        const { root } = setup();
+        for (const helper of ["search", "theme", "locale", "text-size", "share"]) {
+            const button = root.querySelector(`.${helper}-picker-button`) as HTMLButtonElement;
+            const tip = root.querySelector(`.${helper}-picker-tooltip`) as HTMLElement;
+            expect(tip.getAttribute("role")).toBe("tooltip");
+            expect(tip.hasAttribute("hidden")).toBe(true);
+            button.dispatchEvent(new window.MouseEvent("mouseenter"));
+            expect(tip.hasAttribute("hidden")).toBe(false);
+            button.dispatchEvent(new window.MouseEvent("mouseleave"));
+            expect(tip.hasAttribute("hidden")).toBe(true);
+        }
+    });
 });
 
 const LINKS = [
-  { label: "Home", href: "/" },
-  { label: "About Us", href: "/about/" },
-  { label: "Contact Us", href: "/contact/" },
-  { label: "Privacy Policy", href: "/privacy/" },
+    { label: "Home", href: "/" },
+    { label: "About Us", href: "/about/" },
+    { label: "Contact Us", href: "/contact/" },
+    { label: "Privacy Policy", href: "/privacy/" },
 ];
 
 describe("pickerBar — link-picker wiring (§L1–§L4)", () => {
-  test("a link picker renders FIRST when `links` and `labels.link` are given", () => {
-    const { root } = setup({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
-    const classes = Array.from(root.querySelectorAll(":scope > div")).map((d) => d.className.split(" ")[0]);
-    expect(classes).toEqual(["link-picker", "search-picker", "theme-picker", "locale-picker", "text-size-picker", "share-picker"]);
-    expect(Array.from(root.querySelectorAll(".link-picker-link")).map((a) => a.textContent)).toEqual([
-      "Home", "About Us", "Contact Us", "Privacy Policy",
-    ]);
-    expect(root.querySelector(".link-picker-button")!.getAttribute("aria-label")).toBe("Pages");
-  });
+    test("a link picker renders FIRST when `links` and `labels.link` are given", () => {
+        const { root } = setup({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
+        const classes = Array.from(root.querySelectorAll(":scope > div")).map(
+            (d) => d.className.split(" ")[0],
+        );
+        expect(classes).toEqual([
+            "link-picker",
+            "search-picker",
+            "theme-picker",
+            "locale-picker",
+            "text-size-picker",
+            "share-picker",
+        ]);
+        expect(
+            Array.from(root.querySelectorAll(".link-picker-link")).map((a) => a.textContent),
+        ).toEqual(["Home", "About Us", "Contact Us", "Privacy Policy"]);
+        expect(root.querySelector(".link-picker-button")!.getAttribute("aria-label")).toBe("Pages");
+    });
 
-  test("no link picker without links, with empty links, or without labels.link", () => {
-    for (const extra of [{}, { links: [], labels: { ...LABELS, link: "Pages" } }, { links: LINKS }]) {
-      const { root } = setup(extra);
-      expect(root.querySelector(".link-picker")).toBeNull();
-      expect(root.querySelector(":scope > div")!.classList.contains("search-picker")).toBe(true);
-    }
-  });
+    test("no link picker without links, with empty links, or without labels.link", () => {
+        for (const extra of [
+            {},
+            { links: [], labels: { ...LABELS, link: "Pages" } },
+            { links: LINKS },
+        ]) {
+            const { root } = setup(extra);
+            expect(root.querySelector(".link-picker")).toBeNull();
+            expect(root.querySelector(":scope > div")!.classList.contains("search-picker")).toBe(
+                true,
+            );
+        }
+    });
 
-  test("initPickerBar wires the link picker and passes `linkProps` (navigate)", () => {
-    const navigate = vi.fn();
-    const { root } = setup({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
-    const wired = initPickerBar(root, { linkProps: { navigate } });
-    expect(wired.link).toBeTruthy();
-    (root.querySelector(".link-picker-button") as HTMLButtonElement).click();
-    (root.querySelector('.link-picker-link[href="/about/"]') as HTMLElement).dispatchEvent(
-      new MouseEvent("click", { bubbles: true, cancelable: true, button: 0 }),
-    );
-    expect(navigate).toHaveBeenCalledWith("/about/");
-  });
+    test("initPickerBar wires the link picker and passes `linkProps` (navigate)", () => {
+        const navigate = vi.fn();
+        const { root } = setup({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
+        const wired = initPickerBar(root, { linkProps: { navigate } });
+        expect(wired.link).toBeTruthy();
+        (root.querySelector(".link-picker-button") as HTMLButtonElement).click();
+        (root.querySelector('.link-picker-link[href="/about/"]') as HTMLElement).dispatchEvent(
+            new MouseEvent("click", { bubbles: true, cancelable: true, button: 0 }),
+        );
+        expect(navigate).toHaveBeenCalledWith("/about/");
+    });
 
-  test("the links are real anchors, not menu items", () => {
-    const { root } = setup({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
-    expect(root.querySelectorAll(".link-picker-list a[href]")).toHaveLength(4);
-    expect(root.querySelector('.link-picker-list [role="menuitem"]')).toBeNull();
-  });
+    test("the links are real anchors, not menu items", () => {
+        const { root } = setup({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
+        expect(root.querySelectorAll(".link-picker-list a[href]")).toHaveLength(4);
+        expect(root.querySelector('.link-picker-list [role="menuitem"]')).toBeNull();
+    });
 });
 
 describe("PickerBar — time-zone-picker wiring (§T1–§T4)", () => {
-  const WITH = { ...LABELS, timeZone: "Time zone" };
-  const TZ = () => ({
-    locale: "en",
-    options: timeZoneOptions({ locale: "en", zones: ["UTC", "Europe/London"], date: new Date("2026-01-15T12:00:00Z") }),
-  });
+    const WITH = { ...LABELS, timeZone: "Time zone" };
+    const TZ = () => ({
+        locale: "en",
+        options: timeZoneOptions({
+            locale: "en",
+            zones: ["UTC", "Europe/London"],
+            date: new Date("2026-01-15T12:00:00Z"),
+        }),
+    });
 
-  test("§T1 a time-zone-picker renders after the locale-picker when `labels.timeZone` and `timeZoneProps` are given", () => {
-    const { root } = setup({ labels: WITH, timeZoneProps: TZ() });
-    const kids = Array.from(root.children).map((c) => c.className.split(" ")[0]);
-    expect(kids).toEqual(["search-picker", "theme-picker", "locale-picker", "time-zone-picker", "text-size-picker", "share-picker"]);
-    expect(root.querySelector(".time-zone-picker-button")!.getAttribute("aria-label")).toBe("Time zone");
-  });
+    test("§T1 a time-zone-picker renders after the locale-picker when `labels.timeZone` and `timeZoneProps` are given", () => {
+        const { root } = setup({ labels: WITH, timeZoneProps: TZ() });
+        const kids = Array.from(root.children).map((c) => c.className.split(" ")[0]);
+        expect(kids).toEqual([
+            "search-picker",
+            "theme-picker",
+            "locale-picker",
+            "time-zone-picker",
+            "text-size-picker",
+            "share-picker",
+        ]);
+        expect(root.querySelector(".time-zone-picker-button")!.getAttribute("aria-label")).toBe(
+            "Time zone",
+        );
+    });
 
-  test("§T2 no time-zone-picker without labels.timeZone or without locale and options", () => {
-    for (const extra of [{}, { timeZoneProps: TZ() }, { labels: WITH }, { labels: WITH, timeZoneProps: { locale: "en" } }]) {
-      const { root } = setup(extra);
-      expect(root.querySelector(".time-zone-picker")).toBeNull();
-    }
-  });
+    test("§T2 no time-zone-picker without labels.timeZone or without locale and options", () => {
+        for (const extra of [
+            {},
+            { timeZoneProps: TZ() },
+            { labels: WITH },
+            { labels: WITH, timeZoneProps: { locale: "en" } },
+        ]) {
+            const { root } = setup(extra);
+            expect(root.querySelector(".time-zone-picker")).toBeNull();
+        }
+    });
 
-  test("§T3 the options reach the list, and the client wires it", () => {
-    const { root, controller } = setup({ labels: WITH, timeZoneProps: TZ() });
-    expect(root.querySelectorAll(".time-zone-picker-option")).toHaveLength(2);
-    expect(controller.timeZone).not.toBeNull();
-  });
+    test("§T3 the options reach the list, and the client wires it", () => {
+        const { root, controller } = setup({ labels: WITH, timeZoneProps: TZ() });
+        expect(root.querySelectorAll(".time-zone-picker-option")).toHaveLength(2);
+        expect(controller.timeZone).not.toBeNull();
+    });
 
-  test("§T4 `textSizeProps.sizeLabels` names the sizes", () => {
-    const { root } = setup({ textSizeProps: { sizeLabels: { largest: "el más grande" } } });
-    expect(root.textContent).toContain("el más grande");
-  });
+    test("§T4 `textSizeProps.sizeLabels` names the sizes", () => {
+        const { root } = setup({ textSizeProps: { sizeLabels: { largest: "el más grande" } } });
+        expect(root.textContent).toContain("el más grande");
+    });
 });

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="convert-div"
@@ -6,9 +6,9 @@ const html = `<div
   aria-label="Currency converter"></div>`;
 
 const meta = {
-  title: 'Headless/ConvertDiv',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/ConvertDiv",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

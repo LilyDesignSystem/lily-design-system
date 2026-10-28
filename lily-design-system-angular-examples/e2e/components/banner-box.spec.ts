@@ -13,7 +13,7 @@ test.describe("component page: banner-box", () => {
 
   test("renders the H1 with the component name", async ({ page }) => {
     await expect(
-      page.getByRole("heading", { level: 1, name: new RegExp("^BannerBox$") })
+      page.getByRole("heading", { level: 1, name: new RegExp("^BannerBox$") }),
     ).toBeVisible();
   });
 

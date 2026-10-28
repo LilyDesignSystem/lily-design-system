@@ -1,9 +1,7 @@
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
     <div>
-
         <Header label="Site header">
             <h1>My Application</h1>
             <NavigationMenu label="Main navigation">
@@ -24,9 +22,7 @@
                 <BreadcrumbListItem>
                     <a href="/products">Products</a>
                 </BreadcrumbListItem>
-                <BreadcrumbListItem current>
-                    Widget Pro
-                </BreadcrumbListItem>
+                <BreadcrumbListItem current> Widget Pro </BreadcrumbListItem>
             </BreadcrumbList>
         </BreadcrumbNav>
 

@@ -18,13 +18,20 @@ const labels = {
 
 function setup(inputs: Record<string, unknown> = {}) {
   const fixture = TestBed.createComponent(MarkdownEditor);
-  const all = { label: "Message", toolbarLabel: "Formatting", labels, value: "hello world", ...inputs };
+  const all = {
+    label: "Message",
+    toolbarLabel: "Formatting",
+    labels,
+    value: "hello world",
+    ...inputs,
+  };
   for (const [k, v] of Object.entries(all)) fixture.componentRef.setInput(k, v);
   fixture.detectChanges();
   const root: HTMLElement = fixture.nativeElement;
   const textarea = root.querySelector("textarea") as HTMLTextAreaElement;
   const buttons = () => Array.from(root.querySelectorAll<HTMLButtonElement>("button"));
-  const button = (name: string) => root.querySelector<HTMLButtonElement>(`button[aria-label="${name}"]`)!;
+  const button = (name: string) =>
+    root.querySelector<HTMLButtonElement>(`button[aria-label="${name}"]`)!;
   const click = (name: string) => {
     button(name).click();
     fixture.detectChanges();
@@ -64,7 +71,11 @@ describe("structure", () => {
   });
 
   test("honours the tools input for subset and order", () => {
-    expect(setup({ tools: ["link", "bold"] }).buttons().map((b) => b.getAttribute("data-tool"))).toEqual(["link", "bold"]);
+    expect(
+      setup({ tools: ["link", "bold"] })
+        .buttons()
+        .map((b) => b.getAttribute("data-tool")),
+    ).toEqual(["link", "bold"]);
   });
 
   test("every button is type=button so it never submits a form", () => {
@@ -72,7 +83,8 @@ describe("structure", () => {
   });
 
   test("icons are decorative", () => {
-    for (const svg of Array.from(setup().root.querySelectorAll("svg"))) expect(svg.getAttribute("aria-hidden")).toBe("true");
+    for (const svg of Array.from(setup().root.querySelectorAll("svg")))
+      expect(svg.getAttribute("aria-hidden")).toBe("true");
   });
 
   test("the toolbar controls the textarea", () => {
@@ -89,7 +101,9 @@ describe("structure", () => {
   });
 
   test("appends className to the root class", () => {
-    expect(setup({ className: "mine" }).root.querySelector(".markdown-editor")!.getAttribute("class")).toContain("markdown-editor mine");
+    expect(
+      setup({ className: "mine" }).root.querySelector(".markdown-editor")!.getAttribute("class"),
+    ).toContain("markdown-editor mine");
   });
 
   test("ships no English of its own: no tool labels, no placeholder text", () => {
@@ -200,7 +214,9 @@ describe("shortcuts", () => {
 
 describe("toolbar keyboard", () => {
   test("only one button is in the tab order (roving tabindex)", () => {
-    const tabbable = setup().buttons().filter((b) => b.getAttribute("tabindex") === "0");
+    const tabbable = setup()
+      .buttons()
+      .filter((b) => b.getAttribute("tabindex") === "0");
     expect(tabbable.length).toBe(1);
     expect(tabbable[0].getAttribute("data-tool")).toBe("heading");
   });

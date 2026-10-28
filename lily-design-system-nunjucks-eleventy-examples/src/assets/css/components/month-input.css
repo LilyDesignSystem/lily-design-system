@@ -11,4 +11,6 @@
   line-height: 1.25;
 }
 
-.month-input[aria-invalid="true"] { border-color: var(--nhsuk-red); }
+.month-input[aria-invalid="true"] {
+  border-color: var(--nhsuk-red);
+}

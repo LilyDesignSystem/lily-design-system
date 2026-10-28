@@ -18,11 +18,7 @@ import {
 } from "@angular/core";
 import { IconButton, Listbox } from "@lilydesignsystem/angular-headless";
 
-import {
-  defaultLocaleLabels,
-  RTL_LANGUAGE_TAGS,
-  RTL_SCRIPT_SUBTAGS,
-} from "./locales";
+import { defaultLocaleLabels, RTL_LANGUAGE_TAGS, RTL_SCRIPT_SUBTAGS } from "./locales";
 
 /**
  * Default button icon: a bundled SVG (globe outline), not a Unicode
@@ -104,10 +100,7 @@ export function localeEndonym(locale: string): string {
 /** Opportunistic Intl.DisplayNames lookup; never throws. */
 function intlDisplayName(locale: string): string {
   try {
-    const env =
-      typeof navigator !== "undefined" && navigator.language
-        ? navigator.language
-        : "en";
+    const env = typeof navigator !== "undefined" && navigator.language ? navigator.language : "en";
     const dn = new Intl.DisplayNames([env], { type: "language" });
     return dn.of(bcp47LocaleTag(locale)) ?? "";
   } catch {
@@ -296,8 +289,7 @@ export class LocalePicker {
   /** Projected icon template; replaces the default icon when supplied. */
   protected readonly iconTemplate = contentChild(TemplateRef);
 
-  private readonly rootRef =
-    viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
+  private readonly rootRef = viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
   // Angular resolves a template-ref-variable on a component tag to the
   // component INSTANCE by default (not its ElementRef) — exactly what's
   // needed to call the headless components' own public `focus()` methods.
@@ -340,9 +332,7 @@ export class LocalePicker {
     // Keyboard focus only: a mouse click also focuses the button in
     // Chromium, and the tooltip should not stick after a click.
     try {
-      this.focusButton.set(
-        this.buttonRef().element?.matches(":focus-visible") ?? false,
-      );
+      this.focusButton.set(this.buttonRef().element?.matches(":focus-visible") ?? false);
     } catch {
       this.focusButton.set(true); // engine without :focus-visible — err towards showing
     }
@@ -393,20 +383,13 @@ export class LocalePicker {
         const sk = this.storageKey();
         if (!initial && sk) {
           try {
-            initial =
-              (typeof localStorage !== "undefined"
-                ? localStorage.getItem(sk)
-                : null) ?? "";
+            initial = (typeof localStorage !== "undefined" ? localStorage.getItem(sk) : null) ?? "";
           } catch {
             // ignore privacy errors
           }
         }
 
-        if (
-          !initial &&
-          this.detectFromNavigator() &&
-          typeof navigator !== "undefined"
-        ) {
+        if (!initial && this.detectFromNavigator() && typeof navigator !== "undefined") {
           const navLangs =
             navigator.languages && navigator.languages.length > 0
               ? Array.from(navigator.languages)
@@ -491,9 +474,7 @@ export class LocalePicker {
     // aria-activedescendant off rather than pointing at an id that
     // does not exist.
     this.activeIndex.set(
-      this.locales().length === 0
-        ? -1
-        : (startIndex ?? (selected >= 0 ? selected : 0)),
+      this.locales().length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0)),
     );
     this.open.set(true);
     // Focus moves to the listbox; the active option is conveyed via

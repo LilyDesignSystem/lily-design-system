@@ -38,21 +38,31 @@
   invalid HTML and breaks keyboard behaviour.
 -->
 <script lang="ts">
-  import TextSizePicker from "../TextSizePicker.svelte";
+    import TextSizePicker from "../TextSizePicker.svelte";
 
-  let size = $state("");
+    let size = $state("");
 </script>
 
 <TextSizePicker
-  label="Text size"
-  sizes={["small", "medium", "large", "x-large"]}
-  bind:value={size}
+    label="Text size"
+    sizes={["small", "medium", "large", "x-large"]}
+    bind:value={size}
 >
-  {#snippet children({ value, open, labelFor })}
-    <svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16">
-      <path d="M4 20 L10 4 L16 20 M6.5 14 H13.5" fill="none" stroke="currentColor" stroke-width="2" />
-    </svg>
-    <span class="text-size-picker-text">{labelFor(value)}</span>
-    <span aria-hidden="true">{open ? "▴" : "▾"}</span>
-  {/snippet}
+    {#snippet children({ value, open, labelFor })}
+        <svg
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            width="16"
+            height="16"
+        >
+            <path
+                d="M4 20 L10 4 L16 20 M6.5 14 H13.5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+            />
+        </svg>
+        <span class="text-size-picker-text">{labelFor(value)}</span>
+        <span aria-hidden="true">{open ? "▴" : "▾"}</span>
+    {/snippet}
 </TextSizePicker>

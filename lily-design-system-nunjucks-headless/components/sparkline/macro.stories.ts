@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<svg
   class="sparkline"
@@ -12,9 +12,9 @@ const html = `<svg
 </svg>`;
 
 const meta = {
-  title: 'Headless/Sparkline',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/Sparkline",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

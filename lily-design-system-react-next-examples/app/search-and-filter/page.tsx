@@ -24,7 +24,7 @@ interface Product {
 const products: Product[] = [
     { id: 1, name: "Wireless Keyboard", category: "Electronics", price: 59.99, status: "in-stock" },
     { id: 2, name: "Ergonomic Mouse", category: "Electronics", price: 34.99, status: "in-stock" },
-    { id: 3, name: "Standing Desk", category: "Furniture", price: 499.00, status: "low-stock" },
+    { id: 3, name: "Standing Desk", category: "Furniture", price: 499.0, status: "low-stock" },
     { id: 4, name: "Monitor Arm", category: "Furniture", price: 89.99, status: "in-stock" },
     { id: 5, name: "USB-C Hub", category: "Electronics", price: 44.99, status: "out-of-stock" },
     { id: 6, name: "Desk Lamp", category: "Lighting", price: 29.99, status: "in-stock" },
@@ -48,7 +48,7 @@ export default function SearchAndFilterPage() {
     const [tagValue, setTagValue] = useState("");
 
     const comboSuggestions = categories.filter(
-        (c) => c.toLowerCase().includes(comboValue.toLowerCase()) && !filterTags.includes(c)
+        (c) => c.toLowerCase().includes(comboValue.toLowerCase()) && !filterTags.includes(c),
     );
 
     const filtered = products.filter((p) => {
@@ -82,14 +82,26 @@ export default function SearchAndFilterPage() {
             <Combobox
                 label="Select category"
                 value={comboValue}
-                onChange={(v) => { setComboValue(v); setComboOpen(v.length > 0); }}
+                onChange={(v) => {
+                    setComboValue(v);
+                    setComboOpen(v.length > 0);
+                }}
                 open={comboOpen}
                 onOpenChange={setComboOpen}
             >
                 {comboSuggestions.map((cat) => (
-                    <div key={cat} role="option" tabIndex={-1} onClick={() => {
-                        addTag(cat); setComboValue(""); setComboOpen(false);
-                    }}>{cat}</div>
+                    <div
+                        key={cat}
+                        role="option"
+                        tabIndex={-1}
+                        onClick={() => {
+                            addTag(cat);
+                            setComboValue("");
+                            setComboOpen(false);
+                        }}
+                    >
+                        {cat}
+                    </div>
                 ))}
             </Combobox>
 
@@ -103,14 +115,26 @@ export default function SearchAndFilterPage() {
 
             <TagGroup label="Active filters">
                 {filterTags.map((tag) => (
-                    <Tag key={tag} label={`Filter: ${tag}`}>
-                        {tag} <button onClick={() => removeTag(tag)} aria-label={`Remove ${tag}`}>x</button>
+                    <Tag
+                        key={tag}
+                        label={`Filter: ${tag}`}
+                    >
+                        {tag}{" "}
+                        <button
+                            onClick={() => removeTag(tag)}
+                            aria-label={`Remove ${tag}`}
+                        >
+                            x
+                        </button>
                     </Tag>
                 ))}
             </TagGroup>
 
             <h2>Results ({filtered.length})</h2>
-            <DataTable label="Product catalog" caption={`${filtered.length} products found`}>
+            <DataTable
+                label="Product catalog"
+                caption={`${filtered.length} products found`}
+            >
                 <DataTableHead>
                     <DataTableRow>
                         <th scope="col">Name</th>

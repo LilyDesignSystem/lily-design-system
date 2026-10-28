@@ -6,7 +6,10 @@ import type { OrgEditorOptions } from "./index.js";
 
 const SNIPPET = readFileSync("snippet.html", "utf8");
 const tick = () => new Promise((resolve) => setTimeout(resolve, 0));
-const settle = async () => { await tick(); await tick(); };
+const settle = async () => {
+    await tick();
+    await tick();
+};
 
 const LABELS = {
     heading: "Heading",
@@ -61,18 +64,25 @@ async function mount(extra: Partial<OrgEditorOptions> = {}) {
     const root = document.querySelector(".org-editor") as HTMLElement;
     const textarea = root.querySelector("textarea") as HTMLTextAreaElement;
     const buttons = () => Array.from(root.querySelectorAll<HTMLButtonElement>("button"));
-    const button = (name: string) => root.querySelector<HTMLButtonElement>(`button[aria-label="${name}"]`)!;
+    const button = (name: string) =>
+        root.querySelector<HTMLButtonElement>(`button[aria-label="${name}"]`)!;
     return { root, textarea, buttons, button };
 }
 
-const click = async (el: HTMLElement) => { el.click(); await settle(); };
+const click = async (el: HTMLElement) => {
+    el.click();
+    await settle();
+};
 const press = async (target: Element, key: string, init: KeyboardEventInit = {}) => {
     const ev = new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...init });
     target.dispatchEvent(ev);
     await settle();
     return ev;
 };
-const select = (ta: HTMLTextAreaElement, a: number, b: number) => { ta.focus(); ta.setSelectionRange(a, b); };
+const select = (ta: HTMLTextAreaElement, a: number, b: number) => {
+    ta.focus();
+    ta.setSelectionRange(a, b);
+};
 
 describe("structure", () => {
     test("renders a toolbar and a textarea under the base classes", async () => {
@@ -89,11 +99,14 @@ describe("structure", () => {
     test("renders one named button per labelled tool, in the default order", async () => {
         const { buttons } = await mount();
         expect(buttons().map((b) => b.dataset.tool)).toEqual([...TOOL_IDS]);
-        expect(buttons().map((b) => b.getAttribute("aria-label"))).toEqual(TOOL_IDS.map((t) => (LABELS as Record<string, string>)[t]));
+        expect(buttons().map((b) => b.getAttribute("aria-label"))).toEqual(
+            TOOL_IDS.map((t) => (LABELS as Record<string, string>)[t]),
+        );
     });
 
     test("every button carries its group", async () => {
-        for (const b of (await mount()).buttons()) expect(b.dataset.group).toBe(TOOL_GROUPS[b.dataset.tool as keyof typeof TOOL_GROUPS]);
+        for (const b of (await mount()).buttons())
+            expect(b.dataset.group).toBe(TOOL_GROUPS[b.dataset.tool as keyof typeof TOOL_GROUPS]);
     });
 
     test("omits a tool that has no label", async () => {
@@ -101,7 +114,9 @@ describe("structure", () => {
     });
 
     test("honours tools for subset and order", async () => {
-        expect((await mount({ tools: ["contact", "todo"] })).buttons().map((b) => b.dataset.tool)).toEqual(["contact", "todo"]);
+        expect(
+            (await mount({ tools: ["contact", "todo"] })).buttons().map((b) => b.dataset.tool),
+        ).toEqual(["contact", "todo"]);
     });
 
     test("every button is type=button", async () => {
@@ -110,18 +125,26 @@ describe("structure", () => {
 
     test("icons are decorative and draw one path each", async () => {
         const { root } = await mount();
-        for (const svg of Array.from(root.querySelectorAll("svg"))) expect(svg.getAttribute("aria-hidden")).toBe("true");
+        for (const svg of Array.from(root.querySelectorAll("svg")))
+            expect(svg.getAttribute("aria-hidden")).toBe("true");
         expect(root.querySelectorAll("svg path").length).toBe(TOOL_IDS.length);
     });
 
     test("the toolbar controls the textarea", async () => {
         const { root, textarea } = await mount();
-        expect(root.querySelector('[role="toolbar"]')!.getAttribute("aria-controls")).toBe(textarea.id);
+        expect(root.querySelector('[role="toolbar"]')!.getAttribute("aria-controls")).toBe(
+            textarea.id,
+        );
         expect(textarea.id).toMatch(/^org-editor-\d+$/);
     });
 
     test("passes name, rows, placeholder, required through to the textarea", async () => {
-        const { textarea } = await mount({ name: "body", rows: 6, placeholder: "Type", required: true });
+        const { textarea } = await mount({
+            name: "body",
+            rows: 6,
+            placeholder: "Type",
+            required: true,
+        });
         expect(textarea.name).toBe("body");
         expect(textarea.rows).toBe(6);
         expect(textarea.placeholder).toBe("Type");
@@ -196,7 +219,9 @@ describe("tools", () => {
         select(textarea, 0, 5);
         await click(button("Link"));
         expect(textarea.value).toBe("[[https://][hello]] world");
-        expect(textarea.value.slice(textarea.selectionStart, textarea.selectionEnd)).toBe("https://");
+        expect(textarea.value.slice(textarea.selectionStart, textarea.selectionEnd)).toBe(
+            "https://",
+        );
     });
 
     test("heading uses the headingLevel", async () => {
@@ -246,7 +271,10 @@ describe("tools", () => {
     });
 
     test("the keywords are an option", async () => {
-        const { textarea, button } = await mount({ value: "* Ship", todoKeywords: ["NEXT", "DONE"] });
+        const { textarea, button } = await mount({
+            value: "* Ship",
+            todoKeywords: ["NEXT", "DONE"],
+        });
         select(textarea, 0, 0);
         await click(button("Task"));
         expect(textarea.value).toBe("* NEXT Ship");
@@ -264,7 +292,9 @@ describe("tools", () => {
         select(textarea, 0, 0);
         await click(button("Scheduled"));
         expect(textarea.value).toBe("* Ship\nSCHEDULED: <2026-10-24 Sat>\nbody");
-        expect(textarea.value.slice(textarea.selectionStart, textarea.selectionEnd)).toBe("2026-10-24 Sat");
+        expect(textarea.value.slice(textarea.selectionStart, textarea.selectionEnd)).toBe(
+            "2026-10-24 Sat",
+        );
     });
 
     test("scheduled again removes it", async () => {
@@ -345,7 +375,9 @@ describe("tools", () => {
         const { textarea, button } = await mount({ value: "Ada Lovelace" });
         select(textarea, 0, 12);
         await click(button("Contact"));
-        expect(textarea.value).toBe("* Ada Lovelace\n:PROPERTIES:\n:EMAIL: \n:PHONE: \n:ADDRESS: \n:BIRTHDAY: \n:END:");
+        expect(textarea.value).toBe(
+            "* Ada Lovelace\n:PROPERTIES:\n:EMAIL: \n:PHONE: \n:ADDRESS: \n:BIRTHDAY: \n:END:",
+        );
     });
 
     test("the contact properties are an option", async () => {
@@ -425,7 +457,9 @@ describe("shortcuts", () => {
 
 describe("toolbar keyboard", () => {
     test("only one button is in the tab order (roving tabindex)", async () => {
-        const tabbable = (await mount()).buttons().filter((b) => b.getAttribute("tabindex") === "0");
+        const tabbable = (await mount())
+            .buttons()
+            .filter((b) => b.getAttribute("tabindex") === "0");
         expect(tabbable.length).toBe(1);
         expect(tabbable[0].dataset.tool).toBe("heading");
     });

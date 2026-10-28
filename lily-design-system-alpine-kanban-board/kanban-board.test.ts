@@ -6,7 +6,10 @@ import type { KanbanOptions } from "./index.js";
 
 const SNIPPET = readFileSync("snippet.html", "utf8");
 const tick = () => new Promise((resolve) => setTimeout(resolve, 0));
-const settle = async () => { await tick(); await tick(); };
+const settle = async () => {
+    await tick();
+    await tick();
+};
 
 const LABELS = {
     grid: "Board",
@@ -52,11 +55,20 @@ async function mount(extra: Partial<KanbanOptions> = {}) {
     return document.querySelector(".kanban-board") as HTMLElement;
 }
 
-const state = () => Alpine.$data(document.querySelector(".kanban-board") as HTMLElement) as ReturnType<typeof createKanbanBoard>;
-const cell = (row: number, col: number) => document.querySelector(`[data-row="${row}"][data-col="${col}"]`) as HTMLElement;
-const cardTitles = (col: number) => [...document.querySelectorAll(`td[data-col="${col}"] .kanban-card-title`)].map((e) => e.textContent);
+const state = () =>
+    Alpine.$data(document.querySelector(".kanban-board") as HTMLElement) as ReturnType<
+        typeof createKanbanBoard
+    >;
+const cell = (row: number, col: number) =>
+    document.querySelector(`[data-row="${row}"][data-col="${col}"]`) as HTMLElement;
+const cardTitles = (col: number) =>
+    [...document.querySelectorAll(`td[data-col="${col}"] .kanban-card-title`)].map(
+        (e) => e.textContent,
+    );
 const press = async (target: Element, key: string, init: KeyboardEventInit = {}) => {
-    target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...init }));
+    target.dispatchEvent(
+        new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...init }),
+    );
     await settle();
 };
 
@@ -67,7 +79,11 @@ describe("rendering", () => {
         expect(table.getAttribute("role")).toBe("grid");
         expect(table.getAttribute("aria-label")).toBe("Board");
         expect(table.getAttribute("aria-colcount")).toBe("3");
-        expect([...document.querySelectorAll("th")].map((h) => h.querySelector(".kanban-board-column-title")?.textContent)).toEqual(["To do", "Doing", "Done"]);
+        expect(
+            [...document.querySelectorAll("th")].map(
+                (h) => h.querySelector(".kanban-board-column-title")?.textContent,
+            ),
+        ).toEqual(["To do", "Doing", "Done"]);
         expect(document.querySelectorAll("tbody tr")).toHaveLength(2);
         expect(document.querySelectorAll("tbody td")).toHaveLength(6);
         expect(cardTitles(0)).toEqual(["Alpha", "Bravo"]);
@@ -77,8 +93,11 @@ describe("rendering", () => {
 
     test("shows card counts and a WIP-limit warning only when over", async () => {
         await mount();
-        expect([...document.querySelectorAll(".kanban-board-count")].map((e) => e.textContent)).toEqual(["2 cards", "1 cards", "0 cards"]);
-        const over = () => [...document.querySelectorAll("th")].filter((h) => h.hasAttribute("data-over-limit"));
+        expect(
+            [...document.querySelectorAll(".kanban-board-count")].map((e) => e.textContent),
+        ).toEqual(["2 cards", "1 cards", "0 cards"]);
+        const over = () =>
+            [...document.querySelectorAll("th")].filter((h) => h.hasAttribute("data-over-limit"));
         expect(over()).toHaveLength(0);
         state().move("c1", "doing");
         await settle();
@@ -97,13 +116,20 @@ describe("moving with the menu", () => {
     test("Enter on a card opens a listbox of the other columns and names the control", async () => {
         await mount();
         cell(0, 0).focus();
-        expect(document.querySelector(".kanban-move-button")?.getAttribute("aria-label")).toBe("Move Alpha");
+        expect(document.querySelector(".kanban-move-button")?.getAttribute("aria-label")).toBe(
+            "Move Alpha",
+        );
         await press(cell(0, 0), "Enter");
         const menu = document.querySelector(".kanban-move-menu") as HTMLElement;
         expect(menu.getAttribute("role")).toBe("listbox");
-        expect([...menu.querySelectorAll("[role=option]")].map((o) => o.textContent)).toEqual(["Doing", "Done"]);
+        expect([...menu.querySelectorAll("[role=option]")].map((o) => o.textContent)).toEqual([
+            "Doing",
+            "Done",
+        ]);
         expect(cell(0, 0).getAttribute("aria-expanded")).toBe("true");
-        expect(cell(0, 0).getAttribute("aria-activedescendant")).toBe(menu.querySelector("[role=option]")?.id);
+        expect(cell(0, 0).getAttribute("aria-activedescendant")).toBe(
+            menu.querySelector("[role=option]")?.id,
+        );
     });
 
     test("arrows move the cursor, Enter chooses, focus follows the card and it is announced", async () => {
@@ -117,7 +143,9 @@ describe("moving with the menu", () => {
         expect(cardTitles(0)).toEqual(["Bravo"]);
         expect(cardTitles(2)).toEqual(["Alpha"]);
         expect(document.activeElement).toBe(cell(0, 2));
-        expect(document.querySelector(".kanban-board-status")?.textContent).toBe("Alpha moved to Done");
+        expect(document.querySelector(".kanban-board-status")?.textContent).toBe(
+            "Alpha moved to Done",
+        );
         expect(seen).toHaveBeenCalledWith({ cardId: "c1", toColumnId: "done" });
         expect(document.querySelector(".kanban-move-menu")).toBeNull();
     });
@@ -138,8 +166,10 @@ describe("moving with the menu", () => {
 
     test("clicking the move button or an option works for the pointer", async () => {
         await mount();
-        (document.querySelector(".kanban-move-button") as HTMLElement).click(); await settle();
-        (document.querySelectorAll(".kanban-move-option")[1] as HTMLElement).click(); await settle();
+        (document.querySelector(".kanban-move-button") as HTMLElement).click();
+        await settle();
+        (document.querySelectorAll(".kanban-move-option")[1] as HTMLElement).click();
+        await settle();
         expect(cardTitles(2)).toEqual(["Alpha"]);
     });
 
@@ -188,7 +218,9 @@ describe("rules", () => {
         expect(state().move("c1", "done")).toBe(false);
         await settle();
         expect(cardTitles(2)).toEqual([]);
-        expect(document.querySelector(".kanban-board-status")?.textContent).toBe("Alpha cannot go to Done");
+        expect(document.querySelector(".kanban-board-status")?.textContent).toBe(
+            "Alpha cannot go to Done",
+        );
         expect(state().move("c1", "doing")).toBe(true);
     });
 
@@ -209,14 +241,18 @@ describe("rules", () => {
 
 describe("drag and drop", () => {
     const dragEvent = (type: string) => {
-        const event = new Event(type, { bubbles: true, cancelable: true }) as Event & { dataTransfer: Record<string, unknown> };
+        const event = new Event(type, { bubbles: true, cancelable: true }) as Event & {
+            dataTransfer: Record<string, unknown>;
+        };
         event.dataTransfer = { setData: vi.fn(), effectAllowed: "", dropEffect: "" };
         return event;
     };
 
     test("dragging a card onto an accepting column moves it", async () => {
         await mount();
-        (document.querySelector(".kanban-card") as HTMLElement).dispatchEvent(dragEvent("dragstart"));
+        (document.querySelector(".kanban-card") as HTMLElement).dispatchEvent(
+            dragEvent("dragstart"),
+        );
         const over = dragEvent("dragover");
         cell(0, 2).dispatchEvent(over);
         await settle();
@@ -231,7 +267,9 @@ describe("drag and drop", () => {
 
     test("a refused drop target is marked blocked and not cancelled", async () => {
         await mount({ canMove: (_card, to) => to.id !== "done" });
-        (document.querySelector(".kanban-card") as HTMLElement).dispatchEvent(dragEvent("dragstart"));
+        (document.querySelector(".kanban-card") as HTMLElement).dispatchEvent(
+            dragEvent("dragstart"),
+        );
         await settle();
         const over = dragEvent("dragover");
         cell(0, 2).dispatchEvent(over);

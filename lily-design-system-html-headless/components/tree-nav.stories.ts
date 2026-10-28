@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<nav
   class="tree-nav"
@@ -19,9 +19,9 @@ const html = `<nav
 </script>`;
 
 const meta = {
-  title: 'Headless/TreeNav',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/TreeNav",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

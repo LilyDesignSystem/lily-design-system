@@ -47,12 +47,10 @@
     let step: Step = $state(0);
 
     // Form state.
-    let reason: "" | "routine" | "follow-up" | "vaccination" | "other" =
-        $state("");
+    let reason: "" | "routine" | "follow-up" | "vaccination" | "other" = $state("");
     let reasonOther = $state("");
     let appointmentDate = $state("");
-    let appointmentTime: "" | "morning" | "afternoon" | "evening" =
-        $state("");
+    let appointmentTime: "" | "morning" | "afternoon" | "evening" = $state("");
     let fullName = $state("");
     let email = $state("");
     let phone = $state("");
@@ -108,12 +106,10 @@
 
     function validateDateTime(): boolean {
         const e: Record<string, string> = {};
-        if (!appointmentDate)
-            e.appointmentDate = "Enter your preferred date";
+        if (!appointmentDate) e.appointmentDate = "Enter your preferred date";
         else if (appointmentDate < todayIso())
             e.appointmentDate = "Enter a date that is today or in the future";
-        if (!appointmentTime)
-            e.appointmentTime = "Select a preferred time of day";
+        if (!appointmentTime) e.appointmentTime = "Select a preferred time of day";
         errors = e;
         return Object.keys(e).length === 0;
     }
@@ -122,8 +118,7 @@
         const e: Record<string, string> = {};
         if (!fullName.trim()) e.fullName = "Enter your full name";
         if (!email.trim()) e.email = "Enter your email address";
-        else if (!email.includes("@"))
-            e.email = "Enter an email address in the correct format";
+        else if (!email.includes("@")) e.email = "Enter an email address in the correct format";
         errors = e;
         return Object.keys(e).length === 0;
     }
@@ -131,8 +126,7 @@
     function validateCheckAnswers(): boolean {
         const e: Record<string, string> = {};
         if (!confirmedAccurate)
-            e.confirmedAccurate =
-                "Confirm that the information above is correct";
+            e.confirmedAccurate = "Confirm that the information above is correct";
         errors = e;
         return Object.keys(e).length === 0;
     }
@@ -204,24 +198,34 @@
     <BackLink href="/">Back to examples</BackLink>
 
     {#if step >= 1 && step <= 4}
-        <StepList label="Booking progress" current={step - 1}>
-            <StepListItem status={statusFor(1)} current={step === 1}
-                >Reason</StepListItem
+        <StepList
+            label="Booking progress"
+            current={step - 1}
+        >
+            <StepListItem
+                status={statusFor(1)}
+                current={step === 1}>Reason</StepListItem
             >
-            <StepListItem status={statusFor(2)} current={step === 2}
-                >Date and time</StepListItem
+            <StepListItem
+                status={statusFor(2)}
+                current={step === 2}>Date and time</StepListItem
             >
-            <StepListItem status={statusFor(3)} current={step === 3}
-                >Your details</StepListItem
+            <StepListItem
+                status={statusFor(3)}
+                current={step === 3}>Your details</StepListItem
             >
-            <StepListItem status={statusFor(4)} current={step === 4}
-                >Check your answers</StepListItem
+            <StepListItem
+                status={statusFor(4)}
+                current={step === 4}>Check your answers</StepListItem
             >
         </StepList>
     {/if}
 
     {#if Object.keys(errors).length > 0}
-        <ErrorSummary title="There is a problem" id="booking-error-summary">
+        <ErrorSummary
+            title="There is a problem"
+            id="booking-error-summary"
+        >
             <ul>
                 {#if errors.reason}
                     <li><a href="#reason-routine">{errors.reason}</a></li>
@@ -233,16 +237,12 @@
                 {/if}
                 {#if errors.appointmentDate}
                     <li>
-                        <a href="#appointment-date"
-                            >{errors.appointmentDate}</a
-                        >
+                        <a href="#appointment-date">{errors.appointmentDate}</a>
                     </li>
                 {/if}
                 {#if errors.appointmentTime}
                     <li>
-                        <a href="#appointment-time"
-                            >{errors.appointmentTime}</a
-                        >
+                        <a href="#appointment-time">{errors.appointmentTime}</a>
                     </li>
                 {/if}
                 {#if errors.fullName}
@@ -253,9 +253,7 @@
                 {/if}
                 {#if errors.confirmedAccurate}
                     <li>
-                        <a href="#confirmed-accurate"
-                            >{errors.confirmedAccurate}</a
-                        >
+                        <a href="#confirmed-accurate">{errors.confirmedAccurate}</a>
                     </li>
                 {/if}
             </ul>
@@ -263,30 +261,31 @@
     {/if}
 
     {#if step === 0}
-        <h2 id="step-heading" tabindex="-1">Before you start</h2>
+        <h2
+            id="step-heading"
+            tabindex="-1"
+        >
+            Before you start
+        </h2>
 
         <WarningCallout label="Emergency notice">
-            <p>
-                If you have a medical emergency, call 999 or go to your
-                nearest A&amp;E.
-            </p>
+            <p>If you have a medical emergency, call 999 or go to your nearest A&amp;E.</p>
         </WarningCallout>
 
         <p>
-            Use this service to book a routine appointment with your GP
-            surgery online. It takes about 5 minutes.
+            Use this service to book a routine appointment with your GP surgery online. It takes
+            about 5 minutes.
         </p>
 
         <InsetText>
-            Appointments are available Monday to Friday, 8am to 6pm. Most
-            requests are confirmed within 2 working days.
+            Appointments are available Monday to Friday, 8am to 6pm. Most requests are confirmed
+            within 2 working days.
         </InsetText>
 
         <Details summary="What happens at your appointment">
             <p>
-                A clinician will review the reason you gave for the
-                appointment and may ask follow-up questions. Bring a list of
-                any medicines you are currently taking.
+                A clinician will review the reason you gave for the appointment and may ask
+                follow-up questions. Bring a list of any medicines you are currently taking.
             </p>
         </Details>
 
@@ -294,7 +293,12 @@
             <Button onclick={() => goToStep(1)}>Start now</Button>
         </p>
     {:else if step === 1}
-        <h2 id="step-heading" tabindex="-1">Reason for your appointment</h2>
+        <h2
+            id="step-heading"
+            tabindex="-1"
+        >
+            Reason for your appointment
+        </h2>
 
         <Form
             label="Reason for your appointment"
@@ -376,11 +380,14 @@
             <p><Button type="submit">Continue</Button></p>
         </Form>
     {:else if step === 2}
-        <h2 id="step-heading" tabindex="-1">Choose a date and time</h2>
-
-        <InsetText
-            >Appointments are available Monday to Friday, 8am to 6pm.</InsetText
+        <h2
+            id="step-heading"
+            tabindex="-1"
         >
+            Choose a date and time
+        </h2>
+
+        <InsetText>Appointments are available Monday to Friday, 8am to 6pm.</InsetText>
 
         <Form
             label="Choose a date and time"
@@ -395,8 +402,7 @@
                     inputId="appointment-date"
                 >
                     <Hint id="appointment-date-hint"
-                        >We will try to match your preference, but
-                        availability may vary.</Hint
+                        >We will try to match your preference, but availability may vary.</Hint
                     >
                     <DateInput
                         id="appointment-date"
@@ -421,26 +427,28 @@
                         required
                     >
                         <Option value="">Select a time of day</Option>
-                        <Option value="morning"
-                            >{TIME_LABELS.morning}</Option
-                        >
-                        <Option value="afternoon"
-                            >{TIME_LABELS.afternoon}</Option
-                        >
-                        <Option value="evening"
-                            >{TIME_LABELS.evening}</Option
-                        >
+                        <Option value="morning">{TIME_LABELS.morning}</Option>
+                        <Option value="afternoon">{TIME_LABELS.afternoon}</Option>
+                        <Option value="evening">{TIME_LABELS.evening}</Option>
                     </Select>
                 </Field>
             </Fieldset>
 
             <p style="display: flex; gap: var(--nhs-space-3);">
-                <Button type="button" onclick={() => goBack(1)}>Back</Button>
+                <Button
+                    type="button"
+                    onclick={() => goBack(1)}>Back</Button
+                >
                 <Button type="submit">Continue</Button>
             </p>
         </Form>
     {:else if step === 3}
-        <h2 id="step-heading" tabindex="-1">Your details</h2>
+        <h2
+            id="step-heading"
+            tabindex="-1"
+        >
+            Your details
+        </h2>
 
         <Form
             label="Your details"
@@ -467,9 +475,7 @@
                 error={errors.email}
                 inputId="email"
             >
-                <Hint id="email-hint"
-                    >We will use this to send your confirmation.</Hint
-                >
+                <Hint id="email-hint">We will use this to send your confirmation.</Hint>
                 <EmailInput
                     id="email"
                     label="Email address"
@@ -479,10 +485,12 @@
                 />
             </Field>
 
-            <Field label="Phone number" inputId="phone">
+            <Field
+                label="Phone number"
+                inputId="phone"
+            >
                 <Hint id="phone-hint"
-                    >Optional — only needed if we must contact you about a
-                    change.</Hint
+                    >Optional — only needed if we must contact you about a change.</Hint
                 >
                 <TelInput
                     id="phone"
@@ -503,12 +511,20 @@
             </p>
 
             <p style="display: flex; gap: var(--nhs-space-3);">
-                <Button type="button" onclick={() => goBack(2)}>Back</Button>
+                <Button
+                    type="button"
+                    onclick={() => goBack(2)}>Back</Button
+                >
                 <Button type="submit">Continue</Button>
             </p>
         </Form>
     {:else if step === 4}
-        <h2 id="step-heading" tabindex="-1">Check your answers</h2>
+        <h2
+            id="step-heading"
+            tabindex="-1"
+        >
+            Check your answers
+        </h2>
 
         <SummaryList label="Your appointment details">
             <SummaryListItem term="Reason">
@@ -516,42 +532,52 @@
                 {#if reason === "other" && reasonOther}
                     <br /><span>{reasonOther}</span>
                 {/if}
-                <a href="#reason" onclick={(e) => { e.preventDefault(); goToStep(1); }}
-                    >Change<span class="visually-hidden"> reason</span></a
+                <a
+                    href="#reason"
+                    onclick={(e) => {
+                        e.preventDefault();
+                        goToStep(1);
+                    }}>Change<span class="visually-hidden"> reason</span></a
                 >
             </SummaryListItem>
             <SummaryListItem term="Date">
                 {appointmentDate || "Not answered"}
                 <a
                     href="#date"
-                    onclick={(e) => { e.preventDefault(); goToStep(2); }}
-                    >Change<span class="visually-hidden"> date</span></a
+                    onclick={(e) => {
+                        e.preventDefault();
+                        goToStep(2);
+                    }}>Change<span class="visually-hidden"> date</span></a
                 >
             </SummaryListItem>
             <SummaryListItem term="Time of day">
                 {appointmentTime ? TIME_LABELS[appointmentTime] : "Not answered"}
                 <a
                     href="#time"
-                    onclick={(e) => { e.preventDefault(); goToStep(2); }}
-                    >Change<span class="visually-hidden"> time of day</span
-                    ></a
+                    onclick={(e) => {
+                        e.preventDefault();
+                        goToStep(2);
+                    }}>Change<span class="visually-hidden"> time of day</span></a
                 >
             </SummaryListItem>
             <SummaryListItem term="Full name">
                 {fullName || "Not answered"}
                 <a
                     href="#name"
-                    onclick={(e) => { e.preventDefault(); goToStep(3); }}
-                    >Change<span class="visually-hidden"> full name</span></a
+                    onclick={(e) => {
+                        e.preventDefault();
+                        goToStep(3);
+                    }}>Change<span class="visually-hidden"> full name</span></a
                 >
             </SummaryListItem>
             <SummaryListItem term="Email address">
                 {email || "Not answered"}
                 <a
                     href="#email-review"
-                    onclick={(e) => { e.preventDefault(); goToStep(3); }}
-                    >Change<span class="visually-hidden"> email address</span
-                    ></a
+                    onclick={(e) => {
+                        e.preventDefault();
+                        goToStep(3);
+                    }}>Change<span class="visually-hidden"> email address</span></a
                 >
             </SummaryListItem>
             <SummaryListItem term="Phone number">
@@ -562,18 +588,22 @@
                 {/if}
                 <a
                     href="#phone-review"
-                    onclick={(e) => { e.preventDefault(); goToStep(3); }}
-                    >Change<span class="visually-hidden"> phone number</span
-                    ></a
+                    onclick={(e) => {
+                        e.preventDefault();
+                        goToStep(3);
+                    }}>Change<span class="visually-hidden"> phone number</span></a
                 >
             </SummaryListItem>
             <SummaryListItem term="Interpreter or additional support">
                 {needsSupport ? "Yes" : "No"}
                 <a
                     href="#support-review"
-                    onclick={(e) => { e.preventDefault(); goToStep(3); }}
-                    >Change<span class="visually-hidden"
-                        > interpreter or additional support</span
+                    onclick={(e) => {
+                        e.preventDefault();
+                        goToStep(3);
+                    }}
+                    >Change<span class="visually-hidden">
+                        interpreter or additional support</span
                     ></a
                 >
             </SummaryListItem>
@@ -599,18 +629,25 @@
             </p>
 
             <p style="display: flex; gap: var(--nhs-space-3);">
-                <Button type="button" onclick={() => goBack(3)}>Back</Button>
+                <Button
+                    type="button"
+                    onclick={() => goBack(3)}>Back</Button
+                >
                 <Button type="submit">Confirm and book</Button>
             </p>
         </Form>
     {:else if step === 5}
-        <h2 id="step-heading" tabindex="-1">Booking confirmed</h2>
+        <h2
+            id="step-heading"
+            tabindex="-1"
+        >
+            Booking confirmed
+        </h2>
 
         <SuccessPanel label="Booking confirmed">
             <p>
                 Your appointment reference number is
-                <strong>{referenceNumber}</strong>. We have sent a
-                confirmation to {email}.
+                <strong>{referenceNumber}</strong>. We have sent a confirmation to {email}.
             </p>
         </SuccessPanel>
 
@@ -624,10 +661,8 @@
         <Panel label="What happens next">
             <p>
                 A member of the practice team will confirm your
-                {appointmentTime
-                    ? TIME_LABELS[appointmentTime].toLowerCase()
-                    : ""} appointment on {appointmentDate} by email. Keep your
-                reference number in case you need to change or cancel.
+                {appointmentTime ? TIME_LABELS[appointmentTime].toLowerCase() : ""} appointment on {appointmentDate}
+                by email. Keep your reference number in case you need to change or cancel.
             </p>
         </Panel>
 

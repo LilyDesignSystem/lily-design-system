@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<input
   class="ellada-dematerialised-securities-system-input"
@@ -8,9 +8,9 @@ const html = `<input
   aria-label="Dematerialised Securities System">`;
 
 const meta = {
-  title: 'Headless/ElladaDematerialisedSecuritiesSystemInput',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/ElladaDematerialisedSecuritiesSystemInput",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

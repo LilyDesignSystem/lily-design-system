@@ -37,7 +37,10 @@ export function ExternalButtonsExample() {
                 storageKey="lily-text-size"
             />
 
-            <div role="group" aria-label="Text size presets">
+            <div
+                role="group"
+                aria-label="Text size presets"
+            >
                 {SIZES.map((slug) => (
                     <button
                         key={slug}
@@ -50,7 +53,10 @@ export function ExternalButtonsExample() {
                 ))}
             </div>
 
-            <p className="text-size-picker-status" aria-live="polite">
+            <p
+                className="text-size-picker-status"
+                aria-live="polite"
+            >
                 Text size: {size ? sizeName(size) : "none"}
             </p>
         </>

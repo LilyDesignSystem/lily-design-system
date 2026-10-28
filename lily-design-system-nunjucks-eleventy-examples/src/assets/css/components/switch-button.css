@@ -22,7 +22,9 @@
   height: 1rem;
   background: var(--nhsuk-white);
   border-radius: 50%;
-  transition: left 0.15s ease-out, background 0.15s ease-out;
+  transition:
+    left 0.15s ease-out,
+    background 0.15s ease-out;
 }
 
 .switch-button[aria-checked="true"] {
@@ -39,5 +41,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .switch-button::after { transition: none; }
+  .switch-button::after {
+    transition: none;
+  }
 }

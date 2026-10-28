@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<article
   class="chat-message"
@@ -7,9 +7,9 @@ const html = `<article
 </article>`;
 
 const meta = {
-  title: 'Headless/ChatMessage',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/ChatMessage",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

@@ -19,32 +19,32 @@ import { useState } from "react";
 import { LocalePicker } from "../LocalePicker";
 
 export function LocaleClient({
-  initialLocale,
-  children,
+    initialLocale,
+    children,
 }: {
-  initialLocale: string;
-  children?: React.ReactNode;
+    initialLocale: string;
+    children?: React.ReactNode;
 }) {
-  const [locale, setLocale] = useState(initialLocale);
+    const [locale, setLocale] = useState(initialLocale);
 
-  function writeCookie(code: string) {
-    document.cookie = `locale=${code}; path=/; max-age=31536000; SameSite=Lax`;
-  }
+    function writeCookie(code: string) {
+        document.cookie = `locale=${code}; path=/; max-age=31536000; SameSite=Lax`;
+    }
 
-  return (
-    <>
-      <LocalePicker
-        label="Language"
-        locales={["en", "fr", "ar", "he"]}
-        value={locale}
-        onChange={(code) => {
-          setLocale(code);
-          writeCookie(code);
-        }}
-      />
-      {children}
-    </>
-  );
+    return (
+        <>
+            <LocalePicker
+                label="Language"
+                locales={["en", "fr", "ar", "he"]}
+                value={locale}
+                onChange={(code) => {
+                    setLocale(code);
+                    writeCookie(code);
+                }}
+            />
+            {children}
+        </>
+    );
 }
 
 export default LocaleClient;

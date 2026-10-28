@@ -1,4 +1,7 @@
-<script lang="ts" module>
+<script
+    lang="ts"
+    module
+>
     import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
     import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
     import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
@@ -15,10 +18,7 @@
         ShareTarget,
     } from "@lilydesignsystem/svelte-share-picker";
     import type { Props as SearchPickerProps } from "@lilydesignsystem/svelte-search-picker";
-    import type {
-        Props as LinkPickerProps,
-        LinkItem,
-    } from "@lilydesignsystem/svelte-link-picker";
+    import type { Props as LinkPickerProps, LinkItem } from "@lilydesignsystem/svelte-link-picker";
 
     /**
      * All 57 Lily reference theme slugs (see `themes/` at the repo root),
@@ -202,9 +202,16 @@
     }: Props = $props();
 </script>
 
-<div class={`picker-bar ${className}`.trim()} {...restProps}>
+<div
+    class={`picker-bar ${className}`.trim()}
+    {...restProps}
+>
     {#if links.length > 0 && labels.link}
-        <LinkPicker label={labels.link} {links} {...linkProps} />
+        <LinkPicker
+            label={labels.link}
+            {links}
+            {...linkProps}
+        />
     {/if}
     <SearchPicker
         label={labels.search}
@@ -218,7 +225,11 @@
         {themes}
         {...themeProps}
     />
-    <LocalePicker label={labels.locale} {locales} {...localeProps} />
+    <LocalePicker
+        label={labels.locale}
+        {locales}
+        {...localeProps}
+    />
     {#if labels.timeZone && timeZoneProps.locale}
         <TimeZonePicker
             label={labels.timeZone}
@@ -232,5 +243,9 @@
         defaultValue="normal"
         {...textSizeProps}
     />
-    <SharePicker label={labels.share} targets={shareTargets} {...shareProps} />
+    <SharePicker
+        label={labels.share}
+        targets={shareTargets}
+        {...shareProps}
+    />
 </div>

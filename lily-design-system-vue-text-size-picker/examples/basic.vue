@@ -66,7 +66,10 @@ function labelFor(slug: string): string {
         v-model:value="size"
     />
 
-    <p class="text-size-picker-status" aria-live="polite">
+    <p
+        class="text-size-picker-status"
+        aria-live="polite"
+    >
         Text size: {{ labelFor(size) }}
     </p>
 </template>

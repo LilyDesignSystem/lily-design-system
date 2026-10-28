@@ -2,13 +2,35 @@ import { readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { fillTemplate, labelsFor, SPEC, textSizeLabels, type LabelHelper, type LabelPack } from "./label-pack.js";
+import {
+    fillTemplate,
+    labelsFor,
+    SPEC,
+    textSizeLabels,
+    type LabelHelper,
+    type LabelPack,
+} from "./label-pack.js";
 
 const dir = join(dirname(fileURLToPath(import.meta.url)), "label-packs");
-const files = readdirSync(dir).filter((f) => f.endsWith(".json")).sort();
-const packs = new Map<string, LabelPack>(files.map((f) => [f.replace(/\.json$/, ""), JSON.parse(readFileSync(join(dir, f), "utf8")) as LabelPack]));
+const files = readdirSync(dir)
+    .filter((f) => f.endsWith(".json"))
+    .sort();
+const packs = new Map<string, LabelPack>(
+    files.map((f) => [
+        f.replace(/\.json$/, ""),
+        JSON.parse(readFileSync(join(dir, f), "utf8")) as LabelPack,
+    ]),
+);
 const english = packs.get("en-001")!;
-const SECTIONS = ["common", "data-grid", "kanban-board", "calendar", "gantt-chart", "filter", "text-size"] as const;
+const SECTIONS = [
+    "common",
+    "data-grid",
+    "kanban-board",
+    "calendar",
+    "gantt-chart",
+    "filter",
+    "text-size",
+] as const;
 const HELPERS: LabelHelper[] = ["data-grid", "kanban-board", "calendar", "gantt-chart", "filter"];
 
 /** Every leaf string of a pack with its path, e.g. `data-grid.sortAnnouncement.ascending`. */
@@ -17,7 +39,9 @@ function leaves(pack: LabelPack): Map<string, string> {
     for (const section of SECTIONS) {
         for (const [key, value] of Object.entries(pack[section] ?? {})) {
             if (typeof value === "string") out.set(`${section}.${key}`, value);
-            else for (const [sub, text] of Object.entries(value)) out.set(`${section}.${key}.${sub}`, text);
+            else
+                for (const [sub, text] of Object.entries(value))
+                    out.set(`${section}.${key}.${sub}`, text);
         }
     }
     return out;
@@ -48,7 +72,9 @@ describe("label packs", () => {
             it("keeps every placeholder the English uses, and invents none", () => {
                 const base = leaves(english);
                 for (const [path, text] of leaves(pack)) {
-                    expect(placeholders(text).sort(), `${locale} ${path}`).toEqual(placeholders(base.get(path)!).sort());
+                    expect(placeholders(text).sort(), `${locale} ${path}`).toEqual(
+                        placeholders(base.get(path)!).sort(),
+                    );
                 }
             });
 
@@ -61,7 +87,15 @@ describe("label packs", () => {
                         if (!params) continue;
                         const args = params.map((param) => {
                             if (param.startsWith("@")) return pickSelect(pack, helper, key);
-                            if (param.includes("=")) return { card: { title: "T" }, column: { title: "T" }, lane: { title: "T" }, task: { label: "T" }, calendarEvent: { title: "T" }, baseline: { start: "S", end: "E" } }[param.split("|")[0].split("=")[1].split(".")[0]];
+                            if (param.includes("="))
+                                return {
+                                    card: { title: "T" },
+                                    column: { title: "T" },
+                                    lane: { title: "T" },
+                                    task: { label: "T" },
+                                    calendarEvent: { title: "T" },
+                                    baseline: { start: "S", end: "E" },
+                                }[param.split("|")[0].split("=")[1].split(".")[0]];
                             return "x";
                         });
                         const result = (value as (...a: unknown[]) => string)(...args);
@@ -78,18 +112,38 @@ describe("label packs", () => {
         expect(grid.pageStatus(2, 5, 47)).toBe("Page 2 of 5 (47 rows)");
         expect(grid.sortAnnouncement("Name", "descending")).toBe("Sorted by Name, descending");
         expect(grid.exportAnnouncement("xlsx", 3, "a.xlsx")).toBe("Exported 3 as XLSX: a.xlsx");
-        const kanban = labelsFor("kanban-board", english) as Record<string, (...a: unknown[]) => string>;
+        const kanban = labelsFor("kanban-board", english) as Record<
+            string,
+            (...a: unknown[]) => string
+        >;
         expect(kanban.moveButton({ title: "Fix bug" })).toBe("Move Fix bug");
         expect(kanban.collapseColumn({ title: "Done" }, true)).toBe("Expand Done");
-        expect(kanban.moveFailed("A", "B", new Error("offline"))).toBe("A could not move to B: offline");
-        const calendar = labelsFor("calendar", english) as Record<string, (...a: unknown[]) => string>;
+        expect(kanban.moveFailed("A", "B", new Error("offline"))).toBe(
+            "A could not move to B: offline",
+        );
+        const calendar = labelsFor("calendar", english) as Record<
+            string,
+            (...a: unknown[]) => string
+        >;
         expect(calendar.next("four-week")).toBe("Next four weeks");
-        const gantt = labelsFor("gantt-chart", english) as Record<string, (...a: unknown[]) => string>;
+        const gantt = labelsFor("gantt-chart", english) as Record<
+            string,
+            (...a: unknown[]) => string
+        >;
         expect(gantt.dependencySummary(["A", "B"])).toBe("Depends on A, B");
-        expect(gantt.baselineSummary("T", { start: "2026-01-01", end: "2026-01-05" }, 2)).toBe("T: planned 2026-01-01 to 2026-01-05, variance 2 days");
-        const calendarFb = labelsFor("calendar", english) as Record<string, (...a: unknown[]) => string>;
-        expect(calendarFb.eventMoveAnnouncement({ id: "e7" }, "2026-01-02")).toBe("e7 moved to 2026-01-02");
-        expect(calendarFb.eventMoveAnnouncement({ id: "e7", title: "Dentist" }, "2026-01-02")).toBe("Dentist moved to 2026-01-02");
+        expect(gantt.baselineSummary("T", { start: "2026-01-01", end: "2026-01-05" }, 2)).toBe(
+            "T: planned 2026-01-01 to 2026-01-05, variance 2 days",
+        );
+        const calendarFb = labelsFor("calendar", english) as Record<
+            string,
+            (...a: unknown[]) => string
+        >;
+        expect(calendarFb.eventMoveAnnouncement({ id: "e7" }, "2026-01-02")).toBe(
+            "e7 moved to 2026-01-02",
+        );
+        expect(calendarFb.eventMoveAnnouncement({ id: "e7", title: "Dentist" }, "2026-01-02")).toBe(
+            "Dentist moved to 2026-01-02",
+        );
         const filter = labelsFor("filter", english) as Record<string, (...a: unknown[]) => string>;
         expect(filter.operatorName("not-contains", {})).toBe("does not contain");
         expect(filter.rule(2)).toBe("Condition 2");
@@ -117,7 +171,8 @@ describe("textSizeLabels", () => {
         for (const [locale, pack] of packs) {
             const labels = textSizeLabels(pack);
             expect(Object.keys(labels), locale).toEqual(SIZES);
-            if (locale !== "pcm-001" && locale !== "sco-001") expect(new Set(Object.values(labels)).size, locale).toBe(7);
+            if (locale !== "pcm-001" && locale !== "sco-001")
+                expect(new Set(Object.values(labels)).size, locale).toBe(7);
         }
     });
     it("reads English and Spanish as specified", () => {

@@ -13,32 +13,32 @@
 // See spec/index.md §4.3 (client.js exports), §5 (behaviour).
 
 import {
-  initLinkPicker,
-  autoInit as autoInitLinkPicker,
+    initLinkPicker,
+    autoInit as autoInitLinkPicker,
 } from "@lilydesignsystem/nunjucks-link-picker";
 import {
-  initSearchPicker,
-  autoInit as autoInitSearchPicker,
+    initSearchPicker,
+    autoInit as autoInitSearchPicker,
 } from "@lilydesignsystem/nunjucks-search-picker";
 import {
-  initThemePicker,
-  autoInit as autoInitThemePicker,
+    initThemePicker,
+    autoInit as autoInitThemePicker,
 } from "@lilydesignsystem/nunjucks-theme-picker";
 import {
-  initLocalePicker,
-  autoInit as autoInitLocalePicker,
+    initLocalePicker,
+    autoInit as autoInitLocalePicker,
 } from "@lilydesignsystem/nunjucks-locale-picker";
 import {
-  initTextSizePicker,
-  autoInit as autoInitTextSizePicker,
+    initTextSizePicker,
+    autoInit as autoInitTextSizePicker,
 } from "@lilydesignsystem/nunjucks-text-size-picker";
 import {
-  initTimeZonePicker,
-  autoInit as autoInitTimeZonePicker,
+    initTimeZonePicker,
+    autoInit as autoInitTimeZonePicker,
 } from "@lilydesignsystem/nunjucks-time-zone-picker";
 import {
-  initSharePicker,
-  autoInit as autoInitSharePicker,
+    initSharePicker,
+    autoInit as autoInitSharePicker,
 } from "@lilydesignsystem/nunjucks-share-picker";
 
 /**
@@ -50,74 +50,74 @@ import {
  * function).
  */
 export const DEFAULT_THEMES = [
-  "abyss",
-  "acid",
-  "adobe-spectrum",
-  "ant-design",
-  "aqua",
-  "atlassian",
-  "autumn",
-  "black",
-  "bumblebee",
-  "business",
-  "cappuccino",
-  "caramellatte",
-  "cmyk",
-  "coffee",
-  "corporate",
-  "cupcake",
-  "cyberpunk",
-  "dark",
-  "dim",
-  "dracula",
-  "emerald",
-  "excel",
-  "fantasy",
-  "fluent",
-  "forest",
-  "garden",
-  "github-primer",
-  "halloween",
-  "ibm-carbon",
-  "lemonade",
-  "light",
-  "linear",
-  "lofi",
-  "luxury",
-  "mozilla-protocol",
-  "night",
-  "nord",
-  "notion",
-  "pastel",
-  "retro",
-  "salesforce",
-  "sap-fiori",
-  "silk",
-  "sunset",
-  "synthwave",
-  "valentine",
-  "vercel",
-  "winter",
-  "wireframe",
-  "united-kingdom-government-digital-service",
-  "united-kingdom-national-health-service-england-for-patients",
-  "united-kingdom-national-health-service-england-for-practitioners",
-  "united-kingdom-national-health-service-scotland-for-patients",
-  "united-kingdom-national-health-service-scotland-for-practitioners",
-  "united-kingdom-national-health-service-wales-for-patients",
-  "united-kingdom-national-health-service-wales-for-practitioners",
-  "united-states-web-design-system",
+    "abyss",
+    "acid",
+    "adobe-spectrum",
+    "ant-design",
+    "aqua",
+    "atlassian",
+    "autumn",
+    "black",
+    "bumblebee",
+    "business",
+    "cappuccino",
+    "caramellatte",
+    "cmyk",
+    "coffee",
+    "corporate",
+    "cupcake",
+    "cyberpunk",
+    "dark",
+    "dim",
+    "dracula",
+    "emerald",
+    "excel",
+    "fantasy",
+    "fluent",
+    "forest",
+    "garden",
+    "github-primer",
+    "halloween",
+    "ibm-carbon",
+    "lemonade",
+    "light",
+    "linear",
+    "lofi",
+    "luxury",
+    "mozilla-protocol",
+    "night",
+    "nord",
+    "notion",
+    "pastel",
+    "retro",
+    "salesforce",
+    "sap-fiori",
+    "silk",
+    "sunset",
+    "synthwave",
+    "valentine",
+    "vercel",
+    "winter",
+    "wireframe",
+    "united-kingdom-government-digital-service",
+    "united-kingdom-national-health-service-england-for-patients",
+    "united-kingdom-national-health-service-england-for-practitioners",
+    "united-kingdom-national-health-service-scotland-for-patients",
+    "united-kingdom-national-health-service-scotland-for-practitioners",
+    "united-kingdom-national-health-service-wales-for-patients",
+    "united-kingdom-national-health-service-wales-for-practitioners",
+    "united-states-web-design-system",
 ];
 
 /** The seven-step text-size scale, largest first. */
 export const DEFAULT_SIZES = [
-  "largest",
-  "larger",
-  "large",
-  "normal",
-  "small",
-  "smaller",
-  "smallest",
+    "largest",
+    "larger",
+    "large",
+    "normal",
+    "small",
+    "smaller",
+    "smallest",
 ];
 
 /**
@@ -133,48 +133,44 @@ export const DEFAULT_SIZES = [
  * @param {{linkProps?: object, searchProps?: object, themeProps?: object, localeProps?: object, timeZoneProps?: object, textSizeProps?: object, shareProps?: object}=} opts
  */
 export function initPickerBar(root, opts = {}) {
-  if (!root) {
+    if (!root) {
+        return {
+            link: null,
+            search: null,
+            theme: null,
+            locale: null,
+            timeZone: null,
+            textSize: null,
+            share: null,
+        };
+    }
+    const {
+        linkProps = {},
+        searchProps = {},
+        themeProps = {},
+        localeProps = {},
+        timeZoneProps = {},
+        textSizeProps = {},
+        shareProps = {},
+    } = opts;
+
+    const linkRoot = root.querySelector("[data-lily-link-picker-root]");
+    const searchRoot = root.querySelector("[data-lily-search-picker-root]");
+    const themeRoot = root.querySelector("[data-lily-theme-picker-root]");
+    const localeRoot = root.querySelector("[data-lily-locale-picker-root]");
+    const timeZoneRoot = root.querySelector("[data-lily-time-zone-picker-root]");
+    const textSizeRoot = root.querySelector("[data-lily-text-size-picker-root]");
+    const shareRoot = root.querySelector("[data-lily-share-picker-root]");
+
     return {
-      link: null,
-      search: null,
-      theme: null,
-      locale: null,
-      timeZone: null,
-      textSize: null,
-      share: null,
+        link: linkRoot ? initLinkPicker(linkRoot, linkProps) : null,
+        search: searchRoot ? initSearchPicker(searchRoot, searchProps) : null,
+        theme: themeRoot ? initThemePicker(themeRoot, themeProps) : null,
+        locale: localeRoot ? initLocalePicker(localeRoot, localeProps) : null,
+        timeZone: timeZoneRoot ? initTimeZonePicker(timeZoneRoot, timeZoneProps) : null,
+        textSize: textSizeRoot ? initTextSizePicker(textSizeRoot, textSizeProps) : null,
+        share: shareRoot ? initSharePicker(shareRoot, shareProps) : null,
     };
-  }
-  const {
-    linkProps = {},
-    searchProps = {},
-    themeProps = {},
-    localeProps = {},
-    timeZoneProps = {},
-    textSizeProps = {},
-    shareProps = {},
-  } = opts;
-
-  const linkRoot = root.querySelector("[data-lily-link-picker-root]");
-  const searchRoot = root.querySelector("[data-lily-search-picker-root]");
-  const themeRoot = root.querySelector("[data-lily-theme-picker-root]");
-  const localeRoot = root.querySelector("[data-lily-locale-picker-root]");
-  const timeZoneRoot = root.querySelector("[data-lily-time-zone-picker-root]");
-  const textSizeRoot = root.querySelector(
-    "[data-lily-text-size-picker-root]",
-  );
-  const shareRoot = root.querySelector("[data-lily-share-picker-root]");
-
-  return {
-    link: linkRoot ? initLinkPicker(linkRoot, linkProps) : null,
-    search: searchRoot ? initSearchPicker(searchRoot, searchProps) : null,
-    theme: themeRoot ? initThemePicker(themeRoot, themeProps) : null,
-    locale: localeRoot ? initLocalePicker(localeRoot, localeProps) : null,
-    timeZone: timeZoneRoot ? initTimeZonePicker(timeZoneRoot, timeZoneProps) : null,
-    textSize: textSizeRoot
-      ? initTextSizePicker(textSizeRoot, textSizeProps)
-      : null,
-    share: shareRoot ? initSharePicker(shareRoot, shareProps) : null,
-  };
 }
 
 /**
@@ -184,21 +180,19 @@ export function initPickerBar(root, opts = {}) {
  * @returns {Array<ReturnType<typeof initPickerBar>>}
  */
 export function autoInit(opts = {}) {
-  if (typeof document === "undefined") return [];
-  const roots = Array.from(
-    document.querySelectorAll("[data-lily-picker-bar-root]"),
-  );
-  return roots.map((root) => initPickerBar(root, opts));
+    if (typeof document === "undefined") return [];
+    const roots = Array.from(document.querySelectorAll("[data-lily-picker-bar-root]"));
+    return roots.map((root) => initPickerBar(root, opts));
 }
 
 // Re-exported so a consumer who only loaded picker-bar.client.js can
 // still reach the five siblings' own page-wide autoInit directly, e.g.
 // when a page also has a standalone theme-picker outside any bar.
 export {
-  autoInitLinkPicker,
-  autoInitSearchPicker,
-  autoInitThemePicker,
-  autoInitLocalePicker,
-  autoInitTextSizePicker,
-  autoInitSharePicker,
+    autoInitLinkPicker,
+    autoInitSearchPicker,
+    autoInitThemePicker,
+    autoInitLocalePicker,
+    autoInitTextSizePicker,
+    autoInitSharePicker,
 };

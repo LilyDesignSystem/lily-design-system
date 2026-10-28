@@ -5,10 +5,10 @@
 // first paint already shows the user's chosen theme.
 
 import {
-    ApplicationConfig,
-    inject,
-    mergeApplicationConfig,
-    provideEnvironmentInitializer,
+  ApplicationConfig,
+  inject,
+  mergeApplicationConfig,
+  provideEnvironmentInitializer,
 } from "@angular/core";
 import { DOCUMENT } from "@angular/common";
 
@@ -19,13 +19,13 @@ declare const appConfig: ApplicationConfig;
 import { INITIAL_THEME } from "./tokens/initial-theme";
 
 const serverConfig: ApplicationConfig = {
-    providers: [
-        provideEnvironmentInitializer(() => {
-            const doc = inject(DOCUMENT);
-            const slug = inject(INITIAL_THEME);
-            doc.documentElement.setAttribute("data-theme", slug);
-        }),
-    ],
+  providers: [
+    provideEnvironmentInitializer(() => {
+      const doc = inject(DOCUMENT);
+      const slug = inject(INITIAL_THEME);
+      doc.documentElement.setAttribute("data-theme", slug);
+    }),
+  ],
 };
 
 export const config = mergeApplicationConfig(appConfig, serverConfig);

@@ -13,7 +13,7 @@ test.describe("component page: contextual-help", () => {
 
   test("renders the H1 with the component name", async ({ page }) => {
     await expect(
-      page.getByRole("heading", { level: 1, name: new RegExp("^ContextualHelp$") })
+      page.getByRole("heading", { level: 1, name: new RegExp("^ContextualHelp$") }),
     ).toBeVisible();
   });
 

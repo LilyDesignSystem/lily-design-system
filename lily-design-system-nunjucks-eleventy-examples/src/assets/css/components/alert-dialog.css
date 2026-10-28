@@ -11,5 +11,9 @@
   background: rgba(213, 40, 27, 0.25);
 }
 
-.alert-dialog > :first-child { margin-top: 0; }
-.alert-dialog > :last-child { margin-bottom: 0; }
+.alert-dialog > :first-child {
+  margin-top: 0;
+}
+.alert-dialog > :last-child {
+  margin-bottom: 0;
+}

@@ -13,8 +13,7 @@ import { ThemePicker } from "../ThemePicker";
 const labels: Record<string, string> = {
     light: "Clair",
     dark: "Sombre",
-    "united-kingdom-national-health-service-england-for-patients":
-        "NHS England (patients)",
+    "united-kingdom-national-health-service-england-for-patients": "NHS England (patients)",
     "united-kingdom-national-health-service-england-for-practitioners":
         "NHS England (practitioners)",
 };

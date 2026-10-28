@@ -29,19 +29,28 @@ export default function RatingAndFeedback() {
     if (submitted) {
         return (
             <div>
-                <Alert type="success" heading="Thank you!">
+                <Alert
+                    type="success"
+                    heading="Thank you!"
+                >
                     Your feedback has been recorded.
                 </Alert>
                 <div>
                     <p>Your product rating:</p>
-                    <FiveStarRatingView label="Your rating" value={stars} />
+                    <FiveStarRatingView
+                        label="Your rating"
+                        value={stars}
+                    />
                 </div>
             </div>
         );
     }
 
     return (
-        <Form label="Feedback form" onSubmit={handleSubmit}>
+        <Form
+            label="Feedback form"
+            onSubmit={handleSubmit}
+        >
             <h2>We value your feedback</h2>
 
             <div>

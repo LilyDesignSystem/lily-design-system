@@ -42,7 +42,10 @@
     <BackLink href="/">Back to examples</BackLink>
 
     {#if submitted}
-        <Card heading="Thank you for your feedback" headingLevel={2}>
+        <Card
+            heading="Thank you for your feedback"
+            headingLevel={2}
+        >
             <p>Your ratings have been recorded:</p>
             <ul>
                 <li>
@@ -86,9 +89,15 @@
             >
         </Card>
     {:else}
-        <Form label="Feedback form" onsubmit={handleSubmit}>
+        <Form
+            label="Feedback form"
+            onsubmit={handleSubmit}
+        >
             <h2>Five-Star Rating</h2>
-            <Card heading="Rate your experience" headingLevel={3}>
+            <Card
+                heading="Rate your experience"
+                headingLevel={3}
+            >
                 <p>How would you rate the service overall?</p>
                 <FiveStarRatingPicker
                     label="Service rating"
@@ -107,7 +116,10 @@
             <Separator />
 
             <h2>Five-Face Rating</h2>
-            <Card heading="How did we do?" headingLevel={3}>
+            <Card
+                heading="How did we do?"
+                headingLevel={3}
+            >
                 <p>Select the face that best represents your experience.</p>
                 <FiveFaceRatingPicker
                     label="Experience rating"
@@ -130,10 +142,7 @@
                 heading="How likely are you to recommend us?"
                 headingLevel={3}
             >
-                <p>
-                    On a scale of 0 to 10, how likely are you to recommend this
-                    service?
-                </p>
+                <p>On a scale of 0 to 10, how likely are you to recommend this service?</p>
                 <NetPromoterScorePicker
                     label="NPS rating"
                     bind:value={npsScore}
@@ -151,7 +160,10 @@
             <Separator />
 
             <h2>RAG Status</h2>
-            <Card heading="Project status" headingLevel={3}>
+            <Card
+                heading="Project status"
+                headingLevel={3}
+            >
                 <p>Select the current status of this project.</p>
                 <RedAmberGreenPicker
                     label="Project RAG status"
@@ -170,7 +182,10 @@
             <Separator />
 
             <h2>Five-Level Colour Status</h2>
-            <Card heading="Risk assessment" headingLevel={3}>
+            <Card
+                heading="Risk assessment"
+                headingLevel={3}
+            >
                 <p>Select the risk level.</p>
                 <RedOrangeYellowGreenBluePicker
                     label="Risk level"

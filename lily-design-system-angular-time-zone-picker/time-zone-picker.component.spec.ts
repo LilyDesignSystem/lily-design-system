@@ -23,22 +23,32 @@ let fixtures: ComponentFixture<unknown>[] = [];
 
 function mount(inputs: Record<string, unknown> = {}): ComponentFixture<TimeZonePicker> {
   const fixture = TestBed.createComponent(TimeZonePicker);
-  const all: Record<string, unknown> = { label: "Time zone", locale: "en", zones: ZONES, date: WINTER, ...inputs };
+  const all: Record<string, unknown> = {
+    label: "Time zone",
+    locale: "en",
+    zones: ZONES,
+    date: WINTER,
+    ...inputs,
+  };
   for (const [key, value] of Object.entries(all)) fixture.componentRef.setInput(key, value);
   fixture.detectChanges();
   fixtures.push(fixture);
   return fixture;
 }
 
-async function mountSettled(inputs: Record<string, unknown> = {}): Promise<ComponentFixture<TimeZonePicker>> {
+async function mountSettled(
+  inputs: Record<string, unknown> = {},
+): Promise<ComponentFixture<TimeZonePicker>> {
   const fixture = mount(inputs);
   await flush();
   fixture.detectChanges();
   return fixture;
 }
 
-const q = <T extends Element>(f: ComponentFixture<unknown>, sel: string): T => f.nativeElement.querySelector(sel) as T;
-const button = (f: ComponentFixture<unknown>) => q<HTMLButtonElement>(f, ".time-zone-picker-button");
+const q = <T extends Element>(f: ComponentFixture<unknown>, sel: string): T =>
+  f.nativeElement.querySelector(sel) as T;
+const button = (f: ComponentFixture<unknown>) =>
+  q<HTMLButtonElement>(f, ".time-zone-picker-button");
 const list = (f: ComponentFixture<unknown>) => q<HTMLUListElement>(f, ".time-zone-picker-list");
 const hidden = (f: ComponentFixture<unknown>) => q<HTMLInputElement>(f, 'input[type="hidden"]');
 const tip = (f: ComponentFixture<unknown>) => q<HTMLElement>(f, ".time-zone-picker-tooltip");
@@ -139,7 +149,13 @@ describe("markup contract", () => {
 describe("options: offsets and full names, ordered by offset", () => {
   test("ordered west to east, whatever order the zones were given", async () => {
     const f = await mountSettled();
-    expect(options(f).map((o) => o.textContent!.trim().slice(0, 9))).toEqual(["UTC-05:00", "UTC+00:00", "UTC+01:00", "UTC+05:30", "UTC+09:00"]);
+    expect(options(f).map((o) => o.textContent!.trim().slice(0, 9))).toEqual([
+      "UTC-05:00",
+      "UTC+00:00",
+      "UTC+01:00",
+      "UTC+05:30",
+      "UTC+09:00",
+    ]);
   });
 
   test("each option shows its offset and its full name", async () => {
@@ -165,8 +181,12 @@ describe("options: offsets and full names, ordered by offset", () => {
   });
 
   test("labelFor builds the text", async () => {
-    const f = await mountSettled({ labelFor: (z: { name: string; offset: string }) => `${z.name} [${z.offset}]` });
-    expect(options(f).map((o) => o.textContent!.trim())).toContain("India Standard Time [UTC+05:30]");
+    const f = await mountSettled({
+      labelFor: (z: { name: string; offset: string }) => `${z.name} [${z.offset}]`,
+    });
+    expect(options(f).map((o) => o.textContent!.trim())).toContain(
+      "India Standard Time [UTC+05:30]",
+    );
   });
 
   test("an unknown zone is left out, not shown unnamed", async () => {
@@ -185,13 +205,18 @@ describe("options: offsets and full names, ordered by offset", () => {
     fixture.detectChanges();
     const offsets = options(fixture).map((o) => o.getAttribute("data-offset")!);
     expect(offsets.length).toBe(DEFAULT_ZONES.length);
-    const minutes = offsets.map((t) => (t[3] === "-" ? -1 : 1) * (Number(t.slice(4, 6)) * 60 + Number(t.slice(7, 9))));
+    const minutes = offsets.map(
+      (t) => (t[3] === "-" ? -1 : 1) * (Number(t.slice(4, 6)) * 60 + Number(t.slice(7, 9))),
+    );
     expect(minutes).toEqual([...minutes].sort((a, b) => a - b));
   });
 });
 
 describe("supplied names (CLDR packs)", () => {
-  const names = { "Asia/Kolkata": "Bharat Standard", "Europe/Paris": ["Paris Standard", "Paris Summer"] } as const;
+  const names = {
+    "Asia/Kolkata": "Bharat Standard",
+    "Europe/Paris": ["Paris Standard", "Paris Summer"],
+  } as const;
 
   test("win over Intl for the zones they name, and the rest stay Intl's", async () => {
     const f = await mountSettled({ names });
@@ -241,7 +266,9 @@ describe("selection and applying", () => {
 
 describe("initial value", () => {
   const system = (zone: string) =>
-    vi.spyOn(Intl.DateTimeFormat.prototype, "resolvedOptions").mockReturnValue({ timeZone: zone } as Intl.ResolvedDateTimeFormatOptions);
+    vi
+      .spyOn(Intl.DateTimeFormat.prototype, "resolvedOptions")
+      .mockReturnValue({ timeZone: zone } as Intl.ResolvedDateTimeFormatOptions);
 
   test("defaultValue wins when nothing else is supplied", async () => {
     expect(hidden(await mountSettled({ defaultValue: "Asia/Tokyo" })).value).toBe("Asia/Tokyo");
@@ -277,7 +304,9 @@ describe("persistence", () => {
     const f = await mountSettled({ storageKey: "tz", defaultValue: "UTC" });
     await pick(f, "Asia/Tokyo");
     expect(localStorage.getItem("tz")).toBe("Asia/Tokyo");
-    expect(hidden(await mountSettled({ storageKey: "tz", defaultValue: "UTC" })).value).toBe("Asia/Tokyo");
+    expect(hidden(await mountSettled({ storageKey: "tz", defaultValue: "UTC" })).value).toBe(
+      "Asia/Tokyo",
+    );
   });
 
   test("a stored zone that is no longer offered is not restored", async () => {

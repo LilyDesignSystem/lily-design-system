@@ -6,14 +6,18 @@ import type { GanttOptions } from "./index.js";
 
 const SNIPPET = readFileSync("snippet.html", "utf8");
 const tick = () => new Promise((resolve) => setTimeout(resolve, 0));
-const settle = async () => { await tick(); await tick(); };
+const settle = async () => {
+    await tick();
+    await tick();
+};
 
 const LABELS = {
     grid: "Plan",
     caption: "Q4 plan",
     taskColumn: "Task",
     columnLabel: (d: string) => d.slice(8),
-    collapseButton: (task: { label: string }, collapsed: boolean) => (collapsed ? "Expand " : "Collapse ") + task.label,
+    collapseButton: (task: { label: string }, collapsed: boolean) =>
+        (collapsed ? "Expand " : "Collapse ") + task.label,
     dependencySummary: (preds: string[]) => "Blocked by: " + preds.join(", "),
     criticalLabel: "Critical",
     milestoneLabel: "Milestone",
@@ -23,9 +27,30 @@ const options = (extra: Partial<GanttOptions> = {}): GanttOptions => ({
     range: { start: "2026-10-01", end: "2026-10-10" },
     tasks: [
         { id: "phase", label: "Phase" },
-        { id: "design", label: "Design", start: "2026-10-01", end: "2026-10-03", parentId: "phase", percentComplete: 100 },
-        { id: "build", label: "Build", start: "2026-10-04", end: "2026-10-08", parentId: "phase", dependsOn: ["design"], percentComplete: 40 },
-        { id: "release", label: "Release", start: "2026-10-09", end: "2026-10-09", dependsOn: ["build"] },
+        {
+            id: "design",
+            label: "Design",
+            start: "2026-10-01",
+            end: "2026-10-03",
+            parentId: "phase",
+            percentComplete: 100,
+        },
+        {
+            id: "build",
+            label: "Build",
+            start: "2026-10-04",
+            end: "2026-10-08",
+            parentId: "phase",
+            dependsOn: ["design"],
+            percentComplete: 40,
+        },
+        {
+            id: "release",
+            label: "Release",
+            start: "2026-10-09",
+            end: "2026-10-09",
+            dependsOn: ["build"],
+        },
     ],
     today: "2026-10-05",
     weekends: [0, 6],
@@ -51,14 +76,23 @@ async function mount(extra: Partial<GanttOptions> = {}) {
     return document.querySelector(".gantt-chart") as HTMLElement;
 }
 
-const state = () => Alpine.$data(document.querySelector(".gantt-chart") as HTMLElement) as ReturnType<typeof createGanttChart>;
-const cell = (row: number, col: number) => document.querySelector(`[data-row="${row}"][data-col="${col}"]`) as HTMLElement;
-const rowCells = (row: number) => [...document.querySelectorAll(`td[data-row="${row}"]`)] as HTMLElement[];
-const taskLabels = () => [...document.querySelectorAll(".gantt-chart-task-label")].map((e) => e.textContent);
+const state = () =>
+    Alpine.$data(document.querySelector(".gantt-chart") as HTMLElement) as ReturnType<
+        typeof createGanttChart
+    >;
+const cell = (row: number, col: number) =>
+    document.querySelector(`[data-row="${row}"][data-col="${col}"]`) as HTMLElement;
+const rowCells = (row: number) =>
+    [...document.querySelectorAll(`td[data-row="${row}"]`)] as HTMLElement[];
+const taskLabels = () =>
+    [...document.querySelectorAll(".gantt-chart-task-label")].map((e) => e.textContent);
 /** Elements really carrying `attr` (a plain `[attr]` selector also matches Alpine's `:attr` binding attributes under jsdom). */
-const having = (attr: string) => [...document.querySelectorAll("*")].filter((e) => e.hasAttribute(attr));
+const having = (attr: string) =>
+    [...document.querySelectorAll("*")].filter((e) => e.hasAttribute(attr));
 const press = async (target: Element, key: string, init: KeyboardEventInit = {}) => {
-    target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...init }));
+    target.dispatchEvent(
+        new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...init }),
+    );
     await settle();
 };
 
@@ -70,9 +104,23 @@ describe("rendering", () => {
         expect(table.getAttribute("aria-label")).toBe("Plan");
         expect(table.getAttribute("aria-colcount")).toBe("11");
         expect(table.getAttribute("aria-rowcount")).toBe("5");
-        expect([...document.querySelectorAll("thead th")].map((h) => h.textContent)).toEqual(["Task", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10"]);
+        expect([...document.querySelectorAll("thead th")].map((h) => h.textContent)).toEqual([
+            "Task",
+            "01",
+            "02",
+            "03",
+            "04",
+            "05",
+            "06",
+            "07",
+            "08",
+            "09",
+            "10",
+        ]);
         expect(taskLabels()).toEqual(["Phase", "Design", "Build", "Release"]);
-        expect([...document.querySelectorAll("tbody tr")].map((r) => r.getAttribute("aria-level"))).toEqual(["1", "2", "2", "1"]);
+        expect(
+            [...document.querySelectorAll("tbody tr")].map((r) => r.getAttribute("aria-level")),
+        ).toEqual(["1", "2", "2", "1"]);
         expect(document.querySelector("caption")?.textContent).toBe("Q4 plan");
     });
 
@@ -84,7 +132,11 @@ describe("rendering", () => {
     });
 
     test("a task whose parent does not exist is a root", async () => {
-        await mount({ tasks: [{ id: "a", label: "A", start: "2026-10-01", end: "2026-10-02", parentId: "ghost" }] });
+        await mount({
+            tasks: [
+                { id: "a", label: "A", start: "2026-10-01", end: "2026-10-02", parentId: "ghost" },
+            ],
+        });
         expect(taskLabels()).toEqual(["A"]);
     });
 
@@ -101,7 +153,18 @@ describe("bars", () => {
     test("a task's cells carry the bar attributes; start and end mark the ends", async () => {
         await mount();
         const inRange = (row: number) => rowCells(row).map((c) => c.hasAttribute("data-in-range"));
-        expect(inRange(1)).toEqual([true, true, true, false, false, false, false, false, false, false]);
+        expect(inRange(1)).toEqual([
+            true,
+            true,
+            true,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+        ]);
         expect(rowCells(1)[0].hasAttribute("data-bar-start")).toBe(true);
         expect(rowCells(1)[2].hasAttribute("data-bar-end")).toBe(true);
         expect(rowCells(1)[1].hasAttribute("data-bar-start")).toBe(false);
@@ -129,8 +192,12 @@ describe("bars", () => {
     test("today and weekends are marked on headers and cells, only where asked", async () => {
         await mount();
         const heads = [...document.querySelectorAll("thead th")];
-        expect(heads.filter((h) => h.hasAttribute("data-today")).map((h) => h.textContent)).toEqual(["05"]);
-        expect(heads.filter((h) => h.hasAttribute("data-weekend")).map((h) => h.textContent)).toEqual(["03", "04", "10"]);
+        expect(heads.filter((h) => h.hasAttribute("data-today")).map((h) => h.textContent)).toEqual(
+            ["05"],
+        );
+        expect(
+            heads.filter((h) => h.hasAttribute("data-weekend")).map((h) => h.textContent),
+        ).toEqual(["03", "04", "10"]);
         expect(rowCells(2).filter((c) => c.hasAttribute("data-weekend"))).toHaveLength(3);
         await mount({ weekends: undefined, today: undefined });
         expect(having("data-today")).toHaveLength(0);
@@ -151,13 +218,17 @@ describe("hierarchy", () => {
 
     test("collapsing removes the descendants' rows and expanding brings them back", async () => {
         await mount();
-        (document.querySelector(".gantt-chart-collapse") as HTMLElement).click(); await settle();
+        (document.querySelector(".gantt-chart-collapse") as HTMLElement).click();
+        await settle();
         expect(taskLabels()).toEqual(["Phase", "Release"]);
         expect(document.querySelector("tbody tr")?.getAttribute("aria-expanded")).toBe("false");
-        expect(document.querySelector(".gantt-chart-collapse")?.getAttribute("aria-label")).toBe("Expand Phase");
+        expect(document.querySelector(".gantt-chart-collapse")?.getAttribute("aria-label")).toBe(
+            "Expand Phase",
+        );
         // The parent still spans its (hidden) children.
         expect(rowCells(0).filter((c) => c.hasAttribute("data-in-range"))).toHaveLength(8);
-        (document.querySelector(".gantt-chart-collapse") as HTMLElement).click(); await settle();
+        (document.querySelector(".gantt-chart-collapse") as HTMLElement).click();
+        await settle();
         expect(taskLabels()).toEqual(["Phase", "Design", "Build", "Release"]);
     });
 
@@ -186,10 +257,13 @@ describe("dependencies and critical path", () => {
     });
 
     test("a task with slack is not critical", async () => {
-        await mount({ criticalPath: true, tasks: [
-            { id: "a", label: "A", start: "2026-10-01", end: "2026-10-03" },
-            { id: "b", label: "B", start: "2026-10-01", end: "2026-10-09" },
-        ] });
+        await mount({
+            criticalPath: true,
+            tasks: [
+                { id: "a", label: "A", start: "2026-10-01", end: "2026-10-03" },
+                { id: "b", label: "B", start: "2026-10-01", end: "2026-10-09" },
+            ],
+        });
         const rows = [...document.querySelectorAll("tbody tr")];
         expect(rows.map((r) => r.hasAttribute("data-critical"))).toEqual([false, true]);
         expect(rows[0].getAttribute("data-slack")).toBe("6");

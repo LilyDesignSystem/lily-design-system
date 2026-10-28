@@ -9,7 +9,7 @@ describe("Select", () => {
             <Select label="Choose">
                 <Option value="a">Alpha</Option>
                 <Option value="b">Beta</Option>
-            </Select>
+            </Select>,
         );
         const select = screen.getByLabelText("Choose");
         expect(select).toBeTruthy();
@@ -20,7 +20,7 @@ describe("Select", () => {
             <Select label="Pick one">
                 <Option value="x">X</Option>
                 <Option value="y">Y</Option>
-            </Select>
+            </Select>,
         );
         expect(screen.getByText("X")).toBeTruthy();
         expect(screen.getByText("Y")).toBeTruthy();

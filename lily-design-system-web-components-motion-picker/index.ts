@@ -16,14 +16,8 @@ import {
 } from "./motion-picker.js";
 
 export { MotionPicker, motionName, prefersReducedMotion, nextMotionPickerId };
-export type {
-    MotionPickerProps,
-    MotionPickerChangeDetail,
-} from "./motion-picker.js";
+export type { MotionPickerProps, MotionPickerChangeDetail } from "./motion-picker.js";
 
-if (
-    typeof customElements !== "undefined" &&
-    !customElements.get("lily-motion-picker")
-) {
+if (typeof customElements !== "undefined" && !customElements.get("lily-motion-picker")) {
     customElements.define("lily-motion-picker", MotionPicker);
 }

@@ -28,7 +28,8 @@ export const ICONS: Record<ToolId, string> = {
     heading: "M3 3v10M13 3v10M3 8h10",
     bold: "M4.5 3h4a2.5 2.5 0 0 1 0 5h-4zM4.5 8h5a2.5 2.5 0 0 1 0 5h-5z",
     italic: "M10 3H6.5M9.5 13H6M9 3 7 13",
-    strikethrough: "M2.5 8h11M10.5 5.2C10 4 9 3.5 8 3.5c-1.5 0-2.5.8-2.5 2 0 1 .6 1.6 2.5 2M6 11c.4.9 1.2 1.5 2.2 1.5 1.5 0 2.5-.8 2.5-2",
+    strikethrough:
+        "M2.5 8h11M10.5 5.2C10 4 9 3.5 8 3.5c-1.5 0-2.5.8-2.5 2 0 1 .6 1.6 2.5 2M6 11c.4.9 1.2 1.5 2.2 1.5 1.5 0 2.5-.8 2.5-2",
     code: "M5.5 4.5 2 8l3.5 3.5M10.5 4.5 14 8l-3.5 3.5",
     link: "M6.5 9.5a2.5 2.5 0 0 0 3.5 0l2-2a2.5 2.5 0 0 0-3.5-3.5l-.7.7M9.5 6.5a2.5 2.5 0 0 0-3.5 0l-2 2a2.5 2.5 0 0 0 3.5 3.5l.7-.7",
     quote: "M3 4v8M6.5 5h7M6.5 8h7M6.5 11h5",
@@ -77,15 +78,27 @@ export function createMarkdownEditor(options: MarkdownEditorOptions = {}) {
         },
 
         /** Apply a tool to the textarea's current selection. */
-        run(this: Ctx & { value: string; headingLevel: number; disabled: boolean; readonly: boolean }, tool: ToolId): void {
+        run(
+            this: Ctx & {
+                value: string;
+                headingLevel: number;
+                disabled: boolean;
+                readonly: boolean;
+            },
+            tool: ToolId,
+        ): void {
             const el = this.$refs?.textarea as HTMLTextAreaElement | undefined;
             if (!el || this.disabled || this.readonly) return;
-            const edit = applyTool(tool, el.value, el.selectionStart, el.selectionEnd, { headingLevel: this.headingLevel });
+            const edit = applyTool(tool, el.value, el.selectionStart, el.selectionEnd, {
+                headingLevel: this.headingLevel,
+            });
             el.focus();
             // Replace the whole text through the editing pipeline where the browser has
             // one, so native undo / redo keeps working; otherwise set it directly.
             el.select();
-            const done = typeof document.execCommand === "function" && document.execCommand("insertText", false, edit.text);
+            const done =
+                typeof document.execCommand === "function" &&
+                document.execCommand("insertText", false, edit.text);
             if (!done || el.value !== edit.text) {
                 el.value = edit.text;
                 el.dispatchEvent(new Event("input", { bubbles: true }));
@@ -100,7 +113,10 @@ export function createMarkdownEditor(options: MarkdownEditorOptions = {}) {
             this.$dispatch?.("lily:valuechange", { value: this.value });
         },
 
-        onTextKeydown(this: Ctx & { shown: ToolId[]; run(tool: ToolId): void }, event: KeyboardEvent): void {
+        onTextKeydown(
+            this: Ctx & { shown: ToolId[]; run(tool: ToolId): void },
+            event: KeyboardEvent,
+        ): void {
             if (!(event.ctrlKey || event.metaKey) || event.altKey || event.shiftKey) return;
             const tool = SHORTCUTS[event.key.toLowerCase()];
             if (tool && this.shown.includes(tool)) {
@@ -128,6 +144,9 @@ export function createMarkdownEditor(options: MarkdownEditorOptions = {}) {
 }
 
 /** The Alpine plugin: registers `Alpine.data("lilyMarkdownEditor", options => …)`. */
-export default function lilyMarkdownEditor(Alpine: { data: (name: string, factory: (...args: never[]) => object) => void }): void {
-    Alpine.data("lilyMarkdownEditor", ((options?: MarkdownEditorOptions) => createMarkdownEditor(options)) as (...args: never[]) => object);
+export default function lilyMarkdownEditor(Alpine: {
+    data: (name: string, factory: (...args: never[]) => object) => void;
+}): void {
+    Alpine.data("lilyMarkdownEditor", ((options?: MarkdownEditorOptions) =>
+        createMarkdownEditor(options)) as (...args: never[]) => object);
 }

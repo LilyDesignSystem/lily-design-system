@@ -16,6 +16,12 @@ import { TimeZonePicker } from "@lilydesignsystem/angular-time-zone-picker";
 export class Basic {
   zone = "";
   now(): string {
-    return this.zone ? new Intl.DateTimeFormat("en-GB", { timeZone: this.zone, dateStyle: "medium", timeStyle: "short" }).format(new Date()) : "";
+    return this.zone
+      ? new Intl.DateTimeFormat("en-GB", {
+          timeZone: this.zone,
+          dateStyle: "medium",
+          timeStyle: "short",
+        }).format(new Date())
+      : "";
   }
 }

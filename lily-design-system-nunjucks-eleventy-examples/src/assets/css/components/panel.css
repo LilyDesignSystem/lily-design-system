@@ -13,5 +13,9 @@
   margin: 0;
 }
 
-.panel-body > :first-child { margin-top: 0; }
-.panel-body > :last-child { margin-bottom: 0; }
+.panel-body > :first-child {
+  margin-top: 0;
+}
+.panel-body > :last-child {
+  margin-bottom: 0;
+}

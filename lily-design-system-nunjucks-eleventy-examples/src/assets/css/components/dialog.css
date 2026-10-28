@@ -11,5 +11,9 @@
   background: rgba(33, 43, 50, 0.5);
 }
 
-.dialog > :first-child { margin-top: 0; }
-.dialog > :last-child { margin-bottom: 0; }
+.dialog > :first-child {
+  margin-top: 0;
+}
+.dialog > :last-child {
+  margin-bottom: 0;
+}

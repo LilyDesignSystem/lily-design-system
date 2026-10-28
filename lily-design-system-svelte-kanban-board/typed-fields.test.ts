@@ -55,7 +55,9 @@ describe("typed-fields", () => {
     test("draftOf gives the editor's starting text, a link's address", () => {
         expect(draftOf(by("qty"), { qty: 3 })).toBe("3");
         expect(draftOf(by("qty"), {})).toBe("");
-        expect(draftOf(by("site"), { site: { href: "https://x.test", label: "X" } })).toBe("https://x.test");
+        expect(draftOf(by("site"), { site: { href: "https://x.test", label: "X" } })).toBe(
+            "https://x.test",
+        );
         expect(draftOf(by("site"), { site: "https://y.test" })).toBe("https://y.test");
     });
 
@@ -71,12 +73,28 @@ describe("typed-fields", () => {
     });
 
     test("evaluateEdit refuses what does not fit the type, and reports changed / unchanged with the text", () => {
-        expect(evaluateEdit({ ...by("qty"), parse: () => Number.NaN }, { qty: 1 }, "x")).toEqual({ invalid: true });
+        expect(evaluateEdit({ ...by("qty"), parse: () => Number.NaN }, { qty: 1 }, "x")).toEqual({
+            invalid: true,
+        });
         expect(evaluateEdit(by("due"), {}, "not-a-date")).toEqual({ invalid: true });
         expect(evaluateEdit(by("owner"), {}, "zzz")).toEqual({ invalid: true });
-        expect(evaluateEdit(by("qty"), { qty: 3 }, "8")).toEqual({ invalid: false, value: 8, previous: 3, changed: true, text: "8" });
-        expect(evaluateEdit(by("qty"), { qty: 3 }, "3")).toMatchObject({ invalid: false, changed: false });
-        expect(evaluateEdit(by("qty"), { qty: 3 }, "")).toMatchObject({ invalid: false, value: null, changed: true, text: "" });
+        expect(evaluateEdit(by("qty"), { qty: 3 }, "8")).toEqual({
+            invalid: false,
+            value: 8,
+            previous: 3,
+            changed: true,
+            text: "8",
+        });
+        expect(evaluateEdit(by("qty"), { qty: 3 }, "3")).toMatchObject({
+            invalid: false,
+            changed: false,
+        });
+        expect(evaluateEdit(by("qty"), { qty: 3 }, "")).toMatchObject({
+            invalid: false,
+            value: null,
+            changed: true,
+            text: "",
+        });
     });
 
     test("exportFieldCell keeps numbers, booleans and dates typed and shows the rest as text; exportValue wins; exportable false is dropped", () => {
@@ -86,7 +104,13 @@ describe("typed-fields", () => {
         const when = new Date(0);
         expect(exportFieldCell(by("name"), { name: when })).toBe(when);
         expect(exportFieldCell({ ...by("name"), exportValue: () => "X" }, { name: "n" })).toBe("X");
-        expect(exportableFields(FIELDS).map((f) => f.id)).toEqual(["name", "qty", "due", "owner", "site"]);
+        expect(exportableFields(FIELDS).map((f) => f.id)).toEqual([
+            "name",
+            "qty",
+            "due",
+            "owner",
+            "site",
+        ]);
     });
 
     test("neighbourField steps through the editable fields and stops at the ends", () => {
@@ -99,10 +123,20 @@ describe("typed-fields", () => {
 });
 
 describe("validate", () => {
-    const f = resolveFields([{ id: "cost", header: "Cost", type: "number", validate: (v) => (typeof v === "number" && v < 0 ? "Must not be negative" : undefined) }])[0];
+    const f = resolveFields([
+        {
+            id: "cost",
+            header: "Cost",
+            type: "number",
+            validate: (v) => (typeof v === "number" && v < 0 ? "Must not be negative" : undefined),
+        },
+    ])[0];
 
     test("a value the type accepts but validate refuses is invalid with the message", () => {
-        expect(evaluateEdit(f, {}, "-3")).toEqual({ invalid: true, message: "Must not be negative" });
+        expect(evaluateEdit(f, {}, "-3")).toEqual({
+            invalid: true,
+            message: "Must not be negative",
+        });
     });
     test("an acceptable value passes", () => {
         expect(evaluateEdit(f, {}, "3")).toMatchObject({ invalid: false, value: 3 });
@@ -111,8 +145,17 @@ describe("validate", () => {
         expect(evaluateEdit(f, {}, "abc")).toEqual({ invalid: true });
     });
     test("validate receives the record's values", () => {
-        const g = resolveFields([{ id: "end", header: "End", validate: (v, values) => (String(v) < String(values.start) ? "Before start" : undefined) }])[0];
-        expect(evaluateEdit(g, { start: "2026-02-01" }, "2026-01-01")).toEqual({ invalid: true, message: "Before start" });
+        const g = resolveFields([
+            {
+                id: "end",
+                header: "End",
+                validate: (v, values) =>
+                    String(v) < String(values.start) ? "Before start" : undefined,
+            },
+        ])[0];
+        expect(evaluateEdit(g, { start: "2026-02-01" }, "2026-01-01")).toEqual({
+            invalid: true,
+            message: "Before start",
+        });
     });
 });
-

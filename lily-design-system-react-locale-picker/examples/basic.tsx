@@ -58,7 +58,10 @@ export function SelectDefaultExample() {
                 onChange={setLocale}
             />
 
-            <p className="locale-picker-status" aria-live="polite">
+            <p
+                className="locale-picker-status"
+                aria-live="polite"
+            >
                 Active language: {localeName(locale)}
             </p>
         </>

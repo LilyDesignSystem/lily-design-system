@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="task-bar"
@@ -6,9 +6,9 @@ const html = `<div
   aria-orientation="horizontal" aria-label="Task bar"></div>`;
 
 const meta = {
-  title: 'Headless/TaskBar',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/TaskBar",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

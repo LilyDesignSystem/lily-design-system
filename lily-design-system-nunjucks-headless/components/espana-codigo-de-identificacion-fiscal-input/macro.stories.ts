@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<input
   class="espana-codigo-de-identificacion-fiscal-input"
@@ -8,9 +8,9 @@ const html = `<input
   aria-label="Tax Identification Code">`;
 
 const meta = {
-  title: 'Headless/EspanaCodigoDeIdentificacionFiscalInput',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/EspanaCodigoDeIdentificacionFiscalInput",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

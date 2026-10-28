@@ -1,4 +1,7 @@
-<script lang="ts" module>
+<script
+    lang="ts"
+    module
+>
     import type { Snippet } from "svelte";
     import { IconButton } from "@lilydesignsystem/svelte-headless";
     // Only the trigger button composes a headless primitive. The list is
@@ -237,7 +240,8 @@
 
     function onLinkClick(event: MouseEvent, link: LinkItem): void {
         onNavigate?.(linkId(link), link.href);
-        const modified = event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0;
+        const modified =
+            event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0;
         if (navigate && !link.newTab && !modified && !event.defaultPrevented) {
             event.preventDefault();
             navigate(link.href);
@@ -264,15 +268,23 @@
         {disabled}
         bind:ref={buttonEl}
         baseClass="link-picker-button"
-        label={label}
+        {label}
         aria-expanded={open}
         aria-controls={listId}
         onclick={onButtonClick}
         onkeydown={onButtonKeydown}
-        onmouseenter={() => { hoverButton = true; dismissed = false; }}
-        onmouseleave={() => { hoverButton = false; }}
+        onmouseenter={() => {
+            hoverButton = true;
+            dismissed = false;
+        }}
+        onmouseleave={() => {
+            hoverButton = false;
+        }}
         onfocus={onButtonFocus}
-        onblur={() => { focusButton = false; dismissed = false; }}
+        onblur={() => {
+            focusButton = false;
+            dismissed = false;
+        }}
     >
         {#if children}
             {@render children({ open })}
@@ -305,9 +317,15 @@
         role="tooltip"
         id={tooltipId}
         hidden={!tooltipVisible}
-        onmouseenter={() => { hoverTooltip = true; }}
-        onmouseleave={() => { hoverTooltip = false; }}
-    >{label}</div>
+        onmouseenter={() => {
+            hoverTooltip = true;
+        }}
+        onmouseleave={() => {
+            hoverTooltip = false;
+        }}
+    >
+        {label}
+    </div>
 
     <!-- Named like the sibling pickers' popups: a screen reader entering
          the list hears what it is for. The keydown handler is pure

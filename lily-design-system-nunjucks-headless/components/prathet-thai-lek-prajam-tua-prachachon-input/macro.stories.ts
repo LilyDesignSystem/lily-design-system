@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<input
   class="prathet-thai-lek-prajam-tua-prachachon-input"
@@ -8,9 +8,9 @@ const html = `<input
   aria-label="เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)">`;
 
 const meta = {
-  title: 'Headless/PrathetThaiLekPrajamTuaPrachachonInput',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/PrathetThaiLekPrajamTuaPrachachonInput",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

@@ -36,31 +36,80 @@ export default function NavigationAndMenus() {
             {/* Application menu bar */}
             <h2>Application Menu Bar</h2>
             <MenuBar label="Application menu">
-                <MenuBarButton onClick={() => setFileMenuOpen(!fileMenuOpen)}>
-                    File
-                </MenuBarButton>
-                <MenuBarButton onClick={() => setEditMenuOpen(!editMenuOpen)}>
-                    Edit
-                </MenuBarButton>
+                <MenuBarButton onClick={() => setFileMenuOpen(!fileMenuOpen)}>File</MenuBarButton>
+                <MenuBarButton onClick={() => setEditMenuOpen(!editMenuOpen)}>Edit</MenuBarButton>
                 <MenuBarButton>View</MenuBarButton>
                 <MenuBarButton>Help</MenuBarButton>
             </MenuBar>
 
             {/* Dropdown menus for File and Edit */}
             <div>
-                <DropdownMenu label="File" open={fileMenuOpen} onChange={setFileMenuOpen}>
-                    <li role="menuitem" tabIndex={-1}>New Document</li>
-                    <li role="menuitem" tabIndex={-1}>Open...</li>
-                    <li role="menuitem" tabIndex={-1}>Save</li>
-                    <li role="menuitem" tabIndex={-1}>Export as PDF</li>
+                <DropdownMenu
+                    label="File"
+                    open={fileMenuOpen}
+                    onChange={setFileMenuOpen}
+                >
+                    <li
+                        role="menuitem"
+                        tabIndex={-1}
+                    >
+                        New Document
+                    </li>
+                    <li
+                        role="menuitem"
+                        tabIndex={-1}
+                    >
+                        Open...
+                    </li>
+                    <li
+                        role="menuitem"
+                        tabIndex={-1}
+                    >
+                        Save
+                    </li>
+                    <li
+                        role="menuitem"
+                        tabIndex={-1}
+                    >
+                        Export as PDF
+                    </li>
                 </DropdownMenu>
 
-                <DropdownMenu label="Edit" open={editMenuOpen} onChange={setEditMenuOpen}>
-                    <li role="menuitem" tabIndex={-1}>Undo</li>
-                    <li role="menuitem" tabIndex={-1}>Redo</li>
-                    <li role="menuitem" tabIndex={-1}>Cut</li>
-                    <li role="menuitem" tabIndex={-1}>Copy</li>
-                    <li role="menuitem" tabIndex={-1}>Paste</li>
+                <DropdownMenu
+                    label="Edit"
+                    open={editMenuOpen}
+                    onChange={setEditMenuOpen}
+                >
+                    <li
+                        role="menuitem"
+                        tabIndex={-1}
+                    >
+                        Undo
+                    </li>
+                    <li
+                        role="menuitem"
+                        tabIndex={-1}
+                    >
+                        Redo
+                    </li>
+                    <li
+                        role="menuitem"
+                        tabIndex={-1}
+                    >
+                        Cut
+                    </li>
+                    <li
+                        role="menuitem"
+                        tabIndex={-1}
+                    >
+                        Copy
+                    </li>
+                    <li
+                        role="menuitem"
+                        tabIndex={-1}
+                    >
+                        Paste
+                    </li>
                 </DropdownMenu>
             </div>
 
@@ -88,13 +137,27 @@ export default function NavigationAndMenus() {
                 onChange={setHamburgerOpen}
             >
                 <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#team">Team</a></li>
-                    <li><a href="#reports">Reports</a></li>
-                    <li><a href="#settings">Settings</a></li>
-                    <li><a href="#profile">Profile</a></li>
-                    <li><a href="#logout">Log Out</a></li>
+                    <li>
+                        <a href="#home">Home</a>
+                    </li>
+                    <li>
+                        <a href="#projects">Projects</a>
+                    </li>
+                    <li>
+                        <a href="#team">Team</a>
+                    </li>
+                    <li>
+                        <a href="#reports">Reports</a>
+                    </li>
+                    <li>
+                        <a href="#settings">Settings</a>
+                    </li>
+                    <li>
+                        <a href="#profile">Profile</a>
+                    </li>
+                    <li>
+                        <a href="#logout">Log Out</a>
+                    </li>
                 </ul>
             </HamburgerMenu>
         </div>

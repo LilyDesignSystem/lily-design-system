@@ -106,7 +106,13 @@ afterEach(() => {
 
 describe("SharePicker — markup contract (§7.1–§7.6)", () => {
     test("§7.1 renders a disclosure button controlling a list", () => {
-        render(<SharePicker label="Share" targets={TARGETS} url={URL_UNDER_TEST} />);
+        render(
+            <SharePicker
+                label="Share"
+                targets={TARGETS}
+                url={URL_UNDER_TEST}
+            />,
+        );
         const button = trigger();
         expect(button.tagName).toBe("BUTTON");
         expect(button.getAttribute("type")).toBe("button");
@@ -118,7 +124,13 @@ describe("SharePicker — markup contract (§7.1–§7.6)", () => {
     });
 
     test("§7.1 the button renders the default arrow SVG icon, hidden from assistive tech", () => {
-        render(<SharePicker label="Share" targets={TARGETS} url={URL_UNDER_TEST} />);
+        render(
+            <SharePicker
+                label="Share"
+                targets={TARGETS}
+                url={URL_UNDER_TEST}
+            />,
+        );
         const icon = document.querySelector(".share-picker-icon") as SVGElement;
         expect(icon.tagName.toLowerCase()).toBe("svg");
         expect(icon.getAttribute("aria-hidden")).toBe("true");
@@ -141,7 +153,13 @@ describe("SharePicker — markup contract (§7.1–§7.6)", () => {
     });
 
     test("§7.2 the list is hidden until the button is activated", async () => {
-        render(<SharePicker label="Share" targets={TARGETS} url={URL_UNDER_TEST} />);
+        render(
+            <SharePicker
+                label="Share"
+                targets={TARGETS}
+                url={URL_UNDER_TEST}
+            />,
+        );
         expect(list().hasAttribute("hidden")).toBe(true);
         fireEvent.click(trigger());
         await flush();
@@ -150,11 +168,16 @@ describe("SharePicker — markup contract (§7.1–§7.6)", () => {
     });
 
     test("§7.3 destinations are real links, not role=menuitem", async () => {
-        render(<SharePicker label="Share" targets={TARGETS} url={URL_UNDER_TEST} />);
+        render(
+            <SharePicker
+                label="Share"
+                targets={TARGETS}
+                url={URL_UNDER_TEST}
+            />,
+        );
         fireEvent.click(trigger());
         await flush();
-        const links =
-            document.querySelectorAll<HTMLAnchorElement>(".share-picker-target");
+        const links = document.querySelectorAll<HTMLAnchorElement>(".share-picker-target");
         expect(links.length).toBe(2);
         for (const a of links) {
             expect(a.tagName).toBe("A");
@@ -198,8 +221,7 @@ describe("SharePicker — markup contract (§7.1–§7.6)", () => {
         );
         fireEvent.click(trigger());
         await flush();
-        const links =
-            document.querySelectorAll<HTMLAnchorElement>(".share-picker-target");
+        const links = document.querySelectorAll<HTMLAnchorElement>(".share-picker-target");
         expect(links[0].getAttribute("href")).toBe(
             `https://mastodon.test/share?url=${encodeURIComponent(URL_UNDER_TEST)}&text=${encodeURIComponent("Hello")}`,
         );
@@ -210,7 +232,11 @@ describe("SharePicker — markup contract (§7.1–§7.6)", () => {
 
     test("§7.5 the copy item renders only when copyLabel is supplied", async () => {
         const { unmount } = render(
-            <SharePicker label="Share" targets={TARGETS} url={URL_UNDER_TEST} />,
+            <SharePicker
+                label="Share"
+                targets={TARGETS}
+                url={URL_UNDER_TEST}
+            />,
         );
         fireEvent.click(trigger());
         await flush();
@@ -234,7 +260,13 @@ describe("SharePicker — markup contract (§7.1–§7.6)", () => {
     });
 
     test("§7.6 the status region is present, polite, and silent on load", () => {
-        render(<SharePicker label="Share" targets={TARGETS} url={URL_UNDER_TEST} />);
+        render(
+            <SharePicker
+                label="Share"
+                targets={TARGETS}
+                url={URL_UNDER_TEST}
+            />,
+        );
         const status = document.querySelector(".share-picker-status") as HTMLElement;
         expect(status.tagName).toBe("P");
         expect(status.getAttribute("aria-live")).toBe("polite");
@@ -348,9 +380,7 @@ describe("SharePicker — native share sheet (§7.11–§7.14)", () => {
         );
         fireEvent.click(trigger());
         await flush();
-        expect(nat.calls).toEqual([
-            { url: URL_UNDER_TEST, title: "Hello", text: "Body" },
-        ]);
+        expect(nat.calls).toEqual([{ url: URL_UNDER_TEST, title: "Hello", text: "Body" }]);
         expect(onNativeShare).toHaveBeenCalledWith(URL_UNDER_TEST);
         // The list must NOT also open.
         expect(list().hasAttribute("hidden")).toBe(true);
@@ -375,7 +405,13 @@ describe("SharePicker — native share sheet (§7.11–§7.14)", () => {
     });
 
     test("§7.13 strategy=auto falls back to the list with no native sheet", async () => {
-        render(<SharePicker label="Share" targets={TARGETS} url={URL_UNDER_TEST} />);
+        render(
+            <SharePicker
+                label="Share"
+                targets={TARGETS}
+                url={URL_UNDER_TEST}
+            />,
+        );
         fireEvent.click(trigger());
         await flush();
         expect(list().hasAttribute("hidden")).toBe(false);
@@ -402,7 +438,13 @@ describe("SharePicker — native share sheet (§7.11–§7.14)", () => {
         // navigator.share rejects when the user dismisses the sheet. Opening
         // the list then would resurrect UI the user just dismissed.
         const nat = stubNativeShare("reject");
-        render(<SharePicker label="Share" targets={TARGETS} url={URL_UNDER_TEST} />);
+        render(
+            <SharePicker
+                label="Share"
+                targets={TARGETS}
+                url={URL_UNDER_TEST}
+            />,
+        );
         fireEvent.click(trigger());
         await flush();
         expect(nat.calls.length).toBe(1);
@@ -429,13 +471,17 @@ describe("SharePicker — keyboard and dismissal (§7.15–§7.19)", () => {
 
     test("§7.15 opening moves focus to the first item", async () => {
         const { list } = await openList();
-        expect(document.activeElement).toBe(
-            list.querySelector(".share-picker-target"),
-        );
+        expect(document.activeElement).toBe(list.querySelector(".share-picker-target"));
     });
 
     test("§7.15 ArrowDown on the closed button opens and focuses the first item", async () => {
-        render(<SharePicker label="Share" targets={TARGETS} url={URL_UNDER_TEST} />);
+        render(
+            <SharePicker
+                label="Share"
+                targets={TARGETS}
+                url={URL_UNDER_TEST}
+            />,
+        );
         fireEvent.keyDown(trigger(), { key: "ArrowDown" });
         await flush();
         expect(list().hasAttribute("hidden")).toBe(false);
@@ -458,9 +504,7 @@ describe("SharePicker — keyboard and dismissal (§7.15–§7.19)", () => {
 
     test("§7.16 arrows move focus between items and clamp at the ends", async () => {
         const { list } = await openList();
-        const all = Array.from(
-            list.querySelectorAll(".share-picker-target, .share-picker-copy"),
-        );
+        const all = Array.from(list.querySelectorAll(".share-picker-target, .share-picker-copy"));
         fireEvent.keyDown(list, { key: "ArrowDown" });
         expect(document.activeElement).toBe(all[1]);
         fireEvent.keyDown(list, { key: "ArrowUp" });
@@ -476,9 +520,7 @@ describe("SharePicker — keyboard and dismissal (§7.15–§7.19)", () => {
 
     test("§7.16 Home and End jump to the first and last item", async () => {
         const { list } = await openList();
-        const all = Array.from(
-            list.querySelectorAll(".share-picker-target, .share-picker-copy"),
-        );
+        const all = Array.from(list.querySelectorAll(".share-picker-target, .share-picker-copy"));
         fireEvent.keyDown(list, { key: "End" });
         expect(document.activeElement).toBe(all[all.length - 1]);
         fireEvent.keyDown(list, { key: "Home" });
@@ -544,28 +586,39 @@ describe("SharePicker — keyboard and dismissal (§7.15–§7.19)", () => {
 
 describe("SharePicker — url resolution and custom glyph (§7.20–§7.22)", () => {
     test("§7.20 an explicit url prop wins", async () => {
-        render(<SharePicker label="Share" targets={TARGETS} url={URL_UNDER_TEST} />);
+        render(
+            <SharePicker
+                label="Share"
+                targets={TARGETS}
+                url={URL_UNDER_TEST}
+            />,
+        );
         fireEvent.click(trigger());
         await flush();
-        const href = document
-            .querySelector(".share-picker-target")!
-            .getAttribute("href")!;
+        const href = document.querySelector(".share-picker-target")!.getAttribute("href")!;
         expect(href).toContain(encodeURIComponent(URL_UNDER_TEST));
     });
 
     test("§7.21 with no url prop it falls back to the current page URL", async () => {
-        render(<SharePicker label="Share" targets={TARGETS} />);
+        render(
+            <SharePicker
+                label="Share"
+                targets={TARGETS}
+            />,
+        );
         fireEvent.click(trigger());
         await flush();
-        const href = document
-            .querySelector(".share-picker-target")!
-            .getAttribute("href")!;
+        const href = document.querySelector(".share-picker-target")!.getAttribute("href")!;
         expect(href).toContain(encodeURIComponent(location.href));
     });
 
     test("§7.22 children replaces the glyph and receives ChildArgs", async () => {
         render(
-            <SharePicker label="Share" targets={TARGETS} url={URL_UNDER_TEST}>
+            <SharePicker
+                label="Share"
+                targets={TARGETS}
+                url={URL_UNDER_TEST}
+            >
                 {({ open, url }) => (
                     <span
                         data-testid="custom"
@@ -579,9 +632,7 @@ describe("SharePicker — url resolution and custom glyph (§7.20–§7.22)", ()
         );
         await flush();
         const custom = screen.getByTestId("custom");
-        expect(custom.closest("button")?.className).toContain(
-            "share-picker-button",
-        );
+        expect(custom.closest("button")?.className).toContain("share-picker-button");
         expect(document.querySelector(".share-picker-icon")).toBeNull();
         expect(custom.getAttribute("data-open")).toBe("false");
         expect(custom.getAttribute("data-url")).toBe(URL_UNDER_TEST);
@@ -589,8 +640,17 @@ describe("SharePicker — url resolution and custom glyph (§7.20–§7.22)", ()
 
     test("§7.22 the children render prop sees the open state change", async () => {
         render(
-            <SharePicker label="Share" targets={TARGETS} url={URL_UNDER_TEST}>
-                {({ open }) => <span data-testid="custom" data-open={String(open)} />}
+            <SharePicker
+                label="Share"
+                targets={TARGETS}
+                url={URL_UNDER_TEST}
+            >
+                {({ open }) => (
+                    <span
+                        data-testid="custom"
+                        data-open={String(open)}
+                    />
+                )}
             </SharePicker>,
         );
         fireEvent.click(trigger());
@@ -626,9 +686,7 @@ describe("SharePicker — accessibility hardening (§7.23–§7.24)", () => {
 
     test("§7.23 Tab from an open item puts focus on the button before closing", async () => {
         const { button, list } = await openHardened();
-        expect(document.activeElement?.className).toContain(
-            "share-picker-target",
-        );
+        expect(document.activeElement?.className).toContain("share-picker-target");
         fireEvent.keyDown(list, { key: "Tab" });
         await flush();
         // Focus sits on the button, so the browser's default Tab proceeds
@@ -644,10 +702,15 @@ describe("SharePicker — accessibility hardening (§7.23–§7.24)", () => {
     });
 });
 
-
 describe("SharePicker — tooltip (§7.25–§7.32)", () => {
     function setupTooltip() {
-        render(<SharePicker label="Share" targets={TARGETS} url={URL_UNDER_TEST} />);
+        render(
+            <SharePicker
+                label="Share"
+                targets={TARGETS}
+                url={URL_UNDER_TEST}
+            />,
+        );
         const button = document.querySelector(".share-picker-button") as HTMLButtonElement;
         const tip = document.querySelector(".share-picker-tooltip") as HTMLElement;
         return { button, tip };
@@ -684,7 +747,9 @@ describe("SharePicker — tooltip (§7.25–§7.32)", () => {
     test("§7.28 keyboard focus shows it; blur hides it; mouse-induced focus does not show it", () => {
         const { button, tip } = setupTooltip();
         // jsdom has no input-modality tracking; stand in for the keyboard.
-        const matches = vi.spyOn(button, "matches").mockImplementation((q) => q === ":focus-visible");
+        const matches = vi
+            .spyOn(button, "matches")
+            .mockImplementation((q) => q === ":focus-visible");
         fireEvent.focus(button);
         expect(tip.hasAttribute("hidden")).toBe(false);
         fireEvent.blur(button);
@@ -740,7 +805,13 @@ describe("SharePicker — tooltip (§7.25–§7.32)", () => {
         const add = vi.spyOn(document, "addEventListener");
         const remove = vi.spyOn(document, "removeEventListener");
         const count = (spy: typeof add) => spy.mock.calls.filter((c) => c[0] === "keydown").length;
-        const view = render(<SharePicker label="Share" targets={TARGETS} url={URL_UNDER_TEST} />);
+        const view = render(
+            <SharePicker
+                label="Share"
+                targets={TARGETS}
+                url={URL_UNDER_TEST}
+            />,
+        );
         const button = document.querySelector(".share-picker-button") as HTMLButtonElement;
         const addBase = count(add);
         const baseRemove = count(remove);
@@ -762,15 +833,32 @@ describe("SharePicker — tooltip (§7.25–§7.32)", () => {
 describe("SharePicker — open state and disabled", () => {
     test("open starts the popup open without calling onOpenChange", async () => {
         const onOpenChange = vi.fn();
-        render(<SharePicker label="Share" targets={TARGETS} url={URL_UNDER_TEST} open onOpenChange={onOpenChange} />);
+        render(
+            <SharePicker
+                label="Share"
+                targets={TARGETS}
+                url={URL_UNDER_TEST}
+                open
+                onOpenChange={onOpenChange}
+            />,
+        );
         await flush();
-        expect(screen.getByRole("button", { name: "Share" }).getAttribute("aria-expanded")).toBe("true");
+        expect(screen.getByRole("button", { name: "Share" }).getAttribute("aria-expanded")).toBe(
+            "true",
+        );
         expect(onOpenChange).not.toHaveBeenCalled();
     });
 
     test("uncontrolled: onOpenChange fires once for each open and close by the user", async () => {
         const onOpenChange = vi.fn();
-        render(<SharePicker label="Share" targets={TARGETS} url={URL_UNDER_TEST} onOpenChange={onOpenChange} />);
+        render(
+            <SharePicker
+                label="Share"
+                targets={TARGETS}
+                url={URL_UNDER_TEST}
+                onOpenChange={onOpenChange}
+            />,
+        );
         const button = screen.getByRole("button", { name: "Share" });
         fireEvent.click(button);
         await flush();
@@ -783,19 +871,47 @@ describe("SharePicker — open state and disabled", () => {
 
     test("controlled: a click asks for the change and the parent applies it", async () => {
         const onOpenChange = vi.fn();
-        const { rerender } = render(<SharePicker label="Share" targets={TARGETS} url={URL_UNDER_TEST} open={false} onOpenChange={onOpenChange} />);
+        const { rerender } = render(
+            <SharePicker
+                label="Share"
+                targets={TARGETS}
+                url={URL_UNDER_TEST}
+                open={false}
+                onOpenChange={onOpenChange}
+            />,
+        );
         fireEvent.click(screen.getByRole("button", { name: "Share" }));
         await flush();
         expect(onOpenChange).toHaveBeenCalledWith(true);
-        expect(screen.getByRole("button", { name: "Share" }).getAttribute("aria-expanded")).toBe("false");
-        rerender(<SharePicker label="Share" targets={TARGETS} url={URL_UNDER_TEST} open onOpenChange={onOpenChange} />);
+        expect(screen.getByRole("button", { name: "Share" }).getAttribute("aria-expanded")).toBe(
+            "false",
+        );
+        rerender(
+            <SharePicker
+                label="Share"
+                targets={TARGETS}
+                url={URL_UNDER_TEST}
+                open
+                onOpenChange={onOpenChange}
+            />,
+        );
         await flush();
-        expect(screen.getByRole("button", { name: "Share" }).getAttribute("aria-expanded")).toBe("true");
+        expect(screen.getByRole("button", { name: "Share" }).getAttribute("aria-expanded")).toBe(
+            "true",
+        );
     });
 
     test("disabled disables the button and it cannot open", async () => {
         const onOpenChange = vi.fn();
-        render(<SharePicker label="Share" targets={TARGETS} url={URL_UNDER_TEST} disabled onOpenChange={onOpenChange} />);
+        render(
+            <SharePicker
+                label="Share"
+                targets={TARGETS}
+                url={URL_UNDER_TEST}
+                disabled
+                onOpenChange={onOpenChange}
+            />,
+        );
         const button = screen.getByRole("button", { name: "Share" }) as HTMLButtonElement;
         expect(button.disabled).toBe(true);
         fireEvent.click(button);
@@ -805,9 +921,18 @@ describe("SharePicker — open state and disabled", () => {
     });
 
     test("disabled closes a popup that was open", async () => {
-        render(<SharePicker label="Share" targets={TARGETS} url={URL_UNDER_TEST} open disabled />);
+        render(
+            <SharePicker
+                label="Share"
+                targets={TARGETS}
+                url={URL_UNDER_TEST}
+                open
+                disabled
+            />,
+        );
         await flush();
-        expect(screen.getByRole("button", { name: "Share" }).getAttribute("aria-expanded")).toBe("false");
+        expect(screen.getByRole("button", { name: "Share" }).getAttribute("aria-expanded")).toBe(
+            "false",
+        );
     });
 });
-

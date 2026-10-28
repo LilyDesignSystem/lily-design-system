@@ -10,30 +10,30 @@
   list everywhere.
 -->
 <script lang="ts">
-  import SharePicker, { type ShareTarget } from "../SharePicker.svelte";
+    import SharePicker, { type ShareTarget } from "../SharePicker.svelte";
 
-  const targets: ShareTarget[] = [
-    {
-      id: "mastodon",
-      label: "Mastodon",
-      href: (url, title) =>
-        `https://mastodon.social/share?text=${encodeURIComponent(`${title} ${url}`)}`,
-    },
-    {
-      id: "email",
-      label: "Email",
-      href: (url, title) =>
-        `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`,
-      newTab: false,
-    },
-  ];
+    const targets: ShareTarget[] = [
+        {
+            id: "mastodon",
+            label: "Mastodon",
+            href: (url, title) =>
+                `https://mastodon.social/share?text=${encodeURIComponent(`${title} ${url}`)}`,
+        },
+        {
+            id: "email",
+            label: "Email",
+            href: (url, title) =>
+                `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`,
+            newTab: false,
+        },
+    ];
 </script>
 
 <SharePicker
-  label="Share this page"
-  title="An article worth reading"
-  {targets}
-  copyLabel="Copy link"
-  copiedLabel="Link copied"
-  copyFailedLabel="Could not copy — copy it from the address bar"
+    label="Share this page"
+    title="An article worth reading"
+    {targets}
+    copyLabel="Copy link"
+    copiedLabel="Link copied"
+    copyFailedLabel="Could not copy — copy it from the address bar"
 />

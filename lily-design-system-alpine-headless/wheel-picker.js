@@ -6,11 +6,11 @@
  * Disabled options are skipped by every move. Arrows wrap only when `loop` is set; Home, End, PageUp and PageDown never wrap.
  */
 
-export const WHEEL_MOVE_KEYS                    = ["ArrowUp", "ArrowDown", "Home", "End", "PageUp", "PageDown"];
+export const WHEEL_MOVE_KEYS = ["ArrowUp", "ArrowDown", "Home", "End", "PageUp", "PageDown"];
 
 /** Indexes of the options that can be selected. */
-function enabledIndexes(options                        )           {
-    const out           = [];
+function enabledIndexes(options) {
+    const out = [];
     options.forEach((o, i) => {
         if (!o.disabled) out.push(i);
     });
@@ -21,7 +21,7 @@ function enabledIndexes(options                        )           {
  * The index to select after `key`, or -1 when no option can be selected. `current` is the selected index, or -1 for none.
  * With nothing selected, ArrowDown / PageDown / Home choose the first enabled option and ArrowUp / PageUp / End the last.
  */
-export function nextWheelIndex(options                        , current        , key              , move                   = {})         {
+export function nextWheelIndex(options, current, key, move = {}) {
     const enabled = enabledIndexes(options);
     if (enabled.length === 0) return -1;
     const first = enabled[0];
@@ -35,7 +35,11 @@ export function nextWheelIndex(options                        , current        ,
 
     switch (key) {
         case "ArrowDown":
-            return position + 1 < enabled.length ? enabled[position + 1] : move.loop ? first : current;
+            return position + 1 < enabled.length
+                ? enabled[position + 1]
+                : move.loop
+                  ? first
+                  : current;
         case "ArrowUp":
             return position > 0 ? enabled[position - 1] : move.loop ? last : current;
         case "PageDown":
@@ -46,28 +50,34 @@ export function nextWheelIndex(options                        , current        ,
 }
 
 /** Lower-case and strip diacritics so "é" is typed with "e". */
-function fold(text        )         {
+function fold(text) {
     return text.normalize("NFD").replace(/\p{M}/gu, "").toLocaleLowerCase();
 }
 
 export const WHEEL_TYPEAHEAD_RESET_MS = 700;
 
 /** The prefix after `key` at time `now`: it grows while presses are within the reset time, else starts over. */
-export function nextWheelPrefix(previous                , key        , now        , resetMs         = WHEEL_TYPEAHEAD_RESET_MS)                 {
+export function nextWheelPrefix(previous, key, now, resetMs = WHEEL_TYPEAHEAD_RESET_MS) {
     const continuing = previous.prefix !== "" && now - previous.at <= resetMs;
     return { prefix: (continuing ? previous.prefix : "") + key, at: now };
 }
 
 /** Whether a key press is a type-ahead character: one printable character other than space, no Ctrl, Alt or Meta. */
-export function isWheelTypeaheadKey(event                                                                         )          {
-    return event.key.length === 1 && event.key !== " " && !event.ctrlKey && !event.altKey && !event.metaKey;
+export function isWheelTypeaheadKey(event) {
+    return (
+        event.key.length === 1 &&
+        event.key !== " " &&
+        !event.ctrlKey &&
+        !event.altKey &&
+        !event.metaKey
+    );
 }
 
 /**
  * The enabled option to move to for the typed `prefix`, or -1. Searches from the option after `current` and wraps; a prefix of one
  * repeated letter ("ss") counts as that single letter, so pressing it again steps through the options that start with it.
  */
-export function wheelTypeaheadIndex(options                        , current        , prefix        )         {
+export function wheelTypeaheadIndex(options, current, prefix) {
     const folded = fold(prefix);
     if (folded === "" || options.length === 0) return -1;
     const repeated = folded.length > 1 && [...folded].every((c) => c === folded[0]);

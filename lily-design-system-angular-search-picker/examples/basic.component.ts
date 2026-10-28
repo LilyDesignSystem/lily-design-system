@@ -14,10 +14,7 @@
     open panel pushes page content around.
 */
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import {
-  SearchPicker,
-  type SearchEvent,
-} from "../search-picker.component";
+import { SearchPicker, type SearchEvent } from "../search-picker.component";
 
 @Component({
   selector: "example-basic",

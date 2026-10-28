@@ -6,22 +6,22 @@
   the server, or notifying a sibling component.
 -->
 <script lang="ts">
-  import ThemePicker from "../ThemePicker.svelte";
+    import ThemePicker from "../ThemePicker.svelte";
 
-  let theme = $state("");
+    let theme = $state("");
 
-  function trackThemeChange(slug: string) {
-    // e.g. fetch("/api/preferences", { method: "POST", body: JSON.stringify({ theme: slug }) });
-    console.info("theme changed:", slug);
-  }
+    function trackThemeChange(slug: string) {
+        // e.g. fetch("/api/preferences", { method: "POST", body: JSON.stringify({ theme: slug }) });
+        console.info("theme changed:", slug);
+    }
 </script>
 
 <ThemePicker
-  label="Theme"
-  themesUrl="/assets/themes/"
-  themes={["light", "dark", "abyss"]}
-  bind:value={theme}
-  onChange={trackThemeChange}
+    label="Theme"
+    themesUrl="/assets/themes/"
+    themes={["light", "dark", "abyss"]}
+    bind:value={theme}
+    onChange={trackThemeChange}
 />
 
 <p>Current theme: <strong>{theme || "(resolving…)"}</strong></p>

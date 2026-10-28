@@ -8,7 +8,13 @@ if (!customElements.get("gantt-chart")) customElements.define("gantt-chart", Gan
 
 const RANGE = { start: "2026-10-01", end: "2026-10-10" };
 const TASKS: GanttTask[] = [
-    { id: "design", label: "Design", start: "2026-10-01", end: "2026-10-03", values: { owner: "Zoë" } },
+    {
+        id: "design",
+        label: "Design",
+        start: "2026-10-01",
+        end: "2026-10-03",
+        values: { owner: "Zoë" },
+    },
     { id: "build", label: "Build", start: "2026-10-04", end: "2026-10-06" },
     { id: "parent", label: "Phase 1", start: "2026-10-01", end: "2026-10-01" },
     { id: "child1", label: "Child A", start: "2026-10-08", end: "2026-10-08", parentId: "parent" },
@@ -35,16 +41,23 @@ function mount(props: Record<string, unknown> = {}): GanttChart {
     chart.range = RANGE;
     chart.tasks = (props.tasks as GanttTask[]) ?? TASKS;
     chart.labels = (props.labels as GanttLabels) ?? LABELS;
-    for (const [k, v] of Object.entries(props)) if (!["tasks", "labels"].includes(k)) (chart as never as Record<string, unknown>)[k] = v;
+    for (const [k, v] of Object.entries(props))
+        if (!["tasks", "labels"].includes(k)) (chart as never as Record<string, unknown>)[k] = v;
     return chart;
 }
-const rowLabels = () => Array.from(chart.querySelectorAll(".gantt-table-tbody > tr[data-task-id] > th")).map((th) => th.textContent?.trim());
+const rowLabels = () =>
+    Array.from(chart.querySelectorAll(".gantt-table-tbody > tr[data-task-id] > th")).map((th) =>
+        th.textContent?.trim(),
+    );
 const input = () => chart.querySelector<HTMLInputElement>(".gantt-chart-search")!;
 const type = (value: string) => {
     input().value = value;
     input().dispatchEvent(new Event("input", { bubbles: true }));
 };
-const key = (el: Element, k: string, init: KeyboardEventInit = {}) => el.dispatchEvent(new KeyboardEvent("keydown", { key: k, bubbles: true, cancelable: true, ...init }));
+const key = (el: Element, k: string, init: KeyboardEventInit = {}) =>
+    el.dispatchEvent(
+        new KeyboardEvent("keydown", { key: k, bubbles: true, cancelable: true, ...init }),
+    );
 const active = () => chart.querySelector<HTMLElement>("td[data-row][data-col][tabindex='0']")!;
 const flush = () => new Promise((r) => setTimeout(r, 0));
 
@@ -77,7 +90,9 @@ describe("search, filter and compare", () => {
         mount();
         expect(chart.querySelector(".gantt-chart-match")).toBeNull();
         type("build");
-        expect(chart.querySelector("mark.gantt-chart-match")!.textContent?.toLowerCase()).toBe("build");
+        expect(chart.querySelector("mark.gantt-chart-match")!.textContent?.toLowerCase()).toBe(
+            "build",
+        );
     });
     test("§18.7 the result count is announced and Escape clears the search", () => {
         mount();
@@ -121,7 +136,12 @@ describe("copy to clipboard", () => {
 });
 
 describe("keyboard: page keys, type-ahead, right-to-left", () => {
-    const many: GanttTask[] = Array.from({ length: 25 }, (_, i) => ({ id: `t${i}`, label: i === 3 ? "Beta" : i === 5 ? "Bravo" : `Task ${i}`, start: "2026-10-01", end: "2026-10-02" }));
+    const many: GanttTask[] = Array.from({ length: 25 }, (_, i) => ({
+        id: `t${i}`,
+        label: i === 3 ? "Beta" : i === 5 ? "Bravo" : `Task ${i}`,
+        start: "2026-10-01",
+        end: "2026-10-02",
+    }));
     test("§18.30 PageDown moves ten rows and clamps", () => {
         mount({ tasks: many });
         key(active(), "PageDown");
@@ -148,8 +168,18 @@ describe("keyboard: page keys, type-ahead, right-to-left", () => {
 });
 
 describe("in-place edit: validate, undo, redo", () => {
-    const fields = [{ id: "cost", header: "Cost", type: "number" as const, validate: (v: unknown) => (typeof v === "number" && v < 0 ? "must not be negative" : undefined) }];
-    const tasks: GanttTask[] = [{ id: "a", label: "A", start: "2026-10-01", end: "2026-10-02", values: { cost: 5 } }];
+    const fields = [
+        {
+            id: "cost",
+            header: "Cost",
+            type: "number" as const,
+            validate: (v: unknown) =>
+                typeof v === "number" && v < 0 ? "must not be negative" : undefined,
+        },
+    ];
+    const tasks: GanttTask[] = [
+        { id: "a", label: "A", start: "2026-10-01", end: "2026-10-02", values: { cost: 5 } },
+    ];
     function edit(value: string): void {
         chart.querySelector<HTMLElement>(".gantt-chart-field-button")!.click();
         const field = chart.querySelector<HTMLInputElement>(".gantt-chart-field-editor")!;
@@ -160,7 +190,9 @@ describe("in-place edit: validate, undo, redo", () => {
     test("§18.35 a value validate refuses keeps the editor open, aria-invalid, and announces the reason", () => {
         mount({ tasks, fields, onFieldEdit: vi.fn() });
         edit("-1");
-        expect(chart.querySelector(".gantt-chart-field-editor")!.getAttribute("aria-invalid")).toBe("true");
+        expect(chart.querySelector(".gantt-chart-field-editor")!.getAttribute("aria-invalid")).toBe(
+            "true",
+        );
         expect(chart.textContent).toContain("must not be negative");
     });
     test("§18.37 Ctrl+Z reports the earlier value through onFieldEdit; Ctrl+Shift+Z redoes", () => {
@@ -168,10 +200,20 @@ describe("in-place edit: validate, undo, redo", () => {
         mount({ tasks, fields, onFieldEdit });
         edit("9");
         key(active(), "z", { ctrlKey: true });
-        expect(onFieldEdit).toHaveBeenLastCalledWith({ taskId: "a", fieldId: "cost", value: 5, previous: 9 });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({
+            taskId: "a",
+            fieldId: "cost",
+            value: 5,
+            previous: 9,
+        });
         expect(chart.textContent).toContain("Undid Cost: 5");
         key(active(), "z", { ctrlKey: true, shiftKey: true });
-        expect(onFieldEdit).toHaveBeenLastCalledWith({ taskId: "a", fieldId: "cost", value: 9, previous: 5 });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({
+            taskId: "a",
+            fieldId: "cost",
+            value: 9,
+            previous: 5,
+        });
     });
 });
 
@@ -184,7 +226,9 @@ describe("unavailable days: holidays and time off", () => {
         expect(th.querySelector(".gantt-chart-unavailable-label")!.textContent).toBe("Day off");
         const column = heads().indexOf(th);
         for (const row of chart.querySelectorAll(".gantt-table-tbody > tr[data-task-id]")) {
-            expect(row.querySelectorAll("td[data-col]")[column]!.getAttribute("data-unavailable")).toBe("holiday");
+            expect(
+                row.querySelectorAll("td[data-col]")[column]!.getAttribute("data-unavailable"),
+            ).toBe("holiday");
         }
     });
     test("§18.41 a week column only partly covered gets data-partly-unavailable instead", () => {

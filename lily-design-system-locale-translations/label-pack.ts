@@ -123,7 +123,11 @@ export const SPEC: Record<LabelHelper, Record<string, string[]>> = {
         dependencySummary: ["tasks"],
         dateAnnouncement: ["task", "start", "end"],
         dependencyDetail: ["predecessor", "@type", "lag"],
-        baselineSummary: ["task", "baselineStart=baseline.start|baselineEnd=baseline.end", "variance"],
+        baselineSummary: [
+            "task",
+            "baselineStart=baseline.start|baselineEnd=baseline.end",
+            "variance",
+        ],
         collapseButton: ["task=task.label", "@collapsed"],
         zoomAnnouncement: ["@timeUnit"],
         exportAnnouncement: ["format", "count", "filename"],
@@ -150,10 +154,53 @@ export const SPEC: Record<LabelHelper, Record<string, string[]>> = {
 /** The pack keys that are objects of plain strings handed over as they are (export headers, operator names). */
 /** Which shared (`common`) labels each helper takes; the filter takes none. */
 const COMMON_FOR: Record<LabelHelper, string[]> = {
-    "data-grid": ["search", "export", "exportCsv", "exportTsv", "exportExcel", "exportAnnouncement", "copy", "copyAnnouncement", "copyFailed"],
-    "kanban-board": ["search", "searchAnnouncement", "export", "exportCsv", "exportTsv", "exportExcel", "exportAnnouncement", "copy", "copyAnnouncement", "copyFailed"],
-    calendar: ["search", "searchAnnouncement", "export", "exportCsv", "exportTsv", "exportExcel", "exportAnnouncement", "copy", "copyAnnouncement", "copyFailed"],
-    "gantt-chart": ["search", "searchAnnouncement", "export", "exportCsv", "exportTsv", "exportExcel", "exportAnnouncement", "copy", "copyAnnouncement", "copyFailed"],
+    "data-grid": [
+        "search",
+        "export",
+        "exportCsv",
+        "exportTsv",
+        "exportExcel",
+        "exportAnnouncement",
+        "copy",
+        "copyAnnouncement",
+        "copyFailed",
+    ],
+    "kanban-board": [
+        "search",
+        "searchAnnouncement",
+        "export",
+        "exportCsv",
+        "exportTsv",
+        "exportExcel",
+        "exportAnnouncement",
+        "copy",
+        "copyAnnouncement",
+        "copyFailed",
+    ],
+    calendar: [
+        "search",
+        "searchAnnouncement",
+        "export",
+        "exportCsv",
+        "exportTsv",
+        "exportExcel",
+        "exportAnnouncement",
+        "copy",
+        "copyAnnouncement",
+        "copyFailed",
+    ],
+    "gantt-chart": [
+        "search",
+        "searchAnnouncement",
+        "export",
+        "exportCsv",
+        "exportTsv",
+        "exportExcel",
+        "exportAnnouncement",
+        "copy",
+        "copyAnnouncement",
+        "copyFailed",
+    ],
     filter: [],
 };
 
@@ -173,7 +220,9 @@ function read(arg: unknown, path: string[]): unknown {
 
 /** Fill `{name}` placeholders from a name -> text map; an unknown placeholder is left as written. */
 export function fillTemplate(template: string, values: Record<string, string>): string {
-    return template.replace(/\{(\w+)\}/g, (whole, name: string) => (name in values ? values[name] : whole));
+    return template.replace(/\{(\w+)\}/g, (whole, name: string) =>
+        name in values ? values[name] : whole,
+    );
 }
 
 function build(template: LabelTemplate, params: string[]): (...args: unknown[]) => string {
@@ -193,7 +242,8 @@ function build(template: LabelTemplate, params: string[]): (...args: unknown[]) 
                 // `card=card.title` reads `.title` of the argument; the first path segment is the parameter's own name.
                 let value = param.includes("=") ? read(arg, path.split(".").slice(1)) : arg;
                 // An object without the named property (a calendar event with no `title`) is shown by its id, as the helpers do.
-                if (param.includes("=") && (value === undefined || value === null || value === "")) value = read(arg, ["id"]);
+                if (param.includes("=") && (value === undefined || value === null || value === ""))
+                    value = read(arg, ["id"]);
                 values[name] = name === "format" ? text(value).toUpperCase() : text(value);
             }
         });
@@ -223,9 +273,14 @@ export function labelsFor(helper: LabelHelper, pack: LabelPack): Record<string, 
 }
 
 /** The pack's raw label data for one helper: its own section over the shared labels that helper takes. Strings, select objects and groups, unbuilt. */
-export function mergedLabels(helper: LabelHelper, pack: LabelPack): Record<string, LabelTemplate | Record<string, string>> {
+export function mergedLabels(
+    helper: LabelHelper,
+    pack: LabelPack,
+): Record<string, LabelTemplate | Record<string, string>> {
     return {
-        ...Object.fromEntries(Object.entries(pack.common ?? {}).filter(([key]) => COMMON_FOR[helper].includes(key))),
+        ...Object.fromEntries(
+            Object.entries(pack.common ?? {}).filter(([key]) => COMMON_FOR[helper].includes(key)),
+        ),
         ...(pack[helper] ?? {}),
     };
 }
@@ -233,7 +288,9 @@ export function mergedLabels(helper: LabelHelper, pack: LabelPack): Record<strin
 /** Every label key a helper's pack should hold (plain strings and templated functions), for coverage checks. */
 export function packKeys(helper: LabelHelper, pack: LabelPack): string[] {
     return Object.keys({
-        ...Object.fromEntries(Object.entries(pack.common ?? {}).filter(([key]) => COMMON_FOR[helper].includes(key))),
+        ...Object.fromEntries(
+            Object.entries(pack.common ?? {}).filter(([key]) => COMMON_FOR[helper].includes(key)),
+        ),
         ...(pack[helper] ?? {}),
     });
 }
@@ -244,6 +301,7 @@ export function packKeys(helper: LabelHelper, pack: LabelPack): string[] {
  */
 export function textSizeLabels(pack: LabelPack): Record<string, string> {
     const out: Record<string, string> = {};
-    for (const [size, label] of Object.entries(pack["text-size"] ?? {})) if (typeof label === "string" && label !== "") out[size] = label;
+    for (const [size, label] of Object.entries(pack["text-size"] ?? {}))
+        if (typeof label === "string" && label !== "") out[size] = label;
     return out;
 }

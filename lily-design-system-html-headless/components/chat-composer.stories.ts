@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<form class="chat-composer">
   <textarea class="chat-composer-input" aria-label="Message" rows="1"></textarea>
@@ -10,9 +10,9 @@ const html = `<form class="chat-composer">
 </form>`;
 
 const meta = {
-  title: 'Headless/ChatComposer',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/ChatComposer",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

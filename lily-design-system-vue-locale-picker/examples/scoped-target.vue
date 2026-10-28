@@ -24,7 +24,10 @@ const bLocale = ref("fr");
     <article>
         <h1>Document language stays English; panels switch independently.</h1>
 
-        <section ref="panelA" class="panel">
+        <section
+            ref="panelA"
+            class="panel"
+        >
             <h2>Panel A</h2>
             <LocalePicker
                 label="Panel A language"
@@ -32,10 +35,15 @@ const bLocale = ref("fr");
                 :target="panelA"
                 v-model:value="aLocale"
             />
-            <p>Current panel locale: <code>{{ aLocale }}</code></p>
+            <p>
+                Current panel locale: <code>{{ aLocale }}</code>
+            </p>
         </section>
 
-        <section ref="panelB" class="panel">
+        <section
+            ref="panelB"
+            class="panel"
+        >
             <h2>Panel B</h2>
             <LocalePicker
                 label="Panel B language"
@@ -43,7 +51,9 @@ const bLocale = ref("fr");
                 :target="panelB"
                 v-model:value="bLocale"
             />
-            <p>Current panel locale: <code>{{ bLocale }}</code></p>
+            <p>
+                Current panel locale: <code>{{ bLocale }}</code>
+            </p>
         </section>
     </article>
 </template>

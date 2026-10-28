@@ -37,15 +37,39 @@ import {
   type DateTimePickerLabels,
 } from "@lilydesignsystem/angular-date-time-picker";
 
-import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
+import {
+  copyToClipboard,
+  downloadBlob,
+  exportBlob,
+  exportFilename,
+  toClipboardText,
+  type ExportFormat,
+} from "./export-data";
 import { civilDateToDate } from "./cell-types";
 import { highlightSegments, matchesSearch } from "./search-text";
 import { isRtl, logicalKey } from "./direction";
 import { gridMove, pageStepFor } from "./grid-navigation";
 import { unavailableIn, unavailableKinds, type Unavailable } from "./unavailable";
-import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
-import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
-import { dependencyPath, weekdayOfEpochDay, type ArrowBox, type DependencyKind } from "./dependency-arrows";
+import {
+  EMPTY_HISTORY,
+  historyKey,
+  recordEdit,
+  redoEdit,
+  undoEdit,
+  type EditHistory,
+} from "./edit-history";
+import {
+  findTypeaheadMatch,
+  isTypeaheadKey,
+  nextTypeaheadState,
+  type TypeaheadState,
+} from "./typeahead";
+import {
+  dependencyPath,
+  weekdayOfEpochDay,
+  type ArrowBox,
+  type DependencyKind,
+} from "./dependency-arrows";
 import {
   draftOf,
   editorKind,
@@ -175,7 +199,16 @@ export type GanttLabels = {
   /** Announced after the search changes: (matching tasks, all tasks). */
   searchAnnouncement?: (matchCount: number, totalCount: number) => string;
   /** Headers of the export's own columns. An export needs `exportHeaders`; there is no English default. The others are included only when named. */
-  exportHeaders?: { task: string; start: string; end: string; percentComplete?: string; parent?: string; dependsOn?: string; baselineStart?: string; baselineEnd?: string };
+  exportHeaders?: {
+    task: string;
+    start: string;
+    end: string;
+    percentComplete?: string;
+    parent?: string;
+    dependsOn?: string;
+    baselineStart?: string;
+    baselineEnd?: string;
+  };
   /** Announced after a field edit: (task label, field header, the new text). */
   editAnnouncement?: (taskLabel: string, fieldHeader: string, text: string) => string;
   /** Announced when an edit is refused as invalid for the field's type: (task label, field header). */
@@ -262,15 +295,11 @@ export type GanttFlatRow = { task: GanttTask; depth: number; hasChildren: boolea
  * Depth-first flatten of the parentId tree, skipping collapsed subtrees.
  * A task whose `parentId` names no task is a top-level row, not dropped.
  */
-export function flattenTasks(
-  tasks: GanttTask[],
-  collapsed: ReadonlySet<string>,
-): GanttFlatRow[] {
+export function flattenTasks(tasks: GanttTask[], collapsed: ReadonlySet<string>): GanttFlatRow[] {
   const ids = new Set(tasks.map((t) => t.id));
   const childrenOf = new Map<string | undefined, GanttTask[]>();
   for (const task of tasks) {
-    const key =
-      task.parentId != null && ids.has(task.parentId) ? task.parentId : undefined;
+    const key = task.parentId != null && ids.has(task.parentId) ? task.parentId : undefined;
     const list = childrenOf.get(key) ?? [];
     list.push(task);
     childrenOf.set(key, list);
@@ -292,9 +321,7 @@ export function effectiveRange(
   task: GanttTask,
   allTasks: GanttTask[],
 ): { start: string; end: string } {
-  return (
-    effectiveRanges(allTasks).get(task.id) ?? { start: task.start ?? "", end: task.end ?? "" }
-  );
+  return effectiveRanges(allTasks).get(task.id) ?? { start: task.start ?? "", end: task.end ?? "" };
 }
 
 /**
@@ -303,9 +330,7 @@ export function effectiveRange(
  * A `parentId` cycle cannot recurse forever: a task already on the walk is
  * read as a leaf.
  */
-export function effectiveRanges(
-  tasks: GanttTask[],
-): Map<string, { start: string; end: string }> {
+export function effectiveRanges(tasks: GanttTask[]): Map<string, { start: string; end: string }> {
   const childrenOf = new Map<string, GanttTask[]>();
   for (const task of tasks) {
     if (task.parentId == null) continue;
@@ -769,9 +794,13 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
   /** Called before the download with the finished file. Return `false` to skip the built-in download. */
   readonly exportHandler = input<((file: GanttExport) => boolean | void) | undefined>(undefined);
   /** Called before a copy puts text on the clipboard. Return `false` to take over (nothing is copied). The `copy` output fires first. */
-  readonly copyHandler = input<((copy: { text: string; rowCount: number }) => boolean | void) | undefined>(undefined);
+  readonly copyHandler = input<
+    ((copy: { text: string; rowCount: number }) => boolean | void) | undefined
+  >(undefined);
   /** Renders only the task rows in view (windowing). The chart gets a scroll area of `height` px; every row is assumed `rowHeight` px tall. */
-  readonly virtualize = input<{ rowHeight: number; height: number; overscan?: number } | undefined>(undefined);
+  readonly virtualize = input<{ rowHeight: number; height: number; overscan?: number } | undefined>(
+    undefined,
+  );
   /** Extra CSS class on the root. */
   readonly className = input<string>("");
 
@@ -818,8 +847,18 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
     const searching = this.searching();
     if (!searching && !filter) return null;
     const query = this.search();
-    const text = this.searchText() ?? ((task: GanttTask) => [this.taskLabel()(task), ...this.resolvedFields().map((f) => fieldTextOf(f, task.values))].join(" "));
-    return new Set(this.tasks().filter((t) => (!filter || filter(t)) && (!searching || matchesSearch(text(t), query))).map((t) => t.id));
+    const text =
+      this.searchText() ??
+      ((task: GanttTask) =>
+        [
+          this.taskLabel()(task),
+          ...this.resolvedFields().map((f) => fieldTextOf(f, task.values)),
+        ].join(" "));
+    return new Set(
+      this.tasks()
+        .filter((t) => (!filter || filter(t)) && (!searching || matchesSearch(text(t), query)))
+        .map((t) => t.id),
+    );
   });
   /** Matches plus their ancestors, so a match is never shown without its context. */
   private readonly shownIds = computed(() => {
@@ -829,7 +868,11 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
     const keep = new Set(matched);
     for (const id of matched) {
       const seen = new Set<string>([id]);
-      for (let parent = byId.get(id)?.parentId; parent != null && byId.has(parent) && !seen.has(parent); parent = byId.get(parent)?.parentId) {
+      for (
+        let parent = byId.get(id)?.parentId;
+        parent != null && byId.has(parent) && !seen.has(parent);
+        parent = byId.get(parent)?.parentId
+      ) {
         keep.add(parent);
         seen.add(parent);
       }
@@ -843,20 +886,28 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
   });
   protected readonly rows = computed(() => {
     const shown = this.shownIds();
-    return shown ? flattenTasks(this.orderedTasks(), new Set<string>()).filter((r) => shown.has(r.task.id)) : flattenTasks(this.orderedTasks(), this.collapsedIds());
+    return shown
+      ? flattenTasks(this.orderedTasks(), new Set<string>()).filter((r) => shown.has(r.task.id))
+      : flattenTasks(this.orderedTasks(), this.collapsedIds());
   });
   private readonly ranges = computed(() => effectiveRanges(this.tasks()));
   private readonly taskById = computed(() => new Map(this.tasks().map((t) => [t.id, t])));
   // Markers, today and non-working per column, found once per change rather than once per cell per render.
   private readonly markersByColumn = computed(() => {
     const markers = this.markers();
-    return this.columns().map((column) => markers.filter((m) => overlaps(column.start, column.end, m.date, m.date)));
+    return this.columns().map((column) =>
+      markers.filter((m) => overlaps(column.start, column.end, m.date, m.date)),
+    );
   });
   protected markersAt(colIndex: number): GanttMarker[] {
     return this.markersByColumn()[colIndex] ?? [];
   }
-  protected readonly todayColumns = computed(() => this.columns().map((column) => this.isTodayColumn(column)));
-  protected readonly nonWorkingColumns = computed(() => this.columns().map((column) => this.isNonWorkingColumn(column)));
+  protected readonly todayColumns = computed(() =>
+    this.columns().map((column) => this.isTodayColumn(column)),
+  );
+  protected readonly nonWorkingColumns = computed(() =>
+    this.columns().map((column) => this.isNonWorkingColumn(column)),
+  );
   protected readonly weekendColumns = computed(() => {
     const weekends = this.weekends();
     return this.columns().map((column) => {
@@ -867,7 +918,9 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
   });
 
   // What `unavailable` holds per column, found once per `unavailable` / `columns` change.
-  protected readonly unavailableByColumn = computed(() => this.columns().map((column) => unavailableIn(this.unavailable(), column.start, column.end)));
+  protected readonly unavailableByColumn = computed(() =>
+    this.columns().map((column) => unavailableIn(this.unavailable(), column.start, column.end)),
+  );
   protected unavailableKindsOf(index: number): string | null {
     const u = this.unavailableByColumn()[index];
     return u && u.all ? (unavailableKinds(u.items) ?? null) : null;
@@ -878,7 +931,9 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
   }
 
   // Dependency arrows: an aria-hidden overlay measured from the rendered cells.
-  protected readonly arrows = signal<{ key: string; from: string; to: string; kind: string; d: string }[]>([]);
+  protected readonly arrows = signal<
+    { key: string; from: string; to: string; kind: string; d: string }[]
+  >([]);
   protected readonly overlaySize = signal({ width: 0, height: 0 });
   protected readonly arrowHeadId = `${this.baseId}-arrowhead`;
   private arrowObserver: ResizeObserver | undefined;
@@ -898,7 +953,12 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
       if (!cells.length) return;
       const first = cells[0].getBoundingClientRect();
       const last = cells[cells.length - 1].getBoundingClientRect();
-      boxes.set(tr.dataset["taskId"] ?? "", { left: first.left + dx, right: last.right + dx, top: first.top + dy, bottom: first.bottom + dy });
+      boxes.set(tr.dataset["taskId"] ?? "", {
+        left: first.left + dx,
+        right: last.right + dx,
+        top: first.top + dy,
+        bottom: first.bottom + dy,
+      });
     });
     const next: { key: string; from: string; to: string; kind: string; d: string }[] = [];
     for (const [id, to] of boxes) {
@@ -907,17 +967,26 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
         const from = boxes.get(predecessorId);
         if (!from) continue;
         const kind: DependencyKind = (typeof dep === "string" ? undefined : dep.type) ?? "e2s";
-        next.push({ key: `${predecessorId}>${id}`, from: predecessorId, to: id, kind, d: dependencyPath(kind, from, to) });
+        next.push({
+          key: `${predecessorId}>${id}`,
+          from: predecessorId,
+          to: id,
+          kind,
+          d: dependencyPath(kind, from, to),
+        });
       }
     }
     if (JSON.stringify(this.arrows()) !== JSON.stringify(next)) this.arrows.set(next);
     const size = this.overlaySize();
-    if (size.width !== el.scrollWidth || size.height !== el.scrollHeight) this.overlaySize.set({ width: el.scrollWidth, height: el.scrollHeight });
+    if (size.width !== el.scrollWidth || size.height !== el.scrollHeight)
+      this.overlaySize.set({ width: el.scrollWidth, height: el.scrollHeight });
   }
 
   // The roving cursor, clamped to the cells that exist now: collapsing a parent
   // can remove the row it named, and the grid must never leave the tab order.
-  protected readonly activeRow = computed(() => Math.min(this.focusedRow(), this.rows().length - 1));
+  protected readonly activeRow = computed(() =>
+    Math.min(this.focusedRow(), this.rows().length - 1),
+  );
   protected readonly activeCol = computed(() =>
     Math.min(this.focusedCol(), this.columns().length - 1),
   );
@@ -927,7 +996,11 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
     const l = this.labels();
     return (
       !this.readonly() &&
-      !!l.dateTimePickerLabels && !!l.startLabel && !!l.endLabel && !!l.saveLabel && !!l.cancelLabel
+      !!l.dateTimePickerLabels &&
+      !!l.startLabel &&
+      !!l.endLabel &&
+      !!l.saveLabel &&
+      !!l.cancelLabel
     );
   });
 
@@ -953,7 +1026,9 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
     const attrs = this.taskAttrs();
     if (!attrs) return;
     const byId = new Map(this.tasks().map((t) => [t.id, t]));
-    for (const el of this.rootRef().nativeElement.querySelectorAll<HTMLElement>("tr[data-task-id]")) {
+    for (const el of this.rootRef().nativeElement.querySelectorAll<HTMLElement>(
+      "tr[data-task-id]",
+    )) {
       const task = byId.get(el.dataset["taskId"] ?? "");
       if (!task) continue;
       for (const [name, value] of Object.entries(attrs(task))) el.setAttribute(name, value);
@@ -961,9 +1036,7 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
   }
 
   ngAfterViewInit(): void {
-    this.rootRef()
-      .nativeElement.querySelector("table.gantt-table")
-      ?.setAttribute("role", "grid");
+    this.rootRef().nativeElement.querySelector("table.gantt-table")?.setAttribute("role", "grid");
     // Re-measure when the table's own size changes (zoom, fonts, resize); ngAfterViewChecked covers re-renders.
     const table = this.scrollRef()?.nativeElement.querySelector("table");
     if (table && typeof ResizeObserver !== "undefined") {
@@ -1029,8 +1102,10 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
       this.searchAnnounced = true;
       return;
     }
-    if (matched) this.announce(this.labels().searchAnnouncement?.(matched.size, this.tasks().length));
-    else if (query === "") this.announce(this.labels().searchAnnouncement?.(this.tasks().length, this.tasks().length));
+    if (matched)
+      this.announce(this.labels().searchAnnouncement?.(matched.size, this.tasks().length));
+    else if (query === "")
+      this.announce(this.labels().searchAnnouncement?.(this.tasks().length, this.tasks().length));
   });
 
   /** Escape in the search field clears it. */
@@ -1068,7 +1143,12 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
   }
 
   /** The field being edited, if any: the draft is the editor's text. */
-  protected readonly editingField = signal<{ taskId: string; fieldId: string; draft: Draft; invalid?: boolean } | null>(null);
+  protected readonly editingField = signal<{
+    taskId: string;
+    fieldId: string;
+    draft: Draft;
+    invalid?: boolean;
+  } | null>(null);
   /** Accepted field edits, for Ctrl/Cmd+Z. The consumer owns the data, so an undo is reported through `fieldEdit` like any edit. */
   private history: EditHistory = EMPTY_HISTORY;
 
@@ -1078,9 +1158,18 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
     this.editingField.set({ taskId: task.id, fieldId: f.id, draft: draftOf(f, task.values) });
     this.cdr.detectChanges();
     this.afterRender(() => {
-      const editor = this.rootRef().nativeElement.querySelector<HTMLInputElement>(".gantt-chart-field-editor");
+      const editor = this.rootRef().nativeElement.querySelector<HTMLInputElement>(
+        ".gantt-chart-field-editor",
+      );
       editor?.focus({ preventScroll: true });
-      if (editor && "select" in editor && editor.type !== "number" && editor.type !== "date" && editor.type !== "time") editor.select();
+      if (
+        editor &&
+        "select" in editor &&
+        editor.type !== "number" &&
+        editor.type !== "date" &&
+        editor.type !== "time"
+      )
+        editor.select();
     });
   }
 
@@ -1098,14 +1187,25 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
     const outcome = evaluateEdit(f, task.values, draft);
     if (outcome.invalid) {
       this.editingField.set({ ...current, invalid: true });
-      this.announce((outcome.message ? this.labels().editRefused?.(this.taskLabel()(task), f.header, outcome.message) : undefined) ?? this.labels().editInvalid?.(this.taskLabel()(task), f.header));
+      this.announce(
+        (outcome.message
+          ? this.labels().editRefused?.(this.taskLabel()(task), f.header, outcome.message)
+          : undefined) ?? this.labels().editInvalid?.(this.taskLabel()(task), f.header),
+      );
       return false;
     }
     this.editingField.set(null);
     if (outcome.changed) {
-      this.history = recordEdit(this.history, { ownerId: taskId, fieldId, value: outcome.value, previous: outcome.previous });
+      this.history = recordEdit(this.history, {
+        ownerId: taskId,
+        fieldId,
+        value: outcome.value,
+        previous: outcome.previous,
+      });
       this.fieldEdit.emit({ taskId, fieldId, value: outcome.value, previous: outcome.previous });
-      this.announce(this.labels().editAnnouncement?.(this.taskLabel()(task), f.header, outcome.text));
+      this.announce(
+        this.labels().editAnnouncement?.(this.taskLabel()(task), f.header, outcome.text),
+      );
     }
     return true;
   }
@@ -1122,8 +1222,19 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
     const task = this.taskById().get(ownerId);
     const f = this.resolvedFields().find((x) => x.id === fieldId);
     if (!task || !f) return;
-    const text = restored === null || restored === undefined ? "" : f.format ? f.format(restored, { ...(task.values ?? {}), [fieldId]: restored }) : String(restored);
-    this.announce((direction === "undo" ? this.labels().undoAnnouncement : this.labels().redoAnnouncement)?.(this.taskLabel()(task), f.header, text));
+    const text =
+      restored === null || restored === undefined
+        ? ""
+        : f.format
+          ? f.format(restored, { ...(task.values ?? {}), [fieldId]: restored })
+          : String(restored);
+    this.announce(
+      (direction === "undo" ? this.labels().undoAnnouncement : this.labels().redoAnnouncement)?.(
+        this.taskLabel()(task),
+        f.header,
+        text,
+      ),
+    );
   }
 
   private cancelFieldEdit(): void {
@@ -1133,7 +1244,12 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
 
   protected onFieldEditorInput(event: Event): void {
     const current = this.editingField();
-    if (current) this.editingField.set({ ...current, draft: (event.target as HTMLInputElement).value, invalid: false });
+    if (current)
+      this.editingField.set({
+        ...current,
+        draft: (event.target as HTMLInputElement).value,
+        invalid: false,
+      });
   }
 
   protected onFieldEditorSelectChange(event: Event): void {
@@ -1156,7 +1272,11 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
       // Tab commits and moves to the task's next (Shift+Tab: previous) editable field; past the last, it moves on.
       const current = this.editingField()!;
       const task = this.taskById().get(current.taskId);
-      const next = neighbourField(this.resolvedFields().filter((x) => this.isFieldEditable(x)), current.fieldId, event.shiftKey);
+      const next = neighbourField(
+        this.resolvedFields().filter((x) => this.isFieldEditable(x)),
+        current.fieldId,
+        event.shiftKey,
+      );
       if (task && next) {
         event.preventDefault();
         if (this.commitFieldEdit()) this.startFieldEdit(task, next);
@@ -1187,7 +1307,9 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
     this.copy.emit(copied);
     if (this.copyHandler()?.(copied) === false) return;
     const ok = await copyToClipboard(text);
-    this.announce(ok ? this.labels().copyAnnouncement?.(table.rows.length) : this.labels().copyFailed);
+    this.announce(
+      ok ? this.labels().copyAnnouncement?.(table.rows.length) : this.labels().copyFailed,
+    );
   }
 
   protected runExport(format: ExportFormat | "copy"): void {
@@ -1204,12 +1326,25 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
     if (h.baselineStart) headers.push(h.baselineStart);
     if (h.baselineEnd) headers.push(h.baselineEnd);
     for (const f of exportFields) headers.push(f.header);
-    const hasChildren = new Set(tasks.filter((t) => t.parentId != null && byId.has(t.parentId)).map((t) => t.parentId as string));
+    const hasChildren = new Set(
+      tasks
+        .filter((t) => t.parentId != null && byId.has(t.parentId))
+        .map((t) => t.parentId as string),
+    );
     const body = this.exportRows().map((task) => {
-      const span = hasChildren.has(task.id) ? (this.ranges().get(task.id) ?? { start: "", end: "" }) : { start: task.start ?? "", end: task.end ?? "" };
-      const cells: unknown[] = [label(task), this.exportDate(span.start), this.exportDate(span.end)];
+      const span = hasChildren.has(task.id)
+        ? (this.ranges().get(task.id) ?? { start: "", end: "" })
+        : { start: task.start ?? "", end: task.end ?? "" };
+      const cells: unknown[] = [
+        label(task),
+        this.exportDate(span.start),
+        this.exportDate(span.end),
+      ];
       if (h.percentComplete) cells.push(task.percentComplete ?? null);
-      if (h.parent) cells.push(task.parentId != null && byId.has(task.parentId) ? label(byId.get(task.parentId)!) : null);
+      if (h.parent)
+        cells.push(
+          task.parentId != null && byId.has(task.parentId) ? label(byId.get(task.parentId)!) : null,
+        );
       if (h.dependsOn) {
         cells.push(
           (task.dependsOn ?? [])
@@ -1260,11 +1395,21 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
     const out: RenderItem[] = [];
     let previous = -1;
     for (const index of [...indices].sort((a, b) => a - b)) {
-      if (index - previous > 1) out.push({ kind: "spacer", height: (index - previous - 1) * v.rowHeight, key: `spacer:${previous}` });
+      if (index - previous > 1)
+        out.push({
+          kind: "spacer",
+          height: (index - previous - 1) * v.rowHeight,
+          key: `spacer:${previous}`,
+        });
       out.push({ kind: "row", row: rows[index], index, key: rows[index].task.id });
       previous = index;
     }
-    if (rows.length - 1 - previous > 0) out.push({ kind: "spacer", height: (rows.length - 1 - previous) * v.rowHeight, key: `spacer:${previous}` });
+    if (rows.length - 1 - previous > 0)
+      out.push({
+        kind: "spacer",
+        height: (rows.length - 1 - previous) * v.rowHeight,
+        key: `spacer:${previous}`,
+      });
     return out;
   });
 
@@ -1303,9 +1448,9 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
   /** Every task that has children (the ones a collapse button applies to). */
   protected readonly parentIds = computed(() => {
     const tasks = this.tasks();
-    return Array.from(new Set(tasks.filter((t) => t.parentId != null).map((t) => t.parentId as string))).filter((id) =>
-      this.taskById().has(id),
-    );
+    return Array.from(
+      new Set(tasks.filter((t) => t.parentId != null).map((t) => t.parentId as string)),
+    ).filter((id) => this.taskById().has(id));
   });
 
   protected allParentsCollapsed(): boolean {
@@ -1349,7 +1494,9 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
   }
 
   protected hasBaseline(task: GanttTask, column: GanttColumn): boolean {
-    return !!task.baseline && overlaps(column.start, column.end, task.baseline.start, task.baseline.end);
+    return (
+      !!task.baseline && overlaps(column.start, column.end, task.baseline.start, task.baseline.end)
+    );
   }
 
   /** The ids a cell is described by: the dependency summary, then the baseline summary. */
@@ -1399,7 +1546,12 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
       this.labels().percentLabel && raw !== ""
         ? Math.min(100, Math.max(0, Math.round(Number(raw))))
         : undefined;
-    this.applyChange(task, start, end, percent !== undefined && Number.isFinite(percent) ? percent : undefined);
+    this.applyChange(
+      task,
+      start,
+      end,
+      percent !== undefined && Number.isFinite(percent) ? percent : undefined,
+    );
     this.closeEdit();
   }
 
@@ -1457,7 +1609,8 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
 
   protected onGridClick(event: MouseEvent): void {
     const target = event.target as HTMLElement;
-    if (target.closest("button, input, select, .gantt-chart-edit-row, .gantt-chart-field-editor")) return;
+    if (target.closest("button, input, select, .gantt-chart-edit-row, .gantt-chart-field-editor"))
+      return;
     const taskId = target.closest<HTMLElement>("[data-task-id]")?.dataset["taskId"];
     if (taskId) this.selectTask(taskId);
   }
@@ -1472,7 +1625,8 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
     const columns = this.columns();
     if (endOnly) {
       const target = columns[this.columnIndexOf(task.end) + delta];
-      if (target && compareISO(task.start, target.end) <= 0) this.applyChange(task, task.start, target.end);
+      if (target && compareISO(task.start, target.end) <= 0)
+        this.applyChange(task, task.start, target.end);
       return;
     }
     const target = columns[this.columnIndexOf(task.start) + delta];
@@ -1500,7 +1654,8 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
       // Resizing moves one edge to the dropped column; the other stays, and the range cannot invert.
       const start = edge === "start" ? column.start : task.start;
       const end = edge === "end" ? column.end : task.end;
-      if (compareISO(start, end) <= 0 && (start !== task.start || end !== task.end)) this.applyChange(task, start, end);
+      if (compareISO(start, end) <= 0 && (start !== task.start || end !== task.end))
+        this.applyChange(task, start, end);
       return;
     }
     const startDate = parseIsoDate(task.start);
@@ -1564,7 +1719,12 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
     if (event.altKey && (key === "ArrowLeft" || key === "ArrowRight")) {
       // Alt+Arrow shifts the task one column; Alt+Shift+Arrow moves only its end.
       const row = this.rows()[this.activeRow()];
-      if (row && !row.hasChildren && !this.readonly() && (event.target as HTMLElement).closest(".gantt-table-td")) {
+      if (
+        row &&
+        !row.hasChildren &&
+        !this.readonly() &&
+        (event.target as HTMLElement).closest(".gantt-table-td")
+      ) {
         event.preventDefault();
         this.shiftTask(row.task, key === "ArrowLeft" ? -1 : 1, event.shiftKey);
         return;
@@ -1577,7 +1737,11 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
       const continuing = this.typeahead.prefix !== "" && now - this.typeahead.at <= 700;
       if (continuing || (event.key !== "s" && event.key !== "S")) {
         const state = nextTypeaheadState(this.typeahead, event.key, now, 700);
-        const hit = findTypeaheadMatch(this.rows().map((r) => this.taskLabel()(r.task)), this.activeRow(), state.prefix);
+        const hit = findTypeaheadMatch(
+          this.rows().map((r) => this.taskLabel()(r.task)),
+          this.activeRow(),
+          state.prefix,
+        );
         if (hit !== -1) {
           this.typeahead = state;
           event.preventDefault();
@@ -1589,7 +1753,13 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
     const move = gridMove(
       event,
       { row: this.activeRow(), col: this.activeCol() },
-      { firstRow: 0, lastRow: this.rows().length - 1, lastCol: this.columns().length - 1, pageStep: pageStepFor(this.virtualize()), rtl: isRtl(cell) },
+      {
+        firstRow: 0,
+        lastRow: this.rows().length - 1,
+        lastCol: this.columns().length - 1,
+        pageStep: pageStepFor(this.virtualize()),
+        rtl: isRtl(cell),
+      },
     );
     if (move) {
       event.preventDefault();

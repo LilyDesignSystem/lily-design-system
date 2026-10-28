@@ -9,10 +9,22 @@ const query = ref("");
 </script>
 
 <template>
-    <MenuPicker label="Menu" v-slot="{ close }">
+    <MenuPicker
+        label="Menu"
+        v-slot="{ close }"
+    >
         <form @submit.prevent="close()">
-            <input type="search" aria-label="Search" v-model="query" />
-            <button type="submit" data-menu-picker-keep-open>Go</button>
+            <input
+                type="search"
+                aria-label="Search"
+                v-model="query"
+            />
+            <button
+                type="submit"
+                data-menu-picker-keep-open
+            >
+                Go
+            </button>
         </form>
     </MenuPicker>
 </template>

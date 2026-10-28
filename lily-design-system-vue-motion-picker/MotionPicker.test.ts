@@ -208,9 +208,7 @@ describe("MotionPicker — keyboard contract (APG listbox)", () => {
 
     test("§7.14 ArrowUp opens with the last option active", async () => {
         const { el } = await openWith("ArrowUp");
-        expect(el.getAttribute("aria-activedescendant")).toBe(
-            el.children[MOTIONS.length - 1].id,
-        );
+        expect(el.getAttribute("aria-activedescendant")).toBe(el.children[MOTIONS.length - 1].id);
     });
 
     test("§7.14 opening moves focus to the listbox", async () => {
@@ -222,9 +220,7 @@ describe("MotionPicker — keyboard contract (APG listbox)", () => {
         const { list, el } = await openWith("ArrowDown");
         expect(el.getAttribute("aria-activedescendant")).toBe(el.children[NO_PREFERENCE].id);
         await list.trigger("keydown", { key: "ArrowDown" });
-        expect(el.getAttribute("aria-activedescendant")).toBe(
-            el.children[NO_PREFERENCE + 1].id,
-        );
+        expect(el.getAttribute("aria-activedescendant")).toBe(el.children[NO_PREFERENCE + 1].id);
         // Clamp at the top: two ArrowUps from index 1 cannot pass index 0.
         await list.trigger("keydown", { key: "ArrowUp" });
         await list.trigger("keydown", { key: "ArrowUp" });
@@ -242,9 +238,7 @@ describe("MotionPicker — keyboard contract (APG listbox)", () => {
     test("§7.15 Home and End jump to the first and last option", async () => {
         const { list, el } = await openWith("ArrowDown");
         await list.trigger("keydown", { key: "End" });
-        expect(el.getAttribute("aria-activedescendant")).toBe(
-            el.children[MOTIONS.length - 1].id,
-        );
+        expect(el.getAttribute("aria-activedescendant")).toBe(el.children[MOTIONS.length - 1].id);
         await list.trigger("keydown", { key: "Home" });
         expect(el.getAttribute("aria-activedescendant")).toBe(el.children[0].id);
     });
@@ -292,9 +286,7 @@ describe("MotionPicker — keyboard contract (APG listbox)", () => {
     test("§7.17 typeahead moves the active descendant by label prefix", async () => {
         const { list, el } = await openWith("ArrowDown");
         await list.trigger("keydown", { key: "r" });
-        expect(el.getAttribute("aria-activedescendant")).toBe(
-            el.children[MOTIONS.length - 1].id,
-        );
+        expect(el.getAttribute("aria-activedescendant")).toBe(el.children[MOTIONS.length - 1].id);
     });
 
     test("§7.17 modified keys do not trigger typeahead", async () => {
@@ -466,9 +458,7 @@ describe("MotionPicker — spread + custom slot (§7.12–§7.13)", () => {
             },
         );
         await flush();
-        expect(wrapper.find("button.motion-picker-button").text()).toContain(
-            "custom glyph",
-        );
+        expect(wrapper.find("button.motion-picker-button").text()).toContain("custom glyph");
         expect(wrapper.find(".motion-picker-icon").exists()).toBe(false);
         expect(captured.open).toBe(false);
         expect(captured.value).toBe("reduce");
@@ -515,10 +505,7 @@ describe("MotionPicker — spread + custom slot (§7.12–§7.13)", () => {
 });
 
 describe("MotionPicker — accessibility hardening (§7.19–§7.22)", () => {
-    async function openPicker(
-        motions: string[] = MOTIONS,
-        extra: Record<string, unknown> = {},
-    ) {
+    async function openPicker(motions: string[] = MOTIONS, extra: Record<string, unknown> = {}) {
         const wrapper = build({ motions, ...extra });
         await flush();
         const { button, list } = parts(wrapper);
@@ -527,8 +514,7 @@ describe("MotionPicker — accessibility hardening (§7.19–§7.22)", () => {
         return { button, list, el: list.element as HTMLElement };
     }
 
-    const active = (el: HTMLElement) =>
-        el.querySelector("[data-active]")?.textContent?.trim();
+    const active = (el: HTMLElement) => el.querySelector("[data-active]")?.textContent?.trim();
 
     test("§7.19 Tab from the open list puts focus on the button before closing", async () => {
         const { button, list, el } = await openPicker();
@@ -541,7 +527,12 @@ describe("MotionPicker — accessibility hardening (§7.19–§7.22)", () => {
 
     test("§7.20 a repeated typeahead character cycles through its matches", async () => {
         const { list, el } = await openPicker(["r1", "r2", "r3", "m"], {
-            motionLabels: { r1: "Reduce a lot", r2: "Reduce more", r3: "Reduce most", m: "Minimal" },
+            motionLabels: {
+                r1: "Reduce a lot",
+                r2: "Reduce more",
+                r3: "Reduce most",
+                m: "Minimal",
+            },
             defaultValue: "m",
         });
         await list.trigger("keydown", { key: "r" });
@@ -553,10 +544,7 @@ describe("MotionPicker — accessibility hardening (§7.19–§7.22)", () => {
     });
 
     test("§7.21 PageUp and PageDown move the cursor by ten, clamped", async () => {
-        const many = Array.from(
-            { length: 25 },
-            (_, i) => `s${String(i).padStart(2, "0")}`,
-        );
+        const many = Array.from({ length: 25 }, (_, i) => `s${String(i).padStart(2, "0")}`);
         const { list, el } = await openPicker(many);
         await list.trigger("keydown", { key: "PageDown" });
         expect(active(el)).toBe("S10");
@@ -591,7 +579,9 @@ describe("MotionPicker — tooltip (§7.23–§7.28)", () => {
         expect(tip.textContent!.length).toBeGreaterThan(0);
         expect(tip.hasAttribute("hidden")).toBe(true);
         expect(tip.id).toBeTruthy();
-        expect(button.previousElementSibling === tip || button.nextElementSibling === tip).toBe(true);
+        expect(button.previousElementSibling === tip || button.nextElementSibling === tip).toBe(
+            true,
+        );
         expect(button.hasAttribute("aria-describedby")).toBe(false);
     });
 
@@ -670,7 +660,8 @@ describe("MotionPicker — tooltip (§7.23–§7.28)", () => {
     test("§7.29 hover-only tooltip: Escape on another element dismisses it; listener removed after hide/unmount", async () => {
         const addSpy = vi.spyOn(document, "addEventListener");
         const removeSpy = vi.spyOn(document, "removeEventListener");
-        const keydownCalls = (spy: typeof addSpy) => spy.mock.calls.filter((c) => c[0] === "keydown").length;
+        const keydownCalls = (spy: typeof addSpy) =>
+            spy.mock.calls.filter((c) => c[0] === "keydown").length;
         const wrapper = build();
         const button = wrapper.element.querySelector(".motion-picker-button") as HTMLButtonElement;
         const tip = wrapper.element.querySelector(".motion-picker-tooltip") as HTMLElement;
@@ -707,7 +698,10 @@ describe("MotionPicker — open state and disabled", () => {
     const settle = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
     const mounted: VueWrapper[] = [];
     const make = (extra: Record<string, unknown> = {}) => {
-        const wrapper = mount(MotionPicker, { props: { ...{ label: "Motion", motions: MOTIONS }, ...extra }, attachTo: document.body });
+        const wrapper = mount(MotionPicker, {
+            props: { ...{ label: "Motion", motions: MOTIONS }, ...extra },
+            attachTo: document.body,
+        });
         mounted.push(wrapper);
         return wrapper;
     };
@@ -735,7 +729,9 @@ describe("MotionPicker — open state and disabled", () => {
 
     test("v-model:open: a click asks for the change and the parent applies it", async () => {
         const wrapper = make({ open: false });
-        await wrapper.setProps({ "onUpdate:open": (v: boolean) => wrapper.setProps({ open: v }) } as never);
+        await wrapper.setProps({
+            "onUpdate:open": (v: boolean) => wrapper.setProps({ open: v }),
+        } as never);
         button().click();
         await settle();
         expect(button().getAttribute("aria-expanded")).toBe("true");
@@ -756,4 +752,3 @@ describe("MotionPicker — open state and disabled", () => {
         expect(button().getAttribute("aria-expanded")).toBe("false");
     });
 });
-

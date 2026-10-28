@@ -5,16 +5,15 @@ import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("pre.code-block");
 
-
 describe("CodeBlock", () => {
-  it("renders the element with its base class", async () => {
-    await mount("code-block");
-    expect(el()).not.toBeNull();
-    expect(el().classList.contains("code-block")).toBe(true);
-  });
+    it("renders the element with its base class", async () => {
+        await mount("code-block");
+        expect(el()).not.toBeNull();
+        expect(el().classList.contains("code-block")).toBe(true);
+    });
 
-  it("uses the pre element", async () => {
-    await mount("code-block");
-    expect(el().tagName.toLowerCase()).toBe("pre");
-  });
+    it("uses the pre element", async () => {
+        await mount("code-block");
+        expect(el().tagName.toLowerCase()).toBe("pre");
+    });
 });

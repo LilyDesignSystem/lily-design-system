@@ -17,30 +17,32 @@ Alpine.plugin(lilyGanttChart);
 // A plain <select> over the reference themes: swaps the theme <link> and data-theme, and remembers the choice.
 // (A real theme-picker helper for Alpine does not exist yet.)
 Alpine.data("lilyThemeSelect", () => ({
-  themes: window.lilyThemes ?? [],
-  value: document.documentElement.getAttribute("data-theme") ?? "",
-  choose() {
-    document.getElementById("lily-theme-link").href = `/themes/${this.value}.css`;
-    document.documentElement.setAttribute("data-theme", this.value);
-    try {
-      localStorage.setItem("lily-theme", this.value);
-    } catch {
-      // storage can be blocked; the choice then lasts for this page only
-    }
-  },
+    themes: window.lilyThemes ?? [],
+    value: document.documentElement.getAttribute("data-theme") ?? "",
+    choose() {
+        document.getElementById("lily-theme-link").href = `/themes/${this.value}.css`;
+        document.documentElement.setAttribute("data-theme", this.value);
+        try {
+            localStorage.setItem("lily-theme", this.value);
+        } catch {
+            // storage can be blocked; the choice then lasts for this page only
+        }
+    },
 }));
 
 // The components index filter: every term must appear in a component's name or description.
 Alpine.data("lilyComponentFilter", () => ({
-  query: "",
-  matches(text) {
-    const terms = this.query.toLowerCase().split(/\s+/).filter(Boolean);
-    const folded = text.toLowerCase();
-    return terms.every((t) => folded.includes(t));
-  },
-  count() {
-    return [...document.querySelectorAll(".component-index li")].filter((li) => this.matches(li.dataset.text)).length;
-  },
+    query: "",
+    matches(text) {
+        const terms = this.query.toLowerCase().split(/\s+/).filter(Boolean);
+        const folded = text.toLowerCase();
+        return terms.every((t) => folded.includes(t));
+    },
+    count() {
+        return [...document.querySelectorAll(".component-index li")].filter((li) =>
+            this.matches(li.dataset.text),
+        ).length;
+    },
 }));
 
 window.Alpine = Alpine;

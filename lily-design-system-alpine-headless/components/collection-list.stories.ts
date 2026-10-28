@@ -1,11 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = "<ul\n  class=\"collection-list\"\n  aria-label=\"\"\n>\n  <!-- Consumer provides <li class=\"collection-list-item\"> children -->\n</ul>";
+const html =
+    '<ul\n  class="collection-list"\n  aria-label=""\n>\n  <!-- Consumer provides <li class="collection-list-item"> children -->\n</ul>';
 
 const meta = {
-  title: 'Headless/Collection List',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/Collection List",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

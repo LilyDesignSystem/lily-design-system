@@ -8,7 +8,9 @@
   max-width: 20rem;
 }
 
-.mockup-tablet-portrait-chrome { height: 0; }
+.mockup-tablet-portrait-chrome {
+  height: 0;
+}
 .mockup-tablet-portrait-body {
   padding: var(--nhsuk-spacing-3);
   height: 100%;

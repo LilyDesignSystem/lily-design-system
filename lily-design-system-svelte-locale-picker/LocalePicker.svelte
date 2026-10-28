@@ -1,11 +1,10 @@
-<script lang="ts" module>
+<script
+    lang="ts"
+    module
+>
     import type { Snippet } from "svelte";
     import { IconButton, Listbox } from "@lilydesignsystem/svelte-headless";
-    import {
-        defaultLocaleLabels,
-        RTL_LANGUAGE_TAGS,
-        RTL_SCRIPT_SUBTAGS,
-    } from "./locales.js";
+    import { defaultLocaleLabels, RTL_LANGUAGE_TAGS, RTL_SCRIPT_SUBTAGS } from "./locales.js";
 
     /**
      * Default button icon: a bundled SVG (globe outline), not a Unicode
@@ -117,9 +116,7 @@
             if (override) return override;
             const dn = new Intl.DisplayNames([tag], { type: "language" });
             const found = dn.of(tag) ?? "";
-            return found && found.toLowerCase() !== tag.toLowerCase()
-                ? found
-                : "";
+            return found && found.toLowerCase() !== tag.toLowerCase() ? found : "";
         } catch {
             return "";
         }
@@ -132,9 +129,7 @@
     function intlDisplayName(locale: string): string {
         try {
             const env =
-                typeof navigator !== "undefined" && navigator.language
-                    ? navigator.language
-                    : "en";
+                typeof navigator !== "undefined" && navigator.language ? navigator.language : "en";
             const dn = new Intl.DisplayNames([env], { type: "language" });
             return dn.of(bcp47LocaleTag(locale)) ?? "";
         } catch {
@@ -308,10 +303,7 @@
         // An empty list has no option to activate; -1 keeps
         // aria-activedescendant off rather than pointing at an id that
         // does not exist.
-        activeIndex =
-            locales.length === 0
-                ? -1
-                : (startIndex ?? (selected >= 0 ? selected : 0));
+        activeIndex = locales.length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0));
         open = true;
         // Focus moves to the listbox; the active option is conveyed via
         // aria-activedescendant, per the APG listbox pattern. preventScroll
@@ -445,10 +437,7 @@
             }
 
             if (!initial) {
-                initial =
-                    defaultValue ??
-                    (locales.includes("en") ? "en" : locales[0]) ??
-                    "";
+                initial = defaultValue ?? (locales.includes("en") ? "en" : locales[0]) ?? "";
             }
 
             if (initial && initial !== current) {
@@ -475,22 +464,38 @@
     onfocusout={onRootFocusOut}
     {...restProps}
 >
-    <input type="hidden" {name} {value} />
+    <input
+        type="hidden"
+        {name}
+        {value}
+    />
 
     <IconButton
         {disabled}
         bind:ref={buttonEl}
         baseClass="locale-picker-button"
-        label={label}
+        {label}
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={listId}
-        onclick={() => { hoverButton = false; if (open) closeList(); else openList(); }}
+        onclick={() => {
+            hoverButton = false;
+            if (open) closeList();
+            else openList();
+        }}
         onkeydown={onButtonKeydown}
-        onmouseenter={() => { hoverButton = true; dismissed = false; }}
-        onmouseleave={() => { hoverButton = false; }}
+        onmouseenter={() => {
+            hoverButton = true;
+            dismissed = false;
+        }}
+        onmouseleave={() => {
+            hoverButton = false;
+        }}
         onfocus={onButtonFocus}
-        onblur={() => { focusButton = false; dismissed = false; }}
+        onblur={() => {
+            focusButton = false;
+            dismissed = false;
+        }}
     >
         {#if children}
             {@render children({ value: value ?? "", open, labelFor })}
@@ -507,8 +512,15 @@
                 stroke-linecap="round"
                 stroke-linejoin="round"
             >
-                <circle cx="8" cy="8" r="6" />
-                <path stroke-width="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7" />
+                <circle
+                    cx="8"
+                    cy="8"
+                    r="6"
+                />
+                <path
+                    stroke-width="1.1"
+                    d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"
+                />
             </svg>
         {/if}
     </IconButton>
@@ -522,16 +534,22 @@
         role="tooltip"
         id={tooltipId}
         hidden={!tooltipVisible}
-        onmouseenter={() => { hoverTooltip = true; }}
-        onmouseleave={() => { hoverTooltip = false; }}
-    >{label}</div>
+        onmouseenter={() => {
+            hoverTooltip = true;
+        }}
+        onmouseleave={() => {
+            hoverTooltip = false;
+        }}
+    >
+        {label}
+    </div>
 
     <Listbox
         bind:ref={listEl}
         as="ul"
         baseClass="locale-picker-list"
         id={listId}
-        label={label}
+        {label}
         navigation="active-descendant"
         clamp
         typeahead

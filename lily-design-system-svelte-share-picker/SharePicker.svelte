@@ -1,4 +1,7 @@
-<script lang="ts" module>
+<script
+    lang="ts"
+    module
+>
     import type { Snippet } from "svelte";
     import { IconButton } from "@lilydesignsystem/svelte-headless";
     // Only the trigger button composes a headless primitive. The list
@@ -105,8 +108,7 @@
     /** Is an async clipboard available? SSR-safe. */
     export function canCopy(): boolean {
         return (
-            typeof navigator !== "undefined" &&
-            typeof navigator.clipboard?.writeText === "function"
+            typeof navigator !== "undefined" && typeof navigator.clipboard?.writeText === "function"
         );
     }
 
@@ -368,15 +370,23 @@
         {disabled}
         bind:ref={buttonEl}
         baseClass="share-picker-button"
-        label={label}
+        {label}
         aria-expanded={open}
         aria-controls={listId}
         onclick={onButtonClick}
         onkeydown={onButtonKeydown}
-        onmouseenter={() => { hoverButton = true; dismissed = false; }}
-        onmouseleave={() => { hoverButton = false; }}
+        onmouseenter={() => {
+            hoverButton = true;
+            dismissed = false;
+        }}
+        onmouseleave={() => {
+            hoverButton = false;
+        }}
         onfocus={onButtonFocus}
-        onblur={() => { focusButton = false; dismissed = false; }}
+        onblur={() => {
+            focusButton = false;
+            dismissed = false;
+        }}
     >
         {#if children}
             {@render children({ open, url: currentUrl() })}
@@ -407,9 +417,15 @@
         role="tooltip"
         id={tooltipId}
         hidden={!tooltipVisible}
-        onmouseenter={() => { hoverTooltip = true; }}
-        onmouseleave={() => { hoverTooltip = false; }}
-    >{label}</div>
+        onmouseenter={() => {
+            hoverTooltip = true;
+        }}
+        onmouseleave={() => {
+            hoverTooltip = false;
+        }}
+    >
+        {label}
+    </div>
 
     <!-- Named like the sibling pickers' listboxes: a screen reader
          entering the list hears what the list is for, not just "list,
@@ -446,7 +462,11 @@
 
         {#if copyLabel}
             <li class="share-picker-list-item">
-                <button type="button" class="share-picker-copy" onclick={copyUrl}>
+                <button
+                    type="button"
+                    class="share-picker-copy"
+                    onclick={copyUrl}
+                >
                     {copyLabel}
                 </button>
             </li>
@@ -456,5 +476,10 @@
     <!-- Copying gives no visual feedback of its own, so the outcome is
          announced. Empty until something happens, so it stays silent on
          load; aria-live announces mutations only. -->
-    <p class="share-picker-status" aria-live="polite">{status}</p>
+    <p
+        class="share-picker-status"
+        aria-live="polite"
+    >
+        {status}
+    </p>
 </div>

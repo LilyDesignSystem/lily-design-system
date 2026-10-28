@@ -9,17 +9,8 @@
     helper-exposed `bcp47LocaleTag` and `isRtlLocale` helpers, used in
     `computed` derivations.
 */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  signal,
-} from "@angular/core";
-import {
-  LocalePicker,
-  bcp47LocaleTag,
-  isRtlLocale,
-} from "../locale-picker.component";
+import { ChangeDetectionStrategy, Component, computed, signal } from "@angular/core";
+import { LocalePicker, bcp47LocaleTag, isRtlLocale } from "../locale-picker.component";
 
 @Component({
   selector: "example-rtl-demo",
@@ -70,8 +61,6 @@ export class RtlDemoExample {
 
   locale = signal("en");
 
-  readonly direction = computed(() =>
-    isRtlLocale(this.locale()) ? "rtl" : "ltr",
-  );
+  readonly direction = computed(() => (isRtlLocale(this.locale()) ? "rtl" : "ltr"));
   readonly tag = computed(() => bcp47LocaleTag(this.locale()));
 }

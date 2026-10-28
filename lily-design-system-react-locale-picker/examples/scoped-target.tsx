@@ -23,10 +23,7 @@ export function ScopedTargetExample() {
 
     return (
         <article>
-            <h1>
-                Document language stays English; panels switch
-                independently.
-            </h1>
+            <h1>Document language stays English; panels switch independently.</h1>
 
             <section
                 ref={panelARef}

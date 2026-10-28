@@ -9,10 +9,7 @@
 -->
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import LocalePicker, {
-    isRtlLocale,
-    bcp47LocaleTag,
-} from "../LocalePicker.vue";
+import LocalePicker, { isRtlLocale, bcp47LocaleTag } from "../LocalePicker.vue";
 
 const locale = ref("en");
 
@@ -35,9 +32,7 @@ const sample: Record<string, string> = {
     ps: "د ښي خوا څخه کیڼ خوا ته د نمونې متن.",
 };
 
-const direction = computed(() =>
-    isRtlLocale(locale.value) ? "rtl" : "ltr",
-);
+const direction = computed(() => (isRtlLocale(locale.value) ? "rtl" : "ltr"));
 const tag = computed(() => bcp47LocaleTag(locale.value));
 </script>
 
@@ -49,7 +44,10 @@ const tag = computed(() => bcp47LocaleTag(locale.value));
         v-model:value="locale"
     />
 
-    <section :lang="tag" :dir="direction">
+    <section
+        :lang="tag"
+        :dir="direction"
+    >
         <h2>{{ NATIVE[locale] }}</h2>
         <p>{{ sample[locale] }}</p>
         <p>

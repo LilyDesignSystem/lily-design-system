@@ -23,9 +23,7 @@ function resetRoot(): void {
 let fixtures: ComponentFixture<unknown>[] = [];
 
 /** Create + render a TextSizePicker with the supplied inputs. */
-function mount(
-  inputs: Record<string, unknown> = {},
-): ComponentFixture<TextSizePicker> {
+function mount(inputs: Record<string, unknown> = {}): ComponentFixture<TextSizePicker> {
   const fixture = TestBed.createComponent(TextSizePicker);
   fixture.componentRef.setInput("label", "Text size");
   fixture.componentRef.setInput("sizes", SIZES);
@@ -47,10 +45,7 @@ async function mountSettled(
   return fixture;
 }
 
-function q<T extends Element>(
-  fixture: ComponentFixture<unknown>,
-  sel: string,
-): T {
+function q<T extends Element>(fixture: ComponentFixture<unknown>, sel: string): T {
   return fixture.nativeElement.querySelector(sel) as T;
 }
 
@@ -69,11 +64,7 @@ function options(fixture: ComponentFixture<unknown>): HTMLLIElement[] {
 }
 
 /** Dispatch a bubbling keydown and re-render. */
-function press(
-  fixture: ComponentFixture<unknown>,
-  target: HTMLElement,
-  key: string,
-): void {
+function press(fixture: ComponentFixture<unknown>, target: HTMLElement, key: string): void {
   target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true }));
   fixture.detectChanges();
 }
@@ -157,9 +148,7 @@ describe("TextSizePicker — markup contract (§4.2, §7.1–§7.5)", () => {
 
   test("§7.3 name defaults to text-size", async () => {
     const fixture = await mountSettled();
-    expect(q<HTMLInputElement>(fixture, 'input[type="hidden"]').name).toBe(
-      "text-size",
-    );
+    expect(q<HTMLInputElement>(fixture, 'input[type="hidden"]').name).toBe("text-size");
   });
 
   test("§7.3 option ids are unique per instance", () => {
@@ -237,9 +226,7 @@ describe("TextSizePicker — markup contract (§4.2, §7.1–§7.5)", () => {
 });
 
 describe("TextSizePicker — keyboard contract (APG listbox, §7.18–§7.22)", () => {
-  async function openWith(
-    key: string,
-  ): Promise<ComponentFixture<TextSizePicker>> {
+  async function openWith(key: string): Promise<ComponentFixture<TextSizePicker>> {
     const fixture = await mountSettled();
     press(fixture, button(fixture), key);
     await flush();
@@ -258,9 +245,7 @@ describe("TextSizePicker — keyboard contract (APG listbox, §7.18–§7.22)", 
   test("§7.18 opening puts the active descendant on the selected size", async () => {
     const fixture = await openWith("ArrowDown");
     // "medium" resolves as the initial size, so it is index 1.
-    expect(list(fixture).getAttribute("aria-activedescendant")).toBe(
-      list(fixture).children[1].id,
-    );
+    expect(list(fixture).getAttribute("aria-activedescendant")).toBe(list(fixture).children[1].id);
   });
 
   test("§7.18 ArrowUp opens with the last option active", async () => {
@@ -294,18 +279,14 @@ describe("TextSizePicker — keyboard contract (APG listbox, §7.18–§7.22)", 
     const fixture = await openWith("ArrowUp");
     const ul = list(fixture);
     press(fixture, ul, "ArrowDown");
-    expect(ul.getAttribute("aria-activedescendant")).toBe(
-      ul.children[SIZES.length - 1].id,
-    );
+    expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[SIZES.length - 1].id);
   });
 
   test("§7.19 Home and End jump to the first and last option", async () => {
     const fixture = await openWith("ArrowDown");
     const ul = list(fixture);
     press(fixture, ul, "End");
-    expect(ul.getAttribute("aria-activedescendant")).toBe(
-      ul.children[SIZES.length - 1].id,
-    );
+    expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[SIZES.length - 1].id);
     press(fixture, ul, "Home");
     expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[0].id);
   });
@@ -446,9 +427,7 @@ describe("TextSizePicker — size application (§5, §7.6–§7.11)", () => {
 
   test("§7.7 sets data-text-size on documentElement", async () => {
     await mountSettled({ defaultValue: "large" });
-    expect(document.documentElement.getAttribute("data-text-size")).toBe(
-      "large",
-    );
+    expect(document.documentElement.getAttribute("data-text-size")).toBe("large");
   });
 
   test("§7.8 selecting an option updates data-text-size and emits sizeChange", async () => {
@@ -463,9 +442,7 @@ describe("TextSizePicker — size application (§5, §7.6–§7.11)", () => {
   test("§7.8 the hidden input tracks the selected value", async () => {
     const fixture = await mountSettled();
     await pick(fixture, "large");
-    expect(q<HTMLInputElement>(fixture, 'input[type="hidden"]').value).toBe(
-      "large",
-    );
+    expect(q<HTMLInputElement>(fixture, 'input[type="hidden"]').value).toBe("large");
   });
 
   test("§7.9 persists to localStorage and reads back on a fresh mount", async () => {
@@ -528,9 +505,7 @@ class IconTemplateHost {
 describe("TextSizePicker — custom icon template (§7.12–§7.13)", () => {
   test("§7.12 className is appended to the root div", () => {
     const fixture = mount({ className: "extra" });
-    expect(
-      q<HTMLElement>(fixture, ".text-size-picker").classList.contains("extra"),
-    ).toBe(true);
+    expect(q<HTMLElement>(fixture, ".text-size-picker").classList.contains("extra")).toBe(true);
   });
 
   test("§7.13 a projected ng-template replaces the icon and receives ChildArgs", async () => {
@@ -543,12 +518,8 @@ describe("TextSizePicker — custom icon template (§7.12–§7.13)", () => {
     const custom = q<HTMLElement>(fixture, '[data-testid="custom"]');
     expect(custom).toBeTruthy();
     // The custom template replaces the default SVG icon inside the button.
-    expect(custom.closest("button")?.className).toContain(
-      "text-size-picker-button",
-    );
-    expect(
-      fixture.nativeElement.querySelector(".text-size-picker-icon"),
-    ).toBeNull();
+    expect(custom.closest("button")?.className).toContain("text-size-picker-button");
+    expect(fixture.nativeElement.querySelector(".text-size-picker-icon")).toBeNull();
     expect(custom.getAttribute("data-open")).toBe("false");
     expect(custom.getAttribute("data-value")).toBe("large");
     expect(custom.getAttribute("data-label-x-large")).toBe("X Large");
@@ -610,10 +581,7 @@ describe("TextSizePicker — accessibility hardening (§7.14–§7.17)", () => {
   });
 
   test("§7.16 PageUp and PageDown move the cursor by ten, clamped", async () => {
-    const many = Array.from(
-      { length: 25 },
-      (_, i) => `s${String(i).padStart(2, "0")}`,
-    );
+    const many = Array.from({ length: 25 }, (_, i) => `s${String(i).padStart(2, "0")}`);
     const fixture = await openPicker(many);
     const ul = list(fixture);
     press(fixture, ul, "PageDown");
@@ -646,9 +614,7 @@ describe("TextSizePicker — sizeName (§7.23)", () => {
 
   test("labelFor delegates to sizeName so there is one implementation", async () => {
     const fixture = await mountSettled();
-    expect(fixture.componentInstance.labelFor("x-large")).toBe(
-      sizeName("x-large"),
-    );
+    expect(fixture.componentInstance.labelFor("x-large")).toBe(sizeName("x-large"));
   });
 
   test("sizeLabels still override sizeName", async () => {
@@ -791,14 +757,19 @@ describe("text-size-picker — tooltip (§7.24–§7.29)", () => {
 describe("TextSizePicker — open state and disabled", () => {
   function build(extra: Record<string, unknown> = {}): ComponentFixture<TextSizePicker> {
     const fixture = TestBed.createComponent(TextSizePicker);
-    for (const [key, value] of Object.entries({ ...{ label: "Text size", sizes: SIZES }, ...extra })) {
+    for (const [key, value] of Object.entries({
+      ...{ label: "Text size", sizes: SIZES },
+      ...extra,
+    })) {
       fixture.componentRef.setInput(key, value);
     }
     fixture.detectChanges();
     return fixture;
   }
   const button = (f: ComponentFixture<unknown>) =>
-    f.nativeElement.querySelector(".text-size-picker-button button, button.text-size-picker-button") as HTMLButtonElement;
+    f.nativeElement.querySelector(
+      ".text-size-picker-button button, button.text-size-picker-button",
+    ) as HTMLButtonElement;
   const settle = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
 
   test("open starts the popup open without emitting openChange", async () => {
@@ -844,4 +815,3 @@ describe("TextSizePicker — open state and disabled", () => {
     expect(button(fixture).getAttribute("aria-expanded")).toBe("false");
   });
 });
-

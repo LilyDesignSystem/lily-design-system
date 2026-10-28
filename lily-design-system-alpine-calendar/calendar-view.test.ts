@@ -1,12 +1,22 @@
 import { readFileSync } from "node:fs";
 import Alpine from "alpinejs";
 import { afterEach, beforeAll, describe, expect, test, vi } from "vitest";
-import lilyCalendarView, { addDays, addMonths, createCalendarView, dayOfWeek, daysInMonth, startOfWeek } from "./index.js";
+import lilyCalendarView, {
+    addDays,
+    addMonths,
+    createCalendarView,
+    dayOfWeek,
+    daysInMonth,
+    startOfWeek,
+} from "./index.js";
 import type { CalendarOptions } from "./index.js";
 
 const SNIPPET = readFileSync("snippet.html", "utf8");
 const tick = () => new Promise((resolve) => setTimeout(resolve, 0));
-const settle = async () => { await tick(); await tick(); };
+const settle = async () => {
+    await tick();
+    await tick();
+};
 
 const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const LABELS = {
@@ -51,11 +61,17 @@ async function mount(extra: Partial<CalendarOptions> = {}) {
     return document.querySelector(".calendar-view") as HTMLElement;
 }
 
-const state = () => Alpine.$data(document.querySelector(".calendar-view") as HTMLElement) as ReturnType<typeof createCalendarView>;
+const state = () =>
+    Alpine.$data(document.querySelector(".calendar-view") as HTMLElement) as ReturnType<
+        typeof createCalendarView
+    >;
 const day = (iso: string) => document.querySelector(`[data-date="${iso}"]`) as HTMLElement;
-const dates = () => [...document.querySelectorAll("td[data-date]")].map((td) => (td as HTMLElement).dataset.date);
+const dates = () =>
+    [...document.querySelectorAll("td[data-date]")].map((td) => (td as HTMLElement).dataset.date);
 const press = async (target: Element, key: string, init: KeyboardEventInit = {}) => {
-    target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...init }));
+    target.dispatchEvent(
+        new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...init }),
+    );
     await settle();
 };
 const button = (cls: string) => document.querySelector(".calendar-view-" + cls) as HTMLElement;
@@ -85,12 +101,22 @@ describe("month view", () => {
         await mount();
         expect(document.querySelector("table")?.getAttribute("role")).toBe("grid");
         expect(document.querySelector("table")?.getAttribute("aria-label")).toBe("Appointments");
-        expect([...document.querySelectorAll("th")].map((h) => h.textContent)).toEqual(["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]);
+        expect([...document.querySelectorAll("th")].map((h) => h.textContent)).toEqual([
+            "Sun",
+            "Mon",
+            "Tue",
+            "Wed",
+            "Thu",
+            "Fri",
+            "Sat",
+        ]);
         expect(document.querySelector("th")?.getAttribute("aria-label")).toBe("Sunday");
         expect(dates()).toHaveLength(35);
         expect(dates()[0]).toBe("2026-09-27");
         expect(dates()[34]).toBe("2026-10-31");
-        expect(document.querySelector(".calendar-view-title")?.textContent).toBe("2026-10-01 to 2026-10-31");
+        expect(document.querySelector(".calendar-view-title")?.textContent).toBe(
+            "2026-10-01 to 2026-10-31",
+        );
     });
 
     test("weekStart changes the first column", async () => {
@@ -116,8 +142,11 @@ describe("month view", () => {
         const picked = vi.fn();
         calendar.addEventListener("lily:event", (e) => opened((e as CustomEvent).detail.id));
         calendar.addEventListener("lily:pick", picked);
-        expect([...day("2026-10-06").querySelectorAll(".calendar-event")].map((b) => b.textContent)).toEqual(["Check-up", "Review"]);
-        (day("2026-10-06").querySelector(".calendar-event") as HTMLElement).click(); await settle();
+        expect(
+            [...day("2026-10-06").querySelectorAll(".calendar-event")].map((b) => b.textContent),
+        ).toEqual(["Check-up", "Review"]);
+        (day("2026-10-06").querySelector(".calendar-event") as HTMLElement).click();
+        await settle();
         expect(opened).toHaveBeenCalledWith("e1");
         expect(picked).not.toHaveBeenCalled();
     });
@@ -126,17 +155,29 @@ describe("month view", () => {
 describe("week view", () => {
     test("shows the week holding the anchor", async () => {
         await mount({ view: "week" });
-        expect(dates()).toEqual(["2026-10-18", "2026-10-19", "2026-10-20", "2026-10-21", "2026-10-22", "2026-10-23", "2026-10-24"]);
+        expect(dates()).toEqual([
+            "2026-10-18",
+            "2026-10-19",
+            "2026-10-20",
+            "2026-10-21",
+            "2026-10-22",
+            "2026-10-23",
+            "2026-10-24",
+        ]);
         expect(button("week").getAttribute("aria-pressed")).toBe("true");
         expect(button("month").getAttribute("aria-pressed")).toBe("false");
     });
 
     test("the view buttons switch and announce the period", async () => {
         await mount();
-        button("week").click(); await settle();
+        button("week").click();
+        await settle();
         expect(dates()).toHaveLength(7);
-        expect(document.querySelector(".calendar-view-status")?.textContent).toBe("week 2026-10-18 to 2026-10-24");
-        button("month").click(); await settle();
+        expect(document.querySelector(".calendar-view-status")?.textContent).toBe(
+            "week 2026-10-18 to 2026-10-24",
+        );
+        button("month").click();
+        await settle();
         expect(dates()).toHaveLength(35);
     });
 });
@@ -144,21 +185,32 @@ describe("week view", () => {
 describe("period navigation", () => {
     test("previous, next and today move the period, announce it, and carry the keyboard day", async () => {
         await mount();
-        button("next").click(); await settle();
+        button("next").click();
+        await settle();
         expect(dates()[0]).toBe("2026-11-01");
-        expect(document.querySelector(".calendar-view-status")?.textContent).toBe("month 2026-11-01 to 2026-11-30");
+        expect(document.querySelector(".calendar-view-status")?.textContent).toBe(
+            "month 2026-11-01 to 2026-11-30",
+        );
         expect(state().active).toBe("2026-11-21");
-        button("previous").click(); button("previous").click(); await settle();
-        expect(document.querySelector(".calendar-view-title")?.textContent).toBe("2026-09-01 to 2026-09-30");
-        button("today").click(); await settle();
-        expect(document.querySelector(".calendar-view-title")?.textContent).toBe("2026-10-01 to 2026-10-31");
+        button("previous").click();
+        button("previous").click();
+        await settle();
+        expect(document.querySelector(".calendar-view-title")?.textContent).toBe(
+            "2026-09-01 to 2026-09-30",
+        );
+        button("today").click();
+        await settle();
+        expect(document.querySelector(".calendar-view-title")?.textContent).toBe(
+            "2026-10-01 to 2026-10-31",
+        );
         expect(state().active).toBe("2026-10-21");
     });
 
     test("the buttons are named for the view", async () => {
         await mount();
         expect(button("previous").getAttribute("aria-label")).toBe("Previous month");
-        button("week").click(); await settle();
+        button("week").click();
+        await settle();
         expect(button("next").getAttribute("aria-label")).toBe("Next week");
     });
 
@@ -166,7 +218,8 @@ describe("period navigation", () => {
         await mount({ minDate: "2026-10-05", maxDate: "2026-10-28" });
         expect(button("previous").getAttribute("aria-disabled")).toBe("true");
         expect(button("next").getAttribute("aria-disabled")).toBe("true");
-        button("next").click(); await settle();
+        button("next").click();
+        await settle();
         expect(state().anchor).toBe("2026-10-21");
         await mount({ minDate: "2026-09-05" });
         expect(button("previous").hasAttribute("aria-disabled")).toBe(false);
@@ -184,13 +237,18 @@ describe("picking", () => {
         const calendar = await mount();
         const picked = vi.fn();
         calendar.addEventListener("lily:pick", (e) => picked((e as CustomEvent).detail.date));
-        day("2026-10-14").click(); await settle();
+        day("2026-10-14").click();
+        await settle();
         expect(state().picked).toBe("2026-10-14");
         expect(day("2026-10-14").getAttribute("aria-selected")).toBe("true");
         day("2026-10-15").focus();
         await press(day("2026-10-15"), "Enter");
         await press(day("2026-10-15"), " ");
-        expect(picked.mock.calls.map((c) => c[0])).toEqual(["2026-10-14", "2026-10-15", "2026-10-15"]);
+        expect(picked.mock.calls.map((c) => c[0])).toEqual([
+            "2026-10-14",
+            "2026-10-15",
+            "2026-10-15",
+        ]);
     });
 
     test("a disabled day (bounds or isDisabled) is marked and cannot be picked, but can be focused", async () => {
@@ -198,7 +256,8 @@ describe("picking", () => {
         expect(day("2026-10-09").getAttribute("aria-disabled")).toBe("true");
         expect(day("2026-10-20").getAttribute("aria-disabled")).toBe("true");
         expect(day("2026-10-21").hasAttribute("aria-disabled")).toBe(false);
-        day("2026-10-20").click(); await settle();
+        day("2026-10-20").click();
+        await settle();
         expect(state().picked).toBe("");
         day("2026-10-20").focus();
         expect(document.activeElement).toBe(day("2026-10-20"));
@@ -234,7 +293,9 @@ describe("keyboard", () => {
         await mount();
         day("2026-10-31").focus();
         await press(day("2026-10-31"), "ArrowRight");
-        expect(document.querySelector(".calendar-view-title")?.textContent).toBe("2026-11-01 to 2026-11-30");
+        expect(document.querySelector(".calendar-view-title")?.textContent).toBe(
+            "2026-11-01 to 2026-11-30",
+        );
         expect(document.activeElement).toBe(day("2026-11-01"));
         await press(day("2026-11-01"), "ArrowLeft");
         expect(document.activeElement).toBe(day("2026-10-31"));

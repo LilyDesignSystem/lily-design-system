@@ -20,7 +20,14 @@ describe("ContentsNav", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="Contents" data-testid="cn">Items</Subject>);
+        render(
+            <Subject
+                label="Contents"
+                data-testid="cn"
+            >
+                Items
+            </Subject>,
+        );
         expect(screen.getByTestId("cn")).toBeTruthy();
     });
 });
@@ -45,13 +52,26 @@ function Links({ ids }: { ids: string[] }) {
 function sections(ids: string[]): Record<string, number> {
     const tops: Record<string, number> = {};
     // A tall page, so the viewport is not "at the bottom" unless a test says so.
-    Object.defineProperty(document.documentElement, "scrollHeight", { value: 5000, configurable: true });
+    Object.defineProperty(document.documentElement, "scrollHeight", {
+        value: 5000,
+        configurable: true,
+    });
     for (const id of ids) {
         const el = document.createElement("section");
         el.id = id;
         tops[id] = 0;
         el.getBoundingClientRect = () =>
-            ({ top: tops[id], bottom: tops[id] + 100, left: 0, right: 0, width: 0, height: 100, x: 0, y: tops[id], toJSON() {} }) as DOMRect;
+            ({
+                top: tops[id],
+                bottom: tops[id] + 100,
+                left: 0,
+                right: 0,
+                width: 0,
+                height: 100,
+                x: 0,
+                y: tops[id],
+                toJSON() {},
+            }) as DOMRect;
         document.body.appendChild(el);
     }
     return tops;
@@ -99,15 +119,28 @@ describe("ContentsNav — scrollspy", () => {
 
     test("spy is off by default: no link is marked", async () => {
         sections(IDS);
-        render(<Subject label="Contents"><Links ids={IDS} /></Subject>);
+        render(
+            <Subject label="Contents">
+                <Links ids={IDS} />
+            </Subject>,
+        );
         await settle();
         expect(activeLink()).toBeNull();
     });
 
     test("marks the link of the section in view with aria-current and data-active", async () => {
         const tops = sections(IDS);
-        tops.intro = -400; tops.usage = -20; tops.api = 500;
-        render(<Subject label="Contents" spy><Links ids={IDS} /></Subject>);
+        tops.intro = -400;
+        tops.usage = -20;
+        tops.api = 500;
+        render(
+            <Subject
+                label="Contents"
+                spy
+            >
+                <Links ids={IDS} />
+            </Subject>,
+        );
         await settle();
         expect(activeLink()!.textContent).toBe("usage");
         expect(activeLink()!.getAttribute("aria-current")).toBe("true");
@@ -117,43 +150,85 @@ describe("ContentsNav — scrollspy", () => {
 
     test("moves the mark when the reader scrolls, and back again", async () => {
         const tops = sections(IDS);
-        tops.intro = 0; tops.usage = 300; tops.api = 600;
-        render(<Subject label="Contents" spy><Links ids={IDS} /></Subject>);
+        tops.intro = 0;
+        tops.usage = 300;
+        tops.api = 600;
+        render(
+            <Subject
+                label="Contents"
+                spy
+            >
+                <Links ids={IDS} />
+            </Subject>,
+        );
         await settle();
         expect(activeLink()!.textContent).toBe("intro");
-        tops.intro = -400; tops.usage = -100; tops.api = 200;
+        tops.intro = -400;
+        tops.usage = -100;
+        tops.api = 200;
         await scroll();
         expect(activeLink()!.textContent).toBe("usage");
-        tops.intro = 0; tops.usage = 300; tops.api = 600;
+        tops.intro = 0;
+        tops.usage = 300;
+        tops.api = 600;
         await scroll();
         expect(activeLink()!.textContent).toBe("intro");
     });
 
     test("offset moves the activation line", async () => {
         const tops = sections(IDS);
-        tops.intro = -400; tops.usage = 60; tops.api = 500;
-        render(<Subject label="Contents" spy offset={80}><Links ids={IDS} /></Subject>);
+        tops.intro = -400;
+        tops.usage = 60;
+        tops.api = 500;
+        render(
+            <Subject
+                label="Contents"
+                spy
+                offset={80}
+            >
+                <Links ids={IDS} />
+            </Subject>,
+        );
         await settle();
         expect(activeLink()!.textContent).toBe("usage");
     });
 
     test("current sets the aria-current token", async () => {
         sections(IDS);
-        render(<Subject label="Contents" spy current="location"><Links ids={IDS} /></Subject>);
+        render(
+            <Subject
+                label="Contents"
+                spy
+                current="location"
+            >
+                <Links ids={IDS} />
+            </Subject>,
+        );
         await settle();
         expect(activeLink()!.getAttribute("aria-current")).toBe("location");
     });
 
     test("a click makes its link current at once and holds it while the scroll settles", async () => {
         const tops = sections(IDS);
-        tops.intro = 0; tops.usage = 300; tops.api = 600;
-        render(<Subject label="Contents" spy><Links ids={IDS} /></Subject>);
+        tops.intro = 0;
+        tops.usage = 300;
+        tops.api = 600;
+        render(
+            <Subject
+                label="Contents"
+                spy
+            >
+                <Links ids={IDS} />
+            </Subject>,
+        );
         await settle();
         await act(async () => {
             (document.querySelector('a[href="#api"]') as HTMLElement).click();
         });
         expect(activeLink()!.textContent).toBe("api");
-        tops.intro = -100; tops.usage = 0; tops.api = 300;
+        tops.intro = -100;
+        tops.usage = 0;
+        tops.api = 300;
         await scroll();
         expect(activeLink()!.textContent).toBe("api");
         await scroll("scrollend");
@@ -162,14 +237,26 @@ describe("ContentsNav — scrollspy", () => {
 
     test("onActiveChange fires once per change, with the section id", async () => {
         const tops = sections(IDS);
-        tops.intro = 0; tops.usage = 300; tops.api = 600;
+        tops.intro = 0;
+        tops.usage = 300;
+        tops.api = 600;
         const onActiveChange = vi.fn();
-        render(<Subject label="Contents" spy onActiveChange={onActiveChange}><Links ids={IDS} /></Subject>);
+        render(
+            <Subject
+                label="Contents"
+                spy
+                onActiveChange={onActiveChange}
+            >
+                <Links ids={IDS} />
+            </Subject>,
+        );
         await settle();
         await scroll();
         expect(onActiveChange).toHaveBeenCalledTimes(1);
         expect(onActiveChange).toHaveBeenLastCalledWith("intro");
-        tops.intro = -400; tops.usage = -100; tops.api = 200;
+        tops.intro = -400;
+        tops.usage = -100;
+        tops.api = 200;
         await scroll();
         expect(onActiveChange).toHaveBeenCalledTimes(2);
         expect(onActiveChange).toHaveBeenLastCalledWith("usage");
@@ -177,10 +264,22 @@ describe("ContentsNav — scrollspy", () => {
 
     test("at the bottom of the page the last section is current even if it never reaches the line", async () => {
         const tops = sections(IDS);
-        tops.intro = -900; tops.usage = -500; tops.api = 400;
-        Object.defineProperty(document.documentElement, "scrollHeight", { value: window.innerHeight + 10, configurable: true });
+        tops.intro = -900;
+        tops.usage = -500;
+        tops.api = 400;
+        Object.defineProperty(document.documentElement, "scrollHeight", {
+            value: window.innerHeight + 10,
+            configurable: true,
+        });
         Object.defineProperty(window, "scrollY", { value: 10, configurable: true });
-        render(<Subject label="Contents" spy><Links ids={IDS} /></Subject>);
+        render(
+            <Subject
+                label="Contents"
+                spy
+            >
+                <Links ids={IDS} />
+            </Subject>,
+        );
         await settle();
         expect(activeLink()!.textContent).toBe("api");
         Object.defineProperty(window, "scrollY", { value: 0, configurable: true });
@@ -188,22 +287,39 @@ describe("ContentsNav — scrollspy", () => {
 
     test("the URL hash wins on load", async () => {
         const tops = sections(IDS);
-        tops.intro = 0; tops.usage = 300; tops.api = 600;
+        tops.intro = 0;
+        tops.usage = 300;
+        tops.api = 600;
         window.location.hash = "#api";
-        render(<Subject label="Contents" spy><Links ids={IDS} /></Subject>);
+        render(
+            <Subject
+                label="Contents"
+                spy
+            >
+                <Links ids={IDS} />
+            </Subject>,
+        );
         await settle();
         expect(activeLink()!.textContent).toBe("api");
     });
 
     test("ancestors of the active link get data-descendant-active", async () => {
         const tops = sections(["intro", "child"]);
-        tops.intro = -400; tops.child = -10;
+        tops.intro = -400;
+        tops.child = -10;
         render(
-            <Subject label="Contents" spy>
+            <Subject
+                label="Contents"
+                spy
+            >
                 <ol>
                     <li>
                         <a href="#intro">intro</a>
-                        <ol><li><a href="#child">child</a></li></ol>
+                        <ol>
+                            <li>
+                                <a href="#child">child</a>
+                            </li>
+                        </ol>
                     </li>
                 </ol>
             </Subject>,
@@ -217,7 +333,14 @@ describe("ContentsNav — scrollspy", () => {
     test("links with no matching element are ignored", async () => {
         const tops = sections(["intro"]);
         tops.intro = 0;
-        render(<Subject label="Contents" spy><Links ids={["intro", "missing"]} /></Subject>);
+        render(
+            <Subject
+                label="Contents"
+                spy
+            >
+                <Links ids={["intro", "missing"]} />
+            </Subject>,
+        );
         await settle();
         expect(activeLink()!.textContent).toBe("intro");
     });

@@ -34,17 +34,20 @@
   status line and the control cannot drift apart.
 -->
 <script lang="ts">
-  import TextSizePicker, { sizeName } from "../TextSizePicker.svelte";
+    import TextSizePicker, { sizeName } from "../TextSizePicker.svelte";
 
-  let size = $state("");
+    let size = $state("");
 </script>
 
 <TextSizePicker
-  label="Text size"
-  sizes={["small", "medium", "large", "x-large"]}
-  bind:value={size}
+    label="Text size"
+    sizes={["small", "medium", "large", "x-large"]}
+    bind:value={size}
 />
 
-<p class="text-size-picker-status" aria-live="polite">
-  Text size: {sizeName(size)}
+<p
+    class="text-size-picker-status"
+    aria-live="polite"
+>
+    Text size: {sizeName(size)}
 </p>

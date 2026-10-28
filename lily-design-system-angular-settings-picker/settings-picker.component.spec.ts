@@ -57,10 +57,15 @@ function mount(patch: Partial<Host> = {}): ComponentFixture<Host> {
 
 const q = <T extends Element>(f: ComponentFixture<unknown>, sel: string) =>
   f.nativeElement.querySelector(sel) as T;
-const trigger = (f: ComponentFixture<unknown>) => q<HTMLButtonElement>(f, ".settings-picker-button");
+const trigger = (f: ComponentFixture<unknown>) =>
+  q<HTMLButtonElement>(f, ".settings-picker-button");
 const panel = (f: ComponentFixture<unknown>) => q<HTMLDivElement>(f, ".settings-picker-panel");
 
-async function press(f: ComponentFixture<unknown>, target: HTMLElement, key: string): Promise<void> {
+async function press(
+  f: ComponentFixture<unknown>,
+  target: HTMLElement,
+  key: string,
+): Promise<void> {
   target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
   f.detectChanges();
   await flush();
@@ -179,7 +184,9 @@ describe("SettingsPicker", () => {
     await click(f, trigger(f));
     const outside = document.createElement("button");
     document.body.appendChild(outside);
-    q(f, "div.settings-picker").dispatchEvent(new FocusEvent("focusout", { bubbles: true, relatedTarget: outside }));
+    q(f, "div.settings-picker").dispatchEvent(
+      new FocusEvent("focusout", { bubbles: true, relatedTarget: outside }),
+    );
     f.detectChanges();
     expect(panel(f).hasAttribute("hidden")).toBe(true);
     outside.remove();
@@ -188,7 +195,9 @@ describe("SettingsPicker", () => {
   test("7.13 activating a link or button closes; keep-open and closeOnSelect=false do not", async () => {
     const f = mount();
     await click(f, trigger(f));
-    panel(f).querySelector("a")!.addEventListener("click", (e) => e.preventDefault());
+    panel(f)
+      .querySelector("a")!
+      .addEventListener("click", (e) => e.preventDefault());
     await click(f, panel(f).querySelector("a")!);
     expect(panel(f).hasAttribute("hidden")).toBe(true);
     expect(document.activeElement).toBe(trigger(f));

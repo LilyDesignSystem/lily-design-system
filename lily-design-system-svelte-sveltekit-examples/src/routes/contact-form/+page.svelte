@@ -94,7 +94,11 @@
             onsubmit={handleSubmit}
             onreset={handleReset}
         >
-            <Field label="Full name" required error={errors.name}>
+            <Field
+                label="Full name"
+                required
+                error={errors.name}
+            >
                 <TextInput
                     label="Full name"
                     bind:value={name}
@@ -103,7 +107,11 @@
                 />
             </Field>
 
-            <Field label="Email address" required error={errors.email}>
+            <Field
+                label="Email address"
+                required
+                error={errors.email}
+            >
                 <Hint>We will use this to reply to your message</Hint>
                 <EmailInput
                     label="Email address"
@@ -114,14 +122,19 @@
             </Field>
 
             <Field label="Phone number">
-                <Hint
-                    >Optional — include country code for international numbers</Hint
-                >
-                <TelInput label="Phone number" bind:value={phone} id="phone" />
+                <Hint>Optional — include country code for international numbers</Hint>
+                <TelInput
+                    label="Phone number"
+                    bind:value={phone}
+                    id="phone"
+                />
             </Field>
 
             <Field label="Subject">
-                <Select label="Subject" bind:value={subject}>
+                <Select
+                    label="Subject"
+                    bind:value={subject}
+                >
                     <Option value="">Select a subject</Option>
                     <Option value="general">General enquiry</Option>
                     <Option value="feedback">Feedback</Option>
@@ -130,7 +143,11 @@
                 </Select>
             </Field>
 
-            <Field label="Message" required error={errors.message}>
+            <Field
+                label="Message"
+                required
+                error={errors.message}
+            >
                 <TextAreaInput
                     label="Your message"
                     bind:value={message}
@@ -141,12 +158,8 @@
 
             <Fieldset legend="Preferred contact method">
                 <RadioGroup label="How should we contact you?">
-                    <div
-                        style="display: flex; flex-direction: column; gap: 0.5rem;"
-                    >
-                        <label
-                            style="display: flex; align-items: center; gap: 0.5rem;"
-                        >
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <label style="display: flex; align-items: center; gap: 0.5rem;">
                             <RadioInput
                                 label="Email"
                                 name="contactMethod"
@@ -155,9 +168,7 @@
                             />
                             Email
                         </label>
-                        <label
-                            style="display: flex; align-items: center; gap: 0.5rem;"
-                        >
+                        <label style="display: flex; align-items: center; gap: 0.5rem;">
                             <RadioInput
                                 label="Phone"
                                 name="contactMethod"

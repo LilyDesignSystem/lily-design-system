@@ -60,10 +60,7 @@
     is invalid HTML and breaks keyboard behaviour.
 -->
 <script lang="ts">
-    import LocalePicker, {
-        bcp47LocaleTag,
-        isRtlLocale,
-    } from "../LocalePicker.svelte";
+    import LocalePicker, { bcp47LocaleTag, isRtlLocale } from "../LocalePicker.svelte";
 
     let locale = $state("en");
 

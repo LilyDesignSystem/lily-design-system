@@ -5,13 +5,13 @@
   English. `label` names the button, the panel and the tooltip.
 -->
 <script lang="ts">
-  import MenuPicker from "../MenuPicker.svelte";
+    import MenuPicker from "../MenuPicker.svelte";
 </script>
 
 <MenuPicker label="Menu">
-  <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/about/">About Us</a></li>
-    <li><button type="button">Sign out</button></li>
-  </ul>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about/">About Us</a></li>
+        <li><button type="button">Sign out</button></li>
+    </ul>
 </MenuPicker>

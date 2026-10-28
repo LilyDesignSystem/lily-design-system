@@ -12,17 +12,17 @@ import { PickerBar, DEFAULT_THEMES, DEFAULT_SIZES } from "./picker-bar.js";
 
 export { PickerBar, DEFAULT_THEMES, DEFAULT_SIZES };
 export type {
-  PickerBarProps,
-  PickerBarLabels,
-  SearchPickerExtra,
-  ThemePickerExtra,
-  LocalePickerExtra,
-  TimeZonePickerExtra,
-  TextSizePickerExtra,
-  SharePickerExtra,
-  ShareTarget,
+    PickerBarProps,
+    PickerBarLabels,
+    SearchPickerExtra,
+    ThemePickerExtra,
+    LocalePickerExtra,
+    TimeZonePickerExtra,
+    TextSizePickerExtra,
+    SharePickerExtra,
+    ShareTarget,
 } from "./picker-bar.js";
 
 if (typeof customElements !== "undefined" && !customElements.get("picker-bar")) {
-  customElements.define("picker-bar", PickerBar);
+    customElements.define("picker-bar", PickerBar);
 }

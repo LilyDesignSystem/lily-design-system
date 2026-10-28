@@ -5,16 +5,15 @@ import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("div.mockup-browser");
 
-
 describe("MockupBrowser", () => {
-  it("renders the element with its base class", async () => {
-    await mount("mockup-browser");
-    expect(el()).not.toBeNull();
-    expect(el().classList.contains("mockup-browser")).toBe(true);
-  });
+    it("renders the element with its base class", async () => {
+        await mount("mockup-browser");
+        expect(el()).not.toBeNull();
+        expect(el().classList.contains("mockup-browser")).toBe(true);
+    });
 
-  it("uses the div element", async () => {
-    await mount("mockup-browser");
-    expect(el().tagName.toLowerCase()).toBe("div");
-  });
+    it("uses the div element", async () => {
+        await mount("mockup-browser");
+        expect(el().tagName.toLowerCase()).toBe("div");
+    });
 });

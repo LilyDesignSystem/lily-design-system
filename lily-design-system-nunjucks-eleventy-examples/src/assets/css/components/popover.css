@@ -8,5 +8,9 @@
   box-shadow: 0 4px 12px rgba(33, 43, 50, 0.15);
 }
 
-.popover > :first-child { margin-top: 0; }
-.popover > :last-child { margin-bottom: 0; }
+.popover > :first-child {
+  margin-top: 0;
+}
+.popover > :last-child {
+  margin-bottom: 0;
+}

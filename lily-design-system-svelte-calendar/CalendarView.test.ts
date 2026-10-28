@@ -20,7 +20,8 @@ const LABELS: CalendarViewLabels = {
     next: (view) => `Next ${view}`,
     today: "Today",
     periodAnnouncement: (view, start, end) => `${view}: ${start} to ${end}`,
-    weekday: (wd) => ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][wd],
+    weekday: (wd) =>
+        ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][wd],
     weekdayAbbr: (wd) => ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][wd],
     day: (isoDate, wd, outside) =>
         `${Number(isoDate.slice(8))}, ${["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][wd]}${outside ? " (outside)" : ""}`,
@@ -109,27 +110,35 @@ describe("CalendarView — pure period helpers", () => {
 
 describe("CalendarView — markup", () => {
     test("§8.1 renders a calendar-view root wrapping a role=grid table labelled by `label`", () => {
-        render(CalendarView, { props: { label: "Appointments", view: "week", anchorDate: "2026-01-06" } });
+        render(CalendarView, {
+            props: { label: "Appointments", view: "week", anchorDate: "2026-01-06" },
+        });
         expect(document.querySelector(".calendar-view")).toBeTruthy();
         expect(screen.getByRole("grid").getAttribute("aria-label")).toBe("Appointments");
     });
 
     test("§8.2 view=week renders exactly 7 day cells, none outside-period", () => {
-        render(CalendarView, { props: { label: "Appointments", view: "week", anchorDate: "2026-01-06" } });
+        render(CalendarView, {
+            props: { label: "Appointments", view: "week", anchorDate: "2026-01-06" },
+        });
         expect(bodyRows()).toHaveLength(1);
         expect(dayCells()).toHaveLength(7);
         expect(dayCells().some((c) => c.hasAttribute("data-outside-period"))).toBe(false);
     });
 
     test("§8.3 view=four-week renders exactly 28 day cells (4 rows), none outside-period", () => {
-        render(CalendarView, { props: { label: "Appointments", view: "four-week", anchorDate: "2026-01-06" } });
+        render(CalendarView, {
+            props: { label: "Appointments", view: "four-week", anchorDate: "2026-01-06" },
+        });
         expect(bodyRows()).toHaveLength(4);
         expect(dayCells()).toHaveLength(28);
         expect(dayCells().some((c) => c.hasAttribute("data-outside-period"))).toBe(false);
     });
 
     test("§8.4 view=month renders exactly 42 day cells (6 rows); leading/trailing days carry data-outside-period", () => {
-        render(CalendarView, { props: { label: "Appointments", view: "month", anchorDate: "2026-01-15" } });
+        render(CalendarView, {
+            props: { label: "Appointments", view: "month", anchorDate: "2026-01-15" },
+        });
         expect(bodyRows()).toHaveLength(6);
         expect(dayCells()).toHaveLength(42);
         expect(cellFor("2025-12-29")?.hasAttribute("data-outside-period")).toBe(true);
@@ -139,7 +148,12 @@ describe("CalendarView — markup", () => {
 
     test("§8.5 the day matching `today` carries aria-current=date; no other cell does", () => {
         render(CalendarView, {
-            props: { label: "Appointments", view: "week", anchorDate: "2026-01-06", today: "2026-01-08" },
+            props: {
+                label: "Appointments",
+                view: "week",
+                anchorDate: "2026-01-06",
+                today: "2026-01-08",
+            },
         });
         expect(cellFor("2026-01-08")?.getAttribute("aria-current")).toBe("date");
         const current = dayCells().filter((c) => c.getAttribute("aria-current") === "date");
@@ -147,14 +161,28 @@ describe("CalendarView — markup", () => {
     });
 
     test("§8.15 omitting `today` renders no aria-current=date anywhere and disables the Today button", () => {
-        render(CalendarView, { props: { label: "Appointments", view: "week", anchorDate: "2026-01-06", labels: LABELS } });
+        render(CalendarView, {
+            props: {
+                label: "Appointments",
+                view: "week",
+                anchorDate: "2026-01-06",
+                labels: LABELS,
+            },
+        });
         expect(dayCells().some((c) => c.getAttribute("aria-current") === "date")).toBe(false);
-        expect((screen.getByRole("button", { name: "Today" }) as HTMLButtonElement).disabled).toBe(true);
+        expect((screen.getByRole("button", { name: "Today" }) as HTMLButtonElement).disabled).toBe(
+            true,
+        );
     });
 
     test("§8.16 extra attributes spread onto the root", () => {
         render(CalendarView, {
-            props: { label: "Appointments", view: "week", anchorDate: "2026-01-06", "data-testid": "cal-root" },
+            props: {
+                label: "Appointments",
+                view: "week",
+                anchorDate: "2026-01-06",
+                "data-testid": "cal-root",
+            },
         });
         expect(document.querySelector('[data-testid="cal-root"]')).toBeTruthy();
     });
@@ -174,15 +202,25 @@ describe("CalendarView — view switcher and navigation", () => {
                 labels: { weekView: "Week", monthView: "Month" }, // fourWeekView omitted
             },
         });
-        expect(screen.getByRole("button", { name: "Week" }).getAttribute("aria-pressed")).toBe("true");
-        expect(screen.getByRole("button", { name: "Month" }).getAttribute("aria-pressed")).toBe("false");
+        expect(screen.getByRole("button", { name: "Week" }).getAttribute("aria-pressed")).toBe(
+            "true",
+        );
+        expect(screen.getByRole("button", { name: "Month" }).getAttribute("aria-pressed")).toBe(
+            "false",
+        );
         expect(screen.queryByText("4 weeks")).toBeNull();
     });
 
     test("§8.6 Next/Previous step by the view's own length and call onNavigate with the new period", async () => {
         const onNavigate = vi.fn();
         render(CalendarView, {
-            props: { label: "Appointments", view: "week", anchorDate: "2026-01-06", labels: LABELS, onNavigate },
+            props: {
+                label: "Appointments",
+                view: "week",
+                anchorDate: "2026-01-06",
+                labels: LABELS,
+                onNavigate,
+            },
         });
         await fireEvent.click(screen.getByRole("button", { name: "Next week" }));
         expect(onNavigate).toHaveBeenCalledWith("week", "2026-01-12", "2026-01-18");
@@ -196,7 +234,13 @@ describe("CalendarView — view switcher and navigation", () => {
     test("§8.6 Next steps a four-week view by 28 days and a month view by one calendar month", async () => {
         const onNavigate = vi.fn();
         const { unmount } = render(CalendarView, {
-            props: { label: "Appointments", view: "four-week", anchorDate: "2026-01-06", labels: LABELS, onNavigate },
+            props: {
+                label: "Appointments",
+                view: "four-week",
+                anchorDate: "2026-01-06",
+                labels: LABELS,
+                onNavigate,
+            },
         });
         await fireEvent.click(screen.getByRole("button", { name: "Next four-week" }));
         expect(onNavigate).toHaveBeenCalledWith("four-week", "2026-02-02", "2026-03-01");
@@ -204,7 +248,13 @@ describe("CalendarView — view switcher and navigation", () => {
 
         onNavigate.mockClear();
         render(CalendarView, {
-            props: { label: "Appointments", view: "month", anchorDate: "2026-01-15", labels: LABELS, onNavigate },
+            props: {
+                label: "Appointments",
+                view: "month",
+                anchorDate: "2026-01-15",
+                labels: LABELS,
+                onNavigate,
+            },
         });
         await fireEvent.click(screen.getByRole("button", { name: "Next month" }));
         expect(onNavigate).toHaveBeenCalledWith("month", "2026-02-01", "2026-02-28");
@@ -213,7 +263,14 @@ describe("CalendarView — view switcher and navigation", () => {
     test("§8.7 Today sets anchorDate to the `today` prop without changing view", async () => {
         const onNavigate = vi.fn();
         render(CalendarView, {
-            props: { label: "Appointments", view: "week", anchorDate: "2026-02-20", today: "2026-01-08", labels: LABELS, onNavigate },
+            props: {
+                label: "Appointments",
+                view: "week",
+                anchorDate: "2026-02-20",
+                today: "2026-01-08",
+                labels: LABELS,
+                onNavigate,
+            },
         });
         await fireEvent.click(screen.getByRole("button", { name: "Today" }));
         expect(onNavigate).toHaveBeenCalledWith("week", "2026-01-05", "2026-01-11");
@@ -222,14 +279,28 @@ describe("CalendarView — view switcher and navigation", () => {
 
     test("§8.13 every navigation announces the new period via the status region", async () => {
         render(CalendarView, {
-            props: { label: "Appointments", view: "week", anchorDate: "2026-01-06", labels: LABELS },
+            props: {
+                label: "Appointments",
+                view: "week",
+                anchorDate: "2026-01-06",
+                labels: LABELS,
+            },
         });
         await fireEvent.click(screen.getByRole("button", { name: "Next week" }));
-        expect(document.querySelector(".calendar-view-status")?.textContent).toBe("week: 2026-01-12 to 2026-01-18");
+        expect(document.querySelector(".calendar-view-status")?.textContent).toBe(
+            "week: 2026-01-12 to 2026-01-18",
+        );
     });
 
     test("§8.14 a Sunday-first locale shifts the computed week start", () => {
-        render(CalendarView, { props: { label: "Appointments", view: "week", anchorDate: "2026-01-06", locale: "en-US" } });
+        render(CalendarView, {
+            props: {
+                label: "Appointments",
+                view: "week",
+                anchorDate: "2026-01-06",
+                locale: "en-US",
+            },
+        });
         expect(cellFor("2026-01-04")).toBeTruthy(); // Sunday 4 Jan, not Monday 5 Jan
         expect(dayCells()).toHaveLength(7);
     });
@@ -264,7 +335,13 @@ describe("CalendarView — keyboard", () => {
     test("§8.10 PageDown steps the cursor by the view's own length and re-pages when it leaves the visible days", async () => {
         const onNavigate = vi.fn();
         render(CalendarView, {
-            props: { label: "Appointments", view: "week", anchorDate: "2026-01-06", labels: LABELS, onNavigate },
+            props: {
+                label: "Appointments",
+                view: "week",
+                anchorDate: "2026-01-06",
+                labels: LABELS,
+                onNavigate,
+            },
         });
         await fireEvent.keyDown(tabbableCells()[0], { key: "PageDown" });
         expect(onNavigate).toHaveBeenCalledWith("week", "2026-01-12", "2026-01-18");
@@ -274,7 +351,13 @@ describe("CalendarView — keyboard", () => {
     test("§8.10 in month view, moving the cursor onto an already-rendered padding cell re-pages to that month", async () => {
         const onNavigate = vi.fn();
         render(CalendarView, {
-            props: { label: "Appointments", view: "month", anchorDate: "2026-01-01", labels: LABELS, onNavigate },
+            props: {
+                label: "Appointments",
+                view: "month",
+                anchorDate: "2026-01-01",
+                labels: LABELS,
+                onNavigate,
+            },
         });
         // Cursor starts 2026-01-01; three ArrowLeft presses land on 2025-12-29, a rendered padding cell.
         await fireEvent.keyDown(tabbableCells()[0], { key: "ArrowLeft" });
@@ -322,7 +405,9 @@ describe("CalendarView — events", () => {
     });
 
     test("default rendering (no `day` snippet) shows each cell's own day-of-month number", () => {
-        render(CalendarView, { props: { label: "Appointments", view: "week", anchorDate: "2026-01-06" } });
+        render(CalendarView, {
+            props: { label: "Appointments", view: "week", anchorDate: "2026-01-06" },
+        });
         expect(cellFor("2026-01-06")?.textContent?.trim()).toBe("6");
         expect(cellFor("2026-01-11")?.textContent?.trim()).toBe("11");
     });
@@ -333,7 +418,12 @@ describe("CalendarView — events", () => {
 // =====================================================================
 
 describe("CalendarView — interaction", () => {
-    const base = { label: "Appointments", view: "week" as const, anchorDate: "2026-01-06", today: "2026-01-08" };
+    const base = {
+        label: "Appointments",
+        view: "week" as const,
+        anchorDate: "2026-01-06",
+        today: "2026-01-08",
+    };
 
     test("§8.17 picking a day marks it data-selected (distinct from the keyboard cursor)", async () => {
         render(CalendarView, { props: { ...base } });
@@ -347,7 +437,13 @@ describe("CalendarView — interaction", () => {
     test("§8.18 minDate, maxDate and isDisabled mark days aria-disabled; they stay focusable but cannot be picked", async () => {
         const onDayClick = vi.fn();
         render(CalendarView, {
-            props: { ...base, minDate: "2026-01-06", maxDate: "2026-01-10", isDisabled: (d: string) => d === "2026-01-07", onDayClick },
+            props: {
+                ...base,
+                minDate: "2026-01-06",
+                maxDate: "2026-01-10",
+                isDisabled: (d: string) => d === "2026-01-07",
+                onDayClick,
+            },
         });
         expect(cellFor("2026-01-05")!.getAttribute("aria-disabled")).toBe("true");
         expect(cellFor("2026-01-07")!.getAttribute("aria-disabled")).toBe("true");
@@ -370,7 +466,9 @@ describe("CalendarView — interaction", () => {
 
     test("§8.20 t does nothing when today is not supplied", async () => {
         const onNavigate = vi.fn();
-        render(CalendarView, { props: { label: "A", view: "week", anchorDate: "2026-01-06", onNavigate } });
+        render(CalendarView, {
+            props: { label: "A", view: "week", anchorDate: "2026-01-06", onNavigate },
+        });
         await fireEvent.keyDown(tabbableCells()[0], { key: "t" });
         expect(onNavigate).not.toHaveBeenCalled();
     });
@@ -378,7 +476,12 @@ describe("CalendarView — interaction", () => {
     test("§8.21 the day snippet receives selected, disabled and openEvent, which fires onEventClick", async () => {
         const onEventClick = vi.fn();
         render(CalendarViewEventsTestHost, {
-            props: { events: EVENTS, onEventClick, selectedDate: "2026-01-06", minDate: "2026-01-06" },
+            props: {
+                events: EVENTS,
+                onEventClick,
+                selectedDate: "2026-01-06",
+                minDate: "2026-01-06",
+            },
         });
         const button = document.querySelector<HTMLButtonElement>("[data-event-open]")!;
         await fireEvent.click(button);
@@ -393,7 +496,12 @@ describe("CalendarView — interaction", () => {
 // =====================================================================
 
 describe("CalendarView — week numbers, marked ranges and range selection", () => {
-    const base = { label: "Appointments", view: "month" as const, anchorDate: "2026-01-15", today: "2026-01-08" };
+    const base = {
+        label: "Appointments",
+        view: "month" as const,
+        anchorDate: "2026-01-15",
+        today: "2026-01-08",
+    };
     const rangeLabels: CalendarViewLabels = {
         ...LABELS,
         weekNumberHeader: "Wk",
@@ -421,7 +529,13 @@ describe("CalendarView — week numbers, marked ranges and range selection", () 
 
     test("§8.23 ranges mark each day inside with data-range={kind}", () => {
         render(CalendarView, {
-            props: { ...base, ranges: [{ start: "2026-01-05", end: "2026-01-07", kind: "holiday" }, { start: "2026-01-07", end: "2026-01-08" }] },
+            props: {
+                ...base,
+                ranges: [
+                    { start: "2026-01-05", end: "2026-01-07", kind: "holiday" },
+                    { start: "2026-01-07", end: "2026-01-08" },
+                ],
+            },
         });
         expect(cellFor("2026-01-05")!.getAttribute("data-range")).toBe("holiday");
         expect(cellFor("2026-01-07")!.getAttribute("data-range")).toBe("holiday range");
@@ -438,7 +552,9 @@ describe("CalendarView — week numbers, marked ranges and range selection", () 
         expect(cellFor("2026-01-17")!.hasAttribute("data-range-end")).toBe(true);
         expect(cellFor("2026-01-16")!.hasAttribute("data-in-range")).toBe(true);
         expect(cellFor("2026-01-18")!.hasAttribute("data-in-range")).toBe(false);
-        expect(document.querySelector(".calendar-view-status")!.textContent).toBe("Selected 2026-01-15 to 2026-01-17");
+        expect(document.querySelector(".calendar-view-status")!.textContent).toBe(
+            "Selected 2026-01-15 to 2026-01-17",
+        );
     });
 
     test("§8.24 extending backwards orders the range", async () => {
@@ -492,7 +608,10 @@ describe("CalendarView — week numbers, marked ranges and range selection", () 
 
     test("§8.30 the day snippet receives inRange and ranges", async () => {
         render(CalendarViewEventsTestHost, {
-            props: { events: EVENTS, ranges: [{ start: "2026-01-06", end: "2026-01-06", kind: "holiday" }] },
+            props: {
+                events: EVENTS,
+                ranges: [{ start: "2026-01-06", end: "2026-01-06", kind: "holiday" }],
+            },
         });
         expect(document.querySelector("[data-snippet-ranges='holiday']")).toBeTruthy();
     });
@@ -515,9 +634,20 @@ describe("CalendarView — maxEvents (§8.31–§8.32)", () => {
 });
 
 describe("CalendarView — day view (§8.33–§8.37)", () => {
-    const dayProps = { label: "Appointments", view: "day" as const, anchorDate: "2026-01-06", today: "2026-01-08", labels: { ...LABELS, dayView: "Day" } };
+    const dayProps = {
+        label: "Appointments",
+        view: "day" as const,
+        anchorDate: "2026-01-06",
+        today: "2026-01-08",
+        labels: { ...LABELS, dayView: "Day" },
+    };
     const cells = () => Array.from(document.querySelectorAll<HTMLElement>(".calendar-table-td"));
-    const headers = () => Array.from(document.querySelectorAll(".calendar-table-thead .calendar-table-th, .calendar-table-head .calendar-table-th"));
+    const headers = () =>
+        Array.from(
+            document.querySelectorAll(
+                ".calendar-table-thead .calendar-table-th, .calendar-table-head .calendar-table-th",
+            ),
+        );
 
     test("§8.33 the day view shows exactly one day under one weekday header", () => {
         render(CalendarView, { props: dayProps });
@@ -554,14 +684,17 @@ describe("CalendarView — day view (§8.33–§8.37)", () => {
     });
 
     test("§8.37 the day view still renders the day snippet with that day's events", () => {
-        render(CalendarViewEventsTestHost, { props: { view: "day", anchorDate: "2026-01-06", events: EVENTS } });
+        render(CalendarViewEventsTestHost, {
+            props: { view: "day", anchorDate: "2026-01-06", events: EVENTS },
+        });
         expect(screen.getByTestId("events-2026-01-06").textContent).toBe("e1");
     });
 });
 
 describe("CalendarView — event drag-and-drop (§8.38–§8.41)", () => {
     const evs = [{ id: "a", date: "2026-01-06", title: "A" }];
-    const cell = (iso: string) => document.querySelector<HTMLElement>(`.calendar-table-td[data-date="${iso}"]`)!;
+    const cell = (iso: string) =>
+        document.querySelector<HTMLElement>(`.calendar-table-td[data-date="${iso}"]`)!;
     const evEl = () => document.querySelector<HTMLElement>("[data-event-open]")!;
 
     test("§8.38 without onEventMove the event element is not draggable", () => {
@@ -591,7 +724,9 @@ describe("CalendarView — event drag-and-drop (§8.38–§8.41)", () => {
 
     test("§8.41 a disabled day refuses the drop", async () => {
         const onEventMove = vi.fn();
-        render(CalendarViewEventsTestHost, { props: { events: evs, onEventMove, minDate: "2026-01-07" } });
+        render(CalendarViewEventsTestHost, {
+            props: { events: evs, onEventMove, minDate: "2026-01-07" },
+        });
         const dt = { setData: vi.fn(), getData: () => "" };
         await fireEvent.dragStart(evEl(), { dataTransfer: dt });
         await fireEvent.drop(cell("2026-01-06"), { dataTransfer: dt });
@@ -605,14 +740,29 @@ describe("CalendarView — period title and hideOutsideDays (§8.42–§8.45)", 
 
     test("§8.42 labels.periodTitle renders the shown period's title, updating on navigation", async () => {
         render(CalendarView, { props: { ...month, labels: { ...LABELS, periodTitle: title } } });
-        expect(document.querySelector(".calendar-view-title")!.textContent).toBe("month:2026-01-01..2026-01-31");
+        expect(document.querySelector(".calendar-view-title")!.textContent).toBe(
+            "month:2026-01-01..2026-01-31",
+        );
         await fireEvent.click(screen.getByRole("button", { name: LABELS.next!("month") }));
-        expect(document.querySelector(".calendar-view-title")!.textContent).toBe("month:2026-02-01..2026-02-28");
+        expect(document.querySelector(".calendar-view-title")!.textContent).toBe(
+            "month:2026-02-01..2026-02-28",
+        );
     });
 
     test("labels.periodTitle receives the anchor date, kept current on navigation", async () => {
         const seen: string[] = [];
-        render(CalendarView, { props: { ...month, labels: { ...LABELS, periodTitle: (_v: string, _s: string, _e: string, anchor: string) => { seen.push(anchor); return anchor; } } } });
+        render(CalendarView, {
+            props: {
+                ...month,
+                labels: {
+                    ...LABELS,
+                    periodTitle: (_v: string, _s: string, _e: string, anchor: string) => {
+                        seen.push(anchor);
+                        return anchor;
+                    },
+                },
+            },
+        });
         const first = document.querySelector(".calendar-view-title")!.textContent;
         await fireEvent.click(screen.getByRole("button", { name: LABELS.next!("month") }));
         expect(document.querySelector(".calendar-view-title")!.textContent).not.toBe(first);
@@ -626,7 +776,9 @@ describe("CalendarView — period title and hideOutsideDays (§8.42–§8.45)", 
 
     test("§8.44 hideOutsideDays leaves outside cells empty but keeps them in the grid", () => {
         render(CalendarView, { props: { ...month, hideOutsideDays: true } });
-        const outside = document.querySelector<HTMLElement>(".calendar-table-td[data-outside-period]")!;
+        const outside = document.querySelector<HTMLElement>(
+            ".calendar-table-td[data-outside-period]",
+        )!;
         expect(outside.textContent?.trim()).toBe("");
         expect(cellFor("2026-01-15")!.textContent?.trim()).toBe("15");
         expect(dayCells()).toHaveLength(42);
@@ -634,13 +786,19 @@ describe("CalendarView — period title and hideOutsideDays (§8.42–§8.45)", 
 
     test("§8.45 by default outside days show their number", () => {
         render(CalendarView, { props: month });
-        expect(document.querySelector<HTMLElement>(".calendar-table-td[data-outside-period]")!.textContent?.trim()).not.toBe("");
+        expect(
+            document
+                .querySelector<HTMLElement>(".calendar-table-td[data-outside-period]")!
+                .textContent?.trim(),
+        ).not.toBe("");
     });
 });
 
 describe("CalendarView — weekendDays (§8.46–§8.47)", () => {
     test("§8.46 weekendDays marks those weekdays' cells with data-weekend", () => {
-        render(CalendarView, { props: { label: "A", view: "week", anchorDate: "2026-01-06", weekendDays: [0, 6] } });
+        render(CalendarView, {
+            props: { label: "A", view: "week", anchorDate: "2026-01-06", weekendDays: [0, 6] },
+        });
         expect(cellFor("2026-01-10")!.hasAttribute("data-weekend")).toBe(true); // Saturday
         expect(cellFor("2026-01-11")!.hasAttribute("data-weekend")).toBe(true); // Sunday
         expect(cellFor("2026-01-07")!.hasAttribute("data-weekend")).toBe(false);
@@ -652,7 +810,12 @@ describe("CalendarView — weekendDays (§8.46–§8.47)", () => {
 });
 
 describe("CalendarView — multiple selection (§8.48–§8.50)", () => {
-    const props = { label: "A", view: "week" as const, anchorDate: "2026-01-06", selectionMode: "multiple" as const };
+    const props = {
+        label: "A",
+        view: "week" as const,
+        anchorDate: "2026-01-06",
+        selectionMode: "multiple" as const,
+    };
 
     test("§8.48 clicking days toggles them in selectedDates; each picked day carries data-selected", async () => {
         render(CalendarView, { props });
@@ -679,13 +842,26 @@ describe("CalendarView — multiple selection (§8.48–§8.50)", () => {
 });
 
 describe("CalendarView — agenda view (§8.64–§8.68)", () => {
-    const agendaProps = { label: "Agenda", view: "agenda" as const, anchorDate: "2026-01-15", events: EVENTS, today: "2026-01-09" };
+    const agendaProps = {
+        label: "Agenda",
+        view: "agenda" as const,
+        anchorDate: "2026-01-15",
+        events: EVENTS,
+        today: "2026-01-09",
+    };
 
     test("§8.64 lists only the days with events, as an ordered list of <time> headings", () => {
         render(CalendarView, { props: { ...agendaProps, labels: LABELS } });
         const items = Array.from(document.querySelectorAll(".calendar-view-agenda-day"));
-        expect(items.map((li) => li.getAttribute("data-date"))).toEqual(["2026-01-06", "2026-01-09", "2026-01-10", "2026-01-11"]);
-        expect(document.querySelector("ol.calendar-view-agenda")!.getAttribute("aria-label")).toBe("Agenda");
+        expect(items.map((li) => li.getAttribute("data-date"))).toEqual([
+            "2026-01-06",
+            "2026-01-09",
+            "2026-01-10",
+            "2026-01-11",
+        ]);
+        expect(document.querySelector("ol.calendar-view-agenda")!.getAttribute("aria-label")).toBe(
+            "Agenda",
+        );
         expect(items[0].querySelector("time")!.getAttribute("datetime")).toBe("2026-01-06");
         expect(document.querySelector(".calendar-view-table")).toBeNull();
     });
@@ -700,14 +876,27 @@ describe("CalendarView — agenda view (§8.64–§8.68)", () => {
         render(CalendarView, { props: { ...agendaProps, onEventClick } });
         await fireEvent.click(screen.getByRole("button", { name: "Single-day" }));
         expect(onEventClick).toHaveBeenCalledWith(EVENTS[0]);
-        expect(document.querySelector('[data-date="2026-01-09"]')!.getAttribute("aria-current")).toBe("date");
+        expect(
+            document.querySelector('[data-date="2026-01-09"]')!.getAttribute("aria-current"),
+        ).toBe("date");
     });
 
     test("§8.67 labels.agendaEmpty shows when the month has no events; the switcher button selects the view; next steps a month", async () => {
         const onNavigate = vi.fn();
-        render(CalendarView, { props: { ...agendaProps, events: [], labels: { ...LABELS, agendaView: "Agenda", agendaEmpty: "Nothing this month" }, onNavigate } });
-        expect(document.querySelector(".calendar-view-agenda-empty")!.textContent).toBe("Nothing this month");
-        expect(screen.getByRole("button", { name: "Agenda" }).getAttribute("aria-pressed")).toBe("true");
+        render(CalendarView, {
+            props: {
+                ...agendaProps,
+                events: [],
+                labels: { ...LABELS, agendaView: "Agenda", agendaEmpty: "Nothing this month" },
+                onNavigate,
+            },
+        });
+        expect(document.querySelector(".calendar-view-agenda-empty")!.textContent).toBe(
+            "Nothing this month",
+        );
+        expect(screen.getByRole("button", { name: "Agenda" }).getAttribute("aria-pressed")).toBe(
+            "true",
+        );
         await fireEvent.click(screen.getByRole("button", { name: "Next agenda" }));
         expect(onNavigate).toHaveBeenLastCalledWith("agenda", "2026-02-01", "2026-02-28");
     });
@@ -720,12 +909,26 @@ describe("CalendarView — agenda view (§8.64–§8.68)", () => {
 
 describe("CalendarView — typed event fields, editing, export (§8.69–§8.82)", () => {
     const FIELDS = [
-        { id: "room", header: "Room", type: "select" as const, options: [{ id: "a", label: "Aspen" }, { id: "b", label: "Birch" }] },
+        {
+            id: "room",
+            header: "Room",
+            type: "select" as const,
+            options: [
+                { id: "a", label: "Aspen" },
+                { id: "b", label: "Birch" },
+            ],
+        },
         { id: "cost", header: "Cost", type: "number" as const },
     ];
     const FEVENTS: CalendarEvent[] = [
         { id: "e1", date: "2026-01-06", title: "Standup", values: { room: "a", cost: 3 } },
-        { id: "e2", start: "2026-01-09", end: "2026-01-11", title: "Offsite =x", values: { cost: 5 } },
+        {
+            id: "e2",
+            start: "2026-01-09",
+            end: "2026-01-11",
+            title: "Offsite =x",
+            values: { cost: 5 },
+        },
         { id: "e3", date: "2026-03-01", title: "Later" },
     ];
     const XL: CalendarViewLabels = {
@@ -740,13 +943,23 @@ describe("CalendarView — typed event fields, editing, export (§8.69–§8.82)
         editAnnouncement: (t, h, text) => `${t} ${h} is ${text}`,
         editInvalid: (t, h) => `${t}: bad ${h}`,
     };
-    const base = { label: "Cal", view: "agenda" as const, anchorDate: "2026-01-15", events: FEVENTS, eventFields: FIELDS };
-    const eventLi = (id: string) => document.querySelector<HTMLElement>(`[data-event-key="${id}"]`)!;
+    const base = {
+        label: "Cal",
+        view: "agenda" as const,
+        anchorDate: "2026-01-15",
+        events: FEVENTS,
+        eventFields: FIELDS,
+    };
+    const eventLi = (id: string) =>
+        document.querySelector<HTMLElement>(`[data-event-key="${id}"]`)!;
 
     test("§8.69 the agenda shows each event's typed fields after its title, named by their header", () => {
         render(CalendarView, { props: base });
         const fields = eventLi("e1").querySelectorAll(".calendar-view-event-field");
-        expect(Array.from(fields).map((f) => f.textContent?.replace(/\s+/g, " ").trim())).toEqual(["Room Aspen", "Cost 3"]);
+        expect(Array.from(fields).map((f) => f.textContent?.replace(/\s+/g, " ").trim())).toEqual([
+            "Room Aspen",
+            "Cost 3",
+        ]);
         expect(eventLi("e2").querySelectorAll(".calendar-view-event-field")).toHaveLength(1);
     });
 
@@ -756,51 +969,99 @@ describe("CalendarView — typed event fields, editing, export (§8.69–§8.82)
     });
 
     test("§8.71 a `day` snippet reads a field's formatted text through fieldText", () => {
-        render(CalendarViewEventsTestHost, { props: { view: "month", anchorDate: "2026-01-15", events: FEVENTS, eventFields: FIELDS } });
+        render(CalendarViewEventsTestHost, {
+            props: {
+                view: "month",
+                anchorDate: "2026-01-15",
+                events: FEVENTS,
+                eventFields: FIELDS,
+            },
+        });
         expect(screen.getByTestId("field-e1-room").textContent).toBe("Aspen");
         // A multi-day event appears on each day it covers, and has no room.
-        expect(screen.getAllByTestId("field-e2-room").map((e) => e.textContent)).toEqual(["", "", ""]);
+        expect(screen.getAllByTestId("field-e2-room").map((e) => e.textContent)).toEqual([
+            "",
+            "",
+            "",
+        ]);
     });
 
     test("§8.72 clicking a value opens a typed editor; Enter commits the parsed value and announces", async () => {
         const onFieldEdit = vi.fn();
         render(CalendarView, { props: { ...base, onFieldEdit, labels: XL } });
-        await fireEvent.click(eventLi("e1").querySelectorAll<HTMLElement>(".calendar-view-field-button")[1]);
+        await fireEvent.click(
+            eventLi("e1").querySelectorAll<HTMLElement>(".calendar-view-field-button")[1],
+        );
         const input = document.querySelector<HTMLInputElement>(".calendar-view-field-editor")!;
         expect(input.type).toBe("number");
         expect(input.getAttribute("aria-label")).toBe("Cost");
         await fireEvent.input(input, { target: { value: "8" } });
         await fireEvent.keyDown(input, { key: "Enter" });
-        expect(onFieldEdit).toHaveBeenCalledWith({ eventId: "e1", fieldId: "cost", value: 8, previous: 3 });
-        expect(document.querySelector(".calendar-view-status")!.textContent).toBe("Standup Cost is 8");
+        expect(onFieldEdit).toHaveBeenCalledWith({
+            eventId: "e1",
+            fieldId: "cost",
+            value: 8,
+            previous: 3,
+        });
+        expect(document.querySelector(".calendar-view-status")!.textContent).toBe(
+            "Standup Cost is 8",
+        );
         expect(document.querySelector(".calendar-view-field-editor")).toBeNull();
     });
 
     test("§8.73 a select field edits through its options", async () => {
         const onFieldEdit = vi.fn();
         render(CalendarView, { props: { ...base, onFieldEdit } });
-        await fireEvent.click(eventLi("e2").querySelectorAll<HTMLElement>(".calendar-view-field-button")[0]);
-        await fireEvent.change(document.querySelector("select.calendar-view-field-editor")!, { target: { value: "b" } });
-        expect(onFieldEdit).toHaveBeenCalledWith({ eventId: "e2", fieldId: "room", value: "b", previous: undefined });
+        await fireEvent.click(
+            eventLi("e2").querySelectorAll<HTMLElement>(".calendar-view-field-button")[0],
+        );
+        await fireEvent.change(document.querySelector("select.calendar-view-field-editor")!, {
+            target: { value: "b" },
+        });
+        expect(onFieldEdit).toHaveBeenCalledWith({
+            eventId: "e2",
+            fieldId: "room",
+            value: "b",
+            previous: undefined,
+        });
     });
 
     test("§8.74 Escape cancels; an unchanged value reports nothing", async () => {
         const onFieldEdit = vi.fn();
         render(CalendarView, { props: { ...base, onFieldEdit } });
-        const open = () => fireEvent.click(eventLi("e1").querySelectorAll<HTMLElement>(".calendar-view-field-button")[1]);
+        const open = () =>
+            fireEvent.click(
+                eventLi("e1").querySelectorAll<HTMLElement>(".calendar-view-field-button")[1],
+            );
         await open();
-        await fireEvent.input(document.querySelector(".calendar-view-field-editor")!, { target: { value: "9" } });
-        await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, { key: "Escape" });
+        await fireEvent.input(document.querySelector(".calendar-view-field-editor")!, {
+            target: { value: "9" },
+        });
+        await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, {
+            key: "Escape",
+        });
         await open();
-        await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, { key: "Enter" });
+        await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, {
+            key: "Enter",
+        });
         expect(onFieldEdit).not.toHaveBeenCalled();
     });
 
     test("§8.75 a value that does not fit the type is refused: the editor stays open and the refusal is announced", async () => {
         const onFieldEdit = vi.fn();
-        render(CalendarView, { props: { ...base, eventFields: [{ id: "c", header: "C", type: "number", parse: () => Number.NaN }], events: [{ id: "e1", date: "2026-01-06", title: "Standup", values: { c: 1 } }], onFieldEdit, labels: XL } });
+        render(CalendarView, {
+            props: {
+                ...base,
+                eventFields: [{ id: "c", header: "C", type: "number", parse: () => Number.NaN }],
+                events: [{ id: "e1", date: "2026-01-06", title: "Standup", values: { c: 1 } }],
+                onFieldEdit,
+                labels: XL,
+            },
+        });
         await fireEvent.click(document.querySelector(".calendar-view-field-button")!);
-        await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, { key: "Enter" });
+        await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, {
+            key: "Enter",
+        });
         expect(onFieldEdit).not.toHaveBeenCalled();
         expect(document.querySelector(".calendar-view-field-editor")).not.toBeNull();
         expect(document.querySelector(".calendar-view-status")!.textContent).toBe("Standup: bad C");
@@ -808,16 +1069,32 @@ describe("CalendarView — typed event fields, editing, export (§8.69–§8.82)
 
     test("§8.76 Tab commits and moves to the event's next editable field; Shift+Tab to the previous", async () => {
         render(CalendarView, { props: { ...base, onFieldEdit: vi.fn() } });
-        await fireEvent.click(eventLi("e1").querySelectorAll<HTMLElement>(".calendar-view-field-button")[0]);
-        await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, { key: "Tab" });
-        expect(document.querySelector<HTMLInputElement>("input.calendar-view-field-editor")!.type).toBe("number");
-        await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, { key: "Tab", shiftKey: true });
+        await fireEvent.click(
+            eventLi("e1").querySelectorAll<HTMLElement>(".calendar-view-field-button")[0],
+        );
+        await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, {
+            key: "Tab",
+        });
+        expect(
+            document.querySelector<HTMLInputElement>("input.calendar-view-field-editor")!.type,
+        ).toBe("number");
+        await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, {
+            key: "Tab",
+            shiftKey: true,
+        });
         expect(document.querySelector("select.calendar-view-field-editor")).not.toBeNull();
     });
 
     test("§8.77 IME: Enter while composing does not commit", async () => {
         const onFieldEdit = vi.fn();
-        render(CalendarView, { props: { ...base, eventFields: [{ id: "n", header: "N" }], events: [{ id: "e1", date: "2026-01-06", title: "Standup", values: { n: "a" } }], onFieldEdit } });
+        render(CalendarView, {
+            props: {
+                ...base,
+                eventFields: [{ id: "n", header: "N" }],
+                events: [{ id: "e1", date: "2026-01-06", title: "Standup", values: { n: "a" } }],
+                onFieldEdit,
+            },
+        });
         await fireEvent.click(document.querySelector(".calendar-view-field-button")!);
         const input = document.querySelector<HTMLInputElement>(".calendar-view-field-editor")!;
         await fireEvent.input(input, { target: { value: "かな" } });
@@ -825,15 +1102,28 @@ describe("CalendarView — typed event fields, editing, export (§8.69–§8.82)
         await fireEvent.keyDown(input, { key: "Enter", keyCode: 229 });
         expect(onFieldEdit).not.toHaveBeenCalled();
         await fireEvent.keyDown(input, { key: "Enter" });
-        expect(onFieldEdit).toHaveBeenCalledWith({ eventId: "e1", fieldId: "n", value: "かな", previous: "a" });
+        expect(onFieldEdit).toHaveBeenCalledWith({
+            eventId: "e1",
+            fieldId: "n",
+            value: "かな",
+            previous: "a",
+        });
     });
 
-    async function exported(props: Record<string, unknown> = {}, format: "csv" | "tsv" | "xlsx" = "csv") {
-        const onExport = vi.fn((_file: { format: string; filename: string; eventCount: number; blob: Blob }) => false as const);
+    async function exported(
+        props: Record<string, unknown> = {},
+        format: "csv" | "tsv" | "xlsx" = "csv",
+    ) {
+        const onExport = vi.fn(
+            (_file: { format: string; filename: string; eventCount: number; blob: Blob }) =>
+                false as const,
+        );
         render(CalendarView, { props: { ...base, labels: XL, onExport, ...props } });
         await fireEvent.click(document.querySelector(`[data-calendar-export-format="${format}"]`)!);
         const file = onExport.mock.calls[0][0];
-        const text = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await file.blob.arrayBuffer());
+        const text = new TextDecoder("utf-8", { ignoreBOM: true }).decode(
+            await file.blob.arrayBuffer(),
+        );
         return { file, text };
     }
 
@@ -844,7 +1134,12 @@ describe("CalendarView — typed event fields, editing, export (§8.69–§8.82)
         render(CalendarView, { props: { ...base, labels: { exportCsv: "CSV" } } });
         expect(document.querySelector(".calendar-view-export")).toBeNull();
         document.body.innerHTML = "";
-        render(CalendarView, { props: { ...base, labels: { export: "Export", exportExcel: "Excel", exportHeaders: XL.exportHeaders } } });
+        render(CalendarView, {
+            props: {
+                ...base,
+                labels: { export: "Export", exportExcel: "Excel", exportHeaders: XL.exportHeaders },
+            },
+        });
         expect(screen.getByRole("group", { name: "Export" })).toBeTruthy();
         expect(document.querySelectorAll(".calendar-view-export-button")).toHaveLength(1);
     });
@@ -853,11 +1148,19 @@ describe("CalendarView — typed event fields, editing, export (§8.69–§8.82)
         const { file, text } = await exported();
         expect(file.filename).toBe("calendar.csv");
         expect(file.eventCount).toBe(2); // March's event is outside the shown January
-        expect(text).toBe("﻿Title,From,To,Room,Cost\r\nStandup,2026-01-06,2026-01-06,Aspen,3\r\n'=x,2026-01-09,2026-01-11,,5\r\n".replace("'=x", "Offsite =x"));
+        expect(text).toBe(
+            "﻿Title,From,To,Room,Cost\r\nStandup,2026-01-06,2026-01-06,Aspen,3\r\n'=x,2026-01-09,2026-01-11,,5\r\n".replace(
+                "'=x",
+                "Offsite =x",
+            ),
+        );
     });
 
     test("§8.80 exportScope all exports every dated event; exportable false drops a field", async () => {
-        const all = await exported({ exportScope: "all", eventFields: [{ ...FIELDS[0], exportable: false }, FIELDS[1]] });
+        const all = await exported({
+            exportScope: "all",
+            eventFields: [{ ...FIELDS[0], exportable: false }, FIELDS[1]],
+        });
         expect(all.file.eventCount).toBe(3);
         expect(all.text.split("\r\n")[0]).toBe("﻿Title,From,To,Cost");
     });
@@ -876,10 +1179,15 @@ describe("CalendarView — typed event fields, editing, export (§8.69–§8.82)
             render(CalendarView, { props: { ...base, labels: XL } });
             await fireEvent.click(document.querySelector('[data-calendar-export-format="tsv"]')!);
             expect(created).toHaveLength(1);
-            expect(document.querySelector(".calendar-view-status")!.textContent).toBe("2 events as tsv: calendar.tsv");
+            expect(document.querySelector(".calendar-view-status")!.textContent).toBe(
+                "2 events as tsv: calendar.tsv",
+            );
             document.body.innerHTML = "";
             render(CalendarView, { props: { ...base, events: [], labels: XL } });
-            expect((document.querySelector('[data-calendar-export-format="csv"]') as HTMLButtonElement).disabled).toBe(true);
+            expect(
+                (document.querySelector('[data-calendar-export-format="csv"]') as HTMLButtonElement)
+                    .disabled,
+            ).toBe(true);
         } finally {
             URL.createObjectURL = original.create;
             URL.revokeObjectURL = original.revoke;
@@ -897,9 +1205,25 @@ describe("CalendarView — search (§8.83–§8.92)", () => {
         { id: "e2", start: "2026-01-09", end: "2026-01-11", title: "Offsite" },
         { id: "e3", date: "2026-01-20", title: "Café review" },
     ];
-    const L: CalendarViewLabels = { ...LABELS, search: "Search events", searchAnnouncement: (m, t) => `${m} of ${t} events` };
-    const base = { label: "Cal", view: "agenda" as const, anchorDate: "2026-01-15", events: SEARCH_EVENTS, labels: L };
-    const keys = () => [...new Set(Array.from(document.querySelectorAll("[data-event-key]")).map((e) => e.getAttribute("data-event-key")))];
+    const L: CalendarViewLabels = {
+        ...LABELS,
+        search: "Search events",
+        searchAnnouncement: (m, t) => `${m} of ${t} events`,
+    };
+    const base = {
+        label: "Cal",
+        view: "agenda" as const,
+        anchorDate: "2026-01-15",
+        events: SEARCH_EVENTS,
+        labels: L,
+    };
+    const keys = () => [
+        ...new Set(
+            Array.from(document.querySelectorAll("[data-event-key]")).map((e) =>
+                e.getAttribute("data-event-key"),
+            ),
+        ),
+    ];
 
     test("§8.83 the field renders only when labels.search names it", () => {
         render(CalendarView, { props: { ...base, labels: LABELS } });
@@ -918,7 +1242,9 @@ describe("CalendarView — search (§8.83–§8.92)", () => {
     test("§8.85 the month grid shows only matching events too", async () => {
         render(CalendarView, { props: { ...base, view: "month" as const, day: undefined } });
         await fireEvent.input(screen.getByRole("searchbox"), { target: { value: "offsite" } });
-        const titles = Array.from(document.querySelectorAll(".calendar-view-event")).map((e) => e.textContent);
+        const titles = Array.from(document.querySelectorAll(".calendar-view-event")).map(
+            (e) => e.textContent,
+        );
         expect(titles.every((t) => t === "Offsite")).toBe(true);
     });
 
@@ -959,10 +1285,24 @@ describe("CalendarView — search (§8.83–§8.92)", () => {
 
     test("§8.91 an export holds only what the search leaves", async () => {
         const onExport = vi.fn(() => false);
-        render(CalendarView, { props: { ...base, exportScope: "all" as const, onExport, labels: { ...L, export: "Export", exportCsv: "CSV", exportHeaders: { title: "Title", start: "From", end: "To" } } } });
+        render(CalendarView, {
+            props: {
+                ...base,
+                exportScope: "all" as const,
+                onExport,
+                labels: {
+                    ...L,
+                    export: "Export",
+                    exportCsv: "CSV",
+                    exportHeaders: { title: "Title", start: "From", end: "To" },
+                },
+            },
+        });
         await fireEvent.input(screen.getByRole("searchbox"), { target: { value: "offsite" } });
         await fireEvent.click(screen.getByText("CSV"));
-        expect((onExport.mock.calls[0] as unknown as [{ eventCount: number }])[0].eventCount).toBe(1);
+        expect((onExport.mock.calls[0] as unknown as [{ eventCount: number }])[0].eventCount).toBe(
+            1,
+        );
     });
 
     test("§8.92 the search prop works without the field", () => {
@@ -976,8 +1316,18 @@ describe("CalendarView — search (§8.83–§8.92)", () => {
 // =====================================================================
 
 describe("CalendarView — period announcements and minDate / maxDate limits (§8.93–§8.104)", () => {
-    const L: CalendarViewLabels = { ...LABELS, rangeLimit: (limit, date) => `${limit === "min" ? "Earliest" : "Latest"} date is ${date}` };
-    const base = { label: "Cal", view: "month" as const, anchorDate: "2026-02-15", events: [] as CalendarEvent[], today: "2026-02-10", labels: L };
+    const L: CalendarViewLabels = {
+        ...LABELS,
+        rangeLimit: (limit, date) => `${limit === "min" ? "Earliest" : "Latest"} date is ${date}`,
+    };
+    const base = {
+        label: "Cal",
+        view: "month" as const,
+        anchorDate: "2026-02-15",
+        events: [] as CalendarEvent[],
+        today: "2026-02-10",
+        labels: L,
+    };
     const status = () => document.querySelector(".calendar-view-status")?.textContent;
     const prev = () => document.querySelector<HTMLElement>(".calendar-view-previous-button")!;
     const next = () => document.querySelector<HTMLElement>(".calendar-view-next-button")!;
@@ -990,7 +1340,9 @@ describe("CalendarView — period announcements and minDate / maxDate limits (§
     test("§8.94 Next announces the new period through the polite status region", async () => {
         render(CalendarView, { props: base });
         await fireEvent.click(next());
-        expect(document.querySelector(".calendar-view-status")?.getAttribute("aria-live")).toBe("polite");
+        expect(document.querySelector(".calendar-view-status")?.getAttribute("aria-live")).toBe(
+            "polite",
+        );
         expect(status()).toBe("month: 2026-03-01 to 2026-03-31");
     });
 
@@ -1040,11 +1392,22 @@ describe("CalendarView — period announcements and minDate / maxDate limits (§
         const cell = document.querySelector<HTMLElement>('.calendar-table-td[tabindex="0"]')!;
         await fireEvent.keyDown(cell, { key: "PageDown" });
         expect(status()).toBe("Latest date is 2026-02-20");
-        expect(document.querySelector<HTMLElement>('.calendar-table-td[tabindex="0"]')?.getAttribute("data-date")).toBe("2026-02-20");
+        expect(
+            document
+                .querySelector<HTMLElement>('.calendar-table-td[tabindex="0"]')
+                ?.getAttribute("data-date"),
+        ).toBe("2026-02-20");
     });
 
     test("§8.102 Today is aria-disabled and does nothing when today is outside the range", async () => {
-        render(CalendarView, { props: { ...base, anchorDate: "2026-02-15", today: "2026-04-01", maxDate: "2026-03-31" } });
+        render(CalendarView, {
+            props: {
+                ...base,
+                anchorDate: "2026-02-15",
+                today: "2026-04-01",
+                maxDate: "2026-03-31",
+            },
+        });
         const today = screen.getByRole("button", { name: "Today" });
         expect(today.getAttribute("aria-disabled")).toBe("true");
         await fireEvent.click(today);
@@ -1052,7 +1415,14 @@ describe("CalendarView — period announcements and minDate / maxDate limits (§
     });
 
     test("§8.103 Today works when it is inside the range", async () => {
-        render(CalendarView, { props: { ...base, anchorDate: "2026-04-15", today: "2026-02-10", minDate: "2026-01-01" } });
+        render(CalendarView, {
+            props: {
+                ...base,
+                anchorDate: "2026-04-15",
+                today: "2026-02-10",
+                minDate: "2026-01-01",
+            },
+        });
         const today = screen.getByRole("button", { name: "Today" });
         expect(today.getAttribute("aria-disabled")).toBeNull();
         await fireEvent.click(today);
@@ -1073,21 +1443,44 @@ describe("CalendarView — filter predicate (§8.105–§8.108)", () => {
         { id: "e2", date: "2026-01-09", title: "Offsite", values: { team: "b" } },
         { id: "e3", date: "2026-01-20", title: "Review", values: { team: "a" } },
     ];
-    const base = { label: "Cal", view: "agenda" as const, anchorDate: "2026-01-15", events: EVS, labels: LABELS };
-    const keys = () => Array.from(new Set(Array.from(document.querySelectorAll("[data-event-key]")).map((e) => e.getAttribute("data-event-key"))));
+    const base = {
+        label: "Cal",
+        view: "agenda" as const,
+        anchorDate: "2026-01-15",
+        events: EVS,
+        labels: LABELS,
+    };
+    const keys = () =>
+        Array.from(
+            new Set(
+                Array.from(document.querySelectorAll("[data-event-key]")).map((e) =>
+                    e.getAttribute("data-event-key"),
+                ),
+            ),
+        );
 
     test("§8.105 filter hides the events it rejects in every view", () => {
-        render(CalendarView, { props: { ...base, filter: (e: CalendarEvent) => e.values?.team === "a" } });
+        render(CalendarView, {
+            props: { ...base, filter: (e: CalendarEvent) => e.values?.team === "a" },
+        });
         expect(keys()).toEqual(["e1", "e3"]);
     });
 
     test("§8.106 filter reads typed values", () => {
-        render(CalendarView, { props: { ...base, filter: (e: CalendarEvent) => e.values?.team === "b" } });
+        render(CalendarView, {
+            props: { ...base, filter: (e: CalendarEvent) => e.values?.team === "b" },
+        });
         expect(keys()).toEqual(["e2"]);
     });
 
     test("§8.107 filter combines with search: both must pass", () => {
-        render(CalendarView, { props: { ...base, filter: (e: CalendarEvent) => e.values?.team === "a", search: "review" } });
+        render(CalendarView, {
+            props: {
+                ...base,
+                filter: (e: CalendarEvent) => e.values?.team === "a",
+                search: "review",
+            },
+        });
         expect(keys()).toEqual(["e3"]);
     });
 
@@ -1103,8 +1496,17 @@ describe("CalendarView — eventCompare (§8.109–§8.111)", () => {
         { id: "a", date: "2026-01-06", title: "Alpha" },
         { id: "c", date: "2026-01-07", title: "Charlie" },
     ];
-    const base = { label: "Cal", view: "agenda" as const, anchorDate: "2026-01-15", events: EVS, labels: LABELS };
-    const order = () => Array.from(document.querySelectorAll("[data-event-key]")).map((e) => e.getAttribute("data-event-key"));
+    const base = {
+        label: "Cal",
+        view: "agenda" as const,
+        anchorDate: "2026-01-15",
+        events: EVS,
+        labels: LABELS,
+    };
+    const order = () =>
+        Array.from(document.querySelectorAll("[data-event-key]")).map((e) =>
+            e.getAttribute("data-event-key"),
+        );
 
     test("§8.109 without eventCompare events keep their input order within a day", () => {
         render(CalendarView, { props: base });
@@ -1112,12 +1514,20 @@ describe("CalendarView — eventCompare (§8.109–§8.111)", () => {
     });
 
     test("§8.110 eventCompare orders the events within each day", () => {
-        render(CalendarView, { props: { ...base, eventCompare: (x: CalendarEvent, y: CalendarEvent) => String(x.title).localeCompare(String(y.title)) } });
+        render(CalendarView, {
+            props: {
+                ...base,
+                eventCompare: (x: CalendarEvent, y: CalendarEvent) =>
+                    String(x.title).localeCompare(String(y.title)),
+            },
+        });
         expect(order()).toEqual(["a", "b", "c"]);
     });
 
     test("§8.111 the order is stable and applies after the filter", () => {
-        render(CalendarView, { props: { ...base, filter: (e: CalendarEvent) => e.id !== "a", eventCompare: () => 0 } });
+        render(CalendarView, {
+            props: { ...base, filter: (e: CalendarEvent) => e.id !== "a", eventCompare: () => 0 },
+        });
         expect(order()).toEqual(["b", "c"]);
     });
 });
@@ -1127,8 +1537,21 @@ describe("CalendarView — copy to clipboard (§8.112–§8.114)", () => {
         { id: "e1", date: "2026-01-06", title: "Standup" },
         { id: "e2", date: "2026-01-09", title: "Offsite" },
     ];
-    const L: CalendarViewLabels = { ...LABELS, export: "Export", copy: "Copy", exportHeaders: { title: "Title", start: "From", end: "To" }, copyAnnouncement: (n) => `${n} events copied`, copyFailed: "Copy failed" };
-    const base = { label: "Cal", view: "agenda" as const, anchorDate: "2026-01-15", events: EVS, labels: L };
+    const L: CalendarViewLabels = {
+        ...LABELS,
+        export: "Export",
+        copy: "Copy",
+        exportHeaders: { title: "Title", start: "From", end: "To" },
+        copyAnnouncement: (n) => `${n} events copied`,
+        copyFailed: "Copy failed",
+    };
+    const base = {
+        label: "Cal",
+        view: "agenda" as const,
+        anchorDate: "2026-01-15",
+        events: EVS,
+        labels: L,
+    };
     const wait = () => new Promise((r) => setTimeout(r, 0));
 
     test("§8.112 copy needs labels.copy and exportHeaders", () => {
@@ -1145,7 +1568,9 @@ describe("CalendarView — copy to clipboard (§8.112–§8.114)", () => {
         const text = (writeText.mock.calls[0] as unknown as [string])[0];
         expect(text.split("\r\n")[0]).toBe("Title\tFrom\tTo");
         expect(text).toContain("Standup");
-        expect(document.querySelector(".calendar-view-status")?.textContent).toBe("2 events copied");
+        expect(document.querySelector(".calendar-view-status")?.textContent).toBe(
+            "2 events copied",
+        );
         vi.unstubAllGlobals();
     });
 
@@ -1169,8 +1594,16 @@ describe("CalendarView — copy to clipboard (§8.112–§8.114)", () => {
 });
 
 describe("CalendarView — in-place edit: validate, undo, redo (§8.115–§8.122)", () => {
-    const EVS: CalendarEvent[] = [{ id: "e1", date: "2026-01-06", title: "Standup", values: { cost: 3 } }];
-    const FIELD = { id: "cost", header: "Cost", type: "number" as const, validate: (v: unknown) => (typeof v === "number" && v < 0 ? "Must not be negative" : undefined) };
+    const EVS: CalendarEvent[] = [
+        { id: "e1", date: "2026-01-06", title: "Standup", values: { cost: 3 } },
+    ];
+    const FIELD = {
+        id: "cost",
+        header: "Cost",
+        type: "number" as const,
+        validate: (v: unknown) =>
+            typeof v === "number" && v < 0 ? "Must not be negative" : undefined,
+    };
     const L: CalendarViewLabels = {
         ...LABELS,
         editAnnouncement: (t, h, text) => `${t} ${h} is ${text}`,
@@ -1179,7 +1612,14 @@ describe("CalendarView — in-place edit: validate, undo, redo (§8.115–§8.12
         undoAnnouncement: (t, h, text) => `Undid ${t} ${h}: ${text}`,
         redoAnnouncement: (t, h, text) => `Redid ${t} ${h}: ${text}`,
     };
-    const base = { label: "Cal", view: "agenda" as const, anchorDate: "2026-01-15", events: EVS, eventFields: [FIELD], labels: L };
+    const base = {
+        label: "Cal",
+        view: "agenda" as const,
+        anchorDate: "2026-01-15",
+        events: EVS,
+        eventFields: [FIELD],
+        labels: L,
+    };
     const status = () => document.querySelector(".calendar-view-status")?.textContent;
     const fieldButton = () => document.querySelector<HTMLElement>(".calendar-view-field-button")!;
     const root = () => document.querySelector<HTMLElement>(".calendar-view")!;
@@ -1197,7 +1637,9 @@ describe("CalendarView — in-place edit: validate, undo, redo (§8.115–§8.12
         render(CalendarView, { props: { ...base, onFieldEdit } });
         await edit("-4");
         expect(onFieldEdit).not.toHaveBeenCalled();
-        expect(document.querySelector(".calendar-view-field-editor")?.getAttribute("aria-invalid")).toBe("true");
+        expect(
+            document.querySelector(".calendar-view-field-editor")?.getAttribute("aria-invalid"),
+        ).toBe("true");
         expect(status()).toBe("Standup Cost: Must not be negative");
     });
 
@@ -1208,7 +1650,12 @@ describe("CalendarView — in-place edit: validate, undo, redo (§8.115–§8.12
         await fireEvent.input(input, { target: { value: "5" } });
         expect(input.getAttribute("aria-invalid")).toBeNull();
         await fireEvent.keyDown(input, { key: "Enter" });
-        expect(onFieldEdit).toHaveBeenCalledWith({ eventId: "e1", fieldId: "cost", value: 5, previous: 3 });
+        expect(onFieldEdit).toHaveBeenCalledWith({
+            eventId: "e1",
+            fieldId: "cost",
+            value: 5,
+            previous: 3,
+        });
     });
 
     test("§8.117 Ctrl+Z reports the earlier value through onFieldEdit and announces it", async () => {
@@ -1216,7 +1663,12 @@ describe("CalendarView — in-place edit: validate, undo, redo (§8.115–§8.12
         render(CalendarView, { props: { ...base, onFieldEdit } });
         await edit("8");
         await fireEvent.keyDown(root(), { key: "z", ctrlKey: true });
-        expect(onFieldEdit).toHaveBeenLastCalledWith({ eventId: "e1", fieldId: "cost", value: 3, previous: 8 });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({
+            eventId: "e1",
+            fieldId: "cost",
+            value: 3,
+            previous: 8,
+        });
         expect(status()).toBe("Undid Standup Cost: 3");
     });
 
@@ -1226,11 +1678,21 @@ describe("CalendarView — in-place edit: validate, undo, redo (§8.115–§8.12
         await edit("8");
         await fireEvent.keyDown(root(), { key: "z", ctrlKey: true });
         await fireEvent.keyDown(root(), { key: "z", ctrlKey: true, shiftKey: true });
-        expect(onFieldEdit).toHaveBeenLastCalledWith({ eventId: "e1", fieldId: "cost", value: 8, previous: 3 });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({
+            eventId: "e1",
+            fieldId: "cost",
+            value: 8,
+            previous: 3,
+        });
         expect(status()).toBe("Redid Standup Cost: 8");
         await fireEvent.keyDown(root(), { key: "z", ctrlKey: true });
         await fireEvent.keyDown(root(), { key: "y", ctrlKey: true });
-        expect(onFieldEdit).toHaveBeenLastCalledWith({ eventId: "e1", fieldId: "cost", value: 8, previous: 3 });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({
+            eventId: "e1",
+            fieldId: "cost",
+            value: 8,
+            previous: 3,
+        });
     });
 
     test("§8.119 undo walks back through several edits, newest first", async () => {
@@ -1239,9 +1701,19 @@ describe("CalendarView — in-place edit: validate, undo, redo (§8.115–§8.12
         await edit("5");
         await edit("9");
         await fireEvent.keyDown(root(), { key: "z", ctrlKey: true });
-        expect(onFieldEdit).toHaveBeenLastCalledWith({ eventId: "e1", fieldId: "cost", value: 3, previous: 9 });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({
+            eventId: "e1",
+            fieldId: "cost",
+            value: 3,
+            previous: 9,
+        });
         await fireEvent.keyDown(root(), { key: "z", ctrlKey: true });
-        expect(onFieldEdit).toHaveBeenLastCalledWith({ eventId: "e1", fieldId: "cost", value: 3, previous: 5 });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({
+            eventId: "e1",
+            fieldId: "cost",
+            value: 3,
+            previous: 5,
+        });
     });
 
     test("§8.120 with nothing to undo Ctrl+Z does nothing, and a new edit ends the redo chain", async () => {
@@ -1263,7 +1735,10 @@ describe("CalendarView — in-place edit: validate, undo, redo (§8.115–§8.12
         await edit("8");
         onFieldEdit.mockClear();
         await fireEvent.click(fieldButton());
-        await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, { key: "z", ctrlKey: true });
+        await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, {
+            key: "z",
+            ctrlKey: true,
+        });
         expect(onFieldEdit).not.toHaveBeenCalled();
     });
 
@@ -1279,18 +1754,29 @@ describe("CalendarView — weekend, holiday and time-off indicators (§8.123–�
         { start: "2026-01-06", end: "2026-01-06", kind: "holiday", label: "Epiphany" },
         { start: "2026-01-12", end: "2026-01-14", kind: "leave", label: "Ann off" },
     ];
-    const base = { label: "Cal", view: "month" as const, anchorDate: "2026-01-15", labels: LABELS, ranges: RANGES, weekendDays: [0, 6] };
+    const base = {
+        label: "Cal",
+        view: "month" as const,
+        anchorDate: "2026-01-15",
+        labels: LABELS,
+        ranges: RANGES,
+        weekendDays: [0, 6],
+    };
 
     test("§8.123 a labelled range is real text beside the day number when there is no day snippet", () => {
         render(CalendarView, { props: base });
-        expect(cellFor("2026-01-06")!.querySelector(".calendar-view-range-label")?.textContent).toBe("Epiphany");
+        expect(
+            cellFor("2026-01-06")!.querySelector(".calendar-view-range-label")?.textContent,
+        ).toBe("Epiphany");
         expect(cellFor("2026-01-07")!.querySelector(".calendar-view-range-label")).toBeNull();
     });
 
     test("§8.124 a multi-day range labels every day it covers", () => {
         render(CalendarView, { props: base });
         for (const d of ["2026-01-12", "2026-01-13", "2026-01-14"]) {
-            expect(cellFor(d)!.querySelector(".calendar-view-range-label")?.textContent).toBe("Ann off");
+            expect(cellFor(d)!.querySelector(".calendar-view-range-label")?.textContent).toBe(
+                "Ann off",
+            );
             expect(cellFor(d)!.getAttribute("data-range")).toBe("leave");
         }
     });
@@ -1305,13 +1791,26 @@ describe("CalendarView — weekend, holiday and time-off indicators (§8.123–�
     });
 
     test("§8.126 several labels on one day are joined in the description", () => {
-        render(CalendarView, { props: { ...base, ranges: [{ start: "2026-01-06", end: "2026-01-06", label: "Epiphany" }, { start: "2026-01-06", end: "2026-01-07", label: "Closed" }] } });
+        render(CalendarView, {
+            props: {
+                ...base,
+                ranges: [
+                    { start: "2026-01-06", end: "2026-01-06", label: "Epiphany" },
+                    { start: "2026-01-06", end: "2026-01-07", label: "Closed" },
+                ],
+            },
+        });
         const id = cellFor("2026-01-06")!.getAttribute("aria-describedby")!;
         expect(document.getElementById(id)?.textContent).toBe("Epiphany, Closed");
     });
 
     test("§8.127 a range without a label marks the day but adds no text or description", () => {
-        render(CalendarView, { props: { ...base, ranges: [{ start: "2026-01-06", end: "2026-01-06", kind: "holiday" }] } });
+        render(CalendarView, {
+            props: {
+                ...base,
+                ranges: [{ start: "2026-01-06", end: "2026-01-06", kind: "holiday" }],
+            },
+        });
         expect(cellFor("2026-01-06")!.getAttribute("data-range")).toBe("holiday");
         expect(cellFor("2026-01-06")!.querySelector(".calendar-view-range-label")).toBeNull();
         expect(cellFor("2026-01-06")!.hasAttribute("aria-describedby")).toBe(false);
@@ -1325,13 +1824,17 @@ describe("CalendarView — weekend, holiday and time-off indicators (§8.123–�
     });
 
     test("§8.129 the agenda shows each labelled range beside the date", () => {
-        render(CalendarView, { props: { ...base, view: "agenda" as const, agendaEmptyDays: true } });
+        render(CalendarView, {
+            props: { ...base, view: "agenda" as const, agendaEmptyDays: true },
+        });
         const day = document.querySelector('.calendar-view-agenda-day[data-date="2026-01-06"]')!;
         expect(day.querySelector(".calendar-view-range-label")?.textContent).toBe("Epiphany");
     });
 
     test("§8.130 a day snippet still receives the ranges and renders its own", () => {
-        render(CalendarViewEventsTestHost, { props: { view: "month", anchorDate: "2026-01-15", events: [], ranges: RANGES } });
+        render(CalendarViewEventsTestHost, {
+            props: { view: "month", anchorDate: "2026-01-15", events: [], ranges: RANGES },
+        });
         expect(document.querySelector(".calendar-view-range-label")).toBeNull();
     });
 });
@@ -1346,10 +1849,13 @@ describe("CalendarView — agenda on a narrow screen, hidden agenda dates, right
         vi.stubGlobal("matchMedia", (query: string) => {
             const limit = Number(/max-width: (\d+)px/.exec(query)![1]);
             return {
-                get matches() { return current <= limit; },
+                get matches() {
+                    return current <= limit;
+                },
                 media: query,
                 addEventListener: (_: string, fn: Listener) => listeners.push(fn),
-                removeEventListener: (_: string, fn: Listener) => (listeners = listeners.filter((l) => l !== fn)),
+                removeEventListener: (_: string, fn: Listener) =>
+                    (listeners = listeners.filter((l) => l !== fn)),
             };
         });
         return (next: number) => {
@@ -1359,7 +1865,8 @@ describe("CalendarView — agenda on a narrow screen, hidden agenda dates, right
     }
     const EVS: CalendarEvent[] = [{ id: "e1", date: "2026-01-06", title: "Standup" }];
     const base = { label: "Cal", anchorDate: "2026-01-15", events: EVS, labels: LABELS };
-    const isAgenda = () => !!document.querySelector(".calendar-view-agenda-day, .calendar-view-agenda");
+    const isAgenda = () =>
+        !!document.querySelector(".calendar-view-agenda-day, .calendar-view-agenda");
     const tick2 = () => new Promise((r) => setTimeout(r, 0));
 
     afterEach(() => vi.unstubAllGlobals());
@@ -1403,7 +1910,14 @@ describe("CalendarView — agenda on a narrow screen, hidden agenda dates, right
 
     test("§8.135 a view the user picks on a narrow screen is respected, until the screen is wide again", async () => {
         const resize = stubMatchMedia(390);
-        render(CalendarView, { props: { ...base, view: "month" as const, agendaBelow: 640, labels: { ...LABELS, weekView: "Week", agendaView: "Agenda" } } });
+        render(CalendarView, {
+            props: {
+                ...base,
+                view: "month" as const,
+                agendaBelow: 640,
+                labels: { ...LABELS, weekView: "Week", agendaView: "Agenda" },
+            },
+        });
         await tick2();
         await fireEvent.click(screen.getByRole("button", { name: "Week" }));
         expect(isAgenda()).toBe(false);
@@ -1438,14 +1952,21 @@ describe("CalendarView — agenda on a narrow screen, hidden agenda dates, right
         expect(time.hasAttribute("hidden")).toBe(false);
     });
 
-    const cursorDate = () => document.querySelector<HTMLElement>('.calendar-table-td[tabindex="0"]')?.getAttribute("data-date");
+    const cursorDate = () =>
+        document
+            .querySelector<HTMLElement>('.calendar-table-td[tabindex="0"]')
+            ?.getAttribute("data-date");
 
     test("§8.139 left to right: ArrowRight is the next day, ArrowLeft the previous", async () => {
         render(CalendarView, { props: { ...base, view: "month" as const } });
         const start = cursorDate()!;
-        await fireEvent.keyDown(document.querySelector('.calendar-table-td[tabindex="0"]')!, { key: "ArrowRight" });
+        await fireEvent.keyDown(document.querySelector('.calendar-table-td[tabindex="0"]')!, {
+            key: "ArrowRight",
+        });
         expect(cursorDate()).toBe(addDays(start, 1));
-        await fireEvent.keyDown(document.querySelector('.calendar-table-td[tabindex="0"]')!, { key: "ArrowLeft" });
+        await fireEvent.keyDown(document.querySelector('.calendar-table-td[tabindex="0"]')!, {
+            key: "ArrowLeft",
+        });
         expect(cursorDate()).toBe(start);
     });
 
@@ -1454,9 +1975,13 @@ describe("CalendarView — agenda on a narrow screen, hidden agenda dates, right
         try {
             render(CalendarView, { props: { ...base, view: "month" as const } });
             const start = cursorDate()!;
-            await fireEvent.keyDown(document.querySelector('.calendar-table-td[tabindex="0"]')!, { key: "ArrowLeft" });
+            await fireEvent.keyDown(document.querySelector('.calendar-table-td[tabindex="0"]')!, {
+                key: "ArrowLeft",
+            });
             expect(cursorDate()).toBe(addDays(start, 1));
-            await fireEvent.keyDown(document.querySelector('.calendar-table-td[tabindex="0"]')!, { key: "ArrowRight" });
+            await fireEvent.keyDown(document.querySelector('.calendar-table-td[tabindex="0"]')!, {
+                key: "ArrowRight",
+            });
             expect(cursorDate()).toBe(start);
         } finally {
             document.body.removeAttribute("dir");
@@ -1469,9 +1994,13 @@ describe("CalendarView — agenda on a narrow screen, hidden agenda dates, right
             document.body.setAttribute("dir", dir);
             render(CalendarView, { props: { ...base, view: "month" as const } });
             const start = cursorDate()!;
-            await fireEvent.keyDown(document.querySelector('.calendar-table-td[tabindex="0"]')!, { key: "ArrowDown" });
+            await fireEvent.keyDown(document.querySelector('.calendar-table-td[tabindex="0"]')!, {
+                key: "ArrowDown",
+            });
             expect(cursorDate()).toBe(addDays(start, 7));
-            await fireEvent.keyDown(document.querySelector('.calendar-table-td[tabindex="0"]')!, { key: "ArrowUp" });
+            await fireEvent.keyDown(document.querySelector('.calendar-table-td[tabindex="0"]')!, {
+                key: "ArrowUp",
+            });
             expect(cursorDate()).toBe(start);
         }
         document.body.removeAttribute("dir");
@@ -1483,7 +2012,10 @@ describe("CalendarView — agenda on a narrow screen, hidden agenda dates, right
             const onRangeSelect = vi.fn();
             render(CalendarView, { props: { ...base, view: "month" as const, onRangeSelect } });
             const start = cursorDate()!;
-            await fireEvent.keyDown(document.querySelector('.calendar-table-td[tabindex="0"]')!, { key: "ArrowLeft", shiftKey: true });
+            await fireEvent.keyDown(document.querySelector('.calendar-table-td[tabindex="0"]')!, {
+                key: "ArrowLeft",
+                shiftKey: true,
+            });
             expect(cursorDate()).toBe(addDays(start, 1));
         } finally {
             document.body.removeAttribute("dir");
@@ -1494,7 +2026,9 @@ describe("CalendarView — agenda on a narrow screen, hidden agenda dates, right
         document.body.setAttribute("dir", "rtl");
         try {
             const onEventMove = vi.fn();
-            render(CalendarViewEventsTestHost, { props: { view: "month", anchorDate: "2026-01-15", events: EVS, onEventMove } });
+            render(CalendarViewEventsTestHost, {
+                props: { view: "month", anchorDate: "2026-01-15", events: EVS, onEventMove },
+            });
             const event = document.querySelector<HTMLElement>("[data-event-id='e1']")!;
             await fireEvent.keyDown(event, { key: "ArrowLeft", altKey: true });
             expect(onEventMove).toHaveBeenCalled();
@@ -1506,8 +2040,16 @@ describe("CalendarView — agenda on a narrow screen, hidden agenda dates, right
 
     test("§8.144 the day cells never use a physical left or right in an inline style", () => {
         render(CalendarView, { props: { ...base, view: "month" as const } });
-        const styled = Array.from(document.querySelectorAll<HTMLElement>("[style]")).map((e) => e.getAttribute("style")!);
-        expect(styled.filter((s) => /(^|;|\s)(left|right|margin-left|margin-right|padding-left|padding-right)\s*:/.test(s))).toEqual([]);
+        const styled = Array.from(document.querySelectorAll<HTMLElement>("[style]")).map((e) =>
+            e.getAttribute("style")!,
+        );
+        expect(
+            styled.filter((s) =>
+                /(^|;|\s)(left|right|margin-left|margin-right|padding-left|padding-right)\s*:/.test(
+                    s,
+                ),
+            ),
+        ).toEqual([]);
     });
 });
 
@@ -1515,38 +2057,82 @@ describe("CalendarView — renders in another language with no English left over
     const WEEKDAYS = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
     // A complete Simplified Chinese bundle; the data is Chinese too, so any English in the DOM is Lily's.
     const ZH: CalendarViewLabels = {
-        dayView: "日", weekView: "周", fourWeekView: "四周", monthView: "月", agendaView: "日程",
-        previous: (v) => `上一${v === "day" ? "天" : "个"}`, next: (v) => `下一${v === "day" ? "天" : "个"}`, today: "今天",
-        periodAnnouncement: (_v, s, e) => `显示 ${s} 至 ${e}`, periodTitle: (_v, s, e) => `${s} 至 ${e}`,
-        weekday: (wd) => WEEKDAYS[wd], weekdayAbbr: (wd) => WEEKDAYS[wd].slice(-1),
+        dayView: "日",
+        weekView: "周",
+        fourWeekView: "四周",
+        monthView: "月",
+        agendaView: "日程",
+        previous: (v) => `上一${v === "day" ? "天" : "个"}`,
+        next: (v) => `下一${v === "day" ? "天" : "个"}`,
+        today: "今天",
+        periodAnnouncement: (_v, s, e) => `显示 ${s} 至 ${e}`,
+        periodTitle: (_v, s, e) => `${s} 至 ${e}`,
+        weekday: (wd) => WEEKDAYS[wd],
+        weekdayAbbr: (wd) => WEEKDAYS[wd].slice(-1),
         day: (iso, wd) => `${Number(iso.slice(8))}日，${WEEKDAYS[wd]}`,
         rangeLimit: (limit, date) => `${limit === "min" ? "最早" : "最晚"}日期为 ${date}`,
-        search: "搜索活动", searchAnnouncement: (m, t) => `${t} 个活动中有 ${m} 个匹配`,
-        export: "导出", exportCsv: "CSV", exportTsv: "TSV", exportExcel: "Excel", copy: "复制", copyAnnouncement: (n) => `已复制 ${n} 个活动`, copyFailed: "复制失败",
-        exportHeaders: { title: "标题", start: "开始", end: "结束" }, exportAnnouncement: (f, n, name) => `已导出 ${n} 个活动：${name}`,
+        search: "搜索活动",
+        searchAnnouncement: (m, t) => `${t} 个活动中有 ${m} 个匹配`,
+        export: "导出",
+        exportCsv: "CSV",
+        exportTsv: "TSV",
+        exportExcel: "Excel",
+        copy: "复制",
+        copyAnnouncement: (n) => `已复制 ${n} 个活动`,
+        copyFailed: "复制失败",
+        exportHeaders: { title: "标题", start: "开始", end: "结束" },
+        exportAnnouncement: (f, n, name) => `已导出 ${n} 个活动：${name}`,
         agendaEmpty: "本月没有活动",
     };
-    const EVS: CalendarEvent[] = [{ id: "e1", date: "2026-01-06", title: "站会" }, { id: "e2", start: "2026-01-09", end: "2026-01-11", title: "团建" }];
+    const EVS: CalendarEvent[] = [
+        { id: "e1", date: "2026-01-06", title: "站会" },
+        { id: "e2", start: "2026-01-09", end: "2026-01-11", title: "团建" },
+    ];
 
     function readable(root: Element): string[] {
         const out: string[] = [];
         const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
         for (let n = walker.nextNode(); n; n = walker.nextNode()) out.push(n.textContent ?? "");
-        for (const el of root.querySelectorAll("*")) for (const a of ["aria-label", "title", "placeholder", "alt"]) if (el.hasAttribute(a)) out.push(el.getAttribute(a)!);
+        for (const el of root.querySelectorAll("*"))
+            for (const a of ["aria-label", "title", "placeholder", "alt"])
+                if (el.hasAttribute(a)) out.push(el.getAttribute(a)!);
         return out.map((t) => t.trim()).filter(Boolean);
     }
-    const english = (texts: string[]) => texts.filter((t) => !["CSV", "TSV", "Excel"].includes(t) && /[A-Za-z]{3,}/.test(t));
+    const english = (texts: string[]) =>
+        texts.filter((t) => !["CSV", "TSV", "Excel"].includes(t) && /[A-Za-z]{3,}/.test(t));
 
     test("§8.145 the month view, toolbar, switcher, search and export read as Chinese only", () => {
-        const { container } = render(CalendarView, { props: { label: "日历", view: "month" as const, anchorDate: "2026-01-15", today: "2026-01-08", events: EVS, labels: ZH, ranges: [{ start: "2026-01-12", end: "2026-01-12", kind: "holiday", label: "休息日" }], weekendDays: [0, 6] } });
+        const { container } = render(CalendarView, {
+            props: {
+                label: "日历",
+                view: "month" as const,
+                anchorDate: "2026-01-15",
+                today: "2026-01-08",
+                events: EVS,
+                labels: ZH,
+                ranges: [
+                    { start: "2026-01-12", end: "2026-01-12", kind: "holiday", label: "休息日" },
+                ],
+                weekendDays: [0, 6],
+            },
+        });
         expect(english(readable(container))).toEqual([]);
     });
 
     test("§8.146 the agenda and its announcements read as Chinese only", async () => {
-        const { container } = render(CalendarView, { props: { label: "日历", view: "agenda" as const, anchorDate: "2026-01-15", events: EVS, labels: ZH } });
+        const { container } = render(CalendarView, {
+            props: {
+                label: "日历",
+                view: "agenda" as const,
+                anchorDate: "2026-01-15",
+                events: EVS,
+                labels: ZH,
+            },
+        });
         expect(english(readable(container))).toEqual([]);
         await fireEvent.click(screen.getByRole("button", { name: /^上一/ }));
-        expect(english([document.querySelector(".calendar-view-status")?.textContent ?? ""])).toEqual([]);
+        expect(
+            english([document.querySelector(".calendar-view-status")?.textContent ?? ""]),
+        ).toEqual([]);
     });
 });
-

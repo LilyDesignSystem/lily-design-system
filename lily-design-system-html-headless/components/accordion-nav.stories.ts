@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<nav
   class="accordion-nav"
@@ -19,9 +19,9 @@ const html = `<nav
 </script>`;
 
 const meta = {
-  title: 'Headless/AccordionNav',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/AccordionNav",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

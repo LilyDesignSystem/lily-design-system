@@ -15,5 +15,16 @@ import { OrgEditor } from "../org-editor.component";
 })
 export class Basic {
   notes = signal("* Ship the release");
-  labels = { todo: "Task", priority: "Priority", scheduled: "Scheduled", deadline: "Deadline", property: "Property", drawer: "Drawer", contact: "Contact", bold: "Bold", italic: "Italic", link: "Link" };
+  labels = {
+    todo: "Task",
+    priority: "Priority",
+    scheduled: "Scheduled",
+    deadline: "Deadline",
+    property: "Property",
+    drawer: "Drawer",
+    contact: "Contact",
+    bold: "Bold",
+    italic: "Italic",
+    link: "Link",
+  };
 }

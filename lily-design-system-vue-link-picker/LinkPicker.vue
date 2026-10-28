@@ -99,7 +99,10 @@ const hoverTooltip = ref(false);
 const focusButton = ref(false);
 const dismissed = ref(false);
 const tooltipVisible = computed(
-    () => !open.value && !dismissed.value && (hoverButton.value || hoverTooltip.value || focusButton.value),
+    () =>
+        !open.value &&
+        !dismissed.value &&
+        (hoverButton.value || hoverTooltip.value || focusButton.value),
 );
 
 function onTooltipButtonEnter(): void {
@@ -247,7 +250,8 @@ function onRootFocusOut(event: FocusEvent): void {
 
 function onLinkClick(event: MouseEvent, link: LinkItem): void {
     emit("navigate", linkId(link), link.href);
-    const modified = event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0;
+    const modified =
+        event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0;
     if (props.navigate && !link.newTab && !modified && !event.defaultPrevented) {
         event.preventDefault();
         props.navigate(link.href);
@@ -319,7 +323,9 @@ onBeforeUnmount(() => {
             :hidden="tooltipVisible ? undefined : true"
             @mouseenter="hoverTooltip = true"
             @mouseleave="hoverTooltip = false"
-        >{{ label }}</div>
+        >
+            {{ label }}
+        </div>
 
         <!-- Named like the sibling pickers' popups: a screen reader entering the list hears what
              it is for. -->
@@ -345,7 +351,8 @@ onBeforeUnmount(() => {
                     :target="link.newTab ? '_blank' : undefined"
                     :rel="link.newTab ? 'noopener noreferrer' : undefined"
                     @click="onLinkClick($event, link)"
-                >{{ link.label }}</a>
+                    >{{ link.label }}</a
+                >
             </li>
         </ul>
     </div>

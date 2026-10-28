@@ -7,7 +7,6 @@ export const handle: Handle = async ({ event, resolve }) => {
     const cookie = event.cookies.get("text-size") ?? "";
     event.locals.textSize = KNOWN_SIZES.has(cookie) ? cookie : DEFAULT_SIZE;
     return resolve(event, {
-        transformPageChunk: ({ html }) =>
-            html.replace("%textSize%", event.locals.textSize),
+        transformPageChunk: ({ html }) => html.replace("%textSize%", event.locals.textSize),
     });
 };

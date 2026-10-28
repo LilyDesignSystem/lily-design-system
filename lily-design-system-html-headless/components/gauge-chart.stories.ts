@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<figure class="gauge-chart">
   <!-- role="img" lives on the graphic wrapper, never on the figure: it makes
@@ -20,9 +20,9 @@ const html = `<figure class="gauge-chart">
 <p id="gauge-chart-desc">Example description</p>`;
 
 const meta = {
-  title: 'Headless/GaugeChart',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/GaugeChart",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

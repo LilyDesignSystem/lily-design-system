@@ -4,11 +4,7 @@ import { afterEach, describe, expect, test, vi } from "vitest";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
-import {
-  MenuPicker,
-  MenuPickerIcon,
-  nextMenuPickerId,
-} from "./menu-picker.component";
+import { MenuPicker, MenuPickerIcon, nextMenuPickerId } from "./menu-picker.component";
 
 const flush = () => new Promise<void>((r) => setTimeout(r, 0));
 
@@ -60,7 +56,11 @@ const q = <T extends Element>(f: ComponentFixture<unknown>, sel: string) =>
 const trigger = (f: ComponentFixture<unknown>) => q<HTMLButtonElement>(f, ".menu-picker-button");
 const panel = (f: ComponentFixture<unknown>) => q<HTMLDivElement>(f, ".menu-picker-panel");
 
-async function press(f: ComponentFixture<unknown>, target: HTMLElement, key: string): Promise<void> {
+async function press(
+  f: ComponentFixture<unknown>,
+  target: HTMLElement,
+  key: string,
+): Promise<void> {
   target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
   f.detectChanges();
   await flush();
@@ -179,7 +179,9 @@ describe("MenuPicker", () => {
     await click(f, trigger(f));
     const outside = document.createElement("button");
     document.body.appendChild(outside);
-    q(f, "div.menu-picker").dispatchEvent(new FocusEvent("focusout", { bubbles: true, relatedTarget: outside }));
+    q(f, "div.menu-picker").dispatchEvent(
+      new FocusEvent("focusout", { bubbles: true, relatedTarget: outside }),
+    );
     f.detectChanges();
     expect(panel(f).hasAttribute("hidden")).toBe(true);
     outside.remove();
@@ -188,7 +190,9 @@ describe("MenuPicker", () => {
   test("7.13 activating a link or button closes; keep-open and closeOnSelect=false do not", async () => {
     const f = mount();
     await click(f, trigger(f));
-    panel(f).querySelector("a")!.addEventListener("click", (e) => e.preventDefault());
+    panel(f)
+      .querySelector("a")!
+      .addEventListener("click", (e) => e.preventDefault());
     await click(f, panel(f).querySelector("a")!);
     expect(panel(f).hasAttribute("hidden")).toBe(true);
     expect(document.activeElement).toBe(trigger(f));

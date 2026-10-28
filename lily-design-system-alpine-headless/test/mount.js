@@ -11,20 +11,20 @@ const here = dirname(fileURLToPath(import.meta.url));
 let started = false;
 
 export function snippet(slug) {
-  return readFileSync(join(here, "..", "components", `${slug}.html`), "utf8");
+    return readFileSync(join(here, "..", "components", `${slug}.html`), "utf8");
 }
 
 /** Mount a snippet's markup in document.body and let Alpine initialise it. */
 export async function mount(slug, html = snippet(slug)) {
-  window.Alpine = Alpine;
-  if (!started) {
-    Alpine.plugin(lily);
-    Alpine.start();
-    started = true;
-  }
-  document.body.innerHTML = html;
-  await tick();
-  return document.body;
+    window.Alpine = Alpine;
+    if (!started) {
+        Alpine.plugin(lily);
+        Alpine.start();
+        started = true;
+    }
+    document.body.innerHTML = html;
+    await tick();
+    return document.body;
 }
 
 /** Wait for Alpine's microtask-batched DOM updates. */

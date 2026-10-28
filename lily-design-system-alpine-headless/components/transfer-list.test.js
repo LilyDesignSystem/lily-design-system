@@ -5,16 +5,15 @@ import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("div.transfer-list");
 
-
 describe("TransferList", () => {
-  it("renders the element with its base class", async () => {
-    await mount("transfer-list");
-    expect(el()).not.toBeNull();
-    expect(el().classList.contains("transfer-list")).toBe(true);
-  });
+    it("renders the element with its base class", async () => {
+        await mount("transfer-list");
+        expect(el()).not.toBeNull();
+        expect(el().classList.contains("transfer-list")).toBe(true);
+    });
 
-  it("uses the div element", async () => {
-    await mount("transfer-list");
-    expect(el().tagName.toLowerCase()).toBe("div");
-  });
+    it("uses the div element", async () => {
+        await mount("transfer-list");
+        expect(el().tagName.toLowerCase()).toBe("div");
+    });
 });

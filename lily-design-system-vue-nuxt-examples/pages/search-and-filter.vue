@@ -10,14 +10,62 @@ interface Product {
 }
 
 const products: Product[] = [
-    { id: 1, name: "Wireless Keyboard", category: "Electronics", price: 59.99, status: "in-stock" },
-    { id: 2, name: "Ergonomic Mouse", category: "Electronics", price: 34.99, status: "in-stock" },
-    { id: 3, name: "Standing Desk", category: "Furniture", price: 499.00, status: "low-stock" },
-    { id: 4, name: "Monitor Arm", category: "Furniture", price: 89.99, status: "in-stock" },
-    { id: 5, name: "USB-C Hub", category: "Electronics", price: 44.99, status: "out-of-stock" },
-    { id: 6, name: "Desk Lamp", category: "Lighting", price: 29.99, status: "in-stock" },
-    { id: 7, name: "Webcam HD", category: "Electronics", price: 74.99, status: "low-stock" },
-    { id: 8, name: "Cable Organizer", category: "Accessories", price: 12.99, status: "in-stock" },
+    {
+        id: 1,
+        name: "Wireless Keyboard",
+        category: "Electronics",
+        price: 59.99,
+        status: "in-stock",
+    },
+    {
+        id: 2,
+        name: "Ergonomic Mouse",
+        category: "Electronics",
+        price: 34.99,
+        status: "in-stock",
+    },
+    {
+        id: 3,
+        name: "Standing Desk",
+        category: "Furniture",
+        price: 499.0,
+        status: "low-stock",
+    },
+    {
+        id: 4,
+        name: "Monitor Arm",
+        category: "Furniture",
+        price: 89.99,
+        status: "in-stock",
+    },
+    {
+        id: 5,
+        name: "USB-C Hub",
+        category: "Electronics",
+        price: 44.99,
+        status: "out-of-stock",
+    },
+    {
+        id: 6,
+        name: "Desk Lamp",
+        category: "Lighting",
+        price: 29.99,
+        status: "in-stock",
+    },
+    {
+        id: 7,
+        name: "Webcam HD",
+        category: "Electronics",
+        price: 74.99,
+        status: "low-stock",
+    },
+    {
+        id: 8,
+        name: "Cable Organizer",
+        category: "Accessories",
+        price: 12.99,
+        status: "in-stock",
+    },
 ];
 
 const categories = [...new Set(products.map((p) => p.category))];
@@ -36,8 +84,10 @@ function statusBadgeType(s: string): string {
 
 const comboSuggestions = computed(() =>
     categories.filter(
-        (c) => c.toLowerCase().includes(comboValue.value.toLowerCase()) && !filterTags.value.includes(c)
-    )
+        (c) =>
+            c.toLowerCase().includes(comboValue.value.toLowerCase()) &&
+            !filterTags.value.includes(c),
+    ),
 );
 
 const filtered = computed(() =>
@@ -45,7 +95,7 @@ const filtered = computed(() =>
         const matchesQuery = p.name.toLowerCase().includes(query.value.toLowerCase());
         const matchesTags = filterTags.value.length === 0 || filterTags.value.includes(p.category);
         return matchesQuery && matchesTags;
-    })
+    }),
 );
 
 function addTag(tag: string) {
@@ -63,7 +113,11 @@ function removeTag(tag: string) {
     <main class="page-wrapper">
         <h1>Product Search</h1>
 
-        <SearchInput label="Search products" v-model="query" placeholder="Search by name..." />
+        <SearchInput
+            label="Search products"
+            v-model="query"
+            placeholder="Search by name..."
+        />
 
         <h2>Filter by Category</h2>
         <Combobox
@@ -76,7 +130,11 @@ function removeTag(tag: string) {
                 :key="cat"
                 role="option"
                 :tabindex="-1"
-                @click="addTag(cat); comboValue = ''; comboOpen = false"
+                @click="
+                    addTag(cat);
+                    comboValue = '';
+                    comboOpen = false;
+                "
             >
                 {{ cat }}
             </div>
@@ -89,9 +147,18 @@ function removeTag(tag: string) {
         />
 
         <TagGroup label="Active filters">
-            <Tag v-for="tag in filterTags" :key="tag" :label="`Filter: ${tag}`">
+            <Tag
+                v-for="tag in filterTags"
+                :key="tag"
+                :label="`Filter: ${tag}`"
+            >
                 {{ tag }}
-                <button @click="removeTag(tag)" :aria-label="`Remove ${tag}`">x</button>
+                <button
+                    @click="removeTag(tag)"
+                    :aria-label="`Remove ${tag}`"
+                >
+                    x
+                </button>
             </Tag>
         </TagGroup>
 
@@ -106,7 +173,10 @@ function removeTag(tag: string) {
                 </DataTableRow>
             </DataTableHead>
             <DataTableBody>
-                <DataTableRow v-for="p in filtered" :key="p.id">
+                <DataTableRow
+                    v-for="p in filtered"
+                    :key="p.id"
+                >
                     <DataTableTD>{{ p.name }}</DataTableTD>
                     <DataTableTD>{{ p.category }}</DataTableTD>
                     <DataTableTD>${{ p.price.toFixed(2) }}</DataTableTD>

@@ -26,10 +26,7 @@ const routes = [
   "/timeline-and-cards",
 ];
 
-async function expectNoHorizontalOverflow(
-  page: import("@playwright/test").Page,
-  label: string,
-) {
+async function expectNoHorizontalOverflow(page: import("@playwright/test").Page, label: string) {
   const overflow = await page.evaluate(() => ({
     documentWidth: document.documentElement.scrollWidth,
     viewportWidth: window.innerWidth,

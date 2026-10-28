@@ -1,13 +1,13 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<a
   class="tel-link"
   href="tel:"></a>`;
 
 const meta = {
-  title: 'Headless/TelLink',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/TelLink",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

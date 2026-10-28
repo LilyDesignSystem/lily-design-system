@@ -13,7 +13,10 @@ test.describe("component page: espana-tarjeta-sanitaria-individual-view", () => 
 
   test("renders the H1 with the component name", async ({ page }) => {
     await expect(
-      page.getByRole("heading", { level: 1, name: new RegExp("^EspanaTarjetaSanitariaIndividualView$") })
+      page.getByRole("heading", {
+        level: 1,
+        name: new RegExp("^EspanaTarjetaSanitariaIndividualView$"),
+      }),
     ).toBeVisible();
   });
 

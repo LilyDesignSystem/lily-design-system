@@ -56,17 +56,23 @@ for (const file of files) {
     const tag = `lily-${slug}`;
 
     if (seenClasses.has(className)) {
-        throw new Error(`Duplicate export "${className}": declared by both ${seenClasses.get(className)} and ${file}.`);
+        throw new Error(
+            `Duplicate export "${className}": declared by both ${seenClasses.get(className)} and ${file}.`,
+        );
     }
     seenClasses.set(className, file);
     if (seenTags.has(tag)) {
-        throw new Error(`Duplicate custom element tag "${tag}": declared by both ${seenTags.get(tag)} and ${file}.`);
+        throw new Error(
+            `Duplicate custom element tag "${tag}": declared by both ${seenTags.get(tag)} and ${file}.`,
+        );
     }
     seenTags.set(tag, file);
 
     lines.push(`export { ${className} } from "./components/${slug}.js";`);
     lines.push(`import { ${className} as _${className} } from "./components/${slug}.js";`);
-    lines.push(`if (!customElements.get("${tag}")) customElements.define("${tag}", _${className});`);
+    lines.push(
+        `if (!customElements.get("${tag}")) customElements.define("${tag}", _${className});`,
+    );
     lines.push("");
 }
 
@@ -84,11 +90,10 @@ console.log(`generated index.ts (${files.length} components)`);
 // artifacts from two different build configurations ships silently.
 fs.rmSync(path.join(root, "dist"), { recursive: true, force: true });
 
-execFileSync(
-    "npx",
-    ["tsup", "index.ts", "--format", "esm", "--dts", "--out-dir", "dist"],
-    { cwd: root, stdio: "inherit" },
-);
+execFileSync("npx", ["tsup", "index.ts", "--format", "esm", "--dts", "--out-dir", "dist"], {
+    cwd: root,
+    stdio: "inherit",
+});
 
 for (const artifact of ["index.js", "index.d.ts"]) {
     const file = path.join(root, "dist", artifact);

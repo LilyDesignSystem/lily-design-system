@@ -13,7 +13,7 @@ test.describe("component page: section-list", () => {
 
   test("renders the H1 with the component name", async ({ page }) => {
     await expect(
-      page.getByRole("heading", { level: 1, name: new RegExp("^SectionList$") })
+      page.getByRole("heading", { level: 1, name: new RegExp("^SectionList$") }),
     ).toBeVisible();
   });
 

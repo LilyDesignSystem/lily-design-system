@@ -22,35 +22,16 @@ import "@lilydesignsystem/html-time-zone-picker";
 import "@lilydesignsystem/html-text-size-picker";
 import "@lilydesignsystem/html-share-picker";
 
+import type { LinkPicker, LinkPickerProps, LinkItem } from "@lilydesignsystem/html-link-picker";
+import type { SearchPicker, SearchPickerProps } from "@lilydesignsystem/html-search-picker";
+import type { ThemePicker, ThemePickerProps } from "@lilydesignsystem/html-theme-picker";
+import type { LocalePicker, LocalePickerProps } from "@lilydesignsystem/html-locale-picker";
+import type { TimeZonePicker, TimeZonePickerProps } from "@lilydesignsystem/html-time-zone-picker";
+import type { TextSizePicker, TextSizePickerProps } from "@lilydesignsystem/html-text-size-picker";
 import type {
-  LinkPicker,
-  LinkPickerProps,
-  LinkItem,
-} from "@lilydesignsystem/html-link-picker";
-import type {
-  SearchPicker,
-  SearchPickerProps,
-} from "@lilydesignsystem/html-search-picker";
-import type {
-  ThemePicker,
-  ThemePickerProps,
-} from "@lilydesignsystem/html-theme-picker";
-import type {
-  LocalePicker,
-  LocalePickerProps,
-} from "@lilydesignsystem/html-locale-picker";
-import type {
-  TimeZonePicker,
-  TimeZonePickerProps,
-} from "@lilydesignsystem/html-time-zone-picker";
-import type {
-  TextSizePicker,
-  TextSizePickerProps,
-} from "@lilydesignsystem/html-text-size-picker";
-import type {
-  SharePicker,
-  SharePickerProps,
-  ShareTarget,
+    SharePicker,
+    SharePickerProps,
+    ShareTarget,
 } from "@lilydesignsystem/html-share-picker";
 
 export type { ShareTarget, LinkItem };
@@ -63,63 +44,63 @@ export type { ShareTarget, LinkItem };
  * slug, so no `theme-labels` override is needed for these to read well.
  */
 export const DEFAULT_THEMES: string[] = [
-  "abyss",
-  "acid",
-  "adobe-spectrum",
-  "ant-design",
-  "aqua",
-  "atlassian",
-  "autumn",
-  "black",
-  "bumblebee",
-  "business",
-  "cappuccino",
-  "caramellatte",
-  "cmyk",
-  "coffee",
-  "corporate",
-  "cupcake",
-  "cyberpunk",
-  "dark",
-  "dim",
-  "dracula",
-  "emerald",
-  "excel",
-  "fantasy",
-  "fluent",
-  "forest",
-  "garden",
-  "github-primer",
-  "halloween",
-  "ibm-carbon",
-  "lemonade",
-  "light",
-  "linear",
-  "lofi",
-  "luxury",
-  "mozilla-protocol",
-  "night",
-  "nord",
-  "notion",
-  "pastel",
-  "retro",
-  "salesforce",
-  "sap-fiori",
-  "silk",
-  "sunset",
-  "synthwave",
-  "valentine",
-  "vercel",
-  "winter",
-  "wireframe",
-  "united-kingdom-government-digital-service",
-  "united-kingdom-national-health-service-england-for-patients",
-  "united-kingdom-national-health-service-england-for-practitioners",
-  "united-kingdom-national-health-service-scotland-for-patients",
-  "united-kingdom-national-health-service-scotland-for-practitioners",
-  "united-kingdom-national-health-service-wales-for-patients",
-  "united-kingdom-national-health-service-wales-for-practitioners",
-  "united-states-web-design-system",
+    "abyss",
+    "acid",
+    "adobe-spectrum",
+    "ant-design",
+    "aqua",
+    "atlassian",
+    "autumn",
+    "black",
+    "bumblebee",
+    "business",
+    "cappuccino",
+    "caramellatte",
+    "cmyk",
+    "coffee",
+    "corporate",
+    "cupcake",
+    "cyberpunk",
+    "dark",
+    "dim",
+    "dracula",
+    "emerald",
+    "excel",
+    "fantasy",
+    "fluent",
+    "forest",
+    "garden",
+    "github-primer",
+    "halloween",
+    "ibm-carbon",
+    "lemonade",
+    "light",
+    "linear",
+    "lofi",
+    "luxury",
+    "mozilla-protocol",
+    "night",
+    "nord",
+    "notion",
+    "pastel",
+    "retro",
+    "salesforce",
+    "sap-fiori",
+    "silk",
+    "sunset",
+    "synthwave",
+    "valentine",
+    "vercel",
+    "winter",
+    "wireframe",
+    "united-kingdom-government-digital-service",
+    "united-kingdom-national-health-service-england-for-patients",
+    "united-kingdom-national-health-service-england-for-practitioners",
+    "united-kingdom-national-health-service-scotland-for-patients",
+    "united-kingdom-national-health-service-scotland-for-practitioners",
+    "united-kingdom-national-health-service-wales-for-patients",
+    "united-kingdom-national-health-service-wales-for-practitioners",
+    "united-states-web-design-system",
 ];
 
 /**
@@ -129,51 +110,51 @@ export const DEFAULT_THEMES: string[] = [
  * either.
  */
 export const DEFAULT_SIZES: string[] = [
-  "largest",
-  "larger",
-  "large",
-  "normal",
-  "small",
-  "smaller",
-  "smallest",
+    "largest",
+    "larger",
+    "large",
+    "normal",
+    "small",
+    "smaller",
+    "smallest",
 ];
 
 /** Accessible names for the pickers. Required — no English default (`link` only when `links` is given). */
 export type PickerBarLabels = {
-  /**
-   * Accessible name for the link picker's button and list. Needed only when `links` is
-   * supplied; the link picker renders only when both are present.
-   */
-  link?: string;
-  /** Accessible name for the search picker's button and search landmark. */
-  search: string;
-  /** Accessible name for the search picker's text field. */
-  searchInput: string;
-  /** Accessible name for the search picker's ⏎ submit button. */
-  searchSubmit: string;
-  /** Accessible name for the theme picker's button and listbox. */
-  theme: string;
-  /** Accessible name for the locale picker's button and listbox. */
-  locale: string;
-  /** Accessible name for the text-size picker's button and listbox. */
-  textSize: string;
-  /**
-   * Accessible name for the time-zone picker's button and listbox. Needed only when
-   * `timeZoneProps.locale` is supplied; the time-zone picker renders only when both are present.
-   */
-  timeZone?: string;
-  /** Accessible name for the share picker's button and list. */
-  share: string;
+    /**
+     * Accessible name for the link picker's button and list. Needed only when `links` is
+     * supplied; the link picker renders only when both are present.
+     */
+    link?: string;
+    /** Accessible name for the search picker's button and search landmark. */
+    search: string;
+    /** Accessible name for the search picker's text field. */
+    searchInput: string;
+    /** Accessible name for the search picker's ⏎ submit button. */
+    searchSubmit: string;
+    /** Accessible name for the theme picker's button and listbox. */
+    theme: string;
+    /** Accessible name for the locale picker's button and listbox. */
+    locale: string;
+    /** Accessible name for the text-size picker's button and listbox. */
+    textSize: string;
+    /**
+     * Accessible name for the time-zone picker's button and listbox. Needed only when
+     * `timeZoneProps.locale` is supplied; the time-zone picker renders only when both are present.
+     */
+    timeZone?: string;
+    /** Accessible name for the share picker's button and list. */
+    share: string;
 };
 
 const DEFAULT_LABELS: PickerBarLabels = {
-  search: "",
-  searchInput: "",
-  searchSubmit: "",
-  theme: "",
-  locale: "",
-  textSize: "",
-  share: "",
+    search: "",
+    searchInput: "",
+    searchSubmit: "",
+    theme: "",
+    locale: "",
+    textSize: "",
+    share: "",
 };
 
 /**
@@ -187,357 +168,347 @@ const DEFAULT_LABELS: PickerBarLabels = {
  */
 export type LinkPickerExtra = Partial<Omit<LinkPickerProps, "label" | "links">>;
 export type SearchPickerExtra = Partial<
-  Omit<SearchPickerProps, "label" | "inputLabel" | "submitLabel">
+    Omit<SearchPickerProps, "label" | "inputLabel" | "submitLabel">
 >;
-export type ThemePickerExtra = Partial<
-  Omit<ThemePickerProps, "label" | "themesUrl" | "themes">
->;
+export type ThemePickerExtra = Partial<Omit<ThemePickerProps, "label" | "themesUrl" | "themes">>;
 export type LocalePickerExtra = Partial<Omit<LocalePickerProps, "label" | "locales">>;
 export type TimeZonePickerExtra = Partial<Omit<TimeZonePickerProps, "label">>;
-export type TextSizePickerExtra = Partial<
-  Omit<TextSizePickerProps, "label" | "sizes">
->;
+export type TextSizePickerExtra = Partial<Omit<TextSizePickerProps, "label" | "sizes">>;
 export type SharePickerExtra = Partial<Omit<SharePickerProps, "label" | "targets">>;
 
 /** Mirrors the observed attributes / properties for typing convenience. */
 export type PickerBarProps = {
-  labels: PickerBarLabels;
-  /** Page links for the link picker, which renders FIRST (leftmost). Omitted or empty: no link picker. */
-  links?: LinkItem[];
-  linkProps?: LinkPickerExtra;
-  searchProps?: SearchPickerExtra;
-  themesUrl: string;
-  themes?: string[];
-  themeProps?: ThemePickerExtra;
-  locales: string[];
-  localeProps?: LocalePickerExtra;
-  /** `locale` (the language that names and sorts the zones) is required for the time-zone picker, after the locale picker, to render. */
-  timeZoneProps?: TimeZonePickerExtra;
-  sizes?: string[];
-  textSizeProps?: TextSizePickerExtra;
-  shareTargets?: ShareTarget[];
-  shareProps?: SharePickerExtra;
-  class?: string;
+    labels: PickerBarLabels;
+    /** Page links for the link picker, which renders FIRST (leftmost). Omitted or empty: no link picker. */
+    links?: LinkItem[];
+    linkProps?: LinkPickerExtra;
+    searchProps?: SearchPickerExtra;
+    themesUrl: string;
+    themes?: string[];
+    themeProps?: ThemePickerExtra;
+    locales: string[];
+    localeProps?: LocalePickerExtra;
+    /** `locale` (the language that names and sorts the zones) is required for the time-zone picker, after the locale picker, to render. */
+    timeZoneProps?: TimeZonePickerExtra;
+    sizes?: string[];
+    textSizeProps?: TextSizePickerExtra;
+    shareTargets?: ShareTarget[];
+    shareProps?: SharePickerExtra;
+    class?: string;
 };
 
 /** Custom-element class implementing `<picker-bar>`. */
 export class PickerBar extends HTMLElement {
-  static get observedAttributes(): string[] {
-    return ["themes-url", "themes", "locales", "sizes", "class"];
-  }
-
-  // Backing storage for property-only members (no honest attribute
-  // encoding — labels/targets carry non-string data, and the *Extra
-  // bags are applied at property-assignment time, not re-derivable
-  // from an attribute).
-  #labels: PickerBarLabels = DEFAULT_LABELS;
-  #themes: string[] = DEFAULT_THEMES;
-  #locales: string[] = [];
-  #sizes: string[] = DEFAULT_SIZES;
-  #shareTargets: ShareTarget[] = [];
-  #links: LinkItem[] = [];
-  #linkProps: LinkPickerExtra = {};
-  #searchProps: SearchPickerExtra = {};
-  #themeProps: ThemePickerExtra = {};
-  #localeProps: LocalePickerExtra = {};
-  #timeZoneProps: TimeZonePickerExtra = {};
-  #textSizeProps: TextSizePickerExtra = {};
-  #shareProps: SharePickerExtra = {};
-
-  // Rendered-DOM references. Null until #render() has run.
-  #rootEl: HTMLDivElement | null = null;
-  #linkPickerEl: LinkPicker | null = null;
-  #searchPickerEl: SearchPicker | null = null;
-  #themePickerEl: ThemePicker | null = null;
-  #localePickerEl: LocalePicker | null = null;
-  #timeZonePickerEl: TimeZonePicker | null = null;
-  #textSizePickerEl: TextSizePicker | null = null;
-  #sharePickerEl: SharePicker | null = null;
-
-  // ---- Property accessors ----
-
-  get labels(): PickerBarLabels {
-    return this.#labels;
-  }
-  set labels(v: PickerBarLabels) {
-    this.#labels = v ?? DEFAULT_LABELS;
-    this.#render();
-  }
-
-  get themesUrl(): string {
-    return this.getAttribute("themes-url") ?? "";
-  }
-  set themesUrl(v: string) {
-    this.setAttribute("themes-url", v);
-  }
-
-  get themes(): string[] {
-    return [...this.#themes];
-  }
-  set themes(v: string[]) {
-    this.#themes = Array.isArray(v) && v.length > 0 ? v.slice() : DEFAULT_THEMES;
-    const csv = this.#themes.join(",");
-    if (this.getAttribute("themes") !== csv) {
-      this.setAttribute("themes", csv);
-      return; // attributeChangedCallback will render
+    static get observedAttributes(): string[] {
+        return ["themes-url", "themes", "locales", "sizes", "class"];
     }
-    this.#render();
-  }
 
-  get locales(): string[] {
-    return [...this.#locales];
-  }
-  set locales(v: string[]) {
-    this.#locales = Array.isArray(v) ? v.slice() : [];
-    const csv = this.#locales.join(",");
-    if (this.getAttribute("locales") !== csv) {
-      this.setAttribute("locales", csv);
-      return;
+    // Backing storage for property-only members (no honest attribute
+    // encoding — labels/targets carry non-string data, and the *Extra
+    // bags are applied at property-assignment time, not re-derivable
+    // from an attribute).
+    #labels: PickerBarLabels = DEFAULT_LABELS;
+    #themes: string[] = DEFAULT_THEMES;
+    #locales: string[] = [];
+    #sizes: string[] = DEFAULT_SIZES;
+    #shareTargets: ShareTarget[] = [];
+    #links: LinkItem[] = [];
+    #linkProps: LinkPickerExtra = {};
+    #searchProps: SearchPickerExtra = {};
+    #themeProps: ThemePickerExtra = {};
+    #localeProps: LocalePickerExtra = {};
+    #timeZoneProps: TimeZonePickerExtra = {};
+    #textSizeProps: TextSizePickerExtra = {};
+    #shareProps: SharePickerExtra = {};
+
+    // Rendered-DOM references. Null until #render() has run.
+    #rootEl: HTMLDivElement | null = null;
+    #linkPickerEl: LinkPicker | null = null;
+    #searchPickerEl: SearchPicker | null = null;
+    #themePickerEl: ThemePicker | null = null;
+    #localePickerEl: LocalePicker | null = null;
+    #timeZonePickerEl: TimeZonePicker | null = null;
+    #textSizePickerEl: TextSizePicker | null = null;
+    #sharePickerEl: SharePicker | null = null;
+
+    // ---- Property accessors ----
+
+    get labels(): PickerBarLabels {
+        return this.#labels;
     }
-    this.#render();
-  }
-
-  get sizes(): string[] {
-    return [...this.#sizes];
-  }
-  set sizes(v: string[]) {
-    this.#sizes = Array.isArray(v) && v.length > 0 ? v.slice() : DEFAULT_SIZES;
-    const csv = this.#sizes.join(",");
-    if (this.getAttribute("sizes") !== csv) {
-      this.setAttribute("sizes", csv);
-      return;
-    }
-    this.#render();
-  }
-
-  get shareTargets(): ShareTarget[] {
-    return [...this.#shareTargets];
-  }
-  set shareTargets(v: ShareTarget[]) {
-    this.#shareTargets = Array.isArray(v) ? v.slice() : [];
-    this.#render();
-  }
-
-  get links(): LinkItem[] {
-    return [...this.#links];
-  }
-  set links(v: LinkItem[]) {
-    this.#links = Array.isArray(v) ? v.slice() : [];
-    this.#render();
-  }
-
-  get linkProps(): LinkPickerExtra {
-    return this.#linkProps;
-  }
-  set linkProps(v: LinkPickerExtra) {
-    this.#linkProps = v ?? {};
-    this.#render();
-  }
-
-  get searchProps(): SearchPickerExtra {
-    return this.#searchProps;
-  }
-  set searchProps(v: SearchPickerExtra) {
-    this.#searchProps = v ?? {};
-    this.#render();
-  }
-
-  get themeProps(): ThemePickerExtra {
-    return this.#themeProps;
-  }
-  set themeProps(v: ThemePickerExtra) {
-    this.#themeProps = v ?? {};
-    this.#render();
-  }
-
-  get localeProps(): LocalePickerExtra {
-    return this.#localeProps;
-  }
-  set localeProps(v: LocalePickerExtra) {
-    this.#localeProps = v ?? {};
-    this.#render();
-  }
-
-  get timeZoneProps(): TimeZonePickerExtra {
-    return this.#timeZoneProps;
-  }
-  set timeZoneProps(v: TimeZonePickerExtra) {
-    this.#timeZoneProps = v ?? {};
-    this.#render();
-  }
-
-  get textSizeProps(): TextSizePickerExtra {
-    return this.#textSizeProps;
-  }
-  set textSizeProps(v: TextSizePickerExtra) {
-    this.#textSizeProps = v ?? {};
-    this.#render();
-  }
-
-  get shareProps(): SharePickerExtra {
-    return this.#shareProps;
-  }
-  set shareProps(v: SharePickerExtra) {
-    this.#shareProps = v ?? {};
-    this.#render();
-  }
-
-  /** The rendered `<link-picker>` instance, once connected (null when no links). */
-  get linkPicker(): LinkPicker | null {
-    return this.#linkPickerEl;
-  }
-  /** The rendered `<search-picker>` instance, once connected. */
-  get searchPicker(): SearchPicker | null {
-    return this.#searchPickerEl;
-  }
-  /** The rendered `<theme-picker>` instance, once connected. */
-  get themePicker(): ThemePicker | null {
-    return this.#themePickerEl;
-  }
-  /** The rendered `<locale-picker>` instance, once connected. */
-  get localePicker(): LocalePicker | null {
-    return this.#localePickerEl;
-  }
-  /** The rendered `<time-zone-picker>` instance, once connected (null without a label and locale). */
-  get timeZonePicker(): TimeZonePicker | null {
-    return this.#timeZonePickerEl;
-  }
-  /** The rendered `<text-size-picker>` instance, once connected. */
-  get textSizePicker(): TextSizePicker | null {
-    return this.#textSizePickerEl;
-  }
-  /** The rendered `<share-picker>` instance, once connected. */
-  get sharePicker(): SharePicker | null {
-    return this.#sharePickerEl;
-  }
-
-  // ---- Lifecycle ----
-
-  connectedCallback(): void {
-    // Pick up CSV attributes set via HTML before the JS evaluated.
-    const themesAttr = this.getAttribute("themes");
-    if (themesAttr !== null) this.#themes = parseCsv(themesAttr);
-    const localesAttr = this.getAttribute("locales");
-    if (localesAttr !== null) this.#locales = parseCsv(localesAttr);
-    const sizesAttr = this.getAttribute("sizes");
-    if (sizesAttr !== null) this.#sizes = parseCsv(sizesAttr);
-
-    this.#render();
-  }
-
-  attributeChangedCallback(
-    name: string,
-    _old: string | null,
-    value: string | null,
-  ): void {
-    switch (name) {
-      case "themes":
-        this.#themes = value === null ? DEFAULT_THEMES : parseCsv(value);
+    set labels(v: PickerBarLabels) {
+        this.#labels = v ?? DEFAULT_LABELS;
         this.#render();
-        break;
-      case "locales":
-        this.#locales = value === null ? [] : parseCsv(value);
-        this.#render();
-        break;
-      case "sizes":
-        this.#sizes = value === null ? DEFAULT_SIZES : parseCsv(value);
-        this.#render();
-        break;
-      case "themes-url":
-      case "class":
-        this.#render();
-        break;
-      default:
-        break;
-    }
-  }
-
-  // ---- Rendering ----
-
-  #render(): void {
-    if (!this.isConnected) return;
-
-    const extraClass = this.getAttribute("class") ?? "";
-    const root = document.createElement("div");
-    root.className = `picker-bar ${extraClass}`.trim();
-
-    // The link picker (a home icon) is leftmost (maintainer-directed, 2026-10-07), and only
-    // rendered when the app supplies links and a label for it.
-    this.#linkPickerEl = null;
-    if (this.#links.length > 0 && this.#labels.link) {
-      const linkEl = document.createElement("link-picker") as LinkPicker;
-      linkEl.label = this.#labels.link;
-      linkEl.links = this.#links;
-      Object.assign(linkEl, this.#linkProps);
-      root.appendChild(linkEl);
-      this.#linkPickerEl = linkEl;
     }
 
-    // Search comes next in the row (maintainer-directed, 2026-10-02).
-    const searchEl = document.createElement("search-picker") as SearchPicker;
-    searchEl.label = this.#labels.search;
-    searchEl.inputLabel = this.#labels.searchInput;
-    searchEl.submitLabel = this.#labels.searchSubmit;
-    Object.assign(searchEl, this.#searchProps);
-    root.appendChild(searchEl);
-
-    const themeEl = document.createElement("theme-picker") as ThemePicker;
-    themeEl.label = this.#labels.theme;
-    themeEl.themesUrl = this.themesUrl;
-    themeEl.themes = this.#themes;
-    Object.assign(themeEl, this.#themeProps);
-    root.appendChild(themeEl);
-
-    const localeEl = document.createElement("locale-picker") as LocalePicker;
-    localeEl.label = this.#labels.locale;
-    localeEl.locales = this.#locales;
-    Object.assign(localeEl, this.#localeProps);
-    root.appendChild(localeEl);
-
-    let timeZoneEl: TimeZonePicker | null = null;
-    if (this.#labels.timeZone && this.#timeZoneProps.locale) {
-      timeZoneEl = document.createElement("time-zone-picker") as TimeZonePicker;
-      // The picker renders without a locale, so give it one before the label.
-      timeZoneEl.locale = this.#timeZoneProps.locale;
-      Object.assign(timeZoneEl, this.#timeZoneProps);
-      timeZoneEl.label = this.#labels.timeZone;
-      root.appendChild(timeZoneEl);
+    get themesUrl(): string {
+        return this.getAttribute("themes-url") ?? "";
+    }
+    set themesUrl(v: string) {
+        this.setAttribute("themes-url", v);
     }
 
-    const textSizeEl = document.createElement(
-      "text-size-picker",
-    ) as TextSizePicker;
-    textSizeEl.label = this.#labels.textSize;
-    textSizeEl.sizes = this.#sizes;
-    // text-size-picker's own fallback ("medium" if offered, else
-    // sizes[0]) doesn't fit this seven-slug scale — "medium" isn't
-    // one of them, so an unset default would silently start on
-    // "largest". Set before #textSizeProps so a consumer's own
-    // defaultValue still wins.
-    textSizeEl.defaultValue = "normal";
-    Object.assign(textSizeEl, this.#textSizeProps);
-    root.appendChild(textSizeEl);
+    get themes(): string[] {
+        return [...this.#themes];
+    }
+    set themes(v: string[]) {
+        this.#themes = Array.isArray(v) && v.length > 0 ? v.slice() : DEFAULT_THEMES;
+        const csv = this.#themes.join(",");
+        if (this.getAttribute("themes") !== csv) {
+            this.setAttribute("themes", csv);
+            return; // attributeChangedCallback will render
+        }
+        this.#render();
+    }
 
-    const shareEl = document.createElement("share-picker") as SharePicker;
-    shareEl.label = this.#labels.share;
-    shareEl.targets = this.#shareTargets;
-    Object.assign(shareEl, this.#shareProps);
-    root.appendChild(shareEl);
+    get locales(): string[] {
+        return [...this.#locales];
+    }
+    set locales(v: string[]) {
+        this.#locales = Array.isArray(v) ? v.slice() : [];
+        const csv = this.#locales.join(",");
+        if (this.getAttribute("locales") !== csv) {
+            this.setAttribute("locales", csv);
+            return;
+        }
+        this.#render();
+    }
 
-    this.replaceChildren(root);
-    this.#rootEl = root;
-    this.#searchPickerEl = searchEl;
-    this.#themePickerEl = themeEl;
-    this.#localePickerEl = localeEl;
-    this.#timeZonePickerEl = timeZoneEl;
-    this.#textSizePickerEl = textSizeEl;
-    this.#sharePickerEl = shareEl;
-  }
+    get sizes(): string[] {
+        return [...this.#sizes];
+    }
+    set sizes(v: string[]) {
+        this.#sizes = Array.isArray(v) && v.length > 0 ? v.slice() : DEFAULT_SIZES;
+        const csv = this.#sizes.join(",");
+        if (this.getAttribute("sizes") !== csv) {
+            this.setAttribute("sizes", csv);
+            return;
+        }
+        this.#render();
+    }
+
+    get shareTargets(): ShareTarget[] {
+        return [...this.#shareTargets];
+    }
+    set shareTargets(v: ShareTarget[]) {
+        this.#shareTargets = Array.isArray(v) ? v.slice() : [];
+        this.#render();
+    }
+
+    get links(): LinkItem[] {
+        return [...this.#links];
+    }
+    set links(v: LinkItem[]) {
+        this.#links = Array.isArray(v) ? v.slice() : [];
+        this.#render();
+    }
+
+    get linkProps(): LinkPickerExtra {
+        return this.#linkProps;
+    }
+    set linkProps(v: LinkPickerExtra) {
+        this.#linkProps = v ?? {};
+        this.#render();
+    }
+
+    get searchProps(): SearchPickerExtra {
+        return this.#searchProps;
+    }
+    set searchProps(v: SearchPickerExtra) {
+        this.#searchProps = v ?? {};
+        this.#render();
+    }
+
+    get themeProps(): ThemePickerExtra {
+        return this.#themeProps;
+    }
+    set themeProps(v: ThemePickerExtra) {
+        this.#themeProps = v ?? {};
+        this.#render();
+    }
+
+    get localeProps(): LocalePickerExtra {
+        return this.#localeProps;
+    }
+    set localeProps(v: LocalePickerExtra) {
+        this.#localeProps = v ?? {};
+        this.#render();
+    }
+
+    get timeZoneProps(): TimeZonePickerExtra {
+        return this.#timeZoneProps;
+    }
+    set timeZoneProps(v: TimeZonePickerExtra) {
+        this.#timeZoneProps = v ?? {};
+        this.#render();
+    }
+
+    get textSizeProps(): TextSizePickerExtra {
+        return this.#textSizeProps;
+    }
+    set textSizeProps(v: TextSizePickerExtra) {
+        this.#textSizeProps = v ?? {};
+        this.#render();
+    }
+
+    get shareProps(): SharePickerExtra {
+        return this.#shareProps;
+    }
+    set shareProps(v: SharePickerExtra) {
+        this.#shareProps = v ?? {};
+        this.#render();
+    }
+
+    /** The rendered `<link-picker>` instance, once connected (null when no links). */
+    get linkPicker(): LinkPicker | null {
+        return this.#linkPickerEl;
+    }
+    /** The rendered `<search-picker>` instance, once connected. */
+    get searchPicker(): SearchPicker | null {
+        return this.#searchPickerEl;
+    }
+    /** The rendered `<theme-picker>` instance, once connected. */
+    get themePicker(): ThemePicker | null {
+        return this.#themePickerEl;
+    }
+    /** The rendered `<locale-picker>` instance, once connected. */
+    get localePicker(): LocalePicker | null {
+        return this.#localePickerEl;
+    }
+    /** The rendered `<time-zone-picker>` instance, once connected (null without a label and locale). */
+    get timeZonePicker(): TimeZonePicker | null {
+        return this.#timeZonePickerEl;
+    }
+    /** The rendered `<text-size-picker>` instance, once connected. */
+    get textSizePicker(): TextSizePicker | null {
+        return this.#textSizePickerEl;
+    }
+    /** The rendered `<share-picker>` instance, once connected. */
+    get sharePicker(): SharePicker | null {
+        return this.#sharePickerEl;
+    }
+
+    // ---- Lifecycle ----
+
+    connectedCallback(): void {
+        // Pick up CSV attributes set via HTML before the JS evaluated.
+        const themesAttr = this.getAttribute("themes");
+        if (themesAttr !== null) this.#themes = parseCsv(themesAttr);
+        const localesAttr = this.getAttribute("locales");
+        if (localesAttr !== null) this.#locales = parseCsv(localesAttr);
+        const sizesAttr = this.getAttribute("sizes");
+        if (sizesAttr !== null) this.#sizes = parseCsv(sizesAttr);
+
+        this.#render();
+    }
+
+    attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
+        switch (name) {
+            case "themes":
+                this.#themes = value === null ? DEFAULT_THEMES : parseCsv(value);
+                this.#render();
+                break;
+            case "locales":
+                this.#locales = value === null ? [] : parseCsv(value);
+                this.#render();
+                break;
+            case "sizes":
+                this.#sizes = value === null ? DEFAULT_SIZES : parseCsv(value);
+                this.#render();
+                break;
+            case "themes-url":
+            case "class":
+                this.#render();
+                break;
+            default:
+                break;
+        }
+    }
+
+    // ---- Rendering ----
+
+    #render(): void {
+        if (!this.isConnected) return;
+
+        const extraClass = this.getAttribute("class") ?? "";
+        const root = document.createElement("div");
+        root.className = `picker-bar ${extraClass}`.trim();
+
+        // The link picker (a home icon) is leftmost (maintainer-directed, 2026-10-07), and only
+        // rendered when the app supplies links and a label for it.
+        this.#linkPickerEl = null;
+        if (this.#links.length > 0 && this.#labels.link) {
+            const linkEl = document.createElement("link-picker") as LinkPicker;
+            linkEl.label = this.#labels.link;
+            linkEl.links = this.#links;
+            Object.assign(linkEl, this.#linkProps);
+            root.appendChild(linkEl);
+            this.#linkPickerEl = linkEl;
+        }
+
+        // Search comes next in the row (maintainer-directed, 2026-10-02).
+        const searchEl = document.createElement("search-picker") as SearchPicker;
+        searchEl.label = this.#labels.search;
+        searchEl.inputLabel = this.#labels.searchInput;
+        searchEl.submitLabel = this.#labels.searchSubmit;
+        Object.assign(searchEl, this.#searchProps);
+        root.appendChild(searchEl);
+
+        const themeEl = document.createElement("theme-picker") as ThemePicker;
+        themeEl.label = this.#labels.theme;
+        themeEl.themesUrl = this.themesUrl;
+        themeEl.themes = this.#themes;
+        Object.assign(themeEl, this.#themeProps);
+        root.appendChild(themeEl);
+
+        const localeEl = document.createElement("locale-picker") as LocalePicker;
+        localeEl.label = this.#labels.locale;
+        localeEl.locales = this.#locales;
+        Object.assign(localeEl, this.#localeProps);
+        root.appendChild(localeEl);
+
+        let timeZoneEl: TimeZonePicker | null = null;
+        if (this.#labels.timeZone && this.#timeZoneProps.locale) {
+            timeZoneEl = document.createElement("time-zone-picker") as TimeZonePicker;
+            // The picker renders without a locale, so give it one before the label.
+            timeZoneEl.locale = this.#timeZoneProps.locale;
+            Object.assign(timeZoneEl, this.#timeZoneProps);
+            timeZoneEl.label = this.#labels.timeZone;
+            root.appendChild(timeZoneEl);
+        }
+
+        const textSizeEl = document.createElement("text-size-picker") as TextSizePicker;
+        textSizeEl.label = this.#labels.textSize;
+        textSizeEl.sizes = this.#sizes;
+        // text-size-picker's own fallback ("medium" if offered, else
+        // sizes[0]) doesn't fit this seven-slug scale — "medium" isn't
+        // one of them, so an unset default would silently start on
+        // "largest". Set before #textSizeProps so a consumer's own
+        // defaultValue still wins.
+        textSizeEl.defaultValue = "normal";
+        Object.assign(textSizeEl, this.#textSizeProps);
+        root.appendChild(textSizeEl);
+
+        const shareEl = document.createElement("share-picker") as SharePicker;
+        shareEl.label = this.#labels.share;
+        shareEl.targets = this.#shareTargets;
+        Object.assign(shareEl, this.#shareProps);
+        root.appendChild(shareEl);
+
+        this.replaceChildren(root);
+        this.#rootEl = root;
+        this.#searchPickerEl = searchEl;
+        this.#themePickerEl = themeEl;
+        this.#localePickerEl = localeEl;
+        this.#timeZonePickerEl = timeZoneEl;
+        this.#textSizePickerEl = textSizeEl;
+        this.#sharePickerEl = shareEl;
+    }
 }
 
 function parseCsv(s: string): string[] {
-  return s
-    .split(",")
-    .map((p) => p.trim())
-    .filter((p) => p.length > 0);
+    return s
+        .split(",")
+        .map((p) => p.trim())
+        .filter((p) => p.length > 0);
 }

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="image-cropper"
@@ -6,9 +6,9 @@ const html = `<div
   aria-label="Image cropper"></div>`;
 
 const meta = {
-  title: 'Headless/ImageCropper',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/ImageCropper",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

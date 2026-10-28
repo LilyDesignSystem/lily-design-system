@@ -36,9 +36,7 @@
     <BreadcrumbNav label="Breadcrumb">
         <BreadcrumbList>
             <BreadcrumbListItem><a href="/">Home</a></BreadcrumbListItem>
-            <BreadcrumbListItem
-                ><a href="/page-layout">Health A to Z</a></BreadcrumbListItem
-            >
+            <BreadcrumbListItem><a href="/page-layout">Health A to Z</a></BreadcrumbListItem>
             <BreadcrumbListItem current>Page Layout</BreadcrumbListItem>
         </BreadcrumbList>
     </BreadcrumbNav>
@@ -48,18 +46,10 @@
             <h3>Navigation</h3>
             <ContentsNav label="On this page">
                 <ContentsList>
-                    <ContentsListItem
-                        ><a href="#callouts">Callouts</a></ContentsListItem
-                    >
-                    <ContentsListItem
-                        ><a href="#care-cards">Care Cards</a></ContentsListItem
-                    >
-                    <ContentsListItem
-                        ><a href="#panels">Panels</a></ContentsListItem
-                    >
-                    <ContentsListItem
-                        ><a href="#inset">Inset Text</a></ContentsListItem
-                    >
+                    <ContentsListItem><a href="#callouts">Callouts</a></ContentsListItem>
+                    <ContentsListItem><a href="#care-cards">Care Cards</a></ContentsListItem>
+                    <ContentsListItem><a href="#panels">Panels</a></ContentsListItem>
+                    <ContentsListItem><a href="#inset">Inset Text</a></ContentsListItem>
                 </ContentsList>
             </ContentsNav>
         </Sidebar>
@@ -67,9 +57,8 @@
         <div>
             <h2>Page Layout Example</h2>
             <p>
-                This page demonstrates the layout components styled with NHS UK
-                design tokens, including headers, footers, sidebars,
-                breadcrumbs, and various content patterns.
+                This page demonstrates the layout components styled with NHS UK design tokens,
+                including headers, footers, sidebars, breadcrumbs, and various content patterns.
             </p>
 
             <section id="callouts">
@@ -78,18 +67,16 @@
                 <InformationCallout label="Key fact">
                     <h4>Did you know?</h4>
                     <p>
-                        The NHS was established on 5 July 1948 and provides
-                        healthcare that is free at the point of use for all UK
-                        residents.
+                        The NHS was established on 5 July 1948 and provides healthcare that is free
+                        at the point of use for all UK residents.
                     </p>
                 </InformationCallout>
 
                 <WarningCallout label="Important warning">
                     <h4>Important</h4>
                     <p>
-                        If you are experiencing chest pain, call 999
-                        immediately. Do not wait for symptoms to improve on
-                        their own.
+                        If you are experiencing chest pain, call 999 immediately. Do not wait for
+                        symptoms to improve on their own.
                     </p>
                 </WarningCallout>
             </section>
@@ -97,7 +84,10 @@
             <section id="care-cards">
                 <h3>Care Cards</h3>
 
-                <CareCard type="non-urgent" heading="Speak to a GP if:">
+                <CareCard
+                    type="non-urgent"
+                    heading="Speak to a GP if:"
+                >
                     <ul>
                         <li>Your symptoms have not improved after 2 weeks</li>
                         <li>You are worried about your symptoms</li>
@@ -110,15 +100,15 @@
                     heading="Ask for an urgent GP appointment or call 111 if:"
                 >
                     <ul>
-                        <li>
-                            You have a high temperature that lasts more than 3
-                            days
-                        </li>
+                        <li>You have a high temperature that lasts more than 3 days</li>
                         <li>You are finding it hard to breathe</li>
                     </ul>
                 </CareCard>
 
-                <CareCard type="immediate" heading="Call 999 if:">
+                <CareCard
+                    type="immediate"
+                    heading="Call 999 if:"
+                >
                     <ul>
                         <li>You have sudden chest pain</li>
                         <li>You cannot breathe</li>
@@ -129,8 +119,7 @@
                 <MedicalBannerBoxForDanger label="Critical allergy information">
                     <h4>Allergies</h4>
                     <p>
-                        <strong>Penicillin</strong> — Severe anaphylactic reaction.
-                        Do NOT administer.
+                        <strong>Penicillin</strong> — Severe anaphylactic reaction. Do NOT administer.
                     </p>
                 </MedicalBannerBoxForDanger>
             </section>
@@ -140,10 +129,7 @@
 
                 <Panel label="Summary panel">
                     <h4>Summary</h4>
-                    <p>
-                        This panel contains a summary of the key information on
-                        this page.
-                    </p>
+                    <p>This panel contains a summary of the key information on this page.</p>
                 </Panel>
 
                 <Panel label="Related content">
@@ -163,8 +149,8 @@
 
                 <InsetText>
                     <p>
-                        Information about a health condition should not replace
-                        advice from your GP or specialist.
+                        Information about a health condition should not replace advice from your GP
+                        or specialist.
                     </p>
                 </InsetText>
             </section>

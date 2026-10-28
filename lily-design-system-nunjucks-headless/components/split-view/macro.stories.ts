@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="split-view"  data-orientation="horizontal"
@@ -15,9 +15,9 @@ const html = `<div
 </div>`;
 
 const meta = {
-  title: 'Headless/SplitView',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/SplitView",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

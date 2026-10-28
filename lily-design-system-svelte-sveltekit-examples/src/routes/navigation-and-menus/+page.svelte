@@ -67,7 +67,10 @@
     <div
         style="background: var(--nhs-dark-grey); padding: var(--nhs-space-3); border-radius: var(--nhs-border-radius); display: inline-block;"
     >
-        <HamburgerMenu label="Mobile menu" bind:open={hamburgerOpen}>
+        <HamburgerMenu
+            label="Mobile menu"
+            bind:open={hamburgerOpen}
+        >
             <div
                 style="padding: var(--nhs-space-3); background: var(--nhs-white); border-radius: var(--nhs-border-radius);"
             >
@@ -90,10 +93,14 @@
 
     <h2>Dropdown Menu</h2>
     <div style="position: relative; display: inline-block;">
-        <button class="button" onclick={() => (showDropdown = !showDropdown)}
-            >Actions</button
+        <button
+            class="button"
+            onclick={() => (showDropdown = !showDropdown)}>Actions</button
         >
-        <DropdownMenu label="Quick actions" bind:open={showDropdown}>
+        <DropdownMenu
+            label="Quick actions"
+            bind:open={showDropdown}
+        >
             <MenuItem>Edit profile</MenuItem>
             <MenuItem>Change password</MenuItem>
             <MenuItem>Sign out</MenuItem>
@@ -111,7 +118,10 @@
         }}
     >
         <p>Right-click in this area to open the context menu</p>
-        <ContextMenu label="Item actions" bind:open={showContext}>
+        <ContextMenu
+            label="Item actions"
+            bind:open={showContext}
+        >
             <ContextMenuItem>Copy</ContextMenuItem>
             <ContextMenuItem>Paste</ContextMenuItem>
             <ContextMenuItem>Delete</ContextMenuItem>

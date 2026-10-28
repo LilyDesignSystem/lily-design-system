@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<input
   class="osterreich-sozialversicherungsnummer-input"
@@ -8,9 +8,9 @@ const html = `<input
   aria-label="Sozialversicherungsnummer (SVNR)">`;
 
 const meta = {
-  title: 'Headless/OsterreichSozialversicherungsnummerInput',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/OsterreichSozialversicherungsnummerInput",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

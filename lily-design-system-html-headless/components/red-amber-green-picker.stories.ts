@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="red-amber-green-picker"
@@ -20,9 +20,9 @@ const html = `<div
 </script>`;
 
 const meta = {
-  title: 'Headless/RedAmberGreenPicker',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/RedAmberGreenPicker",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

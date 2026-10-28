@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<form
   class="newsletter-signup"
@@ -91,9 +91,9 @@ const html = `<form
 </script>`;
 
 const meta = {
-  title: 'Headless/NewsletterSignup',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/NewsletterSignup",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

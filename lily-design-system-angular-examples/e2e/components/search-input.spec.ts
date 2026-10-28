@@ -13,7 +13,7 @@ test.describe("component page: search-input", () => {
 
   test("renders the H1 with the component name", async ({ page }) => {
     await expect(
-      page.getByRole("heading", { level: 1, name: new RegExp("^SearchInput$") })
+      page.getByRole("heading", { level: 1, name: new RegExp("^SearchInput$") }),
     ).toBeVisible();
   });
 

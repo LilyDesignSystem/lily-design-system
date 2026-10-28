@@ -84,10 +84,7 @@ export type Props = Omit<
  * control. Purely visual: the text is the button's own aria-label, so it
  * is deliberately not linked with aria-describedby.
  */
-function usePickerTooltip(
-    buttonRef: React.RefObject<HTMLButtonElement | null>,
-    open: boolean,
-) {
+function usePickerTooltip(buttonRef: React.RefObject<HTMLButtonElement | null>, open: boolean) {
     const [hoverButton, setHoverButton] = React.useState(false);
     const [hoverTooltip, setHoverTooltip] = React.useState(false);
     const [focusButton, setFocusButton] = React.useState(false);
@@ -197,16 +194,16 @@ export function SearchPicker({
     const onOpenChangeRef = React.useRef(onOpenChange);
     onOpenChangeRef.current = onOpenChange;
     const setOpen = React.useCallback(
-      (next: boolean): void => {
-        if (next === openRef.current) return;
-        openRef.current = next;
-        if (openProp === undefined) setOpenInner(next);
-        onOpenChangeRef.current?.(next);
-      },
-      [openProp],
+        (next: boolean): void => {
+            if (next === openRef.current) return;
+            openRef.current = next;
+            if (openProp === undefined) setOpenInner(next);
+            onOpenChangeRef.current?.(next);
+        },
+        [openProp],
     );
     React.useEffect(() => {
-      if (disabled && openRaw) setOpen(false);
+        if (disabled && openRaw) setOpen(false);
     }, [disabled, openRaw, setOpen]);
 
     const rootRef = React.useRef<HTMLDivElement | null>(null);
@@ -348,7 +345,11 @@ export function SearchPicker({
                         strokeLinecap="round"
                         strokeLinejoin="round"
                     >
-                        <circle cx="7" cy="7" r="4.5" />
+                        <circle
+                            cx="7"
+                            cy="7"
+                            r="4.5"
+                        />
                         <path d="M10.5 10.5 14 14" />
                     </svg>
                 )}
@@ -397,7 +398,10 @@ export function SearchPicker({
                         className="search-picker-submit"
                         aria-label={submitLabel}
                     >
-                        <span className="search-picker-submit-symbol" aria-hidden="true">
+                        <span
+                            className="search-picker-submit-symbol"
+                            aria-hidden="true"
+                        >
                             {RETURN_SYMBOL}
                         </span>
                     </button>

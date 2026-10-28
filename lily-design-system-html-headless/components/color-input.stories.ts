@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<input
   class="color-input"
@@ -7,9 +7,9 @@ const html = `<input
 >`;
 
 const meta = {
-  title: 'Headless/ColorInput',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/ColorInput",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

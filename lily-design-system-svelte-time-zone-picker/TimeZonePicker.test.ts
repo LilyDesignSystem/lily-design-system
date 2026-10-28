@@ -13,7 +13,8 @@ const ORDERED = ["America/New_York", "UTC", "Europe/Paris", "Asia/Kolkata", "Asi
 const base = { label: "Time zone", locale: "en", zones: ZONES, date: WINTER };
 
 const flush = () => new Promise((r) => setTimeout(r, 0));
-const options = () => Array.from(document.querySelectorAll<HTMLElement>(".time-zone-picker-option"));
+const options = () =>
+    Array.from(document.querySelectorAll<HTMLElement>(".time-zone-picker-option"));
 const list = () => document.querySelector(".time-zone-picker-list") as HTMLElement;
 const button = () => screen.getByRole("button");
 const hidden = () => document.querySelector('input[type="hidden"]') as HTMLInputElement;
@@ -45,11 +46,15 @@ describe("markup contract", () => {
         expect(button().getAttribute("type")).toBe("button");
         expect(button().getAttribute("aria-haspopup")).toBe("listbox");
         expect(button().getAttribute("aria-expanded")).toBe("false");
-        expect(document.getElementById(button().getAttribute("aria-controls")!)?.getAttribute("role")).toBe("listbox");
+        expect(
+            document.getElementById(button().getAttribute("aria-controls")!)?.getAttribute("role"),
+        ).toBe("listbox");
     });
 
     test("the root carries the base class and the consumer's class", () => {
-        const { container } = render(TimeZonePicker, { props: { ...base, class: "mine", "data-x": "1" } });
+        const { container } = render(TimeZonePicker, {
+            props: { ...base, class: "mine", "data-x": "1" },
+        });
         const root = container.querySelector(".time-zone-picker")!;
         expect(root.getAttribute("class")).toBe("time-zone-picker mine");
         expect(root.getAttribute("data-x")).toBe("1");
@@ -67,7 +72,9 @@ describe("markup contract", () => {
         render(TimeZonePicker, { props: { ...base, label: "Choose a time zone" } });
         expect(screen.getByRole("button", { name: "Choose a time zone" })).toBeTruthy();
         expect(list().getAttribute("aria-label")).toBe("Choose a time zone");
-        expect(document.querySelector(".time-zone-picker-tooltip")!.textContent).toBe("Choose a time zone");
+        expect(document.querySelector(".time-zone-picker-tooltip")!.textContent).toBe(
+            "Choose a time zone",
+        );
     });
 
     test("one option per zone, each an option with aria-selected", async () => {
@@ -102,7 +109,13 @@ describe("options: offsets and full names, ordered by offset", () => {
     test("ordered west to east, whatever order the zones were given", async () => {
         render(TimeZonePicker, { props: base });
         await flush();
-        expect(options().map((o) => o.textContent!.trim().slice(0, 9))).toEqual(["UTC-05:00", "UTC+00:00", "UTC+01:00", "UTC+05:30", "UTC+09:00"]);
+        expect(options().map((o) => o.textContent!.trim().slice(0, 9))).toEqual([
+            "UTC-05:00",
+            "UTC+00:00",
+            "UTC+01:00",
+            "UTC+05:30",
+            "UTC+09:00",
+        ]);
     });
 
     test("each option shows its offset and its full name", async () => {
@@ -128,7 +141,9 @@ describe("options: offsets and full names, ordered by offset", () => {
     });
 
     test("the date decides the offsets: summer time shows the summer offset", async () => {
-        render(TimeZonePicker, { props: { ...base, date: SUMMER, zones: ["Europe/Paris", "America/New_York"] } });
+        render(TimeZonePicker, {
+            props: { ...base, date: SUMMER, zones: ["Europe/Paris", "America/New_York"] },
+        });
         await flush();
         const text = options().map((o) => o.textContent!.trim());
         expect(text[0]).toMatch(/^UTC-04:00 – Eastern Daylight Time$/);
@@ -138,7 +153,9 @@ describe("options: offsets and full names, ordered by offset", () => {
     test("labelFor builds the text", async () => {
         render(TimeZonePicker, { props: { ...base, labelFor: (z) => `${z.name} [${z.offset}]` } });
         await flush();
-        expect(options().map((o) => o.textContent!.trim())).toContain("India Standard Time [UTC+05:30]");
+        expect(options().map((o) => o.textContent!.trim())).toContain(
+            "India Standard Time [UTC+05:30]",
+        );
     });
 
     test("an unknown zone is left out, not shown unnamed", async () => {
@@ -152,13 +169,18 @@ describe("options: offsets and full names, ordered by offset", () => {
         await flush();
         expect(options().length).toBe(DEFAULT_ZONES.length);
         const offsets = options().map((o) => o.getAttribute("data-offset")!);
-        const minutes = offsets.map((t) => (t[3] === "-" ? -1 : 1) * (Number(t.slice(4, 6)) * 60 + Number(t.slice(7, 9))));
+        const minutes = offsets.map(
+            (t) => (t[3] === "-" ? -1 : 1) * (Number(t.slice(4, 6)) * 60 + Number(t.slice(7, 9))),
+        );
         expect(minutes).toEqual([...minutes].sort((a, b) => a - b));
     });
 });
 
 describe("supplied names (CLDR packs)", () => {
-    const names = { "Asia/Kolkata": "Bharat Standard", "Europe/Paris": ["Paris Standard", "Paris Summer"] } as const;
+    const names = {
+        "Asia/Kolkata": "Bharat Standard",
+        "Europe/Paris": ["Paris Standard", "Paris Summer"],
+    } as const;
 
     test("win over Intl for the zones they name, and the rest stay Intl's", async () => {
         render(TimeZonePicker, { props: { ...base, names } });
@@ -183,7 +205,9 @@ describe("selection and applying", () => {
         await pick("Asia/Kolkata");
         expect(hidden().value).toBe("Asia/Kolkata");
         expect(document.documentElement.getAttribute("data-time-zone")).toBe("Asia/Kolkata");
-        expect(options()[ORDERED.indexOf("Asia/Kolkata")].getAttribute("aria-selected")).toBe("true");
+        expect(options()[ORDERED.indexOf("Asia/Kolkata")].getAttribute("aria-selected")).toBe(
+            "true",
+        );
         expect(options()[ORDERED.indexOf("UTC")].getAttribute("aria-selected")).toBe("false");
     });
 
@@ -233,7 +257,9 @@ describe("initial value", () => {
     });
 
     test("the reader's own zone is used when it is listed", async () => {
-        const spy = vi.spyOn(Intl.DateTimeFormat.prototype, "resolvedOptions").mockReturnValue({ timeZone: "Europe/Paris" } as Intl.ResolvedDateTimeFormatOptions);
+        const spy = vi
+            .spyOn(Intl.DateTimeFormat.prototype, "resolvedOptions")
+            .mockReturnValue({ timeZone: "Europe/Paris" } as Intl.ResolvedDateTimeFormatOptions);
         render(TimeZonePicker, { props: base });
         await flush();
         spy.mockRestore();
@@ -241,7 +267,9 @@ describe("initial value", () => {
     });
 
     test("a zone that is not listed is matched to its listed twin (same offset and name)", async () => {
-        const spy = vi.spyOn(Intl.DateTimeFormat.prototype, "resolvedOptions").mockReturnValue({ timeZone: "Europe/Berlin" } as Intl.ResolvedDateTimeFormatOptions);
+        const spy = vi
+            .spyOn(Intl.DateTimeFormat.prototype, "resolvedOptions")
+            .mockReturnValue({ timeZone: "Europe/Berlin" } as Intl.ResolvedDateTimeFormatOptions);
         render(TimeZonePicker, { props: base });
         await flush();
         spy.mockRestore();
@@ -249,7 +277,9 @@ describe("initial value", () => {
     });
 
     test("UTC when the reader's zone cannot be placed", async () => {
-        const spy = vi.spyOn(Intl.DateTimeFormat.prototype, "resolvedOptions").mockReturnValue({ timeZone: "Nowhere/Land" } as Intl.ResolvedDateTimeFormatOptions);
+        const spy = vi
+            .spyOn(Intl.DateTimeFormat.prototype, "resolvedOptions")
+            .mockReturnValue({ timeZone: "Nowhere/Land" } as Intl.ResolvedDateTimeFormatOptions);
         render(TimeZonePicker, { props: base });
         await flush();
         spy.mockRestore();
@@ -257,7 +287,9 @@ describe("initial value", () => {
     });
 
     test("the first zone when UTC is not offered either", async () => {
-        const spy = vi.spyOn(Intl.DateTimeFormat.prototype, "resolvedOptions").mockReturnValue({ timeZone: "Nowhere/Land" } as Intl.ResolvedDateTimeFormatOptions);
+        const spy = vi
+            .spyOn(Intl.DateTimeFormat.prototype, "resolvedOptions")
+            .mockReturnValue({ timeZone: "Nowhere/Land" } as Intl.ResolvedDateTimeFormatOptions);
         render(TimeZonePicker, { props: { ...base, zones: ["Asia/Tokyo", "America/New_York"] } });
         await flush();
         spy.mockRestore();
@@ -309,7 +341,9 @@ describe("keyboard (APG listbox)", () => {
         await fireEvent.keyDown(button(), { key: "ArrowDown" });
         expect(button().getAttribute("aria-expanded")).toBe("true");
         await flush();
-        expect(list().getAttribute("aria-activedescendant")).toBe(options()[ORDERED.indexOf("Asia/Kolkata")].id);
+        expect(list().getAttribute("aria-activedescendant")).toBe(
+            options()[ORDERED.indexOf("Asia/Kolkata")].id,
+        );
     });
 
     test("ArrowUp on the button opens the list on the last option", async () => {
@@ -317,7 +351,9 @@ describe("keyboard (APG listbox)", () => {
         await flush();
         await fireEvent.keyDown(button(), { key: "ArrowUp" });
         await flush();
-        expect(list().getAttribute("aria-activedescendant")).toBe(options()[options().length - 1].id);
+        expect(list().getAttribute("aria-activedescendant")).toBe(
+            options()[options().length - 1].id,
+        );
     });
 
     test("Enter and Space open it too", async () => {
@@ -334,7 +370,9 @@ describe("keyboard (APG listbox)", () => {
         await flush();
         await fireEvent.keyDown(list(), { key: "End" });
         await fireEvent.keyDown(list(), { key: "ArrowDown" });
-        expect(list().getAttribute("aria-activedescendant")).toBe(options()[options().length - 1].id);
+        expect(list().getAttribute("aria-activedescendant")).toBe(
+            options()[options().length - 1].id,
+        );
         await fireEvent.keyDown(list(), { key: "Home" });
         expect(list().getAttribute("aria-activedescendant")).toBe(options()[0].id);
         await fireEvent.keyDown(list(), { key: "Enter" });
@@ -349,7 +387,9 @@ describe("keyboard (APG listbox)", () => {
         await fireEvent.keyDown(button(), { key: "ArrowDown" });
         await flush();
         for (const ch of "UTC+05") await fireEvent.keyDown(list(), { key: ch });
-        expect(list().getAttribute("aria-activedescendant")).toBe(options()[ORDERED.indexOf("Asia/Kolkata")].id);
+        expect(list().getAttribute("aria-activedescendant")).toBe(
+            options()[ORDERED.indexOf("Asia/Kolkata")].id,
+        );
     });
 
     test("Escape closes without changing the value", async () => {
@@ -399,7 +439,14 @@ describe("open state, disabled, tooltip", () => {
 
     test("a custom children snippet replaces the icon", async () => {
         const { createRawSnippet } = await import("svelte");
-        render(TimeZonePicker, { props: { ...base, children: createRawSnippet(() => ({ render: () => `<span data-testid="glyph">🕒</span>` })) } });
+        render(TimeZonePicker, {
+            props: {
+                ...base,
+                children: createRawSnippet(() => ({
+                    render: () => `<span data-testid="glyph">🕒</span>`,
+                })),
+            },
+        });
         expect(screen.getByTestId("glyph")).toBeTruthy();
         expect(document.querySelector(".time-zone-picker-icon")).toBeNull();
     });

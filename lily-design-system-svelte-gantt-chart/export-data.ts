@@ -20,7 +20,13 @@ export type ExportFormula = { formula: string; result: unknown };
 
 /** Whether a cell value is an {@link ExportFormula}. */
 export function isExportFormula(value: unknown): value is ExportFormula {
-    return !!value && typeof value === "object" && !(value instanceof Date) && typeof (value as ExportFormula).formula === "string" && "result" in (value as object);
+    return (
+        !!value &&
+        typeof value === "object" &&
+        !(value instanceof Date) &&
+        typeof (value as ExportFormula).formula === "string" &&
+        "result" in (value as object)
+    );
 }
 
 /** A header row and rows of cell values. A cell is a string, number, boolean, `Date`, an {@link ExportFormula}, or empty. */
@@ -78,25 +84,40 @@ export function cellText(value: unknown, safe = true): string {
 }
 
 function quoteField(text: string, delimiter: string): string {
-    return text.includes(delimiter) || /["\r\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+    return text.includes(delimiter) || /["\r\n]/.test(text)
+        ? `"${text.replace(/"/g, '""')}"`
+        : text;
 }
 
 /** CSV/TSV text for a table. Fields containing the delimiter, a quote or a line break are quoted. */
 export function toDelimited(table: ExportTable, options: DelimitedOptions = {}): string {
     const { delimiter = ",", header = true, bom = false, safe = true, eol = "\r\n" } = options;
     const lines: string[] = [];
-    if (header) lines.push(table.headers.map((h) => quoteField(cellText(h, safe), delimiter)).join(delimiter));
+    if (header)
+        lines.push(
+            table.headers.map((h) => quoteField(cellText(h, safe), delimiter)).join(delimiter),
+        );
     for (const row of table.rows) {
-        lines.push(table.headers.map((_, i) => quoteField(cellText(row[i], safe), delimiter)).join(delimiter));
+        lines.push(
+            table.headers
+                .map((_, i) => quoteField(cellText(row[i], safe), delimiter))
+                .join(delimiter),
+        );
     }
     return (bom ? "﻿" : "") + lines.join(eol) + (lines.length > 0 ? eol : "");
 }
 
-export function toCsv(table: ExportTable, options: Omit<DelimitedOptions, "delimiter"> = {}): string {
+export function toCsv(
+    table: ExportTable,
+    options: Omit<DelimitedOptions, "delimiter"> = {},
+): string {
     return toDelimited(table, { ...options, delimiter: "," });
 }
 
-export function toTsv(table: ExportTable, options: Omit<DelimitedOptions, "delimiter"> = {}): string {
+export function toTsv(
+    table: ExportTable,
+    options: Omit<DelimitedOptions, "delimiter"> = {},
+): string {
     return toDelimited(table, { ...options, delimiter: "\t" });
 }
 
@@ -132,7 +153,11 @@ function excelSerial(date: Date): number {
 }
 
 function sheetNameFor(name: string): string {
-    const cleaned = name.replace(/[[\]:*?/\\]/g, " ").replace(/\s+/g, " ").trim().slice(0, 31);
+    const cleaned = name
+        .replace(/[[\]:*?/\\]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim()
+        .slice(0, 31);
     return cleaned || "Sheet1";
 }
 
@@ -158,8 +183,10 @@ const STYLES_XML =
 function formulaXml(ref: string, value: ExportFormula): string {
     const expression = xmlEscape(value.formula.replace(/^=/, ""));
     const result = value.result;
-    if (typeof result === "number" && Number.isFinite(result)) return `<c r="${ref}"><f>${expression}</f><v>${result}</v></c>`;
-    if (typeof result === "boolean") return `<c r="${ref}" t="b"><f>${expression}</f><v>${result ? 1 : 0}</v></c>`;
+    if (typeof result === "number" && Number.isFinite(result))
+        return `<c r="${ref}"><f>${expression}</f><v>${result}</v></c>`;
+    if (typeof result === "boolean")
+        return `<c r="${ref}" t="b"><f>${expression}</f><v>${result ? 1 : 0}</v></c>`;
     if (result instanceof Date && !Number.isNaN(result.getTime())) {
         const timeOfDay = result.getTime() % 86_400_000 !== 0;
         return `<c r="${ref}" s="${timeOfDay ? 2 : 1}"><f>${expression}</f><v>${excelSerial(result)}</v></c>`;
@@ -177,7 +204,8 @@ function cellXml(ref: string, value: unknown, headerStyle = false): string {
         const timeOfDay = value.getTime() % 86_400_000 !== 0;
         return `<c r="${ref}" s="${timeOfDay ? 2 : 1}"><v>${excelSerial(value)}</v></c>`;
     }
-    if (typeof value === "number") return Number.isFinite(value) ? `<c r="${ref}"${s}><v>${value}</v></c>` : "";
+    if (typeof value === "number")
+        return Number.isFinite(value) ? `<c r="${ref}"${s}><v>${value}</v></c>` : "";
     if (typeof value === "boolean") return `<c r="${ref}"${s} t="b"><v>${value ? 1 : 0}</v></c>`;
     // A string is stored as text, so it is never read as a formula.
     return `<c r="${ref}"${s} t="inlineStr"><is><t xml:space="preserve">${xmlEscape(String(value))}</t></is></c>`;
@@ -194,13 +222,17 @@ function sheetXml(table: ExportTable, header: boolean): string {
     }
     for (const row of table.rows) {
         rowNumber += 1;
-        const cells = table.headers.map((_, i) => cellXml(`${columnName(i)}${rowNumber}`, row[i])).join("");
+        const cells = table.headers
+            .map((_, i) => cellXml(`${columnName(i)}${rowNumber}`, row[i]))
+            .join("");
         rows.push(`<row r="${rowNumber}">${cells}</row>`);
     }
     return (
         '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
         '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">' +
-        (header && table.headers.length > 0 ? '<sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>' : "") +
+        (header && table.headers.length > 0
+            ? '<sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>'
+            : "") +
         `<sheetData>${rows.join("")}</sheetData></worksheet>`
     );
 }
@@ -236,7 +268,9 @@ export function toXlsx(table: ExportTable, options: XlsxOptions = {}): Uint8Arra
         "xl/styles.xml": STYLES_XML,
         "xl/worksheets/sheet1.xml": sheetXml(table, header),
     };
-    return zipStore(Object.entries(files).map(([name, text]) => ({ name, data: encoder.encode(text) })));
+    return zipStore(
+        Object.entries(files).map(([name, text]) => ({ name, data: encoder.encode(text) })),
+    );
 }
 
 // ---------------------------------------------------------------------
@@ -324,9 +358,18 @@ export function zipStore(entries: { name: string; data: Uint8Array }[]): Uint8Ar
 // ---------------------------------------------------------------------
 
 /** The file for `table` in `format`, as a `Blob`. CSV and TSV carry a UTF-8 byte-order mark so Excel reads them as UTF-8. */
-export function exportBlob(table: ExportTable, format: ExportFormat, options: { sheetName?: string; header?: boolean } = {}): Blob {
-    if (format === "xlsx") return new Blob([toXlsx(table, options) as BlobPart], { type: MIME_TYPES.xlsx });
-    const text = toDelimited(table, { delimiter: format === "tsv" ? "\t" : ",", header: options.header, bom: true });
+export function exportBlob(
+    table: ExportTable,
+    format: ExportFormat,
+    options: { sheetName?: string; header?: boolean } = {},
+): Blob {
+    if (format === "xlsx")
+        return new Blob([toXlsx(table, options) as BlobPart], { type: MIME_TYPES.xlsx });
+    const text = toDelimited(table, {
+        delimiter: format === "tsv" ? "\t" : ",",
+        header: options.header,
+        bom: true,
+    });
     return new Blob([text], { type: MIME_TYPES[format] });
 }
 
@@ -338,7 +381,8 @@ export function exportFilename(base: string, format: ExportFormat): string {
 
 /** Saves a blob through a temporary link. Does nothing outside a browser. */
 export function downloadBlob(blob: Blob, filename: string): void {
-    if (typeof document === "undefined" || typeof URL === "undefined" || !URL.createObjectURL) return;
+    if (typeof document === "undefined" || typeof URL === "undefined" || !URL.createObjectURL)
+        return;
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;

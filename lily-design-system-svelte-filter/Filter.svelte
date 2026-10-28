@@ -1,5 +1,15 @@
-<script lang="ts" module>
-    import type { FilterField, FilterGroup, FilterOperator, FilterOutputFormat, FilterRule, SqlDialect } from "./filter-model";
+<script
+    lang="ts"
+    module
+>
+    import type {
+        FilterField,
+        FilterGroup,
+        FilterOperator,
+        FilterOutputFormat,
+        FilterRule,
+        SqlDialect,
+    } from "./filter-model";
 
     /**
      * Every string the filter shows. There are no English defaults: the consumer supplies all of it, in its own language.
@@ -71,7 +81,18 @@
 <script lang="ts">
     import { tick } from "svelte";
     import {
-        EMPTY_FILTER, addNode, changeField, changeOperator, createGroup, createRule, fieldType, formatFilter, operatorsFor, removeNode, updateNode, valueArity,
+        EMPTY_FILTER,
+        addNode,
+        changeField,
+        changeOperator,
+        createGroup,
+        createRule,
+        fieldType,
+        formatFilter,
+        operatorsFor,
+        removeNode,
+        updateNode,
+        valueArity,
     } from "./filter-model";
 
     let {
@@ -92,7 +113,9 @@
     let rootEl: HTMLDivElement | undefined = $state();
 
     const fieldById = $derived(new Map(fields.map((f) => [f.id, f])));
-    const output = $derived(format && labels.output ? formatFilter(value, fields, format, dialect) : "");
+    const output = $derived(
+        format && labels.output ? formatFilter(value, fields, format, dialect) : "",
+    );
 
     function commit(next: FilterGroup): void {
         value = next;
@@ -175,11 +198,16 @@
         return type === "number" ? Number(raw) : raw;
     }
 
-    const textOf = (v: unknown): string => (v === undefined || v === null || (typeof v === "number" && Number.isNaN(v)) ? "" : String(v));
+    const textOf = (v: unknown): string =>
+        v === undefined || v === null || (typeof v === "number" && Number.isNaN(v))
+            ? ""
+            : String(v);
 
     function toggleOption(rule: FilterRule, optionId: string, checked: boolean): void {
         const current = Array.isArray(rule.value) ? (rule.value as string[]) : [];
-        const next = checked ? [...current.filter((v) => v !== optionId), optionId] : current.filter((v) => v !== optionId);
+        const next = checked
+            ? [...current.filter((v) => v !== optionId), optionId]
+            : current.filter((v) => v !== optionId);
         setRule(rule.id, (r) => ({ ...r, value: next.length ? next : undefined }));
     }
 </script>
@@ -189,7 +217,17 @@
     {@const arity = valueArity(rule.operator)}
     {#if arity === 1 || arity === 2}
         {#if type === "select"}
-            <select class="filter-value" aria-label={labels.value} disabled={readonly} value={textOf(rule.value)} onchange={(e) => setRule(rule.id, (r) => ({ ...r, value: parseTyped("text", e.currentTarget.value) }))}>
+            <select
+                class="filter-value"
+                aria-label={labels.value}
+                disabled={readonly}
+                value={textOf(rule.value)}
+                onchange={(e) =>
+                    setRule(rule.id, (r) => ({
+                        ...r,
+                        value: parseTyped("text", e.currentTarget.value),
+                    }))}
+            >
                 <option value="">{labels.choose ?? ""}</option>
                 {#each field.options ?? [] as option (option.id)}
                     <option value={option.id}>{option.label}</option>
@@ -201,9 +239,13 @@
                 type={type === "number" ? "number" : type === "date" ? "date" : "text"}
                 inputmode={type === "number" ? "decimal" : undefined}
                 aria-label={arity === 2 ? labels.valueFrom : labels.value}
-                readonly={readonly}
+                {readonly}
                 value={textOf(rule.value)}
-                oninput={(e) => setRule(rule.id, (r) => ({ ...r, value: parseTyped(type, e.currentTarget.value) }))}
+                oninput={(e) =>
+                    setRule(rule.id, (r) => ({
+                        ...r,
+                        value: parseTyped(type, e.currentTarget.value),
+                    }))}
             />
             {#if arity === 2}
                 <input
@@ -211,17 +253,30 @@
                     type={type === "number" ? "number" : type === "date" ? "date" : "text"}
                     inputmode={type === "number" ? "decimal" : undefined}
                     aria-label={labels.valueTo}
-                    readonly={readonly}
+                    {readonly}
                     value={textOf(rule.value2)}
-                    oninput={(e) => setRule(rule.id, (r) => ({ ...r, value2: parseTyped(type, e.currentTarget.value) }))}
+                    oninput={(e) =>
+                        setRule(rule.id, (r) => ({
+                            ...r,
+                            value2: parseTyped(type, e.currentTarget.value),
+                        }))}
                 />
             {/if}
         {/if}
     {:else if arity === "many"}
-        <div class="filter-choices" role="group" aria-label={labels.value}>
+        <div
+            class="filter-choices"
+            role="group"
+            aria-label={labels.value}
+        >
             {#each field.options ?? [] as option (option.id)}
                 <label class="filter-choice">
-                    <input type="checkbox" disabled={readonly} checked={Array.isArray(rule.value) && rule.value.includes(option.id)} onchange={(e) => toggleOption(rule, option.id, e.currentTarget.checked)} />
+                    <input
+                        type="checkbox"
+                        disabled={readonly}
+                        checked={Array.isArray(rule.value) && rule.value.includes(option.id)}
+                        onchange={(e) => toggleOption(rule, option.id, e.currentTarget.checked)}
+                    />
                     {option.label}
                 </label>
             {/each}
@@ -230,18 +285,48 @@
 {/snippet}
 
 {#snippet groupView(group: FilterGroup, depth: number, parentId: string | null)}
-    <div class="filter-group" role="group" aria-label={labels.group(depth)} data-depth={depth} data-group-id={group.id}>
+    <div
+        class="filter-group"
+        role="group"
+        aria-label={labels.group(depth)}
+        data-depth={depth}
+        data-group-id={group.id}
+    >
         <div class="filter-group-header">
-            <select class="filter-combinator" aria-label={labels.combinator} disabled={readonly} value={group.combinator} onchange={(e) => setGroup(group.id, (g) => ({ ...g, combinator: e.currentTarget.value === "or" ? "or" : "and" }))}>
+            <select
+                class="filter-combinator"
+                aria-label={labels.combinator}
+                disabled={readonly}
+                value={group.combinator}
+                onchange={(e) =>
+                    setGroup(group.id, (g) => ({
+                        ...g,
+                        combinator: e.currentTarget.value === "or" ? "or" : "and",
+                    }))}
+            >
                 <option value="and">{labels.and}</option>
                 <option value="or">{labels.or}</option>
             </select>
             <label class="filter-not">
-                <input type="checkbox" disabled={readonly} checked={!!group.not} onchange={(e) => setGroup(group.id, (g) => ({ ...g, not: e.currentTarget.checked || undefined }))} />
+                <input
+                    type="checkbox"
+                    disabled={readonly}
+                    checked={!!group.not}
+                    onchange={(e) =>
+                        setGroup(group.id, (g) => ({
+                            ...g,
+                            not: e.currentTarget.checked || undefined,
+                        }))}
+                />
                 {labels.not}
             </label>
             {#if parentId !== null && !readonly}
-                <button type="button" class="filter-remove-group-button" onclick={() => removeGroupById(group, parentId, depth)}>{labels.removeGroup(depth)}</button>
+                <button
+                    type="button"
+                    class="filter-remove-group-button"
+                    onclick={() => removeGroupById(group, parentId, depth)}
+                    >{labels.removeGroup(depth)}</button
+                >
             {/if}
         </div>
         {#if group.children.length === 0 && labels.empty}
@@ -255,14 +340,41 @@
                     {:else}
                         {@const field = fieldById.get(child.field)}
                         {@const n = ruleNumbers.get(child.id) ?? 0}
-                        <div class="filter-rule" role="group" aria-label={labels.rule(n)} data-rule-id={child.id}>
-                            <select class="filter-field" data-filter-field={child.id} aria-label={labels.field} disabled={readonly} value={child.field} onchange={(e) => setRule(child.id, (r) => changeField(r, fields, e.currentTarget.value))}>
+                        <div
+                            class="filter-rule"
+                            role="group"
+                            aria-label={labels.rule(n)}
+                            data-rule-id={child.id}
+                        >
+                            <select
+                                class="filter-field"
+                                data-filter-field={child.id}
+                                aria-label={labels.field}
+                                disabled={readonly}
+                                value={child.field}
+                                onchange={(e) =>
+                                    setRule(child.id, (r) =>
+                                        changeField(r, fields, e.currentTarget.value),
+                                    )}
+                            >
                                 {#each fields as f (f.id)}
                                     <option value={f.id}>{f.label}</option>
                                 {/each}
                             </select>
                             {#if field}
-                                <select class="filter-operator" aria-label={labels.operator} disabled={readonly} value={child.operator} onchange={(e) => setRule(child.id, (r) => changeOperator(r, e.currentTarget.value as FilterOperator))}>
+                                <select
+                                    class="filter-operator"
+                                    aria-label={labels.operator}
+                                    disabled={readonly}
+                                    value={child.operator}
+                                    onchange={(e) =>
+                                        setRule(child.id, (r) =>
+                                            changeOperator(
+                                                r,
+                                                e.currentTarget.value as FilterOperator,
+                                            ),
+                                        )}
+                                >
                                     {#each operatorsFor(field) as op (op)}
                                         <option value={op}>{labels.operatorName(op, field)}</option>
                                     {/each}
@@ -270,7 +382,12 @@
                                 {@render valueEditor(child, field)}
                             {/if}
                             {#if !readonly}
-                                <button type="button" class="filter-remove-rule-button" onclick={() => removeRuleById(child, group.id)}>{labels.removeRule(n)}</button>
+                                <button
+                                    type="button"
+                                    class="filter-remove-rule-button"
+                                    onclick={() => removeRuleById(child, group.id)}
+                                    >{labels.removeRule(n)}</button
+                                >
                             {/if}
                         </div>
                     {/if}
@@ -279,21 +396,47 @@
         </ul>
         {#if !readonly}
             <div class="filter-group-actions">
-                <button type="button" class="filter-add-rule-button" data-filter-add-rule={group.id} onclick={() => addRule(group.id)}>{labels.addRule}</button>
+                <button
+                    type="button"
+                    class="filter-add-rule-button"
+                    data-filter-add-rule={group.id}
+                    onclick={() => addRule(group.id)}>{labels.addRule}</button
+                >
                 {#if depth < maxDepth}
-                    <button type="button" class="filter-add-group-button" onclick={() => addGroup(group.id, depth)}>{labels.addGroup}</button>
+                    <button
+                        type="button"
+                        class="filter-add-group-button"
+                        onclick={() => addGroup(group.id, depth)}>{labels.addGroup}</button
+                    >
                 {/if}
             </div>
         {/if}
     </div>
 {/snippet}
 
-<div bind:this={rootEl} class={`filter ${className}`.trim()} role="group" aria-label={label} data-readonly={readonly ? "" : undefined} {...restProps}>
+<div
+    bind:this={rootEl}
+    class={`filter ${className}`.trim()}
+    role="group"
+    aria-label={label}
+    data-readonly={readonly ? "" : undefined}
+    {...restProps}
+>
     {@render groupView(value, 1, null)}
     {#if format && labels.output}
-        <div class="filter-output" role="group" aria-label={labels.output} data-format={format}>
+        <div
+            class="filter-output"
+            role="group"
+            aria-label={labels.output}
+            data-format={format}
+        >
             <pre class="filter-output-text">{output}</pre>
         </div>
     {/if}
-    <p class="filter-status" aria-live="polite">{statusMessage}</p>
+    <p
+        class="filter-status"
+        aria-live="polite"
+    >
+        {statusMessage}
+    </p>
 </div>

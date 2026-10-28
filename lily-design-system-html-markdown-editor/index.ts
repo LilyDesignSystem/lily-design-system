@@ -8,7 +8,14 @@
 import { MarkdownEditor, nextMarkdownEditorId } from "./markdown-editor.js";
 export { MarkdownEditor, nextMarkdownEditorId };
 export type { Labels } from "./markdown-editor.js";
-export { applyTool, toggleWrap, toggleLines, insertLink, TOOL_IDS, WRAP_MARKERS } from "./markdown-format.js";
+export {
+    applyTool,
+    toggleWrap,
+    toggleLines,
+    insertLink,
+    TOOL_IDS,
+    WRAP_MARKERS,
+} from "./markdown-format.js";
 export type { ToolId, WrapTool, LineTool, Edit } from "./markdown-format.js";
 
 if (typeof customElements !== "undefined" && !customElements.get("markdown-editor")) {

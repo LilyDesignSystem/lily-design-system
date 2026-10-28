@@ -39,20 +39,20 @@
   invalid HTML and breaks keyboard behaviour.
 -->
 <script lang="ts">
-  import ThemePicker from "../ThemePicker.svelte";
+    import ThemePicker from "../ThemePicker.svelte";
 
-  let theme = $state("");
+    let theme = $state("");
 </script>
 
 <ThemePicker
-  label="Theme"
-  themesUrl="/assets/themes/"
-  themes={["light", "dark", "abyss", "cupcake", "dracula"]}
-  bind:value={theme}
+    label="Theme"
+    themesUrl="/assets/themes/"
+    themes={["light", "dark", "abyss", "cupcake", "dracula"]}
+    bind:value={theme}
 >
-  {#snippet children({ value, open, labelFor })}
-    <span aria-hidden="true">◑</span>
-    <span class="theme-picker-text">{labelFor(value)}</span>
-    <span aria-hidden="true">{open ? "▴" : "▾"}</span>
-  {/snippet}
+    {#snippet children({ value, open, labelFor })}
+        <span aria-hidden="true">◑</span>
+        <span class="theme-picker-text">{labelFor(value)}</span>
+        <span aria-hidden="true">{open ? "▴" : "▾"}</span>
+    {/snippet}
 </ThemePicker>

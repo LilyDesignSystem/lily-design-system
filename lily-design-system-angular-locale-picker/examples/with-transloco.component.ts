@@ -27,12 +27,7 @@
     runtime locale and triggers every transloco-bound template to
     re-render.
 */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject, signal } from "@angular/core";
 // In a real app these come from @jsverse/transloco.
 // import { TranslocoModule, TranslocoService } from "@jsverse/transloco";
 import { LocalePicker } from "../locale-picker.component";

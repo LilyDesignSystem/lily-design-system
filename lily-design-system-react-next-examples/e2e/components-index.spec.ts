@@ -12,12 +12,14 @@ import { suffixPatternOf } from "../app/data/suffix-pattern";
 const TOTAL = components.length;
 const tableSlugs = new Set(components.filter((c) => c.category === "tables").map((c) => c.slug));
 const pickerButtonSlugs = new Set(
-    components.filter((c) => suffixPatternOf(c.slug) === "picker-button").map((c) => c.slug)
+    components.filter((c) => suffixPatternOf(c.slug) === "picker-button").map((c) => c.slug),
 );
 const starPickerButtonSlugs = new Set(
     [...pickerButtonSlugs].filter(
-        (slug) => slug.includes("star") && components.find((c) => c.slug === slug)?.category === "pickers"
-    )
+        (slug) =>
+            slug.includes("star") &&
+            components.find((c) => c.slug === slug)?.category === "pickers",
+    ),
 );
 
 function slugFromHref(href: string | null): string {
@@ -60,7 +62,9 @@ test.describe("/components search filters", () => {
         }
     });
 
-    test("suffix-pattern filter shows exactly the slugs ending in that suffix", async ({ page }) => {
+    test("suffix-pattern filter shows exactly the slugs ending in that suffix", async ({
+        page,
+    }) => {
         await page.goto("/components");
         await page.getByLabel("Suffix pattern").selectOption("picker-button");
 
@@ -74,7 +78,10 @@ test.describe("/components search filters", () => {
     });
 
     test("category, suffix-pattern, and search combine as an intersection", async ({ page }) => {
-        test.skip(starPickerButtonSlugs.size === 0, "no star + picker-button component in the current catalog");
+        test.skip(
+            starPickerButtonSlugs.size === 0,
+            "no star + picker-button component in the current catalog",
+        );
 
         await page.goto("/components");
         await page.getByLabel("Category").selectOption("pickers");

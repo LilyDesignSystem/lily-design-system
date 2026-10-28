@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<button
   class="red-amber-green-picker-button"
@@ -9,9 +9,9 @@ const html = `<button
   data-status=""></button>`;
 
 const meta = {
-  title: 'Headless/RedAmberGreenPickerButton',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/RedAmberGreenPickerButton",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

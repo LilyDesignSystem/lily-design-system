@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<input
   class="angle-slider-range-input"
@@ -10,9 +10,9 @@ const html = `<input
 >`;
 
 const meta = {
-  title: 'Headless/AngleSliderRangeInput',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/AngleSliderRangeInput",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

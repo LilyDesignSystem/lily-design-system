@@ -13,7 +13,7 @@ test.describe("component page: scroll-bar", () => {
 
   test("renders the H1 with the component name", async ({ page }) => {
     await expect(
-      page.getByRole("heading", { level: 1, name: new RegExp("^ScrollBar$") })
+      page.getByRole("heading", { level: 1, name: new RegExp("^ScrollBar$") }),
     ).toBeVisible();
   });
 

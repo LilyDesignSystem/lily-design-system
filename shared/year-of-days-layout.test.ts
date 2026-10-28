@@ -10,8 +10,18 @@ describe("year-of-days-layout", () => {
     });
 
     test("1 January 2026 is a Thursday: row 4 from Sunday, row 3 from Monday", () => {
-        expect(yearOfDaysCells(2026, 0)[0]).toEqual({ date: "2026-01-01", dayOfYear: 0, column: 0, row: 4 });
-        expect(yearOfDaysCells(2026, 1)[0]).toEqual({ date: "2026-01-01", dayOfYear: 0, column: 0, row: 3 });
+        expect(yearOfDaysCells(2026, 0)[0]).toEqual({
+            date: "2026-01-01",
+            dayOfYear: 0,
+            column: 0,
+            row: 4,
+        });
+        expect(yearOfDaysCells(2026, 1)[0]).toEqual({
+            date: "2026-01-01",
+            dayOfYear: 0,
+            column: 0,
+            row: 3,
+        });
     });
 
     test("the week turns over on weekStart: 4 January 2026 (Sunday) opens column 1 from Sunday", () => {

@@ -28,11 +28,7 @@
     visually.
 */
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import {
-  SharePicker,
-  SharePickerIcon,
-  type ShareTarget,
-} from "../share-picker.component";
+import { SharePicker, SharePickerIcon, type ShareTarget } from "../share-picker.component";
 
 @Component({
   selector: "example-custom-glyph",
@@ -67,8 +63,7 @@ export class CustomGlyphExample {
     {
       id: "mastodon",
       label: "Mastodon",
-      href: (url) =>
-        `https://mastodon.social/share?text=${encodeURIComponent(url)}`,
+      href: (url) => `https://mastodon.social/share?text=${encodeURIComponent(url)}`,
     },
   ];
 }

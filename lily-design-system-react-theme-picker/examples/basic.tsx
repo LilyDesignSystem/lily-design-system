@@ -64,7 +64,10 @@ export function BasicExample() {
                 onChange={setTheme}
             />
 
-            <p className="theme-picker-status" aria-live="polite">
+            <p
+                className="theme-picker-status"
+                aria-live="polite"
+            >
                 Active theme: {themeName(theme)}
             </p>
         </>

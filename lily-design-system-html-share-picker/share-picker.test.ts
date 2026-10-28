@@ -1,164 +1,145 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import {
-  SharePicker,
-  canCopy,
-  canShareNatively,
-  nextSharePickerId,
-  type SharePickerShareDetail,
-  type SharePickerUrlDetail,
-  type ShareTarget,
+    SharePicker,
+    canCopy,
+    canShareNatively,
+    nextSharePickerId,
+    type SharePickerShareDetail,
+    type SharePickerUrlDetail,
+    type ShareTarget,
 } from "./share-picker.js";
 
 // Ensure the custom element is registered exactly once for the suite.
-if (
-  typeof customElements !== "undefined" &&
-  !customElements.get("share-picker")
-) {
-  customElements.define("share-picker", SharePicker);
+if (typeof customElements !== "undefined" && !customElements.get("share-picker")) {
+    customElements.define("share-picker", SharePicker);
 }
 
 const URL_UNDER_TEST = "https://example.test/article";
 
 const TARGETS: ShareTarget[] = [
-  {
-    id: "mastodon",
-    label: "Mastodon",
-    href: (u, t) =>
-      `https://mastodon.test/share?url=${encodeURIComponent(u)}&text=${encodeURIComponent(t)}`,
-  },
-  {
-    id: "linkedin",
-    label: "LinkedIn",
-    href: (u) => `https://linkedin.test/sharing?url=${encodeURIComponent(u)}`,
-  },
+    {
+        id: "mastodon",
+        label: "Mastodon",
+        href: (u, t) =>
+            `https://mastodon.test/share?url=${encodeURIComponent(u)}&text=${encodeURIComponent(t)}`,
+    },
+    {
+        id: "linkedin",
+        label: "LinkedIn",
+        href: (u) => `https://linkedin.test/sharing?url=${encodeURIComponent(u)}`,
+    },
 ];
 
 function flush(): Promise<void> {
-  return new Promise((r) => setTimeout(r, 0));
+    return new Promise((r) => setTimeout(r, 0));
 }
 
 type MountOptions = {
-  targets?: ShareTarget[];
-  tag?: string;
+    targets?: ShareTarget[];
+    tag?: string;
 };
 
 function mount(
-  attrs: Record<string, string>,
-  { targets = TARGETS, tag = "share-picker" }: MountOptions = {},
+    attrs: Record<string, string>,
+    { targets = TARGETS, tag = "share-picker" }: MountOptions = {},
 ): SharePicker {
-  const el = document.createElement(tag) as SharePicker;
-  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
-  // `targets` is property-only: ShareTarget.href is a function, so there
-  // is no honest attribute encoding for it. Assigning before append means
-  // the first render already has them.
-  el.targets = targets;
-  document.body.appendChild(el);
-  return el;
+    const el = document.createElement(tag) as SharePicker;
+    for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+    // `targets` is property-only: ShareTarget.href is a function, so there
+    // is no honest attribute encoding for it. Assigning before append means
+    // the first render already has them.
+    el.targets = targets;
+    document.body.appendChild(el);
+    return el;
 }
 
 function trigger(): HTMLButtonElement {
-  return document.body.querySelector<HTMLButtonElement>(
-    ".share-picker-button",
-  )!;
+    return document.body.querySelector<HTMLButtonElement>(".share-picker-button")!;
 }
 
 function list(): HTMLUListElement {
-  return document.body.querySelector<HTMLUListElement>(".share-picker-list")!;
+    return document.body.querySelector<HTMLUListElement>(".share-picker-list")!;
 }
 
 function links(): HTMLAnchorElement[] {
-  return [
-    ...document.body.querySelectorAll<HTMLAnchorElement>(
-      ".share-picker-target",
-    ),
-  ];
+    return [...document.body.querySelectorAll<HTMLAnchorElement>(".share-picker-target")];
 }
 
 function copyItem(): HTMLButtonElement | null {
-  return document.body.querySelector<HTMLButtonElement>(".share-picker-copy");
+    return document.body.querySelector<HTMLButtonElement>(".share-picker-copy");
 }
 
 function statusRegion(): HTMLParagraphElement {
-  return document.body.querySelector<HTMLParagraphElement>(
-    ".share-picker-status",
-  )!;
+    return document.body.querySelector<HTMLParagraphElement>(".share-picker-status")!;
 }
 
 function items(): HTMLElement[] {
-  return [
-    ...list().querySelectorAll<HTMLElement>(
-      ".share-picker-target, .share-picker-copy",
-    ),
-  ];
+    return [...list().querySelectorAll<HTMLElement>(".share-picker-target, .share-picker-copy")];
 }
 
 function press(el: Element, key: string): void {
-  el.dispatchEvent(
-    new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }),
-  );
+    el.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
 }
 
 function click(el: Element): void {
-  el.dispatchEvent(
-    new MouseEvent("click", { bubbles: true, cancelable: true }),
-  );
+    el.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
 }
 
 /** Install a fake async clipboard; returns the writes and a restore fn. */
 function stubClipboard(succeed = true): {
-  writes: string[];
-  restore: () => void;
+    writes: string[];
+    restore: () => void;
 } {
-  const original = (navigator as any).clipboard;
-  const writes: string[] = [];
-  Object.defineProperty(navigator, "clipboard", {
-    configurable: true,
-    value: {
-      writeText: (s: string) => {
-        if (!succeed) return Promise.reject(new Error("denied"));
-        writes.push(s);
-        return Promise.resolve();
-      },
-    },
-  });
-  return {
-    writes,
-    restore: () => {
-      if (original === undefined) delete (navigator as any).clipboard;
-      else
-        Object.defineProperty(navigator, "clipboard", {
-          configurable: true,
-          value: original,
-        });
-    },
-  };
+    const original = (navigator as any).clipboard;
+    const writes: string[] = [];
+    Object.defineProperty(navigator, "clipboard", {
+        configurable: true,
+        value: {
+            writeText: (s: string) => {
+                if (!succeed) return Promise.reject(new Error("denied"));
+                writes.push(s);
+                return Promise.resolve();
+            },
+        },
+    });
+    return {
+        writes,
+        restore: () => {
+            if (original === undefined) delete (navigator as any).clipboard;
+            else
+                Object.defineProperty(navigator, "clipboard", {
+                    configurable: true,
+                    value: original,
+                });
+        },
+    };
 }
 
 /** Install a fake native share sheet; returns the calls and a restore fn. */
 function stubNativeShare(behaviour: "resolve" | "reject" = "resolve") {
-  const original = (navigator as any).share;
-  const calls: any[] = [];
-  Object.defineProperty(navigator, "share", {
-    configurable: true,
-    value: (data: any) => {
-      calls.push(data);
-      return behaviour === "resolve"
-        ? Promise.resolve()
-        : Promise.reject(new Error("AbortError"));
-    },
-  });
-  return {
-    calls,
-    restore: () => {
-      if (original === undefined) delete (navigator as any).share;
-      else
-        Object.defineProperty(navigator, "share", {
-          configurable: true,
-          value: original,
-        });
-    },
-  };
+    const original = (navigator as any).share;
+    const calls: any[] = [];
+    Object.defineProperty(navigator, "share", {
+        configurable: true,
+        value: (data: any) => {
+            calls.push(data);
+            return behaviour === "resolve"
+                ? Promise.resolve()
+                : Promise.reject(new Error("AbortError"));
+        },
+    });
+    return {
+        calls,
+        restore: () => {
+            if (original === undefined) delete (navigator as any).share;
+            else
+                Object.defineProperty(navigator, "share", {
+                    configurable: true,
+                    value: original,
+                });
+        },
+    };
 }
 
 // jsdom does not implement navigation, and the destinations are real
@@ -167,989 +148,970 @@ function stubNativeShare(behaviour: "resolve" | "reject" = "resolve") {
 // is a harness concern only — the links are genuinely navigable in a
 // browser, which is the whole point of §7.3.
 function swallowNavigation(event: MouseEvent): void {
-  if ((event.target as HTMLElement | null)?.closest?.("a[href]"))
-    event.preventDefault();
+    if ((event.target as HTMLElement | null)?.closest?.("a[href]")) event.preventDefault();
 }
 
 beforeEach(() => {
-  document.body.replaceChildren();
-  document.addEventListener("click", swallowNavigation);
-  // jsdom ships neither API; make their absence explicit rather than
-  // assumed, so "no native sheet" and "no clipboard" are real states.
-  delete (navigator as any).share;
-  delete (navigator as any).clipboard;
+    document.body.replaceChildren();
+    document.addEventListener("click", swallowNavigation);
+    // jsdom ships neither API; make their absence explicit rather than
+    // assumed, so "no native sheet" and "no clipboard" are real states.
+    delete (navigator as any).share;
+    delete (navigator as any).clipboard;
 });
 
 afterEach(() => {
-  document.removeEventListener("click", swallowNavigation);
-  document.body.replaceChildren();
-  delete (navigator as any).share;
-  delete (navigator as any).clipboard;
+    document.removeEventListener("click", swallowNavigation);
+    document.body.replaceChildren();
+    delete (navigator as any).share;
+    delete (navigator as any).clipboard;
 });
 
 describe("<share-picker> — pure helpers", () => {
-  test("nextSharePickerId mints unique, prefixed ids", () => {
-    const a = nextSharePickerId();
-    const b = nextSharePickerId();
-    expect(a).toMatch(/^share-picker-\d+$/);
-    expect(b).toMatch(/^share-picker-\d+$/);
-    expect(a).not.toBe(b);
-  });
+    test("nextSharePickerId mints unique, prefixed ids", () => {
+        const a = nextSharePickerId();
+        const b = nextSharePickerId();
+        expect(a).toMatch(/^share-picker-\d+$/);
+        expect(b).toMatch(/^share-picker-\d+$/);
+        expect(a).not.toBe(b);
+    });
 
-  test("canCopy reflects navigator.clipboard.writeText", () => {
-    expect(canCopy()).toBe(false);
-    const clip = stubClipboard();
-    expect(canCopy()).toBe(true);
-    clip.restore();
-  });
+    test("canCopy reflects navigator.clipboard.writeText", () => {
+        expect(canCopy()).toBe(false);
+        const clip = stubClipboard();
+        expect(canCopy()).toBe(true);
+        clip.restore();
+    });
 });
 
 describe("<share-picker> — markup contract (§7.1–§7.6)", () => {
-  test("§7.1 renders a disclosure button controlling a list", async () => {
-    mount({ label: "Share", url: URL_UNDER_TEST });
-    await flush();
-    const root = document.body.querySelector("div.share-picker")!;
-    expect(root.tagName).toBe("DIV");
-    const btn = trigger();
-    expect(btn.tagName).toBe("BUTTON");
-    expect(btn.getAttribute("type")).toBe("button");
-    expect(btn.getAttribute("aria-label")).toBe("Share");
-    expect(btn.getAttribute("aria-expanded")).toBe("false");
-    const listId = btn.getAttribute("aria-controls");
-    expect(listId).toBeTruthy();
-    expect(document.getElementById(listId!)?.tagName).toBe("UL");
-    expect(document.getElementById(listId!)).toBe(list());
-  });
+    test("§7.1 renders a disclosure button controlling a list", async () => {
+        mount({ label: "Share", url: URL_UNDER_TEST });
+        await flush();
+        const root = document.body.querySelector("div.share-picker")!;
+        expect(root.tagName).toBe("DIV");
+        const btn = trigger();
+        expect(btn.tagName).toBe("BUTTON");
+        expect(btn.getAttribute("type")).toBe("button");
+        expect(btn.getAttribute("aria-label")).toBe("Share");
+        expect(btn.getAttribute("aria-expanded")).toBe("false");
+        const listId = btn.getAttribute("aria-controls");
+        expect(listId).toBeTruthy();
+        expect(document.getElementById(listId!)?.tagName).toBe("UL");
+        expect(document.getElementById(listId!)).toBe(list());
+    });
 
-  test("§7.1 the trigger class is share-picker-button", async () => {
-    mount({ label: "Share", url: URL_UNDER_TEST });
-    await flush();
-    // Follows the catalog's `{helper}-button` convention, same as
-    // theme-picker / locale-picker / text-size-picker.
-    expect(document.body.querySelector(".share-picker-button")).not.toBeNull();
-    expect(document.body.querySelector(".share-picker-trigger")).toBeNull();
-  });
+    test("§7.1 the trigger class is share-picker-button", async () => {
+        mount({ label: "Share", url: URL_UNDER_TEST });
+        await flush();
+        // Follows the catalog's `{helper}-button` convention, same as
+        // theme-picker / locale-picker / text-size-picker.
+        expect(document.body.querySelector(".share-picker-button")).not.toBeNull();
+        expect(document.body.querySelector(".share-picker-trigger")).toBeNull();
+    });
 
-  test("§7.1 the button renders the default arrow SVG icon, hidden from assistive tech", async () => {
-    mount({ label: "Share", url: URL_UNDER_TEST });
-    await flush();
-    const icon = document.body.querySelector<SVGElement>(
-      ".share-picker-icon",
-    )!;
-    expect(icon.tagName.toLowerCase()).toBe("svg");
-    expect(icon.getAttribute("aria-hidden")).toBe("true");
-    expect(icon.querySelector("path")).toBeTruthy();
-    expect(icon.closest("button")).toBe(trigger());
-  });
+    test("§7.1 the button renders the default arrow SVG icon, hidden from assistive tech", async () => {
+        mount({ label: "Share", url: URL_UNDER_TEST });
+        await flush();
+        const icon = document.body.querySelector<SVGElement>(".share-picker-icon")!;
+        expect(icon.tagName.toLowerCase()).toBe("svg");
+        expect(icon.getAttribute("aria-hidden")).toBe("true");
+        expect(icon.querySelector("path")).toBeTruthy();
+        expect(icon.closest("button")).toBe(trigger());
+    });
 
-  test("§7.2 the list is hidden until the button is activated", async () => {
-    mount({ label: "Share", url: URL_UNDER_TEST });
-    await flush();
-    expect(list().hasAttribute("hidden")).toBe(true);
-    click(trigger());
-    await flush();
-    expect(list().hasAttribute("hidden")).toBe(false);
-    expect(trigger().getAttribute("aria-expanded")).toBe("true");
-  });
+    test("§7.2 the list is hidden until the button is activated", async () => {
+        mount({ label: "Share", url: URL_UNDER_TEST });
+        await flush();
+        expect(list().hasAttribute("hidden")).toBe(true);
+        click(trigger());
+        await flush();
+        expect(list().hasAttribute("hidden")).toBe(false);
+        expect(trigger().getAttribute("aria-expanded")).toBe("true");
+    });
 
-  test("§7.3 destinations are real links, not role=menuitem", async () => {
-    mount({ label: "Share", url: URL_UNDER_TEST });
-    await flush();
-    click(trigger());
-    const all = links();
-    expect(all.length).toBe(2);
-    for (const a of all) {
-      expect(a.tagName).toBe("A");
-      // Real link semantics are the point: no role override, and safe
-      // cross-origin defaults.
-      expect(a.getAttribute("role")).toBeNull();
-      expect(a.getAttribute("target")).toBe("_blank");
-      expect(a.getAttribute("rel")).toBe("noopener noreferrer");
-      expect(a.closest("li")?.className).toBe("share-picker-list-item");
-    }
-  });
+    test("§7.3 destinations are real links, not role=menuitem", async () => {
+        mount({ label: "Share", url: URL_UNDER_TEST });
+        await flush();
+        click(trigger());
+        const all = links();
+        expect(all.length).toBe(2);
+        for (const a of all) {
+            expect(a.tagName).toBe("A");
+            // Real link semantics are the point: no role override, and safe
+            // cross-origin defaults.
+            expect(a.getAttribute("role")).toBeNull();
+            expect(a.getAttribute("target")).toBe("_blank");
+            expect(a.getAttribute("rel")).toBe("noopener noreferrer");
+            expect(a.closest("li")?.className).toBe("share-picker-list-item");
+        }
+    });
 
-  test("§7.3 newTab:false drops target=_blank but keeps rel", async () => {
-    mount(
-      { label: "Share", url: URL_UNDER_TEST },
-      {
-        targets: [
-          { id: "same", label: "Same tab", href: (u) => u, newTab: false },
-          { id: "new", label: "New tab", href: (u) => u },
-        ],
-      },
-    );
-    await flush();
-    click(trigger());
-    expect(links()[0].hasAttribute("target")).toBe(false);
-    expect(links()[0].getAttribute("rel")).toBe("noopener noreferrer");
-    expect(links()[1].getAttribute("target")).toBe("_blank");
-  });
-
-  test("§7.4 each destination's href comes from its own href()", async () => {
-    mount({ label: "Share", url: URL_UNDER_TEST, "share-title": "Hello" });
-    await flush();
-    click(trigger());
-    expect(links()[0].getAttribute("href")).toBe(
-      `https://mastodon.test/share?url=${encodeURIComponent(URL_UNDER_TEST)}&text=${encodeURIComponent("Hello")}`,
-    );
-    expect(links()[1].getAttribute("href")).toBe(
-      `https://linkedin.test/sharing?url=${encodeURIComponent(URL_UNDER_TEST)}`,
-    );
-  });
-
-  test("§7.4 href() receives share-title and text", async () => {
-    const seen: Array<[string, string, string]> = [];
-    mount(
-      { label: "Share", url: URL_UNDER_TEST, "share-title": "T", text: "B" },
-      {
-        targets: [
-          {
-            id: "probe",
-            label: "Probe",
-            href: (u, t, x) => {
-              seen.push([u, t, x]);
-              return "https://probe.test/";
+    test("§7.3 newTab:false drops target=_blank but keeps rel", async () => {
+        mount(
+            { label: "Share", url: URL_UNDER_TEST },
+            {
+                targets: [
+                    { id: "same", label: "Same tab", href: (u) => u, newTab: false },
+                    { id: "new", label: "New tab", href: (u) => u },
+                ],
             },
-          },
-        ],
-      },
-    );
-    await flush();
-    expect(seen.at(-1)).toEqual([URL_UNDER_TEST, "T", "B"]);
-  });
+        );
+        await flush();
+        click(trigger());
+        expect(links()[0].hasAttribute("target")).toBe(false);
+        expect(links()[0].getAttribute("rel")).toBe("noopener noreferrer");
+        expect(links()[1].getAttribute("target")).toBe("_blank");
+    });
 
-  test("§7.5 the copy item renders only when copy-label is supplied", async () => {
-    mount({ label: "Share", url: URL_UNDER_TEST });
-    await flush();
-    click(trigger());
-    expect(copyItem()).toBeNull();
+    test("§7.4 each destination's href comes from its own href()", async () => {
+        mount({ label: "Share", url: URL_UNDER_TEST, "share-title": "Hello" });
+        await flush();
+        click(trigger());
+        expect(links()[0].getAttribute("href")).toBe(
+            `https://mastodon.test/share?url=${encodeURIComponent(URL_UNDER_TEST)}&text=${encodeURIComponent("Hello")}`,
+        );
+        expect(links()[1].getAttribute("href")).toBe(
+            `https://linkedin.test/sharing?url=${encodeURIComponent(URL_UNDER_TEST)}`,
+        );
+    });
 
-    document.body.replaceChildren();
-    mount({ label: "Share", url: URL_UNDER_TEST, "copy-label": "Copy link" });
-    await flush();
-    click(trigger());
-    const copy = copyItem()!;
-    expect(copy.tagName).toBe("BUTTON");
-    expect(copy.getAttribute("type")).toBe("button");
-    expect(copy.textContent?.trim()).toBe("Copy link");
-  });
+    test("§7.4 href() receives share-title and text", async () => {
+        const seen: Array<[string, string, string]> = [];
+        mount(
+            { label: "Share", url: URL_UNDER_TEST, "share-title": "T", text: "B" },
+            {
+                targets: [
+                    {
+                        id: "probe",
+                        label: "Probe",
+                        href: (u, t, x) => {
+                            seen.push([u, t, x]);
+                            return "https://probe.test/";
+                        },
+                    },
+                ],
+            },
+        );
+        await flush();
+        expect(seen.at(-1)).toEqual([URL_UNDER_TEST, "T", "B"]);
+    });
 
-  test("§7.6 the status region is present, polite, and silent on load", async () => {
-    mount({ label: "Share", url: URL_UNDER_TEST });
-    await flush();
-    const status = statusRegion();
-    expect(status.tagName).toBe("P");
-    expect(status.getAttribute("aria-live")).toBe("polite");
-    expect(status.textContent?.trim()).toBe("");
-  });
+    test("§7.5 the copy item renders only when copy-label is supplied", async () => {
+        mount({ label: "Share", url: URL_UNDER_TEST });
+        await flush();
+        click(trigger());
+        expect(copyItem()).toBeNull();
+
+        document.body.replaceChildren();
+        mount({ label: "Share", url: URL_UNDER_TEST, "copy-label": "Copy link" });
+        await flush();
+        click(trigger());
+        const copy = copyItem()!;
+        expect(copy.tagName).toBe("BUTTON");
+        expect(copy.getAttribute("type")).toBe("button");
+        expect(copy.textContent?.trim()).toBe("Copy link");
+    });
+
+    test("§7.6 the status region is present, polite, and silent on load", async () => {
+        mount({ label: "Share", url: URL_UNDER_TEST });
+        await flush();
+        const status = statusRegion();
+        expect(status.tagName).toBe("P");
+        expect(status.getAttribute("aria-live")).toBe("polite");
+        expect(status.textContent?.trim()).toBe("");
+    });
 });
 
 describe("<share-picker> — copy to clipboard (§7.7–§7.10)", () => {
-  test("§7.7 copying writes the URL and fires onCopy", async () => {
-    const clip = stubClipboard();
-    const onCopy = vi.fn();
-    const el = mount({
-      label: "Share",
-      url: URL_UNDER_TEST,
-      "copy-label": "Copy link",
+    test("§7.7 copying writes the URL and fires onCopy", async () => {
+        const clip = stubClipboard();
+        const onCopy = vi.fn();
+        const el = mount({
+            label: "Share",
+            url: URL_UNDER_TEST,
+            "copy-label": "Copy link",
+        });
+        el.onCopy = onCopy;
+        await flush();
+        click(trigger());
+        click(copyItem()!);
+        await flush();
+        expect(clip.writes).toEqual([URL_UNDER_TEST]);
+        expect(onCopy).toHaveBeenCalledWith(URL_UNDER_TEST);
+        clip.restore();
     });
-    el.onCopy = onCopy;
-    await flush();
-    click(trigger());
-    click(copyItem()!);
-    await flush();
-    expect(clip.writes).toEqual([URL_UNDER_TEST]);
-    expect(onCopy).toHaveBeenCalledWith(URL_UNDER_TEST);
-    clip.restore();
-  });
 
-  test("§7.7 copying also dispatches a bubbling `copy` CustomEvent", async () => {
-    const clip = stubClipboard();
-    const seen: SharePickerUrlDetail[] = [];
-    document.body.addEventListener("copy", (e) => {
-      seen.push((e as unknown as CustomEvent<SharePickerUrlDetail>).detail);
+    test("§7.7 copying also dispatches a bubbling `copy` CustomEvent", async () => {
+        const clip = stubClipboard();
+        const seen: SharePickerUrlDetail[] = [];
+        document.body.addEventListener("copy", (e) => {
+            seen.push((e as unknown as CustomEvent<SharePickerUrlDetail>).detail);
+        });
+        mount({ label: "Share", url: URL_UNDER_TEST, "copy-label": "Copy link" });
+        await flush();
+        click(trigger());
+        click(copyItem()!);
+        await flush();
+        expect(seen.at(-1)).toEqual({ url: URL_UNDER_TEST });
+        clip.restore();
     });
-    mount({ label: "Share", url: URL_UNDER_TEST, "copy-label": "Copy link" });
-    await flush();
-    click(trigger());
-    click(copyItem()!);
-    await flush();
-    expect(seen.at(-1)).toEqual({ url: URL_UNDER_TEST });
-    clip.restore();
-  });
 
-  test("§7.8 a successful copy announces copied-label and closes the list", async () => {
-    const clip = stubClipboard();
-    mount({
-      label: "Share",
-      url: URL_UNDER_TEST,
-      "copy-label": "Copy link",
-      "copied-label": "Link copied",
+    test("§7.8 a successful copy announces copied-label and closes the list", async () => {
+        const clip = stubClipboard();
+        mount({
+            label: "Share",
+            url: URL_UNDER_TEST,
+            "copy-label": "Copy link",
+            "copied-label": "Link copied",
+        });
+        await flush();
+        click(trigger());
+        click(copyItem()!);
+        await flush();
+        expect(statusRegion().textContent?.trim()).toBe("Link copied");
+        expect(list().hasAttribute("hidden")).toBe(true);
+        clip.restore();
     });
-    await flush();
-    click(trigger());
-    click(copyItem()!);
-    await flush();
-    expect(statusRegion().textContent?.trim()).toBe("Link copied");
-    expect(list().hasAttribute("hidden")).toBe(true);
-    clip.restore();
-  });
 
-  test("§7.9 a failed copy announces copy-failed-label and does not throw", async () => {
-    const clip = stubClipboard(false);
-    mount({
-      label: "Share",
-      url: URL_UNDER_TEST,
-      "copy-label": "Copy link",
-      "copied-label": "Link copied",
-      "copy-failed-label": "Could not copy",
+    test("§7.9 a failed copy announces copy-failed-label and does not throw", async () => {
+        const clip = stubClipboard(false);
+        mount({
+            label: "Share",
+            url: URL_UNDER_TEST,
+            "copy-label": "Copy link",
+            "copied-label": "Link copied",
+            "copy-failed-label": "Could not copy",
+        });
+        await flush();
+        click(trigger());
+        click(copyItem()!);
+        await flush();
+        expect(statusRegion().textContent?.trim()).toBe("Could not copy");
+        expect(list().hasAttribute("hidden")).toBe(true);
+        clip.restore();
     });
-    await flush();
-    click(trigger());
-    click(copyItem()!);
-    await flush();
-    expect(statusRegion().textContent?.trim()).toBe("Could not copy");
-    expect(list().hasAttribute("hidden")).toBe(true);
-    clip.restore();
-  });
 
-  test("§7.10 an absent clipboard API is treated as a failure, not a crash", async () => {
-    // No stub: jsdom has no navigator.clipboard at all.
-    expect(canCopy()).toBe(false);
-    const onCopy = vi.fn();
-    const el = mount({
-      label: "Share",
-      url: URL_UNDER_TEST,
-      "copy-label": "Copy link",
-      "copy-failed-label": "Could not copy",
+    test("§7.10 an absent clipboard API is treated as a failure, not a crash", async () => {
+        // No stub: jsdom has no navigator.clipboard at all.
+        expect(canCopy()).toBe(false);
+        const onCopy = vi.fn();
+        const el = mount({
+            label: "Share",
+            url: URL_UNDER_TEST,
+            "copy-label": "Copy link",
+            "copy-failed-label": "Could not copy",
+        });
+        el.onCopy = onCopy;
+        await flush();
+        click(trigger());
+        click(copyItem()!);
+        await flush();
+        expect(statusRegion().textContent?.trim()).toBe("Could not copy");
+        expect(onCopy).not.toHaveBeenCalled();
     });
-    el.onCopy = onCopy;
-    await flush();
-    click(trigger());
-    click(copyItem()!);
-    await flush();
-    expect(statusRegion().textContent?.trim()).toBe("Could not copy");
-    expect(onCopy).not.toHaveBeenCalled();
-  });
 });
 
 describe("<share-picker> — native share sheet (§7.11–§7.14)", () => {
-  test("§7.11 canShareNatively reflects navigator.share", () => {
-    expect(canShareNatively()).toBe(false);
-    const nat = stubNativeShare();
-    expect(canShareNatively()).toBe(true);
-    nat.restore();
-  });
-
-  test("§7.12 strategy=auto uses the sheet when available, and skips the list", async () => {
-    const nat = stubNativeShare();
-    const onNativeShare = vi.fn();
-    const seen: SharePickerUrlDetail[] = [];
-    document.body.addEventListener("nativeshare", (e) => {
-      seen.push((e as unknown as CustomEvent<SharePickerUrlDetail>).detail);
+    test("§7.11 canShareNatively reflects navigator.share", () => {
+        expect(canShareNatively()).toBe(false);
+        const nat = stubNativeShare();
+        expect(canShareNatively()).toBe(true);
+        nat.restore();
     });
-    const el = mount({
-      label: "Share",
-      url: URL_UNDER_TEST,
-      "share-title": "Hello",
-      text: "Body",
+
+    test("§7.12 strategy=auto uses the sheet when available, and skips the list", async () => {
+        const nat = stubNativeShare();
+        const onNativeShare = vi.fn();
+        const seen: SharePickerUrlDetail[] = [];
+        document.body.addEventListener("nativeshare", (e) => {
+            seen.push((e as unknown as CustomEvent<SharePickerUrlDetail>).detail);
+        });
+        const el = mount({
+            label: "Share",
+            url: URL_UNDER_TEST,
+            "share-title": "Hello",
+            text: "Body",
+        });
+        el.onNativeShare = onNativeShare;
+        await flush();
+        click(trigger());
+        await flush();
+        expect(nat.calls).toEqual([{ url: URL_UNDER_TEST, title: "Hello", text: "Body" }]);
+        expect(onNativeShare).toHaveBeenCalledWith(URL_UNDER_TEST);
+        expect(seen.at(-1)).toEqual({ url: URL_UNDER_TEST });
+        // The list must NOT also open.
+        expect(list().hasAttribute("hidden")).toBe(true);
+        expect(trigger().getAttribute("aria-expanded")).toBe("false");
+        nat.restore();
     });
-    el.onNativeShare = onNativeShare;
-    await flush();
-    click(trigger());
-    await flush();
-    expect(nat.calls).toEqual([
-      { url: URL_UNDER_TEST, title: "Hello", text: "Body" },
-    ]);
-    expect(onNativeShare).toHaveBeenCalledWith(URL_UNDER_TEST);
-    expect(seen.at(-1)).toEqual({ url: URL_UNDER_TEST });
-    // The list must NOT also open.
-    expect(list().hasAttribute("hidden")).toBe(true);
-    expect(trigger().getAttribute("aria-expanded")).toBe("false");
-    nat.restore();
-  });
 
-  test("§7.13 strategy=auto falls back to the list with no native sheet", async () => {
-    mount({ label: "Share", url: URL_UNDER_TEST });
-    await flush();
-    click(trigger());
-    await flush();
-    expect(list().hasAttribute("hidden")).toBe(false);
-  });
+    test("§7.13 strategy=auto falls back to the list with no native sheet", async () => {
+        mount({ label: "Share", url: URL_UNDER_TEST });
+        await flush();
+        click(trigger());
+        await flush();
+        expect(list().hasAttribute("hidden")).toBe(false);
+    });
 
-  test("§7.13 strategy=list ignores an available native sheet", async () => {
-    const nat = stubNativeShare();
-    mount({ label: "Share", url: URL_UNDER_TEST, strategy: "list" });
-    await flush();
-    click(trigger());
-    await flush();
-    expect(nat.calls.length).toBe(0);
-    expect(list().hasAttribute("hidden")).toBe(false);
-    nat.restore();
-  });
+    test("§7.13 strategy=list ignores an available native sheet", async () => {
+        const nat = stubNativeShare();
+        mount({ label: "Share", url: URL_UNDER_TEST, strategy: "list" });
+        await flush();
+        click(trigger());
+        await flush();
+        expect(nat.calls.length).toBe(0);
+        expect(list().hasAttribute("hidden")).toBe(false);
+        nat.restore();
+    });
 
-  test("§7.13 strategy=native attempts the sheet and does not open the list", async () => {
-    const nat = stubNativeShare();
-    mount({ label: "Share", url: URL_UNDER_TEST, strategy: "native" });
-    await flush();
-    click(trigger());
-    await flush();
-    expect(nat.calls.length).toBe(1);
-    expect(list().hasAttribute("hidden")).toBe(true);
-    nat.restore();
-  });
+    test("§7.13 strategy=native attempts the sheet and does not open the list", async () => {
+        const nat = stubNativeShare();
+        mount({ label: "Share", url: URL_UNDER_TEST, strategy: "native" });
+        await flush();
+        click(trigger());
+        await flush();
+        expect(nat.calls.length).toBe(1);
+        expect(list().hasAttribute("hidden")).toBe(true);
+        nat.restore();
+    });
 
-  test("§7.14 a dismissed share sheet does not fall through to the list", async () => {
-    // navigator.share rejects when the user dismisses the sheet. Opening
-    // the list then would resurrect UI the user just dismissed.
-    const nat = stubNativeShare("reject");
-    const onNativeShare = vi.fn();
-    const el = mount({ label: "Share", url: URL_UNDER_TEST });
-    el.onNativeShare = onNativeShare;
-    await flush();
-    click(trigger());
-    await flush();
-    expect(nat.calls.length).toBe(1);
-    expect(list().hasAttribute("hidden")).toBe(true);
-    expect(trigger().getAttribute("aria-expanded")).toBe("false");
-    // A dismissal is not a successful share, so the callback stays quiet.
-    expect(onNativeShare).not.toHaveBeenCalled();
-    nat.restore();
-  });
+    test("§7.14 a dismissed share sheet does not fall through to the list", async () => {
+        // navigator.share rejects when the user dismisses the sheet. Opening
+        // the list then would resurrect UI the user just dismissed.
+        const nat = stubNativeShare("reject");
+        const onNativeShare = vi.fn();
+        const el = mount({ label: "Share", url: URL_UNDER_TEST });
+        el.onNativeShare = onNativeShare;
+        await flush();
+        click(trigger());
+        await flush();
+        expect(nat.calls.length).toBe(1);
+        expect(list().hasAttribute("hidden")).toBe(true);
+        expect(trigger().getAttribute("aria-expanded")).toBe("false");
+        // A dismissal is not a successful share, so the callback stays quiet.
+        expect(onNativeShare).not.toHaveBeenCalled();
+        nat.restore();
+    });
 });
 
 describe("<share-picker> — keyboard and dismissal (§7.15–§7.19)", () => {
-  async function openList(): Promise<SharePicker> {
-    const el = mount({
-      label: "Share",
-      url: URL_UNDER_TEST,
-      "copy-label": "Copy link",
+    async function openList(): Promise<SharePicker> {
+        const el = mount({
+            label: "Share",
+            url: URL_UNDER_TEST,
+            "copy-label": "Copy link",
+        });
+        await flush();
+        click(trigger());
+        await flush();
+        return el;
+    }
+
+    test("§7.15 opening moves focus to the first item", async () => {
+        await openList();
+        expect(document.activeElement).toBe(items()[0]);
+        expect(document.activeElement?.className).toContain("share-picker-target");
     });
-    await flush();
-    click(trigger());
-    await flush();
-    return el;
-  }
 
-  test("§7.15 opening moves focus to the first item", async () => {
-    await openList();
-    expect(document.activeElement).toBe(items()[0]);
-    expect(document.activeElement?.className).toContain("share-picker-target");
-  });
-
-  test("§7.15 ArrowDown on the closed button opens and focuses the first item", async () => {
-    mount({ label: "Share", url: URL_UNDER_TEST });
-    await flush();
-    press(trigger(), "ArrowDown");
-    await flush();
-    expect(list().hasAttribute("hidden")).toBe(false);
-    expect(document.activeElement).toBe(items()[0]);
-  });
-
-  test("§7.15 ArrowUp on the closed button opens and focuses the last item", async () => {
-    mount({ label: "Share", url: URL_UNDER_TEST, "copy-label": "Copy link" });
-    await flush();
-    press(trigger(), "ArrowUp");
-    await flush();
-    expect(list().hasAttribute("hidden")).toBe(false);
-    expect(document.activeElement?.className).toContain("share-picker-copy");
-    expect(document.activeElement).toBe(items().at(-1));
-  });
-
-  test("§7.16 arrows move focus between items and clamp at the ends", async () => {
-    await openList();
-    const all = items();
-    expect(all.length).toBe(3);
-    press(list(), "ArrowDown");
-    expect(document.activeElement).toBe(all[1]);
-    press(list(), "ArrowUp");
-    expect(document.activeElement).toBe(all[0]);
-    // Clamps rather than wrapping.
-    press(list(), "ArrowUp");
-    expect(document.activeElement).toBe(all[0]);
-    press(list(), "End");
-    press(list(), "ArrowDown");
-    expect(document.activeElement).toBe(all[all.length - 1]);
-  });
-
-  test("§7.16 Home and End jump to the first and last item", async () => {
-    await openList();
-    const all = items();
-    press(list(), "End");
-    expect(document.activeElement).toBe(all[all.length - 1]);
-    press(list(), "Home");
-    expect(document.activeElement).toBe(all[0]);
-  });
-
-  test("§7.17 Escape closes and returns focus to the button", async () => {
-    await openList();
-    press(list(), "Escape");
-    await flush();
-    expect(list().hasAttribute("hidden")).toBe(true);
-    expect(trigger().getAttribute("aria-expanded")).toBe("false");
-    expect(document.activeElement).toBe(trigger());
-  });
-
-  test("§7.17 Tab closes the list; the hardening contract (§7.23) moves focus to the button first", async () => {
-    await openList();
-    press(list(), "Tab");
-    await flush();
-    expect(list().hasAttribute("hidden")).toBe(true);
-  });
-
-  test("§7.18 choosing a destination fires onShare with its id and closes", async () => {
-    const onShare = vi.fn();
-    const seen: SharePickerShareDetail[] = [];
-    document.body.addEventListener("share", (e) => {
-      seen.push((e as CustomEvent<SharePickerShareDetail>).detail);
+    test("§7.15 ArrowDown on the closed button opens and focuses the first item", async () => {
+        mount({ label: "Share", url: URL_UNDER_TEST });
+        await flush();
+        press(trigger(), "ArrowDown");
+        await flush();
+        expect(list().hasAttribute("hidden")).toBe(false);
+        expect(document.activeElement).toBe(items()[0]);
     });
-    const el = mount({ label: "Share", url: URL_UNDER_TEST });
-    el.onShare = onShare;
-    await flush();
-    click(trigger());
-    click(document.body.querySelector('[data-target-id="linkedin"]')!);
-    await flush();
-    expect(onShare).toHaveBeenCalledWith("linkedin", URL_UNDER_TEST);
-    expect(seen.at(-1)).toEqual({ targetId: "linkedin", url: URL_UNDER_TEST });
-    expect(list().hasAttribute("hidden")).toBe(true);
-  });
 
-  test("§7.19 clicking outside closes the list", async () => {
-    await openList();
-    click(document.body);
-    await flush();
-    expect(list().hasAttribute("hidden")).toBe(true);
-  });
+    test("§7.15 ArrowUp on the closed button opens and focuses the last item", async () => {
+        mount({ label: "Share", url: URL_UNDER_TEST, "copy-label": "Copy link" });
+        await flush();
+        press(trigger(), "ArrowUp");
+        await flush();
+        expect(list().hasAttribute("hidden")).toBe(false);
+        expect(document.activeElement?.className).toContain("share-picker-copy");
+        expect(document.activeElement).toBe(items().at(-1));
+    });
 
-  test("§7.19 focus leaving the root closes the list", async () => {
-    await openList();
-    const outside = document.createElement("button");
-    document.body.appendChild(outside);
-    const from = items()[0];
-    // Focus really has to move: the handler defers to a microtask and
-    // re-reads document.activeElement, so a focusout event whose focus
-    // never actually left is correctly ignored.
-    outside.focus();
-    from.dispatchEvent(
-      new FocusEvent("focusout", { bubbles: true, relatedTarget: outside }),
-    );
-    await flush();
-    expect(list().hasAttribute("hidden")).toBe(true);
-  });
+    test("§7.16 arrows move focus between items and clamp at the ends", async () => {
+        await openList();
+        const all = items();
+        expect(all.length).toBe(3);
+        press(list(), "ArrowDown");
+        expect(document.activeElement).toBe(all[1]);
+        press(list(), "ArrowUp");
+        expect(document.activeElement).toBe(all[0]);
+        // Clamps rather than wrapping.
+        press(list(), "ArrowUp");
+        expect(document.activeElement).toBe(all[0]);
+        press(list(), "End");
+        press(list(), "ArrowDown");
+        expect(document.activeElement).toBe(all[all.length - 1]);
+    });
 
-  test("§7.19 focus moving within the root keeps the list open", async () => {
-    await openList();
-    const all = items();
-    all[1].focus();
-    all[0].dispatchEvent(
-      new FocusEvent("focusout", { bubbles: true, relatedTarget: all[1] }),
-    );
-    await flush();
-    expect(list().hasAttribute("hidden")).toBe(false);
-  });
+    test("§7.16 Home and End jump to the first and last item", async () => {
+        await openList();
+        const all = items();
+        press(list(), "End");
+        expect(document.activeElement).toBe(all[all.length - 1]);
+        press(list(), "Home");
+        expect(document.activeElement).toBe(all[0]);
+    });
+
+    test("§7.17 Escape closes and returns focus to the button", async () => {
+        await openList();
+        press(list(), "Escape");
+        await flush();
+        expect(list().hasAttribute("hidden")).toBe(true);
+        expect(trigger().getAttribute("aria-expanded")).toBe("false");
+        expect(document.activeElement).toBe(trigger());
+    });
+
+    test("§7.17 Tab closes the list; the hardening contract (§7.23) moves focus to the button first", async () => {
+        await openList();
+        press(list(), "Tab");
+        await flush();
+        expect(list().hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.18 choosing a destination fires onShare with its id and closes", async () => {
+        const onShare = vi.fn();
+        const seen: SharePickerShareDetail[] = [];
+        document.body.addEventListener("share", (e) => {
+            seen.push((e as CustomEvent<SharePickerShareDetail>).detail);
+        });
+        const el = mount({ label: "Share", url: URL_UNDER_TEST });
+        el.onShare = onShare;
+        await flush();
+        click(trigger());
+        click(document.body.querySelector('[data-target-id="linkedin"]')!);
+        await flush();
+        expect(onShare).toHaveBeenCalledWith("linkedin", URL_UNDER_TEST);
+        expect(seen.at(-1)).toEqual({ targetId: "linkedin", url: URL_UNDER_TEST });
+        expect(list().hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.19 clicking outside closes the list", async () => {
+        await openList();
+        click(document.body);
+        await flush();
+        expect(list().hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.19 focus leaving the root closes the list", async () => {
+        await openList();
+        const outside = document.createElement("button");
+        document.body.appendChild(outside);
+        const from = items()[0];
+        // Focus really has to move: the handler defers to a microtask and
+        // re-reads document.activeElement, so a focusout event whose focus
+        // never actually left is correctly ignored.
+        outside.focus();
+        from.dispatchEvent(new FocusEvent("focusout", { bubbles: true, relatedTarget: outside }));
+        await flush();
+        expect(list().hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.19 focus moving within the root keeps the list open", async () => {
+        await openList();
+        const all = items();
+        all[1].focus();
+        all[0].dispatchEvent(new FocusEvent("focusout", { bubbles: true, relatedTarget: all[1] }));
+        await flush();
+        expect(list().hasAttribute("hidden")).toBe(false);
+    });
 });
 
 describe("<share-picker> — url resolution and custom glyph (§7.20–§7.22)", () => {
-  test("§7.20 an explicit url attribute wins", async () => {
-    mount({ label: "Share", url: URL_UNDER_TEST });
-    await flush();
-    click(trigger());
-    expect(links()[0].getAttribute("href")).toContain(
-      encodeURIComponent(URL_UNDER_TEST),
-    );
-  });
+    test("§7.20 an explicit url attribute wins", async () => {
+        mount({ label: "Share", url: URL_UNDER_TEST });
+        await flush();
+        click(trigger());
+        expect(links()[0].getAttribute("href")).toContain(encodeURIComponent(URL_UNDER_TEST));
+    });
 
-  test("§7.21 with no url attribute it falls back to the current page URL", async () => {
-    const el = mount({ label: "Share" });
-    await flush();
-    click(trigger());
-    expect(links()[0].getAttribute("href")).toContain(
-      encodeURIComponent(location.href),
-    );
-    expect(el.currentUrl()).toBe(location.href);
-  });
+    test("§7.21 with no url attribute it falls back to the current page URL", async () => {
+        const el = mount({ label: "Share" });
+        await flush();
+        click(trigger());
+        expect(links()[0].getAttribute("href")).toContain(encodeURIComponent(location.href));
+        expect(el.currentUrl()).toBe(location.href);
+    });
 
-  test("§7.22 renderButtonContent replaces the glyph and sees open + url", async () => {
-    // Light DOM has no <slot>, so subclassing stands in for the
-    // `children` snippet the other frameworks expose. It receives the
-    // same information those pass as ChildArgs.
-    class CustomSharePicker extends SharePicker {
-      renderButtonContent(): Node {
-        const span = document.createElement("span");
-        span.setAttribute("data-testid", "custom");
-        span.setAttribute("data-open", String(this.open));
-        span.setAttribute("data-url", this.currentUrl());
-        span.textContent = "custom glyph";
-        return span;
-      }
-    }
-    if (!customElements.get("custom-share-picker")) {
-      customElements.define("custom-share-picker", CustomSharePicker);
-    }
+    test("§7.22 renderButtonContent replaces the glyph and sees open + url", async () => {
+        // Light DOM has no <slot>, so subclassing stands in for the
+        // `children` snippet the other frameworks expose. It receives the
+        // same information those pass as ChildArgs.
+        class CustomSharePicker extends SharePicker {
+            renderButtonContent(): Node {
+                const span = document.createElement("span");
+                span.setAttribute("data-testid", "custom");
+                span.setAttribute("data-open", String(this.open));
+                span.setAttribute("data-url", this.currentUrl());
+                span.textContent = "custom glyph";
+                return span;
+            }
+        }
+        if (!customElements.get("custom-share-picker")) {
+            customElements.define("custom-share-picker", CustomSharePicker);
+        }
 
-    mount(
-      { label: "Share", url: URL_UNDER_TEST },
-      { tag: "custom-share-picker" },
-    );
-    await flush();
-    const custom = document.body.querySelector<HTMLElement>(
-      '[data-testid="custom"]',
-    )!;
-    // The custom node replaced the glyph...
-    expect(document.body.querySelector(".share-picker-icon")).toBeNull();
-    expect(custom.closest("button")).toBe(trigger());
-    expect(custom.getAttribute("data-open")).toBe("false");
-    expect(custom.getAttribute("data-url")).toBe(URL_UNDER_TEST);
-    // ...and the base class's aria wiring survived.
-    expect(trigger().getAttribute("aria-label")).toBe("Share");
-    expect(
-      document.getElementById(trigger().getAttribute("aria-controls")!),
-    ).toBe(list());
-  });
+        mount({ label: "Share", url: URL_UNDER_TEST }, { tag: "custom-share-picker" });
+        await flush();
+        const custom = document.body.querySelector<HTMLElement>('[data-testid="custom"]')!;
+        // The custom node replaced the glyph...
+        expect(document.body.querySelector(".share-picker-icon")).toBeNull();
+        expect(custom.closest("button")).toBe(trigger());
+        expect(custom.getAttribute("data-open")).toBe("false");
+        expect(custom.getAttribute("data-url")).toBe(URL_UNDER_TEST);
+        // ...and the base class's aria wiring survived.
+        expect(trigger().getAttribute("aria-label")).toBe("Share");
+        expect(document.getElementById(trigger().getAttribute("aria-controls")!)).toBe(list());
+    });
 
-  test("§7.22 renderButtonContent re-runs on open, so it stays current", async () => {
-    mount(
-      { label: "Share", url: URL_UNDER_TEST },
-      { tag: "custom-share-picker" },
-    );
-    await flush();
-    expect(
-      document.body
-        .querySelector('[data-testid="custom"]')!
-        .getAttribute("data-open"),
-    ).toBe("false");
-    click(trigger());
-    await flush();
-    expect(
-      document.body
-        .querySelector('[data-testid="custom"]')!
-        .getAttribute("data-open"),
-    ).toBe("true");
-  });
+    test("§7.22 renderButtonContent re-runs on open, so it stays current", async () => {
+        mount({ label: "Share", url: URL_UNDER_TEST }, { tag: "custom-share-picker" });
+        await flush();
+        expect(
+            document.body.querySelector('[data-testid="custom"]')!.getAttribute("data-open"),
+        ).toBe("false");
+        click(trigger());
+        await flush();
+        expect(
+            document.body.querySelector('[data-testid="custom"]')!.getAttribute("data-open"),
+        ).toBe("true");
+    });
 });
 
 describe("<share-picker> — HTML custom-element surface", () => {
-  test("targets is property-only and re-renders the list", async () => {
-    const el = mount({ label: "Share", url: URL_UNDER_TEST }, { targets: [] });
-    await flush();
-    expect(links().length).toBe(0);
-    // No attribute encoding exists for a function-valued href.
-    expect(el.hasAttribute("targets")).toBe(false);
-    el.targets = TARGETS;
-    await flush();
-    click(trigger());
-    expect(links().length).toBe(2);
-    expect(el.targets).toEqual(TARGETS);
-  });
-
-  test("targets getter returns a copy, so callers cannot mutate internals", async () => {
-    const el = mount({ label: "Share", url: URL_UNDER_TEST });
-    await flush();
-    el.targets.pop();
-    expect(el.targets.length).toBe(2);
-  });
-
-  test("attributes and properties mirror each other", async () => {
-    const el = mount({ label: "Share", url: URL_UNDER_TEST });
-    await flush();
-    el.label = "Share this page";
-    expect(el.getAttribute("label")).toBe("Share this page");
-    expect(trigger().getAttribute("aria-label")).toBe("Share this page");
-
-    el.copyLabel = "Copy";
-    expect(el.getAttribute("copy-label")).toBe("Copy");
-    click(trigger());
-    expect(copyItem()?.textContent).toBe("Copy");
-
-    el.strategy = "list";
-    expect(el.getAttribute("strategy")).toBe("list");
-    expect(el.strategy).toBe("list");
-  });
-
-  test("strategy falls back to auto for a missing or bogus value", async () => {
-    const el = mount({ label: "Share", url: URL_UNDER_TEST });
-    await flush();
-    expect(el.strategy).toBe("auto");
-    el.setAttribute("strategy", "nonsense");
-    expect(el.strategy).toBe("auto");
-  });
-
-  test("share-title is used instead of the global title attribute", async () => {
-    // `title` is a global HTML attribute; claiming it would paint a
-    // tooltip over the whole control, so the share title is
-    // `share-title` / `el.shareTitle`.
-    const el = mount({ label: "Share", url: URL_UNDER_TEST, title: "tooltip" });
-    await flush();
-    expect(el.shareTitle).toBe("");
-    el.shareTitle = "Real title";
-    expect(el.getAttribute("share-title")).toBe("Real title");
-    expect(el.title).toBe("tooltip");
-    click(trigger());
-    expect(links()[0].getAttribute("href")).toContain(
-      encodeURIComponent("Real title"),
-    );
-  });
-
-  test("the class attribute lands on the rendered root, not just the host", async () => {
-    mount({ label: "Share", url: URL_UNDER_TEST, class: "my-share" });
-    await flush();
-    const root = document.body.querySelector("div.share-picker")!;
-    expect(root.className).toBe("share-picker my-share");
-  });
-
-  test("a url change syncs hrefs in place without destroying focus", async () => {
-    // This is the #render vs #syncState split: a non-structural change
-    // must not rebuild the DOM, because a rebuild while the list is
-    // open would blow away focus.
-    const el = mount({ label: "Share", url: URL_UNDER_TEST });
-    await flush();
-    click(trigger());
-    const before = items()[0];
-    expect(document.activeElement).toBe(before);
-
-    el.url = "https://example.test/other";
-    await flush();
-    expect(document.activeElement).toBe(before);
-    expect(items()[0]).toBe(before);
-    expect(list().hasAttribute("hidden")).toBe(false);
-    expect(links()[0].getAttribute("href")).toContain(
-      encodeURIComponent("https://example.test/other"),
-    );
-  });
-
-  test("a structural change closes the list rather than orphaning focus", async () => {
-    const el = mount({ label: "Share", url: URL_UNDER_TEST });
-    await flush();
-    click(trigger());
-    expect(list().hasAttribute("hidden")).toBe(false);
-    // copy-label gates which elements exist, so it rebuilds.
-    el.copyLabel = "Copy link";
-    await flush();
-    expect(list().hasAttribute("hidden")).toBe(true);
-    expect(el.open).toBe(false);
-  });
-
-  test("openList and closeList are public and drive the same state", async () => {
-    const el = mount({ label: "Share", url: URL_UNDER_TEST });
-    await flush();
-    el.openList();
-    expect(el.open).toBe(true);
-    expect(list().hasAttribute("hidden")).toBe(false);
-    el.closeList();
-    expect(el.open).toBe(false);
-    expect(document.activeElement).toBe(trigger());
-  });
-
-  test("openList is a no-op with nothing to show", async () => {
-    const el = mount({ label: "Share", url: URL_UNDER_TEST }, { targets: [] });
-    await flush();
-    el.openList();
-    expect(el.open).toBe(false);
-    expect(list().hasAttribute("hidden")).toBe(true);
-  });
-
-  test("nothing is written to localStorage or the document root", async () => {
-    const clip = stubClipboard();
-    const before = document.documentElement.outerHTML.length;
-    mount({
-      label: "Share",
-      url: URL_UNDER_TEST,
-      "copy-label": "Copy link",
-      "copied-label": "Copied",
+    test("targets is property-only and re-renders the list", async () => {
+        const el = mount({ label: "Share", url: URL_UNDER_TEST }, { targets: [] });
+        await flush();
+        expect(links().length).toBe(0);
+        // No attribute encoding exists for a function-valued href.
+        expect(el.hasAttribute("targets")).toBe(false);
+        el.targets = TARGETS;
+        await flush();
+        click(trigger());
+        expect(links().length).toBe(2);
+        expect(el.targets).toEqual(TARGETS);
     });
-    await flush();
-    click(trigger());
-    click(copyItem()!);
-    await flush();
-    // This helper owns an action, not a preference: no persistence and
-    // no data-* on the document root.
-    expect(localStorage.length).toBe(0);
-    expect(document.documentElement.hasAttribute("data-share")).toBe(false);
-    expect(document.documentElement.outerHTML.length).toBeGreaterThan(
-      before - 1,
-    );
-    clip.restore();
-  });
 
-  test("disconnecting removes the document click listener", async () => {
-    const el = mount({ label: "Share", url: URL_UNDER_TEST });
-    await flush();
-    click(trigger());
-    expect(el.open).toBe(true);
-    el.remove();
-    // No listener remains, so an outside click cannot reach into a
-    // detached instance.
-    click(document.body);
-    expect(el.open).toBe(true);
-  });
+    test("targets getter returns a copy, so callers cannot mutate internals", async () => {
+        const el = mount({ label: "Share", url: URL_UNDER_TEST });
+        await flush();
+        el.targets.pop();
+        expect(el.targets.length).toBe(2);
+    });
 
-  test("module is import-safe under SSR", async () => {
-    const original = (globalThis as any).customElements;
-    delete (globalThis as any).customElements;
-    try {
-      const mod = await import("./index.js");
-      expect(mod.SharePicker).toBeDefined();
-    } finally {
-      (globalThis as any).customElements = original;
-    }
-  });
+    test("attributes and properties mirror each other", async () => {
+        const el = mount({ label: "Share", url: URL_UNDER_TEST });
+        await flush();
+        el.label = "Share this page";
+        expect(el.getAttribute("label")).toBe("Share this page");
+        expect(trigger().getAttribute("aria-label")).toBe("Share this page");
+
+        el.copyLabel = "Copy";
+        expect(el.getAttribute("copy-label")).toBe("Copy");
+        click(trigger());
+        expect(copyItem()?.textContent).toBe("Copy");
+
+        el.strategy = "list";
+        expect(el.getAttribute("strategy")).toBe("list");
+        expect(el.strategy).toBe("list");
+    });
+
+    test("strategy falls back to auto for a missing or bogus value", async () => {
+        const el = mount({ label: "Share", url: URL_UNDER_TEST });
+        await flush();
+        expect(el.strategy).toBe("auto");
+        el.setAttribute("strategy", "nonsense");
+        expect(el.strategy).toBe("auto");
+    });
+
+    test("share-title is used instead of the global title attribute", async () => {
+        // `title` is a global HTML attribute; claiming it would paint a
+        // tooltip over the whole control, so the share title is
+        // `share-title` / `el.shareTitle`.
+        const el = mount({ label: "Share", url: URL_UNDER_TEST, title: "tooltip" });
+        await flush();
+        expect(el.shareTitle).toBe("");
+        el.shareTitle = "Real title";
+        expect(el.getAttribute("share-title")).toBe("Real title");
+        expect(el.title).toBe("tooltip");
+        click(trigger());
+        expect(links()[0].getAttribute("href")).toContain(encodeURIComponent("Real title"));
+    });
+
+    test("the class attribute lands on the rendered root, not just the host", async () => {
+        mount({ label: "Share", url: URL_UNDER_TEST, class: "my-share" });
+        await flush();
+        const root = document.body.querySelector("div.share-picker")!;
+        expect(root.className).toBe("share-picker my-share");
+    });
+
+    test("a url change syncs hrefs in place without destroying focus", async () => {
+        // This is the #render vs #syncState split: a non-structural change
+        // must not rebuild the DOM, because a rebuild while the list is
+        // open would blow away focus.
+        const el = mount({ label: "Share", url: URL_UNDER_TEST });
+        await flush();
+        click(trigger());
+        const before = items()[0];
+        expect(document.activeElement).toBe(before);
+
+        el.url = "https://example.test/other";
+        await flush();
+        expect(document.activeElement).toBe(before);
+        expect(items()[0]).toBe(before);
+        expect(list().hasAttribute("hidden")).toBe(false);
+        expect(links()[0].getAttribute("href")).toContain(
+            encodeURIComponent("https://example.test/other"),
+        );
+    });
+
+    test("a structural change closes the list rather than orphaning focus", async () => {
+        const el = mount({ label: "Share", url: URL_UNDER_TEST });
+        await flush();
+        click(trigger());
+        expect(list().hasAttribute("hidden")).toBe(false);
+        // copy-label gates which elements exist, so it rebuilds.
+        el.copyLabel = "Copy link";
+        await flush();
+        expect(list().hasAttribute("hidden")).toBe(true);
+        expect(el.open).toBe(false);
+    });
+
+    test("openList and closeList are public and drive the same state", async () => {
+        const el = mount({ label: "Share", url: URL_UNDER_TEST });
+        await flush();
+        el.openList();
+        expect(el.open).toBe(true);
+        expect(list().hasAttribute("hidden")).toBe(false);
+        el.closeList();
+        expect(el.open).toBe(false);
+        expect(document.activeElement).toBe(trigger());
+    });
+
+    test("openList is a no-op with nothing to show", async () => {
+        const el = mount({ label: "Share", url: URL_UNDER_TEST }, { targets: [] });
+        await flush();
+        el.openList();
+        expect(el.open).toBe(false);
+        expect(list().hasAttribute("hidden")).toBe(true);
+    });
+
+    test("nothing is written to localStorage or the document root", async () => {
+        const clip = stubClipboard();
+        const before = document.documentElement.outerHTML.length;
+        mount({
+            label: "Share",
+            url: URL_UNDER_TEST,
+            "copy-label": "Copy link",
+            "copied-label": "Copied",
+        });
+        await flush();
+        click(trigger());
+        click(copyItem()!);
+        await flush();
+        // This helper owns an action, not a preference: no persistence and
+        // no data-* on the document root.
+        expect(localStorage.length).toBe(0);
+        expect(document.documentElement.hasAttribute("data-share")).toBe(false);
+        expect(document.documentElement.outerHTML.length).toBeGreaterThan(before - 1);
+        clip.restore();
+    });
+
+    test("disconnecting removes the document click listener", async () => {
+        const el = mount({ label: "Share", url: URL_UNDER_TEST });
+        await flush();
+        click(trigger());
+        expect(el.open).toBe(true);
+        el.remove();
+        // No listener remains, so an outside click cannot reach into a
+        // detached instance.
+        click(document.body);
+        expect(el.open).toBe(true);
+    });
+
+    test("module is import-safe under SSR", async () => {
+        const original = (globalThis as any).customElements;
+        delete (globalThis as any).customElements;
+        try {
+            const mod = await import("./index.js");
+            expect(mod.SharePicker).toBeDefined();
+        } finally {
+            (globalThis as any).customElements = original;
+        }
+    });
 });
 
 describe("<share-picker> — accessibility hardening (§7.23–§7.24)", () => {
-  async function openHardened(): Promise<SharePicker> {
-    const el = mount({
-      label: "Share",
-      url: URL_UNDER_TEST,
-      "copy-label": "Copy link",
+    async function openHardened(): Promise<SharePicker> {
+        const el = mount({
+            label: "Share",
+            url: URL_UNDER_TEST,
+            "copy-label": "Copy link",
+        });
+        await flush();
+        click(trigger());
+        await flush();
+        return el;
+    }
+
+    test("§7.23 Tab from an open item puts focus on the button before closing", async () => {
+        await openHardened();
+        expect(document.activeElement?.className).toContain("share-picker-target");
+        press(list(), "Tab");
+        // Focus sits on the button, so the browser's default Tab proceeds
+        // from the picker's own position — not from <body>, which is where
+        // focus lands when the list is hidden while its item has focus.
+        expect(document.activeElement).toBe(trigger());
+        expect(list().hasAttribute("hidden")).toBe(true);
     });
-    await flush();
-    click(trigger());
-    await flush();
-    return el;
-  }
 
-  test("§7.23 Tab from an open item puts focus on the button before closing", async () => {
-    await openHardened();
-    expect(document.activeElement?.className).toContain("share-picker-target");
-    press(list(), "Tab");
-    // Focus sits on the button, so the browser's default Tab proceeds
-    // from the picker's own position — not from <body>, which is where
-    // focus lands when the list is hidden while its item has focus.
-    expect(document.activeElement).toBe(trigger());
-    expect(list().hasAttribute("hidden")).toBe(true);
-  });
-
-  test("§7.24 the list carries the picker's accessible name", async () => {
-    await openHardened();
-    expect(list().getAttribute("aria-label")).toBe("Share");
-  });
+    test("§7.24 the list carries the picker's accessible name", async () => {
+        await openHardened();
+        expect(list().getAttribute("aria-label")).toBe("Share");
+    });
 });
 
 describe("pointer open survives the button content swap (regression)", () => {
-  // Same defect family as the listbox pickers: opening replaceChildren()s
-  // the button content, detaching the clicked icon span mid-event; the
-  // document click handler must judge by composedPath(), not by
-  // containment of the (now detached) target.
-  test("clicking the icon span opens and STAYS open", async () => {
-    const el = mount({ label: "Share this page", strategy: "list" });
-    try {
-      const icon = el.querySelector(".share-picker-icon") as HTMLElement;
-      icon.dispatchEvent(new MouseEvent("click", { bubbles: true, composed: true }));
-      await Promise.resolve();
-      const button = el.querySelector(".share-picker-button")!;
-      expect(button.getAttribute("aria-expanded")).toBe("true");
-      expect(el.querySelector(".share-picker-list")!.hasAttribute("hidden")).toBe(false);
-    } finally {
-      el.remove();
-    }
-  });
+    // Same defect family as the listbox pickers: opening replaceChildren()s
+    // the button content, detaching the clicked icon span mid-event; the
+    // document click handler must judge by composedPath(), not by
+    // containment of the (now detached) target.
+    test("clicking the icon span opens and STAYS open", async () => {
+        const el = mount({ label: "Share this page", strategy: "list" });
+        try {
+            const icon = el.querySelector(".share-picker-icon") as HTMLElement;
+            icon.dispatchEvent(new MouseEvent("click", { bubbles: true, composed: true }));
+            await Promise.resolve();
+            const button = el.querySelector(".share-picker-button")!;
+            expect(button.getAttribute("aria-expanded")).toBe("true");
+            expect(el.querySelector(".share-picker-list")!.hasAttribute("hidden")).toBe(false);
+        } finally {
+            el.remove();
+        }
+    });
 });
 
 describe("<share-picker> — tooltip (§7.25–§7.31)", () => {
-  function setup() {
-    mount({ label: "Share", url: URL_UNDER_TEST });
-    const btn = document.body.querySelector<HTMLButtonElement>(".share-picker-button")!;
-    const tip = document.body.querySelector<HTMLElement>(".share-picker-tooltip")!;
-    return { btn, tip };
-  }
-  const fire = (el: Element, type: string): void => {
-    el.dispatchEvent(new MouseEvent(type, { bubbles: false }));
-  };
+    function setup() {
+        mount({ label: "Share", url: URL_UNDER_TEST });
+        const btn = document.body.querySelector<HTMLButtonElement>(".share-picker-button")!;
+        const tip = document.body.querySelector<HTMLElement>(".share-picker-tooltip")!;
+        return { btn, tip };
+    }
+    const fire = (el: Element, type: string): void => {
+        el.dispatchEvent(new MouseEvent(type, { bubbles: false }));
+    };
 
-  test("§7.25 renders a role=tooltip element holding label, hidden at rest, not aria-describedby-linked", () => {
-    const { btn, tip } = setup();
-    expect(tip.getAttribute("role")).toBe("tooltip");
-    expect(tip.textContent).toBe(btn.getAttribute("aria-label"));
-    expect(tip.hasAttribute("hidden")).toBe(true);
-    expect(tip.id).toMatch(/-tooltip$/);
-    expect(btn.hasAttribute("aria-describedby")).toBe(false);
-    expect(btn.nextElementSibling).toBe(tip);
-  });
+    test("§7.25 renders a role=tooltip element holding label, hidden at rest, not aria-describedby-linked", () => {
+        const { btn, tip } = setup();
+        expect(tip.getAttribute("role")).toBe("tooltip");
+        expect(tip.textContent).toBe(btn.getAttribute("aria-label"));
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(tip.id).toMatch(/-tooltip$/);
+        expect(btn.hasAttribute("aria-describedby")).toBe(false);
+        expect(btn.nextElementSibling).toBe(tip);
+    });
 
-  test("§7.25 the tooltip text follows a label change", () => {
-    setup();
-    const el = document.body.querySelector<HTMLElement>("share-picker")!;
-    el.setAttribute("label", "Renamed");
-    const t2 = document.body.querySelector<HTMLElement>(".share-picker-tooltip")!;
-    expect(t2.textContent).toBe("Renamed");
-  });
+    test("§7.25 the tooltip text follows a label change", () => {
+        setup();
+        const el = document.body.querySelector<HTMLElement>("share-picker")!;
+        el.setAttribute("label", "Renamed");
+        const t2 = document.body.querySelector<HTMLElement>(".share-picker-tooltip")!;
+        expect(t2.textContent).toBe("Renamed");
+    });
 
-  test("§7.26 pointer over the button shows it; leaving hides it", () => {
-    const { btn, tip } = setup();
-    fire(btn, "mouseenter");
-    expect(tip.hasAttribute("hidden")).toBe(false);
-    fire(btn, "mouseleave");
-    expect(tip.hasAttribute("hidden")).toBe(true);
-  });
+    test("§7.26 pointer over the button shows it; leaving hides it", () => {
+        const { btn, tip } = setup();
+        fire(btn, "mouseenter");
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fire(btn, "mouseleave");
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
 
-  test("§7.27 it stays visible while the pointer is over the tooltip itself", () => {
-    const { btn, tip } = setup();
-    fire(btn, "mouseenter");
-    fire(btn, "mouseleave");
-    fire(tip, "mouseenter");
-    expect(tip.hasAttribute("hidden")).toBe(false);
-    fire(tip, "mouseleave");
-    expect(tip.hasAttribute("hidden")).toBe(true);
-  });
+    test("§7.27 it stays visible while the pointer is over the tooltip itself", () => {
+        const { btn, tip } = setup();
+        fire(btn, "mouseenter");
+        fire(btn, "mouseleave");
+        fire(tip, "mouseenter");
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fire(tip, "mouseleave");
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
 
-  test("§7.28 keyboard focus shows it; blur hides it", () => {
-    const { btn, tip } = setup();
-    // jsdom has no input-modality tracking; stand in for the keyboard.
-    vi.spyOn(btn, "matches").mockImplementation((q) => q === ":focus-visible");
-    btn.focus();
-    expect(tip.hasAttribute("hidden")).toBe(false);
-    btn.blur();
-    expect(tip.hasAttribute("hidden")).toBe(true);
-  });
+    test("§7.28 keyboard focus shows it; blur hides it", () => {
+        const { btn, tip } = setup();
+        // jsdom has no input-modality tracking; stand in for the keyboard.
+        vi.spyOn(btn, "matches").mockImplementation((q) => q === ":focus-visible");
+        btn.focus();
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        btn.blur();
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
 
-  test("§7.28 mouse-induced focus (not :focus-visible) does not show it", () => {
-    const { btn, tip } = setup();
-    vi.spyOn(btn, "matches").mockReturnValue(false);
-    btn.focus();
-    expect(tip.hasAttribute("hidden")).toBe(true);
-  });
+    test("§7.28 mouse-induced focus (not :focus-visible) does not show it", () => {
+        const { btn, tip } = setup();
+        vi.spyOn(btn, "matches").mockReturnValue(false);
+        btn.focus();
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
 
-  test("§7.29 Escape dismisses it without moving focus; re-entering shows it again", () => {
-    const { btn, tip } = setup();
-    fire(btn, "mouseenter");
-    btn.focus();
-    btn.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
-    expect(tip.hasAttribute("hidden")).toBe(true);
-    expect(document.activeElement).toBe(btn);
-    fire(btn, "mouseleave");
-    fire(btn, "mouseenter");
-    expect(tip.hasAttribute("hidden")).toBe(false);
-  });
+    test("§7.29 Escape dismisses it without moving focus; re-entering shows it again", () => {
+        const { btn, tip } = setup();
+        fire(btn, "mouseenter");
+        btn.focus();
+        btn.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(document.activeElement).toBe(btn);
+        fire(btn, "mouseleave");
+        fire(btn, "mouseenter");
+        expect(tip.hasAttribute("hidden")).toBe(false);
+    });
 
-  test("§7.30 it is never shown while the disclosure list is open", () => {
-    const { btn, tip } = setup();
-    fire(btn, "mouseenter");
-    btn.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true, composed: true }));
-    expect(btn.getAttribute("aria-expanded")).toBe("true");
-    expect(tip.hasAttribute("hidden")).toBe(true);
-    fire(btn, "mouseenter");
-    expect(tip.hasAttribute("hidden")).toBe(true);
-  });
+    test("§7.30 it is never shown while the disclosure list is open", () => {
+        const { btn, tip } = setup();
+        fire(btn, "mouseenter");
+        btn.dispatchEvent(
+            new MouseEvent("click", { bubbles: true, cancelable: true, composed: true }),
+        );
+        expect(btn.getAttribute("aria-expanded")).toBe("true");
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        fire(btn, "mouseenter");
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
 
-  test("§7.31 pointer hover alone shows it; Escape on document.body or another element dismisses it without moving focus", () => {
-    const { btn, tip } = setup();
-    const other = document.createElement("input");
-    document.body.appendChild(other);
-    other.focus();
-    fire(btn, "mouseenter");
-    expect(tip.hasAttribute("hidden")).toBe(false);
-    expect(document.activeElement).toBe(other);
-    document.body.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
-    expect(tip.hasAttribute("hidden")).toBe(true);
-    expect(document.activeElement).toBe(other);
-    // Dismissal resets on re-entry; Escape from another element works too.
-    fire(btn, "mouseleave");
-    fire(btn, "mouseenter");
-    expect(tip.hasAttribute("hidden")).toBe(false);
-    other.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
-    expect(tip.hasAttribute("hidden")).toBe(true);
-    other.remove();
-  });
+    test("§7.31 pointer hover alone shows it; Escape on document.body or another element dismisses it without moving focus", () => {
+        const { btn, tip } = setup();
+        const other = document.createElement("input");
+        document.body.appendChild(other);
+        other.focus();
+        fire(btn, "mouseenter");
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        expect(document.activeElement).toBe(other);
+        document.body.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(document.activeElement).toBe(other);
+        // Dismissal resets on re-entry; Escape from another element works too.
+        fire(btn, "mouseleave");
+        fire(btn, "mouseenter");
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        other.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        other.remove();
+    });
 
-  test("§7.31 the document Escape listener exists only while the tooltip is visible (no leak, no double-add)", () => {
-    const { btn, tip } = setup();
-    const add = vi.spyOn(document, "addEventListener");
-    const remove = vi.spyOn(document, "removeEventListener");
-    const keydownCalls = (spy: typeof add) => spy.mock.calls.filter((c) => c[0] === "keydown");
-    fire(btn, "mouseenter");
-    fire(tip, "mouseenter"); // a second show trigger must not add again
-    expect(keydownCalls(add).length).toBe(1);
-    fire(btn, "mouseleave");
-    expect(keydownCalls(remove).length).toBe(0); // still hovering the tooltip
-    fire(tip, "mouseleave");
-    expect(tip.hasAttribute("hidden")).toBe(true);
-    expect(keydownCalls(remove).length).toBe(1);
-    expect(keydownCalls(remove)[0][1]).toBe(keydownCalls(add)[0][1]);
-    // Showing again re-adds exactly once more; disconnecting removes it.
-    fire(btn, "mouseenter");
-    expect(keydownCalls(add).length).toBe(2);
-    document.body.querySelector("share-picker")!.remove();
-    expect(keydownCalls(remove).length).toBe(2);
-    add.mockRestore();
-    remove.mockRestore();
-  });
+    test("§7.31 the document Escape listener exists only while the tooltip is visible (no leak, no double-add)", () => {
+        const { btn, tip } = setup();
+        const add = vi.spyOn(document, "addEventListener");
+        const remove = vi.spyOn(document, "removeEventListener");
+        const keydownCalls = (spy: typeof add) => spy.mock.calls.filter((c) => c[0] === "keydown");
+        fire(btn, "mouseenter");
+        fire(tip, "mouseenter"); // a second show trigger must not add again
+        expect(keydownCalls(add).length).toBe(1);
+        fire(btn, "mouseleave");
+        expect(keydownCalls(remove).length).toBe(0); // still hovering the tooltip
+        fire(tip, "mouseleave");
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(keydownCalls(remove).length).toBe(1);
+        expect(keydownCalls(remove)[0][1]).toBe(keydownCalls(add)[0][1]);
+        // Showing again re-adds exactly once more; disconnecting removes it.
+        fire(btn, "mouseenter");
+        expect(keydownCalls(add).length).toBe(2);
+        document.body.querySelector("share-picker")!.remove();
+        expect(keydownCalls(remove).length).toBe(2);
+        add.mockRestore();
+        remove.mockRestore();
+    });
 });
 
 describe("<share-picker> — open state and disabled", () => {
-  function make(attrs: Record<string, string> = {}): HTMLElement & { open: boolean; disabled: boolean; onOpenChange?: (o: boolean) => void } {
-    const el = document.createElement("share-picker") as HTMLElement & { open: boolean; disabled: boolean; onOpenChange?: (o: boolean) => void };
-    el.setAttribute("label", "Share");
-    el.setAttribute("copy-label", "Copy link");
-    for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
-    document.body.appendChild(el);
-    return el;
-  }
-  const button = (el: HTMLElement) => el.querySelector<HTMLButtonElement>(".share-picker-button")!;
-  const settle = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
+    function make(
+        attrs: Record<string, string> = {},
+    ): HTMLElement & { open: boolean; disabled: boolean; onOpenChange?: (o: boolean) => void } {
+        const el = document.createElement("share-picker") as HTMLElement & {
+            open: boolean;
+            disabled: boolean;
+            onOpenChange?: (o: boolean) => void;
+        };
+        el.setAttribute("label", "Share");
+        el.setAttribute("copy-label", "Copy link");
+        for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+        document.body.appendChild(el);
+        return el;
+    }
+    const button = (el: HTMLElement) =>
+        el.querySelector<HTMLButtonElement>(".share-picker-button")!;
+    const settle = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
 
-  test("the open attribute starts the popup open without an openchange", async () => {
-    const events: boolean[] = [];
-    document.addEventListener("openchange", (e) => events.push((e as CustomEvent<boolean>).detail), { once: true });
-    const el = make({ open: "" });
-    await settle();
-    expect(button(el).getAttribute("aria-expanded")).toBe("true");
-    expect(el.open).toBe(true);
-    expect(events).toEqual([]);
-  });
+    test("the open attribute starts the popup open without an openchange", async () => {
+        const events: boolean[] = [];
+        document.addEventListener(
+            "openchange",
+            (e) => events.push((e as CustomEvent<boolean>).detail),
+            { once: true },
+        );
+        const el = make({ open: "" });
+        await settle();
+        expect(button(el).getAttribute("aria-expanded")).toBe("true");
+        expect(el.open).toBe(true);
+        expect(events).toEqual([]);
+    });
 
-  test("openchange and onOpenChange report each open and close by the user", async () => {
-    const el = make();
-    const events: boolean[] = [];
-    const calls: boolean[] = [];
-    el.addEventListener("openchange", (e) => events.push((e as CustomEvent<boolean>).detail));
-    el.onOpenChange = (o) => calls.push(o);
-    button(el).click();
-    await settle();
-    button(el).click();
-    await settle();
-    expect(events).toEqual([true, false]);
-    expect(calls).toEqual([true, false]);
-  });
+    test("openchange and onOpenChange report each open and close by the user", async () => {
+        const el = make();
+        const events: boolean[] = [];
+        const calls: boolean[] = [];
+        el.addEventListener("openchange", (e) => events.push((e as CustomEvent<boolean>).detail));
+        el.onOpenChange = (o) => calls.push(o);
+        button(el).click();
+        await settle();
+        button(el).click();
+        await settle();
+        expect(events).toEqual([true, false]);
+        expect(calls).toEqual([true, false]);
+    });
 
-  test("the open property opens and closes the popup, reports it, and does not move focus", async () => {
-    const el = make();
-    const events: boolean[] = [];
-    el.addEventListener("openchange", (e) => events.push((e as CustomEvent<boolean>).detail));
-    const before = document.activeElement;
-    el.open = true;
-    await settle();
-    expect(button(el).getAttribute("aria-expanded")).toBe("true");
-    expect(document.activeElement).toBe(before);
-    el.open = false;
-    await settle();
-    expect(button(el).getAttribute("aria-expanded")).toBe("false");
-    expect(events).toEqual([true, false]);
-  });
+    test("the open property opens and closes the popup, reports it, and does not move focus", async () => {
+        const el = make();
+        const events: boolean[] = [];
+        el.addEventListener("openchange", (e) => events.push((e as CustomEvent<boolean>).detail));
+        const before = document.activeElement;
+        el.open = true;
+        await settle();
+        expect(button(el).getAttribute("aria-expanded")).toBe("true");
+        expect(document.activeElement).toBe(before);
+        el.open = false;
+        await settle();
+        expect(button(el).getAttribute("aria-expanded")).toBe("false");
+        expect(events).toEqual([true, false]);
+    });
 
-  test("disabled disables the button and it cannot open", async () => {
-    const el = make({ disabled: "" });
-    const events: boolean[] = [];
-    el.addEventListener("openchange", (e) => events.push((e as CustomEvent<boolean>).detail));
-    expect(button(el).disabled).toBe(true);
-    button(el).click();
-    el.open = true;
-    await settle();
-    expect(button(el).getAttribute("aria-expanded")).toBe("false");
-    expect(events).toEqual([]);
-  });
+    test("disabled disables the button and it cannot open", async () => {
+        const el = make({ disabled: "" });
+        const events: boolean[] = [];
+        el.addEventListener("openchange", (e) => events.push((e as CustomEvent<boolean>).detail));
+        expect(button(el).disabled).toBe(true);
+        button(el).click();
+        el.open = true;
+        await settle();
+        expect(button(el).getAttribute("aria-expanded")).toBe("false");
+        expect(events).toEqual([]);
+    });
 
-  test("disabling closes an open popup; disabled plus open starts closed", async () => {
-    const el = make({ open: "" });
-    await settle();
-    el.disabled = true;
-    await settle();
-    expect(button(el).disabled).toBe(true);
-    expect(button(el).getAttribute("aria-expanded")).toBe("false");
-    document.body.innerHTML = "";
-    const other = make({ open: "", disabled: "" });
-    await settle();
-    expect(button(other).getAttribute("aria-expanded")).toBe("false");
-  });
+    test("disabling closes an open popup; disabled plus open starts closed", async () => {
+        const el = make({ open: "" });
+        await settle();
+        el.disabled = true;
+        await settle();
+        expect(button(el).disabled).toBe(true);
+        expect(button(el).getAttribute("aria-expanded")).toBe("false");
+        document.body.innerHTML = "";
+        const other = make({ open: "", disabled: "" });
+        await settle();
+        expect(button(other).getAttribute("aria-expanded")).toBe("false");
+    });
 });
-

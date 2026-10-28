@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<button class="action-group-overflow-trigger" type="button"
               aria-haspopup="menu" aria-expanded="false"
@@ -80,9 +80,9 @@ const html = `<button class="action-group-overflow-trigger" type="button"
 </script>`;
 
 const meta = {
-  title: 'Headless/ActionGroup',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/ActionGroup",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

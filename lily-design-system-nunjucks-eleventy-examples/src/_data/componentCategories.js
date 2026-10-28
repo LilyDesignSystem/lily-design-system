@@ -7,18 +7,18 @@
 // CommonJS generator script directly — keep the two in sync if the
 // category set changes.
 const CATEGORY_LABEL = {
-  national: "Special-Purpose Identifiers",
-  forms: "Form controls",
-  buttons: "Buttons",
-  links: "Links",
-  lists: "Lists",
-  tables: "Tables",
-  navigation: "Navigation & structure",
-  overlays: "Overlays & dialogs",
-  pickers: "Pickers & ratings",
-  media: "Media & figures",
-  "data-viz": "Data visualization",
-  content: "Content & other",
+    national: "Special-Purpose Identifiers",
+    forms: "Form controls",
+    buttons: "Buttons",
+    links: "Links",
+    lists: "Lists",
+    tables: "Tables",
+    navigation: "Navigation & structure",
+    overlays: "Overlays & dialogs",
+    pickers: "Pickers & ratings",
+    media: "Media & figures",
+    "data-viz": "Data visualization",
+    content: "Content & other",
 };
 
 export default CATEGORY_LABEL;

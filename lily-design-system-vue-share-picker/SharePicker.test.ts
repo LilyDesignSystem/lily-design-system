@@ -2,11 +2,7 @@ import { mount, type VueWrapper } from "@vue/test-utils";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { h, nextTick } from "vue";
 
-import SharePicker, {
-    canCopy,
-    canShareNatively,
-    type ShareTarget,
-} from "./SharePicker.vue";
+import SharePicker, { canCopy, canShareNatively, type ShareTarget } from "./SharePicker.vue";
 
 const URL_UNDER_TEST = "https://example.test/article";
 
@@ -293,9 +289,7 @@ describe("SharePicker — native share sheet (§7.11–§7.14)", () => {
         const wrapper = build({ title: "Hello", text: "Body" });
         await parts(wrapper).button.trigger("click");
         await flush();
-        expect(nat.calls).toEqual([
-            { url: URL_UNDER_TEST, title: "Hello", text: "Body" },
-        ]);
+        expect(nat.calls).toEqual([{ url: URL_UNDER_TEST, title: "Hello", text: "Body" }]);
         expect(wrapper.emitted("nativeShare")).toEqual([[URL_UNDER_TEST]]);
         // The list must NOT also open.
         expect(parts(wrapper).list.element.hasAttribute("hidden")).toBe(true);
@@ -374,9 +368,7 @@ describe("SharePicker — keyboard and dismissal (§7.15–§7.19)", () => {
         await flush();
         const all = itemsOf(wrapper);
         expect(document.activeElement).toBe(all[all.length - 1]);
-        expect((document.activeElement as HTMLElement).className).toContain(
-            "share-picker-copy",
-        );
+        expect((document.activeElement as HTMLElement).className).toContain("share-picker-copy");
     });
 
     test("§7.16 arrows move focus between items and clamp at the ends", async () => {
@@ -497,9 +489,7 @@ describe("SharePicker — url resolution and custom glyph (§7.20–§7.22)", ()
         await flush();
         const custom = wrapper.find('[data-testid="custom"]');
         expect(custom.exists()).toBe(true);
-        expect(custom.element.closest("button")?.className).toContain(
-            "share-picker-button",
-        );
+        expect(custom.element.closest("button")?.className).toContain("share-picker-button");
         expect(wrapper.find(".share-picker-icon").exists()).toBe(false);
         expect(custom.attributes("data-open")).toBe("false");
         expect(custom.attributes("data-url")).toBe(URL_UNDER_TEST);
@@ -516,9 +506,7 @@ describe("SharePicker — url resolution and custom glyph (§7.20–§7.22)", ()
             },
         );
         await openList(wrapper);
-        expect(wrapper.find('[data-testid="custom"]').attributes("data-open")).toBe(
-            "true",
-        );
+        expect(wrapper.find('[data-testid="custom"]').attributes("data-open")).toBe("true");
     });
 });
 
@@ -563,7 +551,9 @@ describe("SharePicker — tooltip (§7.25–§7.30)", () => {
         expect(tip.textContent!.length).toBeGreaterThan(0);
         expect(tip.hasAttribute("hidden")).toBe(true);
         expect(tip.id).toBeTruthy();
-        expect(button.previousElementSibling === tip || button.nextElementSibling === tip).toBe(true);
+        expect(button.previousElementSibling === tip || button.nextElementSibling === tip).toBe(
+            true,
+        );
         expect(button.hasAttribute("aria-describedby")).toBe(false);
     });
 
@@ -642,7 +632,8 @@ describe("SharePicker — tooltip (§7.25–§7.30)", () => {
     test("§7.31 hover-only tooltip: Escape on another element dismisses it; listener removed after hide/unmount", async () => {
         const addSpy = vi.spyOn(document, "addEventListener");
         const removeSpy = vi.spyOn(document, "removeEventListener");
-        const keydownCalls = (spy: typeof addSpy) => spy.mock.calls.filter((c) => c[0] === "keydown").length;
+        const keydownCalls = (spy: typeof addSpy) =>
+            spy.mock.calls.filter((c) => c[0] === "keydown").length;
         const wrapper = build();
         const button = wrapper.element.querySelector(".share-picker-button") as HTMLButtonElement;
         const tip = wrapper.element.querySelector(".share-picker-tooltip") as HTMLElement;
@@ -679,7 +670,10 @@ describe("SharePicker — open state and disabled", () => {
     const settle = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
     const mounted: VueWrapper[] = [];
     const make = (extra: Record<string, unknown> = {}) => {
-        const wrapper = mount(SharePicker, { props: { ...{ label: "Share", targets: TARGETS, url: URL_UNDER_TEST }, ...extra }, attachTo: document.body });
+        const wrapper = mount(SharePicker, {
+            props: { ...{ label: "Share", targets: TARGETS, url: URL_UNDER_TEST }, ...extra },
+            attachTo: document.body,
+        });
         mounted.push(wrapper);
         return wrapper;
     };
@@ -707,7 +701,9 @@ describe("SharePicker — open state and disabled", () => {
 
     test("v-model:open: a click asks for the change and the parent applies it", async () => {
         const wrapper = make({ open: false });
-        await wrapper.setProps({ "onUpdate:open": (v: boolean) => wrapper.setProps({ open: v }) } as never);
+        await wrapper.setProps({
+            "onUpdate:open": (v: boolean) => wrapper.setProps({ open: v }),
+        } as never);
         button().click();
         await settle();
         expect(button().getAttribute("aria-expanded")).toBe("true");
@@ -728,4 +724,3 @@ describe("SharePicker — open state and disabled", () => {
         expect(button().getAttribute("aria-expanded")).toBe("false");
     });
 });
-

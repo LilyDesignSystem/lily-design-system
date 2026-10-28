@@ -21,11 +21,13 @@ export interface YearOfDaysCell {
 const DAY = 86_400_000;
 
 function assertYear(year: number): void {
-    if (!Number.isInteger(year) || year < 1 || year > 9999) throw new RangeError(`year must be an integer from 1 to 9999: ${year}`);
+    if (!Number.isInteger(year) || year < 1 || year > 9999)
+        throw new RangeError(`year must be an integer from 1 to 9999: ${year}`);
 }
 
 function assertWeekStart(weekStart: number): void {
-    if (!Number.isInteger(weekStart) || weekStart < 0 || weekStart > 6) throw new RangeError(`weekStart must be an integer from 0 to 6: ${weekStart}`);
+    if (!Number.isInteger(weekStart) || weekStart < 0 || weekStart > 6)
+        throw new RangeError(`weekStart must be an integer from 0 to 6: ${weekStart}`);
 }
 
 function startOfYear(year: number): Date {

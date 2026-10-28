@@ -584,4 +584,9 @@ export { YisraelTeudatZehutView } from "./components/YisraelTeudatZehutView";
 export { ZhongguoJuminShenfenzhengHaomaInput } from "./components/ZhongguoJuminShenfenzhengHaomaInput";
 export { ZhongguoJuminShenfenzhengHaomaView } from "./components/ZhongguoJuminShenfenzhengHaomaView";
 export { TruncationStrategy, TruncateMiddleOptions } from "./components/middle-truncation";
-export { WheelOption, WheelMoveKey, WheelMoveOptions, WheelTypeahead } from "./components/wheel-picker";
+export {
+  WheelOption,
+  WheelMoveKey,
+  WheelMoveOptions,
+  WheelTypeahead,
+} from "./components/wheel-picker";

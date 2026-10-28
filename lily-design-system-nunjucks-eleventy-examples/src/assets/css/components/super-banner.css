@@ -10,4 +10,6 @@
   background: var(--nhsuk-red);
   color: var(--nhsuk-white);
 }
-.super-banner-heading { font-weight: var(--nhsuk-font-weight-bold); }
+.super-banner-heading {
+  font-weight: var(--nhsuk-font-weight-bold);
+}

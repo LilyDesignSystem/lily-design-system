@@ -40,6 +40,4 @@ import { Panel } from "../components/Panel";
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class PageLayoutPage {
-
-}
+export default class PageLayoutPage {}

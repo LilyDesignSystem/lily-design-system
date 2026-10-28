@@ -22,12 +22,7 @@
     fetches the message bundle if it isn't loaded yet, and notifies
     every `translate` pipe in the template.
 */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject, signal } from "@angular/core";
 // In a real app these come from @ngx-translate/core.
 // import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { LocalePicker } from "../locale-picker.component";

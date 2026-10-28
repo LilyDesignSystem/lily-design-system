@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<button
   class="clipboard-copy-button"
@@ -25,9 +25,9 @@ const html = `<button
 </script>`;
 
 const meta = {
-  title: 'Headless/ClipboardCopyButton',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/ClipboardCopyButton",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

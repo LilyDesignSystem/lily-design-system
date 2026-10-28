@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="grid"
@@ -6,9 +6,9 @@ const html = `<div
   style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 1rem;"></div>`;
 
 const meta = {
-  title: 'Headless/Grid',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/Grid",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

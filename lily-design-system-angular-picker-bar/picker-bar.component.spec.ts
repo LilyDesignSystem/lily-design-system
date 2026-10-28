@@ -47,10 +47,7 @@ function root(fixture: ComponentFixture<unknown>): HTMLDivElement {
   return fixture.nativeElement.querySelector(".picker-bar") as HTMLDivElement;
 }
 
-function button(
-  fixture: ComponentFixture<unknown>,
-  name: string,
-): HTMLButtonElement {
+function button(fixture: ComponentFixture<unknown>, name: string): HTMLButtonElement {
   const buttons = Array.from(
     fixture.nativeElement.querySelectorAll("button"),
   ) as HTMLButtonElement[];
@@ -69,9 +66,7 @@ beforeEach(() => {
   document.documentElement.removeAttribute("lang");
   document.documentElement.removeAttribute("dir");
   document.documentElement.removeAttribute("data-text-size");
-  document.head
-    .querySelectorAll("link[data-lily-theme-picker]")
-    .forEach((n) => n.remove());
+  document.head.querySelectorAll("link[data-lily-theme-picker]").forEach((n) => n.remove());
   try {
     localStorage.clear();
   } catch {
@@ -103,9 +98,7 @@ describe("PickerBar — DEFAULT_THEMES (§3, §5.1)", () => {
 
   test("first entry is 'abyss', last is 'united-states-web-design-system'", () => {
     expect(DEFAULT_THEMES[0]).toBe("abyss");
-    expect(DEFAULT_THEMES[DEFAULT_THEMES.length - 1]).toBe(
-      "united-states-web-design-system",
-    );
+    expect(DEFAULT_THEMES[DEFAULT_THEMES.length - 1]).toBe("united-states-web-design-system");
   });
 });
 
@@ -162,31 +155,23 @@ describe("PickerBar — theme-picker wiring (§5.1, §7.3, §7.6)", () => {
   test("§7.3 forwards themesUrl and uses DEFAULT_THEMES when `themes` is omitted", async () => {
     const fixture = await mountSettled();
     click(fixture, button(fixture, "Theme"));
-    const options = fixture.nativeElement.querySelectorAll(
-      ".theme-picker-option",
-    );
+    const options = fixture.nativeElement.querySelectorAll(".theme-picker-option");
     expect(options).toHaveLength(57);
     expect(options[0].textContent?.trim()).toBe("Abyss");
-    expect(options[49].textContent?.trim()).toBe(
-      "United Kingdom Government Digital Service",
-    );
+    expect(options[49].textContent?.trim()).toBe("United Kingdom Government Digital Service");
   });
 
   test("§7.6 an explicit `themes` prop overrides the default", async () => {
     const fixture = await mountSettled({ themes: ["light", "dark"] });
     click(fixture, button(fixture, "Theme"));
-    const options = fixture.nativeElement.querySelectorAll(
-      ".theme-picker-option",
-    );
+    const options = fixture.nativeElement.querySelectorAll(".theme-picker-option");
     expect(options).toHaveLength(2);
   });
 
   test("§7.7 `themeStorageKey` reaches ThemePicker (a selection persists)", async () => {
     const fixture = await mountSettled({ themeStorageKey: "lily-theme" });
     click(fixture, button(fixture, "Theme"));
-    const options = fixture.nativeElement.querySelectorAll(
-      ".theme-picker-option",
-    );
+    const options = fixture.nativeElement.querySelectorAll(".theme-picker-option");
     click(fixture, options[0]);
     expect(localStorage.getItem("lily-theme")).toBe("abyss");
   });
@@ -196,9 +181,7 @@ describe("PickerBar — locale-picker wiring (§5.2, §7.4)", () => {
   test("§7.4 forwards the required `locales` list", async () => {
     const fixture = await mountSettled();
     click(fixture, button(fixture, "Language"));
-    const options = fixture.nativeElement.querySelectorAll(
-      ".locale-picker-option",
-    );
+    const options = fixture.nativeElement.querySelectorAll(".locale-picker-option");
     expect(options).toHaveLength(LOCALES.length);
   });
 });
@@ -262,9 +245,7 @@ describe("PickerBar — search-picker wiring (§7.12, §7.13)", () => {
       ?.querySelector("div") as HTMLElement | null;
     expect(first?.classList.contains("search-picker")).toBe(true);
     click(fixture, button(fixture, "Search this site"));
-    const field = fixture.nativeElement.querySelector(
-      ".search-picker-input",
-    ) as HTMLInputElement;
+    const field = fixture.nativeElement.querySelector(".search-picker-input") as HTMLInputElement;
     expect(field.getAttribute("type")).toBe("search");
     expect(field.getAttribute("aria-label")).toBe("Search terms");
     const submit = button(fixture, "Search");
@@ -276,9 +257,7 @@ describe("PickerBar — search-picker wiring (§7.12, §7.13)", () => {
     const navigate = vi.fn();
     const fixture = mount({ searchAction: "/search", searchNavigate: navigate });
     click(fixture, button(fixture, "Search this site"));
-    const field = fixture.nativeElement.querySelector(
-      ".search-picker-input",
-    ) as HTMLInputElement;
+    const field = fixture.nativeElement.querySelector(".search-picker-input") as HTMLInputElement;
     field.value = "foo";
     field.dispatchEvent(new Event("input", { bubbles: true }));
     fixture.detectChanges();
@@ -294,12 +273,8 @@ describe("PickerBar — tooltips of the wrapped pickers (§7.14)", () => {
   test("§7.14 each wrapped picker renders its own role=tooltip, holding the button's label, hidden at rest", () => {
     const fixture = mount();
     for (const h of ["search", "theme", "locale", "text-size", "share"]) {
-      const tip = fixture.nativeElement.querySelector(
-        `.${h}-picker-tooltip`,
-      ) as HTMLElement;
-      const btn = fixture.nativeElement.querySelector(
-        `.${h}-picker-button`,
-      ) as HTMLElement;
+      const tip = fixture.nativeElement.querySelector(`.${h}-picker-tooltip`) as HTMLElement;
+      const btn = fixture.nativeElement.querySelector(`.${h}-picker-button`) as HTMLElement;
       expect(tip, h).toBeTruthy();
       expect(tip.getAttribute("role")).toBe("tooltip");
       expect(tip.hasAttribute("hidden")).toBe(true);
@@ -318,28 +293,53 @@ const LINKS = [
 describe("PickerBar — link-picker wiring (§L1–§L4)", () => {
   test("§L1 a link picker renders FIRST when `links` and `labels.link` are given", async () => {
     const fixture = await mountSettled({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
-    const tags = Array.from(fixture.nativeElement.querySelectorAll(".picker-bar > *")).map((n: any) => n.tagName.toLowerCase());
-    expect(tags).toEqual(["lily-link-picker", "lily-search-picker", "lily-theme-picker", "lily-locale-picker", "lily-text-size-picker", "lily-share-picker"]);
-    expect(Array.from(fixture.nativeElement.querySelectorAll(".link-picker-link")).map((a: any) => a.textContent.trim())).toEqual([
-      "Home", "About Us", "Contact Us", "Privacy Policy",
+    const tags = Array.from(fixture.nativeElement.querySelectorAll(".picker-bar > *")).map(
+      (n: any) => n.tagName.toLowerCase(),
+    );
+    expect(tags).toEqual([
+      "lily-link-picker",
+      "lily-search-picker",
+      "lily-theme-picker",
+      "lily-locale-picker",
+      "lily-text-size-picker",
+      "lily-share-picker",
     ]);
-    expect(fixture.nativeElement.querySelector(".link-picker-button").getAttribute("aria-label")).toBe("Pages");
+    expect(
+      Array.from(fixture.nativeElement.querySelectorAll(".link-picker-link")).map((a: any) =>
+        a.textContent.trim(),
+      ),
+    ).toEqual(["Home", "About Us", "Contact Us", "Privacy Policy"]);
+    expect(
+      fixture.nativeElement.querySelector(".link-picker-button").getAttribute("aria-label"),
+    ).toBe("Pages");
   });
 
   test("§L2 no link picker without links, with empty links, or without labels.link", async () => {
-    for (const inputs of [{}, { links: [], labels: { ...LABELS, link: "Pages" } }, { links: LINKS }]) {
+    for (const inputs of [
+      {},
+      { links: [], labels: { ...LABELS, link: "Pages" } },
+      { links: LINKS },
+    ]) {
       const fixture = await mountSettled(inputs);
       expect(fixture.nativeElement.querySelector("lily-link-picker")).toBeNull();
-      expect(fixture.nativeElement.querySelector(".picker-bar > *").tagName.toLowerCase()).toBe("lily-search-picker");
+      expect(fixture.nativeElement.querySelector(".picker-bar > *").tagName.toLowerCase()).toBe(
+        "lily-search-picker",
+      );
     }
   });
 
   test("§L3 `linkNavigate` reaches the link picker and `linkNavigated` re-emits", async () => {
     const navigate = vi.fn();
-    const fixture = await mountSettled({ links: LINKS, labels: { ...LABELS, link: "Pages" }, linkNavigate: navigate });
+    const fixture = await mountSettled({
+      links: LINKS,
+      labels: { ...LABELS, link: "Pages" },
+      linkNavigate: navigate,
+    });
     const seen: unknown[] = [];
     fixture.componentInstance.linkNavigated.subscribe((e) => seen.push(e));
-    fixture.nativeElement.querySelector(".link-picker-button").dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    fixture.nativeElement
+      .querySelector(".link-picker-button")
+      .dispatchEvent(new MouseEvent("click", { bubbles: true }));
     fixture.detectChanges();
     fixture.nativeElement
       .querySelector('.link-picker-link[href="/about/"]')
@@ -357,13 +357,28 @@ describe("PickerBar — link-picker wiring (§L1–§L4)", () => {
 
 describe("PickerBar — time-zone-picker wiring (§T1–§T4)", () => {
   const WITH = { ...LABELS, timeZone: "Time zone" };
-  const TZ = { timeZoneLocale: "en", timeZones: ["UTC", "Europe/London"], timeZoneDate: new Date("2026-01-15T12:00:00Z") };
+  const TZ = {
+    timeZoneLocale: "en",
+    timeZones: ["UTC", "Europe/London"],
+    timeZoneDate: new Date("2026-01-15T12:00:00Z"),
+  };
 
   test("§T1 a time-zone picker renders after the locale picker when `labels.timeZone` and `timeZoneLocale` are given", async () => {
     const fixture = await mountSettled({ labels: WITH, ...TZ });
-    const kinds = Array.from(root(fixture).children).map((c) => c.firstElementChild?.className.split(" ")[0] ?? c.className.split(" ")[0]);
-    expect(kinds).toEqual(["search-picker", "theme-picker", "locale-picker", "time-zone-picker", "text-size-picker", "share-picker"]);
-    expect(root(fixture).querySelector(".time-zone-picker-button")!.getAttribute("aria-label")).toBe("Time zone");
+    const kinds = Array.from(root(fixture).children).map(
+      (c) => c.firstElementChild?.className.split(" ")[0] ?? c.className.split(" ")[0],
+    );
+    expect(kinds).toEqual([
+      "search-picker",
+      "theme-picker",
+      "locale-picker",
+      "time-zone-picker",
+      "text-size-picker",
+      "share-picker",
+    ]);
+    expect(
+      root(fixture).querySelector(".time-zone-picker-button")!.getAttribute("aria-label"),
+    ).toBe("Time zone");
   });
 
   test("§T2 no time-zone picker without labels.timeZone or without a locale", async () => {

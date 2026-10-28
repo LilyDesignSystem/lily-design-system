@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="container-with-fixed-width"
@@ -6,9 +6,9 @@ const html = `<div
   style="max-width: 1200px; margin-inline: auto;"></div>`;
 
 const meta = {
-  title: 'Headless/ContainerWithFixedWidth',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/ContainerWithFixedWidth",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

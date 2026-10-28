@@ -5,17 +5,16 @@ import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("time.timer");
 
-
 describe("Timer", () => {
-  it("renders the element with its base class", async () => {
-    await mount("timer");
-    expect(el()).not.toBeNull();
-    expect(el().classList.contains("timer")).toBe(true);
-  });
+    it("renders the element with its base class", async () => {
+        await mount("timer");
+        expect(el()).not.toBeNull();
+        expect(el().classList.contains("timer")).toBe(true);
+    });
 
-  it("is a <time> with role=timer", async () => {
-    await mount("timer");
-    expect(el().tagName).toBe("TIME");
-    expect(el().getAttribute("role")).toBe("timer");
-  });
+    it("is a <time> with role=timer", async () => {
+        await mount("timer");
+        expect(el().tagName).toBe("TIME");
+        expect(el().getAttribute("role")).toBe("timer");
+    });
 });

@@ -18,7 +18,9 @@ const wrappers: VueWrapper<any>[] = [];
 const content = (args: { close: () => void }) => [
     h("a", { href: "/a/" }, "Alpha"),
     h("button", { type: "button", class: "b" }, "Beta"),
-    h("div", { "data-settings-picker-keep-open": "" }, [h("button", { type: "button", class: "keep" }, "Keep")]),
+    h("div", { "data-settings-picker-keep-open": "" }, [
+        h("button", { type: "button", class: "keep" }, "Keep"),
+    ]),
     h(
         "button",
         {
@@ -166,7 +168,9 @@ describe("SettingsPicker", () => {
     test("7.13 activating a link or button closes; keep-open and closeOnSelect=false do not", async () => {
         const w = build();
         await parts(w).button.trigger("click");
-        (parts(w).panel.find("a").element as HTMLElement).addEventListener("click", (e) => e.preventDefault());
+        (parts(w).panel.find("a").element as HTMLElement).addEventListener("click", (e) =>
+            e.preventDefault(),
+        );
         await parts(w).panel.find("a").trigger("click");
         await flush();
         expect(isHidden(w)).toBe(true);

@@ -241,14 +241,8 @@ describe("MotionPicker — application (§7.6–§7.10)", () => {
         // would be invisible to a consumer reading the DOM: a stale
         // aria-expanded over a hidden list makes every later click miss
         // the options.
-        expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe(
-            "false",
-        );
-        expect(
-            document
-                .querySelector(".motion-picker-list")!
-                .hasAttribute("hidden"),
-        ).toBe(true);
+        expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe("false");
+        expect(document.querySelector(".motion-picker-list")!.hasAttribute("hidden")).toBe(true);
     });
 
     test("§7.9 persists to localStorage and reads back on a fresh mount", async () => {
@@ -327,10 +321,7 @@ describe("MotionPicker — spread + custom children (§7.12–§7.13)", () => {
 });
 
 describe("MotionPicker — accessibility hardening (§7.14–§7.17)", () => {
-    async function openPicker(
-        motions: string[] = MOTIONS,
-        extra: Record<string, unknown> = {},
-    ) {
+    async function openPicker(motions: string[] = MOTIONS, extra: Record<string, unknown> = {}) {
         render(MotionPicker, {
             props: { label: "Motion", motions, ...extra },
         });
@@ -343,8 +334,7 @@ describe("MotionPicker — accessibility hardening (§7.14–§7.17)", () => {
         };
     }
 
-    const active = (list: HTMLElement) =>
-        list.querySelector("[data-active]")?.textContent?.trim();
+    const active = (list: HTMLElement) => list.querySelector("[data-active]")?.textContent?.trim();
 
     test("§7.14 Tab from the open list puts focus on the button before closing", async () => {
         const { button, list } = await openPicker();
@@ -359,7 +349,12 @@ describe("MotionPicker — accessibility hardening (§7.14–§7.17)", () => {
 
     test("§7.15 a repeated typeahead character cycles through its matches", async () => {
         const { list } = await openPicker(["r1", "r2", "r3", "m"], {
-            motionLabels: { r1: "Reduce a lot", r2: "Reduce more", r3: "Reduce most", m: "Minimal" },
+            motionLabels: {
+                r1: "Reduce a lot",
+                r2: "Reduce more",
+                r3: "Reduce most",
+                m: "Minimal",
+            },
             defaultValue: "m",
         });
         await fireEvent.keyDown(list, { key: "r" });
@@ -371,10 +366,7 @@ describe("MotionPicker — accessibility hardening (§7.14–§7.17)", () => {
     });
 
     test("§7.16 PageUp and PageDown move the cursor by ten, clamped", async () => {
-        const many = Array.from(
-            { length: 25 },
-            (_, i) => `s${String(i).padStart(2, "0")}`,
-        );
+        const many = Array.from({ length: 25 }, (_, i) => `s${String(i).padStart(2, "0")}`);
         const { list } = await openPicker(many);
         await fireEvent.keyDown(list, { key: "PageDown" });
         expect(active(list)).toBe("S10");
@@ -436,10 +428,9 @@ describe("MotionPicker — focus never scrolls the page (§7.19)", () => {
 
         await fireEvent.click(screen.getByRole("button"));
         await flush();
-        await fireEvent.keyDown(
-            document.querySelector(".motion-picker-list") as HTMLElement,
-            { key: "Tab" },
-        );
+        await fireEvent.keyDown(document.querySelector(".motion-picker-list") as HTMLElement, {
+            key: "Tab",
+        });
         expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
 
         focusSpy.mockRestore();
@@ -458,7 +449,7 @@ describe("MotionPicker — OS preference helper", () => {
 describe("MotionPicker — tooltip (§7.20–§7.25)", () => {
     function setup() {
         render(MotionPicker, { props: { label: "Motion", motions: MOTIONS } });
-        const button = document.querySelector(".motion-picker-button" ) as HTMLButtonElement;
+        const button = document.querySelector(".motion-picker-button") as HTMLButtonElement;
         const tip = document.querySelector(".motion-picker-tooltip") as HTMLElement;
         return { button, tip };
     }
@@ -587,9 +578,13 @@ describe("MotionPicker — tooltip (§7.20–§7.25)", () => {
 describe("MotionPicker — open state and disabled (§open)", () => {
     test("open starts the popup open (aria-expanded) without calling onOpenChange", async () => {
         const onOpenChange = vi.fn();
-        render(MotionPicker, { props: { ...{ label: "Motion", motions: MOTIONS }, open: true, onOpenChange } });
+        render(MotionPicker, {
+            props: { ...{ label: "Motion", motions: MOTIONS }, open: true, onOpenChange },
+        });
         await flush();
-        expect(screen.getByRole("button", { name: "Motion" }).getAttribute("aria-expanded")).toBe("true");
+        expect(screen.getByRole("button", { name: "Motion" }).getAttribute("aria-expanded")).toBe(
+            "true",
+        );
         expect(onOpenChange).not.toHaveBeenCalled();
     });
 
@@ -608,7 +603,9 @@ describe("MotionPicker — open state and disabled (§open)", () => {
 
     test("disabled disables the button and it cannot open", async () => {
         const onOpenChange = vi.fn();
-        render(MotionPicker, { props: { ...{ label: "Motion", motions: MOTIONS }, disabled: true, onOpenChange } });
+        render(MotionPicker, {
+            props: { ...{ label: "Motion", motions: MOTIONS }, disabled: true, onOpenChange },
+        });
         const button = screen.getByRole("button", { name: "Motion" }) as HTMLButtonElement;
         expect(button.disabled).toBe(true);
         await fireEvent.click(button);
@@ -618,9 +615,12 @@ describe("MotionPicker — open state and disabled (§open)", () => {
     });
 
     test("disabled closes a popup that was open", async () => {
-        render(MotionPicker, { props: { ...{ label: "Motion", motions: MOTIONS }, open: true, disabled: true } });
+        render(MotionPicker, {
+            props: { ...{ label: "Motion", motions: MOTIONS }, open: true, disabled: true },
+        });
         await flush();
-        expect(screen.getByRole("button", { name: "Motion" }).getAttribute("aria-expanded")).toBe("false");
+        expect(screen.getByRole("button", { name: "Motion" }).getAttribute("aria-expanded")).toBe(
+            "false",
+        );
     });
 });
-

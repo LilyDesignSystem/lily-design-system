@@ -5,16 +5,15 @@ import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("ol.timeline-list");
 
-
 describe("TimelineList", () => {
-  it("renders the element with its base class", async () => {
-    await mount("timeline-list");
-    expect(el()).not.toBeNull();
-    expect(el().classList.contains("timeline-list")).toBe(true);
-  });
+    it("renders the element with its base class", async () => {
+        await mount("timeline-list");
+        expect(el()).not.toBeNull();
+        expect(el().classList.contains("timeline-list")).toBe(true);
+    });
 
-  it("uses the ol element", async () => {
-    await mount("timeline-list");
-    expect(el().tagName.toLowerCase()).toBe("ol");
-  });
+    it("uses the ol element", async () => {
+        await mount("timeline-list");
+        expect(el().tagName.toLowerCase()).toBe("ol");
+    });
 });

@@ -5,11 +5,12 @@
 const iso = (offset) => `new Date(Date.now() + ${offset} * 864e5).toISOString().slice(0, 10)`;
 
 export const HELPERS = {
-  "data-grid": {
-    title: "Data grid",
-    package: "lily-design-system-alpine-data-grid",
-    description: "Sort, filter, select, paginate, show or hide columns, move with the keyboard and export.",
-    script: `
+    "data-grid": {
+        title: "Data grid",
+        package: "lily-design-system-alpine-data-grid",
+        description:
+            "Sort, filter, select, paginate, show or hide columns, move with the keyboard and export.",
+        script: `
 window.gridOptions = {
   columns: [
     { id: "name", header: "Name", sortable: true },
@@ -55,13 +56,14 @@ window.gridOptions = {
     filterAnnouncement: (n) => n + " people shown",
   },
 };`,
-  },
+    },
 
-  "kanban-board": {
-    title: "Kanban board",
-    package: "lily-design-system-alpine-kanban-board",
-    description: "Move cards by dragging, by the Move menu, or with Alt and the arrow keys; the Doing column warns at two cards.",
-    script: `
+    "kanban-board": {
+        title: "Kanban board",
+        package: "lily-design-system-alpine-kanban-board",
+        description:
+            "Move cards by dragging, by the Move menu, or with Alt and the arrow keys; the Doing column warns at two cards.",
+        script: `
 window.boardOptions = {
   columns: [
     { id: "todo", title: "To do" },
@@ -86,13 +88,14 @@ window.boardOptions = {
     moveBlocked: (card, column) => card + " cannot move to " + column,
   },
 };`,
-  },
+    },
 
-  calendar: {
-    title: "Calendar",
-    package: "lily-design-system-alpine-calendar",
-    description: "Month and week views with a picked day, events, bounds and the date-grid keys.",
-    script: `
+    calendar: {
+        title: "Calendar",
+        package: "lily-design-system-alpine-calendar",
+        description:
+            "Month and week views with a picked day, events, bounds and the date-grid keys.",
+        script: `
 const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const monthName = new Intl.DateTimeFormat("en-GB", { month: "long", year: "numeric", timeZone: "UTC" });
 const longDate = new Intl.DateTimeFormat("en-GB", { dateStyle: "full", timeZone: "UTC" });
@@ -119,13 +122,14 @@ window.calendarOptions = {
     dayLabel: (d) => longDate.format(new Date(d + "T00:00:00Z")),
   },
 };`,
-  },
+    },
 
-  "gantt-chart": {
-    title: "Gantt chart",
-    package: "lily-design-system-alpine-gantt-chart",
-    description: "Tasks on a day timeline with a collapsible phase, a milestone, dependencies and the critical path.",
-    script: `
+    "gantt-chart": {
+        title: "Gantt chart",
+        package: "lily-design-system-alpine-gantt-chart",
+        description:
+            "Tasks on a day timeline with a collapsible phase, a milestone, dependencies and the critical path.",
+        script: `
 const today = ${iso(0)};
 const day = (n) => ${iso("n")};
 window.ganttOptions = {
@@ -150,6 +154,6 @@ window.ganttOptions = {
     criticalLabel: "Critical",
     milestoneLabel: "Milestone",
   },
-};`.replace("${iso(\"n\")}", "new Date(Date.now() + n * 864e5).toISOString().slice(0, 10)"),
-  },
+};`.replace('${iso("n")}', "new Date(Date.now() + n * 864e5).toISOString().slice(0, 10)"),
+    },
 };

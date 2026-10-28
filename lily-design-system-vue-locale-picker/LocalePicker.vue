@@ -1,9 +1,5 @@
 <script lang="ts">
-import {
-    defaultLocaleLabels,
-    RTL_LANGUAGE_TAGS,
-    RTL_SCRIPT_SUBTAGS,
-} from "./locales.js";
+import { defaultLocaleLabels, RTL_LANGUAGE_TAGS, RTL_SCRIPT_SUBTAGS } from "./locales.js";
 
 /**
  * Default button icon: a bundled SVG (globe outline), not a Unicode
@@ -108,9 +104,7 @@ export function localeEndonym(locale: string): string {
         if (override) return override;
         const dn = new Intl.DisplayNames([tag], { type: "language" });
         const found = dn.of(tag) ?? "";
-        return found && found.toLowerCase() !== tag.toLowerCase()
-            ? found
-            : "";
+        return found && found.toLowerCase() !== tag.toLowerCase() ? found : "";
     } catch {
         return "";
     }
@@ -123,9 +117,7 @@ export { defaultLocaleLabels, RTL_LANGUAGE_TAGS, RTL_SCRIPT_SUBTAGS };
 function intlDisplayName(locale: string): string {
     try {
         const env =
-            typeof navigator !== "undefined" && navigator.language
-                ? navigator.language
-                : "en";
+            typeof navigator !== "undefined" && navigator.language ? navigator.language : "en";
         const dn = new Intl.DisplayNames([env], { type: "language" });
         return dn.of(bcp47LocaleTag(locale)) ?? "";
     } catch {
@@ -210,7 +202,10 @@ const hoverTooltip = ref(false);
 const focusButton = ref(false);
 const dismissed = ref(false);
 const tooltipVisible = computed(
-    () => !open.value && !dismissed.value && (hoverButton.value || hoverTooltip.value || focusButton.value),
+    () =>
+        !open.value &&
+        !dismissed.value &&
+        (hoverButton.value || hoverTooltip.value || focusButton.value),
 );
 
 function onTooltipButtonEnter(): void {
@@ -343,9 +338,7 @@ async function openList(startIndex?: number): Promise<void> {
     // aria-activedescendant off rather than pointing at an id that
     // does not exist.
     activeIndex.value =
-        props.locales.length === 0
-            ? -1
-            : (startIndex ?? (selected >= 0 ? selected : 0));
+        props.locales.length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0));
     open.value = true;
     // Focus moves to the listbox; the active option is conveyed via
     // aria-activedescendant, per the APG listbox pattern. Wait for the
@@ -460,9 +453,7 @@ onMounted(() => {
 
     if (!initial) {
         initial =
-            props.defaultValue ??
-            (props.locales.includes("en") ? "en" : props.locales[0]) ??
-            "";
+            props.defaultValue ?? (props.locales.includes("en") ? "en" : props.locales[0]) ?? "";
     }
 
     if (initial && initial !== current.value) {
@@ -484,7 +475,11 @@ onBeforeUnmount(() => {
         :class="`locale-picker ${props.class}`.trim()"
         @focusout="onRootFocusOut"
     >
-        <input type="hidden" :name="name" :value="current" />
+        <input
+            type="hidden"
+            :name="name"
+            :value="current"
+        />
 
         <IconButton
             :disabled="disabled"
@@ -514,8 +509,15 @@ onBeforeUnmount(() => {
                     stroke-linecap="round"
                     stroke-linejoin="round"
                 >
-                    <circle cx="8" cy="8" r="6" />
-                    <path stroke-width="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7" />
+                    <circle
+                        cx="8"
+                        cy="8"
+                        r="6"
+                    />
+                    <path
+                        stroke-width="1.1"
+                        d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"
+                    />
                 </svg>
             </slot>
         </IconButton>
@@ -530,7 +532,9 @@ onBeforeUnmount(() => {
             :hidden="tooltipVisible ? undefined : true"
             @mouseenter="hoverTooltip = true"
             @mouseleave="hoverTooltip = false"
-        >{{ label }}</div>
+        >
+            {{ label }}
+        </div>
 
         <Listbox
             ref="listEl"
@@ -558,7 +562,9 @@ onBeforeUnmount(() => {
                 :data-active="i === activeIndex ? '' : undefined"
                 :lang="optionLang(locale)"
                 @click="choose(i)"
-            >{{ labelFor(locale) }}</li>
+            >
+                {{ labelFor(locale) }}
+            </li>
         </Listbox>
     </div>
 </template>

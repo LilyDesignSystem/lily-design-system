@@ -1,13 +1,13 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="dial-group"
   role="group" aria-label="Dials"></div>`;
 
 const meta = {
-  title: 'Headless/DialGroup',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/DialGroup",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

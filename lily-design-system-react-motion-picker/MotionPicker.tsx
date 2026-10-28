@@ -77,10 +77,7 @@ export type Props = Omit<
  * control. Purely visual: the text is the button's own aria-label, so it
  * is deliberately not linked with aria-describedby.
  */
-function usePickerTooltip(
-    buttonRef: React.RefObject<HTMLButtonElement | null>,
-    open: boolean,
-) {
+function usePickerTooltip(buttonRef: React.RefObject<HTMLButtonElement | null>, open: boolean) {
     const [hoverButton, setHoverButton] = React.useState(false);
     const [hoverTooltip, setHoverTooltip] = React.useState(false);
     const [focusButton, setFocusButton] = React.useState(false);
@@ -202,9 +199,7 @@ export function MotionPicker({
 
     // Internal state for uncontrolled mode. Starts empty; resolved
     // in the first effect after mount (SSR-safe).
-    const [internalValue, setInternalValue] = React.useState<string>(
-        isControlled ? value : "",
-    );
+    const [internalValue, setInternalValue] = React.useState<string>(isControlled ? value : "");
 
     // Mirror the controlled prop into a single read path so the render
     // branch is uniform.
@@ -227,16 +222,16 @@ export function MotionPicker({
     const onOpenChangeRef = React.useRef(onOpenChange);
     onOpenChangeRef.current = onOpenChange;
     const setOpen = React.useCallback(
-      (next: boolean): void => {
-        if (next === openRef.current) return;
-        openRef.current = next;
-        if (openProp === undefined) setOpenInner(next);
-        onOpenChangeRef.current?.(next);
-      },
-      [openProp],
+        (next: boolean): void => {
+            if (next === openRef.current) return;
+            openRef.current = next;
+            if (openProp === undefined) setOpenInner(next);
+            onOpenChangeRef.current?.(next);
+        },
+        [openProp],
     );
     React.useEffect(() => {
-      if (disabled && openRaw) setOpen(false);
+        if (disabled && openRaw) setOpen(false);
     }, [disabled, openRaw, setOpen]);
     const [activeIndex, setActiveIndex] = React.useState(-1);
 
@@ -263,10 +258,7 @@ export function MotionPicker({
         if (typeof document === "undefined" || !slug) return;
         if (slug === appliedRef.current) return;
         appliedRef.current = slug;
-        (target ?? document.documentElement).setAttribute(
-            "data-motion",
-            slug,
-        );
+        (target ?? document.documentElement).setAttribute("data-motion", slug);
         if (storageKey) {
             try {
                 localStorage.setItem(storageKey, slug);
@@ -298,11 +290,7 @@ export function MotionPicker({
         // An empty list has no option to activate; -1 keeps
         // aria-activedescendant off rather than pointing at an id that
         // does not exist.
-        setActiveIndex(
-            motions.length === 0
-                ? -1
-                : (startIndex ?? (selected >= 0 ? selected : 0)),
-        );
+        setActiveIndex(motions.length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0)));
         setOpen(true);
     }
 
@@ -339,9 +327,7 @@ export function MotionPicker({
         closeList(false);
     }
 
-    function onButtonKeyDown(
-        event: React.KeyboardEvent<HTMLButtonElement>,
-    ): void {
+    function onButtonKeyDown(event: React.KeyboardEvent<HTMLButtonElement>): void {
         switch (event.key) {
             case "ArrowDown":
             case "Enter":
@@ -445,7 +431,11 @@ export function MotionPicker({
             onBlur={onRootBlur}
             {...restProps}
         >
-            <input type="hidden" name={name} value={currentValue ?? ""} />
+            <input
+                type="hidden"
+                name={name}
+                value={currentValue ?? ""}
+            />
 
             <IconButton
                 disabled={disabled}

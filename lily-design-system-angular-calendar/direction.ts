@@ -5,12 +5,12 @@
 
 /** Whether the text around `element` runs right to left: the nearest `dir` attribute wins, then the computed `direction`. */
 export function isRtl(element: Element | null | undefined): boolean {
-    if (!element) return false;
-    const attr = element.closest("[dir]")?.getAttribute("dir")?.toLowerCase();
-    if (attr === "rtl") return true;
-    if (attr === "ltr") return false;
-    if (typeof getComputedStyle === "function") return getComputedStyle(element).direction === "rtl";
-    return false;
+  if (!element) return false;
+  const attr = element.closest("[dir]")?.getAttribute("dir")?.toLowerCase();
+  if (attr === "rtl") return true;
+  if (attr === "ltr") return false;
+  if (typeof getComputedStyle === "function") return getComputedStyle(element).direction === "rtl";
+  return false;
 }
 
 /**
@@ -18,8 +18,8 @@ export function isRtl(element: Element | null | undefined): boolean {
  * Callers pass the result to the same `switch` they always used.
  */
 export function logicalKey(key: string, rtl: boolean): string {
-    if (!rtl) return key;
-    if (key === "ArrowLeft") return "ArrowRight";
-    if (key === "ArrowRight") return "ArrowLeft";
-    return key;
+  if (!rtl) return key;
+  if (key === "ArrowLeft") return "ArrowRight";
+  if (key === "ArrowRight") return "ArrowLeft";
+  return key;
 }

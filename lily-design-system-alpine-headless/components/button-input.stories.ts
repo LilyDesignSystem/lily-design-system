@@ -1,11 +1,11 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = "<input\n  class=\"button-input\"\n  type=\"button\"\n  aria-label=\"\"\n>";
+const html = '<input\n  class="button-input"\n  type="button"\n  aria-label=""\n>';
 
 const meta = {
-  title: 'Headless/Button Input',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/Button Input",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

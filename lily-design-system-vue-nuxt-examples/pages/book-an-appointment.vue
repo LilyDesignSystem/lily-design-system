@@ -171,16 +171,42 @@ function statusFor(n: 1 | 2 | 3 | 4): "waiting" | "in-progress" | "finished" {
     <main class="page-wrapper">
         <BackLink href="/">Back to examples</BackLink>
 
-        <StepList v-if="step >= 1 && step <= 4" label="Booking progress" :current="step - 1">
-            <StepListItem :status="statusFor(1)" :current="step === 1">Reason</StepListItem>
-            <StepListItem :status="statusFor(2)" :current="step === 2">Date and time</StepListItem>
-            <StepListItem :status="statusFor(3)" :current="step === 3">Your details</StepListItem>
-            <StepListItem :status="statusFor(4)" :current="step === 4">Check your answers</StepListItem>
+        <StepList
+            v-if="step >= 1 && step <= 4"
+            label="Booking progress"
+            :current="step - 1"
+        >
+            <StepListItem
+                :status="statusFor(1)"
+                :current="step === 1"
+                >Reason</StepListItem
+            >
+            <StepListItem
+                :status="statusFor(2)"
+                :current="step === 2"
+                >Date and time</StepListItem
+            >
+            <StepListItem
+                :status="statusFor(3)"
+                :current="step === 3"
+                >Your details</StepListItem
+            >
+            <StepListItem
+                :status="statusFor(4)"
+                :current="step === 4"
+                >Check your answers</StepListItem
+            >
         </StepList>
 
-        <ErrorSummary v-if="hasErrors" title="There is a problem" id="booking-error-summary">
+        <ErrorSummary
+            v-if="hasErrors"
+            title="There is a problem"
+            id="booking-error-summary"
+        >
             <ul>
-                <li v-if="errors.reason"><a href="#reason-routine">{{ errors.reason }}</a></li>
+                <li v-if="errors.reason">
+                    <a href="#reason-routine">{{ errors.reason }}</a>
+                </li>
                 <li v-if="errors.reasonOther">
                     <a href="#reason-other-detail">{{ errors.reasonOther }}</a>
                 </li>
@@ -190,8 +216,12 @@ function statusFor(n: 1 | 2 | 3 | 4): "waiting" | "in-progress" | "finished" {
                 <li v-if="errors.appointmentTime">
                     <a href="#appointment-time">{{ errors.appointmentTime }}</a>
                 </li>
-                <li v-if="errors.fullName"><a href="#full-name">{{ errors.fullName }}</a></li>
-                <li v-if="errors.email"><a href="#email">{{ errors.email }}</a></li>
+                <li v-if="errors.fullName">
+                    <a href="#full-name">{{ errors.fullName }}</a>
+                </li>
+                <li v-if="errors.email">
+                    <a href="#email">{{ errors.email }}</a>
+                </li>
                 <li v-if="errors.confirmedAccurate">
                     <a href="#confirmed-accurate">{{ errors.confirmedAccurate }}</a>
                 </li>
@@ -199,15 +229,21 @@ function statusFor(n: 1 | 2 | 3 | 4): "waiting" | "in-progress" | "finished" {
         </ErrorSummary>
 
         <template v-if="step === 0">
-            <h2 id="step-heading" tabindex="-1" ref="stepHeadingRef">Before you start</h2>
+            <h2
+                id="step-heading"
+                tabindex="-1"
+                ref="stepHeadingRef"
+            >
+                Before you start
+            </h2>
 
             <WarningCallout label="Emergency notice">
                 <p>If you have a medical emergency, call 999 or go to your nearest A&amp;E.</p>
             </WarningCallout>
 
             <p>
-                Use this service to book a routine appointment with your GP surgery online.
-                It takes about 5 minutes.
+                Use this service to book a routine appointment with your GP surgery online. It takes
+                about 5 minutes.
             </p>
 
             <InsetText
@@ -217,9 +253,8 @@ function statusFor(n: 1 | 2 | 3 | 4): "waiting" | "in-progress" | "finished" {
 
             <Details summary="What happens at your appointment">
                 <p>
-                    A clinician will review the reason you gave for the appointment and may
-                    ask follow-up questions. Bring a list of any medicines you are currently
-                    taking.
+                    A clinician will review the reason you gave for the appointment and may ask
+                    follow-up questions. Bring a list of any medicines you are currently taking.
                 </p>
             </Details>
 
@@ -227,9 +262,19 @@ function statusFor(n: 1 | 2 | 3 | 4): "waiting" | "in-progress" | "finished" {
         </template>
 
         <template v-else-if="step === 1">
-            <h2 id="step-heading" tabindex="-1" ref="stepHeadingRef">Reason for your appointment</h2>
+            <h2
+                id="step-heading"
+                tabindex="-1"
+                ref="stepHeadingRef"
+            >
+                Reason for your appointment
+            </h2>
 
-            <Form label="Reason for your appointment" novalidate @submit="goNext(validateReason, 2)">
+            <Form
+                label="Reason for your appointment"
+                novalidate
+                @submit="goNext(validateReason, 2)"
+            >
                 <RadioGroup label="Why do you need an appointment?">
                     <Label>
                         <RadioInput
@@ -293,7 +338,11 @@ function statusFor(n: 1 | 2 | 3 | 4): "waiting" | "in-progress" | "finished" {
                             required
                         />
                     </Field>
-                    <CharacterCounter :count="reasonOther.length" :max="250" label="Characters used" />
+                    <CharacterCounter
+                        :count="reasonOther.length"
+                        :max="250"
+                        label="Characters used"
+                    />
                 </template>
 
                 <p><Button type="submit">Continue</Button></p>
@@ -301,11 +350,21 @@ function statusFor(n: 1 | 2 | 3 | 4): "waiting" | "in-progress" | "finished" {
         </template>
 
         <template v-else-if="step === 2">
-            <h2 id="step-heading" tabindex="-1" ref="stepHeadingRef">Choose a date and time</h2>
+            <h2
+                id="step-heading"
+                tabindex="-1"
+                ref="stepHeadingRef"
+            >
+                Choose a date and time
+            </h2>
 
             <InsetText>Appointments are available Monday to Friday, 8am to 6pm.</InsetText>
 
-            <Form label="Choose a date and time" novalidate @submit="goNext(validateDateTime, 3)">
+            <Form
+                label="Choose a date and time"
+                novalidate
+                @submit="goNext(validateDateTime, 3)"
+            >
                 <Fieldset legend="Preferred date and time">
                     <Field
                         label="Preferred date"
@@ -314,8 +373,7 @@ function statusFor(n: 1 | 2 | 3 | 4): "waiting" | "in-progress" | "finished" {
                         inputId="appointment-date"
                     >
                         <Hint id="appointment-date-hint"
-                            >We will try to match your preference, but availability may
-                            vary.</Hint
+                            >We will try to match your preference, but availability may vary.</Hint
                         >
                         <DateInput
                             id="appointment-date"
@@ -347,22 +405,51 @@ function statusFor(n: 1 | 2 | 3 | 4): "waiting" | "in-progress" | "finished" {
                     </Field>
                 </Fieldset>
 
-                <p style="display: flex; gap: var(--nhs-space-3);">
-                    <Button type="button" @click="goBack(1)">Back</Button>
+                <p style="display: flex; gap: var(--nhs-space-3)">
+                    <Button
+                        type="button"
+                        @click="goBack(1)"
+                        >Back</Button
+                    >
                     <Button type="submit">Continue</Button>
                 </p>
             </Form>
         </template>
 
         <template v-else-if="step === 3">
-            <h2 id="step-heading" tabindex="-1" ref="stepHeadingRef">Your details</h2>
+            <h2
+                id="step-heading"
+                tabindex="-1"
+                ref="stepHeadingRef"
+            >
+                Your details
+            </h2>
 
-            <Form label="Your details" novalidate @submit="goNext(validateDetails, 4)">
-                <Field label="Full name" required :error="errors.fullName" inputId="full-name">
-                    <TextInput id="full-name" label="Full name" v-model="fullName" required />
+            <Form
+                label="Your details"
+                novalidate
+                @submit="goNext(validateDetails, 4)"
+            >
+                <Field
+                    label="Full name"
+                    required
+                    :error="errors.fullName"
+                    inputId="full-name"
+                >
+                    <TextInput
+                        id="full-name"
+                        label="Full name"
+                        v-model="fullName"
+                        required
+                    />
                 </Field>
 
-                <Field label="Email address" required :error="errors.email" inputId="email">
+                <Field
+                    label="Email address"
+                    required
+                    :error="errors.email"
+                    inputId="email"
+                >
                     <Hint id="email-hint">We will use this to send your confirmation.</Hint>
                     <EmailInput
                         id="email"
@@ -373,10 +460,12 @@ function statusFor(n: 1 | 2 | 3 | 4): "waiting" | "in-progress" | "finished" {
                     />
                 </Field>
 
-                <Field label="Phone number" inputId="phone">
+                <Field
+                    label="Phone number"
+                    inputId="phone"
+                >
                     <Hint id="phone-hint"
-                        >Optional — only needed if we must contact you about a
-                        change.</Hint
+                        >Optional — only needed if we must contact you about a change.</Hint
                     >
                     <TelInput
                         id="phone"
@@ -396,15 +485,25 @@ function statusFor(n: 1 | 2 | 3 | 4): "waiting" | "in-progress" | "finished" {
                     </Label>
                 </p>
 
-                <p style="display: flex; gap: var(--nhs-space-3);">
-                    <Button type="button" @click="goBack(2)">Back</Button>
+                <p style="display: flex; gap: var(--nhs-space-3)">
+                    <Button
+                        type="button"
+                        @click="goBack(2)"
+                        >Back</Button
+                    >
                     <Button type="submit">Continue</Button>
                 </p>
             </Form>
         </template>
 
         <template v-else-if="step === 4">
-            <h2 id="step-heading" tabindex="-1" ref="stepHeadingRef">Check your answers</h2>
+            <h2
+                id="step-heading"
+                tabindex="-1"
+                ref="stepHeadingRef"
+            >
+                Check your answers
+            </h2>
 
             <SummaryList label="Your appointment details">
                 <SummaryListItem term="Reason">
@@ -412,52 +511,70 @@ function statusFor(n: 1 | 2 | 3 | 4): "waiting" | "in-progress" | "finished" {
                     <template v-if="reason === 'other' && reasonOther">
                         <br /><span>{{ reasonOther }}</span>
                     </template>
-                    <a href="#reason" @click.prevent="goToStep(1)"
+                    <a
+                        href="#reason"
+                        @click.prevent="goToStep(1)"
                         >Change<span class="visually-hidden"> reason</span></a
                     >
                 </SummaryListItem>
                 <SummaryListItem term="Date">
                     {{ appointmentDate || "Not answered" }}
-                    <a href="#date" @click.prevent="goToStep(2)"
+                    <a
+                        href="#date"
+                        @click.prevent="goToStep(2)"
                         >Change<span class="visually-hidden"> date</span></a
                     >
                 </SummaryListItem>
                 <SummaryListItem term="Time of day">
                     {{ appointmentTime ? TIME_LABELS[appointmentTime] : "Not answered" }}
-                    <a href="#time" @click.prevent="goToStep(2)"
+                    <a
+                        href="#time"
+                        @click.prevent="goToStep(2)"
                         >Change<span class="visually-hidden"> time of day</span></a
                     >
                 </SummaryListItem>
                 <SummaryListItem term="Full name">
                     {{ fullName || "Not answered" }}
-                    <a href="#name" @click.prevent="goToStep(3)"
+                    <a
+                        href="#name"
+                        @click.prevent="goToStep(3)"
                         >Change<span class="visually-hidden"> full name</span></a
                     >
                 </SummaryListItem>
                 <SummaryListItem term="Email address">
                     {{ email || "Not answered" }}
-                    <a href="#email-review" @click.prevent="goToStep(3)"
+                    <a
+                        href="#email-review"
+                        @click.prevent="goToStep(3)"
                         >Change<span class="visually-hidden"> email address</span></a
                     >
                 </SummaryListItem>
                 <SummaryListItem term="Phone number">
                     <template v-if="phone">{{ phone }}</template>
                     <StatusTag v-else>Not provided</StatusTag>
-                    <a href="#phone-review" @click.prevent="goToStep(3)"
+                    <a
+                        href="#phone-review"
+                        @click.prevent="goToStep(3)"
                         >Change<span class="visually-hidden"> phone number</span></a
                     >
                 </SummaryListItem>
                 <SummaryListItem term="Interpreter or additional support">
                     {{ needsSupport ? "Yes" : "No" }}
-                    <a href="#support-review" @click.prevent="goToStep(3)"
-                        >Change<span class="visually-hidden"
-                            > interpreter or additional support</span
+                    <a
+                        href="#support-review"
+                        @click.prevent="goToStep(3)"
+                        >Change<span class="visually-hidden">
+                            interpreter or additional support</span
                         ></a
                     >
                 </SummaryListItem>
             </SummaryList>
 
-            <Form label="Confirm and book your appointment" novalidate @submit="submitBooking">
+            <Form
+                label="Confirm and book your appointment"
+                novalidate
+                @submit="submitBooking"
+            >
                 <p>
                     <Label>
                         <CheckboxInput
@@ -467,24 +584,36 @@ function statusFor(n: 1 | 2 | 3 | 4): "waiting" | "in-progress" | "finished" {
                         />
                         I confirm the information above is correct
                     </Label>
-                    <ErrorMessage v-if="errors.confirmedAccurate">{{ errors.confirmedAccurate }}</ErrorMessage>
+                    <ErrorMessage v-if="errors.confirmedAccurate">{{
+                        errors.confirmedAccurate
+                    }}</ErrorMessage>
                 </p>
 
-                <p style="display: flex; gap: var(--nhs-space-3);">
-                    <Button type="button" @click="goBack(3)">Back</Button>
+                <p style="display: flex; gap: var(--nhs-space-3)">
+                    <Button
+                        type="button"
+                        @click="goBack(3)"
+                        >Back</Button
+                    >
                     <Button type="submit">Confirm and book</Button>
                 </p>
             </Form>
         </template>
 
         <template v-else-if="step === 5">
-            <h2 id="step-heading" tabindex="-1" ref="stepHeadingRef">Booking confirmed</h2>
+            <h2
+                id="step-heading"
+                tabindex="-1"
+                ref="stepHeadingRef"
+            >
+                Booking confirmed
+            </h2>
 
             <SuccessPanel label="Booking confirmed">
                 <p>
                     Your appointment reference number is
-                    <strong>{{ referenceNumber }}</strong>. We have sent a confirmation to
-                    {{ email }}.
+                    <strong>{{ referenceNumber }}</strong
+                    >. We have sent a confirmation to {{ email }}.
                 </p>
             </SuccessPanel>
 
@@ -499,8 +628,8 @@ function statusFor(n: 1 | 2 | 3 | 4): "waiting" | "in-progress" | "finished" {
                 <p>
                     A member of the practice team will confirm your
                     {{ appointmentTime ? TIME_LABELS[appointmentTime].toLowerCase() : "" }}
-                    appointment on {{ appointmentDate }} by email. Keep your reference number
-                    in case you need to change or cancel.
+                    appointment on {{ appointmentDate }} by email. Keep your reference number in
+                    case you need to change or cancel.
                 </p>
             </Panel>
 

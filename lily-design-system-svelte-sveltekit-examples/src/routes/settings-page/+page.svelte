@@ -51,12 +51,19 @@
     <BackLink href="/">Back to examples</BackLink>
 
     {#if saved}
-        <Banner type="success" dismissible onclose={() => (saved = false)}>
+        <Banner
+            type="success"
+            dismissible
+            onclose={() => (saved = false)}
+        >
             Settings saved successfully.
         </Banner>
     {/if}
 
-    <Form label="Settings form" onsubmit={handleSave}>
+    <Form
+        label="Settings form"
+        onsubmit={handleSave}
+    >
         <h2>Notifications</h2>
         <div
             style="display: flex; flex-direction: column; gap: var(--nhs-space-3); margin-bottom: var(--nhs-space-4);"
@@ -74,17 +81,21 @@
                 style="display: flex; align-items: center; justify-content: space-between; max-width: 400px;"
             >
                 <span>Dark mode</span>
-                <SwitchButton label="Dark mode" bind:checked={darkMode} />
+                <SwitchButton
+                    label="Dark mode"
+                    bind:checked={darkMode}
+                />
             </div>
             <div
                 style="display: flex; align-items: center; justify-content: space-between; max-width: 400px;"
             >
                 <span>Auto-save</span>
-                <SwitchButton label="Auto-save" bind:checked={autoSave} />
+                <SwitchButton
+                    label="Auto-save"
+                    bind:checked={autoSave}
+                />
             </div>
-            <label
-                style="display: flex; align-items: center; gap: var(--nhs-space-2);"
-            >
+            <label style="display: flex; align-items: center; gap: var(--nhs-space-2);">
                 <CheckboxInput
                     label="Email digest"
                     bind:checked={emailDigest}
@@ -97,7 +108,10 @@
 
         <h2>Language & Region</h2>
         <Field label="Language">
-            <Select label="Language" bind:value={language}>
+            <Select
+                label="Language"
+                bind:value={language}
+            >
                 <Option value="en">English</Option>
                 <Option value="cy">Cymraeg (Welsh)</Option>
                 <Option value="gd">Gaidhlig (Scottish Gaelic)</Option>
@@ -109,25 +123,30 @@
         <h2>Theme</h2>
 
         <Field label="Theme selection">
-            <ThemeSelect label="Choose a theme" bind:value={theme}>
+            <ThemeSelect
+                label="Choose a theme"
+                bind:value={theme}
+            >
                 <ThemeSelectOption value="light">Light</ThemeSelectOption>
                 <ThemeSelectOption value="dark">Dark</ThemeSelectOption>
-                <ThemeSelectOption value="auto"
-                    >System default</ThemeSelectOption
-                >
+                <ThemeSelectOption value="auto">System default</ThemeSelectOption>
             </ThemeSelect>
         </Field>
 
-        <ThemeView label="Current theme" value={theme} />
+        <ThemeView
+            label="Current theme"
+            value={theme}
+        />
 
         <div style="margin-top: var(--nhs-space-3);">
             <Field label="Accent colour">
-                <ColorInput label="Accent colour" bind:value={accentColor} />
+                <ColorInput
+                    label="Accent colour"
+                    bind:value={accentColor}
+                />
             </Field>
             <p>
-                Selected: <span style="color: {accentColor}; font-weight: 700;"
-                    >{accentColor}</span
-                >
+                Selected: <span style="color: {accentColor}; font-weight: 700;">{accentColor}</span>
             </p>
         </div>
 
@@ -169,7 +188,10 @@
 
         <h2>View Mode</h2>
         <SegmentGroup label="View mode">
-            <SegmentGroupItem value="list" checked>List</SegmentGroupItem>
+            <SegmentGroupItem
+                value="list"
+                checked>List</SegmentGroupItem
+            >
             <SegmentGroupItem value="grid">Grid</SegmentGroupItem>
             <SegmentGroupItem value="compact">Compact</SegmentGroupItem>
         </SegmentGroup>

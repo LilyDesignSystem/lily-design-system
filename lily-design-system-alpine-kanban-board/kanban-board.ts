@@ -82,7 +82,9 @@ export function createKanbanBoard(options: KanbanOptions) {
             return this.labels.cardCount?.(this.cardsIn(column.id).length) ?? "";
         },
         isOverLimit(column: KanbanColumn): boolean {
-            return column.wipLimit !== undefined && this.cardsIn(column.id).length > column.wipLimit;
+            return (
+                column.wipLimit !== undefined && this.cardsIn(column.id).length > column.wipLimit
+            );
         },
         limitLabel(column: KanbanColumn): string {
             return column.wipLimit !== undefined && this.isOverLimit(column)
@@ -97,7 +99,12 @@ export function createKanbanBoard(options: KanbanOptions) {
             const column = this.columns.find((c: KanbanColumn) => c.id === columnId);
             if (!card || !column || card.columnId === columnId) return false;
             if (options.canMove && !options.canMove(card, column)) return false;
-            if (options.strictWip && column.wipLimit !== undefined && this.cardsIn(columnId).length >= column.wipLimit) return false;
+            if (
+                options.strictWip &&
+                column.wipLimit !== undefined &&
+                this.cardsIn(columnId).length >= column.wipLimit
+            )
+                return false;
             return true;
         },
         move(cardId: string, toColumnId: string): boolean {
@@ -105,16 +112,23 @@ export function createKanbanBoard(options: KanbanOptions) {
             const column = this.columns.find((c: KanbanColumn) => c.id === toColumnId);
             if (!card || !column) return false;
             if (!this.accepts(cardId, toColumnId)) {
-                if (card.columnId !== toColumnId) this.status = this.labels.moveBlocked?.(this.title(card), column.title) ?? "";
+                if (card.columnId !== toColumnId)
+                    this.status = this.labels.moveBlocked?.(this.title(card), column.title) ?? "";
                 return false;
             }
             // The card joins the end of its new column (an unordered store: order is the cards array's).
-            this.cards = [...this.cards.filter((c: KanbanCard) => c.id !== cardId), { ...card, columnId: toColumnId }];
+            this.cards = [
+                ...this.cards.filter((c: KanbanCard) => c.id !== cardId),
+                { ...card, columnId: toColumnId },
+            ];
             this.status = this.labels.moveAnnouncement?.(this.title(card), column.title) ?? "";
             this.$dispatch?.("lily:move", { cardId, toColumnId });
             // The cursor follows the card.
             const col = this.columns.indexOf(column);
-            this.active = { row: this.cardsIn(toColumnId).findIndex((c: KanbanCard) => c.id === cardId), col };
+            this.active = {
+                row: this.cardsIn(toColumnId).findIndex((c: KanbanCard) => c.id === cardId),
+                col,
+            };
             this.$nextTick?.(() => this.focusCell());
             return true;
         },
@@ -142,18 +156,31 @@ export function createKanbanBoard(options: KanbanOptions) {
             const menu = this.menu as { cardId: string; index: number } | null;
             if (!menu) return;
             const options_ = this.destinations(menu.cardId);
-            const stop = () => { event.preventDefault(); event.stopPropagation(); };
-            if (event.key === "ArrowDown") { stop(); menu.index = Math.min(menu.index + 1, options_.length - 1); }
-            else if (event.key === "ArrowUp") { stop(); menu.index = Math.max(menu.index - 1, 0); }
-            else if (event.key === "Home") { stop(); menu.index = 0; }
-            else if (event.key === "End") { stop(); menu.index = options_.length - 1; }
-            else if (event.key === "Enter" || event.key === " ") {
+            const stop = () => {
+                event.preventDefault();
+                event.stopPropagation();
+            };
+            if (event.key === "ArrowDown") {
+                stop();
+                menu.index = Math.min(menu.index + 1, options_.length - 1);
+            } else if (event.key === "ArrowUp") {
+                stop();
+                menu.index = Math.max(menu.index - 1, 0);
+            } else if (event.key === "Home") {
+                stop();
+                menu.index = 0;
+            } else if (event.key === "End") {
+                stop();
+                menu.index = options_.length - 1;
+            } else if (event.key === "Enter" || event.key === " ") {
                 stop();
                 const target = options_[menu.index];
                 this.closeMenu(false);
                 if (target) this.move(menu.cardId, target.id);
-            } else if (event.key === "Escape") { stop(); this.closeMenu(); }
-            else if (event.key === "Tab") this.closeMenu(false);
+            } else if (event.key === "Escape") {
+                stop();
+                this.closeMenu();
+            } else if (event.key === "Tab") this.closeMenu(false);
         },
 
         // ---- drag and drop ----------------------------------------------------------------------------------------
@@ -188,7 +215,13 @@ export function createKanbanBoard(options: KanbanOptions) {
         /** `data-drop-target` while a dragged card would be accepted by the column; `data-drop-blocked` when it would not. */
         dropState(columnId: string): "target" | "blocked" | null {
             if (!this.dragging) return null;
-            return this.accepts(this.dragging, columnId) ? (this.dropColumn === columnId ? "target" : null) : this.cardsIn(columnId).some((c: KanbanCard) => c.id === this.dragging) ? null : "blocked";
+            return this.accepts(this.dragging, columnId)
+                ? this.dropColumn === columnId
+                    ? "target"
+                    : null
+                : this.cardsIn(columnId).some((c: KanbanCard) => c.id === this.dragging)
+                  ? null
+                  : "blocked";
         },
 
         // ---- keyboard ---------------------------------------------------------------------------------------------
@@ -200,7 +233,9 @@ export function createKanbanBoard(options: KanbanOptions) {
         },
         focusCell(): void {
             // $root is gone if the board was removed before a deferred focus ran.
-            const cell = this.$root?.querySelector(`[data-row="${this.active.row}"][data-col="${this.active.col}"]`) as HTMLElement | null;
+            const cell = this.$root?.querySelector(
+                `[data-row="${this.active.row}"][data-col="${this.active.col}"]`,
+            ) as HTMLElement | null;
             cell?.focus();
         },
         onKeydown(event: KeyboardEvent): void {
@@ -216,7 +251,14 @@ export function createKanbanBoard(options: KanbanOptions) {
                 return;
             }
             if (!event.altKey) {
-                const to = gridMove(event, at, { firstRow: -1, lastRow: this.rowCount - 1, lastCol: this.columns.length - 1, pageStep: 10, homeEnd: "column", rtl });
+                const to = gridMove(event, at, {
+                    firstRow: -1,
+                    lastRow: this.rowCount - 1,
+                    lastCol: this.columns.length - 1,
+                    pageStep: 10,
+                    homeEnd: "column",
+                    rtl,
+                });
                 if (to) {
                     event.preventDefault();
                     this.active = to;
@@ -232,7 +274,11 @@ export function createKanbanBoard(options: KanbanOptions) {
             if (at.row >= 0 && isTypeaheadKey(event)) {
                 typeahead = nextTypeaheadState(typeahead, event.key, Date.now());
                 const column = this.cardsIn(this.columns[at.col].id);
-                const found = findTypeaheadMatch(column.map((c: KanbanCard) => this.title(c)), at.row, typeahead.prefix);
+                const found = findTypeaheadMatch(
+                    column.map((c: KanbanCard) => this.title(c)),
+                    at.row,
+                    typeahead.prefix,
+                );
                 if (found >= 0) {
                     event.preventDefault();
                     this.active = { row: found, col: at.col };
@@ -244,6 +290,10 @@ export function createKanbanBoard(options: KanbanOptions) {
 }
 
 /** The Alpine plugin: registers `Alpine.data("lilyKanbanBoard", options => …)`. */
-export default function lilyKanbanBoard(Alpine: { data: (name: string, factory: (...args: never[]) => object) => void }): void {
-    Alpine.data("lilyKanbanBoard", ((options: KanbanOptions) => createKanbanBoard(options)) as (...args: never[]) => object);
+export default function lilyKanbanBoard(Alpine: {
+    data: (name: string, factory: (...args: never[]) => object) => void;
+}): void {
+    Alpine.data("lilyKanbanBoard", ((options: KanbanOptions) => createKanbanBoard(options)) as (
+        ...args: never[]
+    ) => object);
 }

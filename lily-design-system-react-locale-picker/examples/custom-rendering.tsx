@@ -24,16 +24,29 @@ import { useState } from "react";
 import { LocalePicker } from "../LocalePicker";
 
 const LONG_LIST = [
-    "en", "en_US", "en_GB",
-    "fr", "fr_CA",
-    "es", "es_419",
+    "en",
+    "en_US",
+    "en_GB",
+    "fr",
+    "fr_CA",
+    "es",
+    "es_419",
     "de",
-    "zh_Hans", "zh_Hant",
-    "ja", "ko",
-    "ar", "he", "fa", "ur",
-    "hi", "bn",
-    "pt", "pt_BR",
-    "ru", "tr", "vi",
+    "zh_Hans",
+    "zh_Hant",
+    "ja",
+    "ko",
+    "ar",
+    "he",
+    "fa",
+    "ur",
+    "hi",
+    "bn",
+    "pt",
+    "pt_BR",
+    "ru",
+    "tr",
+    "vi",
 ];
 
 export function SelectExample() {
@@ -56,7 +69,10 @@ export function SelectExample() {
                             from the `label` prop via aria-label, so this
                             visual shorthand must not be announced twice.
                         */}
-                        <span aria-hidden="true" title={labelFor(value)}>
+                        <span
+                            aria-hidden="true"
+                            title={labelFor(value)}
+                        >
                             {value.split("_")[0].toUpperCase()}
                         </span>
                         <span aria-hidden="true">{open ? "▴" : "▾"}</span>

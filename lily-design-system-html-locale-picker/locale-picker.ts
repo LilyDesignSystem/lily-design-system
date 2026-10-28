@@ -9,11 +9,7 @@
  * (WAI-ARIA APG listbox pattern). It is not a native `<select>`.
  */
 
-import {
-    defaultLocaleLabels,
-    RTL_LANGUAGE_TAGS,
-    RTL_SCRIPT_SUBTAGS,
-} from "./locales.js";
+import { defaultLocaleLabels, RTL_LANGUAGE_TAGS, RTL_SCRIPT_SUBTAGS } from "./locales.js";
 import { ListboxController } from "@lilydesignsystem/html-headless/components/listbox-controller.js";
 
 export { defaultLocaleLabels, RTL_LANGUAGE_TAGS, RTL_SCRIPT_SUBTAGS };
@@ -109,9 +105,7 @@ export function localeEndonym(locale: string): string {
 function intlDisplayName(locale: string): string {
     try {
         const env =
-            typeof navigator !== "undefined" && navigator.language
-                ? navigator.language
-                : "en";
+            typeof navigator !== "undefined" && navigator.language ? navigator.language : "en";
         const dn = new Intl.DisplayNames([env], { type: "language" });
         return dn.of(bcp47LocaleTag(locale)) ?? "";
     } catch {
@@ -338,7 +332,9 @@ export class LocalePicker extends HTMLElement {
     #emitOpenChange(open: boolean): void {
         if (this.#silentOpen) return;
         this.onOpenChange?.(open);
-        this.dispatchEvent(new CustomEvent<boolean>("openchange", { detail: open, bubbles: true, composed: true }));
+        this.dispatchEvent(
+            new CustomEvent<boolean>("openchange", { detail: open, bubbles: true, composed: true }),
+        );
     }
 
     /** The `open` and `disabled` attributes, applied to the rendered button and popup. */
@@ -408,7 +404,10 @@ export class LocalePicker extends HTMLElement {
         // Graticule after https://commons.wikimedia.org/wiki/File:Globe_icon.svg
         const graticule = document.createElementNS(SVG_NS, "path");
         graticule.setAttribute("stroke-width", "1.1");
-        graticule.setAttribute("d", "M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7");
+        graticule.setAttribute(
+            "d",
+            "M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7",
+        );
         svg.append(circle, graticule);
         return svg;
     }
@@ -533,9 +532,7 @@ export class LocalePicker extends HTMLElement {
 
         if (!initial) {
             initial =
-                this.defaultValue ||
-                (this.#locales.includes("en") ? "en" : this.#locales[0]) ||
-                "";
+                this.defaultValue || (this.#locales.includes("en") ? "en" : this.#locales[0]) || "";
         }
 
         if (initial && initial !== this.value) {
@@ -585,9 +582,7 @@ export class LocalePicker extends HTMLElement {
         // aria-activedescendant off rather than pointing at an id that
         // does not exist.
         this.#activeIndex =
-            this.#locales.length === 0
-                ? -1
-                : (startIndex ?? (selected >= 0 ? selected : 0));
+            this.#locales.length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0));
         this.#listboxController?.setActiveIndex(this.#activeIndex);
         this.#open = true;
         this.#emitOpenChange(true);
@@ -861,71 +856,70 @@ function createTooltip(
     // WCAG 1.4.13: Escape dismisses wherever focus is (pointer-only hover
     // has no focus on the button). Added only while visible.
     const onDocumentKeydown = (event: KeyboardEvent): void => {
-      if (event.key === "Escape") {
-        dismissed = true;
-        update();
-      }
+        if (event.key === "Escape") {
+            dismissed = true;
+            update();
+        }
     };
     const destroy = (): void => {
-      if (listening) {
-        document.removeEventListener("keydown", onDocumentKeydown);
-        listening = false;
-      }
+        if (listening) {
+            document.removeEventListener("keydown", onDocumentKeydown);
+            listening = false;
+        }
     };
     const update = (): void => {
-      const label = getLabel();
-      if (el.textContent !== label) el.textContent = label;
-      const visible =
-        !isOpen() && !dismissed && (hoverButton || hoverTooltip || focusButton);
-      if (visible) el.removeAttribute("hidden");
-      else if (!el.hasAttribute("hidden")) el.setAttribute("hidden", "");
-      if (visible && !listening) {
-        document.addEventListener("keydown", onDocumentKeydown);
-        listening = true;
-      } else if (!visible) destroy();
+        const label = getLabel();
+        if (el.textContent !== label) el.textContent = label;
+        const visible = !isOpen() && !dismissed && (hoverButton || hoverTooltip || focusButton);
+        if (visible) el.removeAttribute("hidden");
+        else if (!el.hasAttribute("hidden")) el.setAttribute("hidden", "");
+        if (visible && !listening) {
+            document.addEventListener("keydown", onDocumentKeydown);
+            listening = true;
+        } else if (!visible) destroy();
     };
     button.addEventListener("mouseenter", () => {
-      hoverButton = true;
-      dismissed = false;
-      update();
+        hoverButton = true;
+        dismissed = false;
+        update();
     });
     button.addEventListener("mouseleave", () => {
-      hoverButton = false;
-      update();
+        hoverButton = false;
+        update();
     });
     button.addEventListener("focus", () => {
-      // Keyboard focus only: a mouse click also focuses the button in
-      // Chromium, and the tooltip should not stick after a click.
-      try {
-        focusButton = button.matches(":focus-visible");
-      } catch {
-        focusButton = true; // engine without :focus-visible — err towards showing
-      }
-      update();
+        // Keyboard focus only: a mouse click also focuses the button in
+        // Chromium, and the tooltip should not stick after a click.
+        try {
+            focusButton = button.matches(":focus-visible");
+        } catch {
+            focusButton = true; // engine without :focus-visible — err towards showing
+        }
+        update();
     });
     button.addEventListener("blur", () => {
-      focusButton = false;
-      dismissed = false;
-      update();
+        focusButton = false;
+        dismissed = false;
+        update();
     });
     button.addEventListener("keydown", (event: KeyboardEvent) => {
-      if (event.key === "Escape" && !el.hasAttribute("hidden")) {
-        dismissed = true;
-        update();
-      }
+        if (event.key === "Escape" && !el.hasAttribute("hidden")) {
+            dismissed = true;
+            update();
+        }
     });
     // A click acts on the control, so the pointer hint gets out of the way.
     button.addEventListener("click", () => {
-      hoverButton = false;
-      update();
+        hoverButton = false;
+        update();
     });
     el.addEventListener("mouseenter", () => {
-      hoverTooltip = true;
-      update();
+        hoverTooltip = true;
+        update();
     });
     el.addEventListener("mouseleave", () => {
-      hoverTooltip = false;
-      update();
+        hoverTooltip = false;
+        update();
     });
     update();
     return { el, update, destroy };

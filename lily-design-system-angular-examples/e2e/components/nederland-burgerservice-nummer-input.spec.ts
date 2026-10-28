@@ -13,7 +13,10 @@ test.describe("component page: nederland-burgerservice-nummer-input", () => {
 
   test("renders the H1 with the component name", async ({ page }) => {
     await expect(
-      page.getByRole("heading", { level: 1, name: new RegExp("^NederlandBurgerserviceNummerInput$") })
+      page.getByRole("heading", {
+        level: 1,
+        name: new RegExp("^NederlandBurgerserviceNummerInput$"),
+      }),
     ).toBeVisible();
   });
 

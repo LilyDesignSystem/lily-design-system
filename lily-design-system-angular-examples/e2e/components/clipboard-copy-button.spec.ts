@@ -13,7 +13,7 @@ test.describe("component page: clipboard-copy-button", () => {
 
   test("renders the H1 with the component name", async ({ page }) => {
     await expect(
-      page.getByRole("heading", { level: 1, name: new RegExp("^ClipboardCopyButton$") })
+      page.getByRole("heading", { level: 1, name: new RegExp("^ClipboardCopyButton$") }),
     ).toBeVisible();
   });
 

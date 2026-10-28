@@ -10,19 +10,41 @@ interface Notification {
 }
 
 const notifications: Notification[] = [
-    { id: 1, title: "Welcome", message: "Thanks for signing up!", type: "info", read: true },
-    { id: 2, title: "Update available", message: "Version 2.0 is ready.", type: "info", read: false },
-    { id: 3, title: "Disk space low", message: "Less than 10% remaining.", type: "warning", read: false },
-    { id: 4, title: "Build failed", message: "CI pipeline error on main.", type: "error", read: false },
+    {
+        id: 1,
+        title: "Welcome",
+        message: "Thanks for signing up!",
+        type: "info",
+        read: true,
+    },
+    {
+        id: 2,
+        title: "Update available",
+        message: "Version 2.0 is ready.",
+        type: "info",
+        read: false,
+    },
+    {
+        id: 3,
+        title: "Disk space low",
+        message: "Less than 10% remaining.",
+        type: "warning",
+        read: false,
+    },
+    {
+        id: 4,
+        title: "Build failed",
+        message: "CI pipeline error on main.",
+        type: "error",
+        read: false,
+    },
 ];
 
 const activeTab = ref("all");
 const unreadCount = notifications.filter((n) => !n.read).length;
 
 const filtered = computed(() =>
-    activeTab.value === "all"
-        ? notifications
-        : notifications.filter((n) => !n.read)
+    activeTab.value === "all" ? notifications : notifications.filter((n) => !n.read),
 );
 </script>
 
@@ -50,11 +72,26 @@ const filtered = computed(() =>
         <div :id="activeTab === 'all' ? 'all-panel' : 'unread-panel'">
             <AccordionNav label="Notification details">
                 <AccordionList>
-                    <AccordionListItem v-for="item in filtered" :key="item.id">
+                    <AccordionListItem
+                        v-for="item in filtered"
+                        :key="item.id"
+                    >
                         <h3>
                             {{ item.title }}
-                            <Badge v-if="!item.read" type="info">New</Badge>
-                            <Badge :type="item.type === 'error' ? 'error' : item.type === 'warning' ? 'warning' : 'default'">
+                            <Badge
+                                v-if="!item.read"
+                                type="info"
+                                >New</Badge
+                            >
+                            <Badge
+                                :type="
+                                    item.type === 'error'
+                                        ? 'error'
+                                        : item.type === 'warning'
+                                          ? 'warning'
+                                          : 'default'
+                                "
+                            >
                                 {{ item.type }}
                             </Badge>
                         </h3>

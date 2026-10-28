@@ -13,7 +13,7 @@ test.describe("component page: island-kennitala-view", () => {
 
   test("renders the H1 with the component name", async ({ page }) => {
     await expect(
-      page.getByRole("heading", { level: 1, name: new RegExp("^IslandKennitalaView$") })
+      page.getByRole("heading", { level: 1, name: new RegExp("^IslandKennitalaView$") }),
     ).toBeVisible();
   });
 

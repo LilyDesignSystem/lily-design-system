@@ -5,16 +5,15 @@ import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("tbody.gantt-table-tbody");
 
-
 describe("GanttTableTbody", () => {
-  it("renders the element with its base class", async () => {
-    await mount("gantt-table-tbody");
-    expect(el()).not.toBeNull();
-    expect(el().classList.contains("gantt-table-tbody")).toBe(true);
-  });
+    it("renders the element with its base class", async () => {
+        await mount("gantt-table-tbody");
+        expect(el()).not.toBeNull();
+        expect(el().classList.contains("gantt-table-tbody")).toBe(true);
+    });
 
-  it("uses the tbody element", async () => {
-    await mount("gantt-table-tbody");
-    expect(el().tagName.toLowerCase()).toBe("tbody");
-  });
+    it("uses the tbody element", async () => {
+        await mount("gantt-table-tbody");
+        expect(el().tagName.toLowerCase()).toBe("tbody");
+    });
 });

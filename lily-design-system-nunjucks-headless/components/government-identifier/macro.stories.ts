@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<section
   class="government-identifier">
@@ -8,9 +8,9 @@ const html = `<section
 </section>`;
 
 const meta = {
-  title: 'Headless/GovernmentIdentifier',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/GovernmentIdentifier",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

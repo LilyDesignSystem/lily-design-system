@@ -32,7 +32,14 @@ const labels = {
 
 function setup(props: Partial<Props> = {}) {
     const utils = render(
-        <OrgEditor label="Notes" toolbarLabel="Formatting" labels={labels} defaultValue="hello world" today="2026-10-24" {...props} />,
+        <OrgEditor
+            label="Notes"
+            toolbarLabel="Formatting"
+            labels={labels}
+            defaultValue="hello world"
+            today="2026-10-24"
+            {...props}
+        />,
     );
     const textarea = screen.getByRole("textbox", { name: "Notes" }) as HTMLTextAreaElement;
     return { ...utils, textarea };
@@ -47,21 +54,29 @@ describe("structure", () => {
     it("renders a toolbar and a textarea under the base classes", () => {
         const { container, textarea } = setup();
         expect(container.querySelector("div.org-editor")).toBeTruthy();
-        expect(screen.getByRole("toolbar", { name: "Formatting" }).className).toContain("org-editor-toolbar");
+        expect(screen.getByRole("toolbar", { name: "Formatting" }).className).toContain(
+            "org-editor-toolbar",
+        );
         expect(textarea.className).toContain("org-editor-textarea");
         expect(textarea.tagName).toBe("TEXTAREA");
     });
 
     it("renders one named button per labelled tool, in the default order", () => {
         setup();
-        expect(screen.getAllByRole("button").map((b) => b.getAttribute("data-tool"))).toEqual([...TOOL_IDS]);
-        expect(screen.getAllByRole("button").map((b) => b.getAttribute("aria-label"))).toEqual(TOOL_IDS.map((t) => (labels as Record<string, string>)[t]));
+        expect(screen.getAllByRole("button").map((b) => b.getAttribute("data-tool"))).toEqual([
+            ...TOOL_IDS,
+        ]);
+        expect(screen.getAllByRole("button").map((b) => b.getAttribute("aria-label"))).toEqual(
+            TOOL_IDS.map((t) => (labels as Record<string, string>)[t]),
+        );
     });
 
     it("every button carries its group", () => {
         setup();
         for (const b of screen.getAllByRole("button")) {
-            expect(b.getAttribute("data-group")).toBe(TOOL_GROUPS[b.getAttribute("data-tool") as keyof typeof TOOL_GROUPS]);
+            expect(b.getAttribute("data-group")).toBe(
+                TOOL_GROUPS[b.getAttribute("data-tool") as keyof typeof TOOL_GROUPS],
+            );
         }
     });
 
@@ -72,17 +87,22 @@ describe("structure", () => {
 
     it("honours the tools prop for subset and order", () => {
         setup({ tools: ["contact", "todo"] });
-        expect(screen.getAllByRole("button").map((b) => b.getAttribute("data-tool"))).toEqual(["contact", "todo"]);
+        expect(screen.getAllByRole("button").map((b) => b.getAttribute("data-tool"))).toEqual([
+            "contact",
+            "todo",
+        ]);
     });
 
     it("every button is type=button", () => {
         setup();
-        for (const b of screen.getAllByRole("button")) expect(b.getAttribute("type")).toBe("button");
+        for (const b of screen.getAllByRole("button"))
+            expect(b.getAttribute("type")).toBe("button");
     });
 
     it("icons are decorative and draw one path each", () => {
         const { container } = setup();
-        for (const svg of container.querySelectorAll("svg")) expect(svg.getAttribute("aria-hidden")).toBe("true");
+        for (const svg of container.querySelectorAll("svg"))
+            expect(svg.getAttribute("aria-hidden")).toBe("true");
         expect(container.querySelectorAll("svg path").length).toBe(TOOL_IDS.length);
     });
 
@@ -174,7 +194,9 @@ describe("tools", () => {
         select(textarea, 0, 5);
         await userEvent.click(screen.getByRole("button", { name: "Link" }));
         expect(textarea.value).toBe("[[https://][hello]] world");
-        expect(textarea.value.slice(textarea.selectionStart, textarea.selectionEnd)).toBe("https://");
+        expect(textarea.value.slice(textarea.selectionStart, textarea.selectionEnd)).toBe(
+            "https://",
+        );
     });
 
     it("heading uses the headingLevel", async () => {
@@ -242,7 +264,9 @@ describe("tools", () => {
         select(textarea, 0, 0);
         await userEvent.click(screen.getByRole("button", { name: "Scheduled" }));
         expect(textarea.value).toBe("* Ship\nSCHEDULED: <2026-10-24 Sat>\nbody");
-        expect(textarea.value.slice(textarea.selectionStart, textarea.selectionEnd)).toBe("2026-10-24 Sat");
+        expect(textarea.value.slice(textarea.selectionStart, textarea.selectionEnd)).toBe(
+            "2026-10-24 Sat",
+        );
     });
 
     it("scheduled again removes it", async () => {
@@ -323,7 +347,9 @@ describe("tools", () => {
         const { textarea } = setup({ defaultValue: "Ada Lovelace" });
         select(textarea, 0, 12);
         await userEvent.click(screen.getByRole("button", { name: "Contact" }));
-        expect(textarea.value).toBe("* Ada Lovelace\n:PROPERTIES:\n:EMAIL: \n:PHONE: \n:ADDRESS: \n:BIRTHDAY: \n:END:");
+        expect(textarea.value).toBe(
+            "* Ada Lovelace\n:PROPERTIES:\n:EMAIL: \n:PHONE: \n:ADDRESS: \n:BIRTHDAY: \n:END:",
+        );
     });
 
     it("the contact properties are an option", async () => {
@@ -407,7 +433,9 @@ describe("shortcuts", () => {
 describe("toolbar keyboard", () => {
     it("only one button is in the tab order (roving tabindex)", () => {
         setup();
-        const tabbable = screen.getAllByRole("button").filter((b) => b.getAttribute("tabindex") === "0");
+        const tabbable = screen
+            .getAllByRole("button")
+            .filter((b) => b.getAttribute("tabindex") === "0");
         expect(tabbable.length).toBe(1);
         expect(tabbable[0].getAttribute("data-tool")).toBe("heading");
     });
@@ -439,7 +467,8 @@ describe("disabled and readOnly", () => {
     it("disabled disables the textarea and every button", () => {
         const { textarea } = setup({ disabled: true });
         expect(textarea.disabled).toBe(true);
-        for (const b of screen.getAllByRole("button")) expect((b as HTMLButtonElement).disabled).toBe(true);
+        for (const b of screen.getAllByRole("button"))
+            expect((b as HTMLButtonElement).disabled).toBe(true);
     });
 
     it("readOnly keeps the text unchangeable by a tool", async () => {

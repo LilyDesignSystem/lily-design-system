@@ -5,16 +5,15 @@ import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("ol.check-list");
 
-
 describe("CheckList", () => {
-  it("renders the element with its base class", async () => {
-    await mount("check-list");
-    expect(el()).not.toBeNull();
-    expect(el().classList.contains("check-list")).toBe(true);
-  });
+    it("renders the element with its base class", async () => {
+        await mount("check-list");
+        expect(el()).not.toBeNull();
+        expect(el().classList.contains("check-list")).toBe(true);
+    });
 
-  it("uses the ol element", async () => {
-    await mount("check-list");
-    expect(el().tagName.toLowerCase()).toBe("ol");
-  });
+    it("uses the ol element", async () => {
+        await mount("check-list");
+        expect(el().tagName.toLowerCase()).toBe("ol");
+    });
 });

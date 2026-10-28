@@ -22,12 +22,7 @@
     iOS Safari's UX is limited. For a fully APG-compliant combobox,
     swap in Lily's headless Combobox primitive.
 */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  signal,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, signal } from "@angular/core";
 import { LocalePicker, bcp47LocaleTag } from "../locale-picker.component";
 import { defaultLocaleLabels } from "../locales";
 

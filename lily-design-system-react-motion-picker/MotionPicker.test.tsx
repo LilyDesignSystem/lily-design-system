@@ -2,11 +2,7 @@ import * as React from "react";
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
-import MotionPicker, {
-    motionName,
-    prefersReducedMotion,
-    type ChildArgs,
-} from "./MotionPicker";
+import MotionPicker, { motionName, prefersReducedMotion, type ChildArgs } from "./MotionPicker";
 
 const MOTIONS = ["no-preference", "reduce"];
 
@@ -62,7 +58,12 @@ describe("MotionPicker — pure helpers", () => {
     });
 
     test("labelFor delegates to motionName, so option text matches it", () => {
-        render(<MotionPicker label="Motion" motions={["no-preference"]} />);
+        render(
+            <MotionPicker
+                label="Motion"
+                motions={["no-preference"]}
+            />,
+        );
         expect(screen.getByText(motionName("no-preference"))).toBeTruthy();
     });
 
@@ -76,7 +77,12 @@ describe("MotionPicker — pure helpers", () => {
 
 describe("MotionPicker — markup contract (§4.2, §7.1–§7.5)", () => {
     test("§7.1 renders a button that controls a listbox", () => {
-        render(<MotionPicker label="Motion" motions={MOTIONS} />);
+        render(
+            <MotionPicker
+                label="Motion"
+                motions={MOTIONS}
+            />,
+        );
         const button = screen.getByRole("button");
         expect(button.tagName).toBe("BUTTON");
         expect(button.getAttribute("type")).toBe("button");
@@ -84,16 +90,17 @@ describe("MotionPicker — markup contract (§4.2, §7.1–§7.5)", () => {
         expect(button.getAttribute("aria-expanded")).toBe("false");
         const listId = button.getAttribute("aria-controls");
         expect(listId).toBeTruthy();
-        expect(document.getElementById(listId!)?.getAttribute("role")).toBe(
-            "listbox",
-        );
+        expect(document.getElementById(listId!)?.getAttribute("role")).toBe("listbox");
     });
 
     test("§7.1 the button renders the default pause SVG icon, hidden from assistive tech", () => {
-        render(<MotionPicker label="Motion" motions={MOTIONS} />);
-        const icon = document.querySelector(
-            ".motion-picker-icon",
-        ) as SVGElement;
+        render(
+            <MotionPicker
+                label="Motion"
+                motions={MOTIONS}
+            />,
+        );
+        const icon = document.querySelector(".motion-picker-icon") as SVGElement;
         expect(icon.tagName.toLowerCase()).toBe("svg");
         expect(icon.getAttribute("aria-hidden")).toBe("true");
         expect(icon.querySelector("path")).toBeTruthy();
@@ -101,7 +108,11 @@ describe("MotionPicker — markup contract (§4.2, §7.1–§7.5)", () => {
 
     test("§7.1 the root is a div carrying the class hook", () => {
         const { container } = render(
-            <MotionPicker label="Motion" motions={MOTIONS} className="mine" />,
+            <MotionPicker
+                label="Motion"
+                motions={MOTIONS}
+                className="mine"
+            />,
         );
         const root = container.firstElementChild as HTMLElement;
         expect(root.tagName).toBe("DIV");
@@ -109,10 +120,13 @@ describe("MotionPicker — markup contract (§4.2, §7.1–§7.5)", () => {
     });
 
     test("§7.2 aria-label names the button and the listbox", () => {
-        render(<MotionPicker label="Choose motion" motions={MOTIONS} />);
-        expect(
-            screen.getByRole("button", { name: "Choose motion" }),
-        ).toBeTruthy();
+        render(
+            <MotionPicker
+                label="Choose motion"
+                motions={MOTIONS}
+            />,
+        );
+        expect(screen.getByRole("button", { name: "Choose motion" })).toBeTruthy();
         expect(getList().getAttribute("aria-label")).toBe("Choose motion");
     });
 
@@ -127,45 +141,55 @@ describe("MotionPicker — markup contract (§4.2, §7.1–§7.5)", () => {
         await flush();
         const options = document.querySelectorAll(".motion-picker-option");
         expect(options.length).toBe(MOTIONS.length);
-        const hidden = document.querySelector(
-            'input[type="hidden"]',
-        ) as HTMLInputElement;
+        const hidden = document.querySelector('input[type="hidden"]') as HTMLInputElement;
         expect(hidden.name).toBe("reduced-motion");
         expect(hidden.value).toBe("no-preference");
     });
 
     test("§7.3 the hidden input uses the default name 'motion'", () => {
-        render(<MotionPicker label="Motion" motions={MOTIONS} />);
-        const hidden = document.querySelector(
-            'input[type="hidden"]',
-        ) as HTMLInputElement;
+        render(
+            <MotionPicker
+                label="Motion"
+                motions={MOTIONS}
+            />,
+        );
+        const hidden = document.querySelector('input[type="hidden"]') as HTMLInputElement;
         expect(hidden.name).toBe("motion");
     });
 
     test("§7.4 the listbox is hidden until the button is activated", () => {
-        render(<MotionPicker label="Motion" motions={MOTIONS} />);
+        render(
+            <MotionPicker
+                label="Motion"
+                motions={MOTIONS}
+            />,
+        );
         expect(getList().hasAttribute("hidden")).toBe(true);
         fireEvent.click(screen.getByRole("button"));
         expect(getList().hasAttribute("hidden")).toBe(false);
-        expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe(
-            "true",
-        );
+        expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe("true");
     });
 
     test("§7.4 the active motion is the aria-selected option", async () => {
-        render(<MotionPicker label="Motion" motions={MOTIONS} />);
+        render(
+            <MotionPicker
+                label="Motion"
+                motions={MOTIONS}
+            />,
+        );
         await flush();
         fireEvent.click(screen.getByRole("button"));
-        const selected = document.querySelectorAll(
-            '[role="option"][aria-selected="true"]',
-        );
+        const selected = document.querySelectorAll('[role="option"][aria-selected="true"]');
         expect(selected.length).toBe(1);
         expect(selected[0].textContent?.trim()).toBe("No Preference");
     });
 
     test("§7.5 default labels title-case the slug (no 'default' string)", () => {
         const { container } = render(
-            <MotionPicker label="Motion" motions={["no-preference", "reduce"]} />,
+            <MotionPicker
+                label="Motion"
+                motions={["no-preference", "reduce"]}
+            />,
         );
         expect(screen.getByText("No Preference")).toBeTruthy();
         expect(screen.getByText("Reduce")).toBeTruthy();
@@ -187,7 +211,12 @@ describe("MotionPicker — markup contract (§4.2, §7.1–§7.5)", () => {
 
 describe("MotionPicker — keyboard contract (APG listbox)", () => {
     function openWith(key: string) {
-        render(<MotionPicker label="Motion" motions={MOTIONS} />);
+        render(
+            <MotionPicker
+                label="Motion"
+                motions={MOTIONS}
+            />,
+        );
         const button = screen.getByRole("button");
         fireEvent.keyDown(button, { key });
         return { button, list: getList() };
@@ -216,19 +245,13 @@ describe("MotionPicker — keyboard contract (APG listbox)", () => {
     test("§7.15 ArrowDown / ArrowUp move the active descendant and clamp", () => {
         const { list } = openWith("ArrowDown");
         // Opens on the selected motion, "no-preference" (index 0).
-        expect(list.getAttribute("aria-activedescendant")).toBe(
-            list.children[0].id,
-        );
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[0].id);
         fireEvent.keyDown(list, { key: "ArrowDown" });
-        expect(list.getAttribute("aria-activedescendant")).toBe(
-            list.children[1].id,
-        );
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[1].id);
         fireEvent.keyDown(list, { key: "ArrowUp" });
         fireEvent.keyDown(list, { key: "ArrowUp" });
         // Clamps at the top rather than wrapping.
-        expect(list.getAttribute("aria-activedescendant")).toBe(
-            list.children[0].id,
-        );
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[0].id);
     });
 
     test("§7.15 the active option is marked with data-active", () => {
@@ -246,9 +269,7 @@ describe("MotionPicker — keyboard contract (APG listbox)", () => {
             list.children[MOTIONS.length - 1].id,
         );
         fireEvent.keyDown(list, { key: "Home" });
-        expect(list.getAttribute("aria-activedescendant")).toBe(
-            list.children[0].id,
-        );
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[0].id);
     });
 
     test("§7.16 Enter selects the active option, applies it, and closes", async () => {
@@ -292,25 +313,31 @@ describe("MotionPicker — keyboard contract (APG listbox)", () => {
         const { list } = openWith("ArrowDown");
         fireEvent.keyDown(list, { key: "r" });
         // "Reduce" is index 1.
-        expect(list.getAttribute("aria-activedescendant")).toBe(
-            list.children[1].id,
-        );
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[1].id);
     });
 
     test("§7.18 clicking an option selects it, applies it, and closes the listbox", async () => {
-        render(<MotionPicker label="Motion" motions={MOTIONS} />);
+        render(
+            <MotionPicker
+                label="Motion"
+                motions={MOTIONS}
+            />,
+        );
         await flush();
         pick("reduce");
         await flush();
         expect(document.documentElement.dataset.motion).toBe("reduce");
         expect(getList().hasAttribute("hidden")).toBe(true);
-        expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe(
-            "false",
-        );
+        expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe("false");
     });
 
     test("§7.18 clicking outside closes the listbox without changing the motion", async () => {
-        render(<MotionPicker label="Motion" motions={MOTIONS} />);
+        render(
+            <MotionPicker
+                label="Motion"
+                motions={MOTIONS}
+            />,
+        );
         await flush();
         fireEvent.click(screen.getByRole("button"));
         expect(getList().hasAttribute("hidden")).toBe(false);
@@ -324,54 +351,65 @@ describe("MotionPicker — keyboard contract (APG listbox)", () => {
 describe("MotionPicker — initial value resolution (§7.6)", () => {
     test("§7.6 initial value is 'no-preference' when the OS reports no preference", async () => {
         mockReducedMotion(false);
-        render(<MotionPicker label="Motion" motions={MOTIONS} />);
-        await flush();
-        expect(document.documentElement.getAttribute("data-motion")).toBe(
-            "no-preference",
+        render(
+            <MotionPicker
+                label="Motion"
+                motions={MOTIONS}
+            />,
         );
+        await flush();
+        expect(document.documentElement.getAttribute("data-motion")).toBe("no-preference");
     });
 
     test("§7.6 initial value is 'reduce' when the OS reports prefers-reduced-motion", async () => {
         mockReducedMotion(true);
-        render(<MotionPicker label="Motion" motions={MOTIONS} />);
-        await flush();
-        expect(document.documentElement.getAttribute("data-motion")).toBe(
-            "reduce",
+        render(
+            <MotionPicker
+                label="Motion"
+                motions={MOTIONS}
+            />,
         );
+        await flush();
+        expect(document.documentElement.getAttribute("data-motion")).toBe("reduce");
     });
 
     test("§7.6 falls back to motions[0] when neither OS slug is offered", async () => {
         mockReducedMotion(true);
         render(
-            <MotionPicker label="Motion" motions={["standard", "minimal"]} />,
+            <MotionPicker
+                label="Motion"
+                motions={["standard", "minimal"]}
+            />,
         );
         await flush();
-        expect(document.documentElement.getAttribute("data-motion")).toBe(
-            "standard",
-        );
+        expect(document.documentElement.getAttribute("data-motion")).toBe("standard");
     });
 
     test("§7.6 defaultValue wins over the OS-preference fallback", async () => {
         mockReducedMotion(true);
         render(
-            <MotionPicker label="Motion" motions={MOTIONS} defaultValue="no-preference" />,
+            <MotionPicker
+                label="Motion"
+                motions={MOTIONS}
+                defaultValue="no-preference"
+            />,
         );
         await flush();
-        expect(document.documentElement.getAttribute("data-motion")).toBe(
-            "no-preference",
-        );
+        expect(document.documentElement.getAttribute("data-motion")).toBe("no-preference");
     });
 });
 
 describe("MotionPicker — motion application (§7.7, §7.8)", () => {
     test("§7.7 applies data-motion to document.documentElement", async () => {
         render(
-            <MotionPicker label="Motion" motions={MOTIONS} defaultValue="reduce" />,
+            <MotionPicker
+                label="Motion"
+                motions={MOTIONS}
+                defaultValue="reduce"
+            />,
         );
         await flush();
-        expect(document.documentElement.getAttribute("data-motion")).toBe(
-            "reduce",
-        );
+        expect(document.documentElement.getAttribute("data-motion")).toBe("reduce");
     });
 
     test("§7.7 a custom target receives data-motion", async () => {
@@ -387,9 +425,7 @@ describe("MotionPicker — motion application (§7.7, §7.8)", () => {
         );
         await flush();
         expect(target.getAttribute("data-motion")).toBe("reduce");
-        expect(document.documentElement.hasAttribute("data-motion")).toBe(
-            false,
-        );
+        expect(document.documentElement.hasAttribute("data-motion")).toBe(false);
         target.remove();
     });
 
@@ -406,9 +442,7 @@ describe("MotionPicker — motion application (§7.7, §7.8)", () => {
         await flush();
         pick("reduce");
         await flush();
-        expect(document.documentElement.getAttribute("data-motion")).toBe(
-            "reduce",
-        );
+        expect(document.documentElement.getAttribute("data-motion")).toBe("reduce");
         expect(onChange).toHaveBeenCalledWith("reduce");
     });
 });
@@ -437,9 +471,7 @@ describe("MotionPicker — persistence + explicit value (§7.9, §7.10)", () => 
             />,
         );
         await flush();
-        expect(document.documentElement.getAttribute("data-motion")).toBe(
-            "reduce",
-        );
+        expect(document.documentElement.getAttribute("data-motion")).toBe("reduce");
     });
 
     test("§7.10 an explicit value prop wins over storage, OS preference, and defaults", async () => {
@@ -454,16 +486,18 @@ describe("MotionPicker — persistence + explicit value (§7.9, §7.10)", () => 
             />,
         );
         await flush();
-        expect(document.documentElement.getAttribute("data-motion")).toBe(
-            "no-preference",
-        );
+        expect(document.documentElement.getAttribute("data-motion")).toBe("no-preference");
     });
 });
 
 describe("MotionPicker — spread + custom children (§7.12–§7.13)", () => {
     test("§7.12 extra attributes spread onto the root div", () => {
         render(
-            <MotionPicker label="Motion" motions={MOTIONS} data-testid="mp" />,
+            <MotionPicker
+                label="Motion"
+                motions={MOTIONS}
+                data-testid="mp"
+            />,
         );
         const root = screen.getByTestId("mp");
         expect(root.tagName).toBe("DIV");
@@ -472,7 +506,11 @@ describe("MotionPicker — spread + custom children (§7.12–§7.13)", () => {
 
     test("§7.13 children replace the button glyph and receive ChildArgs", async () => {
         render(
-            <MotionPicker label="Motion" motions={MOTIONS} value="reduce">
+            <MotionPicker
+                label="Motion"
+                motions={MOTIONS}
+                value="reduce"
+            >
                 {(args: ChildArgs) => (
                     <span
                         data-testid="custom"
@@ -487,9 +525,7 @@ describe("MotionPicker — spread + custom children (§7.12–§7.13)", () => {
         );
         await flush();
         const custom = screen.getByTestId("custom");
-        expect(custom.closest("button")?.className).toContain(
-            "motion-picker-button",
-        );
+        expect(custom.closest("button")?.className).toContain("motion-picker-button");
         expect(document.querySelector(".motion-picker-icon")).toBeNull();
         expect(custom.getAttribute("data-open")).toBe("false");
         expect(custom.getAttribute("data-value")).toBe("reduce");
@@ -498,40 +534,45 @@ describe("MotionPicker — spread + custom children (§7.12–§7.13)", () => {
 
     test("§7.13 children see open=true once the listbox is expanded", () => {
         render(
-            <MotionPicker label="Motion" motions={MOTIONS} value="reduce">
+            <MotionPicker
+                label="Motion"
+                motions={MOTIONS}
+                value="reduce"
+            >
                 {(args: ChildArgs) => (
-                    <span data-testid="custom" data-open={String(args.open)}>
+                    <span
+                        data-testid="custom"
+                        data-open={String(args.open)}
+                    >
                         glyph
                     </span>
                 )}
             </MotionPicker>,
         );
         fireEvent.click(screen.getByRole("button"));
-        expect(screen.getByTestId("custom").getAttribute("data-open")).toBe(
-            "true",
-        );
+        expect(screen.getByTestId("custom").getAttribute("data-open")).toBe("true");
     });
 });
 
 describe("MotionPicker — accessibility hardening (§7.14–§7.17)", () => {
-    async function openPicker(
-        motions: string[] = MOTIONS,
-        extra: Record<string, unknown> = {},
-    ) {
-        render(<MotionPicker label="Motion" motions={motions} {...extra} />);
+    async function openPicker(motions: string[] = MOTIONS, extra: Record<string, unknown> = {}) {
+        render(
+            <MotionPicker
+                label="Motion"
+                motions={motions}
+                {...extra}
+            />,
+        );
         await flush();
         fireEvent.click(screen.getByRole("button"));
         await flush();
         return {
             button: screen.getByRole("button"),
-            list: document.querySelector(
-                ".motion-picker-list",
-            ) as HTMLElement,
+            list: document.querySelector(".motion-picker-list") as HTMLElement,
         };
     }
 
-    const active = (list: HTMLElement) =>
-        list.querySelector("[data-active]")?.textContent?.trim();
+    const active = (list: HTMLElement) => list.querySelector("[data-active]")?.textContent?.trim();
 
     test("§7.14 Tab from the open list puts focus on the button before closing", async () => {
         const { button, list } = await openPicker();
@@ -544,7 +585,12 @@ describe("MotionPicker — accessibility hardening (§7.14–§7.17)", () => {
 
     test("§7.15 a repeated typeahead character cycles through its matches", async () => {
         const { list } = await openPicker(["r1", "r2", "r3", "m"], {
-            motionLabels: { r1: "Reduce a lot", r2: "Reduce more", r3: "Reduce most", m: "Minimal" },
+            motionLabels: {
+                r1: "Reduce a lot",
+                r2: "Reduce more",
+                r3: "Reduce most",
+                m: "Minimal",
+            },
             defaultValue: "m",
         });
         fireEvent.keyDown(list, { key: "r" });
@@ -556,10 +602,7 @@ describe("MotionPicker — accessibility hardening (§7.14–§7.17)", () => {
     });
 
     test("§7.16 PageUp and PageDown move the cursor by ten, clamped", async () => {
-        const many = Array.from(
-            { length: 25 },
-            (_, i) => `s${String(i).padStart(2, "0")}`,
-        );
+        const many = Array.from({ length: 25 }, (_, i) => `s${String(i).padStart(2, "0")}`);
         const { list } = await openPicker(many);
         fireEvent.keyDown(list, { key: "PageDown" });
         expect(active(list)).toBe("S10");
@@ -604,19 +647,19 @@ describe("MotionPicker — idempotent apply (§7.19)", () => {
         pick("reduce");
         await flush();
         expect(calls).toEqual(["no-preference", "reduce"]);
-        expect(
-            document.documentElement.getAttribute("data-motion"),
-        ).toBe("reduce");
-        expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe(
-            "false",
-        );
+        expect(document.documentElement.getAttribute("data-motion")).toBe("reduce");
+        expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe("false");
     });
 });
 
-
 describe("MotionPicker — tooltip (§7.19–§7.26)", () => {
     function setupTooltip() {
-        render(<MotionPicker label="Motion" motions={MOTIONS} />);
+        render(
+            <MotionPicker
+                label="Motion"
+                motions={MOTIONS}
+            />,
+        );
         const button = document.querySelector(".motion-picker-button") as HTMLButtonElement;
         const tip = document.querySelector(".motion-picker-tooltip") as HTMLElement;
         return { button, tip };
@@ -653,7 +696,9 @@ describe("MotionPicker — tooltip (§7.19–§7.26)", () => {
     test("§7.22 keyboard focus shows it; blur hides it; mouse-induced focus does not show it", () => {
         const { button, tip } = setupTooltip();
         // jsdom has no input-modality tracking; stand in for the keyboard.
-        const matches = vi.spyOn(button, "matches").mockImplementation((q) => q === ":focus-visible");
+        const matches = vi
+            .spyOn(button, "matches")
+            .mockImplementation((q) => q === ":focus-visible");
         fireEvent.focus(button);
         expect(tip.hasAttribute("hidden")).toBe(false);
         fireEvent.blur(button);
@@ -708,7 +753,12 @@ describe("MotionPicker — tooltip (§7.19–§7.26)", () => {
         const add = vi.spyOn(document, "addEventListener");
         const remove = vi.spyOn(document, "removeEventListener");
         const count = (spy: typeof add) => spy.mock.calls.filter((c) => c[0] === "keydown").length;
-        const view = render(<MotionPicker label="Motion" motions={MOTIONS} />);
+        const view = render(
+            <MotionPicker
+                label="Motion"
+                motions={MOTIONS}
+            />,
+        );
         const button = document.querySelector(".motion-picker-button") as HTMLButtonElement;
         const addBase = count(add);
         const baseRemove = count(remove);
@@ -730,15 +780,30 @@ describe("MotionPicker — tooltip (§7.19–§7.26)", () => {
 describe("MotionPicker — open state and disabled", () => {
     test("open starts the popup open without calling onOpenChange", async () => {
         const onOpenChange = vi.fn();
-        render(<MotionPicker label="Motion" motions={MOTIONS} open onOpenChange={onOpenChange} />);
+        render(
+            <MotionPicker
+                label="Motion"
+                motions={MOTIONS}
+                open
+                onOpenChange={onOpenChange}
+            />,
+        );
         await flush();
-        expect(screen.getByRole("button", { name: "Motion" }).getAttribute("aria-expanded")).toBe("true");
+        expect(screen.getByRole("button", { name: "Motion" }).getAttribute("aria-expanded")).toBe(
+            "true",
+        );
         expect(onOpenChange).not.toHaveBeenCalled();
     });
 
     test("uncontrolled: onOpenChange fires once for each open and close by the user", async () => {
         const onOpenChange = vi.fn();
-        render(<MotionPicker label="Motion" motions={MOTIONS} onOpenChange={onOpenChange} />);
+        render(
+            <MotionPicker
+                label="Motion"
+                motions={MOTIONS}
+                onOpenChange={onOpenChange}
+            />,
+        );
         const button = screen.getByRole("button", { name: "Motion" });
         fireEvent.click(button);
         await flush();
@@ -751,19 +816,44 @@ describe("MotionPicker — open state and disabled", () => {
 
     test("controlled: a click asks for the change and the parent applies it", async () => {
         const onOpenChange = vi.fn();
-        const { rerender } = render(<MotionPicker label="Motion" motions={MOTIONS} open={false} onOpenChange={onOpenChange} />);
+        const { rerender } = render(
+            <MotionPicker
+                label="Motion"
+                motions={MOTIONS}
+                open={false}
+                onOpenChange={onOpenChange}
+            />,
+        );
         fireEvent.click(screen.getByRole("button", { name: "Motion" }));
         await flush();
         expect(onOpenChange).toHaveBeenCalledWith(true);
-        expect(screen.getByRole("button", { name: "Motion" }).getAttribute("aria-expanded")).toBe("false");
-        rerender(<MotionPicker label="Motion" motions={MOTIONS} open onOpenChange={onOpenChange} />);
+        expect(screen.getByRole("button", { name: "Motion" }).getAttribute("aria-expanded")).toBe(
+            "false",
+        );
+        rerender(
+            <MotionPicker
+                label="Motion"
+                motions={MOTIONS}
+                open
+                onOpenChange={onOpenChange}
+            />,
+        );
         await flush();
-        expect(screen.getByRole("button", { name: "Motion" }).getAttribute("aria-expanded")).toBe("true");
+        expect(screen.getByRole("button", { name: "Motion" }).getAttribute("aria-expanded")).toBe(
+            "true",
+        );
     });
 
     test("disabled disables the button and it cannot open", async () => {
         const onOpenChange = vi.fn();
-        render(<MotionPicker label="Motion" motions={MOTIONS} disabled onOpenChange={onOpenChange} />);
+        render(
+            <MotionPicker
+                label="Motion"
+                motions={MOTIONS}
+                disabled
+                onOpenChange={onOpenChange}
+            />,
+        );
         const button = screen.getByRole("button", { name: "Motion" }) as HTMLButtonElement;
         expect(button.disabled).toBe(true);
         fireEvent.click(button);
@@ -773,9 +863,17 @@ describe("MotionPicker — open state and disabled", () => {
     });
 
     test("disabled closes a popup that was open", async () => {
-        render(<MotionPicker label="Motion" motions={MOTIONS} open disabled />);
+        render(
+            <MotionPicker
+                label="Motion"
+                motions={MOTIONS}
+                open
+                disabled
+            />,
+        );
         await flush();
-        expect(screen.getByRole("button", { name: "Motion" }).getAttribute("aria-expanded")).toBe("false");
+        expect(screen.getByRole("button", { name: "Motion" }).getAttribute("aria-expanded")).toBe(
+            "false",
+        );
     });
 });
-

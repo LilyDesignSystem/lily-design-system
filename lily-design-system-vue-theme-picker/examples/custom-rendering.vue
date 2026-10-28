@@ -40,9 +40,11 @@ import ThemePicker from "../ThemePicker.vue";
                 :title="labelFor(value)"
                 aria-hidden="true"
             />
-            <span class="theme-picker-caret" aria-hidden="true">{{
-                open ? "▴" : "▾"
-            }}</span>
+            <span
+                class="theme-picker-caret"
+                aria-hidden="true"
+                >{{ open ? "▴" : "▾" }}</span
+            >
         </template>
     </ThemePicker>
 </template>

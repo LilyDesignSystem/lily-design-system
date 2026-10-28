@@ -13,34 +13,34 @@
 import SharePicker, { type ShareTarget } from "../SharePicker.vue";
 
 const targets: ShareTarget[] = [
-  {
-    id: "mastodon",
-    label: "Mastodon",
-    href: (url, title) =>
-      `https://mastodon.social/share?text=${encodeURIComponent(`${title} ${url}`)}`,
-  },
-  {
-    id: "email",
-    label: "Email",
-    href: (url, title) =>
-      `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`,
-    newTab: false,
-  },
+    {
+        id: "mastodon",
+        label: "Mastodon",
+        href: (url, title) =>
+            `https://mastodon.social/share?text=${encodeURIComponent(`${title} ${url}`)}`,
+    },
+    {
+        id: "email",
+        label: "Email",
+        href: (url, title) =>
+            `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`,
+        newTab: false,
+    },
 ];
 
 function onShare(targetId: string, url: string): void {
-  console.log("shared to", targetId, url);
+    console.log("shared to", targetId, url);
 }
 </script>
 
 <template>
-  <SharePicker
-    label="Share this page"
-    title="An article worth reading"
-    :targets="targets"
-    copy-label="Copy link"
-    copied-label="Link copied"
-    copy-failed-label="Could not copy — copy it from the address bar"
-    @share="onShare"
-  />
+    <SharePicker
+        label="Share this page"
+        title="An article worth reading"
+        :targets="targets"
+        copy-label="Copy link"
+        copied-label="Link copied"
+        copy-failed-label="Could not copy — copy it from the address bar"
+        @share="onShare"
+    />
 </template>

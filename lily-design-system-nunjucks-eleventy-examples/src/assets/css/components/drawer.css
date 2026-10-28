@@ -10,4 +10,6 @@
   padding: var(--nhsuk-spacing-4);
   z-index: 90;
 }
-.drawer[hidden] { display: none; }
+.drawer[hidden] {
+  display: none;
+}

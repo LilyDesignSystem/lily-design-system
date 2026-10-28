@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="tab-bar"
@@ -6,9 +6,9 @@ const html = `<div
   aria-orientation="horizontal"></div>`;
 
 const meta = {
-  title: 'Headless/TabBar',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/TabBar",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

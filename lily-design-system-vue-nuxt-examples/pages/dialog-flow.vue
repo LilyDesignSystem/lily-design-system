@@ -18,12 +18,19 @@ function handleDelete() {
 
         <section class="section">
             <Tooltip label="Opens a confirmation dialog">
-                <Button @click="confirmOpen = true" :disabled="deleted">
+                <Button
+                    @click="confirmOpen = true"
+                    :disabled="deleted"
+                >
                     Delete Account
                 </Button>
             </Tooltip>
 
-            <Dialog v-if="confirmOpen" :open="confirmOpen" label="Confirm account deletion">
+            <Dialog
+                v-if="confirmOpen"
+                :open="confirmOpen"
+                label="Confirm account deletion"
+            >
                 <h3>Delete your account?</h3>
                 <p>This action cannot be undone. All your data will be permanently removed.</p>
                 <div>
@@ -34,24 +41,29 @@ function handleDelete() {
         </section>
 
         <section class="section">
-            <Button @click="alertOpen = true">
-                Show Session Warning
-            </Button>
+            <Button @click="alertOpen = true"> Show Session Warning </Button>
 
-            <AlertDialog v-if="alertOpen" :open="alertOpen" label="Session expiring">
-                <p>Your session will expire in 5 minutes. Save your work to avoid losing changes.</p>
-                <Button @click="alertOpen = false">
-                    Dismiss
-                </Button>
+            <AlertDialog
+                v-if="alertOpen"
+                :open="alertOpen"
+                label="Session expiring"
+            >
+                <p>
+                    Your session will expire in 5 minutes. Save your work to avoid losing changes.
+                </p>
+                <Button @click="alertOpen = false"> Dismiss </Button>
             </AlertDialog>
         </section>
 
         <section class="section">
-            <Button @click="drawerOpen = true">
-                Open Help Panel
-            </Button>
+            <Button @click="drawerOpen = true"> Open Help Panel </Button>
 
-            <Drawer v-if="drawerOpen" :open="drawerOpen" label="Help panel" side="right">
+            <Drawer
+                v-if="drawerOpen"
+                :open="drawerOpen"
+                label="Help panel"
+                side="right"
+            >
                 <h3>Need help?</h3>
                 <ul>
                     <li><a href="/docs/getting-started">Getting Started</a></li>
@@ -62,6 +74,11 @@ function handleDelete() {
             </Drawer>
         </section>
 
-        <p v-if="deleted" role="status">Account has been deleted.</p>
+        <p
+            v-if="deleted"
+            role="status"
+        >
+            Account has been deleted.
+        </p>
     </main>
 </template>

@@ -19,20 +19,62 @@ import type { Routes } from "@angular/router";
 // registry, Playwright exercises every route).
 export const routes: Routes = [
   { path: "", loadComponent: () => import("./views/home").then((m) => m.default) },
-  { path: "components", loadComponent: () => import("./views/components-index").then((m) => m.default) },
-  { path: "components/:slug", loadComponent: () => import("./views/component-detail").then((m) => m.default) },
-  { path: "book-an-appointment", loadComponent: () => import("./views/book-an-appointment").then((m) => m.default) },
-  { path: "contact-form", loadComponent: () => import("./views/contact-form").then((m) => m.default) },
+  {
+    path: "components",
+    loadComponent: () => import("./views/components-index").then((m) => m.default),
+  },
+  {
+    path: "components/:slug",
+    loadComponent: () => import("./views/component-detail").then((m) => m.default),
+  },
+  {
+    path: "book-an-appointment",
+    loadComponent: () => import("./views/book-an-appointment").then((m) => m.default),
+  },
+  {
+    path: "contact-form",
+    loadComponent: () => import("./views/contact-form").then((m) => m.default),
+  },
   { path: "dashboard", loadComponent: () => import("./views/dashboard").then((m) => m.default) },
-  { path: "dialog-flow", loadComponent: () => import("./views/dialog-flow").then((m) => m.default) },
-  { path: "file-upload-form", loadComponent: () => import("./views/file-upload-form").then((m) => m.default) },
-  { path: "navigation-and-menus", loadComponent: () => import("./views/navigation-and-menus").then((m) => m.default) },
-  { path: "page-layout", loadComponent: () => import("./views/page-layout").then((m) => m.default) },
-  { path: "rating-and-feedback", loadComponent: () => import("./views/rating-and-feedback").then((m) => m.default) },
+  {
+    path: "dialog-flow",
+    loadComponent: () => import("./views/dialog-flow").then((m) => m.default),
+  },
+  {
+    path: "file-upload-form",
+    loadComponent: () => import("./views/file-upload-form").then((m) => m.default),
+  },
+  {
+    path: "navigation-and-menus",
+    loadComponent: () => import("./views/navigation-and-menus").then((m) => m.default),
+  },
+  {
+    path: "page-layout",
+    loadComponent: () => import("./views/page-layout").then((m) => m.default),
+  },
+  {
+    path: "rating-and-feedback",
+    loadComponent: () => import("./views/rating-and-feedback").then((m) => m.default),
+  },
   { path: "rtl-demo", loadComponent: () => import("./views/rtl-demo").then((m) => m.default) },
-  { path: "search-and-filter", loadComponent: () => import("./views/search-and-filter").then((m) => m.default) },
-  { path: "settings-page", loadComponent: () => import("./views/settings-page").then((m) => m.default) },
-  { path: "tabbed-interface", loadComponent: () => import("./views/tabbed-interface").then((m) => m.default) },
-  { path: "task-management", loadComponent: () => import("./views/task-management").then((m) => m.default) },
-  { path: "timeline-and-cards", loadComponent: () => import("./views/timeline-and-cards").then((m) => m.default) },
+  {
+    path: "search-and-filter",
+    loadComponent: () => import("./views/search-and-filter").then((m) => m.default),
+  },
+  {
+    path: "settings-page",
+    loadComponent: () => import("./views/settings-page").then((m) => m.default),
+  },
+  {
+    path: "tabbed-interface",
+    loadComponent: () => import("./views/tabbed-interface").then((m) => m.default),
+  },
+  {
+    path: "task-management",
+    loadComponent: () => import("./views/task-management").then((m) => m.default),
+  },
+  {
+    path: "timeline-and-cards",
+    loadComponent: () => import("./views/timeline-and-cards").then((m) => m.default),
+  },
 ];

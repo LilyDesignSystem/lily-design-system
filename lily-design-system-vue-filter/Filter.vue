@@ -26,11 +26,22 @@ import { computed, nextTick, provide, ref } from "vue";
 import FilterGroupView from "./FilterGroupView.vue";
 import { FILTER_CONTEXT } from "./filter-context";
 import {
-    EMPTY_FILTER, addNode, createGroup, createRule, formatFilter, removeNode, updateNode,
+    EMPTY_FILTER,
+    addNode,
+    createGroup,
+    createRule,
+    formatFilter,
+    removeNode,
+    updateNode,
     type FilterRule,
 } from "./filter-model";
 
-const props = withDefaults(defineProps<Props>(), { format: undefined, dialect: "ansi", maxDepth: 3, readonly: false });
+const props = withDefaults(defineProps<Props>(), {
+    format: undefined,
+    dialect: "ansi",
+    maxDepth: 3,
+    readonly: false,
+});
 
 /** The filter. A v-model: bound by the parent with `v-model`, else kept locally. Every change is a new object, never a mutation. */
 const value = defineModel<FilterGroup>({ default: () => EMPTY_FILTER() });
@@ -41,7 +52,11 @@ const status = ref("");
 const rootEl = ref<HTMLDivElement | null>(null);
 
 const fieldById = computed(() => new Map(props.fields.map((f) => [f.id, f])));
-const output = computed(() => (props.format && props.labels.output ? formatFilter(value.value, props.fields, props.format, props.dialect) : ""));
+const output = computed(() =>
+    props.format && props.labels.output
+        ? formatFilter(value.value, props.fields, props.format, props.dialect)
+        : "",
+);
 
 /** The number the user sees for each rule: its place in reading order across the whole filter. */
 function numberRules(root: FilterGroup): Map<string, number> {
@@ -85,7 +100,9 @@ provide(FILTER_CONTEXT, {
     },
     setGroup(id, change) {
         if (props.readonly) return;
-        commit(updateNode(value.value, id, (node) => (node.type === "group" ? change(node) : node)));
+        commit(
+            updateNode(value.value, id, (node) => (node.type === "group" ? change(node) : node)),
+        );
     },
     addRule(groupId) {
         if (props.readonly || props.fields.length === 0) return;
@@ -120,11 +137,32 @@ provide(FILTER_CONTEXT, {
 </script>
 
 <template>
-    <div ref="rootEl" class="filter" role="group" :aria-label="label" :data-readonly="readonly ? '' : undefined">
-        <FilterGroupView :group="value" :depth="1" :parent-id="null" />
-        <div v-if="format && labels.output" class="filter-output" role="group" :aria-label="labels.output" :data-format="format">
+    <div
+        ref="rootEl"
+        class="filter"
+        role="group"
+        :aria-label="label"
+        :data-readonly="readonly ? '' : undefined"
+    >
+        <FilterGroupView
+            :group="value"
+            :depth="1"
+            :parent-id="null"
+        />
+        <div
+            v-if="format && labels.output"
+            class="filter-output"
+            role="group"
+            :aria-label="labels.output"
+            :data-format="format"
+        >
             <pre class="filter-output-text">{{ output }}</pre>
         </div>
-        <p class="filter-status" aria-live="polite">{{ status }}</p>
+        <p
+            class="filter-status"
+            aria-live="polite"
+        >
+            {{ status }}
+        </p>
     </div>
 </template>

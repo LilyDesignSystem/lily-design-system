@@ -5,16 +5,15 @@ import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("cite.citation");
 
-
 describe("Citation", () => {
-  it("renders the element with its base class", async () => {
-    await mount("citation");
-    expect(el()).not.toBeNull();
-    expect(el().classList.contains("citation")).toBe(true);
-  });
+    it("renders the element with its base class", async () => {
+        await mount("citation");
+        expect(el()).not.toBeNull();
+        expect(el().classList.contains("citation")).toBe(true);
+    });
 
-  it("uses the cite element", async () => {
-    await mount("citation");
-    expect(el().tagName.toLowerCase()).toBe("cite");
-  });
+    it("uses the cite element", async () => {
+        await mount("citation");
+        expect(el().tagName.toLowerCase()).toBe("cite");
+    });
 });

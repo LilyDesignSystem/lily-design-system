@@ -13,7 +13,7 @@ test.describe("component page: combobox", () => {
 
   test("renders the H1 with the component name", async ({ page }) => {
     await expect(
-      page.getByRole("heading", { level: 1, name: new RegExp("^Combobox$") })
+      page.getByRole("heading", { level: 1, name: new RegExp("^Combobox$") }),
     ).toBeVisible();
   });
 

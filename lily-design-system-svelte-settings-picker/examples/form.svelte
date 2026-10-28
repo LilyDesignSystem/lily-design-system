@@ -5,20 +5,27 @@
   typing does not close the panel; submitting calls `close()` itself.
 -->
 <script lang="ts">
-  import SettingsPicker from "../SettingsPicker.svelte";
-  let query = $state("");
+    import SettingsPicker from "../SettingsPicker.svelte";
+    let query = $state("");
 </script>
 
 <SettingsPicker label="Settings">
-  {#snippet children({ close })}
-    <form
-      onsubmit={(event) => {
-        event.preventDefault();
-        close();
-      }}
-    >
-      <input type="search" aria-label="Search" bind:value={query} />
-      <button type="submit" data-settings-picker-keep-open>Go</button>
-    </form>
-  {/snippet}
+    {#snippet children({ close })}
+        <form
+            onsubmit={(event) => {
+                event.preventDefault();
+                close();
+            }}
+        >
+            <input
+                type="search"
+                aria-label="Search"
+                bind:value={query}
+            />
+            <button
+                type="submit"
+                data-settings-picker-keep-open>Go</button
+            >
+        </form>
+    {/snippet}
 </SettingsPicker>

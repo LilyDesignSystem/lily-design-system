@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<input
   class="hanguk-jumin-deungnok-beonho-input"
@@ -8,9 +8,9 @@ const html = `<input
   aria-label="South Korea's Resident Registration Number (주민등록번호)">`;
 
 const meta = {
-  title: 'Headless/HangukJuminDeungnokBeonhoInput',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/HangukJuminDeungnokBeonhoInput",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

@@ -9,4 +9,6 @@
   padding: var(--nhsuk-spacing-3);
   max-width: 20rem;
 }
-.floating-panel[hidden] { display: none; }
+.floating-panel[hidden] {
+  display: none;
+}

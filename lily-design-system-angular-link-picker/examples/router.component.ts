@@ -13,10 +13,11 @@ import { LinkPicker } from "../link-picker.component";
 export class RouterExample {
   private router = inject(Router);
   go = (href: string) => void this.router.navigateByUrl(href);
-  links = () => [
-  { label: "Home", href: "/" },
-  { label: "About Us", href: "/about/" },
-  { label: "Contact Us", href: "/contact/" },
-  { label: "Privacy Policy", href: "/privacy/" },
-].map((p) => ({ ...p, current: this.router.url === p.href }));
+  links = () =>
+    [
+      { label: "Home", href: "/" },
+      { label: "About Us", href: "/about/" },
+      { label: "Contact Us", href: "/contact/" },
+      { label: "Privacy Policy", href: "/privacy/" },
+    ].map((p) => ({ ...p, current: this.router.url === p.href }));
 }

@@ -9,4 +9,6 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   padding: var(--nhsuk-spacing-3);
 }
-.popup[hidden] { display: none; }
+.popup[hidden] {
+  display: none;
+}

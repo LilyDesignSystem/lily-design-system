@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<progress
   class="progress"
@@ -10,9 +10,9 @@ const html = `<progress
 </progress>`;
 
 const meta = {
-  title: 'Headless/Progress',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/Progress",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

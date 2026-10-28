@@ -2,10 +2,7 @@
     // The shape this component was built for: an NHS Wales appointment
     // booking, bilingual, with a clinic that is shut at weekends and a
     // booking window that only runs twelve weeks out.
-    import DateTimePicker, {
-        addDays,
-        weekdayOf,
-    } from "../index.ts";
+    import DateTimePicker, { addDays, weekdayOf } from "../index.ts";
 
     let welsh = $state(false);
     let appointment = $state("");
@@ -82,7 +79,10 @@
 
 <h1>{welsh ? "Trefnu apwyntiad" : "Book an appointment"}</h1>
 
-<button type="button" onclick={() => (welsh = !welsh)}>
+<button
+    type="button"
+    onclick={() => (welsh = !welsh)}
+>
     {welsh ? "English" : "Cymraeg"}
 </button>
 

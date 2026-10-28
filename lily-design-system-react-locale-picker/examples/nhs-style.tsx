@@ -36,8 +36,15 @@ function GlobeIcon() {
             strokeLinecap="round"
             strokeLinejoin="round"
         >
-            <circle cx="8" cy="8" r="6" />
-            <path strokeWidth="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7" />
+            <circle
+                cx="8"
+                cy="8"
+                r="6"
+            />
+            <path
+                strokeWidth="1.1"
+                d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"
+            />
         </svg>
     );
 }
@@ -60,15 +67,15 @@ export function NhsStyleExample() {
 
     return (
         <>
-            <header className="utility-banner" aria-label="Site utilities">
+            <header
+                className="utility-banner"
+                aria-label="Site utilities"
+            >
                 <span>NHS</span>
 
                 <LocalePicker
                     label="Language"
-                    locales={[
-                        "en", "cy", "gd", "ga", "fr",
-                        "pl", "ur", "bn", "zh_Hant",
-                    ]}
+                    locales={["en", "cy", "gd", "ga", "fr", "pl", "ur", "bn", "zh_Hant"]}
                     localeLabels={NATIVE}
                     value={locale}
                     onChange={setLocale}
@@ -78,7 +85,10 @@ export function NhsStyleExample() {
                     {({ value, labelFor }) => (
                         // aria-hidden: the button is already named by the
                         // `label` prop; this is redundant visual detail.
-                        <span aria-hidden="true" style={{ display: "inline-flex", alignItems: "center", gap: "0.25em" }}>
+                        <span
+                            aria-hidden="true"
+                            style={{ display: "inline-flex", alignItems: "center", gap: "0.25em" }}
+                        >
                             <GlobeIcon /> {labelFor(value)}
                         </span>
                     )}

@@ -10,4 +10,6 @@
   max-width: 30rem;
   width: 90vw;
 }
-.file-dialog[hidden] { display: none; }
+.file-dialog[hidden] {
+  display: none;
+}

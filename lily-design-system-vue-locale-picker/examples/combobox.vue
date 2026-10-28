@@ -26,10 +26,7 @@
 -->
 <script setup lang="ts">
 import { ref } from "vue";
-import LocalePicker, {
-    defaultLocaleLabels,
-    localeName,
-} from "../LocalePicker.vue";
+import LocalePicker, { defaultLocaleLabels, localeName } from "../LocalePicker.vue";
 
 // All 436 locale codes from the built-in table.
 const ALL_LOCALES = Object.keys(defaultLocaleLabels);
@@ -40,9 +37,7 @@ const inputValue = ref("");
 /** Commit the typed text if it names a supported locale. */
 function commit(event: Event): void {
     const typed = (event.target as HTMLInputElement).value.toLowerCase();
-    const match = ALL_LOCALES.find(
-        (l) => (defaultLocaleLabels[l] ?? l).toLowerCase() === typed,
-    );
+    const match = ALL_LOCALES.find((l) => (defaultLocaleLabels[l] ?? l).toLowerCase() === typed);
     if (match) {
         locale.value = match;
         inputValue.value = "";
@@ -79,12 +74,14 @@ function commit(event: Event): void {
         </option>
     </datalist>
 
-    <p class="locale-picker-status" aria-live="polite">
+    <p
+        class="locale-picker-status"
+        aria-live="polite"
+    >
         Current language: {{ localeName(locale) }}
     </p>
 
     <p>
-        Selected locale: <code>{{ locale }}</code>
-        ({{ defaultLocaleLabels[locale] }})
+        Selected locale: <code>{{ locale }}</code> ({{ defaultLocaleLabels[locale] }})
     </p>
 </template>

@@ -27,8 +27,19 @@ export interface TruncateMiddleOptions {
 
 /** Split into user-perceived characters. */
 export function splitGraphemes(text: string): string[] {
-    const Segmenter = (Intl as { Segmenter?: new (locale?: string, options?: { granularity: "grapheme" }) => { segment(text: string): Iterable<{ segment: string }> } }).Segmenter;
-    if (Segmenter) return Array.from(new Segmenter(undefined, { granularity: "grapheme" }).segment(text), (s) => s.segment);
+    const Segmenter = (
+        Intl as {
+            Segmenter?: new (
+                locale?: string,
+                options?: { granularity: "grapheme" },
+            ) => { segment(text: string): Iterable<{ segment: string }> };
+        }
+    ).Segmenter;
+    if (Segmenter)
+        return Array.from(
+            new Segmenter(undefined, { granularity: "grapheme" }).segment(text),
+            (s) => s.segment,
+        );
     return Array.from(text);
 }
 

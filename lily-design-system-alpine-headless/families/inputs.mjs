@@ -14,17 +14,19 @@ const type = async (field, text) => {
   await tick();
 };`;
 
-const withSnippet = (extra = "") => `import { snippet } from "../test/mount.js";\n${press}\n${extra}`;
+const withSnippet = (extra = "") =>
+    `import { snippet } from "../test/mount.js";\n${press}\n${extra}`;
 
 export default {
-  "character-counter": {
-    tag: "span", keyboard: "None (passive element)",
-    aria: 'role="status" with aria-live="polite"; aria-label names what is counted; data-count, data-max, data-remaining, data-over-limit',
-    markup: `<input id="character-counter-field-1" type="text" aria-label="">
+    "character-counter": {
+        tag: "span",
+        keyboard: "None (passive element)",
+        aria: 'role="status" with aria-live="polite"; aria-label names what is counted; data-count, data-max, data-remaining, data-over-limit',
+        markup: `<input id="character-counter-field-1" type="text" aria-label="">
 <span class="character-counter" aria-label="" x-data="lilyCharacterCounter(20, 'character-counter-field-1')" x-bind="counter"></span>`,
-    sel: "span.character-counter",
-    extra: `${withSnippet()}\nconst field = () => document.getElementById("character-counter-field-1");`,
-    test: `
+        sel: "span.character-counter",
+        extra: `${withSnippet()}\nconst field = () => document.getElementById("character-counter-field-1");`,
+        test: `
   it("is a polite status that starts at 0 / max", async () => {
     await mount("character-counter");
     expect(el().getAttribute("role")).toBe("status");
@@ -55,18 +57,21 @@ export default {
     expect(el().hasAttribute("data-max")).toBe(false);
     expect(el().hasAttribute("data-over-limit")).toBe(false);
   });`,
-  },
+    },
 
-  "text-area-input-with-character-counter": {
-    tag: "div", keyboard: "native textarea keys; the counter updates as you type",
-    aria: "aria-label names the textarea; aria-describedby links it to the counter; the counter is a polite status",
-    markup: `<div class="text-area-input-with-character-counter" x-data="lilyCountedTextarea(20)">
+    "text-area-input-with-character-counter": {
+        tag: "div",
+        keyboard: "native textarea keys; the counter updates as you type",
+        aria: "aria-label names the textarea; aria-describedby links it to the counter; the counter is a polite status",
+        markup: `<div class="text-area-input-with-character-counter" x-data="lilyCountedTextarea(20)">
   <textarea class="text-area-input-with-character-counter-textarea" aria-label="" aria-describedby="text-area-input-with-character-counter-count-1" x-bind="textarea"></textarea>
   <span class="text-area-input-with-character-counter-count" id="text-area-input-with-character-counter-count-1" aria-label="" x-bind="counter"></span>
 </div>`,
-    sel: "div.text-area-input-with-character-counter",
-    extra: withSnippet(`const area = () => el().querySelector("textarea");\nconst count = () => el().querySelector("span");`),
-    test: `
+        sel: "div.text-area-input-with-character-counter",
+        extra: withSnippet(
+            `const area = () => el().querySelector("textarea");\nconst count = () => el().querySelector("span");`,
+        ),
+        test: `
   it("links the textarea to a polite counter", async () => {
     await mount("text-area-input-with-character-counter");
     expect(area().getAttribute("aria-describedby")).toBe(count().id);
@@ -87,18 +92,19 @@ export default {
     await type(area(), "x".repeat(5));
     expect(area().hasAttribute("aria-invalid")).toBe(false);
   });`,
-  },
+    },
 
-  "password-input-or-text-input-div": {
-    tag: "div", keyboard: "Enter or Space on the toggle button shows or hides the password",
-    aria: "the toggle is a button with aria-pressed; aria-label names the input and the button; autocomplete=current-password",
-    markup: `<div class="password-input-or-text-input-div" x-data="lilyPasswordToggle()">
+    "password-input-or-text-input-div": {
+        tag: "div",
+        keyboard: "Enter or Space on the toggle button shows or hides the password",
+        aria: "the toggle is a button with aria-pressed; aria-label names the input and the button; autocomplete=current-password",
+        markup: `<div class="password-input-or-text-input-div" x-data="lilyPasswordToggle()">
   <input class="password-input-or-text-input-div-input" type="password" aria-label="" x-bind="input">
   <button class="password-input-or-text-input-div-toggle" aria-label="" x-bind="toggle"><!-- Consumer provides toggle icon or text --></button>
 </div>`,
-    sel: "div.password-input-or-text-input-div",
-    extra: `const input = () => el().querySelector("input");\nconst toggle = () => el().querySelector("button");`,
-    test: `
+        sel: "div.password-input-or-text-input-div",
+        extra: `const input = () => el().querySelector("input");\nconst toggle = () => el().querySelector("button");`,
+        test: `
   it("starts masked with the password-manager hint", async () => {
     await mount("password-input-or-text-input-div");
     expect(input().type).toBe("password");
@@ -115,22 +121,24 @@ export default {
     toggle().click(); await tick();
     expect(input().type).toBe("password");
   });`,
-  },
+    },
 
-  "pin-input-div": {
-    tag: "div", keyboard: "a digit moves on; Backspace on an empty box moves back; ArrowLeft/ArrowRight move; paste fills the boxes",
-    aria: 'role="group" with aria-label; one-digit inputs with inputmode="numeric" and maxlength="1"; data-value holds the combined value',
-    markup: `<div class="pin-input-div" role="group" aria-label="" x-data="lilyPinInput()">
+    "pin-input-div": {
+        tag: "div",
+        keyboard:
+            "a digit moves on; Backspace on an empty box moves back; ArrowLeft/ArrowRight move; paste fills the boxes",
+        aria: 'role="group" with aria-label; one-digit inputs with inputmode="numeric" and maxlength="1"; data-value holds the combined value',
+        markup: `<div class="pin-input-div" role="group" aria-label="" x-data="lilyPinInput()">
 ${[1, 2, 3, 4].map((n) => `  <input class="pin-input-div-digit" aria-label="" x-bind="digit(${n - 1})">`).join("\n")}
 </div>`,
-    sel: "div.pin-input-div",
-    extra: `${press}\nconst boxes = () => [...el().querySelectorAll("input")];
+        sel: "div.pin-input-div",
+        extra: `${press}\nconst boxes = () => [...el().querySelectorAll("input")];
 const paste = (box, text) => {
   const event = new Event("paste", { bubbles: true, cancelable: true });
   event.clipboardData = { getData: () => text };
   box.dispatchEvent(event);
 };`,
-    test: `
+        test: `
   it("is a group of numeric single-character inputs", async () => {
     await mount("pin-input-div");
     expect(el().getAttribute("role")).toBe("group");
@@ -173,12 +181,14 @@ const paste = (box, text) => {
     expect(done).toHaveBeenCalledWith({ value: "1234" });
     expect(document.activeElement).toBe(boxes()[3]);
   });`,
-  },
+    },
 
-  "tag-input": {
-    tag: "div", keyboard: "Enter adds the trimmed text as a tag; Backspace on an empty field removes the last tag",
-    aria: 'role="group" with aria-label; the text field has its own aria-label; each remove button needs an aria-label',
-    markup: `<div class="tag-input" role="group" aria-label="" x-data="lilyTagInput()">
+    "tag-input": {
+        tag: "div",
+        keyboard:
+            "Enter adds the trimmed text as a tag; Backspace on an empty field removes the last tag",
+        aria: 'role="group" with aria-label; the text field has its own aria-label; each remove button needs an aria-label',
+        markup: `<div class="tag-input" role="group" aria-label="" x-data="lilyTagInput()">
   <ul class="tag-input-list">
     <template x-for="tag in tags" :key="tag">
       <li class="tag-input-tag">
@@ -189,11 +199,11 @@ const paste = (box, text) => {
   </ul>
   <input class="tag-input-control" aria-label="" x-bind="input">
 </div>`,
-    sel: "div.tag-input",
-    extra: `${press}\nconst field = () => el().querySelector("input");
+        sel: "div.tag-input",
+        extra: `${press}\nconst field = () => el().querySelector("input");
 const tags = () => [...el().querySelectorAll(".tag-input-tag span")].map((s) => s.textContent);
 const add = async (text) => { field().value = text; await press(field(), "Enter"); };`,
-    test: `
+        test: `
   it("starts with no tags", async () => {
     await mount("tag-input");
     expect(tags()).toEqual([]);
@@ -229,15 +239,16 @@ const add = async (text) => { field().value = text; await press(field(), "Enter"
     el().querySelectorAll(".tag-input-remove")[0].click(); await tick();
     expect(tags()).toEqual(["green"]);
   });`,
-  },
+    },
 
-  "currency-input": {
-    tag: "input", keyboard: "None (passive element); native text entry",
-    aria: 'aria-label names the input; inputmode="decimal"; aria-invalid outside min / max; data-currency-code carries the ISO 4217 code',
-    markup: `<input class="currency-input" aria-label="" x-data="lilyCurrencyInput('GBP', 0, 100)" x-bind="input">`,
-    sel: "input.currency-input",
-    extra: press,
-    test: `
+    "currency-input": {
+        tag: "input",
+        keyboard: "None (passive element); native text entry",
+        aria: 'aria-label names the input; inputmode="decimal"; aria-invalid outside min / max; data-currency-code carries the ISO 4217 code',
+        markup: `<input class="currency-input" aria-label="" x-data="lilyCurrencyInput('GBP', 0, 100)" x-bind="input">`,
+        sel: "input.currency-input",
+        extra: press,
+        test: `
   it("is a decimal text field carrying its currency code", async () => {
     await mount("currency-input");
     expect(el().type).toBe("text");
@@ -256,18 +267,20 @@ const add = async (text) => { field().value = text; await press(field(), "Enter"
     await type(el(), "50");
     expect(el().hasAttribute("aria-invalid")).toBe(false);
   });`,
-  },
+    },
 
-  "text-input-with-search": {
-    tag: "div", keyboard: "Tab between the field and the button; Enter in the field, or Enter/Space on the button, searches",
-    aria: 'role="search" with aria-label; the field and the button each have an aria-label',
-    markup: `<div class="text-input-with-search" role="search" aria-label="" x-data="lilySearch()">
+    "text-input-with-search": {
+        tag: "div",
+        keyboard:
+            "Tab between the field and the button; Enter in the field, or Enter/Space on the button, searches",
+        aria: 'role="search" with aria-label; the field and the button each have an aria-label',
+        markup: `<div class="text-input-with-search" role="search" aria-label="" x-data="lilySearch()">
   <input class="text-input-with-search-input" aria-label="" x-bind="input">
   <button class="text-input-with-search-button" aria-label="" x-bind="button"><!-- Consumer provides icon or text --></button>
 </div>`,
-    sel: "div.text-input-with-search",
-    extra: `${press}\nconst field = () => el().querySelector("input");\nconst button = () => el().querySelector("button");`,
-    test: `
+        sel: "div.text-input-with-search",
+        extra: `${press}\nconst field = () => el().querySelector("input");\nconst button = () => el().querySelector("button");`,
+        test: `
   it("is a search landmark with a text field and a button", async () => {
     await mount("text-input-with-search");
     expect(el().getAttribute("role")).toBe("search");
@@ -290,23 +303,25 @@ const add = async (text) => { field().value = text; await press(field(), "Enter"
     button().click(); await tick();
     expect(seen).toHaveBeenCalledWith({ value: "design" });
   });`,
-  },
+    },
 
-  "mentions-input": {
-    tag: "div", keyboard: "type the trigger character to open; ArrowDown/ArrowUp move; Enter inserts; Escape closes",
-    aria: 'the input is role="combobox" with aria-haspopup="listbox", aria-expanded, aria-autocomplete="list", aria-activedescendant; suggestions are a role="listbox" of role="option"',
-    markup: `<div class="mentions-input" data-trigger-char="@" x-data="lilyMentions('@')">
+    "mentions-input": {
+        tag: "div",
+        keyboard:
+            "type the trigger character to open; ArrowDown/ArrowUp move; Enter inserts; Escape closes",
+        aria: 'the input is role="combobox" with aria-haspopup="listbox", aria-expanded, aria-autocomplete="list", aria-activedescendant; suggestions are a role="listbox" of role="option"',
+        markup: `<div class="mentions-input" data-trigger-char="@" x-data="lilyMentions('@')">
   <input class="mentions-input-control" type="text" aria-label="" aria-haspopup="listbox" aria-expanded="false" aria-autocomplete="list" aria-controls="mentions-input-suggestions-1" x-bind="input">
   <div class="mentions-input-suggestions" id="mentions-input-suggestions-1" role="listbox" aria-label="" hidden x-bind="panel">
 ${[1, 2, 3].map((n) => `    <div class="mentions-input-option" x-bind="option('mentions-input-option-${n}')"><!-- Consumer provides suggestion --></div>`).join("\n")}
   </div>
 </div>`,
-    sel: "div.mentions-input",
-    extra: `${press}\nconst input = () => el().querySelector("input");
+        sel: "div.mentions-input",
+        extra: `${press}\nconst input = () => el().querySelector("input");
 const panel = () => el().querySelector(".mentions-input-suggestions");
 const opts = () => [...el().querySelectorAll(".mentions-input-option")];
 const label = async () => { ["Alice", "Alan", "Bob"].forEach((t, i) => (opts()[i].textContent = t)); await tick(); };`,
-    test: `
+        test: `
   it("starts closed with the combobox contract on the input", async () => {
     await mount("mentions-input");
     expect(input().getAttribute("role")).toBe("combobox");
@@ -345,19 +360,20 @@ const label = async () => { ["Alice", "Alan", "Bob"].forEach((t, i) => (opts()[i
     expect(panel().hidden).toBe(true);
     expect(input().getAttribute("aria-expanded")).toBe("false");
   });`,
-  },
+    },
 
-  editable: {
-    tag: "div", keyboard: "Enter, Space or a click edits; Enter confirms; Escape cancels",
-    aria: 'the display is role="button" named "value, label"; tabindex 0 (or -1 with aria-disabled when disabled); the field is named by the label',
-    markup: `<div class="editable" x-data="lilyEditable('', false, '')">
+    editable: {
+        tag: "div",
+        keyboard: "Enter, Space or a click edits; Enter confirms; Escape cancels",
+        aria: 'the display is role="button" named "value, label"; tabindex 0 (or -1 with aria-disabled when disabled); the field is named by the label',
+        markup: `<div class="editable" x-data="lilyEditable('', false, '')">
   <span class="editable-display" x-bind="display"></span>
   <input class="editable-input" x-bind="input" hidden>
 </div>`,
-    sel: "div.editable",
-    extra: withSnippet(`const display = () => el().querySelector(".editable-display");\nconst field = () => el().querySelector("input");
+        sel: "div.editable",
+        extra: withSnippet(`const display = () => el().querySelector(".editable-display");\nconst field = () => el().querySelector("input");
 const named = (args) => snippet("editable").replace("lilyEditable('', false, '')", "lilyEditable(" + args + ")");`),
-    test: `
+        test: `
   it("shows the display as a button and hides the field", async () => {
     await mount("editable", named("'Joel', false, 'Name'"));
     expect(display().getAttribute("role")).toBe("button");
@@ -408,21 +424,22 @@ const named = (args) => snippet("editable").replace("lilyEditable('', false, '')
     display().click(); await tick();
     expect(field().hidden).toBe(true);
   });`,
-  },
+    },
 
-  "editable-form": {
-    tag: "form", keyboard: "Enter submits and leaves edit mode; Escape cancels and leaves edit mode",
-    aria: "aria-label names the form; the form is tabindex -1 and takes focus when it opens",
-    markup: `<div x-data="lilyEditableForm()">
+    "editable-form": {
+        tag: "form",
+        keyboard: "Enter submits and leaves edit mode; Escape cancels and leaves edit mode",
+        aria: "aria-label names the form; the form is tabindex -1 and takes focus when it opens",
+        markup: `<div x-data="lilyEditableForm()">
   <button class="editable-form-edit" x-bind="editButton"><!-- Consumer provides edit label --></button>
   <form class="editable-form" aria-label="" hidden x-bind="form">
     <input name="title" aria-label="">
     <button type="submit"><!-- Consumer provides save label --></button>
   </form>
 </div>`,
-    sel: "form.editable-form",
-    extra: `${press}\nconst edit = () => document.querySelector(".editable-form-edit");`,
-    test: `
+        sel: "form.editable-form",
+        extra: `${press}\nconst edit = () => document.querySelector(".editable-form-edit");`,
+        test: `
   it("starts as a hidden form with an edit button", async () => {
     await mount("editable-form");
     expect(el().hidden).toBe(true);
@@ -457,19 +474,20 @@ const named = (args) => snippet("editable").replace("lilyEditable('', false, '')
     expect(el().hidden).toBe(true);
     expect(cancelled).toHaveBeenCalled();
   });`,
-  },
+    },
 
-  "data-filter-form": {
-    tag: "form", keyboard: "None (passive element); native form keys",
-    aria: 'role="search" with aria-label',
-    markup: `<form class="data-filter-form" role="search" aria-label="" x-data="lilyDataFilterForm()" x-bind="form">
+    "data-filter-form": {
+        tag: "form",
+        keyboard: "None (passive element); native form keys",
+        aria: 'role="search" with aria-label',
+        markup: `<form class="data-filter-form" role="search" aria-label="" x-data="lilyDataFilterForm()" x-bind="form">
   <!-- Consumer provides form fields -->
   <input name="q" aria-label="">
   <button type="submit"><!-- Consumer provides apply label --></button>
   <button type="reset"><!-- Consumer provides reset label --></button>
 </form>`,
-    sel: "form.data-filter-form",
-    test: `
+        sel: "form.data-filter-form",
+        test: `
   it("is a search landmark form", async () => {
     await mount("data-filter-form");
     expect(el().getAttribute("role")).toBe("search");
@@ -493,12 +511,13 @@ const named = (args) => snippet("editable").replace("lilyEditable('', false, '')
     expect(seen).toHaveBeenCalled();
     expect(el().querySelector("input").value).toBe("");
   });`,
-  },
+    },
 
-  "newsletter-signup": {
-    tag: "form", keyboard: "native form keys: Tab through the field and button, Enter submits",
-    aria: 'aria-label names the form; data-state mirrors the state; success is role="status" aria-live="polite", error is role="alert"; each hidden outside its state',
-    markup: `<form class="newsletter-signup" aria-label="" x-data="lilyNewsletterSignup()" x-bind="form">
+    "newsletter-signup": {
+        tag: "form",
+        keyboard: "native form keys: Tab through the field and button, Enter submits",
+        aria: 'aria-label names the form; data-state mirrors the state; success is role="status" aria-live="polite", error is role="alert"; each hidden outside its state',
+        markup: `<form class="newsletter-signup" aria-label="" x-data="lilyNewsletterSignup()" x-bind="form">
   <header class="newsletter-signup-header">
     <h3 class="newsletter-signup-heading"><!-- Consumer provides heading text (optional) --></h3>
     <p class="newsletter-signup-description"><!-- Consumer provides description text (optional) --></p>
@@ -511,13 +530,13 @@ const named = (args) => snippet("editable").replace("lilyEditable('', false, '')
   <p class="newsletter-signup-success" role="status" aria-live="polite" hidden x-bind="success"><!-- Consumer provides success message text --></p>
   <p class="newsletter-signup-error" role="alert" hidden x-bind="error"><!-- Consumer provides error message text --></p>
 </form>`,
-    sel: "form.newsletter-signup",
-    extra: withSnippet(`const email = () => el().querySelector(".newsletter-signup-email");
+        sel: "form.newsletter-signup",
+        extra: withSnippet(`const email = () => el().querySelector(".newsletter-signup-email");
 const submit = () => el().querySelector(".newsletter-signup-submit");
 const success = () => el().querySelector(".newsletter-signup-success");
 const error = () => el().querySelector(".newsletter-signup-error");
 const inState = (state) => snippet("newsletter-signup").replace("lilyNewsletterSignup()", "lilyNewsletterSignup('" + state + "')");`),
-    test: `
+        test: `
   it("starts idle with both messages hidden and the controls enabled", async () => {
     await mount("newsletter-signup");
     expect(el().getAttribute("data-state")).toBe("idle");
@@ -552,19 +571,21 @@ const inState = (state) => snippet("newsletter-signup").replace("lilyNewsletterS
     expect(event.defaultPrevented).toBe(true);
     expect(seen).toHaveBeenCalledWith({ email: "a@example.com" });
   });`,
-  },
+    },
 
-  "date-time-now-input": {
-    tag: "div", keyboard: "Tab between the date, the time and the Now button; Enter or Space on Now fills both",
-    aria: 'role="group" with aria-label; the date input, the time input and the button each have an aria-label',
-    markup: `<div class="date-time-now-input" role="group" aria-label="" x-data="lilyDateTimeNow()">
+    "date-time-now-input": {
+        tag: "div",
+        keyboard:
+            "Tab between the date, the time and the Now button; Enter or Space on Now fills both",
+        aria: 'role="group" with aria-label; the date input, the time input and the button each have an aria-label',
+        markup: `<div class="date-time-now-input" role="group" aria-label="" x-data="lilyDateTimeNow()">
   <input class="date-time-now-input-date" type="date" aria-label="" x-model="date">
   <input class="date-time-now-input-time" type="time" aria-label="" x-model="time">
   <button class="date-time-now-input-now" aria-label="" x-bind="nowButton"><!-- Consumer provides button text --></button>
 </div>`,
-    sel: "div.date-time-now-input",
-    extra: `const date = () => el().querySelector("input[type=date]");\nconst time = () => el().querySelector("input[type=time]");\nconst now = () => el().querySelector("button");`,
-    test: `
+        sel: "div.date-time-now-input",
+        extra: `const date = () => el().querySelector("input[type=date]");\nconst time = () => el().querySelector("input[type=time]");\nconst now = () => el().querySelector("button");`,
+        test: `
   it("is a group with a date input, a time input and a Now button", async () => {
     await mount("date-time-now-input");
     expect(el().getAttribute("role")).toBe("group");
@@ -587,14 +608,15 @@ const inState = (state) => snippet("newsletter-signup").replace("lilyNewsletterS
       vi.useRealTimers();
     }
   });`,
-  },
+    },
 
-  "time-picker-input": {
-    tag: "input", keyboard: "native time field: arrows change and move between segments",
-    aria: "aria-label names the input; the native time input already carries its semantics",
-    markup: `<input class="time-picker-input" type="time" aria-label="" x-data="{ value: '' }" x-model="value" :data-value="value">`,
-    sel: "input.time-picker-input",
-    test: `
+    "time-picker-input": {
+        tag: "input",
+        keyboard: "native time field: arrows change and move between segments",
+        aria: "aria-label names the input; the native time input already carries its semantics",
+        markup: `<input class="time-picker-input" type="time" aria-label="" x-data="{ value: '' }" x-model="value" :data-value="value">`,
+        sel: "input.time-picker-input",
+        test: `
   it("is a native time input", async () => {
     await mount("time-picker-input");
     expect(el().type).toBe("time");
@@ -606,5 +628,5 @@ const inState = (state) => snippet("newsletter-signup").replace("lilyNewsletterS
     el().dispatchEvent(new Event("input", { bubbles: true })); await tick();
     expect(el().getAttribute("data-value")).toBe("09:30");
   });`,
-  },
+    },
 };

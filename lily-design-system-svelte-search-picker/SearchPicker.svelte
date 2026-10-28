@@ -1,4 +1,7 @@
-<script lang="ts" module>
+<script
+    lang="ts"
+    module
+>
     import type { Snippet } from "svelte";
     import { IconButton } from "@lilydesignsystem/svelte-headless";
     // Only the trigger button composes a headless primitive. The panel is
@@ -229,14 +232,22 @@
         {disabled}
         bind:ref={buttonEl}
         baseClass="search-picker-button"
-        label={label}
+        {label}
         aria-expanded={open}
         aria-controls={panelId}
         onclick={onButtonClick}
-        onmouseenter={() => { hoverButton = true; dismissed = false; }}
-        onmouseleave={() => { hoverButton = false; }}
+        onmouseenter={() => {
+            hoverButton = true;
+            dismissed = false;
+        }}
+        onmouseleave={() => {
+            hoverButton = false;
+        }}
         onfocus={onButtonFocus}
-        onblur={() => { focusButton = false; dismissed = false; }}
+        onblur={() => {
+            focusButton = false;
+            dismissed = false;
+        }}
         onkeydown={onButtonKeydown}
     >
         {#if children}
@@ -254,7 +265,11 @@
                 stroke-linecap="round"
                 stroke-linejoin="round"
             >
-                <circle cx="7" cy="7" r="4.5" />
+                <circle
+                    cx="7"
+                    cy="7"
+                    r="4.5"
+                />
                 <path d="M10.5 10.5 14 14" />
             </svg>
         {/if}
@@ -269,16 +284,34 @@
         role="tooltip"
         id={tooltipId}
         hidden={!tooltipVisible}
-        onmouseenter={() => { hoverTooltip = true; }}
-        onmouseleave={() => { hoverTooltip = false; }}
-    >{label}</div>
+        onmouseenter={() => {
+            hoverTooltip = true;
+        }}
+        onmouseleave={() => {
+            hoverTooltip = false;
+        }}
+    >
+        {label}
+    </div>
 
     <!-- The keydown handler only listens for Escape bubbling up from the
          field and the submit button inside; the panel itself takes no
          focus. -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div class="search-picker-panel" id={panelId} hidden={!open} onkeydown={onPanelKeydown}>
-        <form class="search-picker-form" role="search" aria-label={label} action={action} method="get" onsubmit={onSubmit}>
+    <div
+        class="search-picker-panel"
+        id={panelId}
+        hidden={!open}
+        onkeydown={onPanelKeydown}
+    >
+        <form
+            class="search-picker-form"
+            role="search"
+            aria-label={label}
+            {action}
+            method="get"
+            onsubmit={onSubmit}
+        >
             <input
                 bind:this={inputEl}
                 bind:value
@@ -288,8 +321,15 @@
                 {placeholder}
                 enterkeyhint="search"
             />
-            <button type="submit" class="search-picker-submit" aria-label={submitLabel}>
-                <span class="search-picker-submit-symbol" aria-hidden="true">{RETURN_SYMBOL}</span>
+            <button
+                type="submit"
+                class="search-picker-submit"
+                aria-label={submitLabel}
+            >
+                <span
+                    class="search-picker-submit-symbol"
+                    aria-hidden="true">{RETURN_SYMBOL}</span
+                >
             </button>
         </form>
     </div>

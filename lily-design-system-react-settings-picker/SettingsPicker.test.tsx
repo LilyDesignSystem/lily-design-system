@@ -14,9 +14,19 @@ const panel = () => document.querySelector(".settings-picker-panel") as HTMLDivE
 const content = (args: ChildArgs) => (
     <div>
         <a href="/a/">Alpha</a>
-        <button type="button" className="b">Beta</button>
+        <button
+            type="button"
+            className="b"
+        >
+            Beta
+        </button>
         <div data-settings-picker-keep-open>
-            <button type="button" className="keep">Keep</button>
+            <button
+                type="button"
+                className="keep"
+            >
+                Keep
+            </button>
         </div>
         <button
             type="button"
@@ -33,7 +43,10 @@ const content = (args: ChildArgs) => (
 
 function mount(props: Record<string, unknown> = {}) {
     return render(
-        <SettingsPicker label="Settings" {...(props as object)}>
+        <SettingsPicker
+            label="Settings"
+            {...(props as object)}
+        >
             {(props.children as never) ?? content}
         </SettingsPicker>,
     );
@@ -62,7 +75,10 @@ describe("SettingsPicker", () => {
         expect(svg.getAttribute("viewBox")).toBe("0 0 16 16");
         cleanup();
         const again = render(
-            <SettingsPicker label="Settings" icon={() => <span className="mine">≡</span>} />,
+            <SettingsPicker
+                label="Settings"
+                icon={() => <span className="mine">≡</span>}
+            />,
         );
         expect(again.container.querySelector(".mine")).toBeTruthy();
         expect(again.container.querySelector("svg.settings-picker-icon")).toBeNull();
@@ -145,7 +161,9 @@ describe("SettingsPicker", () => {
     test("7.13 activating a link or button closes; keep-open and closeOnSelect=false do not", () => {
         mount();
         fireEvent.click(button());
-        panel().querySelector("a")!.addEventListener("click", (e) => e.preventDefault());
+        panel()
+            .querySelector("a")!
+            .addEventListener("click", (e) => e.preventDefault());
         fireEvent.click(panel().querySelector("a")!);
         expect(panel().hidden).toBe(true);
         expect(document.activeElement).toBe(button());
@@ -177,9 +195,23 @@ describe("SettingsPicker", () => {
         fireEvent.click(document.body);
         expect(onOpenChange.mock.calls).toEqual([[true], [false]]);
         cleanup();
-        const { rerender } = render(<SettingsPicker label="Settings" open={true}>x</SettingsPicker>);
+        const { rerender } = render(
+            <SettingsPicker
+                label="Settings"
+                open={true}
+            >
+                x
+            </SettingsPicker>,
+        );
         expect(panel().hidden).toBe(false);
-        rerender(<SettingsPicker label="Settings" open={false}>x</SettingsPicker>);
+        rerender(
+            <SettingsPicker
+                label="Settings"
+                open={false}
+            >
+                x
+            </SettingsPicker>,
+        );
         expect(panel().hidden).toBe(true);
     });
 
@@ -221,7 +253,9 @@ describe("SettingsPicker", () => {
         expect(nextSettingsPickerId()).not.toBe(nextSettingsPickerId());
         mount();
         mount();
-        const ids = Array.from(document.querySelectorAll(".settings-picker-panel")).map((p) => p.id);
+        const ids = Array.from(document.querySelectorAll(".settings-picker-panel")).map(
+            (p) => p.id,
+        );
         expect(new Set(ids).size).toBe(2);
     });
 

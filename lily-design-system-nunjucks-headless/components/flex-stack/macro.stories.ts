@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="flex-stack"
@@ -6,9 +6,9 @@ const html = `<div
   style="display: flex; flex-direction: column; gap: 1rem;"></div>`;
 
 const meta = {
-  title: 'Headless/FlexStack',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/FlexStack",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

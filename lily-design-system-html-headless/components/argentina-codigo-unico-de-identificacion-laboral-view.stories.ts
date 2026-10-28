@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<span
   class="argentina-codigo-unico-de-identificacion-laboral-view"
@@ -6,9 +6,9 @@ const html = `<span
 >sample-value</span>`;
 
 const meta = {
-  title: 'Headless/ArgentinaCodigoUnicoDeIdentificacionLaboralView',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/ArgentinaCodigoUnicoDeIdentificacionLaboralView",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

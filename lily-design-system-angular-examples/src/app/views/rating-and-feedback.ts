@@ -23,6 +23,4 @@ import { NetPromoterScorePicker } from "../components/NetPromoterScorePicker";
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class RatingAndFeedbackPage {
-
-}
+export default class RatingAndFeedbackPage {}

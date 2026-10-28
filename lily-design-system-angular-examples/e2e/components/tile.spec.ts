@@ -12,9 +12,7 @@ test.describe("component page: tile", () => {
   });
 
   test("renders the H1 with the component name", async ({ page }) => {
-    await expect(
-      page.getByRole("heading", { level: 1, name: new RegExp("^Tile$") })
-    ).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1, name: new RegExp("^Tile$") })).toBeVisible();
   });
 
   test("shows the back link to /components", async ({ page }) => {

@@ -10,15 +10,9 @@ import { config } from "./app/app.config.server";
 // Angular 20 runs `bootstrap` with a BootstrapContext (`{ platformRef }`)
 // and requires it to be forwarded to `bootstrapApplication` as the third
 // argument; without it server bootstrap throws NG0401 (PLATFORM_NOT_FOUND).
-export default async function render(
-  url: string,
-  document: string,
-): Promise<string> {
-  return await renderApplication(
-    (context) => bootstrapApplication(App, config, context),
-    {
-      document,
-      url,
-    },
-  );
+export default async function render(url: string, document: string): Promise<string> {
+  return await renderApplication((context) => bootstrapApplication(App, config, context), {
+    document,
+    url,
+  });
 }

@@ -10,7 +10,13 @@
 import { gridMove } from "./grid-navigation.js";
 import { isRtl } from "./direction.js";
 import { matchesSearch } from "./search-text.js";
-import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText } from "./export-data.js";
+import {
+    copyToClipboard,
+    downloadBlob,
+    exportBlob,
+    exportFilename,
+    toClipboardText,
+} from "./export-data.js";
 import type { ExportFormat, ExportTable } from "./export-data.js";
 
 export type GridRow = Record<string, unknown>;
@@ -109,13 +115,19 @@ export function createDataGrid(options: DataGridOptions) {
             const query = this.filter.trim();
             if (!query) return this.rows;
             return this.rows.filter((row: GridRow) =>
-                matchesSearch(this.visibleColumns.map((c: GridColumn) => this.cell(row, c)).join(" "), query),
+                matchesSearch(
+                    this.visibleColumns.map((c: GridColumn) => this.cell(row, c)).join(" "),
+                    query,
+                ),
             );
         },
         get sortedRows(): GridRow[] {
             const rows = this.filteredRows;
             if (!this.sort.length) return rows;
-            const keys = this.sort.map((k: SortKey) => ({ ...k, col: this.columns.find((c: GridColumn) => c.id === k.id) as GridColumn }));
+            const keys = this.sort.map((k: SortKey) => ({
+                ...k,
+                col: this.columns.find((c: GridColumn) => c.id === k.id) as GridColumn,
+            }));
             return rows
                 .map((row: GridRow, index: number) => ({ row, index }))
                 .sort((a: { row: GridRow; index: number }, b: { row: GridRow; index: number }) => {
@@ -132,7 +144,10 @@ export function createDataGrid(options: DataGridOptions) {
                                 ? x - y
                                 : x instanceof Date && y instanceof Date
                                   ? x.getTime() - y.getTime()
-                                  : collator.compare(this.cell(a.row, k.col), this.cell(b.row, k.col));
+                                  : collator.compare(
+                                        this.cell(a.row, k.col),
+                                        this.cell(b.row, k.col),
+                                    );
                         if (diff !== 0) return k.dir === "asc" ? diff : -diff;
                     }
                     return a.index - b.index;
@@ -140,7 +155,9 @@ export function createDataGrid(options: DataGridOptions) {
                 .map((entry: { row: GridRow }) => entry.row);
         },
         get pageCount(): number {
-            return this.pageSize > 0 ? Math.max(1, Math.ceil(this.sortedRows.length / this.pageSize)) : 1;
+            return this.pageSize > 0
+                ? Math.max(1, Math.ceil(this.sortedRows.length / this.pageSize))
+                : 1;
         },
         get pageRows(): GridRow[] {
             if (this.pageSize <= 0) return this.sortedRows;
@@ -155,10 +172,15 @@ export function createDataGrid(options: DataGridOptions) {
             return this.colOffset + this.visibleColumns.length;
         },
         get allSelected(): boolean {
-            return this.pageRows.length > 0 && this.pageRows.every((r: GridRow) => this.isSelected(this.id(r)));
+            return (
+                this.pageRows.length > 0 &&
+                this.pageRows.every((r: GridRow) => this.isSelected(this.id(r)))
+            );
         },
         get someSelected(): boolean {
-            return !this.allSelected && this.pageRows.some((r: GridRow) => this.isSelected(this.id(r)));
+            return (
+                !this.allSelected && this.pageRows.some((r: GridRow) => this.isSelected(this.id(r)))
+            );
         },
 
         // ---- cells ------------------------------------------------------------------------------------------------
@@ -175,7 +197,9 @@ export function createDataGrid(options: DataGridOptions) {
             return present(value) ? String(value) : "";
         },
         rowName(row: GridRow): string {
-            const col = this.columns.find((c: GridColumn) => c.id === options.rowNameColumn) ?? this.columns[0];
+            const col =
+                this.columns.find((c: GridColumn) => c.id === options.rowNameColumn) ??
+                this.columns[0];
             return col ? this.cell(row, col) : "";
         },
 
@@ -201,7 +225,14 @@ export function createDataGrid(options: DataGridOptions) {
             const current = this.sortDir(col);
             const next = current === "none" ? "asc" : current === "asc" ? "desc" : "none";
             const others = additive ? this.sort.filter((k: SortKey) => k.id !== col.id) : [];
-            const keys = next === "none" ? others : additive && current !== "none" ? this.sort.map((k: SortKey) => (k.id === col.id ? { id: col.id, dir: next } : k)) : [...others, { id: col.id, dir: next }];
+            const keys =
+                next === "none"
+                    ? others
+                    : additive && current !== "none"
+                      ? this.sort.map((k: SortKey) =>
+                            k.id === col.id ? { id: col.id, dir: next } : k,
+                        )
+                      : [...others, { id: col.id, dir: next }];
             this.sort = keys;
             this.page = 0;
             this.status = this.labels.sortAnnouncement?.(col.header, next) ?? "";
@@ -216,7 +247,10 @@ export function createDataGrid(options: DataGridOptions) {
         },
         goto(page: number): void {
             this.page = Math.min(Math.max(0, page), this.pageCount - 1);
-            this.active = { row: Math.min(this.active.row, this.pageRows.length - 1), col: this.active.col };
+            this.active = {
+                row: Math.min(this.active.row, this.pageRows.length - 1),
+                col: this.active.col,
+            };
             this.$dispatch?.("lily:page", { page: this.page });
         },
         get pageLabel(): string {
@@ -230,13 +264,18 @@ export function createDataGrid(options: DataGridOptions) {
         toggleRow(id: string): void {
             if (this.selectionMode === "none") return;
             if (this.selectionMode === "single") this.selected = this.isSelected(id) ? [] : [id];
-            else this.selected = this.isSelected(id) ? this.selected.filter((s: string) => s !== id) : [...this.selected, id];
+            else
+                this.selected = this.isSelected(id)
+                    ? this.selected.filter((s: string) => s !== id)
+                    : [...this.selected, id];
             this.$dispatch?.("lily:select", { selected: [...this.selected] });
         },
         toggleAll(): void {
             if (this.selectionMode !== "multiple") return;
             const ids = this.pageRows.map((r: GridRow) => this.id(r));
-            this.selected = this.allSelected ? this.selected.filter((s: string) => !ids.includes(s)) : [...new Set([...this.selected, ...ids])];
+            this.selected = this.allSelected
+                ? this.selected.filter((s: string) => !ids.includes(s))
+                : [...new Set([...this.selected, ...ids])];
             this.$dispatch?.("lily:select", { selected: [...this.selected] });
         },
 
@@ -244,31 +283,47 @@ export function createDataGrid(options: DataGridOptions) {
         toggleColumn(id: string): void {
             const col = this.columns.find((c: GridColumn) => c.id === id);
             if (!col?.hidable) return;
-            this.hidden = this.hidden.includes(id) ? this.hidden.filter((h: string) => h !== id) : [...this.hidden, id];
-            this.active = { row: this.active.row, col: Math.min(this.active.col, Math.max(0, this.colCount - 1)) };
+            this.hidden = this.hidden.includes(id)
+                ? this.hidden.filter((h: string) => h !== id)
+                : [...this.hidden, id];
+            this.active = {
+                row: this.active.row,
+                col: Math.min(this.active.col, Math.max(0, this.colCount - 1)),
+            };
         },
 
         // ---- export -----------------------------------------------------------------------------------------------
-        exportRows(this: any, scope: "page" | "filtered" | "selected" | "all" = this.exportScope): GridRow[] {
+        exportRows(
+            this: any,
+            scope: "page" | "filtered" | "selected" | "all" = this.exportScope,
+        ): GridRow[] {
             if (scope === "all") return this.rows;
             if (scope === "page") return this.pageRows;
-            if (scope === "selected") return this.sortedRows.filter((r: GridRow) => this.isSelected(this.id(r)));
+            if (scope === "selected")
+                return this.sortedRows.filter((r: GridRow) => this.isSelected(this.id(r)));
             return this.sortedRows;
         },
         exportTable(scope?: "page" | "filtered" | "selected" | "all"): ExportTable {
             const cols = this.visibleColumns;
             return {
                 headers: cols.map((c: GridColumn) => c.header),
-                rows: this.exportRows(scope).map((r: GridRow) => cols.map((c: GridColumn) => this.cell(r, c))),
+                rows: this.exportRows(scope).map((r: GridRow) =>
+                    cols.map((c: GridColumn) => this.cell(r, c)),
+                ),
             };
         },
         download(format: ExportFormat = "csv"): void {
-            downloadBlob(exportBlob(this.exportTable(), format), exportFilename(options.exportFilename ?? "data", format));
+            downloadBlob(
+                exportBlob(this.exportTable(), format),
+                exportFilename(options.exportFilename ?? "data", format),
+            );
         },
         async copy(): Promise<void> {
             const table = this.exportTable();
             const ok = await copyToClipboard(toClipboardText(table));
-            this.status = ok ? (this.labels.copyAnnouncement?.(table.rows.length) ?? "") : (this.labels.copyFailed ?? "");
+            this.status = ok
+                ? (this.labels.copyAnnouncement?.(table.rows.length) ?? "")
+                : (this.labels.copyFailed ?? "");
         },
 
         // ---- keyboard ---------------------------------------------------------------------------------------------
@@ -278,7 +333,9 @@ export function createDataGrid(options: DataGridOptions) {
         },
         focusCell(): void {
             // The cell is already rendered (only its tabindex follows `active`), so focus it now.
-            const cell = this.$root.querySelector(`[data-row="${this.active.row}"][data-col="${this.active.col}"]`) as HTMLElement | null;
+            const cell = this.$root.querySelector(
+                `[data-row="${this.active.row}"][data-col="${this.active.col}"]`,
+            ) as HTMLElement | null;
             cell?.focus();
         },
         onFocusCell(row: number, col: number): void {
@@ -312,12 +369,17 @@ export function createDataGrid(options: DataGridOptions) {
             if (!row) return;
             event.preventDefault();
             if (dataCol < 0) this.toggleRow(this.id(row));
-            else if (event.key === "Enter") this.$dispatch?.("lily:activate", { id: this.id(row), row });
+            else if (event.key === "Enter")
+                this.$dispatch?.("lily:activate", { id: this.id(row), row });
         },
     });
 }
 
 /** The Alpine plugin: registers `Alpine.data("lilyDataGrid", options => …)`. */
-export default function lilyDataGrid(Alpine: { data: (name: string, factory: (...args: never[]) => object) => void }): void {
-    Alpine.data("lilyDataGrid", ((options: DataGridOptions) => createDataGrid(options)) as (...args: never[]) => object);
+export default function lilyDataGrid(Alpine: {
+    data: (name: string, factory: (...args: never[]) => object) => void;
+}): void {
+    Alpine.data("lilyDataGrid", ((options: DataGridOptions) => createDataGrid(options)) as (
+        ...args: never[]
+    ) => object);
 }

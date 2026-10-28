@@ -1,11 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = "<section\n  class=\"end-notes\"\n  aria-label=\"\"\n>\n  <!-- Consumer provides content -->\n</section>";
+const html =
+    '<section\n  class="end-notes"\n  aria-label=""\n>\n  <!-- Consumer provides content -->\n</section>';
 
 const meta = {
-  title: 'Headless/End Notes',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/End Notes",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

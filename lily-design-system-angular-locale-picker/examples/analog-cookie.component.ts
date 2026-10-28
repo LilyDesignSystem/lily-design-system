@@ -14,13 +14,7 @@
     zero. Choosing a locale rewrites the cookie via a fetch to
     /api/locale and updates the DOM in the same tick.
 */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  InjectionToken,
-  inject,
-  signal,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, InjectionToken, inject, signal } from "@angular/core";
 import { LocalePicker } from "../locale-picker.component";
 
 // In a real Analog project, REQUEST is imported from

@@ -58,7 +58,13 @@ const suffixOptions: FilterOption[] = Object.entries(SUFFIX_LABEL)
   .sort((a, b) => b.count - a.count)
   .concat(
     suffixCounts.has(STANDALONE_ID)
-      ? [{ id: STANDALONE_ID, label: SUFFIX_LABEL[STANDALONE_ID], count: suffixCounts.get(STANDALONE_ID) ?? 0 }]
+      ? [
+          {
+            id: STANDALONE_ID,
+            label: SUFFIX_LABEL[STANDALONE_ID],
+            count: suffixCounts.get(STANDALONE_ID) ?? 0,
+          },
+        ]
       : [],
   );
 

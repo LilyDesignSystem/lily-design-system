@@ -10,8 +10,21 @@ const now = new Date();
 </script>
 
 <template>
-  <TimeZonePicker label="Time zone" locale="en-GB" v-model:value="zone" storage-key="lily-time-zone" />
-  <p aria-live="polite">
-    {{ zone ? new Intl.DateTimeFormat("en-GB", { timeZone: zone, dateStyle: "medium", timeStyle: "short" }).format(now) : "" }}
-  </p>
+    <TimeZonePicker
+        label="Time zone"
+        locale="en-GB"
+        v-model:value="zone"
+        storage-key="lily-time-zone"
+    />
+    <p aria-live="polite">
+        {{
+            zone
+                ? new Intl.DateTimeFormat("en-GB", {
+                      timeZone: zone,
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                  }).format(now)
+                : ""
+        }}
+    </p>
 </template>

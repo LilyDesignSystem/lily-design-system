@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<input
   class="malta-passport-number-input"
@@ -8,9 +8,9 @@ const html = `<input
   aria-label="Malta Passport Number">`;
 
 const meta = {
-  title: 'Headless/MaltaPassportNumberInput',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/MaltaPassportNumberInput",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

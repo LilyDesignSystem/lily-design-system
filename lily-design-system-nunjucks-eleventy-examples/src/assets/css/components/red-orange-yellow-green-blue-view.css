@@ -19,15 +19,19 @@
 .red-orange-yellow-green-blue-view[data-status="red"] .red-orange-yellow-green-blue-view-indicator {
   background: var(--nhsuk-red);
 }
-.red-orange-yellow-green-blue-view[data-status="orange"] .red-orange-yellow-green-blue-view-indicator {
+.red-orange-yellow-green-blue-view[data-status="orange"]
+  .red-orange-yellow-green-blue-view-indicator {
   background: #ed8b00;
 }
-.red-orange-yellow-green-blue-view[data-status="yellow"] .red-orange-yellow-green-blue-view-indicator {
+.red-orange-yellow-green-blue-view[data-status="yellow"]
+  .red-orange-yellow-green-blue-view-indicator {
   background: var(--nhsuk-yellow);
 }
-.red-orange-yellow-green-blue-view[data-status="green"] .red-orange-yellow-green-blue-view-indicator {
+.red-orange-yellow-green-blue-view[data-status="green"]
+  .red-orange-yellow-green-blue-view-indicator {
   background: var(--nhsuk-green);
 }
-.red-orange-yellow-green-blue-view[data-status="blue"] .red-orange-yellow-green-blue-view-indicator {
+.red-orange-yellow-green-blue-view[data-status="blue"]
+  .red-orange-yellow-green-blue-view-indicator {
   background: var(--nhsuk-blue);
 }

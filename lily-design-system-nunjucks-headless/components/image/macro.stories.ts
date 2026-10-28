@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<img
   class="image"
@@ -7,9 +7,9 @@ const html = `<img
   loading="lazy">`;
 
 const meta = {
-  title: 'Headless/Image',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/Image",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

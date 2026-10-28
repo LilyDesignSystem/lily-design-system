@@ -14,7 +14,8 @@ import { isRtl } from "./direction.js";
 import { applyCriticalPath } from "./critical-path.js";
 import type { CriticalPathOptions } from "./critical-path.js";
 
-export type GanttDependency = string | { id: string; type?: "e2s" | "s2s" | "s2e" | "e2e"; lag?: number };
+export type GanttDependency =
+    string | { id: string; type?: "e2s" | "s2s" | "s2e" | "e2e"; lag?: number };
 
 export type GanttTask = {
     id: string;
@@ -80,7 +81,10 @@ const define = <T extends object>(object: T & ThisType<any>): T => object;
 export function createGanttChart(options: GanttOptions) {
     const scheduled = (): GanttTask[] =>
         options.criticalPath
-            ? applyCriticalPath(options.tasks, options.criticalPath === true ? {} : options.criticalPath)
+            ? applyCriticalPath(
+                  options.tasks,
+                  options.criticalPath === true ? {} : options.criticalPath,
+              )
             : options.tasks;
     return define({
         tasks: scheduled(),
@@ -93,7 +97,8 @@ export function createGanttChart(options: GanttOptions) {
         // ---- time -------------------------------------------------------------------------------------------------
         get days(): string[] {
             const out: string[] = [];
-            for (let d = options.range.start; d <= options.range.end; d = addDays(d, 1)) out.push(d);
+            for (let d = options.range.start; d <= options.range.end; d = addDays(d, 1))
+                out.push(d);
             return out;
         },
         isWeekend(iso: string): boolean {
@@ -107,13 +112,27 @@ export function createGanttChart(options: GanttOptions) {
         /** A task's dates: its own, or for a parent the earliest start and latest end of its descendants. */
         span(task: GanttTask): { start: string; end: string } | null {
             const kids = this.childrenOf(task.id);
-            if (!kids.length) return task.start && task.end ? { start: task.start, end: task.end } : null;
-            const spans = kids.map((k: GanttTask) => this.span(k)).filter(Boolean) as { start: string; end: string }[];
+            if (!kids.length)
+                return task.start && task.end ? { start: task.start, end: task.end } : null;
+            const spans = kids.map((k: GanttTask) => this.span(k)).filter(Boolean) as {
+                start: string;
+                end: string;
+            }[];
             if (!spans.length) return null;
-            return { start: spans.map((s) => s.start).sort()[0], end: spans.map((s) => s.end).sort().reverse()[0] };
+            return {
+                start: spans.map((s) => s.start).sort()[0],
+                end: spans
+                    .map((s) => s.end)
+                    .sort()
+                    .reverse()[0],
+            };
         },
         get hasHierarchy(): boolean {
-            return this.tasks.some((t: GanttTask) => t.parentId !== undefined && this.tasks.some((p: GanttTask) => p.id === t.parentId));
+            return this.tasks.some(
+                (t: GanttTask) =>
+                    t.parentId !== undefined &&
+                    this.tasks.some((p: GanttTask) => p.id === t.parentId),
+            );
         },
         /** The visible rows, depth first, skipping everything under a collapsed parent. */
         get rows(): GanttRow[] {
@@ -135,23 +154,33 @@ export function createGanttChart(options: GanttOptions) {
                         return found ? this.label(found) : id;
                     }),
                 });
-                if (isParent && !this.collapsed.includes(task.id)) this.childrenOf(task.id).forEach((c: GanttTask) => walk(c, depth + 1));
+                if (isParent && !this.collapsed.includes(task.id))
+                    this.childrenOf(task.id).forEach((c: GanttTask) => walk(c, depth + 1));
             };
-            this.tasks.filter((t: GanttTask) => !t.parentId || !known.has(t.parentId)).forEach((t: GanttTask) => walk(t, 1));
+            this.tasks
+                .filter((t: GanttTask) => !t.parentId || !known.has(t.parentId))
+                .forEach((t: GanttTask) => walk(t, 1));
             return out;
         },
         label(task: GanttTask): string {
             return options.taskLabel ? options.taskLabel(task) : (task?.label ?? "");
         },
         toggleCollapse(id: string): void {
-            this.collapsed = this.collapsed.includes(id) ? this.collapsed.filter((c: string) => c !== id) : [...this.collapsed, id];
-            this.active = { row: Math.min(this.active.row, this.rows.length - 1), col: this.active.col };
+            this.collapsed = this.collapsed.includes(id)
+                ? this.collapsed.filter((c: string) => c !== id)
+                : [...this.collapsed, id];
+            this.active = {
+                row: Math.min(this.active.row, this.rows.length - 1),
+                col: this.active.col,
+            };
         },
         collapseLabel(row: GanttRow): string {
             return this.labels.collapseButton?.(row.task, row.collapsed) ?? "";
         },
         dependencyText(row: GanttRow): string {
-            return row.predecessors.length ? (this.labels.dependencySummary?.(row.predecessors) ?? "") : "";
+            return row.predecessors.length
+                ? (this.labels.dependencySummary?.(row.predecessors) ?? "")
+                : "";
         },
         dependencyId(row: GanttRow): string {
             return `gantt-dependencies-${row.task.id}`;
@@ -173,7 +202,9 @@ export function createGanttChart(options: GanttOptions) {
             this.active = { row, col };
         },
         focusCell(): void {
-            const cell = this.$root?.querySelector(`[data-row="${this.active.row}"][data-col="${this.active.col}"]`) as HTMLElement | null;
+            const cell = this.$root?.querySelector(
+                `[data-row="${this.active.row}"][data-col="${this.active.col}"]`,
+            ) as HTMLElement | null;
             cell?.focus();
         },
         onKeydown(event: KeyboardEvent): void {
@@ -196,12 +227,20 @@ export function createGanttChart(options: GanttOptions) {
             if (!row) return;
             event.preventDefault();
             if (at.col === 0 && row.isParent) this.toggleCollapse(row.task.id);
-            else this.$dispatch?.("lily:activate", { taskId: row.task.id, date: at.col > 0 ? this.days[at.col - 1] : null });
+            else
+                this.$dispatch?.("lily:activate", {
+                    taskId: row.task.id,
+                    date: at.col > 0 ? this.days[at.col - 1] : null,
+                });
         },
     });
 }
 
 /** The Alpine plugin: registers `Alpine.data("lilyGanttChart", options => …)`. */
-export default function lilyGanttChart(Alpine: { data: (name: string, factory: (...args: never[]) => object) => void }): void {
-    Alpine.data("lilyGanttChart", ((options: GanttOptions) => createGanttChart(options)) as (...args: never[]) => object);
+export default function lilyGanttChart(Alpine: {
+    data: (name: string, factory: (...args: never[]) => object) => void;
+}): void {
+    Alpine.data("lilyGanttChart", ((options: GanttOptions) => createGanttChart(options)) as (
+        ...args: never[]
+    ) => object);
 }

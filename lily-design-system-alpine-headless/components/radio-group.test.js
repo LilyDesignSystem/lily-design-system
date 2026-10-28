@@ -5,16 +5,15 @@ import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("fieldset.radio-group");
 
-
 describe("RadioGroup", () => {
-  it("renders the element with its base class", async () => {
-    await mount("radio-group");
-    expect(el()).not.toBeNull();
-    expect(el().classList.contains("radio-group")).toBe(true);
-  });
+    it("renders the element with its base class", async () => {
+        await mount("radio-group");
+        expect(el()).not.toBeNull();
+        expect(el().classList.contains("radio-group")).toBe(true);
+    });
 
-  it("uses the fieldset element", async () => {
-    await mount("radio-group");
-    expect(el().tagName.toLowerCase()).toBe("fieldset");
-  });
+    it("uses the fieldset element", async () => {
+        await mount("radio-group");
+        expect(el().tagName.toLowerCase()).toBe("fieldset");
+    });
 });

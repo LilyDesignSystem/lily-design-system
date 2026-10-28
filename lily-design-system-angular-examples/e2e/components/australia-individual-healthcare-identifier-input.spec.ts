@@ -13,7 +13,10 @@ test.describe("component page: australia-individual-healthcare-identifier-input"
 
   test("renders the H1 with the component name", async ({ page }) => {
     await expect(
-      page.getByRole("heading", { level: 1, name: new RegExp("^AustraliaIndividualHealthcareIdentifierInput$") })
+      page.getByRole("heading", {
+        level: 1,
+        name: new RegExp("^AustraliaIndividualHealthcareIdentifierInput$"),
+      }),
     ).toBeVisible();
   });
 

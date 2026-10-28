@@ -1,11 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = "<div class=\"tool-call-output\" role=\"group\" aria-label=\"Arguments\">{\"query\": \"weather\"}</div>";
+const html =
+    '<div class="tool-call-output" role="group" aria-label="Arguments">{"query": "weather"}</div>';
 
 const meta = {
-  title: 'Headless/Tool Call Output',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/Tool Call Output",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

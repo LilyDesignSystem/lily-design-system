@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<fieldset class="date-range" aria-label="Trip dates">
   <input class="date-input" type="date" aria-label="Departure" />
@@ -6,9 +6,9 @@ const html = `<fieldset class="date-range" aria-label="Trip dates">
 </fieldset>`;
 
 const meta = {
-  title: 'Headless/DateRange',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/DateRange",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

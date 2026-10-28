@@ -5,16 +5,15 @@ import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("input.zhongguo-jumin-shenfenzheng-haoma-input");
 
-
 describe("ZhongguoJuminShenfenzhengHaomaInput", () => {
-  it("renders the element with its base class", async () => {
-    await mount("zhongguo-jumin-shenfenzheng-haoma-input");
-    expect(el()).not.toBeNull();
-    expect(el().classList.contains("zhongguo-jumin-shenfenzheng-haoma-input")).toBe(true);
-  });
+    it("renders the element with its base class", async () => {
+        await mount("zhongguo-jumin-shenfenzheng-haoma-input");
+        expect(el()).not.toBeNull();
+        expect(el().classList.contains("zhongguo-jumin-shenfenzheng-haoma-input")).toBe(true);
+    });
 
-  it("uses the input element", async () => {
-    await mount("zhongguo-jumin-shenfenzheng-haoma-input");
-    expect(el().tagName.toLowerCase()).toBe("input");
-  });
+    it("uses the input element", async () => {
+        await mount("zhongguo-jumin-shenfenzheng-haoma-input");
+        expect(el().tagName.toLowerCase()).toBe("input");
+    });
 });

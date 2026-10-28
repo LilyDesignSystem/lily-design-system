@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="carousel"
@@ -21,9 +21,9 @@ const html = `<div
 </script>`;
 
 const meta = {
-  title: 'Headless/Carousel',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/Carousel",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

@@ -1,11 +1,11 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = "<div class=\"convert-into-div\">100 US dollars</div>";
+const html = '<div class="convert-into-div">100 US dollars</div>';
 
 const meta = {
-  title: 'Headless/ConvertIntoDiv',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/ConvertIntoDiv",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

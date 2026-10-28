@@ -30,7 +30,13 @@ export {
   toXlsx,
   zipStore,
 } from "./export-data";
-export type { DelimitedOptions, ExportFormat, ExportFormula, ExportTable, XlsxOptions } from "./export-data";
+export type {
+  DelimitedOptions,
+  ExportFormat,
+  ExportFormula,
+  ExportTable,
+  XlsxOptions,
+} from "./export-data";
 export {
   aggregateValues,
   civilDateToDate,
@@ -62,9 +68,26 @@ export type {
 } from "./cell-types";
 export { foldText, highlightSegments, matchesSearch, searchTerms } from "./search-text";
 export type { SearchSegment } from "./search-text";
-export { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, TYPEAHEAD_RESET_MS } from "./typeahead";
+export {
+  findTypeaheadMatch,
+  isTypeaheadKey,
+  nextTypeaheadState,
+  TYPEAHEAD_RESET_MS,
+} from "./typeahead";
 export type { TypeaheadState } from "./typeahead";
-export { EMPTY_HISTORY, HISTORY_LIMIT, historyKey, recordEdit, redoEdit, undoEdit } from "./edit-history";
+export {
+  EMPTY_HISTORY,
+  HISTORY_LIMIT,
+  historyKey,
+  recordEdit,
+  redoEdit,
+  undoEdit,
+} from "./edit-history";
 export type { EditHistory, EditRecord } from "./edit-history";
-export { ANNOUNCEMENT_LABELS, CONTROL_LABELS, missingLabels, requiredLabels } from "./label-coverage";
+export {
+  ANNOUNCEMENT_LABELS,
+  CONTROL_LABELS,
+  missingLabels,
+  requiredLabels,
+} from "./label-coverage";
 export type { LabelFeatures, LabelKind } from "./label-coverage";

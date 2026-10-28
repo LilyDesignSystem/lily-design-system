@@ -83,10 +83,7 @@ export function canShareNatively(): boolean {
 
 /** Is an async clipboard available? SSR-safe. */
 export function canCopy(): boolean {
-    return (
-        typeof navigator !== "undefined" &&
-        typeof navigator.clipboard?.writeText === "function"
-    );
+    return typeof navigator !== "undefined" && typeof navigator.clipboard?.writeText === "function";
 }
 
 let uid = 0;
@@ -154,7 +151,10 @@ const hoverTooltip = ref(false);
 const focusButton = ref(false);
 const dismissed = ref(false);
 const tooltipVisible = computed(
-    () => !open.value && !dismissed.value && (hoverButton.value || hoverTooltip.value || focusButton.value),
+    () =>
+        !open.value &&
+        !dismissed.value &&
+        (hoverButton.value || hoverTooltip.value || focusButton.value),
 );
 
 function onTooltipButtonEnter(): void {
@@ -222,9 +222,7 @@ function currentUrl(): string {
 function items(): HTMLElement[] {
     if (!listEl.value) return [];
     return Array.from(
-        listEl.value.querySelectorAll<HTMLElement>(
-            ".share-picker-target, .share-picker-copy",
-        ),
+        listEl.value.querySelectorAll<HTMLElement>(".share-picker-target, .share-picker-copy"),
     );
 }
 
@@ -267,10 +265,7 @@ async function onButtonClick(): Promise<void> {
         await closeList();
         return;
     }
-    if (
-        props.strategy === "native" ||
-        (props.strategy === "auto" && canShareNatively())
-    ) {
+    if (props.strategy === "native" || (props.strategy === "auto" && canShareNatively())) {
         if (await shareNatively()) return;
     }
     await openList();
@@ -428,7 +423,9 @@ onBeforeUnmount(() => {
             :hidden="tooltipVisible ? undefined : true"
             @mouseenter="hoverTooltip = true"
             @mouseleave="hoverTooltip = false"
-        >{{ label }}</div>
+        >
+            {{ label }}
+        </div>
 
         <!-- Named like the sibling pickers' listboxes: a screen reader
              entering the list hears what the list is for, not just
@@ -456,11 +453,19 @@ onBeforeUnmount(() => {
                     :target="target.newTab === false ? undefined : '_blank'"
                     rel="noopener noreferrer"
                     @click="chooseTarget(target)"
-                >{{ target.label }}</a>
+                    >{{ target.label }}</a
+                >
             </li>
 
-            <li v-if="copyLabel" class="share-picker-list-item">
-                <button type="button" class="share-picker-copy" @click="copyUrl">
+            <li
+                v-if="copyLabel"
+                class="share-picker-list-item"
+            >
+                <button
+                    type="button"
+                    class="share-picker-copy"
+                    @click="copyUrl"
+                >
                     {{ copyLabel }}
                 </button>
             </li>
@@ -469,6 +474,11 @@ onBeforeUnmount(() => {
         <!-- Copying gives no visual feedback of its own, so the outcome is
              announced. Empty until something happens, so it stays silent on
              load; aria-live announces mutations only. -->
-        <p class="share-picker-status" aria-live="polite">{{ status }}</p>
+        <p
+            class="share-picker-status"
+            aria-live="polite"
+        >
+            {{ status }}
+        </p>
     </div>
 </template>

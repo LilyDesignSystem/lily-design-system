@@ -26,7 +26,10 @@
         <p>{component.description}</p>
 
         <h2>Demo</h2>
-        <div class="card" style="padding: 1.5rem;">
+        <div
+            class="card"
+            style="padding: 1.5rem;"
+        >
             {#if demoHtml}
                 {@html demoHtml}
             {:else}
@@ -45,7 +48,10 @@
             <h2>More examples</h2>
             {#each example.variants as variant (variant.title)}
                 <h3>{variant.title}</h3>
-                <div class="card" style="padding: 1.5rem;">
+                <div
+                    class="card"
+                    style="padding: 1.5rem;"
+                >
                     {@html variant.html}
                 </div>
                 <details>
@@ -73,7 +79,9 @@
         {/if}
 
         <h2>Import</h2>
-        <pre tabindex="0"><code>import {component.name} from "#lib/components/{component.name}.svelte";</code></pre>
+        <pre tabindex="0"><code
+                >import {component.name} from "#lib/components/{component.name}.svelte";</code
+            ></pre>
     {:else}
         <p>Component not found.</p>
     {/if}

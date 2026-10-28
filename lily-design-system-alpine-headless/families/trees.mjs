@@ -16,15 +16,18 @@ const nameAll = () => Object.entries({ one: "Fruit", "one-a": "Apple", "one-b": 
 
 // The sample hierarchy: one{one-a, one-b}, two, three{three-a}.
 const sample = (pad, itemClass) => {
-  const li = (id, kids) => kids
-    ? `${pad}<li class="${itemClass}" x-bind="item('${id}', true)">
+    const li = (id, kids) =>
+        kids
+            ? `${pad}<li class="${itemClass}" x-bind="item('${id}', true)">
 ${pad}  <!-- Consumer provides label -->
 ${pad}  <ul role="group" x-bind="group('${id}')">
 ${kids.map((k) => `${pad}    <li class="${itemClass}" x-bind="item('${k}')"><!-- Consumer provides label --></li>`).join("\n")}
 ${pad}  </ul>
 ${pad}</li>`
-    : `${pad}<li class="${itemClass}" x-bind="item('${id}')"><!-- Consumer provides label --></li>`;
-  return [li("one", ["one-a", "one-b"]), li("two"), li("three", ["three-a"])].join("\n").replaceAll('<li class', '<li role="treeitem" class');
+            : `${pad}<li class="${itemClass}" x-bind="item('${id}')"><!-- Consumer provides label --></li>`;
+    return [li("one", ["one-a", "one-b"]), li("two"), li("three", ["three-a"])]
+        .join("\n")
+        .replaceAll("<li class", '<li role="treeitem" class');
 };
 
 // Tests every hierarchical tree shares (ids one, one-a, one-b, two, three, three-a).
@@ -144,45 +147,59 @@ const popupTests = (slug, exclusive) => `
     expect(document.activeElement).toBe(trigger());
   });
   it("${exclusive ? "opening a branch closes its siblings (one list per level)" : "multiple mode keeps the panel open and selects several"}", async () => {
-    ${exclusive ? `await mount("${slug}"); await open();
+    ${
+        exclusive
+            ? `await mount("${slug}"); await open();
     item("one").click(); await tick();
     item("three").click(); await tick();
     expect(item("three").getAttribute("aria-expanded")).toBe("true");
-    expect(item("one").getAttribute("aria-expanded")).toBe("false");` : `await mount("${slug}", snippet("${slug}").replace("lilyTreeSelect()", "lilyTreeSelect(true)"));
+    expect(item("one").getAttribute("aria-expanded")).toBe("false");`
+            : `await mount("${slug}", snippet("${slug}").replace("lilyTreeSelect()", "lilyTreeSelect(true)"));
     expect(el().getAttribute("aria-multiselectable")).toBe("true");
     await open();
     item("two").click(); await tick();
     item("three").click(); await tick();
     item("three-a").click(); await tick();
     expect(panel().hidden).toBe(false);
-    expect(["two", "three-a"].map((id) => item(id).getAttribute("aria-selected"))).toEqual(["true", "true"]);`}
+    expect(["two", "three-a"].map((id) => item(id).getAttribute("aria-selected"))).toEqual(["true", "true"]);`
+    }
   });`;
 
 export default {
-  "tree-nav": {
-    tag: "nav", keyboard: "arrows move through visible items, ArrowRight/ArrowLeft open, close and climb, Home/End jump, * opens siblings, type to jump",
-    aria: 'nav landmark with aria-label; the list is role="tree" of role="treeitem" with aria-expanded on branches and a roving tabindex',
-    markup: `<nav class="tree-nav" aria-label="" x-data="lilyTree()">
+    "tree-nav": {
+        tag: "nav",
+        keyboard:
+            "arrows move through visible items, ArrowRight/ArrowLeft open, close and climb, Home/End jump, * opens siblings, type to jump",
+        aria: 'nav landmark with aria-label; the list is role="tree" of role="treeitem" with aria-expanded on branches and a roving tabindex',
+        markup: `<nav class="tree-nav" aria-label="" x-data="lilyTree()">
   <ul class="tree-list" role="tree" aria-label="" x-bind="tree">
 ${sample("    ", "tree-list-item")}
   </ul>
 </nav>`,
-    sel: "nav.tree-nav", extra: helpers, test: treeTests("tree-nav", false),
-  },
+        sel: "nav.tree-nav",
+        extra: helpers,
+        test: treeTests("tree-nav", false),
+    },
 
-  "tree-menu": {
-    tag: "ul", keyboard: "ArrowDown/ArrowUp move through visible items (wrapping), ArrowRight/ArrowLeft open and close, Home/End jump",
-    aria: 'role="tree" with aria-label; items are role="treeitem" with a roving tabindex',
-    markup: `<ul class="tree-menu" role="tree" aria-label="" x-data="lilyTree(true)" x-bind="tree">
+    "tree-menu": {
+        tag: "ul",
+        keyboard:
+            "ArrowDown/ArrowUp move through visible items (wrapping), ArrowRight/ArrowLeft open and close, Home/End jump",
+        aria: 'role="tree" with aria-label; items are role="treeitem" with a roving tabindex',
+        markup: `<ul class="tree-menu" role="tree" aria-label="" x-data="lilyTree(true)" x-bind="tree">
 ${sample("  ", "tree-menu-item")}
 </ul>`,
-    sel: "ul.tree-menu", extra: helpers, test: treeTests("tree-menu", true),
-  },
+        sel: "ul.tree-menu",
+        extra: helpers,
+        test: treeTests("tree-menu", true),
+    },
 
-  "tree-select": {
-    tag: "div", keyboard: "Enter/Space or ArrowDown on the trigger opens; the tree takes the APG keys; Escape closes and returns to the trigger",
-    aria: 'role="combobox" with aria-haspopup="tree", aria-expanded and aria-label; aria-multiselectable in multiple mode; the panel holds a role="tree"',
-    markup: `<div class="tree-select" role="combobox" aria-haspopup="tree" aria-expanded="false" aria-label="" x-data="lilyTreeSelect()" x-bind="root">
+    "tree-select": {
+        tag: "div",
+        keyboard:
+            "Enter/Space or ArrowDown on the trigger opens; the tree takes the APG keys; Escape closes and returns to the trigger",
+        aria: 'role="combobox" with aria-haspopup="tree", aria-expanded and aria-label; aria-multiselectable in multiple mode; the panel holds a role="tree"',
+        markup: `<div class="tree-select" role="combobox" aria-haspopup="tree" aria-expanded="false" aria-label="" x-data="lilyTreeSelect()" x-bind="root">
   <button class="tree-select-trigger" x-bind="trigger"><!-- Consumer provides the display value or placeholder text --></button>
   <div class="tree-select-panel" hidden x-bind="panel">
     <ul class="tree-list" role="tree" aria-label="" x-bind="tree">
@@ -190,15 +207,17 @@ ${sample("      ", "tree-list-item")}
     </ul>
   </div>
 </div>`,
-    sel: "div.tree-select",
-    extra: `import { snippet } from "../test/mount.js";\n${helpers}`,
-    test: treeTests("tree-select", false) + popupTests("tree-select", false),
-  },
+        sel: "div.tree-select",
+        extra: `import { snippet } from "../test/mount.js";\n${helpers}`,
+        test: treeTests("tree-select", false) + popupTests("tree-select", false),
+    },
 
-  cascader: {
-    tag: "div", keyboard: "Enter/Space or ArrowDown on the trigger opens; arrows move and open one branch per level; Escape closes",
-    aria: 'role="combobox" with aria-haspopup="tree", aria-expanded and aria-label; the panel holds a role="tree" of cascading lists',
-    markup: `<div class="cascader" role="combobox" aria-haspopup="tree" aria-expanded="false" aria-label="" x-data="lilyCascader()" x-bind="root">
+    cascader: {
+        tag: "div",
+        keyboard:
+            "Enter/Space or ArrowDown on the trigger opens; arrows move and open one branch per level; Escape closes",
+        aria: 'role="combobox" with aria-haspopup="tree", aria-expanded and aria-label; the panel holds a role="tree" of cascading lists',
+        markup: `<div class="cascader" role="combobox" aria-haspopup="tree" aria-expanded="false" aria-label="" x-data="lilyCascader()" x-bind="root">
   <button class="cascader-trigger" x-bind="trigger"><!-- Consumer provides the display value or placeholder text --></button>
   <div class="cascader-panel" hidden x-bind="panel">
     <ul class="cascader-list" role="tree" aria-label="" x-bind="tree">
@@ -206,14 +225,17 @@ ${sample("      ", "cascader-option")}
     </ul>
   </div>
 </div>`,
-    sel: "div.cascader", extra: helpers,
-    test: popupTests("cascader", true),
-  },
+        sel: "div.cascader",
+        extra: helpers,
+        test: popupTests("cascader", true),
+    },
 
-  "file-tree": {
-    tag: "ul", keyboard: "arrows move through visible items, ArrowRight/ArrowLeft open, close and climb, Home/End jump, * opens siblings, type to jump, Enter/Space activates",
-    aria: 'role="tree" with aria-label; folders carry aria-expanded and hold a role="group"; one item is in the tab order',
-    markup: `<ul class="file-tree" role="tree" aria-label="" x-data="lilyTree(false, ['src', 'lib'])" x-bind="tree">
+    "file-tree": {
+        tag: "ul",
+        keyboard:
+            "arrows move through visible items, ArrowRight/ArrowLeft open, close and climb, Home/End jump, * opens siblings, type to jump, Enter/Space activates",
+        aria: 'role="tree" with aria-label; folders carry aria-expanded and hold a role="group"; one item is in the tab order',
+        markup: `<ul class="file-tree" role="tree" aria-label="" x-data="lilyTree(false, ['src', 'lib'])" x-bind="tree">
   <li role="treeitem" x-bind="item('src', true)">src
     <ul role="group" x-bind="group('src')">
       <li role="treeitem" x-bind="item('lib', true)">lib
@@ -230,8 +252,9 @@ ${sample("      ", "cascader-option")}
     <ul role="group" x-bind="group('etc')"><li role="treeitem" x-bind="item('x')">x.txt</li></ul>
   </li>
 </ul>`,
-    sel: "ul.file-tree", extra: helpers,
-    test: `
+        sel: "ul.file-tree",
+        extra: helpers,
+        test: `
   it("starts with src and lib open and one tab stop", async () => {
     await mount("file-tree");
     expect(el().getAttribute("role")).toBe("tree");
@@ -267,20 +290,21 @@ ${sample("      ", "cascader-option")}
     await press(item("docs"), "*");
     expect(["docs", "etc"].map((id) => item(id).getAttribute("aria-expanded"))).toEqual(["true", "true"]);
   });`,
-  },
+    },
 
-  "file-manager": {
-    tag: "div", keyboard: "None (passive element)",
-    aria: 'role="region" with aria-label for a named landmark',
-    markup: `<div class="file-manager" role="region" aria-label="">
+    "file-manager": {
+        tag: "div",
+        keyboard: "None (passive element)",
+        aria: 'role="region" with aria-label for a named landmark',
+        markup: `<div class="file-manager" role="region" aria-label="">
   <!-- Consumer provides file listing, folder navigation and actions -->
 </div>`,
-    sel: "div.file-manager",
-    test: `
+        sel: "div.file-manager",
+        test: `
   it("is a named region", async () => {
     await mount("file-manager");
     expect(el().getAttribute("role")).toBe("region");
     expect(el().hasAttribute("aria-label")).toBe(true);
   });`,
-  },
+    },
 };

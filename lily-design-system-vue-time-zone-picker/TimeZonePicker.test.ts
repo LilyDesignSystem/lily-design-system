@@ -126,7 +126,13 @@ describe("options: offsets and full names, ordered by offset", () => {
     test("ordered west to east, whatever order the zones were given", async () => {
         const w = build();
         await flush();
-        expect(parts(w).options.map((o) => o.text().slice(0, 9))).toEqual(["UTC-05:00", "UTC+00:00", "UTC+01:00", "UTC+05:30", "UTC+09:00"]);
+        expect(parts(w).options.map((o) => o.text().slice(0, 9))).toEqual([
+            "UTC-05:00",
+            "UTC+00:00",
+            "UTC+01:00",
+            "UTC+05:30",
+            "UTC+09:00",
+        ]);
     });
 
     test("each option shows its offset and its full name", async () => {
@@ -155,7 +161,9 @@ describe("options: offsets and full names, ordered by offset", () => {
     });
 
     test("labelFor builds the text", async () => {
-        const w = build({ labelFor: (z: { name: string; offset: string }) => `${z.name} [${z.offset}]` });
+        const w = build({
+            labelFor: (z: { name: string; offset: string }) => `${z.name} [${z.offset}]`,
+        });
         await flush();
         expect(parts(w).options.map((o) => o.text())).toContain("India Standard Time [UTC+05:30]");
     });
@@ -167,18 +175,26 @@ describe("options: offsets and full names, ordered by offset", () => {
     });
 
     test("the default list is offered when no zones are given, ordered by offset", async () => {
-        const w = mount(TimeZonePicker, { props: { label: "Time zone", locale: "en", date: WINTER }, attachTo: document.body });
+        const w = mount(TimeZonePicker, {
+            props: { label: "Time zone", locale: "en", date: WINTER },
+            attachTo: document.body,
+        });
         wrappers.push(w);
         await flush();
         const offsets = parts(w).options.map((o) => o.attributes("data-offset")!);
         expect(offsets.length).toBe(DEFAULT_ZONES.length);
-        const minutes = offsets.map((t) => (t[3] === "-" ? -1 : 1) * (Number(t.slice(4, 6)) * 60 + Number(t.slice(7, 9))));
+        const minutes = offsets.map(
+            (t) => (t[3] === "-" ? -1 : 1) * (Number(t.slice(4, 6)) * 60 + Number(t.slice(7, 9))),
+        );
         expect(minutes).toEqual([...minutes].sort((a, b) => a - b));
     });
 });
 
 describe("supplied names (CLDR packs)", () => {
-    const names = { "Asia/Kolkata": "Bharat Standard", "Europe/Paris": ["Paris Standard", "Paris Summer"] } as const;
+    const names = {
+        "Asia/Kolkata": "Bharat Standard",
+        "Europe/Paris": ["Paris Standard", "Paris Summer"],
+    } as const;
 
     test("win over Intl for the zones they name, and the rest stay Intl's", async () => {
         const w = build({ names });
@@ -240,7 +256,9 @@ describe("selection and applying", () => {
 
 describe("initial value", () => {
     const system = (zone: string) =>
-        vi.spyOn(Intl.DateTimeFormat.prototype, "resolvedOptions").mockReturnValue({ timeZone: zone } as Intl.ResolvedDateTimeFormatOptions);
+        vi
+            .spyOn(Intl.DateTimeFormat.prototype, "resolvedOptions")
+            .mockReturnValue({ timeZone: zone } as Intl.ResolvedDateTimeFormatOptions);
 
     test("defaultValue wins when nothing else is supplied", async () => {
         const w = build({ defaultValue: "Asia/Tokyo" });
@@ -311,7 +329,9 @@ describe("keyboard (APG listbox)", () => {
         await parts(w).button.trigger("keydown", { key: "ArrowDown" });
         await flush();
         expect(parts(w).button.attributes("aria-expanded")).toBe("true");
-        expect(activeId(w)).toBe(parts(w).options[ORDERED.indexOf("Asia/Kolkata")].attributes("id"));
+        expect(activeId(w)).toBe(
+            parts(w).options[ORDERED.indexOf("Asia/Kolkata")].attributes("id"),
+        );
     });
 
     test("ArrowUp on the button opens the list on the last option", async () => {
@@ -352,7 +372,9 @@ describe("keyboard (APG listbox)", () => {
         await parts(w).button.trigger("keydown", { key: "ArrowDown" });
         await flush();
         for (const ch of "UTC+05") await parts(w).list.trigger("keydown", { key: ch });
-        expect(activeId(w)).toBe(parts(w).options[ORDERED.indexOf("Asia/Kolkata")].attributes("id"));
+        expect(activeId(w)).toBe(
+            parts(w).options[ORDERED.indexOf("Asia/Kolkata")].attributes("id"),
+        );
     });
 
     test("Escape closes without changing the value", async () => {
@@ -396,7 +418,14 @@ describe("open state, disabled, tooltip, slot", () => {
     });
 
     test("a default slot replaces the icon and receives infoFor", async () => {
-        const w = build({ defaultValue: "Asia/Kolkata" }, { slots: { default: `<template #default="{ infoFor, value }"><span data-testid="glyph">{{ infoFor(value)?.offset }}</span></template>` } });
+        const w = build(
+            { defaultValue: "Asia/Kolkata" },
+            {
+                slots: {
+                    default: `<template #default="{ infoFor, value }"><span data-testid="glyph">{{ infoFor(value)?.offset }}</span></template>`,
+                },
+            },
+        );
         await flush();
         expect(w.find('[data-testid="glyph"]').text()).toBe("UTC+05:30");
         expect(w.find(".time-zone-picker-icon").exists()).toBe(false);

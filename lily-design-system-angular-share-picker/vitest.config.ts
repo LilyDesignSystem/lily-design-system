@@ -16,7 +16,10 @@ export default defineConfig({
       // sibling top-level subproject's ng-packagr output instead, so build
       // those first (bin/list-helper-packages angular prints the order).
       "@lilydesignsystem/angular-headless": fileURLToPath(
-        new URL("../lily-design-system-angular-headless/dist/fesm2022/lilydesignsystem-angular-headless.mjs", import.meta.url),
+        new URL(
+          "../lily-design-system-angular-headless/dist/fesm2022/lilydesignsystem-angular-headless.mjs",
+          import.meta.url,
+        ),
       ),
     },
   },

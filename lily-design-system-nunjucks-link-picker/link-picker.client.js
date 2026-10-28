@@ -18,13 +18,13 @@ let uid = 0;
  * `opts.name` / `opts.id` instead; this exists for consumers building roots in JavaScript.
  */
 export function nextLinkPickerId() {
-  uid += 1;
-  return `link-picker-${uid}`;
+    uid += 1;
+    return `link-picker-${uid}`;
 }
 
 /** The id a link reports: its explicit `id`, else its `href`. */
 export function linkId(link) {
-  return (link && (link.id ?? link.href)) || "";
+    return (link && (link.id ?? link.href)) || "";
 }
 
 // ---------------------------------------------------------------------
@@ -40,123 +40,120 @@ export function linkId(link) {
 const tooltipWirings = new WeakMap();
 
 function wireTooltip(root, button, selector, popup) {
-  const tooltip = root.querySelector(selector);
-  if (!tooltip || !button || !popup) return () => {};
-  const previous = tooltipWirings.get(tooltip);
-  if (previous) previous();
+    const tooltip = root.querySelector(selector);
+    if (!tooltip || !button || !popup) return () => {};
+    const previous = tooltipWirings.get(tooltip);
+    if (previous) previous();
 
-  let hoverButton = false;
-  let hoverTooltip = false;
-  let focusButton = false;
-  let dismissed = false;
+    let hoverButton = false;
+    let hoverTooltip = false;
+    let focusButton = false;
+    let dismissed = false;
 
-  // WCAG 1.4.13 "dismissable": Escape must work wherever focus is while
-  // the tooltip is visible (pointer hover alone leaves focus elsewhere).
-  // The document listener exists only while visible; never preventDefault
-  // or stopPropagation, never move focus.
-  let docListening = false;
-  const onDocumentKeydown = (event) => {
-    if (event.key === "Escape") {
-      dismissed = true;
-      update();
+    // WCAG 1.4.13 "dismissable": Escape must work wherever focus is while
+    // the tooltip is visible (pointer hover alone leaves focus elsewhere).
+    // The document listener exists only while visible; never preventDefault
+    // or stopPropagation, never move focus.
+    let docListening = false;
+    const onDocumentKeydown = (event) => {
+        if (event.key === "Escape") {
+            dismissed = true;
+            update();
+        }
+    };
+    function syncDocumentListener() {
+        const want = !tooltip.hidden;
+        if (want && !docListening) {
+            document.addEventListener("keydown", onDocumentKeydown);
+            docListening = true;
+        } else if (!want && docListening) {
+            document.removeEventListener("keydown", onDocumentKeydown);
+            docListening = false;
+        }
     }
-  };
-  function syncDocumentListener() {
-    const want = !tooltip.hidden;
-    if (want && !docListening) {
-      document.addEventListener("keydown", onDocumentKeydown);
-      docListening = true;
-    } else if (!want && docListening) {
-      document.removeEventListener("keydown", onDocumentKeydown);
-      docListening = false;
+
+    function update() {
+        tooltip.hidden = !(
+            popup.hidden &&
+            !dismissed &&
+            (hoverButton || hoverTooltip || focusButton)
+        );
+        syncDocumentListener();
     }
-  }
 
-  function update() {
-    tooltip.hidden = !(
-      popup.hidden &&
-      !dismissed &&
-      (hoverButton || hoverTooltip || focusButton)
-    );
-    syncDocumentListener();
-  }
+    const onButtonEnter = () => {
+        hoverButton = true;
+        dismissed = false;
+        update();
+    };
+    const onButtonLeave = () => {
+        hoverButton = false;
+        update();
+    };
+    const onTooltipEnter = () => {
+        hoverTooltip = true;
+        update();
+    };
+    const onTooltipLeave = () => {
+        hoverTooltip = false;
+        update();
+    };
+    const onButtonFocus = () => {
+        try {
+            focusButton = button.matches(":focus-visible");
+        } catch {
+            focusButton = true; // engine without :focus-visible
+        }
+        update();
+    };
+    const onButtonBlur = () => {
+        focusButton = false;
+        dismissed = false;
+        update();
+    };
+    const onButtonKeydown = (event) => {
+        if (event.key === "Escape" && !tooltip.hidden) dismissed = true;
+        update();
+    };
+    const onButtonClick = () => {
+        hoverButton = false;
+        update();
+    };
 
-  const onButtonEnter = () => {
-    hoverButton = true;
-    dismissed = false;
-    update();
-  };
-  const onButtonLeave = () => {
-    hoverButton = false;
-    update();
-  };
-  const onTooltipEnter = () => {
-    hoverTooltip = true;
-    update();
-  };
-  const onTooltipLeave = () => {
-    hoverTooltip = false;
-    update();
-  };
-  const onButtonFocus = () => {
-    try {
-      focusButton = button.matches(":focus-visible");
-    } catch {
-      focusButton = true; // engine without :focus-visible
-    }
-    update();
-  };
-  const onButtonBlur = () => {
-    focusButton = false;
-    dismissed = false;
-    update();
-  };
-  const onButtonKeydown = (event) => {
-    if (event.key === "Escape" && !tooltip.hidden) dismissed = true;
-    update();
-  };
-  const onButtonClick = () => {
-    hoverButton = false;
-    update();
-  };
+    button.addEventListener("mouseenter", onButtonEnter);
+    button.addEventListener("mouseleave", onButtonLeave);
+    button.addEventListener("focus", onButtonFocus);
+    button.addEventListener("blur", onButtonBlur);
+    button.addEventListener("keydown", onButtonKeydown);
+    button.addEventListener("click", onButtonClick);
+    tooltip.addEventListener("mouseenter", onTooltipEnter);
+    tooltip.addEventListener("mouseleave", onTooltipLeave);
 
-  button.addEventListener("mouseenter", onButtonEnter);
-  button.addEventListener("mouseleave", onButtonLeave);
-  button.addEventListener("focus", onButtonFocus);
-  button.addEventListener("blur", onButtonBlur);
-  button.addEventListener("keydown", onButtonKeydown);
-  button.addEventListener("click", onButtonClick);
-  tooltip.addEventListener("mouseenter", onTooltipEnter);
-  tooltip.addEventListener("mouseleave", onTooltipLeave);
+    // The popup's own open/close (including the programmatic API) flips its
+    // `hidden` attribute; follow it so the tooltip never shows over it.
+    const observer = typeof MutationObserver === "function" ? new MutationObserver(update) : null;
+    if (observer) observer.observe(popup, { attributes: true, attributeFilter: ["hidden"] });
 
-  // The popup's own open/close (including the programmatic API) flips its
-  // `hidden` attribute; follow it so the tooltip never shows over it.
-  const observer =
-    typeof MutationObserver === "function"
-      ? new MutationObserver(update)
-      : null;
-  if (observer) observer.observe(popup, { attributes: true, attributeFilter: ["hidden"] });
+    update();
 
-  update();
-
-  const destroy = () => {
-    button.removeEventListener("mouseenter", onButtonEnter);
-    button.removeEventListener("mouseleave", onButtonLeave);
-    button.removeEventListener("focus", onButtonFocus);
-    button.removeEventListener("blur", onButtonBlur);
-    button.removeEventListener("keydown", onButtonKeydown);
-    button.removeEventListener("click", onButtonClick);
-    tooltip.removeEventListener("mouseenter", onTooltipEnter);
-    tooltip.removeEventListener("mouseleave", onTooltipLeave);
-    if (observer) observer.disconnect();
-    if (docListening) {
-      document.removeEventListener("keydown", onDocumentKeydown);
-      docListening = false;
-    }
-    if (tooltipWirings.get(tooltip) === destroy) tooltipWirings.delete(tooltip);
-  };
-  tooltipWirings.set(tooltip, destroy);
-  return destroy;
+    const destroy = () => {
+        button.removeEventListener("mouseenter", onButtonEnter);
+        button.removeEventListener("mouseleave", onButtonLeave);
+        button.removeEventListener("focus", onButtonFocus);
+        button.removeEventListener("blur", onButtonBlur);
+        button.removeEventListener("keydown", onButtonKeydown);
+        button.removeEventListener("click", onButtonClick);
+        tooltip.removeEventListener("mouseenter", onTooltipEnter);
+        tooltip.removeEventListener("mouseleave", onTooltipLeave);
+        if (observer) observer.disconnect();
+        if (docListening) {
+            document.removeEventListener("keydown", onDocumentKeydown);
+            docListening = false;
+        }
+        if (tooltipWirings.get(tooltip) === destroy) tooltipWirings.delete(tooltip);
+    };
+    tooltipWirings.set(tooltip, destroy);
+    return destroy;
 }
 
 /**
@@ -172,192 +169,192 @@ function wireTooltip(root, button, selector, popup) {
  * @returns {{open: () => void, close: () => void, destroy: () => void}}
  */
 export function initLinkPicker(root, opts = {}) {
-  const noop = { open: () => {}, close: () => {}, destroy: () => {} };
-  if (typeof document === "undefined" || !root) return noop;
+    const noop = { open: () => {}, close: () => {}, destroy: () => {} };
+    if (typeof document === "undefined" || !root) return noop;
 
-  const trigger = root.querySelector("[data-lily-link-picker-button]");
-  const list = root.querySelector("[data-lily-link-picker-list]");
-  if (!trigger || !list) return noop;
+    const trigger = root.querySelector("[data-lily-link-picker-button]");
+    const list = root.querySelector("[data-lily-link-picker-list]");
+    if (!trigger || !list) return noop;
 
-  let open = !list.hidden && !trigger.disabled;
+    let open = !list.hidden && !trigger.disabled;
 
-  /** Every focusable link in the list, in DOM order. */
-  function items() {
-    return Array.from(list.querySelectorAll(".link-picker-link"));
-  }
-
-  /** True while an open comes from outside (`setOpen`): state only, focus stays put. */
-  let quiet = false;
-
-  /** Report an open or close to `opts.onOpenChange` and as a bubbling `openchange` event on the root. */
-  function emitOpenChange(isOpen) {
-    if (typeof opts.onOpenChange === "function") opts.onOpenChange(isOpen);
-    root.dispatchEvent(new CustomEvent("openchange", { detail: isOpen, bubbles: true }));
-  }
-
-  function openList(focusLast = false) {
-    if (trigger.disabled) return;
-    open = true;
-    emitOpenChange(true);
-    list.hidden = false;
-    trigger.setAttribute("aria-expanded", "true");
-    const all = items();
-    const target = focusLast ? all[all.length - 1] : all[0];
-    if (!quiet) if (target) target.focus({ preventScroll: true });
-  }
-
-  function closeList(refocus = true) {
-    if (!open) return;
-    open = false;
-    emitOpenChange(false);
-    list.hidden = true;
-    trigger.setAttribute("aria-expanded", "false");
-    if (refocus) trigger.focus({ preventScroll: true });
-  }
-
-  function moveFocus(delta) {
-    const all = items();
-    if (all.length === 0) return;
-    const i = all.indexOf(document.activeElement);
-    // Clamp rather than wrap, matching the canonical Svelte helper.
-    const next = Math.min(Math.max((i < 0 ? 0 : i) + delta, 0), all.length - 1);
-    if (all[next]) all[next].focus({ preventScroll: true });
-  }
-
-  function onTriggerClick() {
-    if (open) closeList();
-    else openList();
-  }
-
-  function onTriggerKeydown(event) {
-    // Enter and Space already produce a click; only the arrows need handling here.
-    if (event.key === "ArrowDown") {
-      event.preventDefault();
-      if (!open) openList();
-      else {
-        const all = items();
-        if (all[0]) all[0].focus({ preventScroll: true });
-      }
-    } else if (event.key === "ArrowUp") {
-      event.preventDefault();
-      if (!open) openList(true);
-      else {
-        const all = items();
-        if (all[all.length - 1]) all[all.length - 1].focus({ preventScroll: true });
-      }
+    /** Every focusable link in the list, in DOM order. */
+    function items() {
+        return Array.from(list.querySelectorAll(".link-picker-link"));
     }
-  }
 
-  function onListKeydown(event) {
-    switch (event.key) {
-      case "ArrowDown":
-        event.preventDefault();
-        moveFocus(1);
-        break;
-      case "ArrowUp":
-        event.preventDefault();
-        moveFocus(-1);
-        break;
-      case "Home": {
-        event.preventDefault();
+    /** True while an open comes from outside (`setOpen`): state only, focus stays put. */
+    let quiet = false;
+
+    /** Report an open or close to `opts.onOpenChange` and as a bubbling `openchange` event on the root. */
+    function emitOpenChange(isOpen) {
+        if (typeof opts.onOpenChange === "function") opts.onOpenChange(isOpen);
+        root.dispatchEvent(new CustomEvent("openchange", { detail: isOpen, bubbles: true }));
+    }
+
+    function openList(focusLast = false) {
+        if (trigger.disabled) return;
+        open = true;
+        emitOpenChange(true);
+        list.hidden = false;
+        trigger.setAttribute("aria-expanded", "true");
         const all = items();
-        if (all[0]) all[0].focus({ preventScroll: true });
-        break;
-      }
-      case "End": {
-        event.preventDefault();
+        const target = focusLast ? all[all.length - 1] : all[0];
+        if (!quiet) if (target) target.focus({ preventScroll: true });
+    }
+
+    function closeList(refocus = true) {
+        if (!open) return;
+        open = false;
+        emitOpenChange(false);
+        list.hidden = true;
+        trigger.setAttribute("aria-expanded", "false");
+        if (refocus) trigger.focus({ preventScroll: true });
+    }
+
+    function moveFocus(delta) {
         const all = items();
-        if (all[all.length - 1]) all[all.length - 1].focus({ preventScroll: true });
-        break;
-      }
-      case "Escape":
-        event.preventDefault();
+        if (all.length === 0) return;
+        const i = all.indexOf(document.activeElement);
+        // Clamp rather than wrap, matching the canonical Svelte helper.
+        const next = Math.min(Math.max((i < 0 ? 0 : i) + delta, 0), all.length - 1);
+        if (all[next]) all[next].focus({ preventScroll: true });
+    }
+
+    function onTriggerClick() {
+        if (open) closeList();
+        else openList();
+    }
+
+    function onTriggerKeydown(event) {
+        // Enter and Space already produce a click; only the arrows need handling here.
+        if (event.key === "ArrowDown") {
+            event.preventDefault();
+            if (!open) openList();
+            else {
+                const all = items();
+                if (all[0]) all[0].focus({ preventScroll: true });
+            }
+        } else if (event.key === "ArrowUp") {
+            event.preventDefault();
+            if (!open) openList(true);
+            else {
+                const all = items();
+                if (all[all.length - 1]) all[all.length - 1].focus({ preventScroll: true });
+            }
+        }
+    }
+
+    function onListKeydown(event) {
+        switch (event.key) {
+            case "ArrowDown":
+                event.preventDefault();
+                moveFocus(1);
+                break;
+            case "ArrowUp":
+                event.preventDefault();
+                moveFocus(-1);
+                break;
+            case "Home": {
+                event.preventDefault();
+                const all = items();
+                if (all[0]) all[0].focus({ preventScroll: true });
+                break;
+            }
+            case "End": {
+                event.preventDefault();
+                const all = items();
+                if (all[all.length - 1]) all[all.length - 1].focus({ preventScroll: true });
+                break;
+            }
+            case "Escape":
+                event.preventDefault();
+                closeList();
+                break;
+            case "Tab":
+                // Focus goes to the button FIRST, without cancelling the key: hiding the list while a
+                // link has focus drops focus to <body>, and the default Tab would restart from the top.
+                trigger?.focus?.({ preventScroll: true });
+                closeList(false);
+                break;
+            default:
+                break;
+        }
+    }
+
+    function onListClick(event) {
+        const el = event.target;
+        if (!el || !el.closest) return;
+        const anchor = el.closest(".link-picker-link");
+        if (!anchor) return;
+        const href = anchor.getAttribute("href") || "";
+        const id = anchor.getAttribute("data-link-id") || href;
+        if (typeof opts.onNavigate === "function") opts.onNavigate(id, href);
+        const modified =
+            event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0;
+        if (
+            typeof opts.navigate === "function" &&
+            anchor.getAttribute("target") !== "_blank" &&
+            !modified &&
+            !event.defaultPrevented
+        ) {
+            event.preventDefault();
+            opts.navigate(href);
+        }
         closeList();
-        break;
-      case "Tab":
-        // Focus goes to the button FIRST, without cancelling the key: hiding the list while a
-        // link has focus drops focus to <body>, and the default Tab would restart from the top.
-        trigger?.focus?.({ preventScroll: true });
+    }
+
+    function onRootFocusOut(event) {
+        const next = event.relatedTarget;
+        if (next && root.contains(next)) return;
         closeList(false);
-        break;
-      default:
-        break;
     }
-  }
 
-  function onListClick(event) {
-    const el = event.target;
-    if (!el || !el.closest) return;
-    const anchor = el.closest(".link-picker-link");
-    if (!anchor) return;
-    const href = anchor.getAttribute("href") || "";
-    const id = anchor.getAttribute("data-link-id") || href;
-    if (typeof opts.onNavigate === "function") opts.onNavigate(id, href);
-    const modified =
-      event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0;
-    if (
-      typeof opts.navigate === "function" &&
-      anchor.getAttribute("target") !== "_blank" &&
-      !modified &&
-      !event.defaultPrevented
-    ) {
-      event.preventDefault();
-      opts.navigate(href);
+    function onDocumentClick(event) {
+        if (!open) return;
+        const t = event.target;
+        if (t && !root.contains(t)) closeList(false);
     }
-    closeList();
-  }
 
-  function onRootFocusOut(event) {
-    const next = event.relatedTarget;
-    if (next && root.contains(next)) return;
-    closeList(false);
-  }
+    trigger.addEventListener("click", onTriggerClick);
+    trigger.addEventListener("keydown", onTriggerKeydown);
+    list.addEventListener("keydown", onListKeydown);
+    list.addEventListener("click", onListClick);
+    root.addEventListener("focusout", onRootFocusOut);
+    document.addEventListener("click", onDocumentClick);
 
-  function onDocumentClick(event) {
-    if (!open) return;
-    const t = event.target;
-    if (t && !root.contains(t)) closeList(false);
-  }
+    const tooltipDestroy = wireTooltip(root, trigger, ".link-picker-tooltip", list);
 
-  trigger.addEventListener("click", onTriggerClick);
-  trigger.addEventListener("keydown", onTriggerKeydown);
-  list.addEventListener("keydown", onListKeydown);
-  list.addEventListener("click", onListClick);
-  root.addEventListener("focusout", onRootFocusOut);
-  document.addEventListener("click", onDocumentClick);
-
-  const tooltipDestroy = wireTooltip(root, trigger, ".link-picker-tooltip", list);
-
-  return {
-    isOpen: () => open,
-    /** Open or close from outside: state only, focus stays put. Opening is ignored while disabled. */
-    setOpen: (next) => {
-      if (!!next === open) return;
-      quiet = true;
-      try {
-        if (next) openList();
-        else closeList(false);
-      } finally {
-        quiet = false;
-      }
-    },
-    /** Disable or enable the button; disabling closes an open popup. */
-    setDisabled: (next) => {
-      trigger.disabled = !!next;
-      if (next) closeList(false);
-    },
-    open: () => openList(),
-    close: () => closeList(false),
-    destroy: () => {
-      tooltipDestroy();
-      trigger.removeEventListener("click", onTriggerClick);
-      trigger.removeEventListener("keydown", onTriggerKeydown);
-      list.removeEventListener("keydown", onListKeydown);
-      list.removeEventListener("click", onListClick);
-      root.removeEventListener("focusout", onRootFocusOut);
-      document.removeEventListener("click", onDocumentClick);
-    },
-  };
+    return {
+        isOpen: () => open,
+        /** Open or close from outside: state only, focus stays put. Opening is ignored while disabled. */
+        setOpen: (next) => {
+            if (!!next === open) return;
+            quiet = true;
+            try {
+                if (next) openList();
+                else closeList(false);
+            } finally {
+                quiet = false;
+            }
+        },
+        /** Disable or enable the button; disabling closes an open popup. */
+        setDisabled: (next) => {
+            trigger.disabled = !!next;
+            if (next) closeList(false);
+        },
+        open: () => openList(),
+        close: () => closeList(false),
+        destroy: () => {
+            tooltipDestroy();
+            trigger.removeEventListener("click", onTriggerClick);
+            trigger.removeEventListener("keydown", onTriggerKeydown);
+            list.removeEventListener("keydown", onListKeydown);
+            list.removeEventListener("click", onListClick);
+            root.removeEventListener("focusout", onRootFocusOut);
+            document.removeEventListener("click", onDocumentClick);
+        },
+    };
 }
 
 /**
@@ -367,7 +364,7 @@ export function initLinkPicker(root, opts = {}) {
  * @returns {Array<ReturnType<typeof initLinkPicker>>}
  */
 export function autoInit(opts = {}) {
-  if (typeof document === "undefined") return [];
-  const roots = Array.from(document.querySelectorAll("[data-lily-link-picker-root]"));
-  return roots.map((root) => initLinkPicker(root, opts));
+    if (typeof document === "undefined") return [];
+    const roots = Array.from(document.querySelectorAll("[data-lily-link-picker-root]"));
+    return roots.map((root) => initLinkPicker(root, opts));
 }

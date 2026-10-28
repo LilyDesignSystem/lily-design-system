@@ -5,16 +5,15 @@ import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("input.range-input");
 
-
 describe("RangeInput", () => {
-  it("renders the element with its base class", async () => {
-    await mount("range-input");
-    expect(el()).not.toBeNull();
-    expect(el().classList.contains("range-input")).toBe(true);
-  });
+    it("renders the element with its base class", async () => {
+        await mount("range-input");
+        expect(el()).not.toBeNull();
+        expect(el().classList.contains("range-input")).toBe(true);
+    });
 
-  it("uses the input element", async () => {
-    await mount("range-input");
-    expect(el().tagName.toLowerCase()).toBe("input");
-  });
+    it("uses the input element", async () => {
+        await mount("range-input");
+        expect(el().tagName.toLowerCase()).toBe("input");
+    });
 });

@@ -10,7 +10,9 @@
   font-size: var(--nhsuk-font-size-19);
 }
 
-.file-input[aria-invalid="true"] { border-color: var(--nhsuk-red); }
+.file-input[aria-invalid="true"] {
+  border-color: var(--nhsuk-red);
+}
 
 .file-input::file-selector-button {
   padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-3);

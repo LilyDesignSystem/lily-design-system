@@ -78,9 +78,7 @@ export function matchSystemTheme(themes: readonly string[]): string {
     if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
         return "";
     }
-    const wanted = window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light";
+    const wanted = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
     return themes.includes(wanted) ? wanted : "";
 }
 
@@ -151,7 +149,10 @@ const hoverTooltip = ref(false);
 const focusButton = ref(false);
 const dismissed = ref(false);
 const tooltipVisible = computed(
-    () => !open.value && !dismissed.value && (hoverButton.value || hoverTooltip.value || focusButton.value),
+    () =>
+        !open.value &&
+        !dismissed.value &&
+        (hoverButton.value || hoverTooltip.value || focusButton.value),
 );
 
 function onTooltipButtonEnter(): void {
@@ -270,9 +271,7 @@ async function openList(startIndex?: number): Promise<void> {
     // aria-activedescendant off rather than pointing at an id that
     // does not exist.
     activeIndex.value =
-        props.themes.length === 0
-            ? -1
-            : (startIndex ?? (selected >= 0 ? selected : 0));
+        props.themes.length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0));
     open.value = true;
     // Focus moves to the listbox; the active option is conveyed via
     // aria-activedescendant, per the APG listbox pattern. Wait for the
@@ -401,7 +400,11 @@ onBeforeUnmount(() => {
         :class="`theme-picker ${props.class}`.trim()"
         @focusout="onRootFocusOut"
     >
-        <input type="hidden" :name="name" :value="current" />
+        <input
+            type="hidden"
+            :name="name"
+            :value="current"
+        />
 
         <IconButton
             :disabled="disabled"
@@ -431,8 +434,16 @@ onBeforeUnmount(() => {
                     stroke-linecap="round"
                     stroke-linejoin="round"
                 >
-                    <circle cx="8" cy="8" r="6" />
-                    <path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none" />
+                    <circle
+                        cx="8"
+                        cy="8"
+                        r="6"
+                    />
+                    <path
+                        d="M8 2a6 6 0 0 1 0 12z"
+                        fill="currentColor"
+                        stroke="none"
+                    />
                 </svg>
             </slot>
         </IconButton>
@@ -447,7 +458,9 @@ onBeforeUnmount(() => {
             :hidden="tooltipVisible ? undefined : true"
             @mouseenter="hoverTooltip = true"
             @mouseleave="hoverTooltip = false"
-        >{{ label }}</div>
+        >
+            {{ label }}
+        </div>
 
         <Listbox
             ref="listEl"
@@ -474,7 +487,9 @@ onBeforeUnmount(() => {
                 :aria-selected="theme === current ? 'true' : 'false'"
                 :data-active="i === activeIndex ? '' : undefined"
                 @click="choose(i)"
-            >{{ labelFor(theme) }}</li>
+            >
+                {{ labelFor(theme) }}
+            </li>
         </Listbox>
     </div>
 </template>

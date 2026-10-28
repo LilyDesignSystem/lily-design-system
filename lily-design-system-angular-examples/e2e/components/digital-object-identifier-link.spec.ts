@@ -13,7 +13,7 @@ test.describe("component page: digital-object-identifier-link", () => {
 
   test("renders the H1 with the component name", async ({ page }) => {
     await expect(
-      page.getByRole("heading", { level: 1, name: new RegExp("^DigitalObjectIdentifierLink$") })
+      page.getByRole("heading", { level: 1, name: new RegExp("^DigitalObjectIdentifierLink$") }),
     ).toBeVisible();
   });
 

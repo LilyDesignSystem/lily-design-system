@@ -1,5 +1,15 @@
 import { ChangeDetectionStrategy, Component, forwardRef, inject, input } from "@angular/core";
-import { changeField, changeOperator, fieldType, operatorsFor, valueArity, type FilterField, type FilterGroup, type FilterOperator, type FilterRule } from "./filter-model";
+import {
+  changeField,
+  changeOperator,
+  fieldType,
+  operatorsFor,
+  valueArity,
+  type FilterField,
+  type FilterGroup,
+  type FilterOperator,
+  type FilterRule,
+} from "./filter-model";
 import { FilterHost, parseTyped, textOf } from "./filter-host";
 
 /** One group of the filter, and (by recursion) its nested groups. Internal: use `Filter`. */
@@ -164,7 +174,9 @@ export class FilterGroupView {
   protected toggle(rule: FilterRule, optionId: string, event: Event): void {
     const checked = (event.target as HTMLInputElement).checked;
     const current = Array.isArray(rule.value) ? (rule.value as string[]) : [];
-    const next = checked ? [...current.filter((v) => v !== optionId), optionId] : current.filter((v) => v !== optionId);
+    const next = checked
+      ? [...current.filter((v) => v !== optionId), optionId]
+      : current.filter((v) => v !== optionId);
     this.host.setRule(rule.id, (r) => ({ ...r, value: next.length ? next : undefined }));
   }
 }

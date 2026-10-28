@@ -2,7 +2,8 @@ import { afterEach, describe, expect, test, vi } from "vitest";
 
 import { MarkdownEditor, nextMarkdownEditorId } from "./markdown-editor.js";
 
-if (!customElements.get("markdown-editor")) customElements.define("markdown-editor", MarkdownEditor);
+if (!customElements.get("markdown-editor"))
+    customElements.define("markdown-editor", MarkdownEditor);
 
 const labels = {
     heading: "Heading",
@@ -30,7 +31,8 @@ function setup(attrs: Record<string, string | true> = {}, props: Partial<Markdow
     document.body.append(el);
     const textarea = el.querySelector("textarea") as HTMLTextAreaElement;
     const buttons = () => Array.from(el.querySelectorAll<HTMLButtonElement>("button"));
-    const button = (name: string) => el.querySelector<HTMLButtonElement>(`button[aria-label="${name}"]`)!;
+    const button = (name: string) =>
+        el.querySelector<HTMLButtonElement>(`button[aria-label="${name}"]`)!;
     return { el, textarea, buttons, button };
 }
 
@@ -58,7 +60,11 @@ describe("structure", () => {
     });
 
     test("renders one named button per labelled tool, in order", () => {
-        expect(setup().buttons().map((b) => b.getAttribute("aria-label"))).toEqual(Object.values(labels));
+        expect(
+            setup()
+                .buttons()
+                .map((b) => b.getAttribute("aria-label")),
+        ).toEqual(Object.values(labels));
     });
 
     test("omits a tool that has no label", () => {
@@ -66,7 +72,11 @@ describe("structure", () => {
     });
 
     test("honours the tools attribute for subset and order", () => {
-        expect(setup({ tools: "link bold" }).buttons().map((b) => b.getAttribute("data-tool"))).toEqual(["link", "bold"]);
+        expect(
+            setup({ tools: "link bold" })
+                .buttons()
+                .map((b) => b.getAttribute("data-tool")),
+        ).toEqual(["link", "bold"]);
     });
 
     test("ignores an unknown tool id", () => {
@@ -87,16 +97,24 @@ describe("structure", () => {
     });
 
     test("icons are decorative", () => {
-        for (const svg of Array.from(setup().el.querySelectorAll("svg"))) expect(svg.getAttribute("aria-hidden")).toBe("true");
+        for (const svg of Array.from(setup().el.querySelectorAll("svg")))
+            expect(svg.getAttribute("aria-hidden")).toBe("true");
     });
 
     test("the toolbar controls the textarea", () => {
         const { el, textarea } = setup();
-        expect(el.querySelector('[role="toolbar"]')!.getAttribute("aria-controls")).toBe(textarea.id);
+        expect(el.querySelector('[role="toolbar"]')!.getAttribute("aria-controls")).toBe(
+            textarea.id,
+        );
     });
 
     test("passes name, rows, placeholder, required through to the textarea", () => {
-        const { textarea } = setup({ name: "body", rows: "6", placeholder: "Type", required: true });
+        const { textarea } = setup({
+            name: "body",
+            rows: "6",
+            placeholder: "Type",
+            required: true,
+        });
         expect(textarea.name).toBe("body");
         expect(textarea.rows).toBe(6);
         expect(textarea.placeholder).toBe("Type");
@@ -104,7 +122,9 @@ describe("structure", () => {
     });
 
     test("the host class goes onto the root after the base class", () => {
-        expect(setup({ class: "mine" }).el.querySelector(".markdown-editor")!.getAttribute("class")).toBe("markdown-editor mine");
+        expect(
+            setup({ class: "mine" }).el.querySelector(".markdown-editor")!.getAttribute("class"),
+        ).toBe("markdown-editor mine");
     });
 
     test("ships no English of its own: no tool labels, no placeholder text", () => {
@@ -174,7 +194,9 @@ describe("tools", () => {
         select(textarea, 0, 5);
         button("Link").click();
         expect(textarea.value).toBe("[hello](https://) world");
-        expect(textarea.value.slice(textarea.selectionStart, textarea.selectionEnd)).toBe("https://");
+        expect(textarea.value.slice(textarea.selectionStart, textarea.selectionEnd)).toBe(
+            "https://",
+        );
     });
 
     test("the heading level is an attribute", () => {
@@ -231,7 +253,9 @@ describe("shortcuts", () => {
 
 describe("toolbar keyboard", () => {
     test("only one button is in the tab order (roving tabindex)", () => {
-        const tabbable = setup().buttons().filter((b) => b.getAttribute("tabindex") === "0");
+        const tabbable = setup()
+            .buttons()
+            .filter((b) => b.getAttribute("tabindex") === "0");
         expect(tabbable.length).toBe(1);
         expect(tabbable[0].getAttribute("data-tool")).toBe("heading");
     });
@@ -282,7 +306,8 @@ describe("icons", () => {
 
     test("renderIcon can be overridden", () => {
         const { el } = setup();
-        el.renderIcon = (tool) => Object.assign(document.createElement("span"), { textContent: tool });
+        el.renderIcon = (tool) =>
+            Object.assign(document.createElement("span"), { textContent: tool });
         el.labels = labels; // re-render the toolbar with the override
         expect(el.querySelectorAll("svg").length).toBe(0);
         expect(el.querySelectorAll("button span").length).toBe(9);

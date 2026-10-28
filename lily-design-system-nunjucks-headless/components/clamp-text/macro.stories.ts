@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="clamp-text"
@@ -6,9 +6,9 @@ const html = `<div
   style="--clamp-text-lines: 2;"></div>`;
 
 const meta = {
-  title: 'Headless/ClampText',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/ClampText",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

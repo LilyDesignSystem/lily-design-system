@@ -11,11 +11,7 @@
 */
 
 import { useState } from "react";
-import {
-    LocalePicker,
-    isRtlLocale,
-    bcp47LocaleTag,
-} from "../LocalePicker";
+import { LocalePicker, isRtlLocale, bcp47LocaleTag } from "../LocalePicker";
 
 // CLDR-style names of each language *in that language*.
 const NATIVE: Record<string, string> = {
@@ -51,16 +47,17 @@ export function RtlDemoExample() {
                 onChange={setLocale}
             />
 
-            <section lang={tag} dir={dir}>
+            <section
+                lang={tag}
+                dir={dir}
+            >
                 <h2>{NATIVE[locale]}</h2>
                 <p>{SAMPLE[locale]}</p>
                 <p>
-                    <strong>Detected direction:</strong>{" "}
-                    <code>{dir}</code>
+                    <strong>Detected direction:</strong> <code>{dir}</code>
                 </p>
                 <p>
-                    <strong>BCP 47 tag:</strong>{" "}
-                    <code>{tag}</code>
+                    <strong>BCP 47 tag:</strong> <code>{tag}</code>
                 </p>
             </section>
         </>

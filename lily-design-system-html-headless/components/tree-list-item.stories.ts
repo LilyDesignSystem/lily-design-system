@@ -1,13 +1,13 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<li class="tree-list-item" role="treeitem">
     <!-- Consumer provides item content -->
 </li>`;
 
 const meta = {
-  title: 'Headless/TreeListItem',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/TreeListItem",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

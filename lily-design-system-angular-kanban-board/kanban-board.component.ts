@@ -30,12 +30,31 @@ import {
   Mark,
   SearchInput,
 } from "@lilydesignsystem/angular-headless";
-import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
+import {
+  copyToClipboard,
+  downloadBlob,
+  exportBlob,
+  exportFilename,
+  toClipboardText,
+  type ExportFormat,
+} from "./export-data";
 import { highlightSegments, matchesSearch } from "./search-text";
 import { isRtl, logicalKey } from "./direction";
 import { gridMove, pageStepFor } from "./grid-navigation";
-import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
-import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
+import {
+  EMPTY_HISTORY,
+  historyKey,
+  recordEdit,
+  redoEdit,
+  undoEdit,
+  type EditHistory,
+} from "./edit-history";
+import {
+  findTypeaheadMatch,
+  isTypeaheadKey,
+  nextTypeaheadState,
+  type TypeaheadState,
+} from "./typeahead";
 import {
   draftOf,
   editorKind,
@@ -58,13 +77,23 @@ import {
 export type KanbanField = FieldDef;
 
 /** What `exportHandler` and the `exportFile` output receive. Return `false` from `exportHandler` to take over the download. */
-export type KanbanExport = { format: ExportFormat; filename: string; cardCount: number; blob: Blob };
+export type KanbanExport = {
+  format: ExportFormat;
+  filename: string;
+  cardCount: number;
+  blob: Blob;
+};
 
 /** What the `titleEdit` output carries: the card, its new title, and the title it had. */
 export type KanbanTitleEdit = { cardId: string; title: string; previous: string };
 
 /** What the `fieldEdit` output carries. */
-export type KanbanFieldEdit = { cardId: string; fieldId: string; value: unknown; previous: unknown };
+export type KanbanFieldEdit = {
+  cardId: string;
+  fieldId: string;
+  value: unknown;
+  previous: unknown;
+};
 
 export type KanbanColumn = {
   /** Stable column identifier. */
@@ -115,7 +144,12 @@ export type KanbanCard = {
 };
 
 /** What the `cardTemplate` receives (`let-card="card"`, `let-label="label"` …). */
-export type KanbanCardContext = { card: KanbanCard; label: string; column: KanbanColumn; pending: boolean };
+export type KanbanCardContext = {
+  card: KanbanCard;
+  label: string;
+  column: KanbanColumn;
+  pending: boolean;
+};
 
 /** What the `columnHeaderTemplate` / `columnFooterTemplate` receive: the column and every card in it (unfiltered). */
 export type KanbanColumnContext = { column: KanbanColumn; cards: KanbanCard[]; count: number };
@@ -143,7 +177,14 @@ export type KanbanLabels = {
   /** Announced after the search changes: (matching cards, all cards). */
   searchAnnouncement?: (matchCount: number, totalCount: number) => string;
   /** Headers of the export's own columns (card title, column, lane, subtitle, badges, flag). An export needs `exportHeaders`; there is no English default. */
-  exportHeaders?: { title: string; column: string; lane?: string; subtitle?: string; badges?: string; flag?: string };
+  exportHeaders?: {
+    title: string;
+    column: string;
+    lane?: string;
+    subtitle?: string;
+    badges?: string;
+    flag?: string;
+  };
   /** Announced after a field edit: (card title, field header, the new text). */
   editAnnouncement?: (cardTitle: string, fieldHeader: string, text: string) => string;
   /** Announced when an edit is refused as invalid for the field's type: (card title, field header). */
@@ -645,9 +686,7 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
   /** Card data. */
   readonly cards = input.required<KanbanCard[]>();
   /** Resolves a card to its display label. Defaults to `card.title`. */
-  readonly cardLabel = input<(card: KanbanCard) => string>(
-    (card: KanbanCard) => card.title,
-  );
+  readonly cardLabel = input<(card: KanbanCard) => string>((card: KanbanCard) => card.title);
   /** Extra attributes on each card's cell (for example `data-priority`); merged after Lily's own. */
   readonly cardAttrs = input<((card: KanbanCard) => Record<string, string>) | undefined>(undefined);
   /** Hides cards for which it returns false. Counts, WIP limits and over-limit warnings still use every card; a filtered column carries `data-hidden-count`. */
@@ -660,7 +699,9 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
    * An async move: awaited when a card moves. The card shows in its new column at once with `data-pending` and `aria-busy` and goes back
    * if the promise rejects (`labels.moveFailed`, the `moveError` output). The `move` output is emitted either way.
    */
-  readonly moveHandler = input<((event: KanbanMoveEvent) => void | Promise<unknown>) | undefined>(undefined);
+  readonly moveHandler = input<((event: KanbanMoveEvent) => void | Promise<unknown>) | undefined>(
+    undefined,
+  );
   /** Board-level search, two-way bindable: shows only cards whose text contains it (case-insensitive). Combines with `filter`. */
   readonly search = model<string>("");
   /** The text `search` looks in. Defaults to the label, subtitle and badges. */
@@ -688,11 +729,13 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
   /** Column ids in display order. Two-way bindable: `[(columnOrder)]`; columns it does not name follow in their own order. */
   readonly columnOrder = model<string[]>([]);
   /** Renders only the rows in view. The board gets a scroll area of `height` px; every row is assumed `rowHeight` px tall (lane headers count as a row). */
-  readonly virtualize = input<{ rowHeight: number; height: number; overscan?: number } | undefined>(undefined);
-  /** Veto a move (a hard WIP limit, a workflow rule). Refused columns show `aria-disabled` in the move menu. `toLane` is the swimlane the card would land in (the card's own lane unless it is dropped into another), so a rule can depend on the owner as well as the column. */
-  readonly canMove = input<((card: KanbanCard, toColumn: KanbanColumn, toLane?: KanbanLane) => boolean) | undefined>(
+  readonly virtualize = input<{ rowHeight: number; height: number; overscan?: number } | undefined>(
     undefined,
   );
+  /** Veto a move (a hard WIP limit, a workflow rule). Refused columns show `aria-disabled` in the move menu. `toLane` is the swimlane the card would land in (the card's own lane unless it is dropped into another), so a rule can depend on the owner as well as the column. */
+  readonly canMove = input<
+    ((card: KanbanCard, toColumn: KanbanColumn, toLane?: KanbanLane) => boolean) | undefined
+  >(undefined);
   /** With swimlanes: may a card be dropped into another lane? Default true. False refuses every cross-lane drop (the cue shows "not allowed"), whatever `canMove` says. */
   readonly allowLaneChange = input<boolean>(true);
   /** Show `labels.search` as visible text beside the search field (`.kanban-board-search-label`), not only as its accessible name. The text is the same string, so the visible label is part of the name (WCAG 2.5.3). */
@@ -720,7 +763,9 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
   /** Called before the download with the finished file. Return `false` to skip the built-in download. */
   readonly exportHandler = input<((file: KanbanExport) => boolean | void) | undefined>(undefined);
   /** Called before a copy puts text on the clipboard. Return `false` to take over (nothing is copied). The `copy` output fires first. */
-  readonly copyHandler = input<((copy: { text: string; rowCount: number }) => boolean | void) | undefined>(undefined);
+  readonly copyHandler = input<
+    ((copy: { text: string; rowCount: number }) => boolean | void) | undefined
+  >(undefined);
   /** Extra CSS class on the root. */
   readonly className = input<string>("");
 
@@ -753,7 +798,9 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     if (!this.labels().search) return;
     this.showSearchLabel();
     this.afterRender(() => {
-      const field = this.rootRef().nativeElement.querySelector<HTMLInputElement>("input.kanban-board-search");
+      const field = this.rootRef().nativeElement.querySelector<HTMLInputElement>(
+        "input.kanban-board-search",
+      );
       if (field) field.id = this.searchFieldId;
     });
   });
@@ -807,9 +854,7 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
    * CHANGELOG.md.
    */
   ngAfterViewInit(): void {
-    this.rootRef()
-      .nativeElement.querySelector("table.kanban-table")
-      ?.setAttribute("role", "grid");
+    this.rootRef().nativeElement.querySelector("table.kanban-table")?.setAttribute("role", "grid");
   }
 
   /** `cardAttrs` has no template spread in Angular: the attributes are written onto each card's cell after every check. */
@@ -864,7 +909,13 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     const searching = query.trim() !== "";
     const text =
       this.searchText() ??
-      ((c: KanbanCard) => [this.cardLabel()(c), c.subtitle ?? "", ...(c.badges ?? []), ...this.resolvedFields().map((f) => fieldTextOf(f, c.values))].join(" "));
+      ((c: KanbanCard) =>
+        [
+          this.cardLabel()(c),
+          c.subtitle ?? "",
+          ...(c.badges ?? []),
+          ...this.resolvedFields().map((f) => fieldTextOf(f, c.values)),
+        ].join(" "));
     for (const [id, list] of this.cardsByColumn()) {
       let shown = filter ? list.filter(filter) : list.slice();
       if (searching) shown = shown.filter((c) => matchesSearch(text(c), query));
@@ -914,7 +965,8 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
   /** Every card in a lane (the search/filter view still applies). */
   protected laneCardCount(laneId: string): number {
     let n = 0;
-    for (const column of this.orderedColumns()) n += this.cellCards().get(`${column.id}\u0000${laneId}`)?.length ?? 0;
+    for (const column of this.orderedColumns())
+      n += this.cellCards().get(`${column.id}\u0000${laneId}`)?.length ?? 0;
     return n;
   }
 
@@ -952,7 +1004,12 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
       // A lane keeps at least one row so a card can be dropped into it; without lanes a row exists for an
       // empty column's message even when no column has a card to show.
       if (this.hasLanes()) rows = Math.max(rows, 1);
-      else if (rows === 0 && this.labels().emptyColumn && this.orderedColumns().some((c) => this.isEmptyColumn(c))) rows = 1;
+      else if (
+        rows === 0 &&
+        this.labels().emptyColumn &&
+        this.orderedColumns().some((c) => this.isEmptyColumn(c))
+      )
+        rows = 1;
       for (let laneRow = 0; laneRow < rows; laneRow++) {
         out.push({ kind: "row", rowIndex, laneId: lane.id, laneRow, key: `row:${rowIndex}` });
         rowIndex++;
@@ -1001,11 +1058,21 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     const out: RenderItem[] = [];
     let previous = -1;
     for (const index of [...indices].sort((a, b) => a - b)) {
-      if (index - previous > 1) out.push({ kind: "spacer", height: (index - previous - 1) * v.rowHeight, key: `spacer:${previous}` });
+      if (index - previous > 1)
+        out.push({
+          kind: "spacer",
+          height: (index - previous - 1) * v.rowHeight,
+          key: `spacer:${previous}`,
+        });
       out.push(all[index]);
       previous = index;
     }
-    if (all.length - 1 - previous > 0) out.push({ kind: "spacer", height: (all.length - 1 - previous) * v.rowHeight, key: `spacer:${previous}` });
+    if (all.length - 1 - previous > 0)
+      out.push({
+        kind: "spacer",
+        height: (all.length - 1 - previous) * v.rowHeight,
+        key: `spacer:${previous}`,
+      });
     return out;
   });
 
@@ -1097,7 +1164,12 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
   }
 
   /** The field being edited, if any: the draft is the editor's text. */
-  protected readonly editing = signal<{ cardId: string; fieldId: string; draft: Draft; invalid?: boolean } | null>(null);
+  protected readonly editing = signal<{
+    cardId: string;
+    fieldId: string;
+    draft: Draft;
+    invalid?: boolean;
+  } | null>(null);
   /** Accepted field edits, for Ctrl/Cmd+Z once there is no move left to undo. The consumer owns the data, so an undo is reported through `fieldEdit`. */
   private history: EditHistory = EMPTY_HISTORY;
 
@@ -1108,9 +1180,18 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     this.editing.set({ cardId: card.id, fieldId: f.id, draft: draftOf(f, card.values) });
     this.cdr.detectChanges();
     this.afterRender(() => {
-      const editor = this.rootRef().nativeElement.querySelector<HTMLInputElement>(".kanban-board-field-editor");
+      const editor = this.rootRef().nativeElement.querySelector<HTMLInputElement>(
+        ".kanban-board-field-editor",
+      );
       editor?.focus({ preventScroll: true });
-      if (editor && "select" in editor && editor.type !== "number" && editor.type !== "date" && editor.type !== "time") editor.select();
+      if (
+        editor &&
+        "select" in editor &&
+        editor.type !== "number" &&
+        editor.type !== "date" &&
+        editor.type !== "time"
+      )
+        editor.select();
     });
   }
 
@@ -1128,14 +1209,25 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     const outcome = evaluateEdit(f, card.values, draft);
     if (outcome.invalid) {
       this.editing.set({ ...current, invalid: true });
-      this.announce((outcome.message ? this.labels().editRefused?.(this.cardLabel()(card), f.header, outcome.message) : undefined) ?? this.labels().editInvalid?.(this.cardLabel()(card), f.header));
+      this.announce(
+        (outcome.message
+          ? this.labels().editRefused?.(this.cardLabel()(card), f.header, outcome.message)
+          : undefined) ?? this.labels().editInvalid?.(this.cardLabel()(card), f.header),
+      );
       return false;
     }
     this.editing.set(null);
     if (outcome.changed) {
-      this.history = recordEdit(this.history, { ownerId: cardId, fieldId, value: outcome.value, previous: outcome.previous });
+      this.history = recordEdit(this.history, {
+        ownerId: cardId,
+        fieldId,
+        value: outcome.value,
+        previous: outcome.previous,
+      });
       this.fieldEdit.emit({ cardId, fieldId, value: outcome.value, previous: outcome.previous });
-      this.announce(this.labels().editAnnouncement?.(this.cardLabel()(card), f.header, outcome.text));
+      this.announce(
+        this.labels().editAnnouncement?.(this.cardLabel()(card), f.header, outcome.text),
+      );
     }
     if (refocus) this.afterRender(() => this.focusCard(cardId));
     return true;
@@ -1145,7 +1237,13 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
 
   protected readonly editingTitle = signal<{ cardId: string; draft: string } | null>(null);
   private isTitleEditable(card: KanbanCard): boolean {
-    return this.editableTitles() && !this.readonly() && !card.locked && !card.href && !this.cardTemplate();
+    return (
+      this.editableTitles() &&
+      !this.readonly() &&
+      !card.locked &&
+      !card.href &&
+      !this.cardTemplate()
+    );
   }
 
   protected startTitleEdit(card: KanbanCard): void {
@@ -1155,7 +1253,9 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     this.editingTitle.set({ cardId: card.id, draft: this.cardLabel()(card) });
     this.cdr.detectChanges();
     this.afterRender(() => {
-      const editor = this.rootRef().nativeElement.querySelector<HTMLInputElement>(".kanban-board-title-editor");
+      const editor = this.rootRef().nativeElement.querySelector<HTMLInputElement>(
+        ".kanban-board-title-editor",
+      );
       editor?.focus({ preventScroll: true });
       editor?.select();
     });
@@ -1177,7 +1277,8 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
 
   protected onTitleEditorInput(event: Event): void {
     const current = this.editingTitle();
-    if (current) this.editingTitle.set({ ...current, draft: (event.target as HTMLInputElement).value });
+    if (current)
+      this.editingTitle.set({ ...current, draft: (event.target as HTMLInputElement).value });
   }
 
   protected onTitleEditorKeydown(event: KeyboardEvent): void {
@@ -1206,8 +1307,17 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     const card = this.effectiveCards().find((c) => c.id === ownerId);
     const f = this.resolvedFields().find((x) => x.id === fieldId);
     if (!card || !f) return;
-    const text = restored === null || restored === undefined ? "" : f.format ? f.format(restored, { ...(card.values ?? {}), [fieldId]: restored }) : String(restored);
-    this.announce((direction === "undo" ? this.labels().fieldUndoAnnouncement : this.labels().fieldRedoAnnouncement)?.(this.cardLabel()(card), f.header, text));
+    const text =
+      restored === null || restored === undefined
+        ? ""
+        : f.format
+          ? f.format(restored, { ...(card.values ?? {}), [fieldId]: restored })
+          : String(restored);
+    this.announce(
+      (direction === "undo"
+        ? this.labels().fieldUndoAnnouncement
+        : this.labels().fieldRedoAnnouncement)?.(this.cardLabel()(card), f.header, text),
+    );
   }
 
   private cancelFieldEdit(): void {
@@ -1228,7 +1338,12 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
 
   protected onEditorInput(event: Event): void {
     const current = this.editing();
-    if (current) this.editing.set({ ...current, draft: (event.target as HTMLInputElement).value, invalid: false });
+    if (current)
+      this.editing.set({
+        ...current,
+        draft: (event.target as HTMLInputElement).value,
+        invalid: false,
+      });
   }
 
   protected onEditorSelectChange(event: Event): void {
@@ -1251,7 +1366,13 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
       // Tab commits and moves to the card's next (Shift+Tab: previous) editable field; past the last, it moves on.
       const current = this.editing()!;
       const card = this.effectiveCards().find((c) => c.id === current.cardId);
-      const next = card ? neighbourField(this.resolvedFields().filter((x) => this.isFieldEditable(x, card)), current.fieldId, event.shiftKey) : undefined;
+      const next = card
+        ? neighbourField(
+            this.resolvedFields().filter((x) => this.isFieldEditable(x, card)),
+            current.fieldId,
+            event.shiftKey,
+          )
+        : undefined;
       if (card && next) {
         event.preventDefault();
         if (this.commitFieldEdit(false)) this.startFieldEdit(card, next);
@@ -1265,7 +1386,8 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     const out: KanbanCard[] = [];
     const scope = this.exportScope();
     for (const column of this.orderedColumns()) {
-      for (const card of this.shownByColumn().get(column.id) ?? []) if (scope !== "selected" || this.isSelected(card.id)) out.push(card);
+      for (const card of this.shownByColumn().get(column.id) ?? [])
+        if (scope !== "selected" || this.isSelected(card.id)) out.push(card);
     }
     return out;
   });
@@ -1280,7 +1402,9 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     this.copy.emit(copied);
     if (this.copyHandler()?.(copied) === false) return;
     const ok = await copyToClipboard(text);
-    this.announce(ok ? this.labels().copyAnnouncement?.(table.rows.length) : this.labels().copyFailed);
+    this.announce(
+      ok ? this.labels().copyAnnouncement?.(table.rows.length) : this.labels().copyFailed,
+    );
   }
 
   protected runExport(format: ExportFormat | "copy"): void {
@@ -1296,7 +1420,10 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     const columnTitle = new Map(this.columns().map((c) => [c.id, c.title]));
     const laneTitle = new Map((this.lanes() ?? []).map((l) => [l.id, l.title]));
     const rows = this.exportCards().map((card) => {
-      const cells: unknown[] = [this.cardLabel()(card), columnTitle.get(card.columnId) ?? card.columnId];
+      const cells: unknown[] = [
+        this.cardLabel()(card),
+        columnTitle.get(card.columnId) ?? card.columnId,
+      ];
       if (this.hasLanes() && h.lane) cells.push(laneTitle.get(this.laneOf(card)) ?? "");
       if (h.subtitle) cells.push(card.subtitle ?? null);
       if (h.badges) cells.push((card.badges ?? []).join("; "));
@@ -1322,14 +1449,21 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
   // ---------------------------------------------------------------
 
   /** Choosing the card's own column is not a move: the menu just closes. */
-  protected isRefused(card: KanbanCard, toColumn: KanbanColumn, extra = 0, toLaneId?: string): boolean {
+  protected isRefused(
+    card: KanbanCard,
+    toColumn: KanbanColumn,
+    extra = 0,
+    toLaneId?: string,
+  ): boolean {
     const laneChange = this.hasLanes() && toLaneId !== undefined && toLaneId !== this.laneOf(card);
     if (laneChange && !this.allowLaneChange()) return true;
     const sameColumn = toColumn.id === card.columnId;
     if (sameColumn && !laneChange) return false;
     const allowed = this.allowedColumns();
     if (!sameColumn && allowed && !allowed(card).includes(toColumn.id)) return true;
-    const toLane = this.hasLanes() ? this.lanes()!.find((l) => l.id === (toLaneId ?? this.laneOf(card))) : undefined;
+    const toLane = this.hasLanes()
+      ? this.lanes()!.find((l) => l.id === (toLaneId ?? this.laneOf(card)))
+      : undefined;
     const canMove = this.canMove();
     if (canMove && !canMove(card, toColumn, toLane)) return true;
     return (
@@ -1354,21 +1488,29 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
   }
 
   /** Resolves true when the move went through (no handler, a synchronous one, or a promise that resolved). */
-  private async runMove(card: KanbanCard, toColumn: KanbanColumn, toIndex?: number, toLaneId?: string, silent = false): Promise<boolean> {
+  private async runMove(
+    card: KanbanCard,
+    toColumn: KanbanColumn,
+    toIndex?: number,
+    toLaneId?: string,
+    silent = false,
+  ): Promise<boolean> {
     const event: KanbanMoveEvent = { cardId: card.id, toColumnId: toColumn.id };
     if (toIndex !== undefined) event.toIndex = toIndex;
     if (toLaneId !== undefined) event.toLaneId = toLaneId;
     this.move.emit(event);
     const result = this.moveHandler()?.(event);
     if (!result || typeof (result as Promise<unknown>).then !== "function") {
-      if (!silent) this.announce(this.labels().moveAnnouncement?.(this.cardLabel()(card), toColumn.title));
+      if (!silent)
+        this.announce(this.labels().moveAnnouncement?.(this.cardLabel()(card), toColumn.title));
       return true;
     }
     this.optimistic.update((o) => ({ ...o, [card.id]: toColumn.id }));
     if (!silent) this.announce(this.labels().movePending?.(this.cardLabel()(card), toColumn.title));
     try {
       await result;
-      if (!silent) this.announce(this.labels().moveAnnouncement?.(this.cardLabel()(card), toColumn.title));
+      if (!silent)
+        this.announce(this.labels().moveAnnouncement?.(this.cardLabel()(card), toColumn.title));
       return true;
     } catch (error) {
       this.announce(this.labels().moveFailed?.(this.cardLabel()(card), toColumn.title, error));
@@ -1391,7 +1533,9 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
 
   private toggleSelected(cardId: string): void {
     this.selected.set(
-      this.isSelected(cardId) ? this.selected().filter((id) => id !== cardId) : [...this.selected(), cardId],
+      this.isSelected(cardId)
+        ? this.selected().filter((id) => id !== cardId)
+        : [...this.selected(), cardId],
     );
   }
 
@@ -1404,7 +1548,8 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
 
   /** The cards that move when `card` moves: the whole selection when `card` is in it, else just `card`. */
   private movingGroup(card: KanbanCard): KanbanCard[] {
-    if (!this.selectable() || !this.isSelected(card.id) || this.selected().length < 2) return [card];
+    if (!this.selectable() || !this.isSelected(card.id) || this.selected().length < 2)
+      return [card];
     return this.effectiveCards().filter((c) => this.isSelected(c.id));
   }
 
@@ -1444,7 +1589,10 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
       this.undoStack.set(stack);
       const live = group
         .map((m) => ({ m, card: this.effectiveCards().find((c) => c.id === m.cardId) }))
-        .filter((x): x is { m: UndoStep; card: KanbanCard } => !!x.card && x.card.columnId === x.m.toColumnId && !x.card.locked);
+        .filter(
+          (x): x is { m: UndoStep; card: KanbanCard } =>
+            !!x.card && x.card.columnId === x.m.toColumnId && !x.card.locked,
+        );
       if (live.length === 0) continue; // nothing of this step is where it was left: try the one before
       for (const { m, card } of live) {
         const back = this.orderedColumns().find((c) => c.id === m.fromColumnId);
@@ -1452,7 +1600,9 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
       }
       if (live.length === 1) {
         const back = this.orderedColumns().find((c) => c.id === live[0].m.fromColumnId);
-        this.announce(this.labels().undoAnnouncement?.(this.cardLabel()(live[0].card), back?.title ?? ""));
+        this.announce(
+          this.labels().undoAnnouncement?.(this.cardLabel()(live[0].card), back?.title ?? ""),
+        );
       } else {
         this.announce(this.labels().undoManyAnnouncement?.(live.length));
       }
@@ -1460,7 +1610,12 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     }
   }
 
-  protected moveCard(card: KanbanCard, toColumn: KanbanColumn, toIndex?: number, toLaneId?: string): void {
+  protected moveCard(
+    card: KanbanCard,
+    toColumn: KanbanColumn,
+    toIndex?: number,
+    toLaneId?: string,
+  ): void {
     if (this.readonly() || card.locked || this.isPending(card.id)) return;
     const group = this.movingGroup(card);
     if (group.length > 1) {
@@ -1473,10 +1628,14 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
       this.closeMoveMenu(card.id);
       return;
     }
-    if (toColumn.id !== card.columnId || (toLaneId !== undefined && toLaneId !== this.laneOf(card))) {
+    if (
+      toColumn.id !== card.columnId ||
+      (toLaneId !== undefined && toLaneId !== this.laneOf(card))
+    ) {
       const from = card.columnId;
       void this.runMove(card, toColumn, toIndex, toLaneId).then((ok) => {
-        if (ok && toColumn.id !== from) this.recordUndo([{ cardId: card.id, fromColumnId: from, toColumnId: toColumn.id }]);
+        if (ok && toColumn.id !== from)
+          this.recordUndo([{ cardId: card.id, fromColumnId: from, toColumnId: toColumn.id }]);
       });
     }
     this.closeMoveMenu(card.id);
@@ -1572,7 +1731,8 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     ids.splice(to, 0, ...ids.splice(from, 1));
     this.columnOrder.set(ids);
     const column = this.columns().find((c) => c.id === columnId);
-    if (column) this.announce(this.labels().columnMoveAnnouncement?.(column.title, to + 1, ids.length));
+    if (column)
+      this.announce(this.labels().columnMoveAnnouncement?.(column.title, to + 1, ids.length));
     return true;
   }
 
@@ -1599,11 +1759,23 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
   /** Whether the cell a dragged card is over would refuse it (`canMove`, `allowedColumns`, a strict WIP limit): the live "can't drop here" cue. */
   protected readonly dropBlocked = signal(false);
 
-  protected onColumnDragOver(event: DragEvent, column: KanbanColumn, rowIndex: number, colIndex: number): void {
+  protected onColumnDragOver(
+    event: DragEvent,
+    column: KanbanColumn,
+    rowIndex: number,
+    colIndex: number,
+  ): void {
     if (!this.draggingCardId || this.readonly()) return;
     const card = this.cards().find((c) => c.id === this.draggingCardId);
     const slot = this.rowSlots()[rowIndex];
-    const blocked = !!card && this.isRefused(card, column, Math.max(0, this.draggingGroup().length - 1), this.hasLanes() && slot ? slot.laneId : undefined);
+    const blocked =
+      !!card &&
+      this.isRefused(
+        card,
+        column,
+        Math.max(0, this.draggingGroup().length - 1),
+        this.hasLanes() && slot ? slot.laneId : undefined,
+      );
     this.dropBlocked.set(blocked);
     this.dropTarget.set(`${rowIndex}-${colIndex}`);
     // A refused drop is not a drop target: leaving dragover un-prevented makes the browser show its "not allowed" cursor.
@@ -1627,10 +1799,18 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     if (!card) return;
     const slot = this.rowSlots()[rowIndex];
     const dropLane = this.hasLanes() && slot ? slot.laneId : undefined;
-    const shown = (slot ? this.cellCards().get(`${column.id}\u0000${slot.laneId}`) : this.shownByColumn().get(column.id)) ?? [];
+    const shown =
+      (slot
+        ? this.cellCards().get(`${column.id}\u0000${slot.laneId}`)
+        : this.shownByColumn().get(column.id)) ?? [];
     const overCard = slot ? shown[slot.laneRow] : shown[rowIndex];
     const dropIndex = slot ? slot.laneRow : rowIndex;
-    if (card.columnId === column.id && this.hasLanes() && dropLane !== undefined && dropLane !== this.laneOf(card)) {
+    if (
+      card.columnId === column.id &&
+      this.hasLanes() &&
+      dropLane !== undefined &&
+      dropLane !== this.laneOf(card)
+    ) {
       // Dropped into another lane of its own column: only the lane changes.
       this.moveCard(card, column, undefined, dropLane);
       return;
@@ -1640,7 +1820,9 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
       const from = shown.findIndex((c) => c.id === card.id);
       if (overCard && from >= 0 && from !== dropIndex) {
         this.reorder.emit({ cardId: card.id, toIndex: dropIndex });
-        this.announce(this.labels().reorderAnnouncement?.(this.cardLabel()(card), dropIndex + 1, shown.length));
+        this.announce(
+          this.labels().reorderAnnouncement?.(this.cardLabel()(card), dropIndex + 1, shown.length),
+        );
       }
       return;
     }
@@ -1681,7 +1863,11 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     const card = this.cardAt(this.activeCol(), this.activeRow());
     if (!card || card.locked) return;
     const slot = this.rowSlots()[this.activeRow()];
-    const total = (slot ? this.cellCards().get(`${card.columnId}\u0000${slot.laneId}`) : this.shownByColumn().get(card.columnId))?.length ?? 0;
+    const total =
+      (slot
+        ? this.cellCards().get(`${card.columnId}\u0000${slot.laneId}`)
+        : this.shownByColumn().get(card.columnId)
+      )?.length ?? 0;
     const laneRow = slot ? slot.laneRow : this.activeRow();
     const toIndex = laneRow + delta;
     if (toIndex < 0 || toIndex >= total) return;
@@ -1705,7 +1891,14 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     const key = logicalKey(event.key, isRtl(cell));
     // Ctrl/Cmd+Z undoes the last move while there is one (`undoable`), then the last field edit; Ctrl/Cmd+Shift+Z and Ctrl+Y redo field edits.
     const historyAction = this.editableFields() && !this.readonly() ? historyKey(event) : null;
-    if (this.undoable() && ctrlOrMeta && !event.altKey && !event.shiftKey && (event.key === "z" || event.key === "Z") && this.undoStack().length > 0) {
+    if (
+      this.undoable() &&
+      ctrlOrMeta &&
+      !event.altKey &&
+      !event.shiftKey &&
+      (event.key === "z" || event.key === "Z") &&
+      this.undoStack().length > 0
+    ) {
       event.preventDefault();
       void this.undo();
       return;
@@ -1715,12 +1908,23 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
       this.stepHistory(historyAction);
       return;
     }
-    if (this.undoable() && ctrlOrMeta && !event.altKey && !event.shiftKey && (event.key === "z" || event.key === "Z")) {
+    if (
+      this.undoable() &&
+      ctrlOrMeta &&
+      !event.altKey &&
+      !event.shiftKey &&
+      (event.key === "z" || event.key === "Z")
+    ) {
       event.preventDefault();
       void this.undo();
       return;
     }
-    if (this.movableColumns() && event.altKey && event.shiftKey && (key === "ArrowLeft" || key === "ArrowRight")) {
+    if (
+      this.movableColumns() &&
+      event.altKey &&
+      event.shiftKey &&
+      (key === "ArrowLeft" || key === "ArrowRight")
+    ) {
       // Alt+Shift+ArrowLeft/Right: move this cell's column (the keyboard twin of dragging its header).
       event.preventDefault();
       const column = this.orderedColumns()[this.activeCol()];
@@ -1757,7 +1961,9 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     if (event.key === "F2" && this.editableFields()) {
       // F2: edit the card's first editable field (the keyboard twin of clicking its value).
       const card = this.cardAt(this.activeCol(), this.activeRow());
-      const first = card ? this.resolvedFields().find((f) => this.isFieldEditable(f, card)) : undefined;
+      const first = card
+        ? this.resolvedFields().find((f) => this.isFieldEditable(f, card))
+        : undefined;
       if (card && first) {
         event.preventDefault();
         this.startFieldEdit(card, first);
@@ -1785,7 +1991,12 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
         }
       }
     }
-    if (this.selectable() && !ctrlOrMeta && !event.altKey && (event.key === "x" || event.key === "X")) {
+    if (
+      this.selectable() &&
+      !ctrlOrMeta &&
+      !event.altKey &&
+      (event.key === "x" || event.key === "X")
+    ) {
       const card = this.cardAt(this.activeCol(), this.activeRow());
       if (card && !this.readonly()) {
         event.preventDefault();
@@ -1796,7 +2007,14 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     const move = gridMove(
       event,
       { row: this.activeRow(), col: this.activeCol() },
-      { firstRow: 0, lastRow: this.maxRows() - 1, lastCol: this.orderedColumns().length - 1, pageStep: pageStepFor(this.virtualize()), homeEnd: "column", rtl: isRtl(cell) },
+      {
+        firstRow: 0,
+        lastRow: this.maxRows() - 1,
+        lastCol: this.orderedColumns().length - 1,
+        pageStep: pageStepFor(this.virtualize()),
+        homeEnd: "column",
+        rtl: isRtl(cell),
+      },
     );
     if (move) {
       event.preventDefault();

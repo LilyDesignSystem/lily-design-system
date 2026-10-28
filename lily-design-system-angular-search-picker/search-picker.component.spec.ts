@@ -24,9 +24,7 @@ function flush(): Promise<void> {
 let fixtures: ComponentFixture<unknown>[] = [];
 
 /** Create + render a SearchPicker with the three labels plus `inputs`. */
-function mount(
-  inputs: Record<string, unknown> = {},
-): ComponentFixture<SearchPicker> {
+function mount(inputs: Record<string, unknown> = {}): ComponentFixture<SearchPicker> {
   const fixture = TestBed.createComponent(SearchPicker);
   for (const [key, value] of Object.entries({ ...LABELS, ...inputs })) {
     fixture.componentRef.setInput(key, value);
@@ -36,23 +34,15 @@ function mount(
   return fixture;
 }
 
-function q<T extends Element>(
-  fixture: ComponentFixture<unknown>,
-  sel: string,
-): T {
+function q<T extends Element>(fixture: ComponentFixture<unknown>, sel: string): T {
   return fixture.nativeElement.querySelector(sel) as T;
 }
 
-const trigger = (f: ComponentFixture<unknown>) =>
-  q<HTMLButtonElement>(f, ".search-picker-button");
-const panel = (f: ComponentFixture<unknown>) =>
-  q<HTMLDivElement>(f, ".search-picker-panel");
-const form = (f: ComponentFixture<unknown>) =>
-  q<HTMLFormElement>(f, ".search-picker-form");
-const field = (f: ComponentFixture<unknown>) =>
-  q<HTMLInputElement>(f, ".search-picker-input");
-const submit = (f: ComponentFixture<unknown>) =>
-  q<HTMLButtonElement>(f, ".search-picker-submit");
+const trigger = (f: ComponentFixture<unknown>) => q<HTMLButtonElement>(f, ".search-picker-button");
+const panel = (f: ComponentFixture<unknown>) => q<HTMLDivElement>(f, ".search-picker-panel");
+const form = (f: ComponentFixture<unknown>) => q<HTMLFormElement>(f, ".search-picker-form");
+const field = (f: ComponentFixture<unknown>) => q<HTMLInputElement>(f, ".search-picker-input");
+const submit = (f: ComponentFixture<unknown>) => q<HTMLButtonElement>(f, ".search-picker-submit");
 
 /** Click an element and re-render. */
 function click(fixture: ComponentFixture<unknown>, target: Element): void {
@@ -70,9 +60,7 @@ function type(fixture: ComponentFixture<unknown>, text: string): void {
 
 /** Submit the form; returns false when the submission was cancelled. */
 function submitForm(fixture: ComponentFixture<unknown>): boolean {
-  const ok = form(fixture).dispatchEvent(
-    new Event("submit", { bubbles: true, cancelable: true }),
-  );
+  const ok = form(fixture).dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
   fixture.detectChanges();
   return ok;
 }
@@ -155,8 +143,7 @@ describe("SearchPicker — structure (§7.1–§7.6)", () => {
     expect(submit(fixture).getAttribute("type")).toBe("submit");
     expect(submit(fixture).getAttribute("aria-label")).toBe(LABELS.submitLabel);
     expect(
-      field(fixture).compareDocumentPosition(submit(fixture)) &
-        Node.DOCUMENT_POSITION_FOLLOWING,
+      field(fixture).compareDocumentPosition(submit(fixture)) & Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
   });
 
@@ -264,9 +251,7 @@ describe("SearchPicker — closing (§7.16–§7.18)", () => {
   test("§7.16 Escape closes and returns focus to the button with preventScroll", async () => {
     const { fixture } = await openPanel();
     const focusSpy = vi.spyOn(HTMLElement.prototype, "focus");
-    field(fixture).dispatchEvent(
-      new KeyboardEvent("keydown", { key: "Escape", bubbles: true }),
-    );
+    field(fixture).dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
     fixture.detectChanges();
     await flush();
     expect(panel(fixture).hasAttribute("hidden")).toBe(true);
@@ -557,7 +542,9 @@ describe("SearchPicker — open state and disabled", () => {
     return fixture;
   }
   const button = (f: ComponentFixture<unknown>) =>
-    f.nativeElement.querySelector(".search-picker-button button, button.search-picker-button") as HTMLButtonElement;
+    f.nativeElement.querySelector(
+      ".search-picker-button button, button.search-picker-button",
+    ) as HTMLButtonElement;
   const settle = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
 
   test("open starts the popup open without emitting openChange", async () => {
@@ -603,4 +590,3 @@ describe("SearchPicker — open state and disabled", () => {
     expect(button(fixture).getAttribute("aria-expanded")).toBe("false");
   });
 });
-

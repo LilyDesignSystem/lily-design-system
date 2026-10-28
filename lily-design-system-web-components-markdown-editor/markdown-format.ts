@@ -46,22 +46,32 @@ export function toggleWrap(text: string, start: number, end: number, marker: str
     // run of asterisks (italic needs an odd run, bold at least two).
     // `closing` is the text that ends at the opening marker, `opening` the text that starts at the closing one.
     const present = (closing: string, opening: string): boolean => {
-        if (marker !== "*" && marker !== "**") return closing.endsWith(marker) && opening.startsWith(marker);
-        const run = Math.min(closing.length - closing.replace(/\*+$/, "").length, opening.length - opening.replace(/^\*+/, "").length);
+        if (marker !== "*" && marker !== "**")
+            return closing.endsWith(marker) && opening.startsWith(marker);
+        const run = Math.min(
+            closing.length - closing.replace(/\*+$/, "").length,
+            opening.length - opening.replace(/^\*+/, "").length,
+        );
         return marker === "*" ? run % 2 === 1 : run >= 2;
     };
 
     // Markers just outside the selection: **|bold|** -> |bold|
     if (present(before, after)) {
-        return { text: before.slice(0, -m) + selected + after.slice(m), start: start - m, end: end - m };
+        return {
+            text: before.slice(0, -m) + selected + after.slice(m),
+            start: start - m,
+            end: end - m,
+        };
     }
     // Markers inside the selection: |**bold**| -> |bold|
     // (the selection's own leading run is the opener, its trailing run the closer)
     const lead = selected.match(/^\*+/)?.[0].length ?? 0;
     const trail = selected.match(/\*+$/)?.[0].length ?? 0;
-    const insidePresent = marker === "*" || marker === "**"
-        ? selected.length > lead && (marker === "*" ? Math.min(lead, trail) % 2 === 1 : Math.min(lead, trail) >= 2)
-        : selected.length >= 2 * m && selected.startsWith(marker) && selected.endsWith(marker);
+    const insidePresent =
+        marker === "*" || marker === "**"
+            ? selected.length > lead &&
+              (marker === "*" ? Math.min(lead, trail) % 2 === 1 : Math.min(lead, trail) >= 2)
+            : selected.length >= 2 * m && selected.startsWith(marker) && selected.endsWith(marker);
     if (insidePresent) {
         const inner = selected.slice(m, selected.length - m);
         return { text: before + inner + after, start, end: start + inner.length };
@@ -98,22 +108,35 @@ const HEADING = /^#{1,6} /;
  * selected line already has it. Numbered lists count 1, 2, 3 from the first
  * selected line. A different list or heading prefix is replaced, not stacked.
  */
-export function toggleLines(text: string, start: number, end: number, tool: LineTool, headingLevel = 2): Edit {
+export function toggleLines(
+    text: string,
+    start: number,
+    end: number,
+    tool: LineTool,
+    headingLevel = 2,
+): Edit {
     const { from, to } = lineBounds(text, start, end);
     const lines = text.slice(from, to).split("\n");
     const prefixFor = (i: number): string => {
         switch (tool) {
-            case "heading": return "#".repeat(headingLevel) + " ";
-            case "quote": return "> ";
-            case "bulletList": return "- ";
-            case "numberedList": return `${i + 1}. `;
+            case "heading":
+                return "#".repeat(headingLevel) + " ";
+            case "quote":
+                return "> ";
+            case "bulletList":
+                return "- ";
+            case "numberedList":
+                return `${i + 1}. `;
         }
     };
-    const matcher = { heading: HEADING, quote: QUOTE, bulletList: BULLET, numberedList: NUMBERED }[tool];
+    const matcher = { heading: HEADING, quote: QUOTE, bulletList: BULLET, numberedList: NUMBERED }[
+        tool
+    ];
     const nonEmpty = lines.filter((l) => l.trim() !== "");
     const alreadyAll = nonEmpty.length > 0 && nonEmpty.every((l) => matcher.test(l));
     // Replace a competing block prefix rather than stacking two.
-    const strip = (l: string) => l.replace(HEADING, "").replace(BULLET, "").replace(NUMBERED, "").replace(QUOTE, "");
+    const strip = (l: string) =>
+        l.replace(HEADING, "").replace(BULLET, "").replace(NUMBERED, "").replace(QUOTE, "");
     let n = 0;
     const next = lines.map((l) => {
         if (alreadyAll) return l.replace(matcher, "");
@@ -132,7 +155,13 @@ export function toggleLines(text: string, start: number, end: number, tool: Line
 }
 
 /** Apply one tool to the text and selection. */
-export function applyTool(tool: ToolId, text: string, start: number, end: number, options: { headingLevel?: number } = {}): Edit {
+export function applyTool(
+    tool: ToolId,
+    text: string,
+    start: number,
+    end: number,
+    options: { headingLevel?: number } = {},
+): Edit {
     if (isWrapTool(tool)) return toggleWrap(text, start, end, WRAP_MARKERS[tool]);
     if (tool === "link") return insertLink(text, start, end);
     return toggleLines(text, start, end, tool, options.headingLevel ?? 2);

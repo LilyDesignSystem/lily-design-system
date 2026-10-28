@@ -39,16 +39,16 @@
       matchSystemTheme(["solarized"]);      // ""
 -->
 <script lang="ts">
-  import ThemePicker from "../ThemePicker.svelte";
+    import ThemePicker from "../ThemePicker.svelte";
 
-  let theme = $state("");
+    let theme = $state("");
 </script>
 
 <ThemePicker
-  label="Theme"
-  themesUrl="/assets/themes/"
-  themes={["light", "dark"]}
-  detectFromSystem
-  bind:value={theme}
-  storageKey="my-app:theme"
+    label="Theme"
+    themesUrl="/assets/themes/"
+    themes={["light", "dark"]}
+    detectFromSystem
+    bind:value={theme}
+    storageKey="my-app:theme"
 />

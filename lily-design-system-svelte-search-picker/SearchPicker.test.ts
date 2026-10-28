@@ -1,10 +1,7 @@
 import { render, screen, fireEvent, cleanup } from "@testing-library/svelte";
 import { afterEach, describe, expect, test, vi } from "vitest";
 
-import SearchPicker, {
-    RETURN_SYMBOL,
-    searchHref,
-} from "./SearchPicker.svelte";
+import SearchPicker, { RETURN_SYMBOL, searchHref } from "./SearchPicker.svelte";
 
 const LABELS = {
     label: "Search this site",
@@ -100,7 +97,9 @@ describe("SearchPicker — structure (§7.1–§7.6)", () => {
         expect(input.className).toContain("search-picker-input");
         expect(submit.getAttribute("type")).toBe("submit");
         expect(submit.className).toContain("search-picker-submit");
-        expect(input.compareDocumentPosition(submit) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+        expect(
+            input.compareDocumentPosition(submit) & Node.DOCUMENT_POSITION_FOLLOWING,
+        ).toBeTruthy();
     });
 
     test("§7.6 the submit button shows ⏎ in an aria-hidden span", async () => {
@@ -168,7 +167,9 @@ describe("SearchPicker — searching (§7.7–§7.15)", () => {
         const navigate = vi.fn((h: string) => calls.push(`navigate:${h}`));
         render(SearchPicker, { props: { ...LABELS, onSearch, navigate } });
         await fireEvent.click(screen.getByRole("button", { name: LABELS.label }));
-        const input = screen.getByRole("searchbox", { name: LABELS.inputLabel }) as HTMLInputElement;
+        const input = screen.getByRole("searchbox", {
+            name: LABELS.inputLabel,
+        }) as HTMLInputElement;
         await type(input, " foo ");
         await fireEvent.submit(document.querySelector(".search-picker-form")!);
         expect(calls).toEqual(["search:foo:/?foo", "navigate:/?foo"]);
@@ -179,7 +180,9 @@ describe("SearchPicker — searching (§7.7–§7.15)", () => {
         vi.stubGlobal("location", { assign });
         render(SearchPicker, { props: LABELS });
         await fireEvent.click(screen.getByRole("button", { name: LABELS.label }));
-        const input = screen.getByRole("searchbox", { name: LABELS.inputLabel }) as HTMLInputElement;
+        const input = screen.getByRole("searchbox", {
+            name: LABELS.inputLabel,
+        }) as HTMLInputElement;
         await type(input, "foo");
         await fireEvent.submit(document.querySelector(".search-picker-form")!);
         expect(assign).toHaveBeenCalledWith("/?foo");
@@ -410,7 +413,9 @@ describe("SearchPicker — open state and disabled (§open)", () => {
         const onOpenChange = vi.fn();
         render(SearchPicker, { props: { ...{ ...LABELS }, open: true, onOpenChange } });
         await flush();
-        expect(screen.getByRole("button", { name: LABELS.label }).getAttribute("aria-expanded")).toBe("true");
+        expect(
+            screen.getByRole("button", { name: LABELS.label }).getAttribute("aria-expanded"),
+        ).toBe("true");
         expect(onOpenChange).not.toHaveBeenCalled();
     });
 
@@ -441,7 +446,8 @@ describe("SearchPicker — open state and disabled (§open)", () => {
     test("disabled closes a popup that was open", async () => {
         render(SearchPicker, { props: { ...{ ...LABELS }, open: true, disabled: true } });
         await flush();
-        expect(screen.getByRole("button", { name: LABELS.label }).getAttribute("aria-expanded")).toBe("false");
+        expect(
+            screen.getByRole("button", { name: LABELS.label }).getAttribute("aria-expanded"),
+        ).toBe("false");
     });
 });
-

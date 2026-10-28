@@ -3,14 +3,14 @@ import vue from "@vitejs/plugin-vue";
 
 // Standalone test harness for @lilydesignsystem/vue-markdown-editor.
 export default defineConfig({
-  plugins: [vue()],
-  resolve: {
-    dedupe: ["vue"],
-  },
-  test: {
-    environment: "jsdom",
-    setupFiles: ["./vitest-setup.js"],
-    include: ["**/*.test.ts"],
-    exclude: ["node_modules/**", "dist/**"],
-  },
+    plugins: [vue()],
+    resolve: {
+        dedupe: ["vue"],
+    },
+    test: {
+        environment: "jsdom",
+        setupFiles: ["./vitest-setup.js"],
+        include: ["**/*.test.ts"],
+        exclude: ["node_modules/**", "dist/**"],
+    },
 });

@@ -25,7 +25,9 @@ describe("dependencyPath", () => {
         expect(dependencyPath("s2s", b, a)).toBe("M70 40H62V21H2V10H10");
     });
     it("same-row bars join with one line", () => {
-        expect(dependencyPath("s2e", a, { left: 0, right: 5, top: 0, bottom: 20 })).toBe("M10 10H5");
+        expect(dependencyPath("s2e", a, { left: 0, right: 5, top: 0, bottom: 20 })).toBe(
+            "M10 10H5",
+        );
     });
 });
 

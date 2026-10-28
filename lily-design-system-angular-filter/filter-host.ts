@@ -59,4 +59,5 @@ export function parseTyped(type: string, raw: string): unknown {
   return type === "number" ? Number(raw) : raw;
 }
 
-export const textOf = (v: unknown): string => (v === undefined || v === null || (typeof v === "number" && Number.isNaN(v)) ? "" : String(v));
+export const textOf = (v: unknown): string =>
+  v === undefined || v === null || (typeof v === "number" && Number.isNaN(v)) ? "" : String(v);

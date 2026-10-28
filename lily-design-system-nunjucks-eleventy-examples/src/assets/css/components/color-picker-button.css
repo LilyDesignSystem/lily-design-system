@@ -10,4 +10,6 @@
   border-color: var(--nhsuk-black);
   box-shadow: 0 0 0 2px var(--nhsuk-white);
 }
-.color-picker-button:focus-visible { outline: 3px solid var(--nhsuk-focus-yellow); }
+.color-picker-button:focus-visible {
+  outline: 3px solid var(--nhsuk-focus-yellow);
+}

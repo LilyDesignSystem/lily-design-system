@@ -16,7 +16,14 @@ import { MarkdownEditor } from "../markdown-editor.component";
 export class Basic {
   body = signal("Hello **world**");
   labels = {
-    heading: "Heading", bold: "Bold", italic: "Italic", strikethrough: "Strikethrough", code: "Code",
-    link: "Link", quote: "Quote", bulletList: "Bulleted list", numberedList: "Numbered list",
+    heading: "Heading",
+    bold: "Bold",
+    italic: "Italic",
+    strikethrough: "Strikethrough",
+    code: "Code",
+    link: "Link",
+    quote: "Quote",
+    bulletList: "Bulleted list",
+    numberedList: "Numbered list",
   };
 }

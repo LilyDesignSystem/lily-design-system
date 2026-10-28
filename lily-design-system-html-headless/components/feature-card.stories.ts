@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `</article>
 -->
@@ -21,9 +21,9 @@ const html = `</article>
 </article>`;
 
 const meta = {
-  title: 'Headless/FeatureCard',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/FeatureCard",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

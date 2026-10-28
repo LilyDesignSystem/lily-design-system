@@ -1,11 +1,11 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = "<div class=\"tool-call-error\" role=\"alert\">The tool timed out.</div>";
+const html = '<div class="tool-call-error" role="alert">The tool timed out.</div>';
 
 const meta = {
-  title: 'Headless/Tool Call Error',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/Tool Call Error",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

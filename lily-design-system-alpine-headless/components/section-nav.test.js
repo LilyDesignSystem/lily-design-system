@@ -5,16 +5,15 @@ import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("nav.section-nav");
 
-
 describe("SectionNav", () => {
-  it("renders the element with its base class", async () => {
-    await mount("section-nav");
-    expect(el()).not.toBeNull();
-    expect(el().classList.contains("section-nav")).toBe(true);
-  });
+    it("renders the element with its base class", async () => {
+        await mount("section-nav");
+        expect(el()).not.toBeNull();
+        expect(el().classList.contains("section-nav")).toBe(true);
+    });
 
-  it("uses the nav element", async () => {
-    await mount("section-nav");
-    expect(el().tagName.toLowerCase()).toBe("nav");
-  });
+    it("uses the nav element", async () => {
+        await mount("section-nav");
+        expect(el().tagName.toLowerCase()).toBe("nav");
+    });
 });

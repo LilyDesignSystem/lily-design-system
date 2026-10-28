@@ -40,30 +40,36 @@
 // See spec/index.md §4.3 (client.js exports), §6 (behaviour).
 
 import { createListboxKeyboard } from "@lilydesignsystem/nunjucks-listbox-behavior";
-import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText } from "./export-data";
+import {
+    copyToClipboard,
+    downloadBlob,
+    exportBlob,
+    exportFilename,
+    toClipboardText,
+} from "./export-data";
 import { highlightSegments, matchesSearch as wordsMatch } from "./search-text";
 import { isRtl, logicalKey } from "./direction";
 import { gridMove, pageStepFor } from "./grid-navigation";
 import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit } from "./edit-history";
 import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState } from "./typeahead";
 import {
-  draftOf,
-  editorKind,
-  evaluateEdit,
-  exportFieldCell,
-  exportableFields,
-  fieldText,
-  isEditableField,
-  neighbourField,
-  resolveFields,
+    draftOf,
+    editorKind,
+    evaluateEdit,
+    exportFieldCell,
+    exportableFields,
+    fieldText,
+    isEditableField,
+    neighbourField,
+    resolveFields,
 } from "./typed-fields";
 
 function escapeAttrValue(value) {
-  return String(value).replace(/["\\]/g, "\\$&");
+    return String(value).replace(/["\\]/g, "\\$&");
 }
 
 function textOf(el) {
-  return el ? (el.textContent || "").trim() : "";
+    return el ? (el.textContent || "").trim() : "";
 }
 
 /**
@@ -101,1548 +107,1841 @@ function textOf(el) {
  * @returns {{ destroy: () => void, collapsedColumns: () => string[], collapsedLanes: () => string[], selected: () => string[], columnOrder: () => string[], undo: () => Promise<void> }}
  */
 export function initKanbanBoard(root, opts = {}) {
-  const noop = { destroy: () => {}, collapsedColumns: () => [], collapsedLanes: () => [], selected: () => [], columnOrder: () => [], undo: async () => {} };
-  if (typeof document === "undefined" || !root) return noop;
-
-  const table = root.querySelector(".kanban-table");
-  const statusEl = root.querySelector("[data-lily-kanban-board-status]");
-  if (!table) return noop;
-
-  const tbody = table.querySelector(".kanban-table-body");
-  /** Every body row — lane header rows included — whether or not it is in the DOM right now (virtualization takes rows out). */
-  const rows = tbody ? Array.from(tbody.children) : [];
-  const isCell = (el) => el.classList.contains("kanban-table-td");
-  const isDataRow = (tr) => Array.from(tr.children).some(isCell);
-  const dataRows = () => rows.filter(isDataRow);
-  const allCells = () => rows.flatMap((tr) => Array.from(tr.children).filter(isCell));
-  const cellsOfRow = (tr) => Array.from(tr.children).filter(isCell);
-  const hasLanes = root.hasAttribute("data-lily-kanban-board-has-lanes");
-
-  let config = {};
-  try {
-    config = JSON.parse(root.getAttribute("data-lily-kanban-board-config") || "{}");
-  } catch {
-    config = {};
-  }
-  // Type defaults (format, compare, export value) resolved once per init, never per card or keystroke.
-  // `opts.fieldHooks` carries the functions the macro cannot (a field's `parse`, `exportValue`, …), by field id.
-  const fields = resolveFields(
-    (config.fields || []).map((f) => ({ ...f, ...((opts.fieldHooks || {})[f.id] || {}) })),
-    config.locale,
-  );
-  const fieldDef = (id) => fields.find((f) => f.id === id);
-  /** The consumer's data by card id; an accepted edit updates it, so the board stays what the user sees. */
-  const dataCards = new Map((config.cards || []).map((c) => [c.id, { ...c, values: { ...(c.values || {}) } }]));
-  const fill = (template, tokens) => String(template).replace(/\{(\w+)\}/g, (match, name) => (name in tokens ? String(tokens[name]) : match));
-  const cardTitleOf = (cardId) => textOf(cardHandleFor(cardId)) || (dataCards.get(cardId) || {}).title || cardId;
-  /** A label as text: the client option's function (`opts.labels.name(...args)`) wins, else the macro's template string with `{tokens}`. */
-  function labelText(name, tokens, ...args) {
-    const fn = opts.labels && opts.labels[name];
-    if (typeof fn === "function") return fn(...args);
-    const template = (config.labels || {})[name];
-    return template ? fill(template, tokens) : undefined;
-  }
-
-
-  /** Read-only is the macro's `readonly` param, surfaced as `data-readonly`. */
-  function isReadonly() {
-    return root.hasAttribute("data-readonly");
-  }
-
-  // -----------------------------------------------------------------
-  // Collapsed columns: a collapsed column keeps its header and count but its
-  // cards are taken out of the DOM (stashed, restored on expand).
-  // -----------------------------------------------------------------
-
-  /** @type {WeakMap<Element, Node[]>} */
-  const stash = new WeakMap();
-  const columnIds = () =>
-    Array.from(root.querySelectorAll("[data-lily-kanban-board-column-id]"))
-      .filter((th) => th.tagName === "TH")
-      .map((th) => th.getAttribute("data-lily-kanban-board-column-id"));
-  const headerFor = (columnId) =>
-    root.querySelector(`th[data-lily-kanban-board-column-id="${escapeAttrValue(columnId)}"]`);
-  const cellsOfColumn = (index) => allCells().filter((td) => td.getAttribute("data-col") === String(index));
-
-  function isCollapsed(columnId) {
-    const th = headerFor(columnId);
-    return !!th && th.hasAttribute("data-collapsed");
-  }
-
-  /** The text a search matches a card on (the macro puts title, subtitle and badges in a data attribute). */
-  const searchQuery = () => {
-    const input = root.querySelector("[data-lily-kanban-board-search]");
-    return input ? input.value : "";
-  };
-  /** A card cell's searchable text: its title, subtitle and badges (from the macro) and every field's formatted text. */
-  const cardSearchText = (td) => {
-    const data = dataCards.get(td.getAttribute("data-lily-kanban-board-card-id"));
-    const fieldTexts = data ? fields.map((f) => fieldText(f, data.values)) : [];
-    return [td.getAttribute("data-lily-kanban-board-search-text") || "", ...fieldTexts].join(" ");
-  };
-
-  /**
-   * One pass over every cell: a cell is emptied (its content stashed out of the DOM) when its column is collapsed
-   * or its card does not match the search; rows with nothing left to show are hidden.
-   */
-  function refreshVisibility() {
-    const ids = columnIds();
-    const query = searchQuery();
-    const searching = query.trim() !== "";
-    const hiddenByColumn = new Map();
-    allCells().forEach((td) => {
-      const index = Number(td.getAttribute("data-col"));
-      const collapsed = isCollapsed(ids[index]);
-      const filtered = searching && td.hasAttribute("data-lily-kanban-board-card-id") && !wordsMatch(cardSearchText(td), query);
-      const hide = collapsed || filtered;
-      if (collapsed) td.setAttribute("data-collapsed", "");
-      else td.removeAttribute("data-collapsed");
-      if (hide) {
-        if (!stash.has(td)) {
-          stash.set(td, Array.from(td.childNodes));
-          td.replaceChildren();
-        }
-        if (filtered) hiddenByColumn.set(index, (hiddenByColumn.get(index) || 0) + 1);
-      } else {
-        const nodes = stash.get(td);
-        if (nodes) {
-          td.replaceChildren(...nodes);
-          stash.delete(td);
-        }
-      }
-    });
-    ids.forEach((id, index) => {
-      const th = headerFor(id);
-      if (!th) return;
-      const hidden = hiddenByColumn.get(index) || 0;
-      if (hidden > 0) th.setAttribute("data-hidden-count", String(hidden));
-      else th.removeAttribute("data-hidden-count");
-    });
-    // A row with nothing left to show is hidden, so the board's height follows what is shown; so is every row of a collapsed lane.
-    rows.filter(isDataRow).forEach((tr) => {
-      const cells = cellsOfRow(tr);
-      const empty = cells.every((td) => td.childNodes.length === 0);
-      const laneId = tr.getAttribute("data-lane-id");
-      tr.hidden = (empty && cells.some((td) => stash.has(td))) || (laneId !== null && isLaneCollapsed(laneId));
-    });
-    // Each lane's count follows the search: the cards still showing across its rows.
-    root.querySelectorAll("[data-lily-kanban-board-lane-count]").forEach((el) => {
-      const th = el.closest("th[data-lane-id]");
-      const template = el.getAttribute("data-template") || "";
-      if (!th) return;
-      const laneId = th.getAttribute("data-lane-id");
-      let count = 0;
-      rows.filter(isDataRow).forEach((tr) => {
-        if (tr.getAttribute("data-lane-id") !== laneId) return;
-        cellsOfRow(tr).forEach((td) => {
-          if (!td.hasAttribute("data-lily-kanban-board-card-id")) return;
-          if (!searching || wordsMatch(cardSearchText(td), query)) count += 1;
-        });
-      });
-      el.textContent = template.split("{lane}").join(el.getAttribute("data-lane-title") || "").split("{count}").join(String(count));
-    });
-    // Keep the roving tab stop on a visible row.
-    const stop = focusedCellEl();
-    if (stop && stop.parentElement && stop.parentElement.hidden) {
-      const firstRow = rows.find((tr) => isDataRow(tr) && !tr.hidden);
-      const first = firstRow ? cellsOfRow(firstRow)[0] : null;
-      stop.setAttribute("tabindex", "-1");
-      if (first) first.setAttribute("tabindex", "0");
-    }
-    highlightTitles(query);
-    applyWindow(true);
-    syncExport();
-  }
-
-  /** Wrap the words the search matched in each shown card's title in `<mark class="mark kanban-board-match">`; plain text when not searching. */
-  function highlightTitles(query) {
-    const searching = query.trim() !== "";
-    root.querySelectorAll("[data-lily-kanban-board-card-handle]").forEach((handle) => {
-      const host = handle.querySelector("a.kanban-board-card-link") || handle;
-      if (!host.hasAttribute("data-original-title")) host.setAttribute("data-original-title", host.textContent || "");
-      const original = host.getAttribute("data-original-title") || "";
-      const marked = host.querySelector("mark");
-      if (!searching && !marked) return;
-      const nodes = !searching
-        ? [document.createTextNode(original)]
-        : highlightSegments(original, query).map((part) => {
-            if (!part.match) return document.createTextNode(part.text);
-            const mark = document.createElement("mark");
-            mark.className = "mark kanban-board-match";
-            mark.textContent = part.text;
-            return mark;
-          });
-      host.replaceChildren(...nodes);
-    });
-  }
-
-  function applyCollapsed(columnId, collapsed) {
-    const th = headerFor(columnId);
-    if (!th) return;
-    if (collapsed) th.setAttribute("data-collapsed", "");
-    else th.removeAttribute("data-collapsed");
-    const toggle = th.querySelector("[data-lily-kanban-board-collapse]");
-    if (toggle) {
-      toggle.setAttribute("aria-expanded", String(!collapsed));
-      toggle.textContent = collapsed ? "▸" : "▾";
-    }
-    refreshVisibility();
-  }
-
-  const laneThFor = (laneId) => root.querySelector(`th.kanban-board-lane[data-lane-id="${escapeAttrValue(laneId)}"]`);
-  function isLaneCollapsed(laneId) {
-    const th = laneThFor(laneId);
-    return !!th && th.hasAttribute("data-collapsed");
-  }
-  function collapsedLaneIds() {
-    return Array.from(root.querySelectorAll("th.kanban-board-lane[data-collapsed]")).map((th) => th.getAttribute("data-lane-id"));
-  }
-  function applyLaneCollapsed(laneId, collapsed) {
-    const th = laneThFor(laneId);
-    if (!th) return;
-    if (collapsed) th.setAttribute("data-collapsed", "");
-    else th.removeAttribute("data-collapsed");
-    const toggle = th.querySelector("[data-lily-kanban-board-lane-collapse]");
-    if (toggle) {
-      toggle.setAttribute("aria-expanded", String(!collapsed));
-      toggle.textContent = collapsed ? "▸" : "▾";
-      const template = toggle.getAttribute(collapsed ? "data-expand-template" : "data-collapse-template");
-      if (template) toggle.setAttribute("aria-label", template.split("{lane}").join(th.querySelector(".kanban-board-lane-title")?.textContent || ""));
-    }
-    refreshVisibility();
-  }
-
-  function collapsedIds() {
-    return columnIds().filter((id) => isCollapsed(id));
-  }
-
-  /** The cell holding a card (its id is on the cell, so this works while the card is stashed). */
-  const cellForCard = (cardId) => allCells().find((td) => td.getAttribute("data-lily-kanban-board-card-id") === String(cardId)) || null;
-
-  /** A move is refused by the card's allowed columns, the consumer's veto or by a full hard-limited column. */
-  function isRefused(cardId, toColumnId, extra = 0, toLaneId) {
-    const owner = cellForCard(cardId);
-    // With swimlanes: a drop into another lane is a lane change, which `allowLaneChange: false` refuses whatever `canMove` says.
-    const ownLane = owner ? laneOfCell(owner) : null;
-    const laneChange = ownLane != null && toLaneId != null && toLaneId !== ownLane;
-    if (laneChange && opts.allowLaneChange === false) return true;
-    const allowed = owner && owner.getAttribute("data-lily-kanban-board-allowed-columns");
-    const ownColumn = owner ? columnIds()[Number(owner.getAttribute("data-col"))] : null;
-    if (allowed != null && toColumnId !== ownColumn && !allowed.split(",").includes(toColumnId)) return true;
-    if (typeof opts.canMove === "function" && !opts.canMove(cardId, toColumnId, toLaneId != null ? toLaneId : ownLane != null ? ownLane : undefined)) return true;
-    const th = headerFor(toColumnId);
-    if (!th || !th.hasAttribute("data-strict-limit")) return false;
-    const limit = Number(th.getAttribute("data-wip-limit"));
-    const index = columnIds().indexOf(toColumnId);
-    const count = cellsOfColumn(index).filter((td) => td.hasAttribute("data-lily-kanban-board-card-id")).length;
-    return Number.isFinite(limit) && count + extra >= limit;
-  }
-
-  function numCols() {
-    return root.querySelectorAll("[data-lily-kanban-board-column-id]").length;
-  }
-  function numRows() {
-    return dataRows().length;
-  }
-  function cellAt(row, col) {
-    const tr = dataRows()[row];
-    return tr ? cellsOfRow(tr).find((td) => td.getAttribute("data-col") === String(col)) || null : null;
-  }
-  function focusedCellEl() {
-    return allCells().find((td) => td.getAttribute("tabindex") === "0") || null;
-  }
-
-  // -----------------------------------------------------------------
-  // Virtualization: every row is rendered by the macro; only the rows in view (plus the roving tab stop's row)
-  // stay in the DOM, between spacer rows. Without the client script the area is just scrollable.
-  // -----------------------------------------------------------------
-
-  const scrollEl = root.querySelector("[data-lily-kanban-board-virtualize]");
-  const rowHeight = scrollEl ? Number(scrollEl.getAttribute("data-row-height")) : 0;
-  const overscan = scrollEl ? Number(scrollEl.getAttribute("data-overscan") || 3) : 0;
-  const viewHeight = scrollEl ? parseFloat(scrollEl.style.height) || 0 : 0;
-  let scrollTopState = 0;
-  let windowSig = null;
-
-  const windowedRows = () => rows.filter((tr) => !tr.hidden);
-
-  function applyWindow(force) {
-    if (!scrollEl || !tbody || !rowHeight) return;
-    const visible = windowedRows();
-    const start = Math.max(0, Math.floor(scrollTopState / rowHeight) - overscan);
-    const end = Math.min(visible.length, Math.ceil((scrollTopState + viewHeight) / rowHeight) + overscan);
-    const indices = new Set();
-    for (let i = start; i < end; i++) indices.add(i);
-    const stop = focusedCellEl();
-    const stopRow = stop ? visible.indexOf(stop.parentElement) : -1;
-    if (stopRow >= 0) indices.add(stopRow);
-    const sorted = Array.from(indices).sort((a, b) => a - b);
-    const sig = sorted.join(",") + "|" + visible.length;
-    if (!force && sig === windowSig) return;
-    windowSig = sig;
-    const hadFocus = !!document.activeElement && tbody.contains(document.activeElement);
-    const focused = hadFocus ? document.activeElement : null;
-    const spacer = (count) => {
-      const tr = document.createElement("tr");
-      tr.className = "kanban-board-spacer";
-      tr.setAttribute("aria-hidden", "true");
-      tr.style.height = `${count * rowHeight}px`;
-      const td = document.createElement("td");
-      td.colSpan = numCols();
-      tr.appendChild(td);
-      return tr;
+    const noop = {
+        destroy: () => {},
+        collapsedColumns: () => [],
+        collapsedLanes: () => [],
+        selected: () => [],
+        columnOrder: () => [],
+        undo: async () => {},
     };
-    const children = [];
-    let previous = -1;
-    for (const index of sorted) {
-      if (index - previous > 1) children.push(spacer(index - previous - 1));
-      children.push(visible[index]);
-      previous = index;
-    }
-    if (visible.length - 1 - previous > 0) children.push(spacer(visible.length - 1 - previous));
-    tbody.replaceChildren(...children);
-    if (focused && focused.isConnected === false) focused.focus({ preventScroll: true });
-  }
+    if (typeof document === "undefined" || !root) return noop;
 
-  /** Bring a row into the scroll area. */
-  function revealRow(rowIndex) {
-    if (!scrollEl || !rowHeight) return;
-    const tr = dataRows()[rowIndex];
-    const slot = tr ? windowedRows().indexOf(tr) : -1;
-    if (slot < 0) return;
-    const top = slot * rowHeight;
-    let next = scrollTopState;
-    if (top < scrollTopState) next = top;
-    else if (top + rowHeight > scrollTopState + viewHeight) next = top + rowHeight - viewHeight;
-    if (next === scrollTopState) return;
-    scrollTopState = next;
-    scrollEl.scrollTop = next;
-    applyWindow(false);
-  }
+    const table = root.querySelector(".kanban-table");
+    const statusEl = root.querySelector("[data-lily-kanban-board-status]");
+    if (!table) return noop;
 
-  function onScroll() {
-    scrollTopState = scrollEl.scrollTop;
-    applyWindow(false);
-  }
+    const tbody = table.querySelector(".kanban-table-body");
+    /** Every body row — lane header rows included — whether or not it is in the DOM right now (virtualization takes rows out). */
+    const rows = tbody ? Array.from(tbody.children) : [];
+    const isCell = (el) => el.classList.contains("kanban-table-td");
+    const isDataRow = (tr) => Array.from(tr.children).some(isCell);
+    const dataRows = () => rows.filter(isDataRow);
+    const allCells = () => rows.flatMap((tr) => Array.from(tr.children).filter(isCell));
+    const cellsOfRow = (tr) => Array.from(tr.children).filter(isCell);
+    const hasLanes = root.hasAttribute("data-lily-kanban-board-has-lanes");
 
-  function moveFocus(row, col) {
-    let clampedRow = Math.min(Math.max(row, 0), numRows() - 1);
-    {
-      // Step over hidden rows (a collapsed lane, a search that emptied a row) in the direction of travel.
-      const current = focusedCellEl();
-      const currentRow = current ? dataRows().indexOf(current.parentElement) : clampedRow;
-      const step = clampedRow >= currentRow ? 1 : -1;
-      const all = dataRows();
-      let probe = clampedRow;
-      while (probe >= 0 && probe < all.length && all[probe].hidden) probe += step;
-      if (probe < 0 || probe >= all.length) {
-        probe = clampedRow;
-        while (probe >= 0 && probe < all.length && all[probe].hidden) probe -= step;
-      }
-      if (probe >= 0 && probe < all.length) clampedRow = probe;
-    }
-    const clampedCol = Math.min(Math.max(col, 0), numCols() - 1);
-    revealRow(clampedRow);
-    const target = cellAt(clampedRow, clampedCol);
-    if (!target) return;
-    const current = focusedCellEl();
-    if (current && current !== target) current.setAttribute("tabindex", "-1");
-    target.setAttribute("tabindex", "0");
-    target.focus({ preventScroll: true });
-  }
-
-  // -----------------------------------------------------------------
-  // Move menus — one controller per card, keyed by the card's own id.
-  // -----------------------------------------------------------------
-
-  /** @type {Map<string, {button: HTMLElement, list: HTMLElement, keyboard: ReturnType<typeof createListboxKeyboard>}>} */
-  const menus = new Map();
-  let openCardId = null;
-
-  Array.from(root.querySelectorAll("[data-lily-kanban-board-move-list]")).forEach(
-    (list) => {
-      const cardId = list.getAttribute("data-lily-kanban-board-card-id");
-      const button = root.querySelector(
-        `[data-lily-kanban-board-move-button][data-lily-kanban-board-card-id="${escapeAttrValue(cardId)}"]`,
-      );
-      // The button renders only when labels.moveButton names it; without it
-      // the card's own cell opens the menu and takes focus back.
-      const cell = list.closest("[data-row][data-col]");
-      const focusTarget = button || cell;
-      if (!cardId || !focusTarget) return;
-      const keyboard = createListboxKeyboard(list, {
-        clamp: true,
-        onActivate: (index) => chooseOption(cardId, index),
-        onEscape: () => closeMenu(cardId, true),
-        onTabOut: () => {
-          focusTarget.focus({ preventScroll: true });
-          closeMenu(cardId, false);
-        },
-      });
-      list.addEventListener("click", (event) => {
-        const li =
-          event.target && event.target.closest
-            ? event.target.closest('[role="option"]')
-            : null;
-        if (!li) return;
-        const options = Array.from(list.querySelectorAll('[role="option"]'));
-        const index = options.indexOf(li);
-        if (index >= 0) chooseOption(cardId, index);
-      });
-      menus.set(cardId, { button, focusTarget, list, keyboard });
-    },
-  );
-
-  function openMenu(cardId) {
-    if (isReadonly()) return;
-    const owner = cellForCard(cardId);
-    if (owner && owner.hasAttribute("data-locked")) return;
-    if (openCardId && openCardId !== cardId) closeMenu(openCardId, false);
-    const entry = menus.get(cardId);
-    if (!entry) return;
-    openCardId = cardId;
-    if (entry.button) entry.button.setAttribute("aria-expanded", "true");
-    entry.list.hidden = false;
-    const options = Array.from(entry.list.querySelectorAll('[role="option"]'));
-    const selectedIndex = options.findIndex(
-      (o) => o.getAttribute("aria-selected") === "true",
-    );
-    // A veto (opts.canMove) marks refused destinations aria-disabled.
-    options.forEach((option) => {
-      const refused =
-        option.getAttribute("aria-selected") !== "true" &&
-        isRefused(cardId, option.getAttribute("data-value"));
-      if (refused) option.setAttribute("aria-disabled", "true");
-      else option.removeAttribute("aria-disabled");
-    });
-    entry.keyboard.setActive(selectedIndex >= 0 ? selectedIndex : 0);
-    entry.list.focus({ preventScroll: true });
-  }
-
-  function closeMenu(cardId, refocus) {
-    const entry = menus.get(cardId);
-    if (!entry) return;
-    if (entry.button) entry.button.setAttribute("aria-expanded", "false");
-    entry.list.hidden = true;
-    entry.keyboard.setActive(-1);
-    if (openCardId === cardId) openCardId = null;
-    // Refocus THIS card's own button (or its cell, when it has none) —
-    // never a shared "last" reference. See the shared-ref regression note
-    // in this file's header comment.
-    if (refocus) entry.focusTarget.focus({ preventScroll: true });
-  }
-
-  function columnTitleFor(columnId) {
-    const th = headerFor(columnId);
-    if (th && th.getAttribute("data-lily-kanban-board-column-title")) return th.getAttribute("data-lily-kanban-board-column-title");
-    const option = root.querySelector(
-      `.kanban-board-move-option[data-value="${escapeAttrValue(columnId)}"]`,
-    );
-    return option ? textOf(option) : columnId;
-  }
-
-  function announce(message) {
-    if (message && statusEl) statusEl.textContent = message;
-  }
-
-  function cardHandleFor(cardId) {
-    return root.querySelector(
-      `[data-lily-kanban-board-card-handle][data-lily-kanban-board-card-id="${escapeAttrValue(cardId)}"]`,
-    );
-  }
-
-  const columnOfCard = (cardId) => {
-    const cell = cellForCard(cardId);
-    return cell ? columnIds()[Number(cell.getAttribute("data-col"))] : null;
-  };
-  const laneOfCell = (cell) => {
-    const tr = cell && cell.parentElement;
-    return tr ? tr.getAttribute("data-lane-id") : null;
-  };
-
-  /** Resolves true when the move went through (a synchronous `onMove`, or a promise that resolved). */
-  async function applyMove(cardId, toColumnId, toIndex, toLaneId, silent) {
-    const cardTitle = textOf(cardHandleFor(cardId));
-    const columnTitle = columnTitleFor(toColumnId);
-    const cell = cellForCard(cardId);
-    if (cell && cell.hasAttribute("data-pending")) return false; // a pending card cannot be moved again
-    if (typeof opts.onMove === "function") {
-      if (toLaneId !== undefined) opts.onMove(cardId, toColumnId, toIndex, toLaneId);
-      else if (toIndex === undefined) opts.onMove(cardId, toColumnId);
-      else opts.onMove(cardId, toColumnId, toIndex);
-    }
-    const labelsObj = opts.labels || {};
-    const result =
-      typeof opts.moveHandler === "function"
-        ? toLaneId !== undefined
-          ? opts.moveHandler(cardId, toColumnId, toIndex, toLaneId)
-          : toIndex === undefined
-            ? opts.moveHandler(cardId, toColumnId)
-            : opts.moveHandler(cardId, toColumnId, toIndex)
-        : undefined;
-    if (!result || typeof result.then !== "function") {
-      if (!silent && typeof labelsObj.moveAnnouncement === "function") announce(labelsObj.moveAnnouncement(cardTitle, columnTitle));
-      return true;
-    }
-    // Async: the board is rendered by the server, so the card stays put and shows it is pending.
-    if (cell) {
-      cell.setAttribute("data-pending", "");
-      cell.setAttribute("aria-busy", "true");
-    }
-    if (!silent && typeof labelsObj.movePending === "function") announce(labelsObj.movePending(cardTitle, columnTitle));
-    let ok = true;
+    let config = {};
     try {
-      await result;
-      if (!silent && typeof labelsObj.moveAnnouncement === "function") announce(labelsObj.moveAnnouncement(cardTitle, columnTitle));
-    } catch (error) {
-      ok = false;
-      if (typeof labelsObj.moveFailed === "function") announce(labelsObj.moveFailed(cardTitle, columnTitle, error));
-      if (typeof opts.onMoveError === "function") opts.onMoveError(cardId, toColumnId, error);
-      root.dispatchEvent(new CustomEvent("moveerror", { detail: { cardId, toColumnId, error }, bubbles: true }));
+        config = JSON.parse(root.getAttribute("data-lily-kanban-board-config") || "{}");
+    } catch {
+        config = {};
     }
-    if (cell) {
-      cell.removeAttribute("data-pending");
-      cell.removeAttribute("aria-busy");
-    }
-    return ok;
-  }
-
-  // -----------------------------------------------------------------
-  // Selection: several cards move together
-  // -----------------------------------------------------------------
-
-  const isSelectable = () => root.hasAttribute("data-lily-kanban-board-selectable");
-  const selectedIds = () =>
-    allCells()
-      .filter((td) => td.hasAttribute("data-selected") && td.hasAttribute("data-lily-kanban-board-card-id"))
-      .map((td) => td.getAttribute("data-lily-kanban-board-card-id"));
-
-  function setSelected(cardId, on) {
-    const cell = cellForCard(cardId);
-    if (!cell) return;
-    if (on) {
-      cell.setAttribute("data-selected", "");
-      cell.setAttribute("aria-selected", "true");
-    } else {
-      cell.removeAttribute("data-selected");
-      cell.removeAttribute("aria-selected");
-    }
-  }
-
-  function notifySelection() {
-    const ids = selectedIds();
-    if (typeof opts.onSelectionChange === "function") opts.onSelectionChange(ids);
-    root.dispatchEvent(new CustomEvent("selectionchange", { detail: ids, bubbles: true }));
-    syncExport();
-  }
-
-  function toggleSelected(cardId) {
-    if (isReadonly()) return;
-    const cell = cellForCard(cardId);
-    if (!cell) return;
-    setSelected(cardId, !cell.hasAttribute("data-selected"));
-    notifySelection();
-  }
-
-  function clearSelection() {
-    selectedIds().forEach((id) => setSelected(id, false));
-    notifySelection();
-  }
-
-  /** The cards that move when `cardId` moves: the whole selection when it is in it, else just that card. */
-  function movingGroup(cardId) {
-    if (!isSelectable()) return [cardId];
-    const ids = selectedIds();
-    return ids.length >= 2 && ids.includes(cardId) ? ids : [cardId];
-  }
-
-  // -----------------------------------------------------------------
-  // Undo: the client keeps the stack; the consumer owns the data, so an undo calls onMove back.
-  // -----------------------------------------------------------------
-
-  const undoStack = [];
-  const undoButton = root.querySelector("[data-lily-kanban-board-undo]");
-  const isUndoable = () => root.hasAttribute("data-lily-kanban-board-undoable");
-  function syncUndo() {
-    if (undoButton) undoButton.disabled = undoStack.length === 0;
-  }
-  function recordUndo(group) {
-    if (!isUndoable() || group.length === 0) return;
-    undoStack.push(group);
-    if (undoStack.length > 50) undoStack.shift();
-    syncUndo();
-  }
-
-  async function undo() {
-    if (!isUndoable() || isReadonly()) return;
-    const labelsObj = opts.labels || {};
-    while (undoStack.length > 0) {
-      const group = undoStack.pop();
-      syncUndo();
-      const live = group.filter((m) => {
-        const cell = cellForCard(m.cardId);
-        return !!cell && !cell.hasAttribute("data-locked");
-      });
-      if (live.length === 0) continue;
-      for (const m of live) await applyMove(m.cardId, m.fromColumnId, undefined, undefined, true);
-      if (live.length === 1) {
-        if (typeof labelsObj.undoAnnouncement === "function") {
-          announce(labelsObj.undoAnnouncement(textOf(cardHandleFor(live[0].cardId)), columnTitleFor(live[0].fromColumnId)));
-        }
-      } else if (typeof labelsObj.undoManyAnnouncement === "function") {
-        announce(labelsObj.undoManyAnnouncement(live.length));
-      }
-      return;
-    }
-  }
-
-  /**
-   * One path for every move (menu, Alt+Arrow, drop): a selection moves together, a refused move is announced,
-   * a successful one is remembered for undo.
-   */
-  async function requestMove(cardId, toColumnId, toIndex, toLaneId) {
-    const labelsObj = opts.labels || {};
-    const group = movingGroup(cardId);
-    if (group.length > 1) {
-      const moved = [];
-      let admitted = 0;
-      const runs = [];
-      for (const id of group) {
-        const cell = cellForCard(id);
-        if (!cell || cell.hasAttribute("data-locked") || cell.hasAttribute("data-pending") || columnOfCard(id) === toColumnId) continue;
-        if (isRefused(id, toColumnId, admitted)) {
-          if (typeof labelsObj.moveBlocked === "function") announce(labelsObj.moveBlocked(textOf(cardHandleFor(id)), columnTitleFor(toColumnId)));
-          continue;
-        }
-        admitted += 1;
-        const from = columnOfCard(id);
-        runs.push(applyMove(id, toColumnId, undefined, undefined, true).then((ok) => {
-          if (ok) moved.push({ cardId: id, fromColumnId: from, toColumnId });
-          return ok;
-        }));
-      }
-      if (runs.length === 0) return;
-      if (typeof labelsObj.moveManyAnnouncement === "function") announce(labelsObj.moveManyAnnouncement(runs.length, columnTitleFor(toColumnId)));
-      clearSelection();
-      await Promise.all(runs);
-      recordUndo(moved);
-      return;
-    }
-    if (isRefused(cardId, toColumnId, 0, toLaneId)) {
-      if (typeof labelsObj.moveBlocked === "function") announce(labelsObj.moveBlocked(textOf(cardHandleFor(cardId)), columnTitleFor(toColumnId)));
-      return;
-    }
-    const from = columnOfCard(cardId);
-    const ok = await applyMove(cardId, toColumnId, toIndex, toLaneId);
-    if (ok && from !== toColumnId) recordUndo([{ cardId, fromColumnId: from, toColumnId }]);
-  }
-
-  function chooseOption(cardId, index) {
-    const entry = menus.get(cardId);
-    if (!entry) return;
-    const options = Array.from(entry.list.querySelectorAll('[role="option"]'));
-    const option = options[index];
-    // Choosing the card's own column (the selected option) is not a move.
-    if (option && option.getAttribute("aria-selected") !== "true" && !isReadonly()) {
-      void requestMove(cardId, option.getAttribute("data-value"));
-    }
-    closeMenu(cardId, true);
-  }
-
-  // -----------------------------------------------------------------
-  // Move button open/close (click) — delegated once at the root.
-  // -----------------------------------------------------------------
-
-  function onRootClick(event) {
-    const target = event.target && event.target.closest ? event.target : null;
-    const fieldButton = target && target.closest("[data-lily-kanban-board-field-button]");
-    if (fieldButton) {
-      startFieldEdit(fieldButton.getAttribute("data-lily-kanban-board-card-id"), fieldButton.getAttribute("data-field-id"));
-      return;
-    }
-    const exportButton = target && target.closest("[data-kanban-export-format]");
-    if (exportButton) {
-      runExport(exportButton.getAttribute("data-kanban-export-format"));
-      return;
-    }
-    const collapse = target && target.closest("[data-lily-kanban-board-collapse]");
-    if (collapse) {
-      const id = collapse.getAttribute("data-lily-kanban-board-column-id");
-      applyCollapsed(id, !isCollapsed(id));
-      const ids = collapsedIds();
-      if (typeof opts.onCollapsedChange === "function") opts.onCollapsedChange(ids);
-      root.dispatchEvent(new CustomEvent("collapsechange", { detail: ids, bubbles: true }));
-      return;
-    }
-    const laneToggle = target && target.closest("[data-lily-kanban-board-lane-collapse]");
-    if (laneToggle) {
-      const id = laneToggle.getAttribute("data-lily-kanban-board-lane-id");
-      applyLaneCollapsed(id, !isLaneCollapsed(id));
-      const ids = collapsedLaneIds();
-      if (typeof opts.onLaneCollapseChange === "function") opts.onLaneCollapseChange(ids);
-      root.dispatchEvent(new CustomEvent("lanecollapsechange", { detail: ids, bubbles: true }));
-      return;
-    }
-    if (target && target.closest("[data-lily-kanban-board-undo]")) {
-      void undo();
-      return;
-    }
-    if (isSelectable() && (event.ctrlKey || event.metaKey) && target) {
-      const clicked = target.closest(".kanban-table-td[data-lily-kanban-board-card-id]");
-      if (clicked) {
-        event.preventDefault();
-        toggleSelected(clicked.getAttribute("data-lily-kanban-board-card-id"));
-        return;
-      }
-    }
-    const add = target && target.closest("[data-lily-kanban-board-add]");
-    if (add) {
-      const id = add.getAttribute("data-lily-kanban-board-column-id");
-      if (typeof opts.onAddCard === "function") opts.onAddCard(id);
-      root.dispatchEvent(new CustomEvent("addcard", { detail: id, bubbles: true }));
-      return;
-    }
-    const button =
-      event.target && event.target.closest
-        ? event.target.closest("[data-lily-kanban-board-move-button]")
-        : null;
-    if (!button) return;
-    const cardId = button.getAttribute("data-lily-kanban-board-card-id");
-    if (!cardId) return;
-    if (openCardId === cardId) closeMenu(cardId, true);
-    else openMenu(cardId);
-  }
-
-  function onDocumentClick(event) {
-    if (!openCardId) return;
-    const entry = menus.get(openCardId);
-    if (!entry) return;
-    const t = event.target;
-    if (t && (entry.list.contains(t) || entry.focusTarget.contains(t))) return;
-    closeMenu(openCardId, false);
-  }
-
-  function onRootFocusOut(event) {
-    if (!openCardId) return;
-    const entry = menus.get(openCardId);
-    if (!entry) return;
-    const next = event.relatedTarget;
-    if (next && (entry.list.contains(next) || (entry.button && entry.button.contains(next)))) return;
-    closeMenu(openCardId, false);
-  }
-
-  // -----------------------------------------------------------------
-  // Roving-tabindex grid keyboard navigation (WAI-ARIA APG Grid pattern)
-  // -----------------------------------------------------------------
-
-  /** The cursor follows focus however it arrives — a click, or a consumer's own focus(). */
-  function onGridFocusin(event) {
-    const cell =
-      event.target && event.target.closest
-        ? event.target.closest("[data-row][data-col]")
-        : null;
-    if (!cell) return;
-    const current = focusedCellEl();
-    if (current && current !== cell) current.setAttribute("tabindex", "-1");
-    cell.setAttribute("tabindex", "0");
-  }
-
-  /** A cell's row within its lane (its row across the board without lanes). */
-  function laneRowOf(cell) {
-    const tr = cell.parentElement;
-    return hasLanes && tr && tr.hasAttribute("data-lane-row")
-      ? Number(tr.getAttribute("data-lane-row"))
-      : Number(cell.getAttribute("data-row"));
-  }
-
-  /** Alt+ArrowUp/Down: move the focused card within its own column. */
-  function reorderCard(cell, delta) {
-    if (isReadonly()) return;
-    const cardId = cell.getAttribute("data-lily-kanban-board-card-id");
-    if (!cardId || cell.hasAttribute("data-locked")) return;
-    const col = Number(cell.getAttribute("data-col"));
-    const lane = laneOfCell(cell);
-    const total = cellsOfColumn(col).filter(
-      (td) => td.hasAttribute("data-lily-kanban-board-card-id") && (!hasLanes || laneOfCell(td) === lane),
-    ).length;
-    const row = laneRowOf(cell);
-    const toIndex = row + delta;
-    if (toIndex < 0 || toIndex >= total) return;
-    if (typeof opts.onReorder === "function") opts.onReorder(cardId, toIndex);
-    const reorderAnnouncement = opts.labels && opts.labels.reorderAnnouncement;
-    if (typeof reorderAnnouncement === "function") {
-      announce(reorderAnnouncement(textOf(cardHandleFor(cardId)), toIndex + 1, total));
-    }
-  }
-
-  let typeahead = { prefix: "", at: 0 };
-
-  function onGridKeydown(event) {
-    // The open move menu owns its own keys; letting them bubble here moved the
-    // grid cursor (and focus) out of the menu, and Enter reopened it after a move.
-    if (
-      event.target &&
-      event.target.closest &&
-      event.target.closest("[data-lily-kanban-board-move-list]")
-    ) {
-      return;
-    }
-    if (event.target && event.target.closest && event.target.closest(".kanban-board-field-editor")) return;
-    const cell =
-      event.target && event.target.closest
-        ? event.target.closest("[data-row][data-col]")
-        : null;
-    if (!cell) return;
-    const row = Number(cell.getAttribute("data-row"));
-    const col = Number(cell.getAttribute("data-col"));
-    const ctrlOrMeta = event.ctrlKey || event.metaKey;
-    // The horizontal arrows are visual: in a right-to-left layout the next column is on the left, so ArrowLeft goes forward.
-    const key = logicalKey(event.key, isRtl(cell));
-    // Ctrl/Cmd+Z undoes the last move while there is one, then the last field edit; Ctrl/Cmd+Shift+Z and Ctrl+Y redo field edits.
-    const historyAction = config.editableFields && !isReadonly() ? historyKey(event) : null;
-    if (event.key === "F2") {
-      // F2 with title editing on: rename the card. Otherwise edit its first editable field (the keyboard twin of clicking its value).
-      if (config.editableTitles && startTitleEdit(cell.getAttribute("data-lily-kanban-board-card-id"))) {
-        event.preventDefault();
-        return;
-      }
-      if (editFirstField(cell)) event.preventDefault();
-      return;
-    }
-    if (isUndoable() && ctrlOrMeta && !event.altKey && !event.shiftKey && (event.key === "z" || event.key === "Z") && undoStack.length > 0) {
-      event.preventDefault();
-      void undo();
-      return;
-    }
-    if (historyAction) {
-      event.preventDefault();
-      stepHistory(historyAction);
-      return;
-    }
-    if (isUndoable() && ctrlOrMeta && !event.altKey && !event.shiftKey && (event.key === "z" || event.key === "Z")) {
-      event.preventDefault();
-      void undo();
-      return;
-    }
-    if (isMovableColumns() && event.altKey && event.shiftKey && (key === "ArrowLeft" || key === "ArrowRight")) {
-      // Alt+Shift+ArrowLeft/Right: move this cell's column (the keyboard twin of dragging its header).
-      event.preventDefault();
-      const columnId = columnIds()[col];
-      const to = col + (key === "ArrowLeft" ? -1 : 1);
-      if (columnId && moveColumn(columnId, to)) {
-        const moved = cellAt(row, to);
-        if (moved) {
-          const current = focusedCellEl();
-          if (current && current !== moved) current.setAttribute("tabindex", "-1");
-          moved.setAttribute("tabindex", "0");
-          moved.focus({ preventScroll: true });
-        }
-      }
-      return;
-    }
-    if (isSelectable() && !ctrlOrMeta && !event.altKey && (event.key === "x" || event.key === "X")) {
-      const cardId = cell.getAttribute("data-lily-kanban-board-card-id");
-      if (cardId && !isReadonly()) {
-        event.preventDefault();
-        toggleSelected(cardId);
-      }
-      return;
-    }
-    if (event.altKey && (key === "ArrowLeft" || key === "ArrowRight")) {
-      // Alt+ArrowLeft/Right: move the card to the neighbouring column (the keyboard twin of dragging it there).
-      event.preventDefault();
-      const cardId = cell.getAttribute("data-lily-kanban-board-card-id");
-      const destination = columnIds()[col + (key === "ArrowLeft" ? -1 : 1)];
-      if (cardId && destination && !isReadonly() && !cell.hasAttribute("data-locked")) void requestMove(cardId, destination);
-      return;
-    }
-    if (event.altKey && (event.key === "ArrowUp" || event.key === "ArrowDown")) {
-      event.preventDefault();
-      reorderCard(cell, event.key === "ArrowUp" ? -1 : 1);
-      return;
-    }
-    // Type-ahead in the focused column: letters typed in quick succession move to the next card whose label starts with them.
-    // A lone "x" stays the select shortcut when cards are selectable; it joins a prefix already in progress.
-    if (isTypeaheadKey(event) && !event.altKey) {
-      const now = Date.now();
-      const continuing = typeahead.prefix !== "" && now - typeahead.at <= 700;
-      const isSelectKey = isSelectable() && (event.key === "x" || event.key === "X");
-      if (continuing || !isSelectKey) {
-        const state = nextTypeaheadState(typeahead, event.key, now, 700);
-        const labelsInColumn = Array.from({ length: numRows() }, (_, r) => {
-          const c = cellAt(r, col);
-          const id = c && c.getAttribute("data-lily-kanban-board-card-id");
-          return id ? cardTitleOf(id) : "";
-        });
-        const hit = findTypeaheadMatch(labelsInColumn, row, state.prefix);
-        if (hit !== -1) {
-          typeahead = state;
-          event.preventDefault();
-          moveFocus(hit, col);
-          return;
-        }
-      }
-    }
-    const move = gridMove(
-      event,
-      { row, col },
-      { firstRow: 0, lastRow: numRows() - 1, lastCol: numCols() - 1, pageStep: pageStepFor(scrollEl ? { height: viewHeight, rowHeight } : undefined), homeEnd: "column", rtl: isRtl(cell) },
+    // Type defaults (format, compare, export value) resolved once per init, never per card or keystroke.
+    // `opts.fieldHooks` carries the functions the macro cannot (a field's `parse`, `exportValue`, …), by field id.
+    const fields = resolveFields(
+        (config.fields || []).map((f) => ({ ...f, ...((opts.fieldHooks || {})[f.id] || {}) })),
+        config.locale,
     );
-    if (move) {
-      event.preventDefault();
-      moveFocus(move.row, move.col);
-      return;
+    const fieldDef = (id) => fields.find((f) => f.id === id);
+    /** The consumer's data by card id; an accepted edit updates it, so the board stays what the user sees. */
+    const dataCards = new Map(
+        (config.cards || []).map((c) => [c.id, { ...c, values: { ...(c.values || {}) } }]),
+    );
+    const fill = (template, tokens) =>
+        String(template).replace(/\{(\w+)\}/g, (match, name) =>
+            name in tokens ? String(tokens[name]) : match,
+        );
+    const cardTitleOf = (cardId) =>
+        textOf(cardHandleFor(cardId)) || (dataCards.get(cardId) || {}).title || cardId;
+    /** A label as text: the client option's function (`opts.labels.name(...args)`) wins, else the macro's template string with `{tokens}`. */
+    function labelText(name, tokens, ...args) {
+        const fn = opts.labels && opts.labels[name];
+        if (typeof fn === "function") return fn(...args);
+        const template = (config.labels || {})[name];
+        return template ? fill(template, tokens) : undefined;
     }
-    switch (key) {
-      case "ArrowUp":
-        event.preventDefault();
-        moveFocus(row - 1, col);
-        break;
-      case "ArrowDown":
-        event.preventDefault();
-        moveFocus(row + 1, col);
-        break;
-      case "ArrowLeft":
-        event.preventDefault();
-        moveFocus(row, col - 1);
-        break;
-      case "ArrowRight":
-        event.preventDefault();
-        moveFocus(row, col + 1);
-        break;
-      case "Home":
-        event.preventDefault();
-        if (ctrlOrMeta) moveFocus(0, 0);
-        else moveFocus(0, col);
-        break;
-      case "End":
-        event.preventDefault();
-        if (ctrlOrMeta) moveFocus(numRows() - 1, numCols() - 1);
-        else moveFocus(numRows() - 1, col);
-        break;
-      case "Enter":
-      case " ": {
-        event.preventDefault();
-        const cardId = cell.getAttribute("data-lily-kanban-board-card-id");
-        if (cardId) openMenu(cardId);
-        break;
-      }
-      default:
-        break;
+
+    /** Read-only is the macro's `readonly` param, surfaced as `data-readonly`. */
+    function isReadonly() {
+        return root.hasAttribute("data-readonly");
     }
-  }
 
-  // -----------------------------------------------------------------
-  // Column reordering: the columns move in place (the macro's `columnOrder` is only the starting order)
-  // -----------------------------------------------------------------
+    // -----------------------------------------------------------------
+    // Collapsed columns: a collapsed column keeps its header and count but its
+    // cards are taken out of the DOM (stashed, restored on expand).
+    // -----------------------------------------------------------------
 
-  const isMovableColumns = () => root.hasAttribute("data-lily-kanban-board-movable-columns");
+    /** @type {WeakMap<Element, Node[]>} */
+    const stash = new WeakMap();
+    const columnIds = () =>
+        Array.from(root.querySelectorAll("[data-lily-kanban-board-column-id]"))
+            .filter((th) => th.tagName === "TH")
+            .map((th) => th.getAttribute("data-lily-kanban-board-column-id"));
+    const headerFor = (columnId) =>
+        root.querySelector(`th[data-lily-kanban-board-column-id="${escapeAttrValue(columnId)}"]`);
+    const cellsOfColumn = (index) =>
+        allCells().filter((td) => td.getAttribute("data-col") === String(index));
 
-  function moveColumn(columnId, toIndex) {
-    const ids = columnIds();
-    const from = ids.indexOf(columnId);
-    const to = Math.min(Math.max(toIndex, 0), ids.length - 1);
-    if (from === -1 || from === to) return false;
-    const order = ids.slice();
-    order.splice(to, 0, ...order.splice(from, 1));
-    const permute = (parent, items) => {
-      order.map((id) => items[ids.indexOf(id)]).forEach((el) => parent.appendChild(el));
+    function isCollapsed(columnId) {
+        const th = headerFor(columnId);
+        return !!th && th.hasAttribute("data-collapsed");
+    }
+
+    /** The text a search matches a card on (the macro puts title, subtitle and badges in a data attribute). */
+    const searchQuery = () => {
+        const input = root.querySelector("[data-lily-kanban-board-search]");
+        return input ? input.value : "";
     };
-    const headRow = table.querySelector(".kanban-table-head .kanban-table-row");
-    if (headRow) permute(headRow, Array.from(headRow.children));
-    rows.filter(isDataRow).forEach((tr) => {
-      const cells = cellsOfRow(tr);
-      permute(tr, cells);
-      cells.forEach((td) => td.setAttribute("data-col", String(order.indexOf(ids[Number(td.getAttribute("data-col"))]))));
-    });
-    const footRow = table.querySelector(".kanban-table-foot .kanban-table-row");
-    if (footRow) permute(footRow, Array.from(footRow.children));
-    // Each card's move menu lists the columns in their new order.
-    menus.forEach((entry) => {
-      const options = Array.from(entry.list.children);
-      options
-        .slice()
-        .sort((a, b) => order.indexOf(a.getAttribute("data-value")) - order.indexOf(b.getAttribute("data-value")))
-        .forEach((li) => entry.list.appendChild(li));
-    });
-    if (typeof opts.onColumnOrderChange === "function") opts.onColumnOrderChange(order);
-    root.dispatchEvent(new CustomEvent("columnorderchange", { detail: order, bubbles: true }));
-    const columnMove = opts.labels && opts.labels.columnMoveAnnouncement;
-    if (typeof columnMove === "function") announce(columnMove(columnTitleFor(columnId), to + 1, order.length));
-    return true;
-  }
+    /** A card cell's searchable text: its title, subtitle and badges (from the macro) and every field's formatted text. */
+    const cardSearchText = (td) => {
+        const data = dataCards.get(td.getAttribute("data-lily-kanban-board-card-id"));
+        const fieldTexts = data ? fields.map((f) => fieldText(f, data.values)) : [];
+        return [td.getAttribute("data-lily-kanban-board-search-text") || "", ...fieldTexts].join(
+            " ",
+        );
+    };
 
-  // -----------------------------------------------------------------
-  // Pointer drag-and-drop (supplementary, never the only move path)
-  // -----------------------------------------------------------------
-
-  let draggingCardId = null;
-  let draggingColumnId = null;
-
-  function onDragStart(event) {
-    const header =
-      event.target && event.target.closest && isMovableColumns() ? event.target.closest("th[data-lily-kanban-board-column-id]") : null;
-    if (header) {
-      draggingColumnId = header.getAttribute("data-lily-kanban-board-column-id");
-      if (event.dataTransfer) event.dataTransfer.setData("text/plain", draggingColumnId || "");
-      return;
+    /**
+     * One pass over every cell: a cell is emptied (its content stashed out of the DOM) when its column is collapsed
+     * or its card does not match the search; rows with nothing left to show are hidden.
+     */
+    function refreshVisibility() {
+        const ids = columnIds();
+        const query = searchQuery();
+        const searching = query.trim() !== "";
+        const hiddenByColumn = new Map();
+        allCells().forEach((td) => {
+            const index = Number(td.getAttribute("data-col"));
+            const collapsed = isCollapsed(ids[index]);
+            const filtered =
+                searching &&
+                td.hasAttribute("data-lily-kanban-board-card-id") &&
+                !wordsMatch(cardSearchText(td), query);
+            const hide = collapsed || filtered;
+            if (collapsed) td.setAttribute("data-collapsed", "");
+            else td.removeAttribute("data-collapsed");
+            if (hide) {
+                if (!stash.has(td)) {
+                    stash.set(td, Array.from(td.childNodes));
+                    td.replaceChildren();
+                }
+                if (filtered) hiddenByColumn.set(index, (hiddenByColumn.get(index) || 0) + 1);
+            } else {
+                const nodes = stash.get(td);
+                if (nodes) {
+                    td.replaceChildren(...nodes);
+                    stash.delete(td);
+                }
+            }
+        });
+        ids.forEach((id, index) => {
+            const th = headerFor(id);
+            if (!th) return;
+            const hidden = hiddenByColumn.get(index) || 0;
+            if (hidden > 0) th.setAttribute("data-hidden-count", String(hidden));
+            else th.removeAttribute("data-hidden-count");
+        });
+        // A row with nothing left to show is hidden, so the board's height follows what is shown; so is every row of a collapsed lane.
+        rows.filter(isDataRow).forEach((tr) => {
+            const cells = cellsOfRow(tr);
+            const empty = cells.every((td) => td.childNodes.length === 0);
+            const laneId = tr.getAttribute("data-lane-id");
+            tr.hidden =
+                (empty && cells.some((td) => stash.has(td))) ||
+                (laneId !== null && isLaneCollapsed(laneId));
+        });
+        // Each lane's count follows the search: the cards still showing across its rows.
+        root.querySelectorAll("[data-lily-kanban-board-lane-count]").forEach((el) => {
+            const th = el.closest("th[data-lane-id]");
+            const template = el.getAttribute("data-template") || "";
+            if (!th) return;
+            const laneId = th.getAttribute("data-lane-id");
+            let count = 0;
+            rows.filter(isDataRow).forEach((tr) => {
+                if (tr.getAttribute("data-lane-id") !== laneId) return;
+                cellsOfRow(tr).forEach((td) => {
+                    if (!td.hasAttribute("data-lily-kanban-board-card-id")) return;
+                    if (!searching || wordsMatch(cardSearchText(td), query)) count += 1;
+                });
+            });
+            el.textContent = template
+                .split("{lane}")
+                .join(el.getAttribute("data-lane-title") || "")
+                .split("{count}")
+                .join(String(count));
+        });
+        // Keep the roving tab stop on a visible row.
+        const stop = focusedCellEl();
+        if (stop && stop.parentElement && stop.parentElement.hidden) {
+            const firstRow = rows.find((tr) => isDataRow(tr) && !tr.hidden);
+            const first = firstRow ? cellsOfRow(firstRow)[0] : null;
+            stop.setAttribute("tabindex", "-1");
+            if (first) first.setAttribute("tabindex", "0");
+        }
+        highlightTitles(query);
+        applyWindow(true);
+        syncExport();
     }
-    const handle =
-      event.target && event.target.closest
-        ? event.target.closest("[data-lily-kanban-board-card-handle]")
-        : null;
-    if (!handle) return;
-    const dragged = handle.getAttribute("data-lily-kanban-board-card-id");
-    const owner = cellForCard(dragged);
-    if (owner && owner.hasAttribute("data-locked")) {
-      event.preventDefault();
-      return;
+
+    /** Wrap the words the search matched in each shown card's title in `<mark class="mark kanban-board-match">`; plain text when not searching. */
+    function highlightTitles(query) {
+        const searching = query.trim() !== "";
+        root.querySelectorAll("[data-lily-kanban-board-card-handle]").forEach((handle) => {
+            const host = handle.querySelector("a.kanban-board-card-link") || handle;
+            if (!host.hasAttribute("data-original-title"))
+                host.setAttribute("data-original-title", host.textContent || "");
+            const original = host.getAttribute("data-original-title") || "";
+            const marked = host.querySelector("mark");
+            if (!searching && !marked) return;
+            const nodes = !searching
+                ? [document.createTextNode(original)]
+                : highlightSegments(original, query).map((part) => {
+                      if (!part.match) return document.createTextNode(part.text);
+                      const mark = document.createElement("mark");
+                      mark.className = "mark kanban-board-match";
+                      mark.textContent = part.text;
+                      return mark;
+                  });
+            host.replaceChildren(...nodes);
+        });
     }
-    draggingCardId = dragged;
-    if (event.dataTransfer) event.dataTransfer.setData("text/plain", draggingCardId || "");
-    const group = movingGroup(dragged);
-    group.forEach((id) => {
-      const groupCell = cellForCard(id);
-      if (groupCell) groupCell.setAttribute("data-dragging", "");
+
+    function applyCollapsed(columnId, collapsed) {
+        const th = headerFor(columnId);
+        if (!th) return;
+        if (collapsed) th.setAttribute("data-collapsed", "");
+        else th.removeAttribute("data-collapsed");
+        const toggle = th.querySelector("[data-lily-kanban-board-collapse]");
+        if (toggle) {
+            toggle.setAttribute("aria-expanded", String(!collapsed));
+            toggle.textContent = collapsed ? "▸" : "▾";
+        }
+        refreshVisibility();
+    }
+
+    const laneThFor = (laneId) =>
+        root.querySelector(`th.kanban-board-lane[data-lane-id="${escapeAttrValue(laneId)}"]`);
+    function isLaneCollapsed(laneId) {
+        const th = laneThFor(laneId);
+        return !!th && th.hasAttribute("data-collapsed");
+    }
+    function collapsedLaneIds() {
+        return Array.from(root.querySelectorAll("th.kanban-board-lane[data-collapsed]")).map((th) =>
+            th.getAttribute("data-lane-id"),
+        );
+    }
+    function applyLaneCollapsed(laneId, collapsed) {
+        const th = laneThFor(laneId);
+        if (!th) return;
+        if (collapsed) th.setAttribute("data-collapsed", "");
+        else th.removeAttribute("data-collapsed");
+        const toggle = th.querySelector("[data-lily-kanban-board-lane-collapse]");
+        if (toggle) {
+            toggle.setAttribute("aria-expanded", String(!collapsed));
+            toggle.textContent = collapsed ? "▸" : "▾";
+            const template = toggle.getAttribute(
+                collapsed ? "data-expand-template" : "data-collapse-template",
+            );
+            if (template)
+                toggle.setAttribute(
+                    "aria-label",
+                    template
+                        .split("{lane}")
+                        .join(th.querySelector(".kanban-board-lane-title")?.textContent || ""),
+                );
+        }
+        refreshVisibility();
+    }
+
+    function collapsedIds() {
+        return columnIds().filter((id) => isCollapsed(id));
+    }
+
+    /** The cell holding a card (its id is on the cell, so this works while the card is stashed). */
+    const cellForCard = (cardId) =>
+        allCells().find(
+            (td) => td.getAttribute("data-lily-kanban-board-card-id") === String(cardId),
+        ) || null;
+
+    /** A move is refused by the card's allowed columns, the consumer's veto or by a full hard-limited column. */
+    function isRefused(cardId, toColumnId, extra = 0, toLaneId) {
+        const owner = cellForCard(cardId);
+        // With swimlanes: a drop into another lane is a lane change, which `allowLaneChange: false` refuses whatever `canMove` says.
+        const ownLane = owner ? laneOfCell(owner) : null;
+        const laneChange = ownLane != null && toLaneId != null && toLaneId !== ownLane;
+        if (laneChange && opts.allowLaneChange === false) return true;
+        const allowed = owner && owner.getAttribute("data-lily-kanban-board-allowed-columns");
+        const ownColumn = owner ? columnIds()[Number(owner.getAttribute("data-col"))] : null;
+        if (allowed != null && toColumnId !== ownColumn && !allowed.split(",").includes(toColumnId))
+            return true;
+        if (
+            typeof opts.canMove === "function" &&
+            !opts.canMove(
+                cardId,
+                toColumnId,
+                toLaneId != null ? toLaneId : ownLane != null ? ownLane : undefined,
+            )
+        )
+            return true;
+        const th = headerFor(toColumnId);
+        if (!th || !th.hasAttribute("data-strict-limit")) return false;
+        const limit = Number(th.getAttribute("data-wip-limit"));
+        const index = columnIds().indexOf(toColumnId);
+        const count = cellsOfColumn(index).filter((td) =>
+            td.hasAttribute("data-lily-kanban-board-card-id"),
+        ).length;
+        return Number.isFinite(limit) && count + extra >= limit;
+    }
+
+    function numCols() {
+        return root.querySelectorAll("[data-lily-kanban-board-column-id]").length;
+    }
+    function numRows() {
+        return dataRows().length;
+    }
+    function cellAt(row, col) {
+        const tr = dataRows()[row];
+        return tr
+            ? cellsOfRow(tr).find((td) => td.getAttribute("data-col") === String(col)) || null
+            : null;
+    }
+    function focusedCellEl() {
+        return allCells().find((td) => td.getAttribute("tabindex") === "0") || null;
+    }
+
+    // -----------------------------------------------------------------
+    // Virtualization: every row is rendered by the macro; only the rows in view (plus the roving tab stop's row)
+    // stay in the DOM, between spacer rows. Without the client script the area is just scrollable.
+    // -----------------------------------------------------------------
+
+    const scrollEl = root.querySelector("[data-lily-kanban-board-virtualize]");
+    const rowHeight = scrollEl ? Number(scrollEl.getAttribute("data-row-height")) : 0;
+    const overscan = scrollEl ? Number(scrollEl.getAttribute("data-overscan") || 3) : 0;
+    const viewHeight = scrollEl ? parseFloat(scrollEl.style.height) || 0 : 0;
+    let scrollTopState = 0;
+    let windowSig = null;
+
+    const windowedRows = () => rows.filter((tr) => !tr.hidden);
+
+    function applyWindow(force) {
+        if (!scrollEl || !tbody || !rowHeight) return;
+        const visible = windowedRows();
+        const start = Math.max(0, Math.floor(scrollTopState / rowHeight) - overscan);
+        const end = Math.min(
+            visible.length,
+            Math.ceil((scrollTopState + viewHeight) / rowHeight) + overscan,
+        );
+        const indices = new Set();
+        for (let i = start; i < end; i++) indices.add(i);
+        const stop = focusedCellEl();
+        const stopRow = stop ? visible.indexOf(stop.parentElement) : -1;
+        if (stopRow >= 0) indices.add(stopRow);
+        const sorted = Array.from(indices).sort((a, b) => a - b);
+        const sig = sorted.join(",") + "|" + visible.length;
+        if (!force && sig === windowSig) return;
+        windowSig = sig;
+        const hadFocus = !!document.activeElement && tbody.contains(document.activeElement);
+        const focused = hadFocus ? document.activeElement : null;
+        const spacer = (count) => {
+            const tr = document.createElement("tr");
+            tr.className = "kanban-board-spacer";
+            tr.setAttribute("aria-hidden", "true");
+            tr.style.height = `${count * rowHeight}px`;
+            const td = document.createElement("td");
+            td.colSpan = numCols();
+            tr.appendChild(td);
+            return tr;
+        };
+        const children = [];
+        let previous = -1;
+        for (const index of sorted) {
+            if (index - previous > 1) children.push(spacer(index - previous - 1));
+            children.push(visible[index]);
+            previous = index;
+        }
+        if (visible.length - 1 - previous > 0) children.push(spacer(visible.length - 1 - previous));
+        tbody.replaceChildren(...children);
+        if (focused && focused.isConnected === false) focused.focus({ preventScroll: true });
+    }
+
+    /** Bring a row into the scroll area. */
+    function revealRow(rowIndex) {
+        if (!scrollEl || !rowHeight) return;
+        const tr = dataRows()[rowIndex];
+        const slot = tr ? windowedRows().indexOf(tr) : -1;
+        if (slot < 0) return;
+        const top = slot * rowHeight;
+        let next = scrollTopState;
+        if (top < scrollTopState) next = top;
+        else if (top + rowHeight > scrollTopState + viewHeight) next = top + rowHeight - viewHeight;
+        if (next === scrollTopState) return;
+        scrollTopState = next;
+        scrollEl.scrollTop = next;
+        applyWindow(false);
+    }
+
+    function onScroll() {
+        scrollTopState = scrollEl.scrollTop;
+        applyWindow(false);
+    }
+
+    function moveFocus(row, col) {
+        let clampedRow = Math.min(Math.max(row, 0), numRows() - 1);
+        {
+            // Step over hidden rows (a collapsed lane, a search that emptied a row) in the direction of travel.
+            const current = focusedCellEl();
+            const currentRow = current ? dataRows().indexOf(current.parentElement) : clampedRow;
+            const step = clampedRow >= currentRow ? 1 : -1;
+            const all = dataRows();
+            let probe = clampedRow;
+            while (probe >= 0 && probe < all.length && all[probe].hidden) probe += step;
+            if (probe < 0 || probe >= all.length) {
+                probe = clampedRow;
+                while (probe >= 0 && probe < all.length && all[probe].hidden) probe -= step;
+            }
+            if (probe >= 0 && probe < all.length) clampedRow = probe;
+        }
+        const clampedCol = Math.min(Math.max(col, 0), numCols() - 1);
+        revealRow(clampedRow);
+        const target = cellAt(clampedRow, clampedCol);
+        if (!target) return;
+        const current = focusedCellEl();
+        if (current && current !== target) current.setAttribute("tabindex", "-1");
+        target.setAttribute("tabindex", "0");
+        target.focus({ preventScroll: true });
+    }
+
+    // -----------------------------------------------------------------
+    // Move menus — one controller per card, keyed by the card's own id.
+    // -----------------------------------------------------------------
+
+    /** @type {Map<string, {button: HTMLElement, list: HTMLElement, keyboard: ReturnType<typeof createListboxKeyboard>}>} */
+    const menus = new Map();
+    let openCardId = null;
+
+    Array.from(root.querySelectorAll("[data-lily-kanban-board-move-list]")).forEach((list) => {
+        const cardId = list.getAttribute("data-lily-kanban-board-card-id");
+        const button = root.querySelector(
+            `[data-lily-kanban-board-move-button][data-lily-kanban-board-card-id="${escapeAttrValue(cardId)}"]`,
+        );
+        // The button renders only when labels.moveButton names it; without it
+        // the card's own cell opens the menu and takes focus back.
+        const cell = list.closest("[data-row][data-col]");
+        const focusTarget = button || cell;
+        if (!cardId || !focusTarget) return;
+        const keyboard = createListboxKeyboard(list, {
+            clamp: true,
+            onActivate: (index) => chooseOption(cardId, index),
+            onEscape: () => closeMenu(cardId, true),
+            onTabOut: () => {
+                focusTarget.focus({ preventScroll: true });
+                closeMenu(cardId, false);
+            },
+        });
+        list.addEventListener("click", (event) => {
+            const li =
+                event.target && event.target.closest
+                    ? event.target.closest('[role="option"]')
+                    : null;
+            if (!li) return;
+            const options = Array.from(list.querySelectorAll('[role="option"]'));
+            const index = options.indexOf(li);
+            if (index >= 0) chooseOption(cardId, index);
+        });
+        menus.set(cardId, { button, focusTarget, list, keyboard });
     });
-    if (typeof opts.dragPreviewText === "function" && event.dataTransfer && event.dataTransfer.setDragImage) {
-      const preview = document.createElement("div");
-      preview.className = "kanban-board-drag-preview";
-      preview.textContent = opts.dragPreviewText(group.map((id) => ({ id, title: textOf(cardHandleFor(id)) })));
-      preview.style.position = "absolute";
-      preview.style.top = "-1000px";
-      root.appendChild(preview);
-      event.dataTransfer.setDragImage(preview, 0, 0);
-      setTimeout(() => preview.remove(), 0);
-    }
-  }
 
-  function onDragEnd() {
-    draggingCardId = null;
-    draggingColumnId = null;
-    root.querySelectorAll("[data-dragging]").forEach((el) => el.removeAttribute("data-dragging"));
-    root.querySelectorAll("[data-drop-target], [data-drop-blocked]").forEach((el) => {
-      el.removeAttribute("data-drop-target");
-      el.removeAttribute("data-drop-blocked");
-    });
-  }
+    function openMenu(cardId) {
+        if (isReadonly()) return;
+        const owner = cellForCard(cardId);
+        if (owner && owner.hasAttribute("data-locked")) return;
+        if (openCardId && openCardId !== cardId) closeMenu(openCardId, false);
+        const entry = menus.get(cardId);
+        if (!entry) return;
+        openCardId = cardId;
+        if (entry.button) entry.button.setAttribute("aria-expanded", "true");
+        entry.list.hidden = false;
+        const options = Array.from(entry.list.querySelectorAll('[role="option"]'));
+        const selectedIndex = options.findIndex((o) => o.getAttribute("aria-selected") === "true");
+        // A veto (opts.canMove) marks refused destinations aria-disabled.
+        options.forEach((option) => {
+            const refused =
+                option.getAttribute("aria-selected") !== "true" &&
+                isRefused(cardId, option.getAttribute("data-value"));
+            if (refused) option.setAttribute("aria-disabled", "true");
+            else option.removeAttribute("aria-disabled");
+        });
+        entry.keyboard.setActive(selectedIndex >= 0 ? selectedIndex : 0);
+        entry.list.focus({ preventScroll: true });
+    }
 
-  function onDragOver(event) {
-    if (draggingColumnId) {
-      if (event.target && event.target.closest && event.target.closest("th[data-lily-kanban-board-column-id]")) event.preventDefault();
-      return;
+    function closeMenu(cardId, refocus) {
+        const entry = menus.get(cardId);
+        if (!entry) return;
+        if (entry.button) entry.button.setAttribute("aria-expanded", "false");
+        entry.list.hidden = true;
+        entry.keyboard.setActive(-1);
+        if (openCardId === cardId) openCardId = null;
+        // Refocus THIS card's own button (or its cell, when it has none) —
+        // never a shared "last" reference. See the shared-ref regression note
+        // in this file's header comment.
+        if (refocus) entry.focusTarget.focus({ preventScroll: true });
     }
-    if (!draggingCardId) return;
-    const cell =
-      event.target && event.target.closest
-        ? event.target.closest("[data-row][data-col]")
-        : null;
-    if (!cell || isReadonly()) return;
-    // Whether the cell a dragged card is over would refuse it (`canMove`, `allowedColumns`, a strict WIP limit): the live "can't drop here" cue.
-    const group = Math.max(1, root.querySelectorAll("[data-dragging]").length);
-    const blocked = isRefused(draggingCardId, columnIds()[Number(cell.getAttribute("data-col"))], group - 1, laneOfCell(cell) || undefined);
-    root.querySelectorAll("[data-drop-target], [data-drop-blocked]").forEach((el) => {
-      el.removeAttribute("data-drop-target");
-      el.removeAttribute("data-drop-blocked");
-    });
-    cell.setAttribute(blocked ? "data-drop-blocked" : "data-drop-target", "");
-    // A refused drop is not a drop target: leaving dragover un-prevented makes the browser show its "not allowed" cursor.
-    if (blocked) {
-      if (event.dataTransfer) event.dataTransfer.dropEffect = "none";
-      return;
-    }
-    event.preventDefault();
-    if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
-  }
 
-  function onDrop(event) {
-    if (draggingColumnId) {
-      const target = event.target && event.target.closest ? event.target.closest("th[data-lily-kanban-board-column-id]") : null;
-      const id = draggingColumnId;
-      draggingColumnId = null;
-      if (!target) return;
-      event.preventDefault();
-      const targetId = target.getAttribute("data-lily-kanban-board-column-id");
-      if (id && targetId && id !== targetId) moveColumn(id, columnIds().indexOf(targetId));
-      return;
+    function columnTitleFor(columnId) {
+        const th = headerFor(columnId);
+        if (th && th.getAttribute("data-lily-kanban-board-column-title"))
+            return th.getAttribute("data-lily-kanban-board-column-title");
+        const option = root.querySelector(
+            `.kanban-board-move-option[data-value="${escapeAttrValue(columnId)}"]`,
+        );
+        return option ? textOf(option) : columnId;
     }
-    const cell =
-      event.target && event.target.closest
-        ? event.target.closest("[data-row][data-col]")
-        : null;
-    if (!cell) return;
-    event.preventDefault();
-    root.querySelectorAll("[data-drop-target], [data-drop-blocked]").forEach((el) => {
-      el.removeAttribute("data-drop-target");
-      el.removeAttribute("data-drop-blocked");
-    });
-    root.querySelectorAll("[data-dragging]").forEach((el) => el.removeAttribute("data-dragging"));
-    const cardId =
-      draggingCardId ||
-      (event.dataTransfer && event.dataTransfer.getData
-        ? event.dataTransfer.getData("text/plain")
-        : "");
-    draggingCardId = null;
-    if (!cardId) return;
-    const colIndex = Number(cell.getAttribute("data-col"));
-    const headerCells = Array.from(
-      root.querySelectorAll("[data-lily-kanban-board-column-id]"),
-    );
-    const toColumnId =
-      headerCells[colIndex] &&
-      headerCells[colIndex].getAttribute("data-lily-kanban-board-column-id");
-    if (!toColumnId) return;
-    if (isReadonly()) return;
-    const cardCell = cellForCard(cardId);
-    const dropRow = laneRowOf(cell);
-    const dropLane = hasLanes ? laneOfCell(cell) : undefined;
-    const overCard = cell.hasAttribute("data-lily-kanban-board-card-id") && stash.has(cell) === false;
-    if (cardCell && hasLanes && Number(cardCell.getAttribute("data-col")) === colIndex && dropLane !== laneOfCell(cardCell)) {
-      // Dropped into another lane of its own column: only the lane changes.
-      if (!cardCell.hasAttribute("data-locked")) void requestMove(cardId, toColumnId, undefined, dropLane);
-      return;
+
+    function announce(message) {
+        if (message && statusEl) statusEl.textContent = message;
     }
-    if (cardCell && Number(cardCell.getAttribute("data-col")) === colIndex) {
-      // Dropped on another card of its own column: reorder to that position.
-      const fromRow = laneRowOf(cardCell);
-      if (overCard && fromRow !== dropRow && !cardCell.hasAttribute("data-locked")) {
-        if (typeof opts.onReorder === "function") opts.onReorder(cardId, dropRow);
+
+    function cardHandleFor(cardId) {
+        return root.querySelector(
+            `[data-lily-kanban-board-card-handle][data-lily-kanban-board-card-id="${escapeAttrValue(cardId)}"]`,
+        );
+    }
+
+    const columnOfCard = (cardId) => {
+        const cell = cellForCard(cardId);
+        return cell ? columnIds()[Number(cell.getAttribute("data-col"))] : null;
+    };
+    const laneOfCell = (cell) => {
+        const tr = cell && cell.parentElement;
+        return tr ? tr.getAttribute("data-lane-id") : null;
+    };
+
+    /** Resolves true when the move went through (a synchronous `onMove`, or a promise that resolved). */
+    async function applyMove(cardId, toColumnId, toIndex, toLaneId, silent) {
+        const cardTitle = textOf(cardHandleFor(cardId));
+        const columnTitle = columnTitleFor(toColumnId);
+        const cell = cellForCard(cardId);
+        if (cell && cell.hasAttribute("data-pending")) return false; // a pending card cannot be moved again
+        if (typeof opts.onMove === "function") {
+            if (toLaneId !== undefined) opts.onMove(cardId, toColumnId, toIndex, toLaneId);
+            else if (toIndex === undefined) opts.onMove(cardId, toColumnId);
+            else opts.onMove(cardId, toColumnId, toIndex);
+        }
+        const labelsObj = opts.labels || {};
+        const result =
+            typeof opts.moveHandler === "function"
+                ? toLaneId !== undefined
+                    ? opts.moveHandler(cardId, toColumnId, toIndex, toLaneId)
+                    : toIndex === undefined
+                      ? opts.moveHandler(cardId, toColumnId)
+                      : opts.moveHandler(cardId, toColumnId, toIndex)
+                : undefined;
+        if (!result || typeof result.then !== "function") {
+            if (!silent && typeof labelsObj.moveAnnouncement === "function")
+                announce(labelsObj.moveAnnouncement(cardTitle, columnTitle));
+            return true;
+        }
+        // Async: the board is rendered by the server, so the card stays put and shows it is pending.
+        if (cell) {
+            cell.setAttribute("data-pending", "");
+            cell.setAttribute("aria-busy", "true");
+        }
+        if (!silent && typeof labelsObj.movePending === "function")
+            announce(labelsObj.movePending(cardTitle, columnTitle));
+        let ok = true;
+        try {
+            await result;
+            if (!silent && typeof labelsObj.moveAnnouncement === "function")
+                announce(labelsObj.moveAnnouncement(cardTitle, columnTitle));
+        } catch (error) {
+            ok = false;
+            if (typeof labelsObj.moveFailed === "function")
+                announce(labelsObj.moveFailed(cardTitle, columnTitle, error));
+            if (typeof opts.onMoveError === "function") opts.onMoveError(cardId, toColumnId, error);
+            root.dispatchEvent(
+                new CustomEvent("moveerror", {
+                    detail: { cardId, toColumnId, error },
+                    bubbles: true,
+                }),
+            );
+        }
+        if (cell) {
+            cell.removeAttribute("data-pending");
+            cell.removeAttribute("aria-busy");
+        }
+        return ok;
+    }
+
+    // -----------------------------------------------------------------
+    // Selection: several cards move together
+    // -----------------------------------------------------------------
+
+    const isSelectable = () => root.hasAttribute("data-lily-kanban-board-selectable");
+    const selectedIds = () =>
+        allCells()
+            .filter(
+                (td) =>
+                    td.hasAttribute("data-selected") &&
+                    td.hasAttribute("data-lily-kanban-board-card-id"),
+            )
+            .map((td) => td.getAttribute("data-lily-kanban-board-card-id"));
+
+    function setSelected(cardId, on) {
+        const cell = cellForCard(cardId);
+        if (!cell) return;
+        if (on) {
+            cell.setAttribute("data-selected", "");
+            cell.setAttribute("aria-selected", "true");
+        } else {
+            cell.removeAttribute("data-selected");
+            cell.removeAttribute("aria-selected");
+        }
+    }
+
+    function notifySelection() {
+        const ids = selectedIds();
+        if (typeof opts.onSelectionChange === "function") opts.onSelectionChange(ids);
+        root.dispatchEvent(new CustomEvent("selectionchange", { detail: ids, bubbles: true }));
+        syncExport();
+    }
+
+    function toggleSelected(cardId) {
+        if (isReadonly()) return;
+        const cell = cellForCard(cardId);
+        if (!cell) return;
+        setSelected(cardId, !cell.hasAttribute("data-selected"));
+        notifySelection();
+    }
+
+    function clearSelection() {
+        selectedIds().forEach((id) => setSelected(id, false));
+        notifySelection();
+    }
+
+    /** The cards that move when `cardId` moves: the whole selection when it is in it, else just that card. */
+    function movingGroup(cardId) {
+        if (!isSelectable()) return [cardId];
+        const ids = selectedIds();
+        return ids.length >= 2 && ids.includes(cardId) ? ids : [cardId];
+    }
+
+    // -----------------------------------------------------------------
+    // Undo: the client keeps the stack; the consumer owns the data, so an undo calls onMove back.
+    // -----------------------------------------------------------------
+
+    const undoStack = [];
+    const undoButton = root.querySelector("[data-lily-kanban-board-undo]");
+    const isUndoable = () => root.hasAttribute("data-lily-kanban-board-undoable");
+    function syncUndo() {
+        if (undoButton) undoButton.disabled = undoStack.length === 0;
+    }
+    function recordUndo(group) {
+        if (!isUndoable() || group.length === 0) return;
+        undoStack.push(group);
+        if (undoStack.length > 50) undoStack.shift();
+        syncUndo();
+    }
+
+    async function undo() {
+        if (!isUndoable() || isReadonly()) return;
+        const labelsObj = opts.labels || {};
+        while (undoStack.length > 0) {
+            const group = undoStack.pop();
+            syncUndo();
+            const live = group.filter((m) => {
+                const cell = cellForCard(m.cardId);
+                return !!cell && !cell.hasAttribute("data-locked");
+            });
+            if (live.length === 0) continue;
+            for (const m of live)
+                await applyMove(m.cardId, m.fromColumnId, undefined, undefined, true);
+            if (live.length === 1) {
+                if (typeof labelsObj.undoAnnouncement === "function") {
+                    announce(
+                        labelsObj.undoAnnouncement(
+                            textOf(cardHandleFor(live[0].cardId)),
+                            columnTitleFor(live[0].fromColumnId),
+                        ),
+                    );
+                }
+            } else if (typeof labelsObj.undoManyAnnouncement === "function") {
+                announce(labelsObj.undoManyAnnouncement(live.length));
+            }
+            return;
+        }
+    }
+
+    /**
+     * One path for every move (menu, Alt+Arrow, drop): a selection moves together, a refused move is announced,
+     * a successful one is remembered for undo.
+     */
+    async function requestMove(cardId, toColumnId, toIndex, toLaneId) {
+        const labelsObj = opts.labels || {};
+        const group = movingGroup(cardId);
+        if (group.length > 1) {
+            const moved = [];
+            let admitted = 0;
+            const runs = [];
+            for (const id of group) {
+                const cell = cellForCard(id);
+                if (
+                    !cell ||
+                    cell.hasAttribute("data-locked") ||
+                    cell.hasAttribute("data-pending") ||
+                    columnOfCard(id) === toColumnId
+                )
+                    continue;
+                if (isRefused(id, toColumnId, admitted)) {
+                    if (typeof labelsObj.moveBlocked === "function")
+                        announce(
+                            labelsObj.moveBlocked(
+                                textOf(cardHandleFor(id)),
+                                columnTitleFor(toColumnId),
+                            ),
+                        );
+                    continue;
+                }
+                admitted += 1;
+                const from = columnOfCard(id);
+                runs.push(
+                    applyMove(id, toColumnId, undefined, undefined, true).then((ok) => {
+                        if (ok) moved.push({ cardId: id, fromColumnId: from, toColumnId });
+                        return ok;
+                    }),
+                );
+            }
+            if (runs.length === 0) return;
+            if (typeof labelsObj.moveManyAnnouncement === "function")
+                announce(labelsObj.moveManyAnnouncement(runs.length, columnTitleFor(toColumnId)));
+            clearSelection();
+            await Promise.all(runs);
+            recordUndo(moved);
+            return;
+        }
+        if (isRefused(cardId, toColumnId, 0, toLaneId)) {
+            if (typeof labelsObj.moveBlocked === "function")
+                announce(
+                    labelsObj.moveBlocked(
+                        textOf(cardHandleFor(cardId)),
+                        columnTitleFor(toColumnId),
+                    ),
+                );
+            return;
+        }
+        const from = columnOfCard(cardId);
+        const ok = await applyMove(cardId, toColumnId, toIndex, toLaneId);
+        if (ok && from !== toColumnId) recordUndo([{ cardId, fromColumnId: from, toColumnId }]);
+    }
+
+    function chooseOption(cardId, index) {
+        const entry = menus.get(cardId);
+        if (!entry) return;
+        const options = Array.from(entry.list.querySelectorAll('[role="option"]'));
+        const option = options[index];
+        // Choosing the card's own column (the selected option) is not a move.
+        if (option && option.getAttribute("aria-selected") !== "true" && !isReadonly()) {
+            void requestMove(cardId, option.getAttribute("data-value"));
+        }
+        closeMenu(cardId, true);
+    }
+
+    // -----------------------------------------------------------------
+    // Move button open/close (click) — delegated once at the root.
+    // -----------------------------------------------------------------
+
+    function onRootClick(event) {
+        const target = event.target && event.target.closest ? event.target : null;
+        const fieldButton = target && target.closest("[data-lily-kanban-board-field-button]");
+        if (fieldButton) {
+            startFieldEdit(
+                fieldButton.getAttribute("data-lily-kanban-board-card-id"),
+                fieldButton.getAttribute("data-field-id"),
+            );
+            return;
+        }
+        const exportButton = target && target.closest("[data-kanban-export-format]");
+        if (exportButton) {
+            runExport(exportButton.getAttribute("data-kanban-export-format"));
+            return;
+        }
+        const collapse = target && target.closest("[data-lily-kanban-board-collapse]");
+        if (collapse) {
+            const id = collapse.getAttribute("data-lily-kanban-board-column-id");
+            applyCollapsed(id, !isCollapsed(id));
+            const ids = collapsedIds();
+            if (typeof opts.onCollapsedChange === "function") opts.onCollapsedChange(ids);
+            root.dispatchEvent(new CustomEvent("collapsechange", { detail: ids, bubbles: true }));
+            return;
+        }
+        const laneToggle = target && target.closest("[data-lily-kanban-board-lane-collapse]");
+        if (laneToggle) {
+            const id = laneToggle.getAttribute("data-lily-kanban-board-lane-id");
+            applyLaneCollapsed(id, !isLaneCollapsed(id));
+            const ids = collapsedLaneIds();
+            if (typeof opts.onLaneCollapseChange === "function") opts.onLaneCollapseChange(ids);
+            root.dispatchEvent(
+                new CustomEvent("lanecollapsechange", { detail: ids, bubbles: true }),
+            );
+            return;
+        }
+        if (target && target.closest("[data-lily-kanban-board-undo]")) {
+            void undo();
+            return;
+        }
+        if (isSelectable() && (event.ctrlKey || event.metaKey) && target) {
+            const clicked = target.closest(".kanban-table-td[data-lily-kanban-board-card-id]");
+            if (clicked) {
+                event.preventDefault();
+                toggleSelected(clicked.getAttribute("data-lily-kanban-board-card-id"));
+                return;
+            }
+        }
+        const add = target && target.closest("[data-lily-kanban-board-add]");
+        if (add) {
+            const id = add.getAttribute("data-lily-kanban-board-column-id");
+            if (typeof opts.onAddCard === "function") opts.onAddCard(id);
+            root.dispatchEvent(new CustomEvent("addcard", { detail: id, bubbles: true }));
+            return;
+        }
+        const button =
+            event.target && event.target.closest
+                ? event.target.closest("[data-lily-kanban-board-move-button]")
+                : null;
+        if (!button) return;
+        const cardId = button.getAttribute("data-lily-kanban-board-card-id");
+        if (!cardId) return;
+        if (openCardId === cardId) closeMenu(cardId, true);
+        else openMenu(cardId);
+    }
+
+    function onDocumentClick(event) {
+        if (!openCardId) return;
+        const entry = menus.get(openCardId);
+        if (!entry) return;
+        const t = event.target;
+        if (t && (entry.list.contains(t) || entry.focusTarget.contains(t))) return;
+        closeMenu(openCardId, false);
+    }
+
+    function onRootFocusOut(event) {
+        if (!openCardId) return;
+        const entry = menus.get(openCardId);
+        if (!entry) return;
+        const next = event.relatedTarget;
+        if (next && (entry.list.contains(next) || (entry.button && entry.button.contains(next))))
+            return;
+        closeMenu(openCardId, false);
+    }
+
+    // -----------------------------------------------------------------
+    // Roving-tabindex grid keyboard navigation (WAI-ARIA APG Grid pattern)
+    // -----------------------------------------------------------------
+
+    /** The cursor follows focus however it arrives — a click, or a consumer's own focus(). */
+    function onGridFocusin(event) {
+        const cell =
+            event.target && event.target.closest
+                ? event.target.closest("[data-row][data-col]")
+                : null;
+        if (!cell) return;
+        const current = focusedCellEl();
+        if (current && current !== cell) current.setAttribute("tabindex", "-1");
+        cell.setAttribute("tabindex", "0");
+    }
+
+    /** A cell's row within its lane (its row across the board without lanes). */
+    function laneRowOf(cell) {
+        const tr = cell.parentElement;
+        return hasLanes && tr && tr.hasAttribute("data-lane-row")
+            ? Number(tr.getAttribute("data-lane-row"))
+            : Number(cell.getAttribute("data-row"));
+    }
+
+    /** Alt+ArrowUp/Down: move the focused card within its own column. */
+    function reorderCard(cell, delta) {
+        if (isReadonly()) return;
+        const cardId = cell.getAttribute("data-lily-kanban-board-card-id");
+        if (!cardId || cell.hasAttribute("data-locked")) return;
+        const col = Number(cell.getAttribute("data-col"));
+        const lane = laneOfCell(cell);
+        const total = cellsOfColumn(col).filter(
+            (td) =>
+                td.hasAttribute("data-lily-kanban-board-card-id") &&
+                (!hasLanes || laneOfCell(td) === lane),
+        ).length;
+        const row = laneRowOf(cell);
+        const toIndex = row + delta;
+        if (toIndex < 0 || toIndex >= total) return;
+        if (typeof opts.onReorder === "function") opts.onReorder(cardId, toIndex);
         const reorderAnnouncement = opts.labels && opts.labels.reorderAnnouncement;
         if (typeof reorderAnnouncement === "function") {
-          const total = cellsOfColumn(colIndex).filter(
-            (td) => td.hasAttribute("data-lily-kanban-board-card-id") && (!hasLanes || laneOfCell(td) === laneOfCell(cell)),
-          ).length;
-          announce(reorderAnnouncement(textOf(cardHandleFor(cardId)), dropRow + 1, total));
+            announce(reorderAnnouncement(textOf(cardHandleFor(cardId)), toIndex + 1, total));
         }
-      }
-      return;
     }
-    void requestMove(cardId, toColumnId, overCard ? dropRow : undefined, dropLane);
-  }
 
-  function onSearchInput(event) {
-    if (!(event.target && event.target.closest && event.target.closest("[data-lily-kanban-board-search]"))) return;
-    refreshVisibility();
-    // Announce how many cards match after the search changes.
-    const cards = allCells().filter((td) => td.hasAttribute("data-lily-kanban-board-card-id"));
-    const matched = cards.filter((td) => matchesSearch(td)).length;
-    announce(labelText("searchAnnouncement", { matched, total: cards.length }, matched, cards.length));
-  }
+    let typeahead = { prefix: "", at: 0 };
 
-  /** Escape in the search field clears it. */
-  function onSearchKeydown(event) {
-    const input = event.target && event.target.closest ? event.target.closest("[data-lily-kanban-board-search]") : null;
-    if (!input || event.key !== "Escape" || input.value === "") return;
-    event.preventDefault();
-    input.value = "";
-    onSearchInput({ target: input });
-  }
-
-  // -----------------------------------------------------------------
-  // Typed fields, inline editing, export (the macro's `fields`, `editableFields` and export labels)
-  // -----------------------------------------------------------------
-
-  /** Show each field's value formatted by its type: the server rendered the raw value. */
-  function formatFields() {
-    allCells().forEach((td) => {
-      const cardId = td.getAttribute("data-lily-kanban-board-card-id");
-      const data = cardId ? dataCards.get(cardId) : null;
-      if (!data) return;
-      td.querySelectorAll("[data-lily-kanban-board-field]").forEach((span) => {
-        const f = fieldDef(span.getAttribute("data-field"));
-        const target = span.querySelector(".kanban-board-field-button, .kanban-board-card-field-value");
-        if (f && target) target.textContent = fieldText(f, data.values);
-      });
-    });
-  }
-
-  /** @type {{ cardId: string, fieldId: string, draft: unknown, editor: HTMLElement, button: HTMLElement } | null} */
-  let editing = null;
-
-  function startFieldEdit(cardId, fieldId) {
-    const f = fieldDef(fieldId);
-    const cell = cellForCard(cardId);
-    if (!f || !cell || isReadonly() || cell.hasAttribute("data-locked")) return;
-    const span = Array.from(cell.querySelectorAll("[data-lily-kanban-board-field]")).find((el) => el.getAttribute("data-field") === fieldId);
-    const button = span && span.querySelector("[data-lily-kanban-board-field-button]");
-    if (!span || !button) return;
-    if (editing) commitFieldEdit(false);
-    const data = dataCards.get(cardId);
-    const kind = editorKind(f);
-    let editor;
-    if (kind === "select" || kind === "radio") {
-      editor = document.createElement("select");
-      const blank = document.createElement("option");
-      blank.value = "";
-      editor.appendChild(blank);
-      for (const option of f.options || []) {
-        const o = document.createElement("option");
-        o.value = option.id;
-        o.disabled = !!option.disabled;
-        o.textContent = option.label;
-        editor.appendChild(o);
-      }
-    } else {
-      editor = document.createElement("input");
-      editor.type = kind === "number" ? "number" : kind === "date" ? "date" : kind === "time" ? "time" : "text";
-      if (kind === "number") editor.setAttribute("inputmode", "decimal");
+    function onGridKeydown(event) {
+        // The open move menu owns its own keys; letting them bubble here moved the
+        // grid cursor (and focus) out of the menu, and Enter reopened it after a move.
+        if (
+            event.target &&
+            event.target.closest &&
+            event.target.closest("[data-lily-kanban-board-move-list]")
+        ) {
+            return;
+        }
+        if (
+            event.target &&
+            event.target.closest &&
+            event.target.closest(".kanban-board-field-editor")
+        )
+            return;
+        const cell =
+            event.target && event.target.closest
+                ? event.target.closest("[data-row][data-col]")
+                : null;
+        if (!cell) return;
+        const row = Number(cell.getAttribute("data-row"));
+        const col = Number(cell.getAttribute("data-col"));
+        const ctrlOrMeta = event.ctrlKey || event.metaKey;
+        // The horizontal arrows are visual: in a right-to-left layout the next column is on the left, so ArrowLeft goes forward.
+        const key = logicalKey(event.key, isRtl(cell));
+        // Ctrl/Cmd+Z undoes the last move while there is one, then the last field edit; Ctrl/Cmd+Shift+Z and Ctrl+Y redo field edits.
+        const historyAction = config.editableFields && !isReadonly() ? historyKey(event) : null;
+        if (event.key === "F2") {
+            // F2 with title editing on: rename the card. Otherwise edit its first editable field (the keyboard twin of clicking its value).
+            if (
+                config.editableTitles &&
+                startTitleEdit(cell.getAttribute("data-lily-kanban-board-card-id"))
+            ) {
+                event.preventDefault();
+                return;
+            }
+            if (editFirstField(cell)) event.preventDefault();
+            return;
+        }
+        if (
+            isUndoable() &&
+            ctrlOrMeta &&
+            !event.altKey &&
+            !event.shiftKey &&
+            (event.key === "z" || event.key === "Z") &&
+            undoStack.length > 0
+        ) {
+            event.preventDefault();
+            void undo();
+            return;
+        }
+        if (historyAction) {
+            event.preventDefault();
+            stepHistory(historyAction);
+            return;
+        }
+        if (
+            isUndoable() &&
+            ctrlOrMeta &&
+            !event.altKey &&
+            !event.shiftKey &&
+            (event.key === "z" || event.key === "Z")
+        ) {
+            event.preventDefault();
+            void undo();
+            return;
+        }
+        if (
+            isMovableColumns() &&
+            event.altKey &&
+            event.shiftKey &&
+            (key === "ArrowLeft" || key === "ArrowRight")
+        ) {
+            // Alt+Shift+ArrowLeft/Right: move this cell's column (the keyboard twin of dragging its header).
+            event.preventDefault();
+            const columnId = columnIds()[col];
+            const to = col + (key === "ArrowLeft" ? -1 : 1);
+            if (columnId && moveColumn(columnId, to)) {
+                const moved = cellAt(row, to);
+                if (moved) {
+                    const current = focusedCellEl();
+                    if (current && current !== moved) current.setAttribute("tabindex", "-1");
+                    moved.setAttribute("tabindex", "0");
+                    moved.focus({ preventScroll: true });
+                }
+            }
+            return;
+        }
+        if (
+            isSelectable() &&
+            !ctrlOrMeta &&
+            !event.altKey &&
+            (event.key === "x" || event.key === "X")
+        ) {
+            const cardId = cell.getAttribute("data-lily-kanban-board-card-id");
+            if (cardId && !isReadonly()) {
+                event.preventDefault();
+                toggleSelected(cardId);
+            }
+            return;
+        }
+        if (event.altKey && (key === "ArrowLeft" || key === "ArrowRight")) {
+            // Alt+ArrowLeft/Right: move the card to the neighbouring column (the keyboard twin of dragging it there).
+            event.preventDefault();
+            const cardId = cell.getAttribute("data-lily-kanban-board-card-id");
+            const destination = columnIds()[col + (key === "ArrowLeft" ? -1 : 1)];
+            if (cardId && destination && !isReadonly() && !cell.hasAttribute("data-locked"))
+                void requestMove(cardId, destination);
+            return;
+        }
+        if (event.altKey && (event.key === "ArrowUp" || event.key === "ArrowDown")) {
+            event.preventDefault();
+            reorderCard(cell, event.key === "ArrowUp" ? -1 : 1);
+            return;
+        }
+        // Type-ahead in the focused column: letters typed in quick succession move to the next card whose label starts with them.
+        // A lone "x" stays the select shortcut when cards are selectable; it joins a prefix already in progress.
+        if (isTypeaheadKey(event) && !event.altKey) {
+            const now = Date.now();
+            const continuing = typeahead.prefix !== "" && now - typeahead.at <= 700;
+            const isSelectKey = isSelectable() && (event.key === "x" || event.key === "X");
+            if (continuing || !isSelectKey) {
+                const state = nextTypeaheadState(typeahead, event.key, now, 700);
+                const labelsInColumn = Array.from({ length: numRows() }, (_, r) => {
+                    const c = cellAt(r, col);
+                    const id = c && c.getAttribute("data-lily-kanban-board-card-id");
+                    return id ? cardTitleOf(id) : "";
+                });
+                const hit = findTypeaheadMatch(labelsInColumn, row, state.prefix);
+                if (hit !== -1) {
+                    typeahead = state;
+                    event.preventDefault();
+                    moveFocus(hit, col);
+                    return;
+                }
+            }
+        }
+        const move = gridMove(
+            event,
+            { row, col },
+            {
+                firstRow: 0,
+                lastRow: numRows() - 1,
+                lastCol: numCols() - 1,
+                pageStep: pageStepFor(scrollEl ? { height: viewHeight, rowHeight } : undefined),
+                homeEnd: "column",
+                rtl: isRtl(cell),
+            },
+        );
+        if (move) {
+            event.preventDefault();
+            moveFocus(move.row, move.col);
+            return;
+        }
+        switch (key) {
+            case "ArrowUp":
+                event.preventDefault();
+                moveFocus(row - 1, col);
+                break;
+            case "ArrowDown":
+                event.preventDefault();
+                moveFocus(row + 1, col);
+                break;
+            case "ArrowLeft":
+                event.preventDefault();
+                moveFocus(row, col - 1);
+                break;
+            case "ArrowRight":
+                event.preventDefault();
+                moveFocus(row, col + 1);
+                break;
+            case "Home":
+                event.preventDefault();
+                if (ctrlOrMeta) moveFocus(0, 0);
+                else moveFocus(0, col);
+                break;
+            case "End":
+                event.preventDefault();
+                if (ctrlOrMeta) moveFocus(numRows() - 1, numCols() - 1);
+                else moveFocus(numRows() - 1, col);
+                break;
+            case "Enter":
+            case " ": {
+                event.preventDefault();
+                const cardId = cell.getAttribute("data-lily-kanban-board-card-id");
+                if (cardId) openMenu(cardId);
+                break;
+            }
+            default:
+                break;
+        }
     }
-    editor.className = "kanban-board-field-editor";
-    editor.setAttribute("aria-label", f.editLabel || f.header);
-    const draft = draftOf(f, data ? data.values : undefined);
-    editor.value = String(draft == null ? "" : draft);
-    editing = { cardId, fieldId, draft: editor.value, editor, button };
-    editor.addEventListener("input", () => {
-      if (editing) editing.draft = editor.value;
-      editor.removeAttribute("aria-invalid");
-    });
-    editor.addEventListener("keydown", onEditorKeydown);
-    if (kind === "select" || kind === "radio") {
-      editor.addEventListener("change", () => {
-        if (editing) editing.draft = editor.value;
-        commitFieldEdit(true);
-      });
+
+    // -----------------------------------------------------------------
+    // Column reordering: the columns move in place (the macro's `columnOrder` is only the starting order)
+    // -----------------------------------------------------------------
+
+    const isMovableColumns = () => root.hasAttribute("data-lily-kanban-board-movable-columns");
+
+    function moveColumn(columnId, toIndex) {
+        const ids = columnIds();
+        const from = ids.indexOf(columnId);
+        const to = Math.min(Math.max(toIndex, 0), ids.length - 1);
+        if (from === -1 || from === to) return false;
+        const order = ids.slice();
+        order.splice(to, 0, ...order.splice(from, 1));
+        const permute = (parent, items) => {
+            order.map((id) => items[ids.indexOf(id)]).forEach((el) => parent.appendChild(el));
+        };
+        const headRow = table.querySelector(".kanban-table-head .kanban-table-row");
+        if (headRow) permute(headRow, Array.from(headRow.children));
+        rows.filter(isDataRow).forEach((tr) => {
+            const cells = cellsOfRow(tr);
+            permute(tr, cells);
+            cells.forEach((td) =>
+                td.setAttribute(
+                    "data-col",
+                    String(order.indexOf(ids[Number(td.getAttribute("data-col"))])),
+                ),
+            );
+        });
+        const footRow = table.querySelector(".kanban-table-foot .kanban-table-row");
+        if (footRow) permute(footRow, Array.from(footRow.children));
+        // Each card's move menu lists the columns in their new order.
+        menus.forEach((entry) => {
+            const options = Array.from(entry.list.children);
+            options
+                .slice()
+                .sort(
+                    (a, b) =>
+                        order.indexOf(a.getAttribute("data-value")) -
+                        order.indexOf(b.getAttribute("data-value")),
+                )
+                .forEach((li) => entry.list.appendChild(li));
+        });
+        if (typeof opts.onColumnOrderChange === "function") opts.onColumnOrderChange(order);
+        root.dispatchEvent(new CustomEvent("columnorderchange", { detail: order, bubbles: true }));
+        const columnMove = opts.labels && opts.labels.columnMoveAnnouncement;
+        if (typeof columnMove === "function")
+            announce(columnMove(columnTitleFor(columnId), to + 1, order.length));
+        return true;
     }
-    editor.addEventListener("blur", () => commitFieldEdit(false));
-    span.setAttribute("data-editing", "");
-    button.replaceWith(editor);
-    editor.focus({ preventScroll: true });
-    if (editor.select && editor.type !== "number" && editor.type !== "date" && editor.type !== "time" && editor.tagName === "INPUT") editor.select();
-  }
 
-  /** Put the value button back in place of the editor. */
-  function closeEditor() {
-    if (!editing) return null;
-    const closing = editing;
-    editing = null;
-    const span = closing.editor.parentElement;
-    if (span) span.removeAttribute("data-editing");
-    closing.editor.replaceWith(closing.button);
-    return closing;
-  }
+    // -----------------------------------------------------------------
+    // Pointer drag-and-drop (supplementary, never the only move path)
+    // -----------------------------------------------------------------
 
-  /** Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. Returns whether it was accepted or unchanged. */
-  function commitFieldEdit(refocus) {
-    if (!editing) return true;
-    const { cardId, fieldId, draft } = editing;
-    const f = fieldDef(fieldId);
-    const data = dataCards.get(cardId);
-    if (!f || !data) {
-      closeEditor();
-      return true;
+    let draggingCardId = null;
+    let draggingColumnId = null;
+
+    function onDragStart(event) {
+        const header =
+            event.target && event.target.closest && isMovableColumns()
+                ? event.target.closest("th[data-lily-kanban-board-column-id]")
+                : null;
+        if (header) {
+            draggingColumnId = header.getAttribute("data-lily-kanban-board-column-id");
+            if (event.dataTransfer)
+                event.dataTransfer.setData("text/plain", draggingColumnId || "");
+            return;
+        }
+        const handle =
+            event.target && event.target.closest
+                ? event.target.closest("[data-lily-kanban-board-card-handle]")
+                : null;
+        if (!handle) return;
+        const dragged = handle.getAttribute("data-lily-kanban-board-card-id");
+        const owner = cellForCard(dragged);
+        if (owner && owner.hasAttribute("data-locked")) {
+            event.preventDefault();
+            return;
+        }
+        draggingCardId = dragged;
+        if (event.dataTransfer) event.dataTransfer.setData("text/plain", draggingCardId || "");
+        const group = movingGroup(dragged);
+        group.forEach((id) => {
+            const groupCell = cellForCard(id);
+            if (groupCell) groupCell.setAttribute("data-dragging", "");
+        });
+        if (
+            typeof opts.dragPreviewText === "function" &&
+            event.dataTransfer &&
+            event.dataTransfer.setDragImage
+        ) {
+            const preview = document.createElement("div");
+            preview.className = "kanban-board-drag-preview";
+            preview.textContent = opts.dragPreviewText(
+                group.map((id) => ({ id, title: textOf(cardHandleFor(id)) })),
+            );
+            preview.style.position = "absolute";
+            preview.style.top = "-1000px";
+            root.appendChild(preview);
+            event.dataTransfer.setDragImage(preview, 0, 0);
+            setTimeout(() => preview.remove(), 0);
+        }
     }
-    const outcome = evaluateEdit(f, data.values, draft);
-    if (outcome.invalid) {
-      editing.editor.setAttribute("aria-invalid", "true");
-      const refused = outcome.message
-        ? labelText("editRefused", { card: cardTitleOf(cardId), field: f.header, message: outcome.message }, cardTitleOf(cardId), f.header, outcome.message)
-        : undefined;
-      const template = (config.labels || {}).editInvalid;
-      announce(refused ?? (template ? fill(template, { card: cardTitleOf(cardId), field: f.header }) : undefined));
-      return false;
+
+    function onDragEnd() {
+        draggingCardId = null;
+        draggingColumnId = null;
+        root.querySelectorAll("[data-dragging]").forEach((el) =>
+            el.removeAttribute("data-dragging"),
+        );
+        root.querySelectorAll("[data-drop-target], [data-drop-blocked]").forEach((el) => {
+            el.removeAttribute("data-drop-target");
+            el.removeAttribute("data-drop-blocked");
+        });
     }
-    const closing = closeEditor();
-    if (outcome.changed) {
-      data.values[fieldId] = outcome.value;
-      history = recordEdit(history, { ownerId: cardId, fieldId, value: outcome.value, previous: outcome.previous });
-      if (closing) closing.button.textContent = outcome.text;
-      const edit = { cardId, fieldId, value: outcome.value, previous: outcome.previous };
-      if (typeof opts.onFieldEdit === "function") opts.onFieldEdit(edit);
-      root.dispatchEvent(new CustomEvent("fieldedit", { detail: edit, bubbles: true }));
-      const template = ((opts.labels || {}).editAnnouncement && typeof opts.labels.editAnnouncement === "function")
-        ? null
-        : (config.labels || {}).editAnnouncement;
-      if (template) announce(fill(template, { card: cardTitleOf(cardId), field: f.header, value: outcome.text }));
-      else if (opts.labels && typeof opts.labels.editAnnouncement === "function") announce(opts.labels.editAnnouncement(cardTitleOf(cardId), f.header, outcome.text));
-    }
-    if (refocus) focusCardTarget(cardId);
-    return true;
-  }
 
-  /** Accepted field edits, for Ctrl/Cmd+Z once there is no move left to undo. The consumer owns the data, so an undo is reported through `onFieldEdit` / `fieldedit`. */
-  let history = EMPTY_HISTORY;
-
-  /** Put an earlier field value back, or re-apply it, through `onFieldEdit` and the `fieldedit` event. */
-  function stepHistory(direction) {
-    const step = direction === "undo" ? undoEdit(history) : redoEdit(history);
-    if (!step.record) return;
-    history = step.history;
-    const { ownerId, fieldId, value, previous } = step.record;
-    const f = fieldDef(fieldId);
-    const data = dataCards.get(ownerId);
-    if (!f || !data) return;
-    const restored = direction === "undo" ? previous : value;
-    const replaced = direction === "undo" ? value : previous;
-    data.values[fieldId] = restored;
-    const text = restored === null || restored === undefined ? "" : f.format ? f.format(restored, { ...data.values }) : String(restored);
-    const cell = cellForCard(ownerId);
-    const target = cell && Array.from(cell.querySelectorAll("[data-lily-kanban-board-field]")).find((el) => el.getAttribute("data-field") === fieldId);
-    const valueEl = target && target.querySelector(".kanban-board-field-button, .kanban-board-card-field-value");
-    if (valueEl) valueEl.textContent = text;
-    const edit = { cardId: ownerId, fieldId, value: restored, previous: replaced };
-    if (typeof opts.onFieldEdit === "function") opts.onFieldEdit(edit);
-    root.dispatchEvent(new CustomEvent("fieldedit", { detail: edit, bubbles: true }));
-    const name = direction === "undo" ? "fieldUndoAnnouncement" : "fieldRedoAnnouncement";
-    announce(labelText(name, { card: cardTitleOf(ownerId), field: f.header, value: text }, cardTitleOf(ownerId), f.header, text));
-  }
-
-  function cancelFieldEdit() {
-    const closing = closeEditor();
-    if (closing) focusCardTarget(closing.cardId);
-  }
-
-  function focusCardTarget(cardId) {
-    const entry = menus.get(cardId);
-    const target = (entry && entry.focusTarget) || cellForCard(cardId);
-    if (target) target.focus({ preventScroll: true });
-  }
-
-  function onEditorKeydown(event) {
-    // The editor owns its keys. While an IME composes, Enter, Escape and Tab belong to the IME: some browsers
-    // report the confirming Enter with `isComposing` already false but keyCode 229.
-    event.stopPropagation();
-    if (event.isComposing || event.keyCode === 229) return;
-    if (event.key === "Enter") {
-      event.preventDefault();
-      commitFieldEdit(true);
-    } else if (event.key === "Escape") {
-      event.preventDefault();
-      cancelFieldEdit();
-    } else if (event.key === "Tab" && editing) {
-      // Tab commits and moves to the card's next (Shift+Tab: previous) editable field; past the last, it moves on.
-      const { cardId, fieldId } = editing;
-      const cell = cellForCard(cardId);
-      const editable = cell
-        ? Array.from(cell.querySelectorAll("[data-lily-kanban-board-field]"))
-            .filter((span) => span.querySelector("[data-lily-kanban-board-field-button], .kanban-board-field-editor"))
-            .map((span) => fieldDef(span.getAttribute("data-field")))
-            .filter(Boolean)
-        : [];
-      const next = neighbourField(editable, fieldId, event.shiftKey);
-      if (next) {
+    function onDragOver(event) {
+        if (draggingColumnId) {
+            if (
+                event.target &&
+                event.target.closest &&
+                event.target.closest("th[data-lily-kanban-board-column-id]")
+            )
+                event.preventDefault();
+            return;
+        }
+        if (!draggingCardId) return;
+        const cell =
+            event.target && event.target.closest
+                ? event.target.closest("[data-row][data-col]")
+                : null;
+        if (!cell || isReadonly()) return;
+        // Whether the cell a dragged card is over would refuse it (`canMove`, `allowedColumns`, a strict WIP limit): the live "can't drop here" cue.
+        const group = Math.max(1, root.querySelectorAll("[data-dragging]").length);
+        const blocked = isRefused(
+            draggingCardId,
+            columnIds()[Number(cell.getAttribute("data-col"))],
+            group - 1,
+            laneOfCell(cell) || undefined,
+        );
+        root.querySelectorAll("[data-drop-target], [data-drop-blocked]").forEach((el) => {
+            el.removeAttribute("data-drop-target");
+            el.removeAttribute("data-drop-blocked");
+        });
+        cell.setAttribute(blocked ? "data-drop-blocked" : "data-drop-target", "");
+        // A refused drop is not a drop target: leaving dragover un-prevented makes the browser show its "not allowed" cursor.
+        if (blocked) {
+            if (event.dataTransfer) event.dataTransfer.dropEffect = "none";
+            return;
+        }
         event.preventDefault();
-        if (commitFieldEdit(false)) startFieldEdit(cardId, next.id);
-      } else {
-        commitFieldEdit(false);
-      }
+        if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
     }
-  }
 
-  // -----------------------------------------------------------------
-  // In-place title editing (the macro's `editableTitles`): double-click a title, or F2 on the card.
-  // Enter or leaving the field commits, Escape cancels, an empty title is refused. The consumer renames the card
-  // (`opts.onTitleEdit`, or the `titleedit` event); the board keeps what the user sees.
-  // -----------------------------------------------------------------
-
-  /** @type {{ cardId: string, handle: HTMLElement, input: HTMLInputElement, original: string } | null} */
-  let titleEditing = null;
-
-  const isTitleEditable = (cell) => {
-    if (!config.editableTitles || isReadonly() || !cell || cell.hasAttribute("data-locked")) return false;
-    const handle = cell.querySelector("[data-lily-kanban-board-card-handle]");
-    return !!handle && !handle.querySelector("a.kanban-board-card-link");
-  };
-
-  function startTitleEdit(cardId) {
-    const cell = cellForCard(cardId);
-    if (!isTitleEditable(cell)) return false;
-    if (titleEditing) commitTitleEdit(false);
-    const handle = cell.querySelector("[data-lily-kanban-board-card-handle]");
-    const original = (dataCards.get(cardId) || {}).title ?? handle.getAttribute("data-original-title") ?? handle.textContent ?? "";
-    const input = document.createElement("input");
-    input.type = "text";
-    input.className = "kanban-board-title-editor";
-    input.value = original;
-    const named = labelText("titleEditor", { title: original }, original);
-    input.setAttribute("aria-label", named || original);
-    input.addEventListener("keydown", onTitleEditorKeydown);
-    input.addEventListener("blur", () => commitTitleEdit(false));
-    handle.removeAttribute("draggable");
-    handle.replaceChildren(input);
-    titleEditing = { cardId, handle, input, original };
-    input.focus({ preventScroll: true });
-    input.select();
-    return true;
-  }
-
-  /** Put the title text back in the handle, in place of the editor. */
-  function closeTitleEditor(title) {
-    const current = titleEditing;
-    if (!current) return null;
-    titleEditing = null;
-    current.handle.setAttribute("data-original-title", title);
-    current.handle.replaceChildren(document.createTextNode(title));
-    if (!isReadonly() && !(cellForCard(current.cardId) || document.body).hasAttribute("data-locked")) current.handle.setAttribute("draggable", "true");
-    return current;
-  }
-
-  function commitTitleEdit(refocus) {
-    const current = titleEditing;
-    if (!current) return;
-    const title = current.input.value.trim();
-    const changed = title !== "" && title !== current.original;
-    closeTitleEditor(changed ? title : current.original);
-    if (changed) {
-      const data = dataCards.get(current.cardId);
-      if (data) data.title = title;
-      const cell = cellForCard(current.cardId);
-      if (cell) {
-        const searchText = [title, data && data.subtitle ? data.subtitle : "", ...((data && data.badges) || [])].join(" ");
-        cell.setAttribute("data-lily-kanban-board-search-text", searchText);
-      }
-      const edit = { cardId: current.cardId, title, previous: current.original };
-      if (typeof opts.onTitleEdit === "function") opts.onTitleEdit(edit);
-      root.dispatchEvent(new CustomEvent("titleedit", { detail: edit, bubbles: true }));
-      announce(labelText("titleEditAnnouncement", { previous: current.original, title }, current.original, title));
-      highlightTitles(searchQuery());
+    function onDrop(event) {
+        if (draggingColumnId) {
+            const target =
+                event.target && event.target.closest
+                    ? event.target.closest("th[data-lily-kanban-board-column-id]")
+                    : null;
+            const id = draggingColumnId;
+            draggingColumnId = null;
+            if (!target) return;
+            event.preventDefault();
+            const targetId = target.getAttribute("data-lily-kanban-board-column-id");
+            if (id && targetId && id !== targetId) moveColumn(id, columnIds().indexOf(targetId));
+            return;
+        }
+        const cell =
+            event.target && event.target.closest
+                ? event.target.closest("[data-row][data-col]")
+                : null;
+        if (!cell) return;
+        event.preventDefault();
+        root.querySelectorAll("[data-drop-target], [data-drop-blocked]").forEach((el) => {
+            el.removeAttribute("data-drop-target");
+            el.removeAttribute("data-drop-blocked");
+        });
+        root.querySelectorAll("[data-dragging]").forEach((el) =>
+            el.removeAttribute("data-dragging"),
+        );
+        const cardId =
+            draggingCardId ||
+            (event.dataTransfer && event.dataTransfer.getData
+                ? event.dataTransfer.getData("text/plain")
+                : "");
+        draggingCardId = null;
+        if (!cardId) return;
+        const colIndex = Number(cell.getAttribute("data-col"));
+        const headerCells = Array.from(root.querySelectorAll("[data-lily-kanban-board-column-id]"));
+        const toColumnId =
+            headerCells[colIndex] &&
+            headerCells[colIndex].getAttribute("data-lily-kanban-board-column-id");
+        if (!toColumnId) return;
+        if (isReadonly()) return;
+        const cardCell = cellForCard(cardId);
+        const dropRow = laneRowOf(cell);
+        const dropLane = hasLanes ? laneOfCell(cell) : undefined;
+        const overCard =
+            cell.hasAttribute("data-lily-kanban-board-card-id") && stash.has(cell) === false;
+        if (
+            cardCell &&
+            hasLanes &&
+            Number(cardCell.getAttribute("data-col")) === colIndex &&
+            dropLane !== laneOfCell(cardCell)
+        ) {
+            // Dropped into another lane of its own column: only the lane changes.
+            if (!cardCell.hasAttribute("data-locked"))
+                void requestMove(cardId, toColumnId, undefined, dropLane);
+            return;
+        }
+        if (cardCell && Number(cardCell.getAttribute("data-col")) === colIndex) {
+            // Dropped on another card of its own column: reorder to that position.
+            const fromRow = laneRowOf(cardCell);
+            if (overCard && fromRow !== dropRow && !cardCell.hasAttribute("data-locked")) {
+                if (typeof opts.onReorder === "function") opts.onReorder(cardId, dropRow);
+                const reorderAnnouncement = opts.labels && opts.labels.reorderAnnouncement;
+                if (typeof reorderAnnouncement === "function") {
+                    const total = cellsOfColumn(colIndex).filter(
+                        (td) =>
+                            td.hasAttribute("data-lily-kanban-board-card-id") &&
+                            (!hasLanes || laneOfCell(td) === laneOfCell(cell)),
+                    ).length;
+                    announce(
+                        reorderAnnouncement(textOf(cardHandleFor(cardId)), dropRow + 1, total),
+                    );
+                }
+            }
+            return;
+        }
+        void requestMove(cardId, toColumnId, overCard ? dropRow : undefined, dropLane);
     }
-    if (refocus) focusCardTarget(current.cardId);
-  }
 
-  function onTitleEditorKeydown(event) {
-    event.stopPropagation();
-    if (event.isComposing || event.keyCode === 229) return;
-    if (event.key === "Enter") {
-      event.preventDefault();
-      commitTitleEdit(true);
-    } else if (event.key === "Escape") {
-      event.preventDefault();
-      const closing = closeTitleEditor(titleEditing ? titleEditing.original : "");
-      if (closing) focusCardTarget(closing.cardId);
+    function onSearchInput(event) {
+        if (!(
+            event.target &&
+            event.target.closest &&
+            event.target.closest("[data-lily-kanban-board-search]")
+        ))
+            return;
+        refreshVisibility();
+        // Announce how many cards match after the search changes.
+        const cards = allCells().filter((td) => td.hasAttribute("data-lily-kanban-board-card-id"));
+        const matched = cards.filter((td) => matchesSearch(td)).length;
+        announce(
+            labelText(
+                "searchAnnouncement",
+                { matched, total: cards.length },
+                matched,
+                cards.length,
+            ),
+        );
     }
-  }
 
-  function onRootDblclick(event) {
-    const handle = event.target instanceof Element ? event.target.closest("[data-lily-kanban-board-card-handle]") : null;
-    if (handle) startTitleEdit(handle.getAttribute("data-lily-kanban-board-card-id"));
-  }
-
-  /** F2 on a card: edit its first editable field. */
-  function editFirstField(cell) {
-    const cardId = cell.getAttribute("data-lily-kanban-board-card-id");
-    const button = cell.querySelector("[data-lily-kanban-board-field-button]");
-    if (!cardId || !button) return false;
-    startFieldEdit(cardId, button.getAttribute("data-field-id"));
-    return true;
-  }
-
-  const matchesSearch = (td) => {
-    const query = searchQuery();
-    return query.trim() === "" || wordsMatch(cardSearchText(td), query);
-  };
-
-  /** The cards an export holds: the view (what the search leaves), column by column, or only the selected ones. */
-  function exportCardIds() {
-    const out = [];
-    const selectedOnly = config.exportScope === "selected";
-    columnIds().forEach((id, index) => {
-      cellsOfColumn(index).forEach((td) => {
-        const cardId = td.getAttribute("data-lily-kanban-board-card-id");
-        if (!cardId || !matchesSearch(td)) return;
-        if (selectedOnly && !td.hasAttribute("data-selected")) return;
-        out.push(cardId);
-      });
-    });
-    return out;
-  }
-
-  function syncExport() {
-    const disabled = exportCardIds().length === 0;
-    root.querySelectorAll("[data-kanban-export-format]").forEach((b) => {
-      b.disabled = disabled;
-    });
-  }
-
-  async function finishCopy(table) {
-    const text = toClipboardText(table);
-    const copied = { text, rowCount: table.rows.length };
-    root.dispatchEvent(new CustomEvent("copy", { detail: copied, bubbles: true }));
-    if (typeof opts.onCopy === "function" && opts.onCopy(copied) === false) return;
-    const ok = await copyToClipboard(text);
-    announce(ok ? labelText("copyAnnouncement", { count: table.rows.length }, table.rows.length) : labelText("copyFailed", {}));
-  }
-
-  function runExport(format) {
-    const h = (config.labels || {}).exportHeaders;
-    if (!h) return;
-    const lanes = config.lanes || [];
-    const hasLaneColumn = lanes.length > 0 && !!h.lane;
-    const exportFields = exportableFields(fields);
-    const headers = [h.title, h.column];
-    if (hasLaneColumn) headers.push(h.lane);
-    if (h.subtitle) headers.push(h.subtitle);
-    if (h.badges) headers.push(h.badges);
-    if (h.flag) headers.push(h.flag);
-    for (const f of exportFields) headers.push(f.header);
-    const laneTitle = new Map(lanes.map((l) => [l.id, l.title]));
-    const rows = exportCardIds().map((cardId) => {
-      const data = dataCards.get(cardId) || { id: cardId, title: cardId, values: {} };
-      const cell = cellForCard(cardId);
-      const cells = [data.title, columnTitleFor(columnOfCard(cardId))];
-      if (hasLaneColumn) cells.push(laneTitle.get(laneOfCell(cell)) || "");
-      if (h.subtitle) cells.push(data.subtitle == null ? null : data.subtitle);
-      if (h.badges) cells.push((data.badges || []).join("; "));
-      if (h.flag) cells.push(data.flag == null ? null : data.flag);
-      for (const f of exportFields) cells.push(exportFieldCell(f, data.values));
-      return cells;
-    });
-    if (format === "copy") {
-      void finishCopy({ headers, rows });
-      return;
+    /** Escape in the search field clears it. */
+    function onSearchKeydown(event) {
+        const input =
+            event.target && event.target.closest
+                ? event.target.closest("[data-lily-kanban-board-search]")
+                : null;
+        if (!input || event.key !== "Escape" || input.value === "") return;
+        event.preventDefault();
+        input.value = "";
+        onSearchInput({ target: input });
     }
-    const base = config.exportFilename || "kanban-board";
-    const filename = exportFilename(base, format);
-    const blob = exportBlob({ headers, rows }, format, { sheetName: base });
-    const file = { format, filename, cardCount: rows.length, blob };
-    root.dispatchEvent(new CustomEvent("exportfile", { detail: file, bubbles: true }));
-    if (typeof opts.onExport === "function" && opts.onExport(file) === false) return;
-    downloadBlob(blob, filename);
-    const template = (config.labels || {}).exportAnnouncement;
-    if (template) announce(fill(template, { count: rows.length, format, filename }));
-  }
 
-  table.addEventListener("keydown", onGridKeydown);
-  table.addEventListener("focusin", onGridFocusin);
-  root.addEventListener("click", onRootClick);
-  root.addEventListener("dblclick", onRootDblclick);
-  root.addEventListener("focusout", onRootFocusOut);
-  root.addEventListener("dragstart", onDragStart);
-  root.addEventListener("dragover", onDragOver);
-  root.addEventListener("drop", onDrop);
-  root.addEventListener("dragend", onDragEnd);
-  root.addEventListener("input", onSearchInput);
-  root.addEventListener("keydown", onSearchKeydown);
-  if (scrollEl) scrollEl.addEventListener("scroll", onScroll);
-  document.addEventListener("click", onDocumentClick);
+    // -----------------------------------------------------------------
+    // Typed fields, inline editing, export (the macro's `fields`, `editableFields` and export labels)
+    // -----------------------------------------------------------------
 
-  // Show each field's value formatted by its type, then take collapsed columns and searched-out cards out of the DOM.
-  formatFields();
-  // Columns the macro rendered collapsed, and a search it started with: take those cards out of the DOM now.
-  refreshVisibility();
+    /** Show each field's value formatted by its type: the server rendered the raw value. */
+    function formatFields() {
+        allCells().forEach((td) => {
+            const cardId = td.getAttribute("data-lily-kanban-board-card-id");
+            const data = cardId ? dataCards.get(cardId) : null;
+            if (!data) return;
+            td.querySelectorAll("[data-lily-kanban-board-field]").forEach((span) => {
+                const f = fieldDef(span.getAttribute("data-field"));
+                const target = span.querySelector(
+                    ".kanban-board-field-button, .kanban-board-card-field-value",
+                );
+                if (f && target) target.textContent = fieldText(f, data.values);
+            });
+        });
+    }
 
-  syncUndo();
+    /** @type {{ cardId: string, fieldId: string, draft: unknown, editor: HTMLElement, button: HTMLElement } | null} */
+    let editing = null;
 
-  return {
-    collapsedColumns: collapsedIds,
-    collapsedLanes: collapsedLaneIds,
-    selected: selectedIds,
-    columnOrder: columnIds,
-    undo,
-    destroy: () => {
-      menus.forEach((entry) => entry.keyboard.destroy());
-      table.removeEventListener("keydown", onGridKeydown);
-      table.removeEventListener("focusin", onGridFocusin);
-      root.removeEventListener("click", onRootClick);
-      root.removeEventListener("focusout", onRootFocusOut);
-      root.removeEventListener("dragstart", onDragStart);
-      root.removeEventListener("dragover", onDragOver);
-      root.removeEventListener("drop", onDrop);
-      root.removeEventListener("dragend", onDragEnd);
-      if (scrollEl) scrollEl.removeEventListener("scroll", onScroll);
-      root.removeEventListener("input", onSearchInput);
-      document.removeEventListener("click", onDocumentClick);
-    },
-  };
+    function startFieldEdit(cardId, fieldId) {
+        const f = fieldDef(fieldId);
+        const cell = cellForCard(cardId);
+        if (!f || !cell || isReadonly() || cell.hasAttribute("data-locked")) return;
+        const span = Array.from(cell.querySelectorAll("[data-lily-kanban-board-field]")).find(
+            (el) => el.getAttribute("data-field") === fieldId,
+        );
+        const button = span && span.querySelector("[data-lily-kanban-board-field-button]");
+        if (!span || !button) return;
+        if (editing) commitFieldEdit(false);
+        const data = dataCards.get(cardId);
+        const kind = editorKind(f);
+        let editor;
+        if (kind === "select" || kind === "radio") {
+            editor = document.createElement("select");
+            const blank = document.createElement("option");
+            blank.value = "";
+            editor.appendChild(blank);
+            for (const option of f.options || []) {
+                const o = document.createElement("option");
+                o.value = option.id;
+                o.disabled = !!option.disabled;
+                o.textContent = option.label;
+                editor.appendChild(o);
+            }
+        } else {
+            editor = document.createElement("input");
+            editor.type =
+                kind === "number"
+                    ? "number"
+                    : kind === "date"
+                      ? "date"
+                      : kind === "time"
+                        ? "time"
+                        : "text";
+            if (kind === "number") editor.setAttribute("inputmode", "decimal");
+        }
+        editor.className = "kanban-board-field-editor";
+        editor.setAttribute("aria-label", f.editLabel || f.header);
+        const draft = draftOf(f, data ? data.values : undefined);
+        editor.value = String(draft == null ? "" : draft);
+        editing = { cardId, fieldId, draft: editor.value, editor, button };
+        editor.addEventListener("input", () => {
+            if (editing) editing.draft = editor.value;
+            editor.removeAttribute("aria-invalid");
+        });
+        editor.addEventListener("keydown", onEditorKeydown);
+        if (kind === "select" || kind === "radio") {
+            editor.addEventListener("change", () => {
+                if (editing) editing.draft = editor.value;
+                commitFieldEdit(true);
+            });
+        }
+        editor.addEventListener("blur", () => commitFieldEdit(false));
+        span.setAttribute("data-editing", "");
+        button.replaceWith(editor);
+        editor.focus({ preventScroll: true });
+        if (
+            editor.select &&
+            editor.type !== "number" &&
+            editor.type !== "date" &&
+            editor.type !== "time" &&
+            editor.tagName === "INPUT"
+        )
+            editor.select();
+    }
+
+    /** Put the value button back in place of the editor. */
+    function closeEditor() {
+        if (!editing) return null;
+        const closing = editing;
+        editing = null;
+        const span = closing.editor.parentElement;
+        if (span) span.removeAttribute("data-editing");
+        closing.editor.replaceWith(closing.button);
+        return closing;
+    }
+
+    /** Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. Returns whether it was accepted or unchanged. */
+    function commitFieldEdit(refocus) {
+        if (!editing) return true;
+        const { cardId, fieldId, draft } = editing;
+        const f = fieldDef(fieldId);
+        const data = dataCards.get(cardId);
+        if (!f || !data) {
+            closeEditor();
+            return true;
+        }
+        const outcome = evaluateEdit(f, data.values, draft);
+        if (outcome.invalid) {
+            editing.editor.setAttribute("aria-invalid", "true");
+            const refused = outcome.message
+                ? labelText(
+                      "editRefused",
+                      { card: cardTitleOf(cardId), field: f.header, message: outcome.message },
+                      cardTitleOf(cardId),
+                      f.header,
+                      outcome.message,
+                  )
+                : undefined;
+            const template = (config.labels || {}).editInvalid;
+            announce(
+                refused ??
+                    (template
+                        ? fill(template, { card: cardTitleOf(cardId), field: f.header })
+                        : undefined),
+            );
+            return false;
+        }
+        const closing = closeEditor();
+        if (outcome.changed) {
+            data.values[fieldId] = outcome.value;
+            history = recordEdit(history, {
+                ownerId: cardId,
+                fieldId,
+                value: outcome.value,
+                previous: outcome.previous,
+            });
+            if (closing) closing.button.textContent = outcome.text;
+            const edit = { cardId, fieldId, value: outcome.value, previous: outcome.previous };
+            if (typeof opts.onFieldEdit === "function") opts.onFieldEdit(edit);
+            root.dispatchEvent(new CustomEvent("fieldedit", { detail: edit, bubbles: true }));
+            const template =
+                (opts.labels || {}).editAnnouncement &&
+                typeof opts.labels.editAnnouncement === "function"
+                    ? null
+                    : (config.labels || {}).editAnnouncement;
+            if (template)
+                announce(
+                    fill(template, {
+                        card: cardTitleOf(cardId),
+                        field: f.header,
+                        value: outcome.text,
+                    }),
+                );
+            else if (opts.labels && typeof opts.labels.editAnnouncement === "function")
+                announce(opts.labels.editAnnouncement(cardTitleOf(cardId), f.header, outcome.text));
+        }
+        if (refocus) focusCardTarget(cardId);
+        return true;
+    }
+
+    /** Accepted field edits, for Ctrl/Cmd+Z once there is no move left to undo. The consumer owns the data, so an undo is reported through `onFieldEdit` / `fieldedit`. */
+    let history = EMPTY_HISTORY;
+
+    /** Put an earlier field value back, or re-apply it, through `onFieldEdit` and the `fieldedit` event. */
+    function stepHistory(direction) {
+        const step = direction === "undo" ? undoEdit(history) : redoEdit(history);
+        if (!step.record) return;
+        history = step.history;
+        const { ownerId, fieldId, value, previous } = step.record;
+        const f = fieldDef(fieldId);
+        const data = dataCards.get(ownerId);
+        if (!f || !data) return;
+        const restored = direction === "undo" ? previous : value;
+        const replaced = direction === "undo" ? value : previous;
+        data.values[fieldId] = restored;
+        const text =
+            restored === null || restored === undefined
+                ? ""
+                : f.format
+                  ? f.format(restored, { ...data.values })
+                  : String(restored);
+        const cell = cellForCard(ownerId);
+        const target =
+            cell &&
+            Array.from(cell.querySelectorAll("[data-lily-kanban-board-field]")).find(
+                (el) => el.getAttribute("data-field") === fieldId,
+            );
+        const valueEl =
+            target &&
+            target.querySelector(".kanban-board-field-button, .kanban-board-card-field-value");
+        if (valueEl) valueEl.textContent = text;
+        const edit = { cardId: ownerId, fieldId, value: restored, previous: replaced };
+        if (typeof opts.onFieldEdit === "function") opts.onFieldEdit(edit);
+        root.dispatchEvent(new CustomEvent("fieldedit", { detail: edit, bubbles: true }));
+        const name = direction === "undo" ? "fieldUndoAnnouncement" : "fieldRedoAnnouncement";
+        announce(
+            labelText(
+                name,
+                { card: cardTitleOf(ownerId), field: f.header, value: text },
+                cardTitleOf(ownerId),
+                f.header,
+                text,
+            ),
+        );
+    }
+
+    function cancelFieldEdit() {
+        const closing = closeEditor();
+        if (closing) focusCardTarget(closing.cardId);
+    }
+
+    function focusCardTarget(cardId) {
+        const entry = menus.get(cardId);
+        const target = (entry && entry.focusTarget) || cellForCard(cardId);
+        if (target) target.focus({ preventScroll: true });
+    }
+
+    function onEditorKeydown(event) {
+        // The editor owns its keys. While an IME composes, Enter, Escape and Tab belong to the IME: some browsers
+        // report the confirming Enter with `isComposing` already false but keyCode 229.
+        event.stopPropagation();
+        if (event.isComposing || event.keyCode === 229) return;
+        if (event.key === "Enter") {
+            event.preventDefault();
+            commitFieldEdit(true);
+        } else if (event.key === "Escape") {
+            event.preventDefault();
+            cancelFieldEdit();
+        } else if (event.key === "Tab" && editing) {
+            // Tab commits and moves to the card's next (Shift+Tab: previous) editable field; past the last, it moves on.
+            const { cardId, fieldId } = editing;
+            const cell = cellForCard(cardId);
+            const editable = cell
+                ? Array.from(cell.querySelectorAll("[data-lily-kanban-board-field]"))
+                      .filter((span) =>
+                          span.querySelector(
+                              "[data-lily-kanban-board-field-button], .kanban-board-field-editor",
+                          ),
+                      )
+                      .map((span) => fieldDef(span.getAttribute("data-field")))
+                      .filter(Boolean)
+                : [];
+            const next = neighbourField(editable, fieldId, event.shiftKey);
+            if (next) {
+                event.preventDefault();
+                if (commitFieldEdit(false)) startFieldEdit(cardId, next.id);
+            } else {
+                commitFieldEdit(false);
+            }
+        }
+    }
+
+    // -----------------------------------------------------------------
+    // In-place title editing (the macro's `editableTitles`): double-click a title, or F2 on the card.
+    // Enter or leaving the field commits, Escape cancels, an empty title is refused. The consumer renames the card
+    // (`opts.onTitleEdit`, or the `titleedit` event); the board keeps what the user sees.
+    // -----------------------------------------------------------------
+
+    /** @type {{ cardId: string, handle: HTMLElement, input: HTMLInputElement, original: string } | null} */
+    let titleEditing = null;
+
+    const isTitleEditable = (cell) => {
+        if (!config.editableTitles || isReadonly() || !cell || cell.hasAttribute("data-locked"))
+            return false;
+        const handle = cell.querySelector("[data-lily-kanban-board-card-handle]");
+        return !!handle && !handle.querySelector("a.kanban-board-card-link");
+    };
+
+    function startTitleEdit(cardId) {
+        const cell = cellForCard(cardId);
+        if (!isTitleEditable(cell)) return false;
+        if (titleEditing) commitTitleEdit(false);
+        const handle = cell.querySelector("[data-lily-kanban-board-card-handle]");
+        const original =
+            (dataCards.get(cardId) || {}).title ??
+            handle.getAttribute("data-original-title") ??
+            handle.textContent ??
+            "";
+        const input = document.createElement("input");
+        input.type = "text";
+        input.className = "kanban-board-title-editor";
+        input.value = original;
+        const named = labelText("titleEditor", { title: original }, original);
+        input.setAttribute("aria-label", named || original);
+        input.addEventListener("keydown", onTitleEditorKeydown);
+        input.addEventListener("blur", () => commitTitleEdit(false));
+        handle.removeAttribute("draggable");
+        handle.replaceChildren(input);
+        titleEditing = { cardId, handle, input, original };
+        input.focus({ preventScroll: true });
+        input.select();
+        return true;
+    }
+
+    /** Put the title text back in the handle, in place of the editor. */
+    function closeTitleEditor(title) {
+        const current = titleEditing;
+        if (!current) return null;
+        titleEditing = null;
+        current.handle.setAttribute("data-original-title", title);
+        current.handle.replaceChildren(document.createTextNode(title));
+        if (
+            !isReadonly() &&
+            !(cellForCard(current.cardId) || document.body).hasAttribute("data-locked")
+        )
+            current.handle.setAttribute("draggable", "true");
+        return current;
+    }
+
+    function commitTitleEdit(refocus) {
+        const current = titleEditing;
+        if (!current) return;
+        const title = current.input.value.trim();
+        const changed = title !== "" && title !== current.original;
+        closeTitleEditor(changed ? title : current.original);
+        if (changed) {
+            const data = dataCards.get(current.cardId);
+            if (data) data.title = title;
+            const cell = cellForCard(current.cardId);
+            if (cell) {
+                const searchText = [
+                    title,
+                    data && data.subtitle ? data.subtitle : "",
+                    ...((data && data.badges) || []),
+                ].join(" ");
+                cell.setAttribute("data-lily-kanban-board-search-text", searchText);
+            }
+            const edit = { cardId: current.cardId, title, previous: current.original };
+            if (typeof opts.onTitleEdit === "function") opts.onTitleEdit(edit);
+            root.dispatchEvent(new CustomEvent("titleedit", { detail: edit, bubbles: true }));
+            announce(
+                labelText(
+                    "titleEditAnnouncement",
+                    { previous: current.original, title },
+                    current.original,
+                    title,
+                ),
+            );
+            highlightTitles(searchQuery());
+        }
+        if (refocus) focusCardTarget(current.cardId);
+    }
+
+    function onTitleEditorKeydown(event) {
+        event.stopPropagation();
+        if (event.isComposing || event.keyCode === 229) return;
+        if (event.key === "Enter") {
+            event.preventDefault();
+            commitTitleEdit(true);
+        } else if (event.key === "Escape") {
+            event.preventDefault();
+            const closing = closeTitleEditor(titleEditing ? titleEditing.original : "");
+            if (closing) focusCardTarget(closing.cardId);
+        }
+    }
+
+    function onRootDblclick(event) {
+        const handle =
+            event.target instanceof Element
+                ? event.target.closest("[data-lily-kanban-board-card-handle]")
+                : null;
+        if (handle) startTitleEdit(handle.getAttribute("data-lily-kanban-board-card-id"));
+    }
+
+    /** F2 on a card: edit its first editable field. */
+    function editFirstField(cell) {
+        const cardId = cell.getAttribute("data-lily-kanban-board-card-id");
+        const button = cell.querySelector("[data-lily-kanban-board-field-button]");
+        if (!cardId || !button) return false;
+        startFieldEdit(cardId, button.getAttribute("data-field-id"));
+        return true;
+    }
+
+    const matchesSearch = (td) => {
+        const query = searchQuery();
+        return query.trim() === "" || wordsMatch(cardSearchText(td), query);
+    };
+
+    /** The cards an export holds: the view (what the search leaves), column by column, or only the selected ones. */
+    function exportCardIds() {
+        const out = [];
+        const selectedOnly = config.exportScope === "selected";
+        columnIds().forEach((id, index) => {
+            cellsOfColumn(index).forEach((td) => {
+                const cardId = td.getAttribute("data-lily-kanban-board-card-id");
+                if (!cardId || !matchesSearch(td)) return;
+                if (selectedOnly && !td.hasAttribute("data-selected")) return;
+                out.push(cardId);
+            });
+        });
+        return out;
+    }
+
+    function syncExport() {
+        const disabled = exportCardIds().length === 0;
+        root.querySelectorAll("[data-kanban-export-format]").forEach((b) => {
+            b.disabled = disabled;
+        });
+    }
+
+    async function finishCopy(table) {
+        const text = toClipboardText(table);
+        const copied = { text, rowCount: table.rows.length };
+        root.dispatchEvent(new CustomEvent("copy", { detail: copied, bubbles: true }));
+        if (typeof opts.onCopy === "function" && opts.onCopy(copied) === false) return;
+        const ok = await copyToClipboard(text);
+        announce(
+            ok
+                ? labelText("copyAnnouncement", { count: table.rows.length }, table.rows.length)
+                : labelText("copyFailed", {}),
+        );
+    }
+
+    function runExport(format) {
+        const h = (config.labels || {}).exportHeaders;
+        if (!h) return;
+        const lanes = config.lanes || [];
+        const hasLaneColumn = lanes.length > 0 && !!h.lane;
+        const exportFields = exportableFields(fields);
+        const headers = [h.title, h.column];
+        if (hasLaneColumn) headers.push(h.lane);
+        if (h.subtitle) headers.push(h.subtitle);
+        if (h.badges) headers.push(h.badges);
+        if (h.flag) headers.push(h.flag);
+        for (const f of exportFields) headers.push(f.header);
+        const laneTitle = new Map(lanes.map((l) => [l.id, l.title]));
+        const rows = exportCardIds().map((cardId) => {
+            const data = dataCards.get(cardId) || { id: cardId, title: cardId, values: {} };
+            const cell = cellForCard(cardId);
+            const cells = [data.title, columnTitleFor(columnOfCard(cardId))];
+            if (hasLaneColumn) cells.push(laneTitle.get(laneOfCell(cell)) || "");
+            if (h.subtitle) cells.push(data.subtitle == null ? null : data.subtitle);
+            if (h.badges) cells.push((data.badges || []).join("; "));
+            if (h.flag) cells.push(data.flag == null ? null : data.flag);
+            for (const f of exportFields) cells.push(exportFieldCell(f, data.values));
+            return cells;
+        });
+        if (format === "copy") {
+            void finishCopy({ headers, rows });
+            return;
+        }
+        const base = config.exportFilename || "kanban-board";
+        const filename = exportFilename(base, format);
+        const blob = exportBlob({ headers, rows }, format, { sheetName: base });
+        const file = { format, filename, cardCount: rows.length, blob };
+        root.dispatchEvent(new CustomEvent("exportfile", { detail: file, bubbles: true }));
+        if (typeof opts.onExport === "function" && opts.onExport(file) === false) return;
+        downloadBlob(blob, filename);
+        const template = (config.labels || {}).exportAnnouncement;
+        if (template) announce(fill(template, { count: rows.length, format, filename }));
+    }
+
+    table.addEventListener("keydown", onGridKeydown);
+    table.addEventListener("focusin", onGridFocusin);
+    root.addEventListener("click", onRootClick);
+    root.addEventListener("dblclick", onRootDblclick);
+    root.addEventListener("focusout", onRootFocusOut);
+    root.addEventListener("dragstart", onDragStart);
+    root.addEventListener("dragover", onDragOver);
+    root.addEventListener("drop", onDrop);
+    root.addEventListener("dragend", onDragEnd);
+    root.addEventListener("input", onSearchInput);
+    root.addEventListener("keydown", onSearchKeydown);
+    if (scrollEl) scrollEl.addEventListener("scroll", onScroll);
+    document.addEventListener("click", onDocumentClick);
+
+    // Show each field's value formatted by its type, then take collapsed columns and searched-out cards out of the DOM.
+    formatFields();
+    // Columns the macro rendered collapsed, and a search it started with: take those cards out of the DOM now.
+    refreshVisibility();
+
+    syncUndo();
+
+    return {
+        collapsedColumns: collapsedIds,
+        collapsedLanes: collapsedLaneIds,
+        selected: selectedIds,
+        columnOrder: columnIds,
+        undo,
+        destroy: () => {
+            menus.forEach((entry) => entry.keyboard.destroy());
+            table.removeEventListener("keydown", onGridKeydown);
+            table.removeEventListener("focusin", onGridFocusin);
+            root.removeEventListener("click", onRootClick);
+            root.removeEventListener("focusout", onRootFocusOut);
+            root.removeEventListener("dragstart", onDragStart);
+            root.removeEventListener("dragover", onDragOver);
+            root.removeEventListener("drop", onDrop);
+            root.removeEventListener("dragend", onDragEnd);
+            if (scrollEl) scrollEl.removeEventListener("scroll", onScroll);
+            root.removeEventListener("input", onSearchInput);
+            document.removeEventListener("click", onDocumentClick);
+        },
+    };
 }
 
 /**
@@ -1652,9 +1951,7 @@ export function initKanbanBoard(root, opts = {}) {
  * @returns {Array<ReturnType<typeof initKanbanBoard>>}
  */
 export function autoInit(opts = {}) {
-  if (typeof document === "undefined") return [];
-  const roots = Array.from(
-    document.querySelectorAll("[data-lily-kanban-board-root]"),
-  );
-  return roots.map((root) => initKanbanBoard(root, opts));
+    if (typeof document === "undefined") return [];
+    const roots = Array.from(document.querySelectorAll("[data-lily-kanban-board-root]"));
+    return roots.map((root) => initKanbanBoard(root, opts));
 }

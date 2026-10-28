@@ -19,14 +19,12 @@ import { ThemePicker } from "../../ThemePicker";
 function readInitialThemeFromDom(): string {
     if (typeof document === "undefined") return "";
     return (
-        document.querySelector<HTMLDivElement>("[data-initial-theme]")
-            ?.dataset.initialTheme ?? ""
+        document.querySelector<HTMLDivElement>("[data-initial-theme]")?.dataset.initialTheme ?? ""
     );
 }
 
 function writeThemeCookie(slug: string) {
-    document.cookie =
-        `theme=${slug}; path=/; max-age=31536000; SameSite=Lax`;
+    document.cookie = `theme=${slug}; path=/; max-age=31536000; SameSite=Lax`;
 }
 
 export default function ThemePickerPage() {
@@ -55,13 +53,10 @@ export default function ThemePickerPage() {
             />
 
             <p>
-                The select writes the active theme to a cookie. On the
-                next request, the server reads the cookie and inlines{" "}
-                <code>data-theme</code> on <code>&lt;html&gt;</code>{" "}
-                plus the active theme&apos;s{" "}
-                <code>&lt;link rel=&quot;stylesheet&quot;&gt;</code> before
-                the page is sent — so the first paint already matches your
-                choice.
+                The select writes the active theme to a cookie. On the next request, the server
+                reads the cookie and inlines <code>data-theme</code> on <code>&lt;html&gt;</code>{" "}
+                plus the active theme&apos;s <code>&lt;link rel=&quot;stylesheet&quot;&gt;</code>{" "}
+                before the page is sent — so the first paint already matches your choice.
             </p>
         </>
     );

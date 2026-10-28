@@ -5,16 +5,15 @@ import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("div.success-panel");
 
-
 describe("SuccessPanel", () => {
-  it("renders the element with its base class", async () => {
-    await mount("success-panel");
-    expect(el()).not.toBeNull();
-    expect(el().classList.contains("success-panel")).toBe(true);
-  });
+    it("renders the element with its base class", async () => {
+        await mount("success-panel");
+        expect(el()).not.toBeNull();
+        expect(el().classList.contains("success-panel")).toBe(true);
+    });
 
-  it("uses the div element", async () => {
-    await mount("success-panel");
-    expect(el().tagName.toLowerCase()).toBe("div");
-  });
+    it("uses the div element", async () => {
+        await mount("success-panel");
+        expect(el().tagName.toLowerCase()).toBe("div");
+    });
 });

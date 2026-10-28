@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<li
   class="task-list-item"
@@ -6,9 +6,9 @@ const html = `<li
   <span class="task-list-item-title"></span></li>`;
 
 const meta = {
-  title: 'Headless/TaskListItem',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/TaskListItem",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

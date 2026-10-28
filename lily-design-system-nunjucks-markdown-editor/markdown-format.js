@@ -7,14 +7,14 @@
 
 /** Tools that put a prefix at the start of every selected line. */
 
-export const WRAP_MARKERS                           = {
+export const WRAP_MARKERS = {
     bold: "**",
     italic: "*",
     strikethrough: "~~",
     code: "`",
 };
 
-export const TOOL_IDS                    = [
+export const TOOL_IDS = [
     "heading",
     "bold",
     "italic",
@@ -26,14 +26,14 @@ export const TOOL_IDS                    = [
     "numberedList",
 ];
 
-const isWrapTool = (id        )                 => id in WRAP_MARKERS;
+const isWrapTool = (id) => id in WRAP_MARKERS;
 
 /**
  * Wrap the selection in `marker`, or take the marker off when the selection
  * is already wrapped (markers just outside it, or just inside it). An empty
  * selection inserts a pair of markers and leaves the caret between them.
  */
-export function toggleWrap(text        , start        , end        , marker        )       {
+export function toggleWrap(text, start, end, marker) {
     const m = marker.length;
     const before = text.slice(0, start);
     const selected = text.slice(start, end);
@@ -42,23 +42,33 @@ export function toggleWrap(text        , start        , end        , marker     
     // Bold and italic share the asterisk: `***x***` is both, so decide by the
     // run of asterisks (italic needs an odd run, bold at least two).
     // `closing` is the text that ends at the opening marker, `opening` the text that starts at the closing one.
-    const present = (closing        , opening        )          => {
-        if (marker !== "*" && marker !== "**") return closing.endsWith(marker) && opening.startsWith(marker);
-        const run = Math.min(closing.length - closing.replace(/\*+$/, "").length, opening.length - opening.replace(/^\*+/, "").length);
+    const present = (closing, opening) => {
+        if (marker !== "*" && marker !== "**")
+            return closing.endsWith(marker) && opening.startsWith(marker);
+        const run = Math.min(
+            closing.length - closing.replace(/\*+$/, "").length,
+            opening.length - opening.replace(/^\*+/, "").length,
+        );
         return marker === "*" ? run % 2 === 1 : run >= 2;
     };
 
     // Markers just outside the selection: **|bold|** -> |bold|
     if (present(before, after)) {
-        return { text: before.slice(0, -m) + selected + after.slice(m), start: start - m, end: end - m };
+        return {
+            text: before.slice(0, -m) + selected + after.slice(m),
+            start: start - m,
+            end: end - m,
+        };
     }
     // Markers inside the selection: |**bold**| -> |bold|
     // (the selection's own leading run is the opener, its trailing run the closer)
     const lead = selected.match(/^\*+/)?.[0].length ?? 0;
     const trail = selected.match(/\*+$/)?.[0].length ?? 0;
-    const insidePresent = marker === "*" || marker === "**"
-        ? selected.length > lead && (marker === "*" ? Math.min(lead, trail) % 2 === 1 : Math.min(lead, trail) >= 2)
-        : selected.length >= 2 * m && selected.startsWith(marker) && selected.endsWith(marker);
+    const insidePresent =
+        marker === "*" || marker === "**"
+            ? selected.length > lead &&
+              (marker === "*" ? Math.min(lead, trail) % 2 === 1 : Math.min(lead, trail) >= 2)
+            : selected.length >= 2 * m && selected.startsWith(marker) && selected.endsWith(marker);
     if (insidePresent) {
         const inner = selected.slice(m, selected.length - m);
         return { text: before + inner + after, start, end: start + inner.length };
@@ -67,7 +77,7 @@ export function toggleWrap(text        , start        , end        , marker     
 }
 
 /** Link: `[selection](https://)` with the address selected, ready to be typed over. */
-export function insertLink(text        , start        , end        )       {
+export function insertLink(text, start, end) {
     const selected = text.slice(start, end);
     const url = "https://";
     const out = text.slice(0, start) + "[" + selected + "](" + url + ")" + text.slice(end);
@@ -78,7 +88,7 @@ export function insertLink(text        , start        , end        )       {
 }
 
 /** The line-start offsets covering the selection (a selection ending at a line start excludes that line). */
-function lineBounds(text        , start        , end        )                               {
+function lineBounds(text, start, end) {
     const from = text.lastIndexOf("\n", start - 1) + 1;
     const effectiveEnd = end > start && text[end - 1] === "\n" ? end - 1 : end;
     const nl = text.indexOf("\n", effectiveEnd);
@@ -95,22 +105,29 @@ const HEADING = /^#{1,6} /;
  * selected line already has it. Numbered lists count 1, 2, 3 from the first
  * selected line. A different list or heading prefix is replaced, not stacked.
  */
-export function toggleLines(text        , start        , end        , tool          , headingLevel = 2)       {
+export function toggleLines(text, start, end, tool, headingLevel = 2) {
     const { from, to } = lineBounds(text, start, end);
     const lines = text.slice(from, to).split("\n");
-    const prefixFor = (i        )         => {
+    const prefixFor = (i) => {
         switch (tool) {
-            case "heading": return "#".repeat(headingLevel) + " ";
-            case "quote": return "> ";
-            case "bulletList": return "- ";
-            case "numberedList": return `${i + 1}. `;
+            case "heading":
+                return "#".repeat(headingLevel) + " ";
+            case "quote":
+                return "> ";
+            case "bulletList":
+                return "- ";
+            case "numberedList":
+                return `${i + 1}. `;
         }
     };
-    const matcher = { heading: HEADING, quote: QUOTE, bulletList: BULLET, numberedList: NUMBERED }[tool];
+    const matcher = { heading: HEADING, quote: QUOTE, bulletList: BULLET, numberedList: NUMBERED }[
+        tool
+    ];
     const nonEmpty = lines.filter((l) => l.trim() !== "");
     const alreadyAll = nonEmpty.length > 0 && nonEmpty.every((l) => matcher.test(l));
     // Replace a competing block prefix rather than stacking two.
-    const strip = (l        ) => l.replace(HEADING, "").replace(BULLET, "").replace(NUMBERED, "").replace(QUOTE, "");
+    const strip = (l) =>
+        l.replace(HEADING, "").replace(BULLET, "").replace(NUMBERED, "").replace(QUOTE, "");
     let n = 0;
     const next = lines.map((l) => {
         if (alreadyAll) return l.replace(matcher, "");
@@ -129,7 +146,7 @@ export function toggleLines(text        , start        , end        , tool      
 }
 
 /** Apply one tool to the text and selection. */
-export function applyTool(tool        , text        , start        , end        , options                            = {})       {
+export function applyTool(tool, text, start, end, options = {}) {
     if (isWrapTool(tool)) return toggleWrap(text, start, end, WRAP_MARKERS[tool]);
     if (tool === "link") return insertLink(text, start, end);
     return toggleLines(text, start, end, tool, options.headingLevel ?? 2);

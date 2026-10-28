@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<section
   class="file-manager"
@@ -7,9 +7,9 @@ const html = `<section
   data-module="file-manager"></section>`;
 
 const meta = {
-  title: 'Headless/FileManager',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/FileManager",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

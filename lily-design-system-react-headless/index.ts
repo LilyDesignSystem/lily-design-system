@@ -1142,7 +1142,10 @@ export type { UrlInputProps } from "./components/UrlInput";
 export { default as ValidationList } from "./components/ValidationList";
 export type { ValidationListProps } from "./components/ValidationList";
 export { default as ValidationListItem } from "./components/ValidationListItem";
-export type { ValidationListItemStatus, ValidationListItemProps } from "./components/ValidationListItem";
+export type {
+    ValidationListItemStatus,
+    ValidationListItemProps,
+} from "./components/ValidationListItem";
 export { default as VideoPlayer } from "./components/VideoPlayer";
 export type { VideoPlayerProps } from "./components/VideoPlayer";
 export { default as Visible } from "./components/Visible";

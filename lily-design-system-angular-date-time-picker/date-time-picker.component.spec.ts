@@ -63,9 +63,7 @@ function flush(): Promise<void> {
 let fixtures: ComponentFixture<unknown>[] = [];
 
 /** Create + render a DateTimePicker with the supplied inputs. */
-function mount(
-  inputs: Record<string, unknown> = {},
-): ComponentFixture<DateTimePicker> {
+function mount(inputs: Record<string, unknown> = {}): ComponentFixture<DateTimePicker> {
   const fixture = TestBed.createComponent(DateTimePicker);
   fixture.componentRef.setInput("label", "Pick a date");
   fixture.componentRef.setInput("labels", LABELS);
@@ -78,22 +76,15 @@ function mount(
   return fixture;
 }
 
-function q<T extends Element>(
-  fixture: ComponentFixture<unknown>,
-  sel: string,
-): T {
+function q<T extends Element>(fixture: ComponentFixture<unknown>, sel: string): T {
   return fixture.nativeElement.querySelector(sel) as T;
 }
 
-function qa<T extends Element>(
-  fixture: ComponentFixture<unknown>,
-  sel: string,
-): T[] {
+function qa<T extends Element>(fixture: ComponentFixture<unknown>, sel: string): T[] {
   return Array.from(fixture.nativeElement.querySelectorAll(sel)) as T[];
 }
 
-const root = (fixture: ComponentFixture<unknown>) =>
-  q<HTMLElement>(fixture, ".date-time-picker");
+const root = (fixture: ComponentFixture<unknown>) => q<HTMLElement>(fixture, ".date-time-picker");
 const trigger = (fixture: ComponentFixture<unknown>) =>
   q<HTMLButtonElement>(fixture, ".date-time-picker-button");
 const dialog = (fixture: ComponentFixture<unknown>) =>
@@ -109,8 +100,7 @@ const days = (fixture: ComponentFixture<unknown>) =>
 const day = (fixture: ComponentFixture<unknown>, iso: string) =>
   q<HTMLButtonElement>(fixture, `[data-date="${iso}"]`);
 const cursorDate = (fixture: ComponentFixture<unknown>) =>
-  days(fixture).find((d) => d.getAttribute("tabindex") === "0")?.dataset
-    .date ?? "";
+  days(fixture).find((d) => d.getAttribute("tabindex") === "0")?.dataset.date ?? "";
 const periodText = (fixture: ComponentFixture<unknown>) =>
   q<HTMLElement>(fixture, ".date-time-picker-period").textContent?.trim() ?? "";
 
@@ -166,10 +156,7 @@ function typeInto(
   fixture.detectChanges();
 }
 
-async function blurSettled(
-  fixture: ComponentFixture<unknown>,
-  target: HTMLElement,
-): Promise<void> {
+async function blurSettled(fixture: ComponentFixture<unknown>, target: HTMLElement): Promise<void> {
   target.dispatchEvent(new FocusEvent("blur"));
   await flush();
   fixture.detectChanges();
@@ -270,9 +257,7 @@ describe("DateTimePicker — civil-date arithmetic", () => {
       date: "2026-03-15",
       time: "09:30",
     });
-    expect(joinValue("2026-03-15", "09:30", "datetime")).toBe(
-      "2026-03-15T09:30",
-    );
+    expect(joinValue("2026-03-15", "09:30", "datetime")).toBe("2026-03-15T09:30");
   });
 
   test("§7.5 joinValue refuses a half datetime", () => {
@@ -380,12 +365,8 @@ describe("DateTimePicker — markup", () => {
 
   test("§7.11 aria-label names both the trigger and the dialog", () => {
     const fixture = mount({ label: "Appointment date" });
-    expect(trigger(fixture).getAttribute("aria-label")).toBe(
-      "Appointment date",
-    );
-    expect(dialog(fixture).getAttribute("aria-label")).toBe(
-      "Appointment date",
-    );
+    expect(trigger(fixture).getAttribute("aria-label")).toBe("Appointment date");
+    expect(dialog(fixture).getAttribute("aria-label")).toBe("Appointment date");
   });
 
   test("§7.12 the hidden input carries the ISO value, the field the display", () => {
@@ -414,20 +395,14 @@ describe("DateTimePicker — markup", () => {
     expect(days(fixture)).toHaveLength(42);
     // March 2026 starts on a Sunday; with a Monday-first grid the six
     // preceding days come from February.
-    expect(day(fixture, "2026-02-23")?.hasAttribute("data-outside")).toBe(
-      true,
-    );
-    expect(day(fixture, "2026-03-15")?.hasAttribute("data-outside")).toBe(
-      false,
-    );
+    expect(day(fixture, "2026-02-23")?.hasAttribute("data-outside")).toBe(true);
+    expect(day(fixture, "2026-03-15")?.hasAttribute("data-outside")).toBe(false);
   });
 
   test("§7.15 exactly one day is tabbable (roving tabindex)", async () => {
     const fixture = mount({ value: "2026-03-15" });
     await open(fixture);
-    const tabbable = days(fixture).filter(
-      (d) => d.getAttribute("tabindex") === "0",
-    );
+    const tabbable = days(fixture).filter((d) => d.getAttribute("tabindex") === "0");
     expect(tabbable).toHaveLength(1);
     expect(tabbable[0].dataset.date).toBe("2026-03-15");
   });
@@ -628,46 +603,27 @@ describe("DateTimePicker — constraints and shortcuts", () => {
       max: "2026-03-20",
     });
     await open(fixture);
-    expect(day(fixture, "2026-03-09").getAttribute("aria-disabled")).toBe(
-      "true",
-    );
-    expect(day(fixture, "2026-03-10").hasAttribute("aria-disabled")).toBe(
-      false,
-    );
-    expect(day(fixture, "2026-03-20").hasAttribute("aria-disabled")).toBe(
-      false,
-    );
-    expect(day(fixture, "2026-03-21").getAttribute("aria-disabled")).toBe(
-      "true",
-    );
+    expect(day(fixture, "2026-03-09").getAttribute("aria-disabled")).toBe("true");
+    expect(day(fixture, "2026-03-10").hasAttribute("aria-disabled")).toBe(false);
+    expect(day(fixture, "2026-03-20").hasAttribute("aria-disabled")).toBe(false);
+    expect(day(fixture, "2026-03-21").getAttribute("aria-disabled")).toBe("true");
     // aria-disabled, not the `disabled` attribute: a vetoed day must
     // stay focusable so the roving cursor can land on it and a screen
     // reader can announce it as unavailable.
     expect(day(fixture, "2026-03-09").hasAttribute("disabled")).toBe(false);
     // And the consumer's CSS hook rides along.
-    expect(day(fixture, "2026-03-09").hasAttribute("data-disabled")).toBe(
-      true,
-    );
-    expect(day(fixture, "2026-03-10").hasAttribute("data-disabled")).toBe(
-      false,
-    );
+    expect(day(fixture, "2026-03-09").hasAttribute("data-disabled")).toBe(true);
+    expect(day(fixture, "2026-03-10").hasAttribute("data-disabled")).toBe(false);
   });
 
   test("§7.30 isDateDisabled vetoes individual days", async () => {
     // A weekends-closed clinic.
-    const isDateDisabled = (iso: string) =>
-      weekdayOf(iso) === 0 || weekdayOf(iso) === 6;
+    const isDateDisabled = (iso: string) => weekdayOf(iso) === 0 || weekdayOf(iso) === 6;
     const fixture = mount({ value: "2026-03-16", isDateDisabled });
     await open(fixture);
-    expect(day(fixture, "2026-03-21").getAttribute("aria-disabled")).toBe(
-      "true",
-    ); // Saturday
-    expect(day(fixture, "2026-03-22").getAttribute("aria-disabled")).toBe(
-      "true",
-    ); // Sunday
-    expect(day(fixture, "2026-03-23").hasAttribute("aria-disabled")).toBe(
-      false,
-    ); // Monday
+    expect(day(fixture, "2026-03-21").getAttribute("aria-disabled")).toBe("true"); // Saturday
+    expect(day(fixture, "2026-03-22").getAttribute("aria-disabled")).toBe("true"); // Sunday
+    expect(day(fixture, "2026-03-23").hasAttribute("aria-disabled")).toBe(false); // Monday
   });
 
   test("§7.31 clicking a disabled day does not commit", async () => {
@@ -691,10 +647,9 @@ describe("DateTimePicker — constraints and shortcuts", () => {
     fixture.componentInstance.change.subscribe(changed);
     fixture.componentInstance.shortcut.subscribe(shortcutFired);
     await open(fixture);
-    const twoWeeks = qa<HTMLButtonElement>(
-      fixture,
-      ".date-time-picker-shortcut",
-    ).find((b) => b.textContent?.trim() === "+2")!;
+    const twoWeeks = qa<HTMLButtonElement>(fixture, ".date-time-picker-shortcut").find(
+      (b) => b.textContent?.trim() === "+2",
+    )!;
     await clickSettled(fixture, twoWeeks);
     expect(shortcutFired).toHaveBeenCalledWith({
       id: "two-weeks",
@@ -835,10 +790,9 @@ describe("DateTimePicker — time and datetime", () => {
       minuteStep: 15,
     });
     await open(fixture);
-    const options = qa<HTMLOptionElement>(
-      fixture,
-      ".date-time-picker-minute option",
-    ).map((o) => o.textContent);
+    const options = qa<HTMLOptionElement>(fixture, ".date-time-picker-minute option").map(
+      (o) => o.textContent,
+    );
     expect(options).toEqual(["00", "15", "30", "45"]);
   });
 
@@ -879,10 +833,7 @@ describe("DateTimePicker — time and datetime", () => {
       locale: "en-US",
     });
     await open(fixture);
-    const meridiem = q<HTMLSelectElement>(
-      fixture,
-      ".date-time-picker-meridiem",
-    );
+    const meridiem = q<HTMLSelectElement>(fixture, ".date-time-picker-meridiem");
     expect(meridiem).not.toBeNull();
     expect(meridiem.value).toBe("pm");
     const labels = Array.from(meridiem.options).map((o) => o.textContent);
@@ -891,10 +842,9 @@ describe("DateTimePicker — time and datetime", () => {
     expect(labels).toHaveLength(2);
     expect(labels[0]).not.toBe(labels[1]);
     // A 12-hour clock shows 1-12, not 13.
-    const hourLabels = qa<HTMLOptionElement>(
-      fixture,
-      ".date-time-picker-hour option",
-    ).map((o) => o.textContent);
+    const hourLabels = qa<HTMLOptionElement>(fixture, ".date-time-picker-hour option").map(
+      (o) => o.textContent,
+    );
     expect(hourLabels).toContain("1");
     expect(hourLabels).not.toContain("13");
   });
@@ -908,18 +858,16 @@ describe("DateTimePicker — locale", () => {
   test("§7.45 weekday headings start on Monday for en-GB, Sunday for en-US", async () => {
     const gbFixture = mount({ locale: "en-GB", value: "2026-03-15" });
     await open(gbFixture);
-    const gb = qa<HTMLElement>(
-      gbFixture,
-      ".date-time-picker-weekday",
-    ).map((th) => th.getAttribute("abbr"));
+    const gb = qa<HTMLElement>(gbFixture, ".date-time-picker-weekday").map((th) =>
+      th.getAttribute("abbr"),
+    );
     expect(gb[0]).toBe("Monday");
 
     const usFixture = mount({ locale: "en-US", value: "2026-03-15" });
     await open(usFixture);
-    const us = qa<HTMLElement>(
-      usFixture,
-      ".date-time-picker-weekday",
-    ).map((th) => th.getAttribute("abbr"));
+    const us = qa<HTMLElement>(usFixture, ".date-time-picker-weekday").map((th) =>
+      th.getAttribute("abbr"),
+    );
     expect(us[0]).toBe("Sunday");
   });
 
@@ -930,10 +878,7 @@ describe("DateTimePicker — locale", () => {
       value: "2026-03-15",
     });
     await open(fixture);
-    const first = q<HTMLElement>(
-      fixture,
-      ".date-time-picker-weekday",
-    ).getAttribute("abbr");
+    const first = q<HTMLElement>(fixture, ".date-time-picker-weekday").getAttribute("abbr");
     expect(first).toBe("Sunday");
   });
 
@@ -946,9 +891,7 @@ describe("DateTimePicker — locale", () => {
     // version's exact spelling.
     expect(period.textContent?.trim()).not.toContain("March");
     expect(period.textContent?.trim()).toContain("2026");
-    expect(day(fixture, "2026-03-15").getAttribute("aria-label")).not.toContain(
-      "March",
-    );
+    expect(day(fixture, "2026-03-15").getAttribute("aria-label")).not.toContain("March");
   });
 
   test("§7.48 showWeekNumbers renders ISO week numbers", async () => {
@@ -958,11 +901,9 @@ describe("DateTimePicker — locale", () => {
       labels: { ...LABELS, week: "Wk" },
     });
     await open(fixture);
-    expect(
-      q(fixture, ".date-time-picker-week-heading")?.textContent?.trim(),
-    ).toBe("Wk");
-    const weeks = qa<HTMLElement>(fixture, ".date-time-picker-week").map(
-      (th) => th.textContent?.trim(),
+    expect(q(fixture, ".date-time-picker-week-heading")?.textContent?.trim()).toBe("Wk");
+    const weeks = qa<HTMLElement>(fixture, ".date-time-picker-week").map((th) =>
+      th.textContent?.trim(),
     );
     expect(weeks).toHaveLength(6);
     // The grid's first row starts 2026-02-23, which is ISO week 9.
@@ -1002,9 +943,7 @@ describe("DateTimePicker — custom glyph template", () => {
 
     const custom = q<HTMLElement>(fixture, '[data-testid="custom"]');
     expect(custom).toBeTruthy();
-    expect(custom.closest("button")?.className).toContain(
-      "date-time-picker-button",
-    );
+    expect(custom.closest("button")?.className).toContain("date-time-picker-button");
     expect(q(fixture, ".date-time-picker-icon")).toBeNull();
     expect(custom.getAttribute("data-open")).toBe("false");
   });
@@ -1014,11 +953,9 @@ describe("DateTimePicker — custom glyph template", () => {
     fixture.detectChanges();
     fixtures.push(fixture);
     await clickSettled(fixture, trigger(fixture));
-    expect(
-      q<HTMLElement>(fixture, '[data-testid="custom"]').getAttribute(
-        "data-open",
-      ),
-    ).toBe("true");
+    expect(q<HTMLElement>(fixture, '[data-testid="custom"]').getAttribute("data-open")).toBe(
+      "true",
+    );
   });
 });
 
@@ -1096,9 +1033,7 @@ describe("DateTimePicker — assistive technology", () => {
     expect(field(fixture).getAttribute("aria-errormessage")).toBe(status.id);
     // Chained after the consumer's hint, for the assistive technologies
     // that read aria-describedby but not aria-errormessage.
-    expect(field(fixture).getAttribute("aria-describedby")).toBe(
-      `hint ${status.id}`,
-    );
+    expect(field(fixture).getAttribute("aria-describedby")).toBe(`hint ${status.id}`);
   });
 
   test("§7.52 focus returns to whichever element opened the dialog", async () => {
@@ -1127,10 +1062,7 @@ describe("DateTimePicker — assistive technology", () => {
 
     // Header route: the user activating "next month" stays on "next
     // month", so they can page again — the cursor carries silently.
-    const nextMonth = q<HTMLButtonElement>(
-      fixture,
-      ".date-time-picker-next-month",
-    );
+    const nextMonth = q<HTMLButtonElement>(fixture, ".date-time-picker-next-month");
     nextMonth.focus();
     await clickSettled(fixture, nextMonth);
     expect(document.activeElement).toBe(nextMonth);
@@ -1187,13 +1119,18 @@ describe("DateTimePicker — assistive technology", () => {
       "date-time-picker-next-year",
     ]);
     expect(buttons.map((b) => b.getAttribute("aria-label"))).toEqual([
-      "PrevYear", "PrevMonth", "PrevWeek", "PrevDay",
-      "NextDay", "NextWeek", "NextMonth", "NextYear",
+      "PrevYear",
+      "PrevMonth",
+      "PrevWeek",
+      "PrevDay",
+      "NextDay",
+      "NextWeek",
+      "NextMonth",
+      "NextYear",
     ]);
     const period = header.querySelector(".date-time-picker-period") as HTMLElement;
     expect(
-      Array.from(header.children).indexOf(buttons[3]) <
-        Array.from(header.children).indexOf(period),
+      Array.from(header.children).indexOf(buttons[3]) < Array.from(header.children).indexOf(period),
     ).toBe(true);
   });
 
@@ -1272,8 +1209,7 @@ describe("DateTimePicker — assistive technology", () => {
     expect(select.value).toBe("");
     expect(root(fixture).dataset.timeZone).toBeUndefined();
     expect(
-      dialog(fixture).compareDocumentPosition(grid(fixture)) &
-        Node.DOCUMENT_POSITION_FOLLOWING,
+      dialog(fixture).compareDocumentPosition(grid(fixture)) & Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
     expect(
       select.compareDocumentPosition(grid(fixture)) & Node.DOCUMENT_POSITION_FOLLOWING,
@@ -1294,7 +1230,11 @@ describe("DateTimePicker — assistive technology", () => {
     await open(fixture);
     const select = q<HTMLSelectElement>(fixture, ".date-time-picker-time-zone-select");
     const texts = Array.from(select.options).map((o) => [o.value, o.textContent?.trim()]);
-    expect(texts).toEqual([["", ""], ["Europe/London", "Europe/London"], ["Asia/Tokyo", "Tokyo"]]);
+    expect(texts).toEqual([
+      ["", ""],
+      ["Europe/London", "Europe/London"],
+      ["Asia/Tokyo", "Tokyo"],
+    ]);
     const zoneInput = fixture.nativeElement.querySelector(
       'input[name="when-time-zone"]',
     ) as HTMLInputElement;
@@ -1468,7 +1408,11 @@ class ResetHost {
 }
 
 describe("DateTimePicker — form reset", () => {
-  async function setup(): Promise<{ fixture: ComponentFixture<ResetHost>; form: HTMLFormElement; field: HTMLInputElement }> {
+  async function setup(): Promise<{
+    fixture: ComponentFixture<ResetHost>;
+    form: HTMLFormElement;
+    field: HTMLInputElement;
+  }> {
     const fixture = TestBed.createComponent(ResetHost);
     fixtures.push(fixture);
     fixture.detectChanges();

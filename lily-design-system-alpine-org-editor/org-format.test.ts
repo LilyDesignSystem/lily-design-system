@@ -42,7 +42,14 @@ describe("dates", () => {
 
 describe("toggleWrap", () => {
     it("wraps with each org marker and selects the text", () => {
-        for (const [m, out] of [["*", "say *hi* now"], ["/", "say /hi/ now"], ["_", "say _hi_ now"], ["+", "say +hi+ now"], ["~", "say ~hi~ now"], ["=", "say =hi= now"]]) {
+        for (const [m, out] of [
+            ["*", "say *hi* now"],
+            ["/", "say /hi/ now"],
+            ["_", "say _hi_ now"],
+            ["+", "say +hi+ now"],
+            ["~", "say ~hi~ now"],
+            ["=", "say =hi= now"],
+        ]) {
             const e = toggleWrap("say hi now", 4, 6, m);
             expect(e.text).toBe(out);
             expect(sel(e)).toBe("hi");
@@ -176,7 +183,15 @@ describe("blocks", () => {
         expect(applyTool("drawer", "x", 0, 1).text).toBe(":LOGBOOK:\nx\n:END:");
     });
     it("toggleBlock is usable directly", () => {
-        const e = toggleBlock("a", 0, 1, "<", ">", (l) => l === "<", (l) => l === ">");
+        const e = toggleBlock(
+            "a",
+            0,
+            1,
+            "<",
+            ">",
+            (l) => l === "<",
+            (l) => l === ">",
+        );
         expect(e.text).toBe("<\na\n>");
     });
 });
@@ -263,13 +278,21 @@ describe("planning", () => {
     });
     it("takes one keyword off and keeps the other", () => {
         const t = "* Task\nDEADLINE: <2026-10-24 Sat> SCHEDULED: <2026-10-25 Sun>";
-        expect(togglePlanning(t, 0, 0, "SCHEDULED", TODAY).text).toBe("* Task\nDEADLINE: <2026-10-24 Sat>");
+        expect(togglePlanning(t, 0, 0, "SCHEDULED", TODAY).text).toBe(
+            "* Task\nDEADLINE: <2026-10-24 Sat>",
+        );
     });
     it("does nothing when there is no heading above the caret", () => {
-        expect(togglePlanning("plain", 0, 0, "SCHEDULED", TODAY)).toEqual({ text: "plain", start: 0, end: 0 });
+        expect(togglePlanning("plain", 0, 0, "SCHEDULED", TODAY)).toEqual({
+            text: "plain",
+            start: 0,
+            end: 0,
+        });
     });
     it("works on the last line of the text", () => {
-        expect(togglePlanning("* Task", 3, 3, "DEADLINE", TODAY).text).toBe("* Task\nDEADLINE: <2026-10-24 Sat>");
+        expect(togglePlanning("* Task", 3, 3, "DEADLINE", TODAY).text).toBe(
+            "* Task\nDEADLINE: <2026-10-24 Sat>",
+        );
     });
     it("uses the nearest heading above", () => {
         const e = togglePlanning("* A\n** B\ntext", 11, 11, "SCHEDULED", TODAY);
@@ -286,7 +309,9 @@ describe("properties", () => {
     });
     it("goes after the planning line", () => {
         const e = addProperty("* Task\nSCHEDULED: <2026-10-24 Sat>\nbody", 0, 0, "CUSTOM_ID");
-        expect(e.text).toBe("* Task\nSCHEDULED: <2026-10-24 Sat>\n:PROPERTIES:\n:CUSTOM_ID: \n:END:\nbody");
+        expect(e.text).toBe(
+            "* Task\nSCHEDULED: <2026-10-24 Sat>\n:PROPERTIES:\n:CUSTOM_ID: \n:END:\nbody",
+        );
     });
     it("adds to an existing drawer, before :END:", () => {
         const t = "* Task\n:PROPERTIES:\n:A: 1\n:END:\nbody";
@@ -315,7 +340,9 @@ describe("properties", () => {
 describe("contacts", () => {
     it("makes a heading with the property drawer, the selection as the name", () => {
         const e = insertContact("Ada Lovelace", 0, 12);
-        expect(e.text).toBe("* Ada Lovelace\n:PROPERTIES:\n:EMAIL: \n:PHONE: \n:ADDRESS: \n:BIRTHDAY: \n:END:");
+        expect(e.text).toBe(
+            "* Ada Lovelace\n:PROPERTIES:\n:EMAIL: \n:PHONE: \n:ADDRESS: \n:BIRTHDAY: \n:END:",
+        );
         expect(e.text.slice(0, e.start).endsWith(":EMAIL: ")).toBe(true);
     });
     it("one level under the heading above", () => {
@@ -327,7 +354,9 @@ describe("contacts", () => {
         expect(e.text).toBe("ab\n* X\n:PROPERTIES:\n:EMAIL: \n:END:cd");
     });
     it("the properties are an option", () => {
-        expect(insertContact("", 0, 0, ["NICKNAME"]).text).toBe("* \n:PROPERTIES:\n:NICKNAME: \n:END:");
+        expect(insertContact("", 0, 0, ["NICKNAME"]).text).toBe(
+            "* \n:PROPERTIES:\n:NICKNAME: \n:END:",
+        );
     });
     it("no properties still gives a drawer", () => {
         expect(insertContact("A", 0, 1, []).text).toBe("* A\n:PROPERTIES:\n:END:");
@@ -336,12 +365,14 @@ describe("contacts", () => {
 
 describe("applyTool and the tool table", () => {
     it("every tool id has a group", () => {
-        for (const id of TOOL_IDS) expect(["structure", "task", "text", "data"]).toContain(TOOL_GROUPS[id]);
+        for (const id of TOOL_IDS)
+            expect(["structure", "task", "text", "data"]).toContain(TOOL_GROUPS[id]);
         expect(new Set(TOOL_IDS).size).toBe(TOOL_IDS.length);
         expect(Object.keys(TOOL_GROUPS).length).toBe(TOOL_IDS.length);
     });
     it("every tool runs on an empty text without throwing", () => {
-        for (const id of TOOL_IDS) expect(() => applyTool(id, "", 0, 0, { today: "2026-10-24" })).not.toThrow();
+        for (const id of TOOL_IDS)
+            expect(() => applyTool(id, "", 0, 0, { today: "2026-10-24" })).not.toThrow();
     });
     it("every tool runs on a small document with the caret in the middle", () => {
         const doc = "* Task\nSCHEDULED: <2026-10-24 Sat>\n:PROPERTIES:\n:ID: 1\n:END:\nbody text\n";
@@ -355,6 +386,8 @@ describe("applyTool and the tool table", () => {
     it("passes options through: level, keywords, today", () => {
         expect(applyTool("heading", "a", 0, 1, { headingLevel: 2 }).text).toBe("** a");
         expect(applyTool("todo", "* a", 0, 0, { todoKeywords: ["NEXT"] }).text).toBe("* NEXT a");
-        expect(applyTool("timestamp", "", 0, 0, { today: "2026-01-01" }).text).toBe("<2026-01-01 Thu>");
+        expect(applyTool("timestamp", "", 0, 0, { today: "2026-01-01" }).text).toBe(
+            "<2026-01-01 Thu>",
+        );
     });
 });

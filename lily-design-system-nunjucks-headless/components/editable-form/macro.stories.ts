@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<form
   class="editable-form"
@@ -6,9 +6,9 @@ const html = `<form
   method="post"></form>`;
 
 const meta = {
-  title: 'Headless/EditableForm',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/EditableForm",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

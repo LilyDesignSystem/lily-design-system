@@ -12,9 +12,7 @@ test.describe("component page: menu", () => {
   });
 
   test("renders the H1 with the component name", async ({ page }) => {
-    await expect(
-      page.getByRole("heading", { level: 1, name: new RegExp("^Menu$") })
-    ).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1, name: new RegExp("^Menu$") })).toBeVisible();
   });
 
   test("shows the back link to /components", async ({ page }) => {

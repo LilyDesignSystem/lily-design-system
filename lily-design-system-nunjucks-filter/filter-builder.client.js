@@ -8,10 +8,30 @@
 // focus); every other edit does, and focus is put back on the control that had it (data-focus-key).
 
 import {
-    EMPTY_FILTER, addNode, changeField, changeOperator, createGroup, createRule, fieldType, formatFilter, operatorsFor, removeNode, updateNode, valueArity,
+    EMPTY_FILTER,
+    addNode,
+    changeField,
+    changeOperator,
+    createGroup,
+    createRule,
+    fieldType,
+    formatFilter,
+    operatorsFor,
+    removeNode,
+    updateNode,
+    valueArity,
 } from "./filter-model";
 
-const TEMPLATES = ["rule", "group", "removeRule", "removeGroup", "ruleAdded", "ruleRemoved", "groupAdded", "groupRemoved"];
+const TEMPLATES = [
+    "rule",
+    "group",
+    "removeRule",
+    "removeGroup",
+    "ruleAdded",
+    "ruleRemoved",
+    "groupAdded",
+    "groupRemoved",
+];
 
 /** A text field's value, a number input's number (undefined when empty), or a date: what the rule stores for what was typed. */
 function parseTyped(type, raw) {
@@ -19,7 +39,8 @@ function parseTyped(type, raw) {
     return type === "number" ? Number(raw) : raw;
 }
 
-const textOf = (v) => (v === undefined || v === null || (typeof v === "number" && Number.isNaN(v)) ? "" : String(v));
+const textOf = (v) =>
+    v === undefined || v === null || (typeof v === "number" && Number.isNaN(v)) ? "" : String(v);
 
 /** The number the user sees for each rule: its place in reading order across the whole filter. */
 function numberRules(root) {
@@ -48,7 +69,10 @@ function el(tag, attrs = {}, ...children) {
     return node;
 }
 
-const fill = (template, tokens) => String(template).replace(/\{(\w+)\}/g, (match, name) => (name in tokens ? String(tokens[name]) : match));
+const fill = (template, tokens) =>
+    String(template).replace(/\{(\w+)\}/g, (match, name) =>
+        name in tokens ? String(tokens[name]) : match,
+    );
 
 /**
  * Wire one rendered filterBuilder root.
@@ -68,7 +92,13 @@ export function initFilterBuilder(root, opts = {}) {
         config = {};
     }
     const fields = Array.isArray(config.fields) ? config.fields : [];
-    const format = config.format === "json" || config.format === "sql" || config.format === "mongo" || config.format === "odata" ? config.format : undefined;
+    const format =
+        config.format === "json" ||
+        config.format === "sql" ||
+        config.format === "mongo" ||
+        config.format === "odata"
+            ? config.format
+            : undefined;
     const dialect = config.dialect || "ansi";
     const maxDepth = Number.isFinite(config.maxDepth) ? config.maxDepth : 3;
     const readonly = !!config.readonly;
@@ -101,7 +131,10 @@ export function initFilterBuilder(root, opts = {}) {
 
     function setRule(id, change, rebuild = true) {
         if (readonly) return;
-        commit(updateNode(value, id, (node) => (node.type === "rule" ? change(node) : node)), rebuild);
+        commit(
+            updateNode(value, id, (node) => (node.type === "rule" ? change(node) : node)),
+            rebuild,
+        );
     }
 
     function setGroup(id, change) {
@@ -144,7 +177,9 @@ export function initFilterBuilder(root, opts = {}) {
 
     function toggleOption(rule, optionId, checked) {
         const current = Array.isArray(rule.value) ? rule.value : [];
-        const next = checked ? [...current.filter((v) => v !== optionId), optionId] : current.filter((v) => v !== optionId);
+        const next = checked
+            ? [...current.filter((v) => v !== optionId), optionId]
+            : current.filter((v) => v !== optionId);
         focusKey = `${rule.id}:choice:${optionId}`;
         setRule(rule.id, (r) => ({ ...r, value: next.length ? next : undefined }));
     }
@@ -160,7 +195,9 @@ export function initFilterBuilder(root, opts = {}) {
 
     function render() {
         const active = document.activeElement;
-        const keep = focusKey ?? (active && root.contains(active) ? active.getAttribute("data-focus-key") : null);
+        const keep =
+            focusKey ??
+            (active && root.contains(active) ? active.getAttribute("data-focus-key") : null);
         focusKey = null;
         const ruleNumbers = numberRules(value);
         const fieldById = new Map(fields.map((f) => [f.id, f]));
@@ -170,32 +207,89 @@ export function initFilterBuilder(root, opts = {}) {
             const arity = valueArity(rule.operator);
             if (arity === 1 || arity === 2) {
                 if (type === "select") {
-                    const select = el("select", { class: "filter-value", "aria-label": labels.value, disabled: readonly, "data-focus-key": `${rule.id}:value` },
+                    const select = el(
+                        "select",
+                        {
+                            class: "filter-value",
+                            "aria-label": labels.value,
+                            disabled: readonly,
+                            "data-focus-key": `${rule.id}:value`,
+                        },
                         el("option", { value: "" }, labels.choose ?? ""),
-                        ...(field.options ?? []).map((option) => el("option", { value: option.id }, option.label)));
+                        ...(field.options ?? []).map((option) =>
+                            el("option", { value: option.id }, option.label),
+                        ),
+                    );
                     select.value = textOf(rule.value);
-                    select.addEventListener("change", () => setRule(rule.id, (r) => ({ ...r, value: parseTyped("text", select.value) })));
+                    select.addEventListener("change", () =>
+                        setRule(rule.id, (r) => ({
+                            ...r,
+                            value: parseTyped("text", select.value),
+                        })),
+                    );
                     return [select];
                 }
                 const inputType = type === "number" ? "number" : type === "date" ? "date" : "text";
                 const make = (cls, name, stored, key, fk) => {
-                    const input = el("input", { class: cls, type: inputType, inputmode: type === "number" ? "decimal" : undefined, "aria-label": name, readonly, "data-focus-key": fk });
+                    const input = el("input", {
+                        class: cls,
+                        type: inputType,
+                        inputmode: type === "number" ? "decimal" : undefined,
+                        "aria-label": name,
+                        readonly,
+                        "data-focus-key": fk,
+                    });
                     input.value = textOf(stored);
                     // Typing must not rebuild the markup: that would drop focus. Only the stored value (and the output text) change.
-                    input.addEventListener("input", () => setRule(rule.id, (r) => ({ ...r, [key]: parseTyped(type, input.value) }), false));
+                    input.addEventListener("input", () =>
+                        setRule(
+                            rule.id,
+                            (r) => ({ ...r, [key]: parseTyped(type, input.value) }),
+                            false,
+                        ),
+                    );
                     return input;
                 };
-                const first = make("filter-value", arity === 2 ? labels.valueFrom : labels.value, rule.value, "value", `${rule.id}:value`);
-                return arity === 2 ? [first, make("filter-value filter-value-to", labels.valueTo, rule.value2, "value2", `${rule.id}:value2`)] : [first];
+                const first = make(
+                    "filter-value",
+                    arity === 2 ? labels.valueFrom : labels.value,
+                    rule.value,
+                    "value",
+                    `${rule.id}:value`,
+                );
+                return arity === 2
+                    ? [
+                          first,
+                          make(
+                              "filter-value filter-value-to",
+                              labels.valueTo,
+                              rule.value2,
+                              "value2",
+                              `${rule.id}:value2`,
+                          ),
+                      ]
+                    : [first];
             }
             if (arity === "many") {
-                return [el("div", { class: "filter-choices", role: "group", "aria-label": labels.value },
-                    ...(field.options ?? []).map((option) => {
-                        const box = el("input", { type: "checkbox", disabled: readonly, "data-focus-key": `${rule.id}:choice:${option.id}` });
-                        box.checked = Array.isArray(rule.value) && rule.value.includes(option.id);
-                        box.addEventListener("change", () => toggleOption(rule, option.id, box.checked));
-                        return el("label", { class: "filter-choice" }, box, option.label);
-                    }))];
+                return [
+                    el(
+                        "div",
+                        { class: "filter-choices", role: "group", "aria-label": labels.value },
+                        ...(field.options ?? []).map((option) => {
+                            const box = el("input", {
+                                type: "checkbox",
+                                disabled: readonly,
+                                "data-focus-key": `${rule.id}:choice:${option.id}`,
+                            });
+                            box.checked =
+                                Array.isArray(rule.value) && rule.value.includes(option.id);
+                            box.addEventListener("change", () =>
+                                toggleOption(rule, option.id, box.checked),
+                            );
+                            return el("label", { class: "filter-choice" }, box, option.label);
+                        }),
+                    ),
+                ];
             }
             return [];
         };
@@ -203,50 +297,164 @@ export function initFilterBuilder(root, opts = {}) {
         const ruleView = (rule, group) => {
             const field = fieldById.get(rule.field);
             const n = ruleNumbers.get(rule.id) ?? 0;
-            const fieldSelect = el("select", { class: "filter-field", "data-filter-field": rule.id, "aria-label": labels.field, disabled: readonly, "data-focus-key": `${rule.id}:field` },
-                ...fields.map((f) => el("option", { value: f.id }, f.label)));
+            const fieldSelect = el(
+                "select",
+                {
+                    class: "filter-field",
+                    "data-filter-field": rule.id,
+                    "aria-label": labels.field,
+                    disabled: readonly,
+                    "data-focus-key": `${rule.id}:field`,
+                },
+                ...fields.map((f) => el("option", { value: f.id }, f.label)),
+            );
             fieldSelect.value = rule.field;
-            fieldSelect.addEventListener("change", () => setRule(rule.id, (r) => changeField(r, fields, fieldSelect.value)));
+            fieldSelect.addEventListener("change", () =>
+                setRule(rule.id, (r) => changeField(r, fields, fieldSelect.value)),
+            );
             const parts = [fieldSelect];
             if (field) {
-                const operatorSelect = el("select", { class: "filter-operator", "aria-label": labels.operator, disabled: readonly, "data-focus-key": `${rule.id}:operator` },
-                    ...operatorsFor(field).map((op) => el("option", { value: op }, labels.operatorName(op, field))));
+                const operatorSelect = el(
+                    "select",
+                    {
+                        class: "filter-operator",
+                        "aria-label": labels.operator,
+                        disabled: readonly,
+                        "data-focus-key": `${rule.id}:operator`,
+                    },
+                    ...operatorsFor(field).map((op) =>
+                        el("option", { value: op }, labels.operatorName(op, field)),
+                    ),
+                );
                 operatorSelect.value = rule.operator;
-                operatorSelect.addEventListener("change", () => setRule(rule.id, (r) => changeOperator(r, operatorSelect.value)));
+                operatorSelect.addEventListener("change", () =>
+                    setRule(rule.id, (r) => changeOperator(r, operatorSelect.value)),
+                );
                 parts.push(operatorSelect, ...valueEditor(rule, field));
             }
             if (!readonly) {
-                const remove = el("button", { type: "button", class: "filter-remove-rule-button", "data-focus-key": `${rule.id}:remove` }, labels.removeRule(n));
+                const remove = el(
+                    "button",
+                    {
+                        type: "button",
+                        class: "filter-remove-rule-button",
+                        "data-focus-key": `${rule.id}:remove`,
+                    },
+                    labels.removeRule(n),
+                );
                 remove.addEventListener("click", () => removeRule(rule, group.id));
                 parts.push(remove);
             }
-            return el("div", { class: "filter-rule", role: "group", "aria-label": labels.rule(n), "data-rule-id": rule.id }, ...parts);
+            return el(
+                "div",
+                {
+                    class: "filter-rule",
+                    role: "group",
+                    "aria-label": labels.rule(n),
+                    "data-rule-id": rule.id,
+                },
+                ...parts,
+            );
         };
 
         const groupView = (group, depth, parentId) => {
-            const combinator = el("select", { class: "filter-combinator", "aria-label": labels.combinator, disabled: readonly, "data-focus-key": `${group.id}:combinator` },
-                el("option", { value: "and" }, labels.and), el("option", { value: "or" }, labels.or));
+            const combinator = el(
+                "select",
+                {
+                    class: "filter-combinator",
+                    "aria-label": labels.combinator,
+                    disabled: readonly,
+                    "data-focus-key": `${group.id}:combinator`,
+                },
+                el("option", { value: "and" }, labels.and),
+                el("option", { value: "or" }, labels.or),
+            );
             combinator.value = group.combinator;
-            combinator.addEventListener("change", () => setGroup(group.id, (g) => ({ ...g, combinator: combinator.value === "or" ? "or" : "and" })));
-            const not = el("input", { type: "checkbox", disabled: readonly, "data-focus-key": `${group.id}:not` });
+            combinator.addEventListener("change", () =>
+                setGroup(group.id, (g) => ({
+                    ...g,
+                    combinator: combinator.value === "or" ? "or" : "and",
+                })),
+            );
+            const not = el("input", {
+                type: "checkbox",
+                disabled: readonly,
+                "data-focus-key": `${group.id}:not`,
+            });
             not.checked = !!group.not;
-            not.addEventListener("change", () => setGroup(group.id, (g) => ({ ...g, not: not.checked || undefined })));
-            const header = el("div", { class: "filter-group-header" }, combinator, el("label", { class: "filter-not" }, not, labels.not));
+            not.addEventListener("change", () =>
+                setGroup(group.id, (g) => ({ ...g, not: not.checked || undefined })),
+            );
+            const header = el(
+                "div",
+                { class: "filter-group-header" },
+                combinator,
+                el("label", { class: "filter-not" }, not, labels.not),
+            );
             if (parentId !== null && !readonly) {
-                const remove = el("button", { type: "button", class: "filter-remove-group-button", "data-focus-key": `${group.id}:remove` }, labels.removeGroup(depth));
+                const remove = el(
+                    "button",
+                    {
+                        type: "button",
+                        class: "filter-remove-group-button",
+                        "data-focus-key": `${group.id}:remove`,
+                    },
+                    labels.removeGroup(depth),
+                );
                 remove.addEventListener("click", () => removeGroup(group, parentId, depth));
                 header.append(remove);
             }
-            const list = el("ul", { class: "filter-rules" },
-                ...group.children.map((child) => el("li", { class: "filter-item" }, child.type === "group" ? groupView(child, depth + 1, group.id) : ruleView(child, group))));
-            const view = el("div", { class: "filter-group", role: "group", "aria-label": labels.group(depth), "data-depth": String(depth), "data-group-id": group.id },
-                header, group.children.length === 0 && labels.empty ? el("p", { class: "filter-empty" }, labels.empty) : null, list);
+            const list = el(
+                "ul",
+                { class: "filter-rules" },
+                ...group.children.map((child) =>
+                    el(
+                        "li",
+                        { class: "filter-item" },
+                        child.type === "group"
+                            ? groupView(child, depth + 1, group.id)
+                            : ruleView(child, group),
+                    ),
+                ),
+            );
+            const view = el(
+                "div",
+                {
+                    class: "filter-group",
+                    role: "group",
+                    "aria-label": labels.group(depth),
+                    "data-depth": String(depth),
+                    "data-group-id": group.id,
+                },
+                header,
+                group.children.length === 0 && labels.empty
+                    ? el("p", { class: "filter-empty" }, labels.empty)
+                    : null,
+                list,
+            );
             if (!readonly) {
-                const add = el("button", { type: "button", class: "filter-add-rule-button", "data-filter-add-rule": group.id, "data-focus-key": `${group.id}:add-rule` }, labels.addRule);
+                const add = el(
+                    "button",
+                    {
+                        type: "button",
+                        class: "filter-add-rule-button",
+                        "data-filter-add-rule": group.id,
+                        "data-focus-key": `${group.id}:add-rule`,
+                    },
+                    labels.addRule,
+                );
                 add.addEventListener("click", () => addRule(group.id));
                 const actions = el("div", { class: "filter-group-actions" }, add);
                 if (depth < maxDepth) {
-                    const addG = el("button", { type: "button", class: "filter-add-group-button", "data-focus-key": `${group.id}:add-group` }, labels.addGroup);
+                    const addG = el(
+                        "button",
+                        {
+                            type: "button",
+                            class: "filter-add-group-button",
+                            "data-focus-key": `${group.id}:add-group`,
+                        },
+                        labels.addGroup,
+                    );
                     addG.addEventListener("click", () => addGroup(group.id, depth));
                     actions.append(addG);
                 }
@@ -258,9 +466,26 @@ export function initFilterBuilder(root, opts = {}) {
         root.replaceChildren(
             groupView(value, 1, null),
             format && labels.output
-                ? el("div", { class: "filter-output", role: "group", "aria-label": labels.output, "data-format": format }, el("pre", { class: "filter-output-text" }, outputText()))
+                ? el(
+                      "div",
+                      {
+                          class: "filter-output",
+                          role: "group",
+                          "aria-label": labels.output,
+                          "data-format": format,
+                      },
+                      el("pre", { class: "filter-output-text" }, outputText()),
+                  )
                 : null,
-            el("p", { class: "filter-status", "aria-live": "polite", "data-lily-filter-builder-status": "" }, status),
+            el(
+                "p",
+                {
+                    class: "filter-status",
+                    "aria-live": "polite",
+                    "data-lily-filter-builder-status": "",
+                },
+                status,
+            ),
         );
         if (keep) root.querySelector(`[data-focus-key="${CSS.escape(keep)}"]`)?.focus();
     }
@@ -284,5 +509,7 @@ export function initFilterBuilder(root, opts = {}) {
  */
 export function autoInit(opts = {}) {
     if (typeof document === "undefined") return [];
-    return Array.from(document.querySelectorAll("[data-lily-filter-builder-root]")).map((root) => initFilterBuilder(root, opts));
+    return Array.from(document.querySelectorAll("[data-lily-filter-builder-root]")).map((root) =>
+        initFilterBuilder(root, opts),
+    );
 }

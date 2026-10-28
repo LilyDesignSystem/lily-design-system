@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="measurement-instance-input">
@@ -10,9 +10,9 @@ const html = `<div
 </div>`;
 
 const meta = {
-  title: 'Headless/MeasurementInstanceInput',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/MeasurementInstanceInput",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

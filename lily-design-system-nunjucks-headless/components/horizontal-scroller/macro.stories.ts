@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="horizontal-scroller" role="region"
@@ -6,9 +6,9 @@ const html = `<div
   aria-label=""></div>`;
 
 const meta = {
-  title: 'Headless/HorizontalScroller',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/HorizontalScroller",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

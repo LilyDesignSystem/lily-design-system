@@ -20,11 +20,7 @@
     AT-exposed globe button would be a duplicate.
 */
 import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
-import {
-  LocalePicker,
-  bcp47LocaleTag,
-  localeName,
-} from "../locale-picker.component";
+import { LocalePicker, bcp47LocaleTag, localeName } from "../locale-picker.component";
 import { defaultLocaleLabels } from "../locales";
 
 @Component({

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<nav
   class="chat-nav"
@@ -8,9 +8,9 @@ const html = `<nav
 </nav>`;
 
 const meta = {
-  title: 'Headless/ChatNav',
-  render: () => html,
-  tags: ['autodocs']
+    title: "Headless/ChatNav",
+    render: () => html,
+    tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;

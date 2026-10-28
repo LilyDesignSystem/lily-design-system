@@ -5,12 +5,7 @@
 // [(value)], and POSTs to /api/theme on (themeChange) so the next
 // SSR request sees the new cookie.
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject, signal } from "@angular/core";
 import { ThemePicker } from "../../../theme-picker.component";
 import { INITIAL_THEME } from "./tokens/initial-theme";
 

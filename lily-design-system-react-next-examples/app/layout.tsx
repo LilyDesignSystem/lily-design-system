@@ -4,9 +4,8 @@ import { SiteHeader } from "./site-header";
 import SkipLink from "@/components/SkipLink";
 
 export const metadata: Metadata = {
-  title: "Lily Design System — React Next Examples",
-  description:
-    "React Next.js examples of the Lily Design System using NHS UK styles",
+    title: "Lily Design System — React Next Examples",
+    description: "React Next.js examples of the Lily Design System using NHS UK styles",
 };
 
 // Creates the managed theme <link> before first paint (persisted slug if
@@ -28,24 +27,23 @@ const prePaint = `(function () {
   document.documentElement.setAttribute("data-theme", slug);
 })();`;
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <html lang="en">
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: prePaint }} />
-      </head>
-      <body>
-        <SkipLink href="#content" label="Skip to main content" />
-        <SiteHeader />
-        <div id="content">{children}</div>
-        <footer className="site-footer">
-          <p>Lily™ and Lily Design System™ are trademarks.</p>
-        </footer>
-      </body>
-    </html>
-  );
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+    return (
+        <html lang="en">
+            <head>
+                <script dangerouslySetInnerHTML={{ __html: prePaint }} />
+            </head>
+            <body>
+                <SkipLink
+                    href="#content"
+                    label="Skip to main content"
+                />
+                <SiteHeader />
+                <div id="content">{children}</div>
+                <footer className="site-footer">
+                    <p>Lily™ and Lily Design System™ are trademarks.</p>
+                </footer>
+            </body>
+        </html>
+    );
 }
