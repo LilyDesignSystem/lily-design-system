@@ -32,8 +32,8 @@ down here instead, in `rem` (Tailwind's scale, so adopters moving between system
 | Name  | Width   | Used today                                                                |
 | ----- | ------- | ------------------------------------------------------------------------- |
 | `sm`  | `40rem` | NHS Wales for patients: a primary button in a form goes full width (DHCW) |
-| `md`  | `48rem` | All 57 themes: `grail-layout` collapses to one column                     |
-| `lg`  | `64rem` | unused                                                                    |
+| `md`  | `48rem` | All 57 themes: `grail-layout` is one column (left aside above `main`)     |
+| `lg`  | `64rem` | All 57 themes: `grail-layout` right aside drops below `main`              |
 | `xl`  | `80rem` | unused                                                                    |
 | `2xl` | `96rem` | unused                                                                    |
 
