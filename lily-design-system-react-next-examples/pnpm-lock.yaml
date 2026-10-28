@@ -9,14 +9,14 @@ importers:
   .:
     dependencies:
       '@lilydesignsystem/react-locale-picker':
-        specifier: 0.2.0
-        version: 0.2.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+        specifier: 0.3.1
+        version: 0.3.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@lilydesignsystem/react-text-size-picker':
-        specifier: 0.2.0
-        version: 0.2.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+        specifier: 0.3.0
+        version: 0.3.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@lilydesignsystem/react-theme-picker':
-        specifier: 0.2.0
-        version: 0.2.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+        specifier: 0.3.0
+        version: 0.3.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       next:
         specifier: ^16.4.3
         version: 16.4.3(@babel/core@7.29.7)(@playwright/test@1.64.1)(@types/node@26.6.5)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -570,29 +570,36 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lilydesignsystem/react-headless@0.2.0':
-    resolution: {integrity: sha512-QAn24YWl9wvuC9SHLV0T1a4rV9zSAYdMRaxMxJTyb4FH0ktRkS90N8xXvo6SRqdApHRZWLDSbPPbjJTcm+oUCA==}
+  '@lilydesignsystem/react-headless@0.4.0':
+    resolution: {integrity: sha512-Mx8aiEC8arYf+hcEAkpL3S2IKnA37BYD2paAyh2UaV5XZMgXP8L2Xr16mFPPZoaaW1RkYe5fP/pKkaxJazOMyA==}
     engines: {node: '=26'}
     peerDependencies:
       react: ^18.0.0 || ^19.0.0
       react-dom: ^18.0.0 || ^19.0.0
 
-  '@lilydesignsystem/react-locale-picker@0.2.0':
-    resolution: {integrity: sha512-jOEJ5geVCVivVX1X8j3yjKcvs3R++dqDjjbHJXjogifxz3a7JT5TFZhs3VuWe3oWXiJ9X5OrNVGfC64Dcg3F9g==}
+  '@lilydesignsystem/react-headless@0.5.1':
+    resolution: {integrity: sha512-JIq0bioEkxwfJedVrL9LsoJfUcX6ORhYskYCEzqOeH8vM/vw6kipIwA3cJgTfTbuoTrKKkorvl2mj6QbNy+kug==}
+    engines: {node: '=26'}
+    peerDependencies:
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
+
+  '@lilydesignsystem/react-locale-picker@0.3.1':
+    resolution: {integrity: sha512-g19SCTqH6iHeEv3ubSFXCkgPygZpGqwu0oSbUuZLbn+Qmc3LiNSEeWv56FxuIX/vXk0IhhFY7LHf46oBhaqewQ==}
+    engines: {node: '>=26'}
+    peerDependencies:
+      react: '>=18'
+      react-dom: '>=18'
+
+  '@lilydesignsystem/react-text-size-picker@0.3.0':
+    resolution: {integrity: sha512-E2KvBnUGRmAGS+DKVWj31jJuPqnLP5wQiIRRQ05rJnjn2wWlMdzcSKqqUfH+g1FP6njnkJiWcQxopjm9my0vDg==}
     engines: {node: '=26'}
     peerDependencies:
       react: '>=18'
       react-dom: '>=18'
 
-  '@lilydesignsystem/react-text-size-picker@0.2.0':
-    resolution: {integrity: sha512-HcEOVEL6CcyJq3Z8dvFUWDCCT2/2am5qIQKxQaRQvg3zPPv/tLonyLEx2qRRobHcHnyYe3FVyrJqAwCDmGMiMg==}
-    engines: {node: '=26'}
-    peerDependencies:
-      react: '>=18'
-      react-dom: '>=18'
-
-  '@lilydesignsystem/react-theme-picker@0.2.0':
-    resolution: {integrity: sha512-/LADz+RQVHDjTD0xE3pMI34UZI5AYOVmPAUnIEKXwSoEiTra/bxRgNcbv5BFHFEdiF8sa4mOGRchOfrSqnpO+A==}
+  '@lilydesignsystem/react-theme-picker@0.3.0':
+    resolution: {integrity: sha512-G/5tQ786JSbQoFrro6NmJtXfTETw2XSp/Lh5ROTHYY+XQNA7HESQ9+JJwiCCqD1G7yyRahwepOTO/D6oTU3ycw==}
     engines: {node: '=26'}
     peerDependencies:
       react: '>=18'
@@ -1236,6 +1243,11 @@ packages:
   balanced-match@4.0.4:
     resolution: {integrity: sha512-BLrgEcRTwX2o6gGxGOCNyMvGSp35YofuYzw9h1IMTRmKqttAZZVU67bdb9Pr2vUHA8+j3i2tJfjO6C6+4myGTA==}
     engines: {node: 18 || 20 || >=22}
+
+  baseline-browser-mapping@2.11.32:
+    resolution: {integrity: sha512-UvuxFU9P3hM29LrQdwu0cD6w6/+SFr+UlB9s/knI7+O2rK9xFxKUwSDWxGdbbqQ9/V7BJ5s0NI5nQAE4uJp3gQ==}
+    engines: {node: '>=6.0.0'}
+    hasBin: true
 
   baseline-browser-mapping@2.11.33:
     resolution: {integrity: sha512-yiVKDX+qCMRKBE084lXvq9EcwFUhKZ2nU8TK1EQQuOgPNR/lmbGxXOeDdlGUqC2Zz11Cs9rk1d/8NfgBmlkt0w==}
@@ -2489,26 +2501,31 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@lilydesignsystem/react-headless@0.2.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
+  '@lilydesignsystem/react-headless@0.4.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
     dependencies:
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
 
-  '@lilydesignsystem/react-locale-picker@0.2.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
+  '@lilydesignsystem/react-headless@0.5.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
     dependencies:
-      '@lilydesignsystem/react-headless': 0.2.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
 
-  '@lilydesignsystem/react-text-size-picker@0.2.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
+  '@lilydesignsystem/react-locale-picker@0.3.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
     dependencies:
-      '@lilydesignsystem/react-headless': 0.2.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      '@lilydesignsystem/react-headless': 0.5.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
 
-  '@lilydesignsystem/react-theme-picker@0.2.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
+  '@lilydesignsystem/react-text-size-picker@0.3.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
     dependencies:
-      '@lilydesignsystem/react-headless': 0.2.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      '@lilydesignsystem/react-headless': 0.4.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      react: 19.3.1
+      react-dom: 19.3.1(react@19.3.1)
+
+  '@lilydesignsystem/react-theme-picker@0.3.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
+    dependencies:
+      '@lilydesignsystem/react-headless': 0.4.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
 
@@ -2971,6 +2988,8 @@ snapshots:
 
   balanced-match@4.0.4: {}
 
+  baseline-browser-mapping@2.11.32: {}
+
   baseline-browser-mapping@2.11.33: {}
 
   bidi-js@1.1.0:
@@ -2983,7 +3002,7 @@ snapshots:
 
   browserslist@4.29.4:
     dependencies:
-      baseline-browser-mapping: 2.11.33
+      baseline-browser-mapping: 2.11.32
       caniuse-lite: 1.0.30001819
       electron-to-chromium: 1.5.464
       node-releases: 2.0.60
