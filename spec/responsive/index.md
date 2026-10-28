@@ -15,7 +15,7 @@ It does **not** cover: the headless markup rules (see [headless](../headless/ind
 - **Mobile first** for new CSS. Base rules are the narrow layout; queries use `min-width`.
 - **Intrinsic sizing before breakpoints.** `minmax()`, `min()`, `clamp()`, `flex-wrap` and `repeat(auto-fit, …)` first; a breakpoint only where the layout changes in kind.
 - **`rem` breakpoints.** The 57 themes use `48rem` (Tailwind's `md`), so they follow the viewer's font size. `px` breakpoints are not used.
-- **Container queries for components, viewport queries for page shells.** Planned in the themes under P15-T2.
+- **Container queries for components, viewport queries for page shells.** Done in the themes (P15-T2): the three grail-layout regions are containers; `card` is not, because inline-size containment collapses it in a shrink-to-fit parent. A component outside a grail region has no container and keeps its wide layout.
 - **Logical properties** so right-to-left needs no second stylesheet.
 - **No `100vw` widths** on `body` or full-width blocks.
 - **Reflow (WCAG 1.4.10) and resize (1.4.4).** No horizontal page scroll at 320 CSS pixels; usable at 400% zoom. Wide content scrolls inside its own labelled, focusable region.
@@ -37,7 +37,7 @@ full-width blocks). Moving the themes to `min-width` queries is not planned: the
 | ----------------------- | ------------------------------------------------------------------------------------ | ------------------------------------ |
 | No horizontal overflow  | Four-viewport sweep in every example app                                             | 320px and 400% zoom (P15-T8)         |
 | Breakpoints in `rem`    | none                                                                                 | `bin/check-theme` (P15-T3)           |
-| `container-type` set    | none                                                                                 | `bin/check-theme` (P15-T2)           |
+| `container-type` set    | `bin/check-theme` rule 8; the section is pinned across all 57 themes                 | none                                 |
 | No `100vw` on `body`    | none                                                                                 | `bin/check-theme` (P15-T1 follow-up) |
 | Headless has no queries | Forbidden-literal list in [AGENTS/theme.md](../../AGENTS/theme.md), reviewed by hand | none                                 |
 

@@ -4000,3 +4000,36 @@
 :where(.time-zone-picker-option) {
     overflow-wrap: anywhere;
 }
+
+/* ============================================================================
+ * Container queries — shared verbatim by all themes.
+ *
+ * A component answers to the space it is given, not to the window: a summary
+ * list in a narrow aside on a wide screen needs the narrow layout, which the
+ * viewport query above cannot know. The three grail-layout regions are the
+ * containers because their width comes from a grid track (`minmax(0, 1fr)`), so
+ * inline-size containment cannot collapse them. `.card` is deliberately not a
+ * container: in a shrink-to-fit parent (a flex row, an inline grid) containment
+ * would collapse it to nothing. A component outside a grail region has no
+ * container and keeps its wide layout. :where() keeps specificity at zero, so
+ * any consumer rule wins.
+ * ========================================================================= */
+
+:where(.grail-layout-left-aside, .grail-layout-center-main, .grail-layout-right-aside) {
+    container-type: inline-size;
+}
+
+@container (max-width: 30rem) {
+    :where(.summary-list) {
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: 0.25rem;
+    }
+
+    :where(.kanban-table-td) {
+        min-width: 10rem;
+    }
+
+    :where(.data-table, .calendar-table, .kanban-table, .gantt-table) :where(th, td) {
+        padding-inline: 0.5rem;
+    }
+}

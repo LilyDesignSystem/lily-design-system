@@ -2530,7 +2530,7 @@ lessons topics. Numbers in the spec were measured 2026-10-22 from shallow clones
 Source and rationale: [spec/stephcraft-lessons](spec/stephcraft-lessons/index.md). Nothing below is built.
 
 - [x] **P15-T1 Responsive rules.** `AGENTS/responsive.md` and `spec/responsive/`, written 2026-10-28, checked by `bin/test`: mobile first, intrinsic sizing before breakpoints, logical properties, no `100vw` on `body`, reflow at 320 CSS px and 400% zoom.
-- [ ] **P15-T2 Container queries in the themes** for `card`, `summary-list`, `data-table`, `kanban-table`, `calendar-*-table`; `bin/check-theme` requires `container-type` beside any `@container`.
+- [x] **P15-T2 Container queries in the themes** (2026-10-28): a shared "Container queries" section in all 57 themes. The grail-layout regions are the containers (`card` is not: containment collapses it in a shrink-to-fit parent). Inside a narrow region, `summary-list` goes to one column and `kanban-table` and the data-like tables tighten. `bin/check-theme` pins the section and requires `container-type` beside any `@container`. Verified in Chromium at 1400, 900 and 360px. The three `calendar-*-table` rules remain a follow-up, since they have no narrow layout of their own yet.
 - [ ] **P15-T3 Breakpoint table.** Published in `rem`; `bin/check-theme` enforces it (NHS Wales for patients uses a `40rem` query to decide).
 - [ ] **P15-T4 `grid` `minColumnWidth`** generating `repeat(auto-fit, minmax(min(W, 100%), 1fr))`, in all eight libraries.
 - [ ] **P15-T5 `picture` component** (catalog, eight libraries) and sizing advice on `image`.

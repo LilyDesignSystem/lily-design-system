@@ -34,6 +34,10 @@ Asserts the contracts a theme stylesheet must honour (plan P3-T5):
      background: a solid fill on the current day's cell hides the events in it
      (reported 2026-10-17 against an app theme; all 57 themes use an outline).
 
+  8. Container queries have a container. A theme that uses `@container` also
+     sets `container-type` somewhere: a query with no container never matches
+     and fails silently (spec/stephcraft-lessons, plan P15-T2).
+
 Exits non-zero listing every violation. Wired into bin/test.
 
 `bin/check-theme --contrast` (plan P10-T4) is a separate, report-only pass:
@@ -80,7 +84,12 @@ REQUIRED_TOKENS = [
     "--radius-box", "--radius-field", "--radius-selector",
 ]
 
-SHARED_SECTIONS = ("target-size (minimum) floor", "Overflow guards", "Helper packages — layout and look")
+SHARED_SECTIONS = (
+    "target-size (minimum) floor",
+    "Overflow guards",
+    "Helper packages — layout and look",
+    "Container queries",
+)
 
 
 def strip_comments(css: str) -> str:
@@ -340,6 +349,10 @@ def main() -> int:
         for m in re.finditer(r"([^{}]*\[aria-current=\"date\"\][^{}]*)\{([^{}]*)\}", css):
             if re.search(r"\bbackground(-color|-image)?\s*:", m.group(2)):
                 errors.append(f"{base}: the current-day rule {m.group(1).strip()[:60]!r} sets a background (use an outline or a border)")
+
+        # 8. a query needs a container: without container-type it never matches
+        if "@container" in css and "container-type" not in css:
+            errors.append(f"{base}: uses @container but sets no container-type")
 
     if errors:
         for e in errors:
