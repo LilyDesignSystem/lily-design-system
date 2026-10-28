@@ -203,6 +203,14 @@
        easy to read. */
     --depth: 0;
     --noise: 0;
+    /* Fluid inline gutter for page containers and the main
+       region: grows with the viewport from a 1rem floor to a 2rem
+       ceiling. Spacing only, never text. */
+    --space-fluid-gutter: clamp(1rem, 0.5rem + 2vw, 2rem);
+    /* Fluid gap between sections (stacks and grids): grows with
+       the viewport from a 1rem floor to a 2rem ceiling. Spacing
+       only, never text. */
+    --space-fluid-section: clamp(1rem, 0.75rem + 1vw, 2rem);
 }
 
 /* ----------------------------------------------------------------------------

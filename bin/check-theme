@@ -47,6 +47,10 @@ Asserts the contracts a theme stylesheet must honour (plan P3-T5):
      in the "Scoped overflow" section names exactly the national identifier
      `-view` slugs of components-categories.tsv (plan P15-T6).
 
+ 11. Fluid values have a rem floor. Every `clamp()` starts with a minimum in
+     `rem`, so the value never falls below a size that follows the viewer's
+     font size (spec/responsive, plan P15-T9).
+
 Exits non-zero listing every violation. Wired into bin/test.
 
 `bin/check-theme --contrast` (plan P10-T4) is a separate, report-only pass:
@@ -385,6 +389,11 @@ def main() -> int:
             if listed != national_views:
                 diff = sorted(listed ^ national_views)[:3]
                 errors.append(f"{base}: Scoped overflow identifier list differs from the catalog (e.g. {diff})")
+
+        # 11. fluid values (clamp) have a rem floor
+        for m in re.finditer(r"clamp\(\s*([^,]+?)\s*,", css):
+            if not re.fullmatch(r"[\d.]+rem", m.group(1)):
+                errors.append(f"{base}: clamp() floor {m.group(1)!r} is not a rem value")
 
         # 8. a query needs a container: without container-type it never matches
         if "@container" in css and "container-type" not in css:

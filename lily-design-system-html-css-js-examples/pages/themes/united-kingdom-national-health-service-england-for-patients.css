@@ -154,6 +154,14 @@
        easy to read. */
     --depth: 0;
     --noise: 0;
+    /* Fluid inline gutter for page containers and the main
+       region: grows with the viewport from a 1rem floor to a 2rem
+       ceiling. Spacing only, never text. */
+    --space-fluid-gutter: clamp(1rem, 0.5rem + 2vw, 2rem);
+    /* Fluid gap between sections (stacks and grids): grows with
+       the viewport from a 1rem floor to a 2rem ceiling. Spacing
+       only, never text. */
+    --space-fluid-section: clamp(1rem, 0.75rem + 1vw, 2rem);
 }
 
 /* ----------------------------------------------------------------------------
@@ -1591,7 +1599,7 @@
         display: block;
         width: 100%;
         margin-inline: auto;
-        padding-inline: 1rem;
+        padding-inline: var(--space-fluid-gutter);
         box-sizing: border-box;
     }
     /* Fixed-width — caps at a comfortable reading width (~1152px). */
@@ -1611,11 +1619,11 @@
     :where(.flex-stack) {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: var(--space-fluid-section);
     }
     :where(.grid) {
         display: grid;
-        gap: 1rem;
+        gap: var(--space-fluid-section);
     }
     :where(.masonry) {
         column-count: 3;
@@ -1670,7 +1678,7 @@
     :where(.content-block) {
         max-width: var(--content-width-normal);
         margin-inline: auto;
-        padding-inline: 1rem;
+        padding-inline: var(--space-fluid-gutter);
         box-sizing: border-box;
     }
     :where(.content-block[data-width="narrower"]) {
@@ -1729,7 +1737,7 @@
     }
     /* Main content area — primary surface, more generous padding. */
     :where(.grail-layout-center-main) {
-        padding: 1.5rem;
+        padding: var(--space-fluid-gutter);
     }
 
     /* Standalone semantic header / footer landmarks. */
