@@ -15,6 +15,8 @@ This component is suitable for primary navigation bars, sidebar navigation, foot
 ## Props
 
 - `label`: string (required) -- accessible name applied via `aria-label` to distinguish this nav landmark.
+- `overflow`: boolean (optional, default `false`) -- overflow mode: renders `<ul class="navigation-menu-list">` (children must be `<li>` items) and a hidden "More" disclosure; a `ResizeObserver` moves the items that do not fit into it. Publishes `data-overflow="true"`. Without JavaScript the links wrap. Keep the item set static (change the `key` to change it). Canonical contract: `components/navigation-menu/index.md`.
+- `moreLabel`: string (required with `overflow`; Vue prop `more-label`) -- the More button's accessible name; no English default.
 - `children`: Snippet (required) -- navigation content to render inside the `<nav>` element.
 - `...restProps`: unknown -- additional attributes spread onto the `<nav>` element.
 
@@ -39,7 +41,7 @@ This component is suitable for primary navigation bars, sidebar navigation, foot
 
 ## Keyboard Interactions
 
-None -- this component is a passive container. Navigation links inside use standard Tab key focus and Enter/Space key activation provided by the browser.
+Default: none -- this component is a passive container. In overflow mode: Enter/Space toggle the More button, Escape closes it and returns focus to the button, a click outside closes it. Navigation links inside use standard Tab key focus and Enter/Space key activation provided by the browser.
 
 ## ARIA
 

@@ -26,6 +26,7 @@ Implement the Navigation Menu component: a site-wide navigation menu with links.
 - [ ] The `<nav>` element implicitly has `role="navigation"`, making it a navigation landmark.
 - [ ] `aria-label` -- provides an accessible name to distinguish this navigation from other `<nav>` landmarks on the page.
 - [ ] WCAG 2.2 AAA compliant
+- [ ] Optional overflow mode: `overflow` + required `moreLabel`; `data-overflow="true"`; a `ResizeObserver` (never a window listener) moves items that do not fit into a hidden-until-needed More disclosure; Escape closes and refocuses; the opened list stays in normal flow; links wrap with no script
 - [ ] Zero CSS — fully headless
 - [ ] Tests pass in all implementations
 

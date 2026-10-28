@@ -37,6 +37,8 @@ Wrap navigation content in `NavigationMenu`, pass a descriptive `label`, and inc
 
 - `class` (string, optional) — consumer CSS class appended to the base `navigation-menu` class.
 - `label` (string, required) — accessible name applied via `aria-label`.
+- `overflow` (boolean, optional, default `false`) — overflow mode: renders `<ul class="navigation-menu-list">` (children must be `<li>` items) and a hidden "More" disclosure; a `ResizeObserver` moves the items that do not fit into it. Publishes `data-overflow="true"`. Without JavaScript the links wrap. Keep the item set static (use `{#key}` to change it). Canonical contract: `components/navigation-menu/index.md`.
+- `moreLabel` (string, required with `overflow`) — the More button's accessible name; no English default.
 - `children` (Snippet, required) — navigation content (links, lists, nested menus).
 - `...restProps` (unknown) — additional HTML attributes spread onto the `<nav>`.
 

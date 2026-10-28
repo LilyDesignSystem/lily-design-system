@@ -12,6 +12,7 @@
 //   Alpine.start();
 
 import { truncateMiddle } from "./middle-truncation.js";
+import { setupOverflowNavigation } from "./overflow-navigation.js";
 import {
     isWheelTypeaheadKey,
     nextWheelIndex,
@@ -2308,6 +2309,18 @@ export default function lily(Alpine) {
                 this.select(Number(target.getAttribute("data-index")));
                 this.$refs.list.focus();
             },
+        },
+    }));
+
+    // NavigationMenu overflow mode: the snippet owns the list, the hidden More item and the More list; this measures with a
+    // ResizeObserver on the list and moves the items that do not fit (see overflow-navigation.js). Without it the links wrap.
+    Alpine.data("lilyNavigationMenu", () => ({
+        _overflow: null,
+        init() {
+            this._overflow = setupOverflowNavigation(this.$el);
+        },
+        destroy() {
+            this._overflow?.dispose();
         },
     }));
 }

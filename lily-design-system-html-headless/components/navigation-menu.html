@@ -10,6 +10,21 @@
     <nav class="navigation-menu" aria-label="Example">
       ...
     </nav>
+  Overflow mode (markup only; this library ships no script for navigation-menu):
+    Publish data-overflow="true" on the nav, put <li> items in <ul class="navigation-menu-list"> beside a hidden "More"
+    item, and supply the More label yourself (no English from us):
+    <nav class="navigation-menu" aria-label="Example" data-overflow="true">
+      <ul class="navigation-menu-list">
+        <li><a href="/">Home</a></li>
+        <li class="navigation-menu-more" hidden>
+          <button class="navigation-menu-more-button" type="button" aria-expanded="false">More</button>
+          <ul class="navigation-menu-more-list" hidden></ul>
+        </li>
+      </ul>
+    </nav>
+    Without a script the links simply wrap (CSS: flex-wrap on the list) and the More item stays hidden. For the
+    measure-and-move behaviour (a ResizeObserver on the list; Escape closes and refocuses; a click outside closes), call
+    setupOverflowNavigation(nav) from shared/overflow-navigation.ts, which the Web Components and Alpine libraries ship.
 -->
 
 <nav
