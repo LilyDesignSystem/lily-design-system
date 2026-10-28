@@ -99,6 +99,7 @@ These files are committed at the repo root and propagated to all subprojects by 
 - [frameworks](../frameworks/index.md) — the seven libraries that implement each component
 - [accessibility](../accessibility/index.md) — the accessible-name requirement the `-view` `aria-label` meets
 - [internationalization](../internationalization/index.md) — why locale and labels are consumer-supplied, never defaulted
+- [medical-banner](../../components/medical-banner/index.md) — the documented Patient banner composition that shows an identifier with its `-view` component
 
 ## Sources
 

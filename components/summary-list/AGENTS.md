@@ -23,6 +23,12 @@
 - Uses props rune for prop destructuring
 - Spreads `...restProps` on the `<dl>` element for consumer extensibility
 - No hardcoded user-facing strings; all text comes through props and children
+- In a Summary card (Card + SummaryList, see `AGENTS/components.md`):
+  - Each action's accessible name says what it changes ("Change name"): the context is visually hidden text the consumer supplies, never a string from Lily.
+  - Action targets are at least 24 by 24 CSS pixels, or spaced so they do not crowd (WCAG 2.5.8).
+  - A missing value links to the question that answers it ("Enter your date of birth"), not to a "Change" link.
+  - When the user returns through a change link, their earlier answers are pre-filled (WCAG 3.3.7, redundant entry).
+  - Card titles are short and unique; header actions are about two words each, two or three at most.
 
 ## ARIA
 

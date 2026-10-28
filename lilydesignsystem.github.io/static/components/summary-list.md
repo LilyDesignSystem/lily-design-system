@@ -73,6 +73,12 @@ The consumer provides all CSS styling. The component renders with a `.summary-li
 
 - **Designers**: Align terms and descriptions consistently, using either a side-by-side or stacked layout. Use subtle row separators or alternating backgrounds to improve scannability.
 - **Developers**: Use SummaryListItem child components for structured `<dt>`/`<dd>` pairs, or provide raw `<dt>`/`<dd>` elements directly. Ensure the `label` prop accurately describes the summary context.
+- **Summary card**: To group a summary list under a title with header actions, compose `Card` and `SummaryList` (see the Summary card pattern in `AGENTS/components.md`). Rules:
+  - Each action's accessible name says what it changes ("Change name"): the context is visually hidden text the consumer supplies, never a string from Lily.
+  - Action targets are at least 24 by 24 CSS pixels, or spaced so they do not crowd (WCAG 2.5.8).
+  - A missing value links to the question that answers it ("Enter your date of birth"), not to a "Change" link.
+  - When the user returns through a change link, their earlier answers are pre-filled (WCAG 3.3.7, redundant entry).
+  - Card titles are short and unique; header actions are about two words each, two or three at most.
 
 ## Composition
 

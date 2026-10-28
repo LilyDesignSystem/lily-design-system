@@ -96,6 +96,7 @@ The consumer provides all CSS styling. The component renders with a `.date-input
 
 - **Designers**: Ensure the date input is wide enough to display the full date format. Consider showing the expected format (e.g., YYYY-MM-DD) as placeholder or helper text nearby.
 - **Developers**: Use ISO 8601 `YYYY-MM-DD` format for `value`, `min`, and `max` props. The browser provides the native date picker UI, which varies across browsers and platforms.
+- **Developers**: Never move focus automatically between the day, month and year fields (for example after two digits are typed). It disorients screen reader and keyboard users, and makes correcting a mistake harder. Let the user Tab on. Keep `autocomplete="bday-day"`, `"bday-month"` and `"bday-year"` on a date-of-birth field.
 
 ## Related components
 

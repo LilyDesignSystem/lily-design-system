@@ -109,6 +109,47 @@ The consumer provides all CSS styling. The component renders with a `.medical-ba
 - Verify dismiss functionality works when `dismissible` is true
 - Verify keyboard interactions work correctly
 
+## Patient banner
+
+A documented composition, not a component. A labelled section holding a `dl` of consumer-supplied items (name, date of birth, identifier, gender, adverse reactions):
+
+```html
+<section
+  aria-label="{consumer string}"
+  class="patient-banner"
+>
+  <dl>
+    <div>
+      <dt>{name label}</dt>
+      <dd>{name}</dd>
+    </div>
+    <div>
+      <dt>{date of birth label}</dt>
+      <dd><time datetime="1980-02-03">{formatted}</time></dd>
+    </div>
+    <div>
+      <dt>{identifier label}</dt>
+      <dd><EnglandNationalHealthServiceNumberView value="..." /></dd>
+    </div>
+    <div>
+      <dt>{gender label}</dt>
+      <dd>{gender}</dd>
+    </div>
+    <div>
+      <dt>{adverse reactions label}</dt>
+      <dd>{adverse reactions}</dd>
+    </div>
+  </dl>
+</section>
+```
+
+Rules:
+
+- The `aria-label` and every `dt` and `dd` string come from the consumer. Lily supplies no English.
+- No field is ever truncated, clipped or hidden at a narrow width: wrap instead. This is a patient-safety rule, and adverse reactions stay visible at every width.
+- Show the identifier with its national identifier `-view` component (for example `england-national-health-service-number-view`), so grouping and normalization stay consistent.
+- It is not named `patient-header` because Lily's suffix table maps `-header` to `<header>`, which would be wrong for a labelled `<section>` that is not page chrome. If the composition proves awkward in the example apps, a `patient-banner` component (root `<section>`) is the candidate.
+
 ## Advice
 
 - **Designers**: Use distinct styling for medical banners to differentiate them from generic site banners. Consider NHS blue or clinical color schemes.

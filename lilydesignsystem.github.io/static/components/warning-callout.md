@@ -60,6 +60,8 @@ None -- this component is a passive container for alert content.
 - Do not use when directing users to contact their GP or seek medical help — use CareCard instead
 - Do not use for information that is not sufficiently important — use InsetText for general callouts
 - Do not use for system-level alerts or error states — use Alert or Banner instead
+- Do not use more than two on a page, or let one run past about five lines on a mobile screen: past those limits the warnings stop standing out and none is read
+- Do not place one directly against a button or action link — see the spacing rules in Advice
 
 ## Headless
 
@@ -80,6 +82,8 @@ The consumer provides all CSS styling. The component renders with a `.warning-ca
 
 - **Designers**: Use a distinct visual treatment (e.g., amber/yellow background, warning icon) to differentiate warnings from errors and informational messages. Ensure sufficient color contrast.
 - **Developers**: Content within `role="alert"` is announced immediately by screen readers when it appears or changes. Avoid dynamically adding and removing WarningCallout rapidly, as each change triggers an announcement.
+- **Limits**: At most two callouts per page, and at most five lines of text on mobile. Separate a callout from a button or action link below it with a short paragraph, and give any text that follows a callout its own heading so the callout is not read as that section's opening. Use the default callout for time-critical or health-affecting information and the "important" variant (the consumer's `data-*` or class hook) for everything else. Never use it in transactional pages.
+- **Hidden prefix**: The consumer puts a visually hidden prefix such as "Important" at the start of the content so a screen reader user hears the kind of message before its text. Lily ships no English and no prop for it: supply the string in your own language, hidden with your own visually-hidden class. Omit the prefix when the callout's heading already says so. The optional `label` prop is separate: it is only the `aria-label` on the `<aside>`, useful to tell several callouts apart, and does not replace the hidden prefix.
 
 ## Related components
 

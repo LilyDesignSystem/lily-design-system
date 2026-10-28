@@ -44,6 +44,10 @@
 - `children`: slot (required) -- the banner content
 - `...restProps`: unknown -- additional attributes spread onto the root `<div>` element
 
+## Patient banner (composition)
+
+Not a component: a `<section aria-label={consumer string}>` holding a `<dl>` of consumer-supplied items (name, date of birth, identifier, gender, adverse reactions). Rules: no English from Lily; no field is ever truncated or hidden at a narrow width (wrap); show the identifier with its national identifier `-view` component (e.g. `england-national-health-service-number-view`). Not named `patient-header` because the suffix table maps `-header` to `<header>`. See index.md.
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="medical-banner"

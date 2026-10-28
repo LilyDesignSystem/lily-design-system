@@ -155,6 +155,7 @@ The consumer provides all CSS styling. The component renders with a `.button` cl
 
 - **Designers**: Maintain a minimum 44x44px touch target. Use visual hierarchy (primary, secondary, ghost) to distinguish button importance. Ensure disabled buttons have sufficient contrast.
 - **Developers**: The default type is `"button"` (not `"submit"`) to prevent accidental form submissions. Only provide the `pressed` prop when implementing a toggle button pattern.
+- **Developers**: Prevent duplicate submission on the server (an idempotency key or a unique constraint) and show an in-flight action with the [Pending (async) actions](#pending-async-actions) contract: the button stays focusable and announces that it is pending. Do not add an "ignore the second click" attribute. A user who clicks twice on purpose, to retry, gets no feedback from a silently ignored click, and the guard only works with JavaScript, so it protects nothing when scripts fail.
 
 ## Related components
 
