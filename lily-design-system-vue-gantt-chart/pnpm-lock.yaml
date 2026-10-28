@@ -12,8 +12,8 @@ importers:
         specifier: ^0.2.0
         version: 0.2.0(vue@3.5.44(typescript@5.9.3))
       '@lilydesignsystem/vue-headless':
-        specifier: ^0.5.1
-        version: 0.5.1(vue@3.5.44(typescript@5.9.3))
+        specifier: ^0.6.0
+        version: 0.6.0(vue@3.5.44(typescript@5.9.3))
     devDependencies:
       '@testing-library/vue':
         specifier: ^8.1.0
@@ -149,9 +149,9 @@ packages:
     peerDependencies:
       vue: ^3.4.0
 
-  '@lilydesignsystem/vue-headless@0.5.1':
-    resolution: {integrity: sha512-3WkJkzc5JUMKa1HmUssmWckY9oJPH4ZbyKzDH6szCXjdSle7QBZ3n71B8RiTb7gr8owU3T853hQIK5qDLB/kEw==}
-    engines: {node: '=26'}
+  '@lilydesignsystem/vue-headless@0.6.0':
+    resolution: {integrity: sha512-m/NKa2WO0QdTXRANyd6E1AQEeRdLgDEP/wxY2fNU4I1tB43RYMXi5So6aag42fqA2aD3N6m2E7kOouF4tUke/Q==}
+    engines: {node: '>=26'}
     peerDependencies:
       vue: ^3.4.0
 
@@ -1189,7 +1189,7 @@ snapshots:
       aria-query: 5.3.2
       vue: 3.5.44(typescript@5.9.3)
 
-  '@lilydesignsystem/vue-headless@0.5.1(vue@3.5.44(typescript@5.9.3))':
+  '@lilydesignsystem/vue-headless@0.6.0(vue@3.5.44(typescript@5.9.3))':
     dependencies:
       aria-query: 5.3.2
       vue: 3.5.44(typescript@5.9.3)
