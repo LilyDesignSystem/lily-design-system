@@ -43,6 +43,10 @@ Asserts the contracts a theme stylesheet must honour (plan P3-T5):
      (spec/responsive, plan P15-T3). `@media` cannot read a custom property, so
      the table is the single source and this check is what keeps it one.
 
+ 10. The scoped-overflow identifier list is the catalog's. The first :where()
+     in the "Scoped overflow" section names exactly the national identifier
+     `-view` slugs of components-categories.tsv (plan P15-T6).
+
 Exits non-zero listing every violation. Wired into bin/test.
 
 `bin/check-theme --contrast` (plan P10-T4) is a separate, report-only pass:
@@ -94,6 +98,7 @@ REQUIRED_TOKENS = [
 BREAKPOINTS_REM = ("40rem", "48rem", "64rem", "80rem", "96rem")
 
 SHARED_SECTIONS = (
+    "Scoped overflow",
     "target-size (minimum) floor",
     "Overflow guards",
     "Helper packages — layout and look",
@@ -296,6 +301,11 @@ def main() -> int:
         for line in open(os.path.join(TOP, "components.tsv"))
         if line.strip()
     )
+    national_views = set()
+    for line in open(os.path.join(TOP, "components-categories.tsv")):
+        cols = line.rstrip("\n").split("\t")
+        if len(cols) >= 3 and cols[2] == "national" and cols[0].endswith("-view"):
+            national_views.add(cols[0])
     files = sorted(glob.glob(os.path.join(TOP, "themes", "*.css")))
     errors = []
 
@@ -366,6 +376,15 @@ def main() -> int:
                     f"{base}: @media width {m.group(1)!r} is not in the breakpoint table "
                     f"({', '.join(BREAKPOINTS_REM)}); see spec/responsive"
                 )
+
+        # 10. the scoped-overflow identifier list matches the catalog
+        i = raw.find("Scoped overflow")
+        if i >= 0:
+            m = re.search(r":where\((.*?)\)\s*\{", raw[i:], re.S)
+            listed = set(re.findall(r"\.([a-z0-9-]+)", m.group(1))) if m else set()
+            if listed != national_views:
+                diff = sorted(listed ^ national_views)[:3]
+                errors.append(f"{base}: Scoped overflow identifier list differs from the catalog (e.g. {diff})")
 
         # 8. a query needs a container: without container-type it never matches
         if "@container" in css and "container-type" not in css:
