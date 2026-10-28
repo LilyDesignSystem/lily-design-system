@@ -401,6 +401,10 @@ test_lockfiles_are_tracked
 # name it as its source repository (npm --provenance rejects a mismatch).
 "$top/bin/check-package-metadata" >/dev/null 2>&1 \
     || err "a published package names a repository other than the monorepo; run bin/check-package-metadata"
+# The responsive rules (spec/responsive) are loaded by AGENTS.md like the other AGENTS/*.md.
+test -s "$top/AGENTS/responsive.md" && test -s "$top/spec/responsive/index.md" \
+    && grep -q '^@AGENTS/responsive.md$' "$top/AGENTS.md" \
+    || err "AGENTS/responsive.md or spec/responsive/index.md is missing, or AGENTS.md does not load it"
 "$top/bin/generate-api-docs" --check >/dev/null 2>&1 \
     || err "site contract sections drift from components/*/AGENTS.md; run bin/generate-api-docs"
 "$top/bin/generate-page-markdown" --check >/dev/null 2>&1 \

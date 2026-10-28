@@ -2529,7 +2529,7 @@ lessons topics. Numbers in the spec were measured 2026-10-22 from shallow clones
 
 Source and rationale: [spec/stephcraft-lessons](spec/stephcraft-lessons/index.md). Nothing below is built.
 
-- [ ] **P15-T1 Responsive rules.** `AGENTS/responsive.md` and `spec/responsive/`: mobile first, intrinsic sizing before breakpoints, logical properties, no `100vw` on `body`, reflow at 320 CSS px and 400% zoom.
+- [x] **P15-T1 Responsive rules.** `AGENTS/responsive.md` and `spec/responsive/`, written 2026-10-28, checked by `bin/test`: mobile first, intrinsic sizing before breakpoints, logical properties, no `100vw` on `body`, reflow at 320 CSS px and 400% zoom.
 - [ ] **P15-T2 Container queries in the themes** for `card`, `summary-list`, `data-table`, `kanban-table`, `calendar-*-table`; `bin/check-theme` requires `container-type` beside any `@container`.
 - [ ] **P15-T3 Breakpoint table.** Published in `rem`; `bin/check-theme` enforces it (NHS Wales for patients uses a `40rem` query to decide).
 - [ ] **P15-T4 `grid` `minColumnWidth`** generating `repeat(auto-fit, minmax(min(W, 100%), 1fr))`, in all eight libraries.

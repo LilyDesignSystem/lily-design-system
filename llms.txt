@@ -33,6 +33,8 @@ searchable component catalog: https://lilydesignsystem.com/.
   hardcoded user-facing strings, stable text-prop names.
 - [AGENTS/theme.md](AGENTS/theme.md): token shape, the headless
   forbidden-literal list, the 57 reference theme stylesheets.
+- [AGENTS/responsive.md](AGENTS/responsive.md): mobile first, intrinsic
+  sizing, `rem` breakpoints, reflow at 320px and 400% zoom.
 - [AGENTS/components.md](AGENTS/components.md): suffix-to-HTML-element
   mapping, compound name-family patterns, composition templates.
 - [AGENTS/helpers.md](AGENTS/helpers.md): the eleven picker helpers

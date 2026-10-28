@@ -62,6 +62,11 @@
           "description": "Token shape, the headless forbidden-literal list, the 57 reference theme stylesheets."
         },
         {
+          "title": "AGENTS/responsive.md",
+          "url": "AGENTS/responsive.md",
+          "description": "Mobile first, intrinsic sizing, rem breakpoints, reflow at 320px and 400% zoom."
+        },
+        {
           "title": "AGENTS/components.md",
           "url": "AGENTS/components.md",
           "description": "Suffix-to-HTML-element mapping, compound name-family patterns, composition templates."
