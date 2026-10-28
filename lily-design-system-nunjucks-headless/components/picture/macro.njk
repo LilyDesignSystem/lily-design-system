@@ -1,0 +1,32 @@
+{#
+  Picture macro -- a responsive image wrapper that lets the browser choose among several sources, using the native picture element.
+
+  A headless wrapper. Contract: the source and img elements are the content; the img's alt, width and height are the consumer's.
+
+  HTML tag: <picture>
+  CSS class: picture
+
+  Params:
+
+    id           string   Element id.
+    classes      string   Consumer-provided extra CSS classes.
+    attributes   object   Extra HTML attributes as key/value pairs.
+    html         string   Raw HTML content (the source and img elements).
+
+  Usage:
+    {% from "components/picture/macro.njk" import picture %}
+    {% call picture({}) %}<source srcset="wide.webp" media="(min-width: 800px)"><img src="small.jpg" alt="" width="320" height="200">{% endcall %}
+#}
+{%- macro picture(params) -%}
+{%- set p = params | default({}) -%}
+<picture
+  class="picture{% if p.classes %} {{ p.classes }}{% endif %}"
+
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</picture>
+{%- endmacro -%}

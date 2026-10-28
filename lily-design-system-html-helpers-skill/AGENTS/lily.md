@@ -4,14 +4,14 @@ Living specification: [spec/index.md](../spec/index.md)
 
 [CSS style sheet template](../css-style-sheet-template.css)
 
-Canonical component list: [components.tsv](../components.tsv) — 581 components.
+Canonical component list: [components.tsv](../components.tsv) — 582 components.
 
 ## Subprojects for headless components
 
-The seven framework pairs below are the canonical, full-catalog (581/581)
+The seven framework pairs below are the canonical, full-catalog (582/582)
 headless libraries. An 8th headless catalog joined 2026-09-03:
 [Lily Design System: Web Components headless](../lily-design-system-web-components-headless)
-ships its full achievable scope as of 2026-10-25: 546 of the 581
+ships its full achievable scope as of 2026-10-25: 547 of the 582
 components as native custom elements (no framework runtime). The other 35
 are permanently excluded by a real architectural limitation (table
 sub-elements and interactive `*ListItem` families — no wrapper-host-safe
@@ -21,7 +21,7 @@ backlog. See its own `spec/index.md` for the architecture decisions
 and the exact scope.
 
 A 9th, [Lily Design System: Alpine.js headless](../lily-design-system-alpine-headless)
-(added 2026-10-21, unpublished), covers all 581 components as annotated HTML
+(added 2026-10-21, unpublished), covers all 582 components as annotated HTML
 snippets (`components/{slug}.html`) plus one Alpine plugin (`lily-alpine.js`)
 that owns state and keyboard behaviour: 488 static, 83 with an `Alpine.data`
 behaviour. Its example app is [`lily-design-system-alpine-examples`](../lily-design-system-alpine-examples); its helpers are `lily-design-system-alpine-{data-grid,kanban-board,calendar,gantt-chart}` (`@lilydesignsystem/alpine-*`), each a subset of its Svelte reference. See its `spec/index.md`.

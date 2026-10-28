@@ -24,7 +24,8 @@
   ],
   "related": [
     "image-input",
-    "image-file-input"
+    "image-file-input",
+    "picture"
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/image.html",

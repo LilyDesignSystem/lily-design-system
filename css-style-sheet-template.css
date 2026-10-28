@@ -2532,3 +2532,7 @@
 /* convert-into-unit-div: the unit to convert into, such as a select box of currencies or lengths */
 .convert-into-unit-div {
 }
+
+/* picture: a responsive image wrapper that lets the browser choose among several sources, using the native picture element */
+.picture {
+}

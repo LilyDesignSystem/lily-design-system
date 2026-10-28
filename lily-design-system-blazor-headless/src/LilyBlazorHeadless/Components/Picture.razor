@@ -1,0 +1,16 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    Picture component
+    A headless wrapper around the native picture element: the browser chooses among the source children and falls back to the img child. Contract: sources and img as ChildContent; the img's alt is the consumer's.
+    Unmatched attributes spread onto the root.
+*@
+
+<picture class="@($"picture {CssClass}".Trim())"  @attributes="AdditionalAttributes">@ChildContent</picture>
+
+@code {
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

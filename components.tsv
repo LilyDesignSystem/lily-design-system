@@ -579,3 +579,4 @@ convert-from-unit-div	ConvertFromUnitDiv	the unit to convert from, such as a sel
 convert-into-div	ConvertIntoDiv	the target side of a conversion, holding the value and unit to convert into
 convert-into-value-div	ConvertIntoValueDiv	the converted value, such as a text input showing the number of euros
 convert-into-unit-div	ConvertIntoUnitDiv	the unit to convert into, such as a select box of currencies or lengths
+picture	Picture	a responsive image wrapper that lets the browser choose among several sources, using the native picture element

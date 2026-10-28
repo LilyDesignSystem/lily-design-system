@@ -388,6 +388,7 @@ export { default as Pictogram } from "./components/Pictogram.vue";
 export { default as PieChart } from "./components/PieChart.vue";
 export { default as PilipinasPhilhealthIdentificationNumberInput } from "./components/PilipinasPhilhealthIdentificationNumberInput.vue";
 export { default as PilipinasPhilhealthIdentificationNumberView } from "./components/PilipinasPhilhealthIdentificationNumberView.vue";
+export { default as Picture } from "./components/Picture.vue";
 export { default as PinInputDiv } from "./components/PinInputDiv.vue";
 export { default as Place } from "./components/Place.vue";
 export { default as PolskaNumerIdentyfikacjiPodatkowejInput } from "./components/PolskaNumerIdentyfikacjiPodatkowejInput.vue";

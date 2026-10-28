@@ -18,6 +18,11 @@
 - Rest props are spread onto the `<img>` element (no caption) or the `<figure>` element (with caption)
 - Supports the native `loading` attribute for lazy/eager loading control
 
+## Consumer CSS and attributes
+
+- Give the image explicit `width` and `height` attributes (the file's real dimensions) so the page does not shift as images load
+- Consumer CSS: `display: block` (no baseline gap), `max-inline-size: 100%` (no overflow), `block-size: auto` (keeps the aspect ratio)
+
 ## ARIA
 
 - `alt="..."` -- provides the accessible name for the image, required for all non-decorative images

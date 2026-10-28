@@ -1426,6 +1426,10 @@ export { Pictogram } from "./components/pictogram.js";
 import { Pictogram as _Pictogram } from "./components/pictogram.js";
 if (!customElements.get("lily-pictogram")) customElements.define("lily-pictogram", _Pictogram);
 
+export { Picture } from "./components/picture.js";
+import { Picture as _Picture } from "./components/picture.js";
+if (!customElements.get("lily-picture")) customElements.define("lily-picture", _Picture);
+
 export { PieChart } from "./components/pie-chart.js";
 import { PieChart as _PieChart } from "./components/pie-chart.js";
 if (!customElements.get("lily-pie-chart")) customElements.define("lily-pie-chart", _PieChart);

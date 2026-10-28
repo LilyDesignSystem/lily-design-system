@@ -73,18 +73,18 @@ Recorded so the delta is auditable; details in
   comparisons — and a placeholder `lily-figma` route (P5 decides its
   fate).
 
-## Current state (verified 2026-10-18)
+## Current state (verified 2026-10-25)
 
-Facts below were read from the tree, the registries or a command run on 2026-10-18, except where marked *not re-verified*.
+Facts below were read from the tree, the registries or a command run on 2026-10-25, except the grid-like helper feature levels and the label-pack paragraph, which are as of 2026-10-18 and *not re-verified*.
 Earlier snapshots are kept in `CHANGELOG.md` and `spec/history/`.
 
-- **Catalog**: **571 rows** in `components.tsv`. All 8 headless libraries implement every row except Web
-  Components, which implements 536 (the 35 table sub-elements and interactive `*ListItem` families are permanently
+- **Catalog**: **581 rows** in `components.tsv`. All 8 headless libraries implement every row except Web
+  Components, which implements 546 (the 35 table sub-elements and interactive `*ListItem` families are permanently
   excluded). `bin/check-coverage` reports no drift.
-- **Subprojects**: 172 — 144 implementation subprojects (8 headless, 7 example apps, 129 helper packages, one each
-  since 2026-10-10), 26 Claude Skills, `lily-design-system-themes` and the docs site. `bin/check-links` is clean
-  (13,655 markdown files).
-- **Helper packages** (129): in every framework, the ten `*-picker`s, `picker-bar`, `data-grid`, `kanban-board`,
+- **Subprojects**: 213 top-level directories — 184 implementation subprojects (9 headless including Alpine.js, 8 example
+  apps, 167 helper packages, one each since 2026-10-10), 27 Claude Skills, 9 `locale-translations` packages,
+  `lily-design-system-themes` and the docs site. `bin/check-links` is clean (15,180 markdown files) and runs in `bin/test` (2026-10-25: the site's `.md` twins now carry absolute URLs, and generator fixtures are skipped).
+- **Helper packages** (167): in every framework, the eleven `*-picker`s (the time-zone picker joined 2026-10-24), `picker-bar`, `data-grid`, `kanban-board`,
   `gantt-chart`, `calendar` and `filter` (Nunjucks also has `listbox-behavior`). The grid-like helpers are at the
   same feature level in all eight catalogs for what carries a label: typed fields, inline editing with undo/redo,
   export and copy, search, the Gantt `criticalLabel` and kanban title editing. **Svelte-only for now**: the optional
@@ -92,8 +92,8 @@ Earlier snapshots are kept in `CHANGELOG.md` and `spec/history/`.
   `allowLaneChange`, the lane argument to `canMove`, `showSearchLabel` and `fieldLayout`, the calendar `periodTitle`
   anchor argument, and the data grid's footer totals over filtered rows, `--data-grid-pinned-offset` and
   remembered column order.
-- **Label packs** (2026-10-18): 46 per-locale `labels` packs in `shared/label-packs/`, loaders for every
-  catalog, and `bin/check-label-packs`. **45 are unreviewed machine drafts**, Welsh included. Not yet a published
+- **Label packs** (2026-10-18): 64 per-locale `labels` packs in `shared/label-packs/`, loaders for every
+  catalog, and `bin/check-label-packs`. **63 are unreviewed machine drafts**, Welsh included. Not yet a published
   package. Contract: `spec/label-packs/`.
 - **Published** (registry state read 2026-10-18): headless npm `svelte`/`react`/`vue`/`nunjucks` 0.5.0,
   `angular` 0.6.0, `web-components` 0.6.0, `html` 0.7.0; NuGet `LilyDesignSystem.Blazor.Headless` 0.5.0;
@@ -369,8 +369,8 @@ command run against the working tree; nothing is carried over from earlier secti
 
 ### What is strong
 
-- **Breadth and parity are real.** 571 catalog rows; nine headless libraries (Alpine.js joined 2026-10-21, Web
-  Components at 536); 133 helper packages; `bin/check-coverage` and `bin/check-class-names` keep the catalogs in step.
+- **Breadth and parity are real.** 581 catalog rows; nine headless libraries (Alpine.js joined 2026-10-21, Web
+  Components at 546); 167 helper packages; `bin/check-coverage` and `bin/check-class-names` keep the catalogs in step.
 - **Contracts are machine-checked.** `bin/test` exits 0 and gates required files, links, class names, shared-module
   drift, example-component drift, label packs, helper docs and theme conformance. Few design systems check this much.
 - **The grid-like helpers are tested in depth** where it matters most: the Svelte, React, Vue and Angular data grids
@@ -399,7 +399,7 @@ command run against the working tree; nothing is carried over from earlier secti
    subprojects. Ranges in use: `vitest` ^4.0.0 / ^4.1.11 (15 packages) vs ^5.0.x (122); `typescript` ^5.9.3 (90) vs
    ^6.0.3 (43); `svelte` ^5.0.0 (17) vs ^5.57.x (18). Every bump is 141 separate edits and 141 installs. → P12-T8.
 6. **HTML and Web Components helpers are hand-kept duplicates.** `data-grid.ts` differs by 4 lines out of 2,066; the
-   kanban, Gantt and data-grid element files by 0 of 571; `calendar` by 10 of 1,797. `AGENTS/helpers.md` says the two
+   kanban, Gantt and data-grid element files by 0 of 581; `calendar` by 10 of 1,797. `AGENTS/helpers.md` says the two
    "must be kept in step deliberately, since nothing ports between them automatically". That is the same drift
    problem `bin/sync-shared-modules` solved for `shared/`; generate one from the other with the tag prefix as the only
    parameter. → P12-T9.
@@ -423,7 +423,7 @@ command run against the working tree; nothing is carried over from earlier secti
     April–September 2026; only the first is referenced (by `bin/generate-registries`). → P12-T15.
 12. **Lessons backlog is not in `tasks.md`.** The bootstrap (10 items), daisyUI (11), ShardsUI (4) and coss (items 1,
     4, 5, 6 still open) topics each list planned work that has no task ID, so it cannot be scheduled or closed. → P12-T16.
-13. **`bin/check-links` fails today (26 broken links)** in the `/components/{slug}.md` copies added by `c25bfe528`;
+13. **`bin/check-links` failed (26 broken links, later 86; fixed 2026-10-25 and now run by `bin/test`)** in the `/components/{slug}.md` copies added by `c25bfe528`;
     `bin/test` still passed because it does not run `bin/check-links`, contrary to "Current state" above. → P12-T17.
 
 ### Advice, in priority order

@@ -1,0 +1,43 @@
+{
+  "slug": "picture",
+  "name": "Picture",
+  "description": "a responsive image wrapper that lets the browser choose among several sources, using the native picture element",
+  "htmlTag": "picture",
+  "category": "content",
+  "baseClass": ".picture",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows",
+  "aria": [
+    "None added; the `<picture>` has no role and the `<img>` inside it is named by its `alt`",
+    "Do not pass `aria-label` through rest props; it has nothing to name"
+  ],
+  "keyboard": [
+    "None"
+  ],
+  "props": [
+    "`class`: string (default: `\"\"`) -- appended to the base class",
+    "`children`: slot -- the `<source>` elements, then one `<img>`",
+    "`...restProps`: HTML attributes -- spread onto the root `<picture>`"
+  ],
+  "related": [
+    "image",
+    "figure",
+    "caption",
+    "image-file-input",
+    "avatar"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/picture.html",
+    "svelte": "lily-design-system-svelte-headless/components/Picture/Picture.svelte",
+    "react": "lily-design-system-react-headless/components/Picture.tsx",
+    "vue": "lily-design-system-vue-headless/components/Picture.vue",
+    "angular": "lily-design-system-angular-headless/components/Picture.ts",
+    "web-components": "lily-design-system-web-components-headless/components/picture.ts",
+    "alpine": "lily-design-system-alpine-headless/components/picture.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/picture/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Picture.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/picture/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/picture/AGENTS.md"
+}

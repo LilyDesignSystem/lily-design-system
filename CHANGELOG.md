@@ -9,6 +9,10 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `picture`, catalog 581 → 582 — 2026-10-28
+
+A headless wrapper around the native `<picture class="picture">`, from the Stephcraft responsive-CSS review: the consumer supplies the `<source>` children and the `<img>` (with its `alt`, `width` and `height`), the browser chooses. No ARIA, state or strings. All eight headless libraries and the Alpine snippet; `picture` joins the suffix→element table. `image` gains documented guidance (`display: block`, `max-inline-size: 100%`, `block-size: auto`, explicit `width` and `height` so the page does not shift as images load). Web Components 546 → 547 of 582; Alpine 582/582.
+
 ## Dependency sweep and `picker-bar` 0.5.1 — 2026-10-25
 
 All 165 `pnpm-lock.yaml` files were re-locked (minor and patch only), clearing the 30 open Dependabot alerts (`@vitest/mocker`, `fast-uri`,

@@ -23,13 +23,13 @@ Re-run 2026-10-25 (all suites green; 581 components), except `html-headless` (We
 
 | Library            | Runner       | Count (spec/index.md §11.4)                          |
 | ------------------ | ------------ | ---------------------------------------------- |
-| svelte-headless    | vitest       | 3,196 cases across 583 spec files (581 components plus two extra `Dialog` specs; one tree, no longer a dual mirror) |
-| react-headless     | vitest       | 3,394 cases across 581 spec files              |
-| vue-headless       | vitest       | 3,343 cases across 581 spec files              |
-| angular-headless   | vitest       | 1,716 cases across 581 spec files              |
+| svelte-headless    | vitest       | 3,202 cases across 584 spec files (582 components plus two extra `Dialog` specs; one tree, no longer a dual mirror) |
+| react-headless     | vitest       | 3,400 cases across 582 spec files              |
+| vue-headless       | vitest       | 3,348 cases across 582 spec files              |
+| angular-headless   | vitest       | 1,720 cases across 582 spec files              |
 | blazor-headless    | bUnit        | 2,191 cases                                    |
-| nunjucks-headless  | vitest       | 3,533 cases across 582 spec files              |
-| web-components-headless | vitest  | 3,280 cases across 547 spec files (546 components + `index.test.ts`, which pins the registered-element count and drives the built `dist/`) |
+| nunjucks-headless  | vitest       | 3,539 cases across 583 spec files              |
+| web-components-headless | vitest  | 3,286 cases across 548 spec files (547 components + `index.test.ts`, which pins the registered-element count and drives the built `dist/`) |
 | html-headless      | WebdriverIO  | 572 spec files (571 components + the shared `listbox-controller` spec), all passing in real headless Chrome 154 on 2026-10-06 (2026-10-25: 583 spec files in Chrome 155, 581 passed on the full run, then the two failures, `middle-truncation` and `wheel-picker`, were test bugs, fixed and passing: a `waitUntil` that was always true, and a `click()` on the list that selected the option under the pointer) with a matching chromedriver (`wdio.conf.js` must not fall back to a download in a sandbox: point `wdio:chromedriverOptions.binary` at a cached driver). Earlier note, kept for the record: browser run not re-executed — corrected 2026-09-02, plan P7-T12: the 2026-09-01 note blaming this sandbox's network egress was wrong. The real, now-fixed cause was `pnpm-workspace.yaml`'s `chromedriver`/`edgedriver`/`geckodriver`/`esbuild` entries carrying the literal placeholder text `"set this to true or false"` — and, separately, this file being gitignored here and in 9 other subprojects rather than committed — both of which blocked those packages' install-time driver-download postinstall scripts under pnpm 11 (`ERR_PNPM_IGNORED_BUILDS`). With both fixed, `pnpm install` now downloads chromedriver cleanly and the suite starts; a full `wdio run` still can't complete in this specific interactive sandbox because it receives an unexplained SIGINT within seconds every time, reproducible even for a single spec file with no other load — a harness-level limitation, not a network block or a Lily defect) |
 
 Beyond the per-library suites: `bin/check-class-names` (every implementation carries its slug as the first
@@ -42,12 +42,12 @@ Six of seven full-catalog headless libraries ship Storybook (the Web Components 
 
 | Library            | Storybook     | Stories     |
 | ------------------ | ------------- | ----------- |
-| html-headless      | yes (vite)    | 581 / 581   |
-| svelte-headless    | yes (vite)    | 581 / 581   |
-| react-headless     | yes (vite)    | 581 / 581   |
-| vue-headless       | yes (vite)    | 581 / 581   |
-| nunjucks-headless  | yes (vite)    | 581 / 581   |
-| angular-headless   | yes (webpack) | 581 / 581   |
+| html-headless      | yes (vite)    | 582 / 582   |
+| svelte-headless    | yes (vite)    | 582 / 582   |
+| react-headless     | yes (vite)    | 582 / 582   |
+| vue-headless       | yes (vite)    | 582 / 582   |
+| nunjucks-headless  | yes (vite)    | 582 / 582   |
+| angular-headless   | yes (webpack) | 582 / 582   |
 | blazor-headless    | no            | not planned |
 
 ## Playwright e2e on example apps
