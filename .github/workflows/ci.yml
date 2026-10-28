@@ -55,8 +55,8 @@ jobs:
 
   lint:
     # Repo-level ESLint (eslint.config.js, scope set by the root "lint" script).
-    # Errors fail; warnings are reported only. Prettier is configured
-    # (.prettierrc.json) but not enforced: no repo-wide reformat has landed.
+    # Errors fail; warnings are reported only. Prettier (.prettierrc.json) is enforced by
+    # `pnpm format:check` on the same libraries; run `pnpm format` to fix.
     name: eslint
     runs-on: ubuntu-latest
     steps:
@@ -69,6 +69,7 @@ jobs:
           node-version: 26
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
+      - run: pnpm format:check
 
   helper-packages:
     # Top-level helper packages, one subproject each (the *-helpers

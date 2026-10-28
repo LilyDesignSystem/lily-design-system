@@ -5,8 +5,8 @@
   "description": "Repo-level lint and format tooling only; nothing here is published. Each subproject keeps its own package.json and lockfile.",
   "scripts": {
     "lint": "eslint lily-design-system-svelte-headless/components lily-design-system-react-headless/components lily-design-system-vue-headless/components",
-    "format:check": "prettier --check --ignore-unknown",
-    "format": "prettier --write --ignore-unknown"
+    "format:check": "prettier --check \"lily-design-system-{svelte,react,vue}-headless/components/**/*.{ts,tsx,vue,svelte}\" eslint.config.js package.json .prettierrc.json",
+    "format": "prettier --write \"lily-design-system-{svelte,react,vue}-headless/components/**/*.{ts,tsx,vue,svelte}\" eslint.config.js package.json .prettierrc.json"
   },
   "engines": {
     "node": ">=26"
