@@ -26,6 +26,7 @@
 }
 
 body {
+  overflow-wrap: anywhere; /* labels 30 percent longer than English (Welsh) must wrap, not overflow */
   margin: 0;
   font-family: var(--nhs-font-family);
   font-size: var(--nhs-font-size-19);
@@ -111,4 +112,9 @@ main :where(li > a),
 /* WCAG 2.2 target-size floor for the detail pages' source disclosure. */
 summary {
   min-block-size: 24px;
+}
+
+/* A select is as wide as its longest option; with labels 30 percent longer (Welsh) it must not push the page wider than the viewport. */
+select {
+  max-width: 100%;
 }

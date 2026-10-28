@@ -30,6 +30,7 @@
 }
 
 body {
+  overflow-wrap: anywhere; /* labels 30 percent longer than English (Welsh) must wrap, not overflow */
   margin: 0;
   font-family: var(--nhs-font-family);
   font-size: var(--nhs-font-size-19);
