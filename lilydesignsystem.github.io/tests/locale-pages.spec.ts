@@ -4,7 +4,7 @@ import { test, expect } from '@playwright/test';
 // are translated into every non-English locale; each renders at /locales/<code>/<page>/ with the right
 // lang and dir, a translated title, an h1, and links that stay inside the locale.
 
-const SLUGS = ['about', 'why', 'accessibility', 'help', 'comparisons', 'tutorials', 'examples', 'skills'];
+const SLUGS = ['about', 'why', 'accessibility', 'help', 'compare', 'tutorials', 'examples', 'skills'];
 
 // locale -> [bcp47 lang, dir]
 const LOCALES: Record<string, [string, string]> = {
@@ -130,9 +130,9 @@ for (const [code, [lang, dir]] of Object.entries(LOCALES)) {
         // Translated: not the English page's title.
         const english = await (await page.request.get(`/${slug}/`)).text();
         const englishTitle = /<title>([^<]*)<\/title>/.exec(english)?.[1];
-        // Dutch "Help" is the same word as English; comparisons and skills carry mostly proper nouns.
+        // Dutch "Help" is the same word as English; compare and skills carry mostly proper nouns.
         const sameWord = slug === 'help' && code.startsWith('nl-');
-        if (slug !== 'comparisons' && slug !== 'skills' && !sameWord) expect(title).not.toBe(englishTitle);
+        if (slug !== 'compare' && slug !== 'skills' && !sameWord) expect(title).not.toBe(englishTitle);
       });
     }
   });

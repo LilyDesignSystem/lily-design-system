@@ -110,7 +110,7 @@
   <h2>How Lily compares</h2>
   <p>
     We keep an honest, component-by-component
-    <a href="/comparisons/">comparison against other design systems</a> —
+    <a href="/compare/">comparison against other design systems</a> —
     styled and headless, commercial and public-sector. Where another library
     is a better fit for you, the comparison will show it; Lily learns from
     all of them and cites its inspirations in the open.

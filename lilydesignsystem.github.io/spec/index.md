@@ -32,7 +32,7 @@ framework stacks through tutorials.
   at the repo root), each rendering that component's documentation, a
   static demo snippet, and a short Svelte usage example.
 - Marketing and orientation pages: `/` (home), `/why/`, `/about/`,
-  `/comparisons/` (a table against other design systems), `/help/`
+  `/compare/` (a table against other design systems), `/help/`
   (setup guide, theme reference, preference-helpers reference, FAQ),
   `/accessibility/` (accessibility statement), `/news/` (announcements,
   rendered from the main repo's `NEWS.md`), `/roadmap/` (rendered from
@@ -89,7 +89,7 @@ lilydesignsystem.github.io/
 │       ├── +page.svelte                    Home: framework icon row (incl.
 │       │                                   Web Components, external-link-only),
 │       │                                   its own component search box
-│       ├── about/, why/, help/, comparisons/, examples/
+│       ├── about/, why/, help/, compare/, examples/
 │       ├── accessibility/, news/, roadmap/
 │       ├── skills/, lily-claude-design/, lily-figma/
 │       ├── components/
@@ -265,7 +265,7 @@ The repo root's `bin/test` enforces this: `registry_count_or_err` asserts
 - [tooling](../../spec/tooling/index.md) — `bin/generate-registries` and
   `bin/test`'s checks against this subproject.
 - [citations](../../spec/citations/index.md) — the design systems Lily
-  learns from, referenced from `/comparisons/` and `/why/`.
+  learns from, referenced from `/compare/` and `/why/`.
 
 ## 10. Sources
 

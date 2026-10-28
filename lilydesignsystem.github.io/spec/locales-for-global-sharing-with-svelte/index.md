@@ -88,7 +88,7 @@ session (`sessionStorage` key `lily-locale-redirect-done`; no redirect if sessio
 
 ## Translated text pages
 
-The eight main pages (about, why, accessibility, help, comparisons, tutorials, examples, skills) are translated per **language** (not
+The eight main pages (about, why, accessibility, help, compare, tutorials, examples, skills) are translated per **language** (not
 per locale), so `cy-001` and `cy-gb` share `cy.html`.
 
 - Source: `src/routes/<page>/+page.svelte` is the English page. `bin/extract-site-pages` writes `src/lib/pages/<page>/en.html`

@@ -23,7 +23,7 @@
         { "title": "Components", "url": "https://lilydesignsystem.com/components/", "description": "The full searchable catalog of all 582 components, each linking to its own /components/{slug}/ detail page (description, usage, props, ARIA, keyboard, references)." },
         { "title": "Tutorials", "url": "https://lilydesignsystem.com/tutorials/", "description": "Step-by-step guides for HTML, Svelte, React, Vue, Angular, Blazor, and Nunjucks, each under /tutorials/{framework}/." },
         { "title": "Examples", "url": "https://lilydesignsystem.com/examples/", "description": "Worked example apps showing how to style Lily components in every supported framework." },
-        { "title": "Comparisons", "url": "https://lilydesignsystem.com/comparisons/", "description": "How Lily compares with other design systems on headlessness, framework coverage, accessibility, and license." }
+        { "title": "Compare", "url": "https://lilydesignsystem.com/compare/", "description": "How Lily compares with other design systems on headlessness, framework coverage, accessibility, and license." }
       ]
     },
     {

@@ -15,7 +15,7 @@ const path = require("path");
 
 const top = path.join(__dirname, "..");
 const site = path.join(top, "lilydesignsystem.github.io");
-const SLUGS = ["about", "why", "accessibility", "help", "comparisons", "tutorials", "examples", "skills"];
+const SLUGS = ["about", "why", "accessibility", "help", "compare", "tutorials", "examples", "skills"];
 const EXTRA = JSON.parse(fs.readFileSync(path.join(site, "src/lib/extra-pages.json"), "utf8"));
 const check = process.argv.includes("--check");
 

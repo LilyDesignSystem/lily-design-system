@@ -37,7 +37,7 @@ Lily ships 57 standalone reference themes that target its class hooks directly: 
 
 ## How Lily compares
 
-We keep an honest, component-by-component [comparison against other design systems](https://lilydesignsystem.com/comparisons/) — styled and headless, commercial and public-sector. Where another library is a better fit for you, the comparison will show it; Lily learns from all of them and cites its inspirations in the open.
+We keep an honest, component-by-component [comparison against other design systems](https://lilydesignsystem.com/compare/) — styled and headless, commercial and public-sector. Where another library is a better fit for you, the comparison will show it; Lily learns from all of them and cites its inspirations in the open.
 
 ## Who's behind it
 

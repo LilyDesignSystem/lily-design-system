@@ -33,7 +33,7 @@ Read: the home page, the design principles, the Styles index and its colours, ty
 page-templates page, the component index, the start-prototyping page, the site map, the accessibility statement, and the
 tag, header, date input, buttons, site navigation, summary list, cards and warning callout pages. **Not read:** the other
 twenty components, the Figma page, the contact page, and any source repository or package: the site links to none, and
-names no npm package, version or licence for the code (its content is under the Open Government Licence v3.0). The pages
+names no npm package, version or repository for its code, but its terms of use say the code is under the MIT licence (its content is under the Open Government Licence v3.0). The pages
 were fetched through a summarising reader, so markup quoted below is as that reader returned it; check the live page
 before copying any of it. Contrast ratios in this topic are computed here from the published hex values, not taken from
 DHCW.

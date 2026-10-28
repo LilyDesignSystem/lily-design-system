@@ -20,7 +20,7 @@ const path = require("path");
 
 const top = path.join(__dirname, "..");
 const site = path.join(top, "lilydesignsystem.github.io");
-const PAGES = ["about", "why", "accessibility", "help", "comparisons", "tutorials", "examples", "skills"];
+const PAGES = ["about", "why", "accessibility", "help", "compare", "tutorials", "examples", "skills"];
 // Further pages a language may translate (src/lib/extra-pages.json): the nine tutorials, Figma, Claude Design, and the
 // news, roadmap and locales pages, whose bodies are rendered at build time, so only their intro section is a source.
 const EXTRA = JSON.parse(fs.readFileSync(path.join(site, "src/lib/extra-pages.json"), "utf8"));

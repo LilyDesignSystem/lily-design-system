@@ -12,5 +12,12 @@
   { "slug": "lily-claude-design", "route": "lily-claude-design" },
   { "slug": "news", "route": "news", "introOnly": true },
   { "slug": "roadmap", "route": "roadmap", "introOnly": true },
-  { "slug": "locales", "route": "locales", "introOnly": true }
+  { "slug": "locales", "route": "locales", "introOnly": true },
+  { "slug": "compare-dhcw", "route": "compare/lily-design-system-and-dhcw-design-system" },
+  { "slug": "compare-govuk", "route": "compare/lily-design-system-and-gov-uk-design-system" },
+  { "slug": "compare-uswds", "route": "compare/lily-design-system-and-us-web-design-system" },
+  { "slug": "compare-spectrum", "route": "compare/lily-design-system-and-adobe-spectrum" },
+  { "slug": "compare-ant", "route": "compare/lily-design-system-and-ant-design" },
+  { "slug": "compare-shadcn", "route": "compare/lily-design-system-and-shadcn-ui" },
+  { "slug": "compare-daisyui", "route": "compare/lily-design-system-and-daisyui" }
 ]

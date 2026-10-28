@@ -9,7 +9,7 @@
 //   * code       — every <pre> block byte-identical (code samples are not translated);
 //   * metadata   — a title and a description comment;
 //   * not-English — most of a page's longer text nodes must differ from the English (a copied file is
-//                  not a translation), except pages that are mostly names (comparisons);
+//                  not a translation), except pages that are mostly names (compare);
 //   * coverage   — every language that has any page has all eight, and every language is one the
 //                  site has a locale for.
 //
@@ -21,11 +21,11 @@ const path = require("path");
 const top = path.join(__dirname, "..");
 const site = path.join(top, "lilydesignsystem.github.io");
 const pagesDir = path.join(site, "src/lib/pages");
-const SLUGS = ["about", "why", "accessibility", "help", "comparisons", "tutorials", "examples", "skills"];
+const SLUGS = ["about", "why", "accessibility", "help", "compare", "tutorials", "examples", "skills"];
 // Extra pages (src/lib/extra-pages.json) are checked the same way wherever a language has them, but a language need not have them all.
 const EXTRA = JSON.parse(fs.readFileSync(path.join(site, "src/lib/extra-pages.json"), "utf8")).map((p) => p.slug);
 // Pages that are mostly proper nouns / values, so identical text is expected.
-const MOSTLY_NAMES = new Set(["comparisons"]);
+const MOSTLY_NAMES = new Set(["compare"]);
 const KEEP_ATTRS = new Set(["href", "id", "class", "type", "target", "rel", "tabindex", "style", "role", "colspan", "rowspan"]);
 
 const read = (p) => fs.readFileSync(p, "utf8");

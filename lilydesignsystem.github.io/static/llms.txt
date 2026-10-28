@@ -37,7 +37,7 @@ actually live.
   Nunjucks, each under `/tutorials/{framework}/`.
 - [Examples](https://lilydesignsystem.com/examples/): worked example
   apps showing how to style Lily components in every supported framework.
-- [Comparisons](https://lilydesignsystem.com/comparisons/): how Lily
+- [Compare](https://lilydesignsystem.com/compare/): how Lily
   compares with other design systems on headlessness, framework coverage,
   accessibility, and license.
 
@@ -83,7 +83,7 @@ actually live.
 ## Optional
 
 - [Component manifests](https://lilydesignsystem.com/r/index.json): Machine-readable manifest of every component (HTML tag, base and sub-classes, ARIA, keyboard, props, related, per-framework file paths); one /r/{slug}.json each.
-- [Markdown pages](https://lilydesignsystem.com/about.md): every English text page has a `.md` twin next to its route (`/about.md`, `/why.md`, `/accessibility.md`, `/help.md`, `/comparisons.md`, `/tutorials.md`, `/tutorials/{name}.md`, `/examples.md`, `/skills.md`, `/news.md`, `/roadmap.md`, `/locales.md`), and every component has `/components/{slug}.md`.
+- [Markdown pages](https://lilydesignsystem.com/about.md): every English text page has a `.md` twin next to its route (`/about.md`, `/why.md`, `/accessibility.md`, `/help.md`, `/compare.md`, `/tutorials.md`, `/tutorials/{name}.md`, `/examples.md`, `/skills.md`, `/news.md`, `/roadmap.md`, `/locales.md`), and every component has `/components/{slug}.md`.
 - [llms.json](https://lilydesignsystem.com/llms.json): this same
   curated map as structured JSON.
 

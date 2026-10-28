@@ -339,7 +339,7 @@ pnpm install && pnpm run dev`}</code></pre>
   </ul>
   <p>
     See the component-by-component
-    <a href="/comparisons/">comparison against 17 design systems</a> — styled
+    <a href="/compare/">comparison against 17 design systems</a> — styled
     and headless, commercial and public-sector — so you can choose with
     confidence.
   </p>

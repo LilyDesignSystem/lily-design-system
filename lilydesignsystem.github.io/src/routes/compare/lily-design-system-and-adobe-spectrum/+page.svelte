@@ -1,0 +1,52 @@
+<svelte:head>
+  <title>Lily Design System and Adobe Spectrum — Lily Design System</title>
+  <meta name="description" content="Adobe Spectrum is a design language with Adobe-maintained React and Web Components code; Lily is an unstyled, multi-framework component contract. How to choose." />
+</svelte:head>
+
+<section class="page-intro">
+  <h1>Lily Design System and Adobe Spectrum</h1>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <p class="lead">Adobe Spectrum is a design language with visuals, tokens and Adobe-maintained React and Web Components code, whereas Lily Design System is an unstyled component contract implemented in eight headless framework libraries plus Alpine snippets, with no visual language of its own. It matters because choosing Spectrum means taking Adobe's look and release schedule, while choosing Lily means your team owns every visual decision and relies on one unaudited maintainer. Choose Spectrum if you want a ready-made design language, and Lily if you need the same accessible structure across many frameworks under your own design.</p>
+
+  <h2>A design language versus a component contract</h2>
+  <p>Spectrum's home page calls it "the system behind Adobe experiences, a shared language for turning ideas into products", and says it offers foundations, tokens, patterns and guidance. Its code page covers typography for Spectrum Web, iOS and Android. The decisions are visual as well as structural: hierarchy, type styles, scales and colour.</p>
+  <p>Lily makes no visual decisions in its headless layer. It ships semantic HTML, ARIA, focus and keyboard behaviour, and a kebab-case class hook per component. Lily does include a theme called <code>adobe-spectrum.css</code> among the 57 stylesheets in its <code>themes/</code> directory. That is a reference stylesheet aimed at Lily's class hooks. It is not Spectrum, it carries no endorsement from Adobe, and it is not a substitute for Spectrum's guidance.</p>
+  <p>Lily's own survey (428 rows, <code>comparisons/comparisons.tsv</code>) marks 152 rows as matching an Adobe component. Lily is 428 of 428 by construction, because the survey is built from Lily's catalog (582 rows in <code>components.tsv</code>). Read the 152 as overlap, not as a score for Spectrum.</p>
+
+  <h2>Implementations and who maintains them</h2>
+  <p>Spectrum's home page says dedicated React and Web Components areas are "available in beta", and that iOS, Android and other platforms are planned. Two repositories matter for code. The Spectrum Web Components README calls it "a library of web components implementing Adobe's Spectrum design system", developed by "a core team in Adobe Design Engineering", under Apache-2.0. The React Spectrum repository contains React Spectrum (ready-made components), React Aria (unstyled hooks and components), React Stately (state hooks) and Internationalized, also under Apache-2.0. The pages I read did not name who maintains the iOS or Android work, and did not state a maintenance or support commitment for any of them.</p>
+  <p>Lily has seven full-catalog headless libraries (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks), a Web Components library covering a subset of the catalog, and an Alpine.js library of markup snippets plus one plugin. Each follows the same names and class hooks. Maintenance is one person, per Lily's own <code>COMPARISONS.md</code>, which says there is no vendor relationship, SLA or support contract.</p>
+  <p>The practical difference: Spectrum has a corporate team behind two web implementations, but nothing for Vue, Angular, Blazor or server-rendered templates in what I read. Lily covers more frameworks, with a much smaller team and far less production history.</p>
+
+  <h2>Tokens and theming</h2>
+  <p>In Spectrum Web Components, an <code>sp-theme</code> element supplies design tokens to its DOM scope; the docs say "these tokens are made available as CSS Custom Properties". It takes a scale (<code>medium</code> or <code>large</code>), a colour (<code>light</code> or <code>dark</code>) and a system (<code>spectrum</code>, <code>express</code> or <code>spectrum-two</code>). So theming changes within Adobe's own language, and the component styling comes with the package.</p>
+  <p>Lily's headless components carry no styles. Its theming is a flat token object that becomes <code>--theme-*</code> custom properties through an optional <code>ThemeProvider</code>, plus <code>data-theme</code> variants. Its 57 reference stylesheets target the class hooks, and the <code>theme-picker</code> helper swaps them at runtime. You write or adapt the stylesheet. If you want a finished, consistent look, Spectrum gives you more; if you need a look that is not Adobe's, Lily gets in the way less.</p>
+
+  <h2>Accessibility and internationalisation</h2>
+  <p>The React Spectrum repository states that "Accessibility and behavior is implemented according to WAI-ARIA Authoring Practices", that components support keyboard navigation and screen readers, and that "Support over 30 languages is included out of the box", with right-to-left and locale-aware date and number formatting. These are the project's own claims. The Spectrum Web Components docs say "Accessible by default"; the home page of spectrum.adobe.com and the SWC README state no accessibility position, and I found no conformance statement in what I read.</p>
+  <p>Lily targets WCAG 2.2 AAA and follows the APG patterns, with automated axe checks, but has never been audited, as its <code>COMPARISONS.md</code> says. Its internationalisation rule is different in kind: components contain no user-facing strings at all, and every label is a prop. That avoids shipping translations that might be wrong, but it hands the work to you. Lily offers 64 label packs for its grid-like helpers, of which 63 are unreviewed machine drafts. If you want locale handling built into the components, the React Spectrum libraries look further along.</p>
+
+  <h2>Scope, maturity and licence</h2>
+  <p>Spectrum's pages I read list beta areas for React and Web Components, and the Web Components docs list 91 navigation entries under Components, some of which may be utilities. The Web Components migration guide is dated "2024/10/31 (v1.0.0)". The spectrum.adobe.com home page gives no component count. Lily lists 582 components in its catalog, a wider surface than a typical design system, but each is newer and less proven in real use.</p>
+  <p>Both Spectrum code repositories I checked show Apache-2.0. Lily's licence is a choice among several, expressed as <code>MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause</code>. The Spectrum design language itself (foundations, guidance) has no licence stated on the pages I read, so check Adobe's terms before reusing anything beyond the code.</p>
+
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://spectrum.adobe.com/">Adobe Spectrum home page</a></li>
+    <li><a href="https://spectrum.adobe.com/page/code/">Spectrum code page</a></li>
+    <li><a href="https://opensource.adobe.com/spectrum-web-components/">Spectrum Web Components documentation</a></li>
+    <li><a href="https://opensource.adobe.com/spectrum-web-components/tools/theme/">Spectrum Web Components theme documentation</a></li>
+    <li><a href="https://github.com/adobe/spectrum-web-components">Spectrum Web Components on GitHub</a></li>
+    <li><a href="https://react-spectrum.adobe.com/">React Spectrum site</a></li>
+    <li><a href="https://github.com/adobe/react-spectrum">React Spectrum on GitHub</a></li>
+    <li><a href="https://github.com/lilydesignsystem/lily-design-system/blob/main/components.tsv">Lily components.tsv</a></li>
+    <li><a href="https://github.com/lilydesignsystem/lily-design-system/blob/main/COMPARISONS.md">Lily COMPARISONS.md</a></li>
+    <li><a href="https://github.com/lilydesignsystem/lily-design-system/blob/main/comparisons/comparisons.tsv">Lily comparisons.tsv</a></li>
+    <li><a href="https://github.com/lilydesignsystem/lily-design-system/blob/main/themes/adobe-spectrum.css">Lily adobe-spectrum.css</a></li>
+    <li><a href="https://github.com/lilydesignsystem/lily-design-system/blob/main/AGENTS/internationalization.md">Lily internationalization.md</a></li>
+  </ul>
+
+  <p><a href="/compare/">All comparisons</a></p>
+</section>

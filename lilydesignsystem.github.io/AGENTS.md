@@ -29,7 +29,7 @@ implement or ship any component library itself — see
 - `/examples/` — links to the seven worked example apps
 - `/tutorials/` and `/tutorials/<framework>/` — one tutorial per framework
   pair, plus `/tutorials/theming/` and `/tutorials/helpers/`
-- `/comparisons/`, `/why/`, `/about/`, `/help/`
+- `/compare/`, `/why/`, `/about/`, `/help/`
 - `/accessibility/`, `/news/` (renders the main repo's `NEWS.md`),
   `/roadmap/` (renders `plan.md`)
 - `/skills/`, `/lily-claude-design/`, `/lily-figma/`

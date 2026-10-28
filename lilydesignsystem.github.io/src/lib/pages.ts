@@ -21,7 +21,7 @@ export const PAGE_SLUGS = [
   'why',
   'accessibility',
   'help',
-  'comparisons',
+  'compare',
   'tutorials',
   'examples',
   'skills'
