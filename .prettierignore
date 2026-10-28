@@ -9,7 +9,6 @@ lilydesignsystem.github.io/static
 **/component-demos.ts
 **/component-examples*
 themes
-*.md
 lily-design-system-svelte-locale-picker/examples/ssr-cookie.svelte
 # Written by bin/generate-registries
 lily-design-system-svelte-sveltekit-examples/src/lib/data/components.ts
@@ -41,3 +40,12 @@ lily-design-system-nunjucks-time-zone-picker/zones.js
 # Prettier cannot parse these two snippets as HTML
 lily-design-system-alpine-headless/components/hidden-input.html
 lily-design-system-alpine-headless/components/image.html
+# Copies written by bin/sync-special-files (provenance banner, absolute links); the root files stay enforced
+/*/SECURITY.md
+/*/RFC.md
+/*/MAINTAINERS.md
+/*/GOVERNANCE.md
+/*/AI_STATEMENT.md
+/lily-design-system-themes/INSTALL.md
+# Expected output of bin/test-generators: must stay byte-identical to what the generators write
+test/generators

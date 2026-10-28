@@ -14,7 +14,8 @@ TOP = subprocess.run(
     ["git", "rev-parse", "--show-toplevel"], capture_output=True, text=True, check=True
 ).stdout.strip()
 
-LINK = re.compile(r"\]\((?!https?://|#|mailto:)([^)\s]+?)(#[^)]*)?\)")
+# A destination may be wrapped in <...> (Prettier does this when it contains parentheses).
+LINK = re.compile(r"\]\(<?(?!<?https?://|#|mailto:)([^)\s>]+?)(#[^)>]*)?>?\)")
 
 files = subprocess.run(
     ["git", "ls-files", "*.md"], capture_output=True, text=True, check=True, cwd=TOP
