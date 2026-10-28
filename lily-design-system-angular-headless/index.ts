@@ -389,6 +389,7 @@ export { Pictogram } from "./components/Pictogram";
 export { PieChart } from "./components/PieChart";
 export { PilipinasPhilhealthIdentificationNumberInput } from "./components/PilipinasPhilhealthIdentificationNumberInput";
 export { PilipinasPhilhealthIdentificationNumberView } from "./components/PilipinasPhilhealthIdentificationNumberView";
+export { Picture } from "./components/Picture";
 export { PinInputDiv } from "./components/PinInputDiv";
 export { Place } from "./components/Place";
 export { PolskaNumerIdentyfikacjiPodatkowejInput } from "./components/PolskaNumerIdentyfikacjiPodatkowejInput";

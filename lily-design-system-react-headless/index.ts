@@ -775,6 +775,8 @@ export { default as PilipinasPhilhealthIdentificationNumberInput } from "./compo
 export type { PilipinasPhilhealthIdentificationNumberInputProps } from "./components/PilipinasPhilhealthIdentificationNumberInput";
 export { default as PilipinasPhilhealthIdentificationNumberView } from "./components/PilipinasPhilhealthIdentificationNumberView";
 export type { PilipinasPhilhealthIdentificationNumberViewProps } from "./components/PilipinasPhilhealthIdentificationNumberView";
+export { default as Picture } from "./components/Picture";
+export type { PictureProps } from "./components/Picture";
 export { default as PinInputDiv } from "./components/PinInputDiv";
 export type { PinInputDivProps } from "./components/PinInputDiv";
 export { default as Place } from "./components/Place";

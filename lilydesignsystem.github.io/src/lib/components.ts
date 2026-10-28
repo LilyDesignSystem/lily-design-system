@@ -591,4 +591,5 @@ export const LILY_COMPONENTS: LilyComponent[] = [
   { name: "convert-into-div", pascal: "ConvertIntoDiv", description: "the target side of a conversion, holding the value and unit to convert into", status: "beta" },
   { name: "convert-into-value-div", pascal: "ConvertIntoValueDiv", description: "the converted value, such as a text input showing the number of euros", status: "beta" },
   { name: "convert-into-unit-div", pascal: "ConvertIntoUnitDiv", description: "the unit to convert into, such as a select box of currencies or lengths", status: "beta" },
+  { name: "picture", pascal: "Picture", description: "a responsive image wrapper that lets the browser choose among several sources, using the native picture element", status: "beta" },
 ];

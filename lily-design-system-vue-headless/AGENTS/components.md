@@ -1,6 +1,6 @@
 ## Components
 
-The canonical catalog of 581 components lives in [components.tsv](../components.tsv) — tab-separated rows of `slug	PascalCase	description`. Read that file for the full listing rather than maintaining a duplicate here.
+The canonical catalog of 582 components lives in [components.tsv](../components.tsv) — tab-separated rows of `slug	PascalCase	description`. Read that file for the full listing rather than maintaining a duplicate here.
 
 Use the bin tools to query the catalog programmatically:
 
@@ -32,6 +32,7 @@ Use the bin tools to query the catalog programmatically:
 | nav         | `<nav>`      | BreadcrumbNav, TreeNav                                       |
 | option      | `<option>`   | Option, ThemeSelectOption                                    |
 | picker      | `<div>`      | ColorPicker, FiveStarRatingPicker                            |
+| picture     | `<picture>`  | Picture                                                      |
 | progress    | `<progress>` | Progress                                                     |
 | select      | `<select>`   | Select, ThemeSelect                                          |
 | span        | `<span>`     | Flair, Character                                             |

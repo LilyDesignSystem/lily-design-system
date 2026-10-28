@@ -60,7 +60,7 @@ Based on the Angular 2026 research summary:
 
 ```
 lily-design-system-angular-headless/
-├── components/                — 581 × 4 files (.ts, .spec.ts, .stories.ts, .md)
+├── components/                — 582 × 4 files (.ts, .spec.ts, .stories.ts, .md)
 │   ├── Accordion*.ts          — standalone component
 │   ├── Accordion*.spec.ts     — vitest + TestBed test
 │   ├── Accordion*.md          — per-component doc
@@ -79,7 +79,7 @@ lily-design-system-angular-headless/
 
 - [x] Decide on Angular version target — Angular 20 baseline (peer range extended to `<23`).
 - [x] Set up build infra (package.json, tsconfig, ng-package, vitest).
-- [x] Generate the component scaffold (now 581 components) from templates.
+- [x] Generate the component scaffold (now 582 components) from templates.
 - [x] Index barrel that re-exports every component.
 - [x] Run `pnpm install` end-to-end.
 - [x] Verify `vitest run` passes (every component has a spec; see `spec/testing` in the root spec for counts).

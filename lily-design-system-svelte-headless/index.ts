@@ -388,6 +388,7 @@ export { default as Pictogram } from "./components/Pictogram/Pictogram.svelte";
 export { default as PieChart } from "./components/PieChart/PieChart.svelte";
 export { default as PilipinasPhilhealthIdentificationNumberInput } from "./components/PilipinasPhilhealthIdentificationNumberInput/PilipinasPhilhealthIdentificationNumberInput.svelte";
 export { default as PilipinasPhilhealthIdentificationNumberView } from "./components/PilipinasPhilhealthIdentificationNumberView/PilipinasPhilhealthIdentificationNumberView.svelte";
+export { default as Picture } from "./components/Picture/Picture.svelte";
 export { default as PinInputDiv } from "./components/PinInputDiv/PinInputDiv.svelte";
 export { default as Place } from "./components/Place/Place.svelte";
 export { default as PolskaNumerIdentyfikacjiPodatkowejInput } from "./components/PolskaNumerIdentyfikacjiPodatkowejInput/PolskaNumerIdentyfikacjiPodatkowejInput.svelte";

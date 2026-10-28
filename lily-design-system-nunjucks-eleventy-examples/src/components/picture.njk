@@ -1,0 +1,24 @@
+---
+layout: layouts/component-demo.njk
+title: Picture
+description: a responsive image wrapper that lets the browser choose among several sources, using the native picture element
+---
+
+{% from "components/picture/macro.njk" import picture %}
+
+<h2>Source and fallback image</h2>
+{% call picture({}) %}<source srcset="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/3000/svg%27 width=%27640%27 height=%27300%27%3E%3Crect width=%27640%27 height=%27200%27 fill=%27%23c8d9ee%27/%3E%3C/svg%3E" media="(min-width: 48rem)" type="image/svg+xml"><img src="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27320%27 height=%27200%27%3E%3Crect width=%27320%27 height=%27200%27 fill=%27%23c8d9ee%27/%3E%3C/svg%3E" alt="A pale blue rectangle standing in for a photograph" width="320" height="200">{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/picture/macro.njk" import picture %}
+{% call picture({}) %}
+  &lt;source srcset="wide.webp" media="(min-width: 800px)" type="image/webp"&gt;
+  &lt;img src="small.jpg" alt="A lily in bloom" width="320" height="200"&gt;
+{% endcall %}
+{% endraw %}</code></pre>
+<h2>More examples</h2>
+<h3>Format choice with a fallback image, lazy-loaded</h3>
+{% raw %}<div class="component-demo-variant"><picture class="picture"><source srcset="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27320%27 height=%27200%27%3E%3Crect width=%27320%27 height=%27200%27 fill=%27%23c8d9ee%27/%3E%3C/svg%3E" type="image/svg+xml"><img src="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27320%27 height=%27200%27%3E%3Crect width=%27320%27 height=%27200%27 fill=%27%23c8d9ee%27/%3E%3C/svg%3E" alt="A pale blue rectangle standing in for a photograph" width="320" height="200" loading="lazy" decoding="async"></picture></div>{% endraw %}
+<details><summary>Show markup</summary><pre tabindex="0"><code>{% raw %}&lt;picture class="picture"&gt;&lt;source srcset="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27320%27 height=%27200%27%3E%3Crect width=%27320%27 height=%27200%27 fill=%27%23c8d9ee%27/%3E%3C/svg%3E" type="image/svg+xml"&gt;&lt;img src="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27320%27 height=%27200%27%3E%3Crect width=%27320%27 height=%27200%27 fill=%27%23c8d9ee%27/%3E%3C/svg%3E" alt="A pale blue rectangle standing in for a photograph" width="320" height="200" loading="lazy" decoding="async"&gt;&lt;/picture&gt;{% endraw %}</code></pre></details>
+{# END generated: examples #}

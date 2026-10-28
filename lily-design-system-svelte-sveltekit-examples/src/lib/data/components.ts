@@ -4066,6 +4066,13 @@ export const components = [
       tag: "div",
       category: "content",
   },
+  {
+      slug: "picture",
+      name: "Picture",
+      description: "a responsive image wrapper that lets the browser choose among several sources, using the native picture element",
+      tag: "picture",
+      category: "content",
+  },
 ];
 
 /** Category id → display label (plan P6-T5's category filter). */

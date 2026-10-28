@@ -579,3 +579,4 @@ convert-from-unit-div	div	content
 convert-into-div	div	content
 convert-into-value-div	div	content
 convert-into-unit-div	div	content
+picture	picture	content

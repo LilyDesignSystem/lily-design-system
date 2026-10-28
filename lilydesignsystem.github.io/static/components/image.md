@@ -92,11 +92,15 @@ The consumer provides all CSS styling. The component renders with a `.image` cla
 
 - **Designers**: Define consistent aspect ratios and sizing for images across the application. Provide placeholder or skeleton states for slow-loading images.
 - **Developers**: Always write meaningful `alt` text that describes the image content. Use `loading="lazy"` for below-the-fold images to improve page performance.
+- **Consumer CSS, three rules for `.image`**: `display: block` removes the small gap under an inline image (the line's baseline space); `max-inline-size: 100%` stops the image overflowing its container on narrow screens; `block-size: auto` keeps the aspect ratio when the width is limited. The component ships none of these, so add them in your own stylesheet.
+- **Explicit `width` and `height` attributes**: set both on the image, in pixels, to the file's real dimensions. The browser uses them to reserve the right space before the file arrives, so the page does not shift as images load (the Cumulative Layout Shift measure). With `block-size: auto` above, the attributes set the aspect ratio only and the image still scales. Pass them through the rest props.
+- For several sources, art direction or modern formats with a fallback, use `Picture`.
 
 ## Related components
 
 - `image-input` — a graphical submit button that displays an image <input type="image">
 - `image-file-input` — an input for selecting image files with preview
+- `picture` — a responsive image wrapper that lets the browser choose among several sources
 
 ## References
 

@@ -1,5 +1,5 @@
 {
-  "count": 581,
+  "count": 582,
   "components": [
     {
       "slug": "accordion-checkbox",
@@ -2304,6 +2304,12 @@
       "name": "Pictogram",
       "description": "an icon-based component pairing an icon with a title and description in a centered or side layout",
       "manifest": "https://lilydesignsystem.com/r/pictogram.json"
+    },
+    {
+      "slug": "picture",
+      "name": "Picture",
+      "description": "a responsive image wrapper that lets the browser choose among several sources, using the native picture element",
+      "manifest": "https://lilydesignsystem.com/r/picture.json"
     },
     {
       "slug": "pie-chart",

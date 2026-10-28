@@ -234,7 +234,7 @@ Each package has its own spec, tests mapped to the spec clauses, runnable exampl
 
 ## Next steps
 
-- [Component catalog](https://lilydesignsystem.com/components/) — the full 581-component reference.
+- [Component catalog](https://lilydesignsystem.com/components/) — the full 582-component reference.
 - [Help](https://lilydesignsystem.com/help/) — troubleshooting and FAQ.
 - [Why Lily](https://lilydesignsystem.com/why/) — and how to support the project.
 
