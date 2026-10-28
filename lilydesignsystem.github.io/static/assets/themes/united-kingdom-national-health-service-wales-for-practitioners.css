@@ -5,8 +5,10 @@
  *
  *
  * Upstream tracked: DHCW / NHS Wales design system (2026 — navy primary,
- * gold rail accent, yellow focus). Independent implementation against Lily
- * class hooks; not affiliated with or endorsed by NHS Wales / DHCW.
+ * gold rail accent, yellow focus; link, hover, visited and active colours
+ * from the DHCW Design System private beta of 2026-10-23, read 2026-10-28).
+ * Independent implementation against Lily class hooks; not affiliated with
+ * or endorsed by NHS Wales / DHCW.
  * --------------------------------------------------------------------------
  * Practitioners variant
  * --------------------------------------------------------------------------
@@ -455,12 +457,20 @@
     /* #007F3B — the DHCW action-link green. Not NHS Green: it is
        a shade darker so the chevron reads at 5.1:1 on white. */
     --lily-action-green: oklch(52% 0.141 151);
-    /* #7C2855 — `$nhsw-colour-link-visited`. NHS Purple. 9.2:1. */
-    --lily-link-visited: oklch(42% 0.126 351);
-    /* #003087 — `$nhsw-colour-link-hover`, NHS Dark Blue /
-       Pantone 287. No longer the secondary token, but still the
-       hovered link. 11.9:1. */
-    --lily-link-hover: oklch(35% 0.153 261);
+    /* #005AA8 — `$nhswales-link-colour`, DHCW Design System
+       (private beta, 2026-10-23). 6.94:1 on white, 6.26:1 on
+       #F0F4F5: AA, just short of AAA. NHS Blue #005EB8 stays on
+       --color-secondary for the header band and brand chrome. */
+    --lily-link: oklch(46.8% 0.145 253.1);
+    /* #002F5C — `$nhswales-link-active-colour`. 13.45:1 on white. */
+    --lily-link-active: oklch(30.5% 0.093 252.7);
+    /* #330072 — `$nhswales-link-visited-colour`. 15.18:1 on
+       white. (Until 2026-10-28 this was #7C2855, which the DHCW
+       Design System uses for hover.) */
+    --lily-link-visited: oklch(29% 0.162 292.2);
+    /* #7C2855 — `$nhswales-link-hover-colour`. 9.16:1 on white.
+       (Until 2026-10-28 this was NHS Dark Blue #003087.) */
+    --lily-link-hover: oklch(41.8% 0.126 350.8);
     /* #00A499 — NHS Aqua Green / Pantone 3272. Demoted from the
        accent slot but retained: DHCW ships an `aqua-green` tag
        tone, and Public Health Wales and the Welsh Ambulance
@@ -1175,11 +1185,14 @@
        On a clinical surface, reserve this for actions that destroy or
        retract a record. A red button in a worklist toolbar that merely
        filters is how people learn to click red buttons without reading. */
+    /* DHCW's delete red #D5281B is 5.06:1 under a white label: AA, not the
+       AAA this system targets. The fill is mixed 20% towards black (8.2:1)
+       so the label meets 7:1; the hue is unchanged. */
     :where([class$="-button"], .button)[data-variant="warning"] {
-        background-color: var(--color-error);
+        background-color: color-mix(in oklch, var(--color-error) 80%, black);
         color: var(--color-error-content);
-        border-color: var(--color-error);
-        box-shadow: 0 1px 0 color-mix(in oklch, var(--color-error) 60%, black);
+        border-color: color-mix(in oklch, var(--color-error) 80%, black);
+        box-shadow: 0 1px 0 color-mix(in oklch, var(--color-error) 50%, black);
     }
     :where([class$="-button"], .button)[data-variant="warning"]:hover:not(
             :disabled
@@ -1373,16 +1386,17 @@
      * exclusions (`skip-link`, `back-link`) are styled as buttons above.
      * ====================================================================== */
 
-    /* Links are NHS Blue (`$nhsw-colour-link`), i.e. --color-secondary
-       under this palette — not the navy primary. Keeping links blue and
+    /* Links are `$nhswales-link-colour` #005AA8 (--lily-link), a shade
+       off NHS Blue #005EB8, which stays on --color-secondary for the
+       header band — not the navy primary. Keeping links blue and
        buttons navy is what lets a reader tell "this navigates" from "this
        acts" without reading either one. */
     :where([class$="-link"]:not(.skip-link):not(.back-link)) {
-        color: var(--color-secondary);
+        color: var(--lily-link);
         text-decoration: underline;
         text-underline-offset: 0.12em;
     }
-    /* Hover — DHCW drops to NHS Dark Blue #003087 and thickens the rule.
+    /* Hover — DHCW moves to #7C2855 and thickens the rule.
        Both, not either: colour alone is not a state change (WCAG 1.4.1). */
     :where([class$="-link"]):hover {
         color: var(--lily-link-hover);
@@ -1395,6 +1409,10 @@
        shoulder-surfing a shared workstation. Rows stay link-coloured. */
     :where([class$="-link"]):visited {
         color: var(--lily-link-visited);
+    }
+    /* Active — #002F5C while the link is pressed. */
+    :where([class$="-link"]):active {
+        color: var(--lily-link-active);
     }
     :where(
         .data-table,

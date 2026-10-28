@@ -29,6 +29,8 @@
         "--lily-accent-soft",
         "--lily-warning-surface",
         "--lily-action-green",
+        "--lily-link",
+        "--lily-link-active",
         "--lily-link-visited",
         "--lily-link-hover",
         "--lily-support-aqua",
@@ -353,29 +355,53 @@
       },
       "$description": "#007F3B — the DHCW action-link green. Not NHS Green: it is a shade darker so the 36px chevron reads at 5.1:1 on white."
     },
+    "link": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.468,
+          0.145,
+          253.1
+        ]
+      },
+      "$description": "#005AA8 — `$nhswales-link-colour`, DHCW Design System (private beta, 2026-10-23). 6.94:1 on white, 6.26:1 on #F0F4F5: AA, just short of AAA. NHS Blue #005EB8 stays on --color-secondary for the header band and brand chrome."
+    },
+    "link-active": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.305,
+          0.093,
+          252.7
+        ]
+      },
+      "$description": "#002F5C — `$nhswales-link-active-colour`. 13.45:1 on white."
+    },
     "link-visited": {
       "$type": "color",
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.42,
-          0.126,
-          351.0
+          0.29,
+          0.162,
+          292.2
         ]
       },
-      "$description": "#7C2855 — `$nhsw-colour-link-visited`. NHS Purple. 9.2:1."
+      "$description": "#330072 — `$nhswales-link-visited-colour`. 15.18:1 on white. (Until 2026-10-28 this was #7C2855, which the DHCW Design System uses for hover.)"
     },
     "link-hover": {
       "$type": "color",
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.35,
-          0.153,
-          261.0
+          0.418,
+          0.126,
+          350.8
         ]
       },
-      "$description": "#003087 — `$nhsw-colour-link-hover`, NHS Dark Blue / Pantone 287. No longer the secondary token, but still the hovered link. 11.9:1."
+      "$description": "#7C2855 — `$nhswales-link-hover-colour`. 9.16:1 on white. (Until 2026-10-28 this was NHS Dark Blue #003087.)"
     },
     "support-aqua": {
       "$type": "color",
