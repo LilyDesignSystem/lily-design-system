@@ -76,7 +76,10 @@ for (const f of FRAMEWORKS) {
     perLib[f.id].checked++;
     const body = stripComments(read(p));
     const token = new RegExp(`(?<![\\w-])${esc(c.slug)}(?![\\w-])`);
-    const lines = body.split("\n").filter((l) => /class|Class/.test(l));
+    // A formatter may wrap the call, putting the class string on the next line or two, so each
+    // class-setting line is checked together with the two lines after it.
+    const all = body.split("\n");
+    const lines = all.map((l, i) => (/class|Class/.test(l) ? [l, all[i + 1], all[i + 2]].filter((x) => x !== undefined).join(" ") : null)).filter(Boolean);
     const hasHook = lines.some((l) => token.test(l));
     // Stricter: the slug starts a class value (right after a quote/backtick), i.e. it is the FIRST
     // token of some class list, as AGENTS/headless.md requires of the root element.

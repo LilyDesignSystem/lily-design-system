@@ -54,7 +54,7 @@ jobs:
         run: bin/check-package-metadata
 
   lint:
-    # Repo-level ESLint (eslint.config.js, scope set by the root "lint" script).
+    # Repo-level ESLint (eslint.config.mjs, scope set by the root "lint" script).
     # Errors fail; warnings are reported only. Prettier (.prettierrc.json) is enforced by
     # `pnpm format:check` on the same libraries; run `pnpm format` to fix.
     name: eslint
