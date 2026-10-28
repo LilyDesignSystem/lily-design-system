@@ -91,6 +91,7 @@
     <h3>Props</h3>
     <ul>
       <li><code>columns</code>: number | string (default: 12) -- column count or grid-template-columns value</li>
+      <li><code>minColumnWidth</code>: string (optional CSS length) -- fluid mode; replaces <code>columns</code> when set</li>
       <li><code>gap</code>: string (default: "1rem") -- gap CSS value</li>
       <li><code>children</code>: slot -- laid-out content</li>
       <li><code>...restProps</code>: any additional HTML attributes</li>

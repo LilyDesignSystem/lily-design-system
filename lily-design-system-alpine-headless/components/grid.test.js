@@ -16,4 +16,11 @@ describe("Grid", () => {
         await mount("grid");
         expect(el().tagName.toLowerCase()).toBe("div");
     });
+
+    it("documents the fluid minColumnWidth template", async () => {
+        const { readFileSync } = await import("node:fs");
+        const text = readFileSync("components/grid.html", "utf8");
+        expect(text).toContain("repeat(auto-fit, minmax(min(W, 100%), 1fr))");
+        expect(text).toContain("data-min-column-width");
+    });
 });

@@ -7,11 +7,13 @@ A CSS Grid layout container with configurable columns and gap. Renders a `<div c
 - Headless: only inline grid styles are applied
 - A numeric `columns` becomes `repeat(N, minmax(0, 1fr))`
 - A string `columns` is used as the `grid-template-columns` value verbatim
+- `minColumnWidth` (CSS length), when set, generates `repeat(auto-fit, minmax(min(W, 100%), 1fr))` and wins over `columns`
 - `data-columns` exposes the configured value as a CSS hook
 
 ## Props
 
 - `columns`: number | string (default `12`)
+- `minColumnWidth`: string (optional) -- fluid mode: as many columns as fit, each at least this wide
 - `gap`: string (default `"1rem"`)
 - default slot — grid items
 - `...$attrs` — additional HTML attributes
@@ -29,6 +31,9 @@ A CSS Grid layout container with configurable columns and gap. Renders a `<div c
     <article>...</article>
 </Grid>
 ```
+
+Fluid: `<Grid min-column-width="12rem">` collapses to one column in a 120px container
+(the `min(W, 100%)` cap prevents overflow) and fills a wide one with 12rem-plus columns.
 
 ## Keyboard Interactions
 

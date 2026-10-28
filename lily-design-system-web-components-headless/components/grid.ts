@@ -18,6 +18,12 @@
 //   columns — number or custom grid-template-columns string, default
 //     "12". Exposed via data-columns verbatim (NOT expanded into
 //     `repeat(N, minmax(0, 1fr))` inline style — see above).
+//   min-column-width — optional CSS length. When set, the generated template
+//     `repeat(auto-fit, minmax(min(<W>, 100%), 1fr))` is exposed as the CSS
+//     custom property `--grid-template-columns` (a custom property is the
+//     sanctioned inline-style channel; no raw property is set) and
+//     data-min-column-width mirrors <W>. Consumer CSS applies it with
+//     `grid-template-columns: var(--grid-template-columns)`. Wins over columns.
 //   gap — default "1rem". Exposed via data-gap.
 //
 // References:
@@ -35,6 +41,14 @@ export class Grid extends HTMLElement {
 
         applySelfClassName(this, "grid");
         this.setAttribute("data-columns", this.getAttribute("columns") ?? "12");
+        const min = this.getAttribute("min-column-width");
+        if (min) {
+            this.setAttribute("data-min-column-width", min);
+            this.style.setProperty(
+                "--grid-template-columns",
+                `repeat(auto-fit, minmax(min(${min}, 100%), 1fr))`,
+            );
+        }
         this.setAttribute("data-gap", this.getAttribute("gap") ?? "1rem");
     }
 }
