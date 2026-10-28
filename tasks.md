@@ -22,272 +22,272 @@ Rules for the executing agent:
 ## Phase 1 — Truth, hygiene, and registry cleanup
 
 - [x] **P1-T1 Reconcile catalog counts (490 vs 491).**
-  `components.tsv` has 491 rows; `spec/index.md` §14 says 490 rows and
-  §11.4's header says "catalog counts updated to 490". Identify the
-  491st component (diff against the 0.6.0 state), confirm it exists in
-  all 14 implementation subprojects, registries, demo maps, github.io,
-  and `css-style-sheet-template.css`; fix every present-tense stale
-  count (dated snapshot records may stand, restamped by P1-T6).
-  Verify: `wc -l < components.tsv` matches every live count in
-  `spec/index.md`, `AGENTS/*.md`, root docs; `bin/test` passes.
+      `components.tsv` has 491 rows; `spec/index.md` §14 says 490 rows and
+      §11.4's header says "catalog counts updated to 490". Identify the
+      491st component (diff against the 0.6.0 state), confirm it exists in
+      all 14 implementation subprojects, registries, demo maps, github.io,
+      and `css-style-sheet-template.css`; fix every present-tense stale
+      count (dated snapshot records may stand, restamped by P1-T6).
+      Verify: `wc -l < components.tsv` matches every live count in
+      `spec/index.md`, `AGENTS/*.md`, root docs; `bin/test` passes.
 
 - [x] **P1-T2 Deprecate the broken 0.2.0 headless packages on npm.**
-  `npm deprecate lily-design-system-{svelte,react,vue}-headless@0.2.0`
-  with a message naming the cause (declared `main` never built) and
-  the fix (`>=0.3.0`).
-  Verify: registry metadata for each 0.2.0 shows the deprecation
-  string (`npm view <pkg>@0.2.0 deprecated`).
+      `npm deprecate lily-design-system-{svelte,react,vue}-headless@0.2.0`
+      with a message naming the cause (declared `main` never built) and
+      the fix (`>=0.3.0`).
+      Verify: registry metadata for each 0.2.0 shows the deprecation
+      string (`npm view <pkg>@0.2.0 deprecated`).
 
 - [x] **P1-T3 Patch-release svelte/react/vue headless (0.3.1).**
-  Ships the corrected in-tree metadata to the registry: SPDX license
-  menu, `LilyDesignSystem` repository URLs (react/vue currently point
-  at `github.com/lily`, an unrelated account), "Targets WCAG 2.2 AAA"
-  description. No code change; CHANGELOG entries say so.
-  Verify: `npm view <pkg> repository.url license description` shows
-  the corrected values for all three.
+      Ships the corrected in-tree metadata to the registry: SPDX license
+      menu, `LilyDesignSystem` repository URLs (react/vue currently point
+      at `github.com/lily`, an unrelated account), "Targets WCAG 2.2 AAA"
+      description. No code change; CHANGELOG entries say so.
+      Verify: `npm view <pkg> repository.url license description` shows
+      the corrected values for all three.
 
 - [x] **P1-T4 Angular examples Playwright e2e.**
-  Mirror the SvelteKit suite (home, catalog, per-slug detail, composed
-  pages) in `lily-design-system-angular-examples`; update spec §11.4.
-  Verify: `npx playwright test` passes in the subproject.
+      Mirror the SvelteKit suite (home, catalog, per-slug detail, composed
+      pages) in `lily-design-system-angular-examples`; update spec §11.4.
+      Verify: `npx playwright test` passes in the subproject.
 
 - [x] **P1-T5 Analog SSG: file upstream + prototype fallback.**
-  File `docs/analog-ssg-issue.md` against analogjs/analog and record
-  the URL in `analog-ssg-notes.md` + spec §11.8; prototype
-  `@angular/build:application` prerender. Adopt whichever yields
-  full-content static HTML, or document why neither does.
-  Verify: issue URL recorded; either `grep` of a known component name
-  in prerendered `dist/` HTML succeeds, or notes updated with
-  findings.
+      File `docs/analog-ssg-issue.md` against analogjs/analog and record
+      the URL in `analog-ssg-notes.md` + spec §11.8; prototype
+      `@angular/build:application` prerender. Adopt whichever yields
+      full-content static HTML, or document why neither does.
+      Verify: issue URL recorded; either `grep` of a known component name
+      in prerendered `dist/` HTML succeeds, or notes updated with
+      findings.
 
 - [x] **P1-T6 Fresh verification sweep.**
-  Re-run every suite in spec §11.4–§11.7 (unit, Storybook, Playwright,
-  axe, responsive); restamp tables with 2026-08/09 dates and current
-  counts.
-  Verify: no §11.4–§11.7 table carries a pre-2026-08 date without a
-  "historical" label.
-  Done 2026-09-02: every table in spec/testing/index.md and
-  spec/index.md §11.4–§11.7 now carries a 2026-09-02 date (the one
-  exception, html-headless's WebdriverIO row, is explicitly labelled
-  "browser run not re-executed" with the confirmed reason). Found and
-  fixed three real defects along the way rather than just restamping —
-  full record: CHANGELOG.md "P1-T6: fresh verification sweep across all
-  21 subprojects".
+      Re-run every suite in spec §11.4–§11.7 (unit, Storybook, Playwright,
+      axe, responsive); restamp tables with 2026-08/09 dates and current
+      counts.
+      Verify: no §11.4–§11.7 table carries a pre-2026-08 date without a
+      "historical" label.
+      Done 2026-09-02: every table in spec/testing/index.md and
+      spec/index.md §11.4–§11.7 now carries a 2026-09-02 date (the one
+      exception, html-headless's WebdriverIO row, is explicitly labelled
+      "browser run not re-executed" with the confirmed reason). Found and
+      fixed three real defects along the way rather than just restamping —
+      full record: CHANGELOG.md "P1-T6: fresh verification sweep across all
+      21 subprojects".
 
 - [x] **P1-T7 Svelte dual-mirror specs for the 80 national
-  identifiers**, matching the existing 407-spec shape; reconcile the
-  target count with P1-T1.
-  Verify: `vitest run` passes; spec-file count equals catalog count.
+      identifiers**, matching the existing 407-spec shape; reconcile the
+      target count with P1-T1.
+      Verify: `vitest run` passes; spec-file count equals catalog count.
 
 - [x] **P1-T8 GitHub topics + descriptions on all 23 repos.**
-  4–6 topics each covering language, framework, domain, artifact type
-  (`design-system`, `accessibility`, `headless-ui`, framework,
-  `wcag`); one-line description matching the repo's INSTALL.md
-  opening.
-  Verify: `gh repo view LilyDesignSystem/<repo> --json
-  repositoryTopics,description` non-empty for all 23.
+      4–6 topics each covering language, framework, domain, artifact type
+      (`design-system`, `accessibility`, `headless-ui`, framework,
+      `wcag`); one-line description matching the repo's INSTALL.md
+      opening.
+      Verify: `gh repo view LilyDesignSystem/<repo> --json
+repositoryTopics,description` non-empty for all 23.
 
 - [x] **P1-T9 Root README screenshots.**
-  Two images in `assets/images/`: a styled example-app page, and the
-  same markup unstyled — embedded near the top of `index.md`.
-  Verify: images exist, referenced from `index.md`, `bin/check-links`
-  passes.
+      Two images in `assets/images/`: a styled example-app page, and the
+      same markup unstyled — embedded near the top of `index.md`.
+      Verify: images exist, referenced from `index.md`, `bin/check-links`
+      passes.
 
 - [x] **P1-T10 Confirm/enable the SECURITY.md posture table.**
-  Secret scanning, push protection, private vulnerability reporting,
-  Dependabot security updates, branch protection on `main` — enable
-  where possible, then update SECURITY.md's NOTE block to state what
-  is actually on (and sync).
-  Verify: `gh api repos/LilyDesignSystem/lily-design-system --jq
-  '.security_and_analysis'` matches the table; SECURITY.md NOTE
-  updated; `bin/sync-special-files --check` passes.
+      Secret scanning, push protection, private vulnerability reporting,
+      Dependabot security updates, branch protection on `main` — enable
+      where possible, then update SECURITY.md's NOTE block to state what
+      is actually on (and sync).
+      Verify: `gh api repos/LilyDesignSystem/lily-design-system --jq
+'.security_and_analysis'` matches the table; SECURITY.md NOTE
+      updated; `bin/sync-special-files --check` passes.
 
 ## Phase 2 — Release engineering
 
 - [x] **P2-T1 Publish html, angular, nunjucks headless to npm.**
-  Same discipline as 0.3.0: real `dist/`, barrel, types,
-  `sideEffects: false`, `files` allowlist, tarball installed into a
-  scratch consumer before publish. Update INSTALL.md's publication
-  table (root + synced).
-  Verify: `npm view lily-design-system-{html,angular,nunjucks}-headless
-  version` succeeds; scratch-consumer smoke renders 3 components each.
+      Same discipline as 0.3.0: real `dist/`, barrel, types,
+      `sideEffects: false`, `files` allowlist, tarball installed into a
+      scratch consumer before publish. Update INSTALL.md's publication
+      table (root + synced).
+      Verify: `npm view lily-design-system-{html,angular,nunjucks}-headless
+version` succeeds; scratch-consumer smoke renders 3 components each.
 
 - [x] **P2-T2 Publish blazor headless + the 5 blazor helper packages
-  to NuGet.** Done 2026-09-02 via the real `publish.yml` run
-  (33672811301), authenticated with OIDC Trusted Publishing
-  (`NuGet/login@v1` + `NUGET_USER`, no `NUGET_API_KEY` secret ever
-  existed — see spec/trusted-publishing/index.md). All 6 pushes
-  confirmed "Your package was pushed": `LilyDesignSystem.Blazor.Headless`
-  0.1.1, `.ThemePicker`/`.LocalePicker`/`.TextSizePicker`/`.SharePicker`/
-  `.DateTimePicker` 0.1.0. `dotnet add package LilyDesignSystem.Blazor.ThemePicker`
-  404'd immediately after — nuget.org's first-publish validation/indexing
-  window for a brand-new package ID, not a push failure; re-verify listing
-  once indexing completes.
+      to NuGet.** Done 2026-09-02 via the real `publish.yml` run
+      (33672811301), authenticated with OIDC Trusted Publishing
+      (`NuGet/login@v1` + `NUGET_USER`, no `NUGET_API_KEY` secret ever
+      existed — see spec/trusted-publishing/index.md). All 6 pushes
+      confirmed "Your package was pushed": `LilyDesignSystem.Blazor.Headless`
+      0.1.1, `.ThemePicker`/`.LocalePicker`/`.TextSizePicker`/`.SharePicker`/
+      `.DateTimePicker` 0.1.0. `dotnet add package LilyDesignSystem.Blazor.ThemePicker`
+      404'd immediately after — nuget.org's first-publish validation/indexing
+      window for a brand-new package ID, not a push failure; re-verify listing
+      once indexing completes.
 
 - [x] **P2-T3 `bin/publish-headless`** (or extend `bin/publish-helpers`)
-  with dry-run default; document in spec/tooling + AGENTS/lily.md.
-  Verify: dry-run succeeds for all 7 packages; docs linked.
+      with dry-run default; document in spec/tooling + AGENTS/lily.md.
+      Verify: dry-run succeeds for all 7 packages; docs linked.
 
 - [x] **P2-T4 Tags + GitHub Releases.**
-  Annotated tag per release with notes from the CHANGELOG section;
-  retroactive tags for 0.2.0–0.6.0 where the commit is identifiable;
-  release process added to `docs/releasing.md` (P2-T6).
-  Verify: `git tag` lists them; `gh release list` shows notes.
+      Annotated tag per release with notes from the CHANGELOG section;
+      retroactive tags for 0.2.0–0.6.0 where the commit is identifiable;
+      release process added to `docs/releasing.md` (P2-T6).
+      Verify: `git tag` lists them; `gh release list` shows notes.
 
 - [x] **P2-T5 Publish provenance + CI publish workflow.**
-  Tag-gated workflow, dry-run by default, `npm publish --provenance`
-  from CI, 2FA confirmed on the npm account. Optional: Zenodo DOI
-  added to CITATION.cff.
-  Verify: workflow runs green in dry-run on a test tag; a subsequent
-  real publish shows the provenance badge on npm.
+      Tag-gated workflow, dry-run by default, `npm publish --provenance`
+      from CI, 2FA confirmed on the npm account. Optional: Zenodo DOI
+      added to CITATION.cff.
+      Verify: workflow runs green in dry-run on a test tag; a subsequent
+      real publish shows the provenance badge on npm.
 
 - [x] **P2-T6 `docs/releasing.md`**: semver rules, the two stable
-  contracts (class hooks, keyboard/ARIA), per-subproject CHANGELOGs,
-  subtree-vs-package consumption, deprecation policy (0.2.0 as the
-  worked example).
-  Verify: `bin/check-links` passes; linked from CONTRIBUTING.md.
+      contracts (class hooks, keyboard/ARIA), per-subproject CHANGELOGs,
+      subtree-vs-package consumption, deprecation policy (0.2.0 as the
+      worked example).
+      Verify: `bin/check-links` passes; linked from CONTRIBUTING.md.
 
 - [x] **P2-T7 Consumer smoke tests in CI.**
-  Per published package: install the packed tarball into a scratch
-  project, import the barrel, render 3 components. This is the check
-  that would have caught 0.2.0.
-  Verify: CI job green; seeded fault (break an exports map on a
-  branch) is caught.
+      Per published package: install the packed tarball into a scratch
+      project, import the barrel, render 3 components. This is the check
+      that would have caught 0.2.0.
+      Verify: CI job green; seeded fault (break an exports map on a
+      branch) is caught.
 
 ## Phase 3 — Themes live + tokens
 
 - [x] **P3-T1 Theme-picker in the SvelteKit example shell (canonical).**
-  Curated list (NHS England patient default; NHS Scotland/Wales; GOV.UK
-  GDS; USWDS; Spectrum; Protocol; general light/dark), localStorage,
-  managed `<link>` + `data-theme` per `AGENTS/helpers.md`.
-  Verify: Playwright switches theme, asserts `data-theme` + swapped
-  href persist across reload.
+      Curated list (NHS England patient default; NHS Scotland/Wales; GOV.UK
+      GDS; USWDS; Spectrum; Protocol; general light/dark), localStorage,
+      managed `<link>` + `data-theme` per `AGENTS/helpers.md`.
+      Verify: Playwright switches theme, asserts `data-theme` + swapped
+      href persist across reload.
 
 - [x] **P3-T2 Port the theme switcher to the other 6 example apps.**
-  Verify: each app's e2e gains and passes the switch test.
-  Done 2026-08-26, all six: react-next (71/71), vue-nuxt (68/68),
-  angular (1,545/1,545), html-css-js (theme spec 3/3; its
-  axe/responsive debt is pre-existing and logged in spec §11.8),
-  nunjucks-eleventy (60/60), blazor-web (72/72 — the theme-layer app
-  also cleared its 5 previously-failing checks; helper via local
-  ProjectReference until the NuGet push unblocks).
+      Verify: each app's e2e gains and passes the switch test.
+      Done 2026-08-26, all six: react-next (71/71), vue-nuxt (68/68),
+      angular (1,545/1,545), html-css-js (theme spec 3/3; its
+      axe/responsive debt is pre-existing and logged in spec §11.8),
+      nunjucks-eleventy (60/60), blazor-web (72/72 — the theme-layer app
+      also cleared its 5 previously-failing checks; helper via local
+      ProjectReference until the NuGet push unblocks).
 
 - [x] **P3-T3 Mount locale-picker + text-size-picker in all 7 shells**;
-  evaluate share-picker on component-detail pages (adopt or record
-  the decision).
-  Verify: e2e asserts `lang`/`dir` and `data-text-size` application.
-  Done 2026-08-26: all seven shells carry theme + locale + text-size,
-  each app with a site-preferences e2e (lang, Arabic dir=rtl flip,
-  data-text-size, persistence). Share-picker: **recorded, not
-  adopted** — its `targets` are an editorial/per-product decision the
-  demo apps should not fake, and the detail pages have no share story
-  to tell; revisit if a real destination list emerges.
+      evaluate share-picker on component-detail pages (adopt or record
+      the decision).
+      Verify: e2e asserts `lang`/`dir` and `data-text-size` application.
+      Done 2026-08-26: all seven shells carry theme + locale + text-size,
+      each app with a site-preferences e2e (lang, Arabic dir=rtl flip,
+      data-text-size, persistence). Share-picker: **recorded, not
+      adopted** — its `targets` are an editorial/per-product decision the
+      demo apps should not fake, and the detail pages have no share story
+      to tell; revisit if a real destination list emerges.
 
 - [x] **P3-T4 `prefers-color-scheme` first-visit default** (opt-in
-  prop; Svelte canonical then 6 ports; minor bumps; CHANGELOGs).
-  Verify: unit tests cover both schemes + storage override;
-  `bin/publish-helpers` dry-run green.
-  Already implemented when audited 2026-08-27: `detectFromSystem`
-  ships in all seven catalogs with §7.20 spec tests (off unless opted
-  in, storage wins, both schemes) — the July task predated the
-  feature landing. Nothing to build.
+      prop; Svelte canonical then 6 ports; minor bumps; CHANGELOGs).
+      Verify: unit tests cover both schemes + storage override;
+      `bin/publish-helpers` dry-run green.
+      Already implemented when audited 2026-08-27: `detectFromSystem`
+      ships in all seven catalogs with §7.20 spec tests (off unless opted
+      in, storage wins, both schemes) — the July task predated the
+      feature landing. Nothing to build.
 
 - [x] **P3-T5 `bin/check-theme` conformance script.**
-  Each `themes/*.css`: `:where(...)`-wrapped hooks that exist in
-  `css-style-sheet-template.css`; core `--theme-*` tokens declared.
-  Verify: exits 0 on all 45 themes; wired into `bin/test`.
-  Done 2026-08-27, with contracts corrected to what the themes really
-  promise: hooks resolve against components.tsv (+ sub-classes and
-  helper hooks), the consumer-wins mechanism is `@layer lily` OR
-  top-level `:where()`, the pinned token set is the real `--color-*` /
-  `--lily-*` / `--radius-*` contract (not `--theme-*`), the
-  `data-theme` guard must equal the filename slug, and the shared
-  appended sections are pinned byte-identical (the component body is
-  deliberately per-variant). Four fault classes seeded and bitten.
-  The first run found real drift, all fixed across the 45: invented
-  hooks (`.link`, `.scroll-view`, `.tree-view`, one `.submit-button`)
-  and six NHS themes whose truncated guards the picker never set.
+      Each `themes/*.css`: `:where(...)`-wrapped hooks that exist in
+      `css-style-sheet-template.css`; core `--theme-*` tokens declared.
+      Verify: exits 0 on all 45 themes; wired into `bin/test`.
+      Done 2026-08-27, with contracts corrected to what the themes really
+      promise: hooks resolve against components.tsv (+ sub-classes and
+      helper hooks), the consumer-wins mechanism is `@layer lily` OR
+      top-level `:where()`, the pinned token set is the real `--color-*` /
+      `--lily-*` / `--radius-*` contract (not `--theme-*`), the
+      `data-theme` guard must equal the filename slug, and the shared
+      appended sections are pinned byte-identical (the component body is
+      deliberately per-variant). Four fault classes seeded and bitten.
+      The first run found real drift, all fixed across the 45: invented
+      hooks (`.link`, `.scroll-view`, `.tree-view`, one `.submit-button`)
+      and six NHS themes whose truncated guards the picker never set.
 
 - [x] **P3-T6 DTCG token source.**
-  `themes/tokens/*.json` in Design Tokens 2025.10 format for the core
-  `--theme-*` set; generator emits the custom-property blocks; drift
-  fails `bin/test`; RFC.md §RFC 6 updated with the outcome.
-  Verify: generator run twice → no diff; a hand-edit to generated CSS
-  fails the gate; tokens validate against the DTCG schema.
-  Done 2026-08-27: 45 `themes/tokens/*.json` in DTCG 2025.10 form
-  (structured oklch/srgb color values, dimension objects, token
-  commentary as $description), extracted losslessly (value-diff
-  against the originals: none), canonical generation idempotent,
-  drift check wired into bin/test and bite-proven. Scope: the
-  per-theme primitives only — the derived `--lily-*` layer and
-  component body stay CSS, being shared logic not per-theme data.
-  RFC 6 updated.
+      `themes/tokens/*.json` in Design Tokens 2025.10 format for the core
+      `--theme-*` set; generator emits the custom-property blocks; drift
+      fails `bin/test`; RFC.md §RFC 6 updated with the outcome.
+      Verify: generator run twice → no diff; a hand-edit to generated CSS
+      fails the gate; tokens validate against the DTCG schema.
+      Done 2026-08-27: 45 `themes/tokens/*.json` in DTCG 2025.10 form
+      (structured oklch/srgb color values, dimension objects, token
+      commentary as $description), extracted losslessly (value-diff
+      against the originals: none), canonical generation idempotent,
+      drift check wired into bin/test and bite-proven. Scope: the
+      per-theme primitives only — the derived `--lily-*` layer and
+      component body stay CSS, being shared logic not per-theme data.
+      RFC 6 updated.
 
 - [x] **P3-T7 Theme provenance + GDS/NHS refresh.**
-  Header comment per reference theme naming the upstream system and
-  version tracked (GOV.UK Frontend v6.x, NHS.UK frontend v9/v10,
-  USWDS, Spectrum, Protocol); refresh the GDS theme against v6's
-  updated type scale/colours; record deltas in `spec/theme/index.md`.
-  Verify: every `themes/*.css` carries a provenance header;
-  `bin/check-theme` passes; spec matrix updated.
-  Done 2026-08-27: all 45 carry exactly one "Upstream tracked:" line
-  (now check-theme's sixth assertion); the GDS theme is refreshed to
-  the v6.0.0 web palette (green #0f7a52, red #ca3535; blue/black/
-  focus-yellow unchanged); NHS themes pin v9.x with a re-check note
-  for v10's stable release; Wales pins the DHCW system.
+      Header comment per reference theme naming the upstream system and
+      version tracked (GOV.UK Frontend v6.x, NHS.UK frontend v9/v10,
+      USWDS, Spectrum, Protocol); refresh the GDS theme against v6's
+      updated type scale/colours; record deltas in `spec/theme/index.md`.
+      Verify: every `themes/*.css` carries a provenance header;
+      `bin/check-theme` passes; spec matrix updated.
+      Done 2026-08-27: all 45 carry exactly one "Upstream tracked:" line
+      (now check-theme's sixth assertion); the GDS theme is refreshed to
+      the v6.0.0 web palette (green #0f7a52, red #ca3535; blue/black/
+      focus-yellow unchanged); NHS themes pin v9.x with a re-check note
+      for v10's stable release; Wales pins the DHCW system.
 
 - [x] **P3-T8 Dark/high-contrast variant audit** across families;
-  coverage matrix in `spec/theme/index.md`; backfill or record
-  deliberate exclusions.
-  Verify: matrix matches `ls themes/`.
-  Done 2026-08-27: 31 light / 14 dark computed from `color-scheme`;
-  reference families are deliberately light-only (their upstreams are
-  light-first; a dark NHS would be speculation presented as
-  reference); no dedicated high-contrast theme ships — recorded as a
-  real gap with WCAG 1.4.6 as the bar for building one, not a
-  relabel of an aesthetic theme.
+      coverage matrix in `spec/theme/index.md`; backfill or record
+      deliberate exclusions.
+      Verify: matrix matches `ls themes/`.
+      Done 2026-08-27: 31 light / 14 dark computed from `color-scheme`;
+      reference families are deliberately light-only (their upstreams are
+      light-first; a dark NHS would be speculation presented as
+      reference); no dedicated high-contrast theme ships — recorded as a
+      real gap with WCAG 1.4.6 as the bar for building one, not a
+      relabel of an aesthetic theme.
 
 ## Phase 4 — Accessibility assurance
 
 - [x] **P4-T1 Full-catalog axe sweep** on all 491 `/components/{slug}`
-  routes in the SvelteKit app; fix findings; baseline in spec §11.5.
-  Verify: sweep exits clean; baseline table updated.
-  Done 2026-08-27: `e2e/axe-catalog.spec.ts` (a test per catalog
-  entry) — first run 467/491, now 491/491. The 24 failures split
-  three ways: 21 demo-map defects (radio roles without aria-checked,
-  orphaned menuitem/tab roles, unlabelled inputs, one corrupted demo
-  string), 2 shared theme-body defects (video-player text-on-black,
-  call-to-action UA-blue links), and 4 NHS themes' accent too light
-  for white content — fixed in the DTCG token source. §11.5a records
-  the details; standard suites re-verified (74/74; angular spot-check
-  29/29 with the propagated demos).
+      routes in the SvelteKit app; fix findings; baseline in spec §11.5.
+      Verify: sweep exits clean; baseline table updated.
+      Done 2026-08-27: `e2e/axe-catalog.spec.ts` (a test per catalog
+      entry) — first run 467/491, now 491/491. The 24 failures split
+      three ways: 21 demo-map defects (radio roles without aria-checked,
+      orphaned menuitem/tab roles, unlabelled inputs, one corrupted demo
+      string), 2 shared theme-body defects (video-player text-on-black,
+      call-to-action UA-blue links), and 4 NHS themes' accent too light
+      for white content — fixed in the DTCG token source. §11.5a records
+      the details; standard suites re-verified (74/74; angular spot-check
+      29/29 with the propagated demos).
 
 - [x] **P4-T2 Accessibility statement + WCAG mapping**
-  (`docs/accessibility-statement.md`, surfaced on the site): what is
-  tested by what, what is not, known gaps, audit intention. "Targets"
-  wording throughout; no "compliant" claim.
-  Verify: `bin/check-links` passes; linked from README, site, and
-  SECURITY.md's closing section.
-  Done 2026-08-28: docs/accessibility-statement.md (verified-by table,
-  the not-verified-by-anything section, review-with-practice rule) +
-  a site /accessibility route in the main nav; linked from README,
-  SECURITY.md, CONTRIBUTING.md.
+      (`docs/accessibility-statement.md`, surfaced on the site): what is
+      tested by what, what is not, known gaps, audit intention. "Targets"
+      wording throughout; no "compliant" claim.
+      Verify: `bin/check-links` passes; linked from README, site, and
+      SECURITY.md's closing section.
+      Done 2026-08-28: docs/accessibility-statement.md (verified-by table,
+      the not-verified-by-anything section, review-with-practice rule) +
+      a site /accessibility route in the main nav; linked from README,
+      SECURITY.md, CONTRIBUTING.md.
 
 - [x] **P4-T3 Component maturity labels.**
-  `status` field (`experimental`/`beta`/`stable`) added to catalog
-  metadata (`components/{slug}/AGENTS.md` + a rubric doc); surfaced in
-  per-component docs and the site catalog; initial assignment
-  documented (test depth, screen-reader evidence, production use).
-  Verify: all 491 components carry a status; `bin/test` gains a check
-  that none is missing; rubric linked from spec/components.
-  Done 2026-08-28: evidence-based mechanical rubric (stable = exercised
-  in composed flows, 151; beta = the seven-framework default, 332;
-  experimental = the newest batch, 8) recorded in spec/components with
-  promotion rules. Status lives as a bullet in each AGENTS.md and a
-  line in each index.md; the site registry generator reads it from the
-  canonical metadata and the catalog renders a badge, so the site
-  cannot drift. bin/test asserts exactly one valid Status per
-  component (bite-proven).
+      `status` field (`experimental`/`beta`/`stable`) added to catalog
+      metadata (`components/{slug}/AGENTS.md` + a rubric doc); surfaced in
+      per-component docs and the site catalog; initial assignment
+      documented (test depth, screen-reader evidence, production use).
+      Verify: all 491 components carry a status; `bin/test` gains a check
+      that none is missing; rubric linked from spec/components.
+      Done 2026-08-28: evidence-based mechanical rubric (stable = exercised
+      in composed flows, 151; beta = the seven-framework default, 332;
+      experimental = the newest batch, 8) recorded in spec/components with
+      promotion rules. Status lives as a bullet in each AGENTS.md and a
+      line in each index.md; the site registry generator reads it from the
+      canonical metadata and the catalog renders a badge, so the site
+      cannot drift. bin/test asserts exactly one valid Status per
+      component (bite-proven).
 
 - [/] **P4-T4 Screen-reader testing matrix.**
   VoiceOver + NVDA (JAWS as funded) × ~20 representative interactive
@@ -305,873 +305,872 @@ Rules for the executing agent:
   human sessions (the maintainer's VoiceOver would be the first).
 
 - [x] **P4-T5 External audit readiness pack**
-  (`docs/audit-readiness.md`): scope, environments, component list,
-  known-issues register — so funding converts to an audit without
-  delay.
-  Verify: doc exists, linked from CONTRIBUTING's money section.
-  Done 2026-08-28: docs/audit-readiness.md — tiered scope (interactive
-  core incl. the five hand-rolled helper patterns first; composed
-  flows; sampled long tail), harness environments, the day-one
-  materials, and the publish-the-report-verbatim ask.
+      (`docs/audit-readiness.md`): scope, environments, component list,
+      known-issues register — so funding converts to an audit without
+      delay.
+      Verify: doc exists, linked from CONTRIBUTING's money section.
+      Done 2026-08-28: docs/audit-readiness.md — tiered scope (interactive
+      core incl. the five hand-rolled helper patterns first; composed
+      flows; sampled long tail), harness environments, the day-one
+      materials, and the publish-the-report-verbatim ask.
 
 ## Phase 5 — Documentation and site surfaces
 
 - [x] **P5-T1 News + roadmap routes on the site.**
-  `/news` fed from NEWS.md; `/roadmap` fed from plan.md's phases
-  (GOV.UK pattern). Closes the outreach plan's blog-route gate.
-  Verify: both routes build and render current content; site nav
-  links them.
-  Done 2026-08-28: bin/sync pipes the canonical NEWS.md and plan.md
-  into the site's content dir (so the standalone github.io subtree
-  builds alone); the routes render them at build time via marked with
-  repo-relative links rewritten to canonical GitHub URLs (the
-  sync-special-files rule, applied client-side); both prerender with
-  real content and sit in the main nav. Zero hand-maintained copy —
-  the site cannot drift from the files.
+      `/news` fed from NEWS.md; `/roadmap` fed from plan.md's phases
+      (GOV.UK pattern). Closes the outreach plan's blog-route gate.
+      Verify: both routes build and render current content; site nav
+      links them.
+      Done 2026-08-28: bin/sync pipes the canonical NEWS.md and plan.md
+      into the site's content dir (so the standalone github.io subtree
+      builds alone); the routes render them at build time via marked with
+      repo-relative links rewritten to canonical GitHub URLs (the
+      sync-special-files rule, applied client-side); both prerender with
+      real content and sit in the main nav. Zero hand-maintained copy —
+      the site cannot drift from the files.
 
 - [x] **P5-T2 Developer on-ramp in CONTRIBUTING.**
-  Dev setup, monorepo + subtree model, the copy-pattern, full
-  add-a-component walkthrough (14 subprojects + docs + registries +
-  CSS hook), `bin/` tool guide.
-  Verify: walkthrough dry-run on a scratch slug passes `bin/test`,
-  then reverts cleanly.
-  Done 2026-08-28: docs/developing.md (linked from CONTRIBUTING's new
-  on-ramp section) — setup, monorepo shape, bin/ tool order, and the
-  seven-step walkthrough derived by actually performing it: a
-  scratch-probe component was added until bin/test passed (which
-  revealed the true gate set: svelte + sveltekit-copy + nunjucks
-  implementations ARE machine-gated; the single-line demo-map format
-  is mandatory) and then reverted to a clean tree. The walkthrough
-  carries an honesty note naming the frameworks bin/test does not yet
-  gate (the check-coverage gap, P7-T4).
+      Dev setup, monorepo + subtree model, the copy-pattern, full
+      add-a-component walkthrough (14 subprojects + docs + registries +
+      CSS hook), `bin/` tool guide.
+      Verify: walkthrough dry-run on a scratch slug passes `bin/test`,
+      then reverts cleanly.
+      Done 2026-08-28: docs/developing.md (linked from CONTRIBUTING's new
+      on-ramp section) — setup, monorepo shape, bin/ tool order, and the
+      seven-step walkthrough derived by actually performing it: a
+      scratch-probe component was added until bin/test passed (which
+      revealed the true gate set: svelte + sveltekit-copy + nunjucks
+      implementations ARE machine-gated; the single-line demo-map format
+      is mandatory) and then reverted to a clean tree. The walkthrough
+      carries an honesty note naming the frameworks bin/test does not yet
+      gate (the check-coverage gap, P7-T4).
 
 - [x] **P5-T3 `bin/generate-api-docs`**: per-component reference from
-  `components/{slug}/AGENTS.md` into the site; idempotent; drift
-  fails `bin/test`.
-  Verify: run twice → no diff; site builds; a seeded metadata edit is
-  caught.
-  Done 2026-08-28: a marked "Canonical contract" region on each of the
-  491 site pages, rendering Metadata/ARIA/Keyboard/Props straight from
-  AGENTS.md (curated page prose untouched — the generator owns only
-  its region, the existing marker-region precedent). Idempotent;
-  --check wired into bin/test; a seeded HTML-tag edit caught; braces
-  emitted as entities because the output lands in Svelte template
-  markup (area-chart's `{ name: string }` prop type broke compilation
-  before that). Site builds with all 491 sections prerendered.
+      `components/{slug}/AGENTS.md` into the site; idempotent; drift
+      fails `bin/test`.
+      Verify: run twice → no diff; site builds; a seeded metadata edit is
+      caught.
+      Done 2026-08-28: a marked "Canonical contract" region on each of the
+      491 site pages, rendering Metadata/ARIA/Keyboard/Props straight from
+      AGENTS.md (curated page prose untouched — the generator owns only
+      its region, the existing marker-region precedent). Idempotent;
+      --check wired into bin/test; a seeded HTML-tag edit caught; braces
+      emitted as entities because the output lands in Svelte template
+      markup (area-chart's `{ name: string }` prop type broke compilation
+      before that). Site builds with all 491 sections prerendered.
 
 - [x] **P5-T4 Migration guides**: `docs/migrating/nhs-uk.md` (v9/v10)
-  and `docs/migrating/govuk.md` (v6) — component → Lily slug tables,
-  gaps noted.
-  Verify: every referenced slug exists in `components.tsv`;
-  `bin/check-links` passes.
-  Done 2026-08-29: mapped against the live GOV.UK (37) and NHS (38)
-  component indexes. 31/37 and 36/38 resolve directly; gaps are
-  honestly typed — page-level patterns GOV.UK documents as components
-  but Lily treats as composition (cookie banner, exit-this-page,
-  feedback), one better served by a helper than a component
-  (language navigation -> locale-picker), and two genuine catalog
-  gaps (character count, textarea) pointed at RFC.md rather than
-  papered over. Every slug reference verified against components.tsv
-  before publishing. Linked from COMPARISONS.md.
+      and `docs/migrating/govuk.md` (v6) — component → Lily slug tables,
+      gaps noted.
+      Verify: every referenced slug exists in `components.tsv`;
+      `bin/check-links` passes.
+      Done 2026-08-29: mapped against the live GOV.UK (37) and NHS (38)
+      component indexes. 31/37 and 36/38 resolve directly; gaps are
+      honestly typed — page-level patterns GOV.UK documents as components
+      but Lily treats as composition (cookie banner, exit-this-page,
+      feedback), one better served by a helper than a component
+      (language navigation -> locale-picker), and two genuine catalog
+      gaps (character count, textarea) pointed at RFC.md rather than
+      papered over. Every slug reference verified against components.tsv
+      before publishing. Linked from COMPARISONS.md.
 
 - [x] **P5-T5 `lily-figma` decision.**
-  Either seed a community Figma library from P3-T6 tokens and document
-  it, or replace the placeholder with an honest not-planned page
-  linking RFC.md §RFC 6. No "coming soon" remains.
-  Verify: the route renders real content either way.
-  Decided 2026-08-29: not-planned, with a real self-serve path. A
-  maintained Figma library/plugin is a separate ongoing commitment
-  this project has not taken on. The page instead documents importing
-  a theme's DTCG tokens (themes/tokens/*.json, shipped P3-T6) into
-  Figma via the existing Tokens Studio community plugin — gets you
-  Lily's colours and shape tokens, not Lily's components as Figma
-  components, and says so. Links RFC 6 for what would change the
-  decision. No "coming soon" remains; the route was an orphan (no
-  inbound nav links) and stays one, honestly.
+      Either seed a community Figma library from P3-T6 tokens and document
+      it, or replace the placeholder with an honest not-planned page
+      linking RFC.md §RFC 6. No "coming soon" remains.
+      Verify: the route renders real content either way.
+      Decided 2026-08-29: not-planned, with a real self-serve path. A
+      maintained Figma library/plugin is a separate ongoing commitment
+      this project has not taken on. The page instead documents importing
+      a theme's DTCG tokens (themes/tokens/*.json, shipped P3-T6) into
+      Figma via the existing Tokens Studio community plugin — gets you
+      Lily's colours and shape tokens, not Lily's components as Figma
+      components, and says so. Links RFC 6 for what would change the
+      decision. No "coming soon" remains; the route was an orphan (no
+      inbound nav links) and stays one, honestly.
 
 - [x] **P5-T6 Tutorials gain runnable end states.**
-  Each site tutorial's finished code exists in-repo (fixture or
-  example-app route) and is referenced from the tutorial; verified by
-  build/test.
-  Verify: per-tutorial verify commands documented and green.
-  Done 2026-08-29 by compiling every framework tutorial's exact
-  snippet (svelte/server, tsup, vue SSR compile, ng-packagr source,
-  Blazor component source, and a byte-check against html/nunjucks'
-  plain markup) rather than assuming they worked. Found and fixed a
-  real, identical defect in **four of seven** framework tutorials
-  (svelte, react, vue, angular) plus Blazor: the Step-3 form snippet
-  nested a separate `Label` component inside `Field`, which renders
-  TWO labels (one empty, `for` mismatched) because `Field` already
-  renders its own from a `label` prop it has in every framework —
-  confirmed by rendering the broken version and seeing the duplicate
-  `<label>` in the output. All five corrected to the one-label form
-  that matches each example app's real, e2e-and-axe-tested
-  contact-form route, which each tutorial now links. The theming and
-  helpers tutorials' five helper snippets and combined example were
-  compiled individually against the published 0.1.1 packages and held
-  up unchanged — both gain a verified note.
+      Each site tutorial's finished code exists in-repo (fixture or
+      example-app route) and is referenced from the tutorial; verified by
+      build/test.
+      Verify: per-tutorial verify commands documented and green.
+      Done 2026-08-29 by compiling every framework tutorial's exact
+      snippet (svelte/server, tsup, vue SSR compile, ng-packagr source,
+      Blazor component source, and a byte-check against html/nunjucks'
+      plain markup) rather than assuming they worked. Found and fixed a
+      real, identical defect in **four of seven** framework tutorials
+      (svelte, react, vue, angular) plus Blazor: the Step-3 form snippet
+      nested a separate `Label` component inside `Field`, which renders
+      TWO labels (one empty, `for` mismatched) because `Field` already
+      renders its own from a `label` prop it has in every framework —
+      confirmed by rendering the broken version and seeing the duplicate
+      `<label>` in the output. All five corrected to the one-label form
+      that matches each example app's real, e2e-and-axe-tested
+      contact-form route, which each tutorial now links. The theming and
+      helpers tutorials' five helper snippets and combined example were
+      compiled individually against the published 0.1.1 packages and held
+      up unchanged — both gain a verified note.
 
 - [x] **P5-T7 Spell-check gate in CI** over root docs + site content
-  (cspell with a project dictionary).
-  Verify: CI green; a seeded typo on a branch is caught.
-  Done 2026-08-29: cspell.config.yaml (en_US + en_GB, so `behaviour`/
-  `colour`/`organisation` don't trip it) + a categorised
-  `.cspell/project-words.txt` (150 words: acronyms, tool/brand names,
-  coined technical terms, and the 30+-country national-identifier
-  names in their native spelling — every one traced to an actual
-  finding, none bulk-added). Scope is root `*.md`, `docs/`, `help/`,
-  and the site's **hand-authored** routes; the 491 generated
-  `/components/{slug}` pages are excluded (they bake `components/*/
-  index.md` prose into giant escaped JS-string literals — checking
-  491 dirs of catalog prose, much of it in 30+ languages, is a
-  separate and much larger undertaking than "docs + site content"
-  asks for). Bite-proven: a seeded typo in CONTRIBUTING.md was caught,
-  then the file was restored byte-identical. Wired as its own CI job.
+      (cspell with a project dictionary).
+      Verify: CI green; a seeded typo on a branch is caught.
+      Done 2026-08-29: cspell.config.yaml (en_US + en_GB, so `behaviour`/
+      `colour`/`organisation` don't trip it) + a categorised
+      `.cspell/project-words.txt` (150 words: acronyms, tool/brand names,
+      coined technical terms, and the 30+-country national-identifier
+      names in their native spelling — every one traced to an actual
+      finding, none bulk-added). Scope is root `*.md`, `docs/`, `help/`,
+      and the site's **hand-authored** routes; the 491 generated
+      `/components/{slug}` pages are excluded (they bake `components/*/
+index.md` prose into giant escaped JS-string literals — checking
+      491 dirs of catalog prose, much of it in 30+ languages, is a
+      separate and much larger undertaking than "docs + site content"
+      asks for). Bite-proven: a seeded typo in CONTRIBUTING.md was caught,
+      then the file was restored byte-identical. Wired as its own CI job.
 
 ## Phase 6 — Examples deepening
 
 - [x] **P6-T1 Composed-page parity matrix** (12 routes × 7 apps) in
-  `spec/examples/index.md`; backfill gaps, including first composed
-  pages for nunjucks-eleventy; un-skip its responsive sweep.
-  Verify: matrix matches reality; per-app e2e passes on new routes.
-  Done 2026-08-29: matrix computed — six apps already had all 12,
-  nunjucks-eleventy had none. Ported all 12 from html-css-js into
-  `layouts/page.njk` templates; extended `accessibility.spec.ts` and
-  `responsive.spec.ts`. Chasing apparent flakiness on the new routes
-  surfaced four real, pre-existing defects (none specific to the new
-  pages — the worst reproduced on the untouched home page): a
-  cascade-layer bug where the app's own unlayered `reset.css` was
-  silently beating the theme's `@layer lily` component rules
-  regardless of specificity (header locale-picker: white text on its
-  own white surface); two component CSS files never wired into
-  `main.css`'s `@import` list (net-promoter-score-picker family,
-  five-face-rating family, container); a default `<dd>` UA margin
-  overflowing a grid column; and one breadcrumb/sidebar link combo
-  the established `nhsuk-bright-blue`-fails-AA fix hadn't reached yet.
-  All fixed. Bite-proven: the four top-level spec files (122 tests)
-  pass 5/5 consecutive runs versus a reproducible ~15-30% intermittent
-  failure rate before; full 612-spec per-slug suite still green. Full
-  record: [CHANGELOG.md](CHANGELOG.md).
+      `spec/examples/index.md`; backfill gaps, including first composed
+      pages for nunjucks-eleventy; un-skip its responsive sweep.
+      Verify: matrix matches reality; per-app e2e passes on new routes.
+      Done 2026-08-29: matrix computed — six apps already had all 12,
+      nunjucks-eleventy had none. Ported all 12 from html-css-js into
+      `layouts/page.njk` templates; extended `accessibility.spec.ts` and
+      `responsive.spec.ts`. Chasing apparent flakiness on the new routes
+      surfaced four real, pre-existing defects (none specific to the new
+      pages — the worst reproduced on the untouched home page): a
+      cascade-layer bug where the app's own unlayered `reset.css` was
+      silently beating the theme's `@layer lily` component rules
+      regardless of specificity (header locale-picker: white text on its
+      own white surface); two component CSS files never wired into
+      `main.css`'s `@import` list (net-promoter-score-picker family,
+      five-face-rating family, container); a default `<dd>` UA margin
+      overflowing a grid column; and one breadcrumb/sidebar link combo
+      the established `nhsuk-bright-blue`-fails-AA fix hadn't reached yet.
+      All fixed. Bite-proven: the four top-level spec files (122 tests)
+      pass 5/5 consecutive runs versus a reproducible ~15-30% intermittent
+      failure rate before; full 612-spec per-slug suite still green. Full
+      record: [CHANGELOG.md](CHANGELOG.md).
 
 - [x] **P6-T2 Flagship "book an appointment" scenario — SvelteKit.**
-  Multi-step form, validation, error summary, summary list,
-  confirmation; ~30 components; Playwright + axe; written up as
-  Lily's first pattern doc (`docs/patterns/book-an-appointment.md`).
-  Verify: e2e + axe clean; pattern doc link-checked.
-  Done 2026-08-29: `/book-an-appointment` in
-  lily-design-system-svelte-sveltekit-examples — 5 steps (reason,
-  date and time, your details, check your answers, confirmation)
-  composing 32 components (StepList/StepListItem progress,
-  RadioGroup, Fieldset, Field, DateInput, Select, TextAreaInput +
-  CharacterCounter, SummaryList/SummaryListItem with "Change" links,
-  ErrorSummary/ErrorMessage, SuccessPanel, Panel, WarningCallout,
-  Details, InsetText, and more). Two real defects found and fixed
-  while building it, both documented in the pattern doc: native HTML5
-  `required` validation was intercepting `Continue` before the custom
-  error summary could run (fixed with `novalidate` on every step's
-  `<Form>`); an early draft double-nested `RadioGroup` (which already
-  renders its own fieldset) inside a second `Fieldset`. Verified: 9
-  dedicated e2e tests in `e2e/book-an-appointment.spec.ts` (happy
-  path, one per validation rule, Back button, Change link, reset) all
-  passing against a production build; axe-core zero violations across
-  all 8 distinct UI states (start screen, reason empty/error/expanded,
-  date-time, your-details, check-answers, confirmation); route added
-  to the app's `accessibility.spec.ts` and `responsive.spec.ts`
-  composed-page sweeps (74/74 passing); `pnpm run check` clean on the
-  new file. Full record: [CHANGELOG.md](CHANGELOG.md).
+      Multi-step form, validation, error summary, summary list,
+      confirmation; ~30 components; Playwright + axe; written up as
+      Lily's first pattern doc (`docs/patterns/book-an-appointment.md`).
+      Verify: e2e + axe clean; pattern doc link-checked.
+      Done 2026-08-29: `/book-an-appointment` in
+      lily-design-system-svelte-sveltekit-examples — 5 steps (reason,
+      date and time, your details, check your answers, confirmation)
+      composing 32 components (StepList/StepListItem progress,
+      RadioGroup, Fieldset, Field, DateInput, Select, TextAreaInput +
+      CharacterCounter, SummaryList/SummaryListItem with "Change" links,
+      ErrorSummary/ErrorMessage, SuccessPanel, Panel, WarningCallout,
+      Details, InsetText, and more). Two real defects found and fixed
+      while building it, both documented in the pattern doc: native HTML5
+      `required` validation was intercepting `Continue` before the custom
+      error summary could run (fixed with `novalidate` on every step's
+      `<Form>`); an early draft double-nested `RadioGroup` (which already
+      renders its own fieldset) inside a second `Fieldset`. Verified: 9
+      dedicated e2e tests in `e2e/book-an-appointment.spec.ts` (happy
+      path, one per validation rule, Back button, Change link, reset) all
+      passing against a production build; axe-core zero violations across
+      all 8 distinct UI states (start screen, reason empty/error/expanded,
+      date-time, your-details, check-answers, confirmation); route added
+      to the app's `accessibility.spec.ts` and `responsive.spec.ts`
+      composed-page sweeps (74/74 passing); `pnpm run check` clean on the
+      new file. Full record: [CHANGELOG.md](CHANGELOG.md).
 
 - [x] **P6-T3 Port the flagship scenario to the other 6 apps.**
-  Verify: same per app.
-  Done 2026-08-29: `/book-an-appointment` ported to React/Next.js,
-  Vue/Nuxt, Angular/Analog, Blazor Web, HTML+CSS+JS, and
-  Nunjucks/Eleventy — all 7 example apps now carry the flagship
-  pattern. Each port trusted its own app's actual headless component
-  sources rather than assuming the Svelte reference's prop shapes
-  carry over, and each was independently build-verified and e2e
-  tested (9-10 dedicated tests per app, axe-clean across every
-  distinct UI state). Two real, previously-undiscovered defect classes
-  surfaced along the way: Angular's RadioInput/CheckboxInput/StepList/
-  SummaryList wrapper-host components can't do what this flow needs
-  (extends the existing §11.8 wrapper-host finding from lists to form
-  controls; worked around with the same direct-class-hook-markup
-  pattern this app already uses elsewhere), and — more seriously —
-  five pre-existing Blazor composed pages turned out to be silently
-  non-functional (logged as its own tracked item, P7-T8, below, rather
-  than folded into this one). Full record: [CHANGELOG.md](CHANGELOG.md).
+      Verify: same per app.
+      Done 2026-08-29: `/book-an-appointment` ported to React/Next.js,
+      Vue/Nuxt, Angular/Analog, Blazor Web, HTML+CSS+JS, and
+      Nunjucks/Eleventy — all 7 example apps now carry the flagship
+      pattern. Each port trusted its own app's actual headless component
+      sources rather than assuming the Svelte reference's prop shapes
+      carry over, and each was independently build-verified and e2e
+      tested (9-10 dedicated tests per app, axe-clean across every
+      distinct UI state). Two real, previously-undiscovered defect classes
+      surfaced along the way: Angular's RadioInput/CheckboxInput/StepList/
+      SummaryList wrapper-host components can't do what this flow needs
+      (extends the existing §11.8 wrapper-host finding from lists to form
+      controls; worked around with the same direct-class-hook-markup
+      pattern this app already uses elsewhere), and — more seriously —
+      five pre-existing Blazor composed pages turned out to be silently
+      non-functional (logged as its own tracked item, P7-T8, below, rather
+      than folded into this one). Full record: [CHANGELOG.md](CHANGELOG.md).
 
 - [x] **P6-T4 RTL demo route** in each app.
-  Verify: e2e asserts `dir="rtl"` and no horizontal overflow.
-  Done 2026-08-29: `/rtl-demo` in all 7 example apps — a real `dir="rtl"
-  lang="ar"` page (breadcrumb, data table, pagination, a form with
-  radios/checkboxes) proving AGENTS/internationalization.md's
-  "components do not assume LTR layout", not just a localized page.
-  Built canonical-Svelte-first, then ported with the same exact
-  reviewed Arabic strings reused verbatim everywhere. Surfaced real,
-  previously-unknown defects in 3 of the 7 apps, each fixed in place:
-  a cascade-layer/physical-property mix in nunjucks-eleventy's own
-  live CSS (caught by a genuine test failure — computed `textAlign`
-  was `"left"`, not `"start"` — then fixed across 8 files); a
-  double-nested `<fieldset>` around the radio group in an early draft
-  of the html-css-js port, the exact anti-pattern
-  `docs/patterns/book-an-appointment.md` warns against; and, while
-  investigating that app further, a real regression in its own earlier
-  P6-T3 port (rules added to a CSS file that turned out to be dead,
-  and an invented `.visually-hidden` class with no matching CSS
-  anywhere) — fixed by swapping to the catalog's real
-  `.screen-reader-span`. Two bigger, unscoped findings from the same
-  investigation are tracked separately as P7-T9 and P7-T10 below.
-  Verified per app: 4 dedicated e2e tests (dir/lang + overflow, real
-  component mirroring — not just text direction, axe, keyboard
-  operability), re-run independently for every port; each app's own
-  build/check gate green. Full record: [CHANGELOG.md](CHANGELOG.md).
+      Verify: e2e asserts `dir="rtl"` and no horizontal overflow.
+      Done 2026-08-29: `/rtl-demo` in all 7 example apps — a real `dir="rtl"
+lang="ar"` page (breadcrumb, data table, pagination, a form with
+      radios/checkboxes) proving AGENTS/internationalization.md's
+      "components do not assume LTR layout", not just a localized page.
+      Built canonical-Svelte-first, then ported with the same exact
+      reviewed Arabic strings reused verbatim everywhere. Surfaced real,
+      previously-unknown defects in 3 of the 7 apps, each fixed in place:
+      a cascade-layer/physical-property mix in nunjucks-eleventy's own
+      live CSS (caught by a genuine test failure — computed `textAlign`
+      was `"left"`, not `"start"` — then fixed across 8 files); a
+      double-nested `<fieldset>` around the radio group in an early draft
+      of the html-css-js port, the exact anti-pattern
+      `docs/patterns/book-an-appointment.md` warns against; and, while
+      investigating that app further, a real regression in its own earlier
+      P6-T3 port (rules added to a CSS file that turned out to be dead,
+      and an invented `.visually-hidden` class with no matching CSS
+      anywhere) — fixed by swapping to the catalog's real
+      `.screen-reader-span`. Two bigger, unscoped findings from the same
+      investigation are tracked separately as P7-T9 and P7-T10 below.
+      Verified per app: 4 dedicated e2e tests (dir/lang + overflow, real
+      component mirroring — not just text direction, axe, keyboard
+      operability), re-run independently for every port; each app's own
+      build/check gate green. Full record: [CHANGELOG.md](CHANGELOG.md).
 
 - [x] **P6-T5 `/components` search upgrade**: category + suffix-pattern
-  filters; SvelteKit first, then ports.
-  Verify: e2e covers filter behaviour.
-  Done 2026-08-29: two new selects — Category and Suffix pattern — sit
-  alongside the existing free-text search in all 7 example apps, all
-  three combining as an intersection. New root canonical data:
-  `components-categories.tsv` (491 rows: slug, tag, category), built by
-  the new `bin/generate-component-categories` from two sources that
-  were already single-source-of-truth — each component's own "HTML
-  tag" line in `components/{slug}/AGENTS.md`, and
-  `AGENTS/national-person-identifiers.tsv` for the National
-  identifiers bucket. `category` is a best-effort STRUCTURAL grouping
-  (root element + naming-convention suffix family) — documented in the
-  script itself as exactly that, not an editorial content taxonomy.
-  `bin/generate-registries` now joins it into every registry it
-  writes, so 6 of the 7 apps got the `tag`/`category` fields and a
-  shared `CATEGORY_LABEL` map for free; nunjucks-eleventy's own
-  build-time data scan (`src/_data/components.js`) reads the same root
-  TSV directly, since it isn't part of that generator. Suffix pattern
-  needs no generated data at all — it's a pure function of the slug,
-  ported identically into every app's own language: the ordered suffix
-  list mirrors `AGENTS/components.md`'s suffix→element table and
-  compound name-pattern families verbatim, with slugs matching none of
-  them (175/491) honestly bucketed "standalone" rather than force-fit.
-  Built canonical-Svelte-first, then ported to React, Vue, Angular,
-  Blazor, HTML+CSS+JS, and Nunjucks/Eleventy — each independently
-  reviewed and re-verified (not just trusting the port's own report):
-  build/typecheck, the ported suffix-pattern unit tests, and 4-5
-  e2e cases per app asserting against ground truth computed from that
-  app's own data (never hardcoded counts), all run for real against
-  each app's actual built output in a real browser. React's page had
-  no search at all before this — added together with the two filters.
-  Nunjucks/Eleventy's had no client-side search either, and its own
-  "pages work without JS" principle meant building the whole filter
-  panel as a progressive-enhancement injection (the first module in
-  its existing `data-module` bootstrapper) rather than server-rendering
-  controls that would silently do nothing without JavaScript. Real,
-  unrelated bugs fixed along the way: a stale "407 headless components"
-  count in Svelte, React, Vue, and Blazor's pages (the catalog is 491
-  today) — each now reads its own registry's length live. A concurrent-
-  agent hazard surfaced during verification: six ports ran in parallel
-  against the same checkout, and several apps' Playwright configs
-  default to the same ports (3000, 4173) another sibling app's server
-  was using at the same moment — resolved per app by using a distinct
-  scratch port for independent re-verification, not by changing any
-  shipped config. Full record: [CHANGELOG.md](CHANGELOG.md).
+      filters; SvelteKit first, then ports.
+      Verify: e2e covers filter behaviour.
+      Done 2026-08-29: two new selects — Category and Suffix pattern — sit
+      alongside the existing free-text search in all 7 example apps, all
+      three combining as an intersection. New root canonical data:
+      `components-categories.tsv` (491 rows: slug, tag, category), built by
+      the new `bin/generate-component-categories` from two sources that
+      were already single-source-of-truth — each component's own "HTML
+      tag" line in `components/{slug}/AGENTS.md`, and
+      `AGENTS/national-person-identifiers.tsv` for the National
+      identifiers bucket. `category` is a best-effort STRUCTURAL grouping
+      (root element + naming-convention suffix family) — documented in the
+      script itself as exactly that, not an editorial content taxonomy.
+      `bin/generate-registries` now joins it into every registry it
+      writes, so 6 of the 7 apps got the `tag`/`category` fields and a
+      shared `CATEGORY_LABEL` map for free; nunjucks-eleventy's own
+      build-time data scan (`src/_data/components.js`) reads the same root
+      TSV directly, since it isn't part of that generator. Suffix pattern
+      needs no generated data at all — it's a pure function of the slug,
+      ported identically into every app's own language: the ordered suffix
+      list mirrors `AGENTS/components.md`'s suffix→element table and
+      compound name-pattern families verbatim, with slugs matching none of
+      them (175/491) honestly bucketed "standalone" rather than force-fit.
+      Built canonical-Svelte-first, then ported to React, Vue, Angular,
+      Blazor, HTML+CSS+JS, and Nunjucks/Eleventy — each independently
+      reviewed and re-verified (not just trusting the port's own report):
+      build/typecheck, the ported suffix-pattern unit tests, and 4-5
+      e2e cases per app asserting against ground truth computed from that
+      app's own data (never hardcoded counts), all run for real against
+      each app's actual built output in a real browser. React's page had
+      no search at all before this — added together with the two filters.
+      Nunjucks/Eleventy's had no client-side search either, and its own
+      "pages work without JS" principle meant building the whole filter
+      panel as a progressive-enhancement injection (the first module in
+      its existing `data-module` bootstrapper) rather than server-rendering
+      controls that would silently do nothing without JavaScript. Real,
+      unrelated bugs fixed along the way: a stale "407 headless components"
+      count in Svelte, React, Vue, and Blazor's pages (the catalog is 491
+      today) — each now reads its own registry's length live. A concurrent-
+      agent hazard surfaced during verification: six ports ran in parallel
+      against the same checkout, and several apps' Playwright configs
+      default to the same ports (3000, 4173) another sibling app's server
+      was using at the same moment — resolved per app by using a distinct
+      scratch port for independent re-verification, not by changing any
+      shipped config. Full record: [CHANGELOG.md](CHANGELOG.md).
 
 ## Phase 7 — Tooling, CI, and stretch
 
 - [x] **P7-T1 CI completeness.**
-  Add: 7 headless unit suites, blazor helpers `dotnet test`, one
-  example-app Playwright smoke, and P2-T7's consumer smoke — matrixed
-  with caching.
-  Verify: all jobs green on main; total wall-clock recorded.
-  Done 2026-08-29: `ci.yml` gained 4 new jobs — `headless` (matrix:
-  svelte/react/vue/angular/nunjucks-headless via `pnpm exec vitest
-  run`), `html-headless` (its 491 WebDriverIO specs, real headless
-  Chrome), `dotnet-tests` (matrix: blazor-headless + blazor-helpers via
-  `dotnet test`, NuGet-cached), and `example-smoke` (SvelteKit — the
-  canonical example app — running a real, fast Playwright slice:
-  accessibility + responsive + `/components` search + rtl-demo +
-  book-an-appointment, 96 cases). Caching added throughout: pnpm cache
-  on every Node job including the pre-existing `helpers` job (had
-  none), NuGet cache on the two dotnet jobs, a Playwright-browser cache
-  on `example-smoke`, and an npm cache on `consumer-smoke` (P2-T7,
-  already existed) keyed off its four subprojects' pnpm-lock.yaml files
-  since it deliberately installs via plain `npm install`.
-  Two real bugs found and fixed getting all 18 jobs green (both are
-  the two-round story in P7-T12, logged as its own backlog item for the
-  larger fix still open): (1) `lily-design-system-svelte-sveltekit-examples`'s
-  build broke under pnpm 10 — its lockfile pins `cookie@0.6.0` but pnpm
-  10 hoists `cookie@2.0.1` into the tree instead, a version-skew bug
-  against the pnpm 11 this repo's lockfiles are actually maintained
-  with locally; (2) bumping *every* job to pnpm 11 to fix that broke
-  the other six instead — pnpm 11 no longer reads the legacy
-  `package.json#pnpm.onlyBuiltDependencies` field and hard-fails on any
-  ignored build script — so the fix landed scoped to `example-smoke`
-  alone, the only job that actually needs 11.
-  Total wall-clock on the first fully-green run: 11m39s (jobs run in
-  parallel; `html-headless`'s WDIO suite is the long pole at 11m34s).
-  Per-job durations: svelte-headless 10m11s (4906 tests), vue-headless
-  5m33s (2655), react-headless 5m6s (2665), nunjucks-headless 3m51s
-  (2844), angular-headless 1m55s (1010), blazor-headless 47s (1502),
-  blazor-helpers 29s (203), example-smoke 1m18s (96), consumer-smoke
-  3m12s. Full record: [CHANGELOG.md](CHANGELOG.md).
+      Add: 7 headless unit suites, blazor helpers `dotnet test`, one
+      example-app Playwright smoke, and P2-T7's consumer smoke — matrixed
+      with caching.
+      Verify: all jobs green on main; total wall-clock recorded.
+      Done 2026-08-29: `ci.yml` gained 4 new jobs — `headless` (matrix:
+      svelte/react/vue/angular/nunjucks-headless via `pnpm exec vitest
+run`), `html-headless` (its 491 WebDriverIO specs, real headless
+      Chrome), `dotnet-tests` (matrix: blazor-headless + blazor-helpers via
+      `dotnet test`, NuGet-cached), and `example-smoke` (SvelteKit — the
+      canonical example app — running a real, fast Playwright slice:
+      accessibility + responsive + `/components` search + rtl-demo +
+      book-an-appointment, 96 cases). Caching added throughout: pnpm cache
+      on every Node job including the pre-existing `helpers` job (had
+      none), NuGet cache on the two dotnet jobs, a Playwright-browser cache
+      on `example-smoke`, and an npm cache on `consumer-smoke` (P2-T7,
+      already existed) keyed off its four subprojects' pnpm-lock.yaml files
+      since it deliberately installs via plain `npm install`.
+      Two real bugs found and fixed getting all 18 jobs green (both are
+      the two-round story in P7-T12, logged as its own backlog item for the
+      larger fix still open): (1) `lily-design-system-svelte-sveltekit-examples`'s
+      build broke under pnpm 10 — its lockfile pins `cookie@0.6.0` but pnpm
+      10 hoists `cookie@2.0.1` into the tree instead, a version-skew bug
+      against the pnpm 11 this repo's lockfiles are actually maintained
+      with locally; (2) bumping _every_ job to pnpm 11 to fix that broke
+      the other six instead — pnpm 11 no longer reads the legacy
+      `package.json#pnpm.onlyBuiltDependencies` field and hard-fails on any
+      ignored build script — so the fix landed scoped to `example-smoke`
+      alone, the only job that actually needs 11.
+      Total wall-clock on the first fully-green run: 11m39s (jobs run in
+      parallel; `html-headless`'s WDIO suite is the long pole at 11m34s).
+      Per-job durations: svelte-headless 10m11s (4906 tests), vue-headless
+      5m33s (2655), react-headless 5m6s (2665), nunjucks-headless 3m51s
+      (2844), angular-headless 1m55s (1010), blazor-headless 47s (1502),
+      blazor-helpers 29s (203), example-smoke 1m18s (96), consumer-smoke
+      3m12s. Full record: [CHANGELOG.md](CHANGELOG.md).
 
 - [x] **P7-T2 `bin/test` profiling.**
-  ~63 s today; profile, batch the per-component filesystem checks,
-  target < 20 s with zero checks weakened.
-  Verify: `time bin/test` < 20 s; same error output on a seeded
-  missing-file fault as before.
-  Done 2026-08-29, with an honest caveat below. Profiled by
-  instrumenting a copy of the script with per-function timers rather
-  than guessing. The dominant cost was not check *count* but a real
-  interpreter bug: `/bin/sh` on macOS is Apple's frozen bash 3.2 (the
-  last GPLv2 release), and under `set -e`, a shell FUNCTION whose body
-  chains `cmd || err ...` (or `A && B || err ...`) costs roughly
-  180x more per call than the identical logic written as
-  `if cmd; then :; else err ...; fi` — confirmed by isolating the
-  491-component nunjucks-headless loop alone: 13.4s with the original
-  `file_size_or_err`/`file_exists_or_err` bodies, 0.06s with the same
-  bodies rewritten as `if`/`else`, same pass/fail result both times.
-  Rewrote all five `*_or_err` helpers this way. Also found and fixed a
-  real `find "$top" ... -not -path '*/node_modules/*'` in
-  `test_helper_glyphs_are_escaped`: `-not -path` only hides matches
-  after the fact, it doesn't stop `find` descending into the ~20
-  node_modules trees (6+ GB) first — switched to `-prune`, 2.5s → 0.2s
-  for that one call, identical output confirmed with `diff`.
-  A third attempted fix was caught and reverted before shipping:
-  `test_lockfiles_are_tracked` ran `git ls-files --others` twice (once
-  case-sensitive, once `-i`), and dropping the case-sensitive call
-  looked like a safe no-op (assumed `-i` is a superset). It is not, on
-  git 2.55: `git ls-files --others -i --exclude-standard` returned
-  *nothing* for a genuinely untracked file, even a literal exact-case
-  pathspec — a real git behaviour, not a shell quirk. Caught by
-  actually seeding an untracked-lockfile fault and checking the error
-  fires, per this task's own verify criterion, rather than trusting an
-  empty-vs-empty `diff` taken when nothing was untracked to begin
-  with. Reverted to both calls; that check's own cost is real and
-  wasn't reduced.
-  **Honest timing result**: the two kept fixes are each independently
-  verified with dramatic, reproducible local speedups in isolation.
-  The full `bin/test` run itself did not reliably land under 20s on
-  this session's dev machine — clean runs ranged 61-69s (down from an
-  ~85s baseline measured the same way), with one very load-inflated
-  outlier (a shared machine with 15+ concurrent sessions this
-  session's own load average spiked to 8-12 during measurement, and
-  the same reference micro-benchmark that ran in 0.06s minutes earlier
-  ran in 10.5s minutes later purely from that contention). The
-  reference environment that actually matters for this repo's CI gate
-  is already comfortably under target regardless: the `bin/test` CI
-  step alone measured 6s on the run immediately before this change
-  landed (Linux/dash has none of bash 3.2's pathology) and remains
-  fast after. Seeded-fault verification passed for both real fixes
-  and the reverted one: identical double-error-message output on a
-  missing-file fault, identical single-error output on an
-  untracked-lockfile fault, `bin/check-links` and a clean `bin/test`
-  run both still exit 0. A further local speedup (restructuring the
-  five ~491-iteration implementation loops to avoid re-walking the
-  catalog per implementation) remains available if the local number
-  still matters enough to chase; not done here since the root cause
-  turned out to be the interpreter bug, not the loop shape itself.
+      ~63 s today; profile, batch the per-component filesystem checks,
+      target < 20 s with zero checks weakened.
+      Verify: `time bin/test` < 20 s; same error output on a seeded
+      missing-file fault as before.
+      Done 2026-08-29, with an honest caveat below. Profiled by
+      instrumenting a copy of the script with per-function timers rather
+      than guessing. The dominant cost was not check _count_ but a real
+      interpreter bug: `/bin/sh` on macOS is Apple's frozen bash 3.2 (the
+      last GPLv2 release), and under `set -e`, a shell FUNCTION whose body
+      chains `cmd || err ...` (or `A && B || err ...`) costs roughly
+      180x more per call than the identical logic written as
+      `if cmd; then :; else err ...; fi` — confirmed by isolating the
+      491-component nunjucks-headless loop alone: 13.4s with the original
+      `file_size_or_err`/`file_exists_or_err` bodies, 0.06s with the same
+      bodies rewritten as `if`/`else`, same pass/fail result both times.
+      Rewrote all five `*_or_err` helpers this way. Also found and fixed a
+      real `find "$top" ... -not -path '*/node_modules/*'` in
+      `test_helper_glyphs_are_escaped`: `-not -path` only hides matches
+      after the fact, it doesn't stop `find` descending into the ~20
+      node_modules trees (6+ GB) first — switched to `-prune`, 2.5s → 0.2s
+      for that one call, identical output confirmed with `diff`.
+      A third attempted fix was caught and reverted before shipping:
+      `test_lockfiles_are_tracked` ran `git ls-files --others` twice (once
+      case-sensitive, once `-i`), and dropping the case-sensitive call
+      looked like a safe no-op (assumed `-i` is a superset). It is not, on
+      git 2.55: `git ls-files --others -i --exclude-standard` returned
+      _nothing_ for a genuinely untracked file, even a literal exact-case
+      pathspec — a real git behaviour, not a shell quirk. Caught by
+      actually seeding an untracked-lockfile fault and checking the error
+      fires, per this task's own verify criterion, rather than trusting an
+      empty-vs-empty `diff` taken when nothing was untracked to begin
+      with. Reverted to both calls; that check's own cost is real and
+      wasn't reduced.
+      **Honest timing result**: the two kept fixes are each independently
+      verified with dramatic, reproducible local speedups in isolation.
+      The full `bin/test` run itself did not reliably land under 20s on
+      this session's dev machine — clean runs ranged 61-69s (down from an
+      ~85s baseline measured the same way), with one very load-inflated
+      outlier (a shared machine with 15+ concurrent sessions this
+      session's own load average spiked to 8-12 during measurement, and
+      the same reference micro-benchmark that ran in 0.06s minutes earlier
+      ran in 10.5s minutes later purely from that contention). The
+      reference environment that actually matters for this repo's CI gate
+      is already comfortably under target regardless: the `bin/test` CI
+      step alone measured 6s on the run immediately before this change
+      landed (Linux/dash has none of bash 3.2's pathology) and remains
+      fast after. Seeded-fault verification passed for both real fixes
+      and the reverted one: identical double-error-message output on a
+      missing-file fault, identical single-error output on an
+      untracked-lockfile fault, `bin/check-links` and a clean `bin/test`
+      run both still exit 0. A further local speedup (restructuring the
+      five ~491-iteration implementation loops to avoid re-walking the
+      catalog per implementation) remains available if the local number
+      still matters enough to chase; not done here since the root cause
+      turned out to be the interpreter bug, not the loop shape itself.
 
 - [x] **P7-T3 `bin/new-component` end-to-end generator** (catalog row,
-  docs dir, CSS hook, 7 implementations + tests + stories, demos,
-  registries).
-  Verify: scratch slug → `bin/test` passes → clean revert.
-  Done 2026-08-29. `bin/new-component <slug> ["description"]` generates
-  a new, generic, working `<div>`-rooted placeholder component (Status:
-  experimental — a deliberate choice, since the tool can't know a real
-  future component's actual HTML tag, ARIA, or behavior) across: the
-  catalog row, the docs dir (`components/{slug}/`), the CSS hook, all 7
-  headless implementations + tests + stories (plus their `.md`
-  companions for react/vue/angular/blazor, matching the existing
-  convention), the two example apps `bin/test` checks per-component
-  (`svelte-sveltekit-examples`, `nunjucks-eleventy-examples`), the
-  github.io route, and every generated registry — by adding the one new
-  demo-map entry and AGENTS.md by hand, then calling the *existing*
-  generators (`bin/generate-component-categories`,
-  `bin/generate-registries`, `bin/generate-api-docs`) rather than
-  reimplementing their logic. `bin/new-component --revert <slug>`
-  undoes exactly what a run created (removes new files/dirs,
-  `git checkout --`s the shared registries), tracked via a fixed list
-  of the files those three generators touch — not a session log, so
-  it's only correct if nothing else modified those same files meanwhile
-  (documented as a scratch/testing tool, not a merge-aware undo).
-  Verified thoroughly, not just structurally: scaffolded a real
-  `scratch-widget-p7t3` component, `bin/test` passed clean on the first
-  try after one real bug (a missing `mkdir -p` for the nunjucks-headless
-  per-component dir) and one real gap (forgetting `bin/generate-api-docs`,
-  caught by `bin/test`'s own drift check) were found and fixed;
-  `bin/check-links` clean. Went beyond bin/test's structural checks to
-  actually run each of the 7 headless catalogs' own test suites against
-  the generated component code — not just confirm the files exist:
-  svelte-headless 1/1, react-headless 4/4, vue-headless 3/3,
-  angular-headless 3/3, and blazor-headless 3/3 all passed for real
-  (compiled and asserted correctly, including Blazor's `@($"...")`
-  string-interpolation syntax inside a heredoc-generated `.razor` file);
-  nunjucks-headless 4/4 passed; html-headless's generated `.html`/`.test.js`
-  are well-formed (syntax-checked; the full WDIO suite needs a browser
-  run, already covered by every other component in the P7-T1 `headless`
-  CI job). Reverted three times across the verification pass; `git
-  status` and `bin/test` both came back clean every time.
-  Two small, real, unrelated discoveries logged as new backlog items
-  rather than fixed here (P7-T13, P7-T14) — a doc/implementation
-  mismatch and a likely-dead legacy directory, both found in
-  svelte-headless while using its `kbd` component as this tool's
-  structural reference.
+      docs dir, CSS hook, 7 implementations + tests + stories, demos,
+      registries).
+      Verify: scratch slug → `bin/test` passes → clean revert.
+      Done 2026-08-29. `bin/new-component <slug> ["description"]` generates
+      a new, generic, working `<div>`-rooted placeholder component (Status:
+      experimental — a deliberate choice, since the tool can't know a real
+      future component's actual HTML tag, ARIA, or behavior) across: the
+      catalog row, the docs dir (`components/{slug}/`), the CSS hook, all 7
+      headless implementations + tests + stories (plus their `.md`
+      companions for react/vue/angular/blazor, matching the existing
+      convention), the two example apps `bin/test` checks per-component
+      (`svelte-sveltekit-examples`, `nunjucks-eleventy-examples`), the
+      github.io route, and every generated registry — by adding the one new
+      demo-map entry and AGENTS.md by hand, then calling the _existing_
+      generators (`bin/generate-component-categories`,
+      `bin/generate-registries`, `bin/generate-api-docs`) rather than
+      reimplementing their logic. `bin/new-component --revert <slug>`
+      undoes exactly what a run created (removes new files/dirs,
+      `git checkout --`s the shared registries), tracked via a fixed list
+      of the files those three generators touch — not a session log, so
+      it's only correct if nothing else modified those same files meanwhile
+      (documented as a scratch/testing tool, not a merge-aware undo).
+      Verified thoroughly, not just structurally: scaffolded a real
+      `scratch-widget-p7t3` component, `bin/test` passed clean on the first
+      try after one real bug (a missing `mkdir -p` for the nunjucks-headless
+      per-component dir) and one real gap (forgetting `bin/generate-api-docs`,
+      caught by `bin/test`'s own drift check) were found and fixed;
+      `bin/check-links` clean. Went beyond bin/test's structural checks to
+      actually run each of the 7 headless catalogs' own test suites against
+      the generated component code — not just confirm the files exist:
+      svelte-headless 1/1, react-headless 4/4, vue-headless 3/3,
+      angular-headless 3/3, and blazor-headless 3/3 all passed for real
+      (compiled and asserted correctly, including Blazor's `@($"...")`
+      string-interpolation syntax inside a heredoc-generated `.razor` file);
+      nunjucks-headless 4/4 passed; html-headless's generated `.html`/`.test.js`
+      are well-formed (syntax-checked; the full WDIO suite needs a browser
+      run, already covered by every other component in the P7-T1 `headless`
+      CI job). Reverted three times across the verification pass; `git
+status` and `bin/test` both came back clean every time.
+      Two small, real, unrelated discoveries logged as new backlog items
+      rather than fixed here (P7-T13, P7-T14) — a doc/implementation
+      mismatch and a likely-dead legacy directory, both found in
+      svelte-headless while using its `kbd` component as this tool's
+      structural reference.
 
 - [x] **P7-T4 `bin/check-coverage` drift matrix** (catalog ↔
-  implementations ↔ tests ↔ stories ↔ demos ↔ CSS hooks), non-zero on
-  drift, in CI.
-  Verify: exits 0 now; seeded fault detected.
-  Done 2026-08-29. Node script (fast — ~10,000 `existsSync` checks run
-  in milliseconds, sidestepping P7-T2's bash-3.2-under-`set -e`
-  pathology entirely by not being shell). Prints a matrix (missing /
-  491) for each of the 7 headless catalogs × {impl, test, story} —
-  Blazor's story column reads "n/a", a documented exception
-  (spec/index.md §11.7), not a gap — plus the canonical demo map and
-  the CSS hooks, then lists every gap and exits 1 if any exist.
-  Deliberately scoped to the 7 *headless* implementations, matching
-  `AGENTS/components.md`'s "7 headless subprojects" framing — not the
-  separate, adjacent concern of the example apps' own per-component
-  copies (a real gap surfaced there while building this tool; logged
-  below as P7-T15 rather than folded into this one's scope). Wired into
-  the `verify` CI job right after the registries-freshness check.
-  Verified for real: runs clean on HEAD today (0/491 everywhere, matrix
-  confirms full parity — genuinely true, not just asserted, since the
-  tool checks each dimension file-by-file); seeded three different
-  single-file faults (a missing Vue story, a missing demo-map entry, a
-  missing CSS hook) one at a time and confirmed each is caught with the
-  exact right dimension/slug/path in the gap list, then restored and
-  re-confirmed clean every time.
+      implementations ↔ tests ↔ stories ↔ demos ↔ CSS hooks), non-zero on
+      drift, in CI.
+      Verify: exits 0 now; seeded fault detected.
+      Done 2026-08-29. Node script (fast — ~10,000 `existsSync` checks run
+      in milliseconds, sidestepping P7-T2's bash-3.2-under-`set -e`
+      pathology entirely by not being shell). Prints a matrix (missing / 491) for each of the 7 headless catalogs × {impl, test, story} —
+      Blazor's story column reads "n/a", a documented exception
+      (spec/index.md §11.7), not a gap — plus the canonical demo map and
+      the CSS hooks, then lists every gap and exits 1 if any exist.
+      Deliberately scoped to the 7 _headless_ implementations, matching
+      `AGENTS/components.md`'s "7 headless subprojects" framing — not the
+      separate, adjacent concern of the example apps' own per-component
+      copies (a real gap surfaced there while building this tool; logged
+      below as P7-T15 rather than folded into this one's scope). Wired into
+      the `verify` CI job right after the registries-freshness check.
+      Verified for real: runs clean on HEAD today (0/491 everywhere, matrix
+      confirms full parity — genuinely true, not just asserted, since the
+      tool checks each dimension file-by-file); seeded three different
+      single-file faults (a missing Vue story, a missing demo-map entry, a
+      missing CSS hook) one at a time and confirmed each is caught with the
+      exact right dimension/slug/path in the gap list, then restored and
+      re-confirmed clean every time.
 
 - [x] **P7-T5 (stretch) Visual regression baseline**: ~30 components ×
-  3 themes × light/dark, Playwright screenshots, SvelteKit app. Done
-  2026-09-03: `e2e/visual-regression.spec.ts` in
-  `svelte-sveltekit-examples`, 30 slugs spanning all 11 categories
-  (content, national, forms, navigation, lists, tables, links,
-  pickers, overlays, media, buttons, data-viz) × 3 themes (the app's
-  default `united-kingdom-national-health-service-england-for-patients`,
-  `united-kingdom-government-digital-service`, and `dark` — chosen so
-  light and dark rendering are both represented, since the 45
-  reference themes are each a single fixed palette rather than a
-  light/dark pair of the same theme; see AGENTS/theme.md) = 90
-  screenshots of the `/components/{slug}` demo region only (`main
-  .card`), not full-page, so header/footer chrome changes don't
-  produce spurious diffs. Snapshot names carry an explicit
-  `process.platform` suffix on top of Playwright's own — baselines are
-  inherently OS-dependent (font rendering), so a Linux CI run will add
-  its own `-linux` baseline alongside this `-darwin` one rather than
-  conflict with it.
-  Verify: baseline committed (90 PNGs, `e2e/visual-regression.spec.ts-snapshots/`,
-  584K); re-run without `--update-snapshots` reports 90/90 passed,
-  confirmed stable across two consecutive runs.
+      3 themes × light/dark, Playwright screenshots, SvelteKit app. Done
+      2026-09-03: `e2e/visual-regression.spec.ts` in
+      `svelte-sveltekit-examples`, 30 slugs spanning all 11 categories
+      (content, national, forms, navigation, lists, tables, links,
+      pickers, overlays, media, buttons, data-viz) × 3 themes (the app's
+      default `united-kingdom-national-health-service-england-for-patients`,
+      `united-kingdom-government-digital-service`, and `dark` — chosen so
+      light and dark rendering are both represented, since the 45
+      reference themes are each a single fixed palette rather than a
+      light/dark pair of the same theme; see AGENTS/theme.md) = 90
+      screenshots of the `/components/{slug}` demo region only (`main
+.card`), not full-page, so header/footer chrome changes don't
+      produce spurious diffs. Snapshot names carry an explicit
+      `process.platform` suffix on top of Playwright's own — baselines are
+      inherently OS-dependent (font rendering), so a Linux CI run will add
+      its own `-linux` baseline alongside this `-darwin` one rather than
+      conflict with it.
+      Verify: baseline committed (90 PNGs, `e2e/visual-regression.spec.ts-snapshots/`,
+      584K); re-run without `--update-snapshots` reports 90/90 passed,
+      confirmed stable across two consecutive runs.
 
 - [x] **P7-T6 (stretch) Web Components headless subproject** — 8th
-  headless library as native custom elements. Done 2026-09-03, scoped
-  by explicit user choice to **scaffold + representative subset, not
-  full catalog parity**: `@lilydesignsystem/web-components-headless`
-  ships 30 of the 491 canonical components (8 buttons/links, 5 forms,
-  4 overlays, 6 media/data, 7 content), each a real, tested autonomous
-  custom element (`customElements.define("lily-{slug}", ...)`), plus
-  the full required-file set, build tooling, and Storybook config.
-  Architecture decisions recorded in the subproject's own
-  `spec/index.md`: autonomous custom elements over customized
-  built-ins (WebKit never implemented the latter and has said it won't
-  — `<button is="...">` silently fails to upgrade in Safari), light
-  DOM only (no shadow root, so consumer CSS reaches every element the
-  same way it does in the other seven catalogs), and two structural
-  patterns (wrap-a-real-element for 26 components, self-is-the-wrapper
-  for the 4 `<div>`-rooted ones — `Alert`, `Banner`, `ContextualHelp`,
-  `Coachmark`). Deliberately excluded and documented as a real, unsolved
-  gap rather than an oversight: every `*ListItem` and table sub-element
-  family (needs a tag+attribute selector only customized built-ins
-  support — the same wrapper-host defect class angular-headless's
-  0.3.0 fixed) and the 92 national personal identifier components.
-  A real defect was found and fixed during this slice's own test run:
-  `bar-chart.ts`'s attribute passthrough destructured `Attr` nodes as
-  `[key, value]` pairs (they aren't iterable that way), throwing on
-  every render with any attribute at all — fixed by using the same
-  `passThroughAttributes` helper every sibling component already used.
-  Verify: 163 tests across 30 `.test.ts` files pass
-  (`pnpm exec vitest run`); `tsc --noEmit` clean; `pnpm build` produces
-  a non-empty `dist/index.js` + `.d.ts`; a 31st `index.test.ts` imports
-  the **built** dist bundle and confirms all 30 tags self-register
-  (165 tests total); `pnpm build-storybook` succeeds for all 30
-  stories; root `bin/test` and `bin/check-links` both pass clean with
-  the new subproject present. Not yet done: git-subtree push to a
-  standalone remote, and npm publish — this session scoped the task to
-  building and verifying the subproject itself, not its first release.
+      headless library as native custom elements. Done 2026-09-03, scoped
+      by explicit user choice to **scaffold + representative subset, not
+      full catalog parity**: `@lilydesignsystem/web-components-headless`
+      ships 30 of the 491 canonical components (8 buttons/links, 5 forms,
+      4 overlays, 6 media/data, 7 content), each a real, tested autonomous
+      custom element (`customElements.define("lily-{slug}", ...)`), plus
+      the full required-file set, build tooling, and Storybook config.
+      Architecture decisions recorded in the subproject's own
+      `spec/index.md`: autonomous custom elements over customized
+      built-ins (WebKit never implemented the latter and has said it won't
+      — `<button is="...">` silently fails to upgrade in Safari), light
+      DOM only (no shadow root, so consumer CSS reaches every element the
+      same way it does in the other seven catalogs), and two structural
+      patterns (wrap-a-real-element for 26 components, self-is-the-wrapper
+      for the 4 `<div>`-rooted ones — `Alert`, `Banner`, `ContextualHelp`,
+      `Coachmark`). Deliberately excluded and documented as a real, unsolved
+      gap rather than an oversight: every `*ListItem` and table sub-element
+      family (needs a tag+attribute selector only customized built-ins
+      support — the same wrapper-host defect class angular-headless's
+      0.3.0 fixed) and the 92 national personal identifier components.
+      A real defect was found and fixed during this slice's own test run:
+      `bar-chart.ts`'s attribute passthrough destructured `Attr` nodes as
+      `[key, value]` pairs (they aren't iterable that way), throwing on
+      every render with any attribute at all — fixed by using the same
+      `passThroughAttributes` helper every sibling component already used.
+      Verify: 163 tests across 30 `.test.ts` files pass
+      (`pnpm exec vitest run`); `tsc --noEmit` clean; `pnpm build` produces
+      a non-empty `dist/index.js` + `.d.ts`; a 31st `index.test.ts` imports
+      the **built** dist bundle and confirms all 30 tags self-register
+      (165 tests total); `pnpm build-storybook` succeeds for all 30
+      stories; root `bin/test` and `bin/check-links` both pass clean with
+      the new subproject present. Not yet done: git-subtree push to a
+      standalone remote, and npm publish — this session scoped the task to
+      building and verifying the subproject itself, not its first release.
 
 - [x] **P7-T7 (stretch) `motion-picker` helper** (`data-motion`,
-  reduced-motion default) — Svelte canonical, then 6 ports, following
-  the five-helper contract in `AGENTS/helpers.md`. Done 2026-09-03:
-  built in all 7 catalogs (Svelte, React, Vue, Angular, HTML,
-  Nunjucks, Blazor), each following its own catalog's exact
-  text-size-picker idiom (closest sibling: same icon-button + APG
-  listbox shape, no OS-detection precedent to follow). One deliberate
-  behaviour difference from all three preference siblings: the initial
-  value defers to `(prefers-reduced-motion: reduce)` **unconditionally**
-  (not an opt-in flag like theme-picker's `detectFromSystem`) — motion
-  has a real accessibility signal (WCAG 2.3.3) worth defaulting to.
-  Glyph: pause sign (U+23F8 + U+FE0E), chosen over an abstract symbol
-  for the "stop the moving parts" reading and real monochrome coverage
-  in ordinary fonts. Nunjucks has one documented deviation: the OS
-  check is unavailable at template-render time, so the macro marks
-  `motions[0]` selected server-side and the client corrects it on
-  init (the same pattern theme-picker's own `detectFromSystem` uses).
-  The 45 `themes/*.css` files gained a `.motion-picker-icon` selector
-  and `bin/check-theme`'s `HELPER_PREFIXES`/`bin/smoke-packages` were
-  updated to recognise it; the icon's `--lily-picker-icon-scale` is
-  documented as a reasoned placeholder (reference scale) rather than a
-  fabricated measured value, since I could not reproduce the original
-  four factors' measurement methodology to extend it honestly.
-  Verify: per-catalog tests pass (Svelte 242, React 310, Vue 309,
-  HTML 346, Nunjucks 381, Angular 345, Blazor 234 — all catalog
-  totals, up from the pre-existing counts by the new suite's size);
-  `bin/smoke-packages` (extended to cover motion-picker) run for real
-  end-to-end against all 6 npm catalogs' built tarballs — "all
-  packages OK"; `npm publish --access public --dry-run` verified
-  directly against the built `@lilydesignsystem/svelte-motion-picker`
-  package — packs and validates cleanly (never-published 0.1.0, no
-  registry conflict). The aggregate `bin/publish-helpers --dry-run`
-  itself could not be used for this verification — see the new
-  backlog item below, a real pre-existing defect this surfaced.
+      reduced-motion default) — Svelte canonical, then 6 ports, following
+      the five-helper contract in `AGENTS/helpers.md`. Done 2026-09-03:
+      built in all 7 catalogs (Svelte, React, Vue, Angular, HTML,
+      Nunjucks, Blazor), each following its own catalog's exact
+      text-size-picker idiom (closest sibling: same icon-button + APG
+      listbox shape, no OS-detection precedent to follow). One deliberate
+      behaviour difference from all three preference siblings: the initial
+      value defers to `(prefers-reduced-motion: reduce)` **unconditionally**
+      (not an opt-in flag like theme-picker's `detectFromSystem`) — motion
+      has a real accessibility signal (WCAG 2.3.3) worth defaulting to.
+      Glyph: pause sign (U+23F8 + U+FE0E), chosen over an abstract symbol
+      for the "stop the moving parts" reading and real monochrome coverage
+      in ordinary fonts. Nunjucks has one documented deviation: the OS
+      check is unavailable at template-render time, so the macro marks
+      `motions[0]` selected server-side and the client corrects it on
+      init (the same pattern theme-picker's own `detectFromSystem` uses).
+      The 45 `themes/*.css` files gained a `.motion-picker-icon` selector
+      and `bin/check-theme`'s `HELPER_PREFIXES`/`bin/smoke-packages` were
+      updated to recognise it; the icon's `--lily-picker-icon-scale` is
+      documented as a reasoned placeholder (reference scale) rather than a
+      fabricated measured value, since I could not reproduce the original
+      four factors' measurement methodology to extend it honestly.
+      Verify: per-catalog tests pass (Svelte 242, React 310, Vue 309,
+      HTML 346, Nunjucks 381, Angular 345, Blazor 234 — all catalog
+      totals, up from the pre-existing counts by the new suite's size);
+      `bin/smoke-packages` (extended to cover motion-picker) run for real
+      end-to-end against all 6 npm catalogs' built tarballs — "all
+      packages OK"; `npm publish --access public --dry-run` verified
+      directly against the built `@lilydesignsystem/svelte-motion-picker`
+      package — packs and validates cleanly (never-published 0.1.0, no
+      registry conflict). The aggregate `bin/publish-helpers --dry-run`
+      itself could not be used for this verification — see the new
+      backlog item below, a real pre-existing defect this surfaced.
 
 - [x] **P7-T19 `bin/publish-helpers --dry-run` (and
-  `bin/publish-headless --dry-run`) fails on any already-published
-  package encountered before an unpublished one in the loop.** Found
-  2026-09-03 verifying P7-T7. `npm publish --dry-run` contacts the
-  real registry and refuses outright ("You cannot publish over the
-  previously published versions: X.Y.Z") when the local version
-  already exists there — confirmed against the live registry
-  (`npm view @lilydesignsystem/svelte-date-time-picker version` →
-  `0.1.1`, matching the in-repo version). Because the aggregate
-  scripts loop with `set -eu`, hitting this on ANY already-published
-  package (alphabetically, `date-time-picker` sorts before
-  `motion-picker` in the svelte catalog) aborts the whole dry run
-  before later packages — including a brand-new, never-published one
-  like `motion-picker` — are ever reached. This means the project's
-  own "dry-run first, always" discipline (`docs/releasing.md`) has
-  been silently broken since the first package was actually published
-  (2026-08-26), and no prior dry run caught it because dry runs before
-  that date had nothing already published to collide with.
-  Fixed 2026-09-03: both scripts gained a `publish_npm_package()`
-  helper that runs `npm publish --access public --dry-run`, captures
-  its combined output, and treats "You cannot publish over the
-  previously published versions" as a non-fatal, expected outcome —
-  printing the same output either way — while any other failure (bad
-  manifest, network error, missing dist, …) still propagates and
-  aborts the script exactly as before. Real (non-dry-run) publishing
-  is untouched: the tolerance only applies when `$DRY` is set.
-  **Correction 2026-09-03 (later the same day):** the "still aborts"
-  claim was false as written — `status=$?` was captured after the
-  `if`, so it was always 0 and every failure was tolerated; the dry-run
-  verification only ever exercised the tolerated path. Fixed and
-  proven under P8-T11 (`c51f1cb0b`), where the tolerance now also
-  applies in real mode, deliberately, as NuGet's `--skip-duplicate`
-  already did.
-  Verify: `bin/publish-helpers --dry-run` run for real end-to-end —
-  exits 0, correctly tolerates 30 already-published npm packages
-  (svelte/react/vue/html/nunjucks/angular × the 5 pre-existing
-  `*-picker` helpers) while the 6 new, never-published
-  `motion-picker` packages dry-run-succeed normally (`+
-  lily-design-system-{catalog}-motion-picker@0.1.0`), then continues
-  through and packs all 6 Blazor `.nupkg`s. `bin/publish-headless
-  --dry-run` also run for real: exits 0, tolerates 5 already-published
-  headless packages, packs the Blazor headless `.nupkg`. Root
-  `bin/test` and `bin/check-links` both still pass.
+      `bin/publish-headless --dry-run`) fails on any already-published
+      package encountered before an unpublished one in the loop.** Found
+      2026-09-03 verifying P7-T7. `npm publish --dry-run` contacts the
+      real registry and refuses outright ("You cannot publish over the
+      previously published versions: X.Y.Z") when the local version
+      already exists there — confirmed against the live registry
+      (`npm view @lilydesignsystem/svelte-date-time-picker version` →
+      `0.1.1`, matching the in-repo version). Because the aggregate
+      scripts loop with `set -eu`, hitting this on ANY already-published
+      package (alphabetically, `date-time-picker` sorts before
+      `motion-picker` in the svelte catalog) aborts the whole dry run
+      before later packages — including a brand-new, never-published one
+      like `motion-picker` — are ever reached. This means the project's
+      own "dry-run first, always" discipline (`docs/releasing.md`) has
+      been silently broken since the first package was actually published
+      (2026-08-26), and no prior dry run caught it because dry runs before
+      that date had nothing already published to collide with.
+      Fixed 2026-09-03: both scripts gained a `publish_npm_package()`
+      helper that runs `npm publish --access public --dry-run`, captures
+      its combined output, and treats "You cannot publish over the
+      previously published versions" as a non-fatal, expected outcome —
+      printing the same output either way — while any other failure (bad
+      manifest, network error, missing dist, …) still propagates and
+      aborts the script exactly as before. Real (non-dry-run) publishing
+      is untouched: the tolerance only applies when `$DRY` is set.
+      **Correction 2026-09-03 (later the same day):** the "still aborts"
+      claim was false as written — `status=$?` was captured after the
+      `if`, so it was always 0 and every failure was tolerated; the dry-run
+      verification only ever exercised the tolerated path. Fixed and
+      proven under P8-T11 (`c51f1cb0b`), where the tolerance now also
+      applies in real mode, deliberately, as NuGet's `--skip-duplicate`
+      already did.
+      Verify: `bin/publish-helpers --dry-run` run for real end-to-end —
+      exits 0, correctly tolerates 30 already-published npm packages
+      (svelte/react/vue/html/nunjucks/angular × the 5 pre-existing
+      `*-picker` helpers) while the 6 new, never-published
+      `motion-picker` packages dry-run-succeed normally (`+
+lily-design-system-{catalog}-motion-picker@0.1.0`), then continues
+      through and packs all 6 Blazor `.nupkg`s. `bin/publish-headless
+--dry-run` also run for real: exits 0, tolerates 5 already-published
+      headless packages, packs the Blazor headless `.nupkg`. Root
+      `bin/test` and `bin/check-links` both still pass.
 
 - [x] **P7-T8 Blazor-web-examples: 5 composed pages pass non-existent
-  component parameters and silently do nothing.** Found 2026-08-29
-  while building P6-T3's Blazor port. `lily-design-system-blazor-headless`
-  was rewritten at some point to a minimal, uniform shape —
-  `TextInput`, `EmailInput`, `TelInput`, `DateInput`, `TextAreaInput`,
-  `Select`, `Option`, `RadioInput`, `CheckboxInput`, `Form`, `Field`,
-  `Fieldset`, `SummaryListItem`, etc. now declare only
-  `Label`/`CssClass`/`AdditionalAttributes` — no `Value`/`ValueChanged`,
-  `Checked`/`CheckedChanged`, `OnSubmit`, `Legend`, `Required`, `Error`,
-  or `Term`. `ContactForm.razor`, `SettingsPage.razor`,
-  `RatingAndFeedback.razor`, `SearchAndFilter.razor`, and
-  `TaskManagement.razor` still pass PascalCase `Value=`/`ValueChanged=`/
-  `OnSubmit=`/`Legend=` as if those parameters existed. They don't
-  error — the attributes land in `AdditionalAttributes` and get
-  splatted onto the root element verbatim, which wires nothing (a
-  capital-letter attribute is never recognised as a DOM event handler,
-  and `ValueChanged` isn't an event at all) — so the pages *render*
-  fine and pass the existing page-load-only accessibility/responsive
-  smoke tests, but no real two-way binding or form submission happens
-  on any of the five. `dotnet build` even hints at it indirectly
-  (`CS0649` on `RatingAndFeedback`'s never-assigned fields). This went
-  undetected because no existing e2e test in this app types into a
-  field or submits a form and checks the result — only
-  `BookAnAppointment.razor` (P6-T3) does that, using the idiom that
-  actually works: lowercase `value`/`checked` attributes plus
-  `@onchange`/`@oninput`/`@onsubmit` directives, which attribute
-  splatting wires correctly regardless of component boundary.
-  Fix requires a deliberate choice: restore the removed parameters to
-  5+ headless components, or rewrite the 5 pages onto the working
-  native-attribute idiom (matching `BookAnAppointment.razor` and the
-  one working precedent already in `SettingsPage.razor`'s `@onclick`
-  on `RadioInput`). Also update this app's own `AGENTS.md`, whose "Key
-  Component APIs" section still documents the old, no-longer-true
-  `Value`/`ValueChanged`/`OnSubmit` contract.
-  Verify: each fixed page's e2e spec actually types/selects/submits
-  and asserts the result, not just page-load + axe.
-  Done 2026-08-30: chose the rewrite-the-pages option — the headless
-  minimalism looked intentional, and `BookAnAppointment.razor` already
-  proved the idiom works end to end. Rewrote all 5 pages onto the
-  native-attribute idiom (lowercase `value`/`checked`/`name` +
-  `@onchange`/`@oninput`, `novalidate @onsubmit` on `Form`, a real
-  `<legend>` inside `Fieldset` instead of the fictitious `Legend`
-  param). Two rating pickers (`FiveStarRatingPicker`,
-  `FiveFaceRatingPicker`, `NetPromoterScorePicker`) turned out to be
-  thin `role="radiogroup"` wrappers with no baked-in radios (same
-  shape as `RadioGroup`), so the page now supplies real `RadioInput`
-  children directly, matching the `RadioGroup` composition
-  `BookAnAppointment.razor` already established.
-  Investigating `SearchAndFilter.razor` surfaced two further real,
-  independent defects in `lily-design-system-blazor-headless` itself
-  (fixed alongside, with new bUnit coverage — 1509/1509 pass, was
-  1502): `Combobox` was missing `Value`/`ValueChanged` and rendered no
-  `<input>` at all (just a bare `<div role="combobox">`), unlike the
-  canonical Svelte/React versions which both bake in a real text
-  input — fixed to match parity, so the page's `@bind-Value`/
-  `@bind-Open` now work and its `ChildContent` is bare `role="option"`
-  elements (no separate `Listbox` wrapper, since `Combobox` renders
-  its own listbox internally). `SwitchButton` declared real
-  `Checked`/`CheckedChanged` parameters but never actually invoked
-  `CheckedChanged` on click — the parameters looked wired but did
-  nothing without the consumer separately wiring `@onclick` — fixed
-  with an internal `@onclick` handler; caught by a genuine e2e
-  failure (`aria-checked` stayed `"false"` after clicking Dark mode),
-  not by inspection.
-  Root-caused *why* this happened: both
-  `lily-design-system-blazor-headless/AGENTS.md` and this app's own
-  `AGENTS.md` documented the old `Value`/`ValueChanged`/`OnSubmit`
-  contract as the general pattern across "State Management"/"Key
-  Component APIs" — the exact thing an agent (or a person) would
-  read before writing one of these pages. Rewrote both docs to state
-  the real rule (most components are `Label`/`CssClass`/
-  `ChildContent`/`AdditionalAttributes` only; the native-attribute
-  idiom is the norm; only `SwitchButton`, `Combobox`, and
-  `AccordionCheckbox` genuinely bind) and corrected the stale
-  `Alert`/`ErrorSummary` "Known Gotchas" entries found along the way.
-  New e2e coverage: `e2e/p7-t8-composed-pages.spec.ts`, 7 tests
-  actually typing into fields, checking radios/checkboxes, selecting
-  options, filtering the combobox, and submitting each of the 5 forms
-  — all pass against the real `dotnet run` dev server, not just
-  build+bUnit. Full existing suites re-verified green after the
-  change: 1509 blazor-headless bUnit, 1007 blazor-web-examples bUnit,
-  and the app's `accessibility`/`responsive`/`book-an-appointment`/
-  `components-index`/`site-preferences`/`theme-switching`/`rtl-demo`
-  e2e specs (23 + 79 passed) — one unrelated pre-existing failure
-  surfaced (`/components/dialog` axe color-contrast), logged as
-  P7-T17 below rather than folded into this fix. Full record:
-  [CHANGELOG.md](CHANGELOG.md).
+      component parameters and silently do nothing.** Found 2026-08-29
+      while building P6-T3's Blazor port. `lily-design-system-blazor-headless`
+      was rewritten at some point to a minimal, uniform shape —
+      `TextInput`, `EmailInput`, `TelInput`, `DateInput`, `TextAreaInput`,
+      `Select`, `Option`, `RadioInput`, `CheckboxInput`, `Form`, `Field`,
+      `Fieldset`, `SummaryListItem`, etc. now declare only
+      `Label`/`CssClass`/`AdditionalAttributes` — no `Value`/`ValueChanged`,
+      `Checked`/`CheckedChanged`, `OnSubmit`, `Legend`, `Required`, `Error`,
+      or `Term`. `ContactForm.razor`, `SettingsPage.razor`,
+      `RatingAndFeedback.razor`, `SearchAndFilter.razor`, and
+      `TaskManagement.razor` still pass PascalCase `Value=`/`ValueChanged=`/
+      `OnSubmit=`/`Legend=` as if those parameters existed. They don't
+      error — the attributes land in `AdditionalAttributes` and get
+      splatted onto the root element verbatim, which wires nothing (a
+      capital-letter attribute is never recognised as a DOM event handler,
+      and `ValueChanged` isn't an event at all) — so the pages _render_
+      fine and pass the existing page-load-only accessibility/responsive
+      smoke tests, but no real two-way binding or form submission happens
+      on any of the five. `dotnet build` even hints at it indirectly
+      (`CS0649` on `RatingAndFeedback`'s never-assigned fields). This went
+      undetected because no existing e2e test in this app types into a
+      field or submits a form and checks the result — only
+      `BookAnAppointment.razor` (P6-T3) does that, using the idiom that
+      actually works: lowercase `value`/`checked` attributes plus
+      `@onchange`/`@oninput`/`@onsubmit` directives, which attribute
+      splatting wires correctly regardless of component boundary.
+      Fix requires a deliberate choice: restore the removed parameters to
+      5+ headless components, or rewrite the 5 pages onto the working
+      native-attribute idiom (matching `BookAnAppointment.razor` and the
+      one working precedent already in `SettingsPage.razor`'s `@onclick`
+      on `RadioInput`). Also update this app's own `AGENTS.md`, whose "Key
+      Component APIs" section still documents the old, no-longer-true
+      `Value`/`ValueChanged`/`OnSubmit` contract.
+      Verify: each fixed page's e2e spec actually types/selects/submits
+      and asserts the result, not just page-load + axe.
+      Done 2026-08-30: chose the rewrite-the-pages option — the headless
+      minimalism looked intentional, and `BookAnAppointment.razor` already
+      proved the idiom works end to end. Rewrote all 5 pages onto the
+      native-attribute idiom (lowercase `value`/`checked`/`name` +
+      `@onchange`/`@oninput`, `novalidate @onsubmit` on `Form`, a real
+      `<legend>` inside `Fieldset` instead of the fictitious `Legend`
+      param). Two rating pickers (`FiveStarRatingPicker`,
+      `FiveFaceRatingPicker`, `NetPromoterScorePicker`) turned out to be
+      thin `role="radiogroup"` wrappers with no baked-in radios (same
+      shape as `RadioGroup`), so the page now supplies real `RadioInput`
+      children directly, matching the `RadioGroup` composition
+      `BookAnAppointment.razor` already established.
+      Investigating `SearchAndFilter.razor` surfaced two further real,
+      independent defects in `lily-design-system-blazor-headless` itself
+      (fixed alongside, with new bUnit coverage — 1509/1509 pass, was
+      1502): `Combobox` was missing `Value`/`ValueChanged` and rendered no
+      `<input>` at all (just a bare `<div role="combobox">`), unlike the
+      canonical Svelte/React versions which both bake in a real text
+      input — fixed to match parity, so the page's `@bind-Value`/
+      `@bind-Open` now work and its `ChildContent` is bare `role="option"`
+      elements (no separate `Listbox` wrapper, since `Combobox` renders
+      its own listbox internally). `SwitchButton` declared real
+      `Checked`/`CheckedChanged` parameters but never actually invoked
+      `CheckedChanged` on click — the parameters looked wired but did
+      nothing without the consumer separately wiring `@onclick` — fixed
+      with an internal `@onclick` handler; caught by a genuine e2e
+      failure (`aria-checked` stayed `"false"` after clicking Dark mode),
+      not by inspection.
+      Root-caused _why_ this happened: both
+      `lily-design-system-blazor-headless/AGENTS.md` and this app's own
+      `AGENTS.md` documented the old `Value`/`ValueChanged`/`OnSubmit`
+      contract as the general pattern across "State Management"/"Key
+      Component APIs" — the exact thing an agent (or a person) would
+      read before writing one of these pages. Rewrote both docs to state
+      the real rule (most components are `Label`/`CssClass`/
+      `ChildContent`/`AdditionalAttributes` only; the native-attribute
+      idiom is the norm; only `SwitchButton`, `Combobox`, and
+      `AccordionCheckbox` genuinely bind) and corrected the stale
+      `Alert`/`ErrorSummary` "Known Gotchas" entries found along the way.
+      New e2e coverage: `e2e/p7-t8-composed-pages.spec.ts`, 7 tests
+      actually typing into fields, checking radios/checkboxes, selecting
+      options, filtering the combobox, and submitting each of the 5 forms
+      — all pass against the real `dotnet run` dev server, not just
+      build+bUnit. Full existing suites re-verified green after the
+      change: 1509 blazor-headless bUnit, 1007 blazor-web-examples bUnit,
+      and the app's `accessibility`/`responsive`/`book-an-appointment`/
+      `components-index`/`site-preferences`/`theme-switching`/`rtl-demo`
+      e2e specs (23 + 79 passed) — one unrelated pre-existing failure
+      surfaced (`/components/dialog` axe color-contrast), logged as
+      P7-T17 below rather than folded into this fix. Full record:
+      [CHANGELOG.md](CHANGELOG.md).
 
 - [x] **P7-T17 `/components/dialog` fails an axe color-contrast check
-  in blazor-web-examples.** Found 2026-08-30 while re-verifying the
-  full accessibility suite after P7-T8. Unrelated to P7-T8's changes
-  (nothing touched Dialog or the theme CSS); reproduces in isolation
-  (`npx playwright test e2e/accessibility.spec.ts -g "components/dialog"`).
-  Not yet root-caused — likely one of the 45 themes' contrast on the
-  Dialog demo's sample content, in the same family as the §11.5a
-  token-contrast fixes.
-  Verify: `expectNoViolations` passes for `/components/dialog` across
-  a full `accessibility.spec.ts` run.
-  Done 2026-08-30: NOT a theme contrast defect — root-caused as a pure
-  test-timing race. `App.razor`'s inline bootstrap script appends the
-  managed theme `<link>` to `<head>` before first paint, but a
-  dynamically-appended stylesheet link doesn't block painting the way
-  a static one in the original HTML does, so the pre-rendered page can
-  briefly paint with zero author styles. Confirmed by instrumenting
-  `getComputedStyle` on `.button` across repeated navigations (always
-  settled on the theme's real colours, oklch(0.45 0.17 251) bg / white
-  text, ~7.3:1 contrast — comfortably over the 4.5:1 AA floor) while
-  the flaky axe report showed colours (`#116cba`/`#cecece`) matching
-  none of the 45 theme files — a mid-repaint artifact, not a themed
-  state. Fixed by waiting for the managed theme stylesheet to actually
-  parse (`link.sheet !== null`) before scanning. That surfaced a
-  second, independent circuit-timing race on `/rtl-demo`
-  (`document-title` violation — `<HeadOutlet>` can still clear
-  `<title>` a moment after its first non-empty read, so polling
-  `document.title !== ''` alone raced too), the same flake class the
-  2026-08-26 sweep (§11.8) had already fixed elsewhere in this app;
-  fixed the same way, waiting for `window.Blazor` plus a 300ms settle
-  matching `book-an-appointment.spec.ts`'s `gotoReady`. Verified: 50/50
-  clean repeats of the two affected routes, 8/8 clean full-suite runs
-  after the fix (was 6/12 clean before). Along the way, a full `e2e/`
-  run also surfaced 7 unrelated, pre-existing, deterministic (not
-  flaky) test bugs — `calendar-table-th`, `data-table-th`,
-  `kanban-table-th`, `table-th`, `gantt-table-tbody`,
-  `gantt-table-thead`, and `gantt-table-tr`'s specs asserted the wrong
-  PascalCase name (a TH/TD swap in four, a dropped "t" or wrong case in
-  the three gantt ones) — confirmed via `curl` that the live page
-  already rendered the correct canonical name in every case, so these
-  were spec-authoring bugs, not component defects; fixed all 7 to
-  match `components.tsv`. Full record: [CHANGELOG.md](CHANGELOG.md).
+      in blazor-web-examples.** Found 2026-08-30 while re-verifying the
+      full accessibility suite after P7-T8. Unrelated to P7-T8's changes
+      (nothing touched Dialog or the theme CSS); reproduces in isolation
+      (`npx playwright test e2e/accessibility.spec.ts -g "components/dialog"`).
+      Not yet root-caused — likely one of the 45 themes' contrast on the
+      Dialog demo's sample content, in the same family as the §11.5a
+      token-contrast fixes.
+      Verify: `expectNoViolations` passes for `/components/dialog` across
+      a full `accessibility.spec.ts` run.
+      Done 2026-08-30: NOT a theme contrast defect — root-caused as a pure
+      test-timing race. `App.razor`'s inline bootstrap script appends the
+      managed theme `<link>` to `<head>` before first paint, but a
+      dynamically-appended stylesheet link doesn't block painting the way
+      a static one in the original HTML does, so the pre-rendered page can
+      briefly paint with zero author styles. Confirmed by instrumenting
+      `getComputedStyle` on `.button` across repeated navigations (always
+      settled on the theme's real colours, oklch(0.45 0.17 251) bg / white
+      text, ~7.3:1 contrast — comfortably over the 4.5:1 AA floor) while
+      the flaky axe report showed colours (`#116cba`/`#cecece`) matching
+      none of the 45 theme files — a mid-repaint artifact, not a themed
+      state. Fixed by waiting for the managed theme stylesheet to actually
+      parse (`link.sheet !== null`) before scanning. That surfaced a
+      second, independent circuit-timing race on `/rtl-demo`
+      (`document-title` violation — `<HeadOutlet>` can still clear
+      `<title>` a moment after its first non-empty read, so polling
+      `document.title !== ''` alone raced too), the same flake class the
+      2026-08-26 sweep (§11.8) had already fixed elsewhere in this app;
+      fixed the same way, waiting for `window.Blazor` plus a 300ms settle
+      matching `book-an-appointment.spec.ts`'s `gotoReady`. Verified: 50/50
+      clean repeats of the two affected routes, 8/8 clean full-suite runs
+      after the fix (was 6/12 clean before). Along the way, a full `e2e/`
+      run also surfaced 7 unrelated, pre-existing, deterministic (not
+      flaky) test bugs — `calendar-table-th`, `data-table-th`,
+      `kanban-table-th`, `table-th`, `gantt-table-tbody`,
+      `gantt-table-thead`, and `gantt-table-tr`'s specs asserted the wrong
+      PascalCase name (a TH/TD swap in four, a dropped "t" or wrong case in
+      the three gantt ones) — confirmed via `curl` that the live page
+      already rendered the correct canonical name in every case, so these
+      were spec-authoring bugs, not component defects; fixed all 7 to
+      match `components.tsv`. Full record: [CHANGELOG.md](CHANGELOG.md).
 
 - [x] **P7-T9 Per-app legacy `nhs.css`/equivalent is dead code in (at
-  least) 6 of the 7 example apps.** Found 2026-08-29 while building
-  P6-T4's RTL demo route, then independently re-confirmed per-app
-  while porting it to the other five.
-  Verify: `grep -rn "nhs.css"` (or each app's equivalent filename)
-  under each app's own source tree returns nothing once resolved.
-  Done 2026-08-30: confirmed dead the same rigorous way each time — a
-  real-import/link grep across every source file in the app (not just
-  docs or comments) turned up nothing in any of the 6, and each app's
-  actual global entry point (`+layout.svelte`, `layout.tsx`,
-  `nuxt.config.ts`'s `css` array, `main.ts`, `App.razor`'s `<link>`)
-  imports `app-shell.css` instead. Deleted all 6 `nhs.css` files
-  (`lily-design-system-svelte-sveltekit-examples/src/lib/css/nhs.css`,
-  `-react-next-examples/assets/css/nhs.css`,
-  `-vue-nuxt-examples/assets/css/nhs.css`,
-  `-angular-examples/src/styles/nhs.css`,
-  `-blazor-web-examples/.../wwwroot/css/nhs.css`,
-  `-html-css-js-examples/assets/css/nhs.css`) outright — nothing worth
-  folding into the theme files; the runtime `themes/*.css` already
-  comprehensively styles every component class these files also
-  covered. Fixed the resulting stale `AGENTS.md` mentions in 4 apps
-  (react-next, vue-nuxt, angular, blazor-web) that still described
-  `nhs.css` as the live stylesheet; html-css-js's `AGENTS.md` had the
-  same drift, fixed too.
-  `lily-design-system-nunjucks-eleventy-examples` remains the one
-  confirmed exception (its own `src/assets/css/` is genuinely live).
+      least) 6 of the 7 example apps.** Found 2026-08-29 while building
+      P6-T4's RTL demo route, then independently re-confirmed per-app
+      while porting it to the other five.
+      Verify: `grep -rn "nhs.css"` (or each app's equivalent filename)
+      under each app's own source tree returns nothing once resolved.
+      Done 2026-08-30: confirmed dead the same rigorous way each time — a
+      real-import/link grep across every source file in the app (not just
+      docs or comments) turned up nothing in any of the 6, and each app's
+      actual global entry point (`+layout.svelte`, `layout.tsx`,
+      `nuxt.config.ts`'s `css` array, `main.ts`, `App.razor`'s `<link>`)
+      imports `app-shell.css` instead. Deleted all 6 `nhs.css` files
+      (`lily-design-system-svelte-sveltekit-examples/src/lib/css/nhs.css`,
+      `-react-next-examples/assets/css/nhs.css`,
+      `-vue-nuxt-examples/assets/css/nhs.css`,
+      `-angular-examples/src/styles/nhs.css`,
+      `-blazor-web-examples/.../wwwroot/css/nhs.css`,
+      `-html-css-js-examples/assets/css/nhs.css`) outright — nothing worth
+      folding into the theme files; the runtime `themes/*.css` already
+      comprehensively styles every component class these files also
+      covered. Fixed the resulting stale `AGENTS.md` mentions in 4 apps
+      (react-next, vue-nuxt, angular, blazor-web) that still described
+      `nhs.css` as the live stylesheet; html-css-js's `AGENTS.md` had the
+      same drift, fixed too.
+      `lily-design-system-nunjucks-eleventy-examples` remains the one
+      confirmed exception (its own `src/assets/css/` is genuinely live).
 
 - [x] **P7-T10 `lily-design-system-html-css-js-examples`: `app-shell.css`
-  depends on `--nhs-*` custom properties that only exist in the dead
-  `nhs.css` (P7-T9), so they resolve to nothing wherever they're used.**
-  Found 2026-08-29 while fixing a regression from P6-T3's own
-  `book-an-appointment.html` port.
-  Verify: `getPropertyValue('--nhs-black')` etc. return real values on
-  a served page; `.status-tag`/`.panel` render visibly styled in every
-  app that uses them.
-  Done 2026-08-30, and the real scope was bigger than originally
-  logged: all 6 apps' `app-shell.css` use the exact same 11
-  `--nhs-*` custom properties (`--nhs-black`, `--nhs-white`,
-  `--nhs-font-family`, `--nhs-font-size-19`, `--nhs-line-height-normal`,
-  `--nhs-focus-color`, `--nhs-focus-text-color`, `--nhs-max-width`,
-  `--nhs-space-2/3/4`), not just html-css-js — every one of them was
-  silently resolving to nothing, identically, in every app. Fixed by
-  restoring the 11 real values (extracted from the about-to-be-deleted
-  `nhs.css`, confirmed byte-identical across all 6 copies first) as a
-  `:root` block at the top of each app's own `app-shell.css`, labelled
-  as the app-shell's own fixed brand tokens — deliberately NOT
-  swappable by the theme-picker, since that only applies to Lily
-  component classes, not the app-owned chrome. Verified for real in a
-  live browser in all 6 apps (not just one): built and served each app,
-  confirmed `getComputedStyle(document.documentElement)
-  .getPropertyValue('--nhs-black')` returns `#231f20` and `--nhs-space-4`
-  returns `1.5rem` (previously both `""`) on every one.
-  The two "narrower, related gaps" originally logged alongside this
-  turned out to already be fixed, or never true: `.status-tag` and
-  `.panel` DO have real base `:where(...)` rules in every one of the 45
-  reference themes (checked directly, not assumed) — `.status-tag`
-  shares a rule with `.badge`/`.flair`/`.tag`/`.ai-label`,
-  `.panel` shares one with `.card`/`.feature-card`/etc. — so nothing
-  needed fixing there; this session couldn't determine whether that was
-  already true when P7-T10 was first logged or fixed by unrelated work
-  since. The `.visually-hidden` → `.screen-reader-span` swap in
-  `book-an-appointment.html` was already done in the original commit
-  (confirmed: 0 occurrences of `.visually-hidden`, 7 of
-  `.screen-reader-span` in that file).
+      depends on `--nhs-*` custom properties that only exist in the dead
+      `nhs.css` (P7-T9), so they resolve to nothing wherever they're used.**
+      Found 2026-08-29 while fixing a regression from P6-T3's own
+      `book-an-appointment.html` port.
+      Verify: `getPropertyValue('--nhs-black')` etc. return real values on
+      a served page; `.status-tag`/`.panel` render visibly styled in every
+      app that uses them.
+      Done 2026-08-30, and the real scope was bigger than originally
+      logged: all 6 apps' `app-shell.css` use the exact same 11
+      `--nhs-*` custom properties (`--nhs-black`, `--nhs-white`,
+      `--nhs-font-family`, `--nhs-font-size-19`, `--nhs-line-height-normal`,
+      `--nhs-focus-color`, `--nhs-focus-text-color`, `--nhs-max-width`,
+      `--nhs-space-2/3/4`), not just html-css-js — every one of them was
+      silently resolving to nothing, identically, in every app. Fixed by
+      restoring the 11 real values (extracted from the about-to-be-deleted
+      `nhs.css`, confirmed byte-identical across all 6 copies first) as a
+      `:root` block at the top of each app's own `app-shell.css`, labelled
+      as the app-shell's own fixed brand tokens — deliberately NOT
+      swappable by the theme-picker, since that only applies to Lily
+      component classes, not the app-owned chrome. Verified for real in a
+      live browser in all 6 apps (not just one): built and served each app,
+      confirmed `getComputedStyle(document.documentElement)
+.getPropertyValue('--nhs-black')` returns `#231f20` and `--nhs-space-4`
+      returns `1.5rem` (previously both `""`) on every one.
+      The two "narrower, related gaps" originally logged alongside this
+      turned out to already be fixed, or never true: `.status-tag` and
+      `.panel` DO have real base `:where(...)` rules in every one of the 45
+      reference themes (checked directly, not assumed) — `.status-tag`
+      shares a rule with `.badge`/`.flair`/`.tag`/`.ai-label`,
+      `.panel` shares one with `.card`/`.feature-card`/etc. — so nothing
+      needed fixing there; this session couldn't determine whether that was
+      already true when P7-T10 was first logged or fixed by unrelated work
+      since. The `.visually-hidden` → `.screen-reader-span` swap in
+      `book-an-appointment.html` was already done in the original commit
+      (confirmed: 0 occurrences of `.visually-hidden`, 7 of
+      `.screen-reader-span` in that file).
 
 - [x] **P7-T11 `lily-design-system-angular-examples` has no working
-  vitest setup — 491 orphaned `src/app/components/*.spec.ts` files
-  can't run.** Found 2026-08-29 while adding P6-T5's suffix-pattern
-  unit tests: this app has copies of all 491 `.spec.ts` files from
-  `@lilydesignsystem/angular-headless` (part of the standard
-  copy-pattern) but never received the matching `vitest.config.ts` /
-  TestBed / jsdom / `@analogjs/vite-plugin-angular` wiring that
-  angular-headless's own config provides — running `vitest` cold fails
-  with `MODULE_NOT_FOUND`. A new `vitest.config.ts` landed in the same
-  commit, but deliberately scoped to `src/app/*.spec.ts` only (the
-  suffix-pattern test, not the component copies), since actually
-  wiring up 491 pre-existing non-functional specs is a separate,
-  larger piece of work than one search filter.
-  Verify: `pnpm test` runs and passes at least a representative sample
-  of `src/app/components/*.spec.ts`, not just the app's own top-level
-  logic tests.
-  Investigated further 2026-08-30, still open — the config gap wasn't
-  the real blocker. Wired up the same `@analogjs/vite-plugin-angular` +
-  jsdom + TestBed setup angular-headless's own `vitest.config.ts` uses
-  (this app already depends on both packages for its own Analog build),
-  and initially suspected a zone.js-vs-zoneless TestBed mismatch (this
-  app bootstraps zoneless; angular-headless's setup imports zone.js) —
-  ruled that out directly: switching to the non-deprecated,
-  zoneless-native `BrowserTestingModule`/`platformBrowserTesting()`
-  (no zone.js at all) changed nothing. With either TestBed setup, the
-  491 specs actually RUN (no crash) and roughly half their assertions
-  pass — every "renders the base class" check succeeds — but every
-  assertion that depends on `fixture.componentRef.setInput()` actually
-  reaching a signal `input()` fails: confirmed by instrumenting a
-  component's own `className()` signal after `setInput("className",
-  "extra")` and finding it still reads back the untouched default `""`.
-  `setInput()` is a silent no-op for signal inputs in this app's own
-  Vite/Angular compilation pipeline. Likely cause, not yet confirmed:
-  `pnpm why @angular/core` and the `.pnpm` store both show this app's
-  own dependency tree pulls THREE distinct forked copies of
-  `@angular/core` (`22.1.3` with a `zone.js` peer variant, `22.1.3`
-  without one, and an unrelated `20.3.23` pulled in transitively via
-  `@analogjs/router`/`@analogjs/content`, which in turn resolve an
-  OLDER `@analogjs/vite-plugin-angular@1.22.5` pinned to
-  `@angular/build@20.3.26`) — vs. angular-headless's single, unforked
-  `@angular/core@22.1.3`. A bare `angular()` plugin call in a
-  standalone `vitest.config.ts` (this app's REAL build only works
-  through `vite.config.ts`'s `@analogjs/platform` `analog()` wrapper,
-  which Vitest ignores by design once a sibling `vitest.config.ts`
-  exists) may simply not carry whatever option that wrapper sets to
-  make signal-input compilation land in the same module instance the
-  test's `TestBed` resolves. Reverted all of it (`vitest.config.ts`
-  back to the narrow, working `src/app/*.spec.ts` scope; the
-  zone-vs-zoneless `vitest-setup.ts` experiment removed entirely; the
-  `zone.js` devDependency added then removed, net no diff) rather than
-  ship a widened config whose own tests fail — confirmed the reverted
-  state is byte-identical to before and its one real test still passes
-  5/5.
-  Verify (updated): the same as before, plus — once a fix is found —
-  confirm it via the same instrumented-signal check (`className()`
-  reads back `"extra"` after `setInput`), not just "the test file ran
-  without crashing".
-  Done 2026-09-02: neither of the 2026-08-30 investigation's two
-  suspects was the real cause. `pnpm why @angular/core` now shows only
-  ONE resolved copy (the "three forked copies" it found had since
-  converged via ordinary dependency updates), and re-testing with the
-  exact zone.js + `BrowserDynamicTestingModule` setup
-  angular-headless's own `vitest.config.ts` uses reproduced a much more
-  informative failure than the old "silent no-op": a hard
-  `NG0303: Can't set value of the 'className' input ...` runtime error,
-  with a compiler warning right above it — `"Badge.ts" contains
-  Angular decorators but is not in the TypeScript program"`. The real
-  cause: this app has a `tsconfig.json` and `tsconfig.app.json` but
-  never had a `tsconfig.spec.json` — the file
-  `@analogjs/vite-plugin-angular` looks for by convention to know which
-  files are in its Angular-compiler program. Without it, component
-  `.ts` files compiled without the metadata `ComponentRef.setInput()`
-  needs to recognize a signal input. Added `tsconfig.spec.json`
-  (mirroring angular-headless's own, scoped to
-  `src/app/**/*.spec.ts` + `vitest-setup.ts`), widened
-  `vitest.config.ts`'s `include` to `src/app/components/**/*.spec.ts`,
-  and added the matching `vitest-setup.ts` (zone.js +
-  `BrowserDynamicTestingModule`, byte-identical to angular-headless's).
-  No per-component changes were needed. Verified: all 492 spec files
-  (491 components + the suffix-pattern test) pass, 990/990 tests,
-  including the exact instrumented check the task asked for
-  (`Badge`'s `setInput("className", "extra")` now correctly reaches
-  the DOM); confirmed the real app build (`vite.config.ts`'s
-  `analog()` pipeline, which `vitest.config.ts` doesn't touch) still
-  builds and prerenders its full 507 pages unaffected.
+      vitest setup — 491 orphaned `src/app/components/*.spec.ts` files
+      can't run.** Found 2026-08-29 while adding P6-T5's suffix-pattern
+      unit tests: this app has copies of all 491 `.spec.ts` files from
+      `@lilydesignsystem/angular-headless` (part of the standard
+      copy-pattern) but never received the matching `vitest.config.ts` /
+      TestBed / jsdom / `@analogjs/vite-plugin-angular` wiring that
+      angular-headless's own config provides — running `vitest` cold fails
+      with `MODULE_NOT_FOUND`. A new `vitest.config.ts` landed in the same
+      commit, but deliberately scoped to `src/app/*.spec.ts` only (the
+      suffix-pattern test, not the component copies), since actually
+      wiring up 491 pre-existing non-functional specs is a separate,
+      larger piece of work than one search filter.
+      Verify: `pnpm test` runs and passes at least a representative sample
+      of `src/app/components/*.spec.ts`, not just the app's own top-level
+      logic tests.
+      Investigated further 2026-08-30, still open — the config gap wasn't
+      the real blocker. Wired up the same `@analogjs/vite-plugin-angular` +
+      jsdom + TestBed setup angular-headless's own `vitest.config.ts` uses
+      (this app already depends on both packages for its own Analog build),
+      and initially suspected a zone.js-vs-zoneless TestBed mismatch (this
+      app bootstraps zoneless; angular-headless's setup imports zone.js) —
+      ruled that out directly: switching to the non-deprecated,
+      zoneless-native `BrowserTestingModule`/`platformBrowserTesting()`
+      (no zone.js at all) changed nothing. With either TestBed setup, the
+      491 specs actually RUN (no crash) and roughly half their assertions
+      pass — every "renders the base class" check succeeds — but every
+      assertion that depends on `fixture.componentRef.setInput()` actually
+      reaching a signal `input()` fails: confirmed by instrumenting a
+      component's own `className()` signal after `setInput("className",
+"extra")` and finding it still reads back the untouched default `""`.
+      `setInput()` is a silent no-op for signal inputs in this app's own
+      Vite/Angular compilation pipeline. Likely cause, not yet confirmed:
+      `pnpm why @angular/core` and the `.pnpm` store both show this app's
+      own dependency tree pulls THREE distinct forked copies of
+      `@angular/core` (`22.1.3` with a `zone.js` peer variant, `22.1.3`
+      without one, and an unrelated `20.3.23` pulled in transitively via
+      `@analogjs/router`/`@analogjs/content`, which in turn resolve an
+      OLDER `@analogjs/vite-plugin-angular@1.22.5` pinned to
+      `@angular/build@20.3.26`) — vs. angular-headless's single, unforked
+      `@angular/core@22.1.3`. A bare `angular()` plugin call in a
+      standalone `vitest.config.ts` (this app's REAL build only works
+      through `vite.config.ts`'s `@analogjs/platform` `analog()` wrapper,
+      which Vitest ignores by design once a sibling `vitest.config.ts`
+      exists) may simply not carry whatever option that wrapper sets to
+      make signal-input compilation land in the same module instance the
+      test's `TestBed` resolves. Reverted all of it (`vitest.config.ts`
+      back to the narrow, working `src/app/*.spec.ts` scope; the
+      zone-vs-zoneless `vitest-setup.ts` experiment removed entirely; the
+      `zone.js` devDependency added then removed, net no diff) rather than
+      ship a widened config whose own tests fail — confirmed the reverted
+      state is byte-identical to before and its one real test still passes
+      5/5.
+      Verify (updated): the same as before, plus — once a fix is found —
+      confirm it via the same instrumented-signal check (`className()`
+      reads back `"extra"` after `setInput`), not just "the test file ran
+      without crashing".
+      Done 2026-09-02: neither of the 2026-08-30 investigation's two
+      suspects was the real cause. `pnpm why @angular/core` now shows only
+      ONE resolved copy (the "three forked copies" it found had since
+      converged via ordinary dependency updates), and re-testing with the
+      exact zone.js + `BrowserDynamicTestingModule` setup
+      angular-headless's own `vitest.config.ts` uses reproduced a much more
+      informative failure than the old "silent no-op": a hard
+      `NG0303: Can't set value of the 'className' input ...` runtime error,
+      with a compiler warning right above it — `"Badge.ts" contains
+Angular decorators but is not in the TypeScript program"`. The real
+      cause: this app has a `tsconfig.json` and `tsconfig.app.json` but
+      never had a `tsconfig.spec.json` — the file
+      `@analogjs/vite-plugin-angular` looks for by convention to know which
+      files are in its Angular-compiler program. Without it, component
+      `.ts` files compiled without the metadata `ComponentRef.setInput()`
+      needs to recognize a signal input. Added `tsconfig.spec.json`
+      (mirroring angular-headless's own, scoped to
+      `src/app/**/*.spec.ts` + `vitest-setup.ts`), widened
+      `vitest.config.ts`'s `include` to `src/app/components/**/*.spec.ts`,
+      and added the matching `vitest-setup.ts` (zone.js +
+      `BrowserDynamicTestingModule`, byte-identical to angular-headless's).
+      No per-component changes were needed. Verified: all 492 spec files
+      (491 components + the suffix-pattern test) pass, 990/990 tests,
+      including the exact instrumented check the task asked for
+      (`Badge`'s `setInput("className", "extra")` now correctly reaches
+      the DOM); confirmed the real app build (`vite.config.ts`'s
+      `analog()` pipeline, which `vitest.config.ts` doesn't touch) still
+      builds and prerenders its full 507 pages unaffected.
 
 - [x] **P7-T12 pnpm major-version skew across the monorepo: 10 (CI,
-  `publish.yml`) vs 11 (this machine's tooling, which is what actually
-  maintains the checked-in `pnpm-lock.yaml` files) resolves some
-  lockfiles differently, and pnpm 11 alone can't be swapped in blind.**
-  Found and part-fixed 2026-08-29 while building P7-T1's new CI jobs,
-  in two rounds:
+      `publish.yml`) vs 11 (this machine's tooling, which is what actually
+      maintains the checked-in `pnpm-lock.yaml` files) resolves some
+      lockfiles differently, and pnpm 11 alone can't be swapped in blind.**
+      Found and part-fixed 2026-08-29 while building P7-T1's new CI jobs,
+      in two rounds:
   1. `lily-design-system-svelte-sveltekit-examples`'s lockfile pins
      `cookie@0.6.0` (correct for its `@sveltejs/kit@2.70.3`), but
      installing with pnpm 10 resolves `cookie@2.0.1` instead — a
      hoisting/dedup difference between the majors — breaking the app's
      build outright (`[MISSING_EXPORT] "parse"/"serialize" is not
-     exported by ".../cookie/dist/index.js"`). Reproduced directly
+exported by ".../cookie/dist/index.js"`). Reproduced directly
      (`pnpm@10 install --no-frozen-lockfile` vs `pnpm@11`, same
      lockfile, different `cookie`).
-  2. Bumping *every* `pnpm/action-setup` step in `ci.yml` to 11 (the
+  2. Bumping _every_ `pnpm/action-setup` step in `ci.yml` to 11 (the
      first attempt) broke the six other pnpm-based jobs instead: pnpm
      11 no longer reads the legacy `pnpm.onlyBuiltDependencies` key
      from `package.json` (a `[WARN]` says as much) and now hard-fails
@@ -1182,233 +1181,233 @@ Rules for the executing agent:
      that actually needs it); `helpers`, `headless`, and
      `html-headless` went back to 10, which the first CI run already
      proved works for all of them.
-  This leaves two real, unresolved risks: (a) `publish.yml` still pins
-  10, so any future subproject whose *publish* build depends on a
-  similarly hoisting-sensitive package could hit round 1's failure the
-  next time a tag is pushed — untouched here since it's the tag-gated
-  real-publish pipeline and deserves its own dedicated verification,
-  not a same-session fix; (b) every subproject's `package.json` still
-  carries the legacy `pnpm.onlyBuiltDependencies`/`pnpm.overrides`
-  fields pnpm 11 ignores — fine while CI stays on 10, but the moment
-  anything else needs 11 (per (a), or a future pnpm-10-only bug), those
-  fields need moving to the pnpm-11 location (`pnpm-workspace.yaml` or
-  `.npmrc`) first, project-wide, not job-by-job.
-  Verify: decide a single pnpm major version for the whole monorepo
-  (CI + publish + local tooling) rather than the current per-job split;
-  migrate every subproject's build-script allowlist to wherever that
-  version reads it; dry-run `publish.yml` and confirm every pack step
-  still produces the expected tarball contents.
-  Done 2026-09-02: the version split wasn't actually the root cause of
-  round 2's `[ERR_PNPM_IGNORED_BUILDS]` failures — two real bugs were.
-  Four `pnpm-workspace.yaml` files had the literal unfilled template
-  placeholder `"set this to true or false"` instead of `true` for
-  `esbuild` (and, in `html-headless`/`html-css-js-examples`,
-  `chromedriver`/`edgedriver`/`geckodriver` too — which also fully
-  explains and corrects the "browser run not re-executed: network
-  block" note in spec/testing/index.md; the real cause was this
-  ignored-postinstall bug, not the network). And ten subprojects
-  gitignored `pnpm-workspace.yaml` instead of committing it, so the
-  committed repo state — what CI and a fresh clone see — had no
-  allowlist for them at all, invisible locally because the untracked
-  file was still on disk. Fixed both, removed the now-redundant legacy
-  `pnpm.onlyBuiltDependencies` field from all 13 package.json files
-  that had it (confirmed `pnpm.overrides` still works from package.json
-  under pnpm 11 unchanged), and moved `ci.yml`'s `helpers`/`headless`/
-  `html-headless` jobs and `publish.yml` to pnpm 11, matching
-  `example-smoke` and this machine's own tooling. Verified: fresh
-  `pnpm install --no-frozen-lockfile` clean for all 19 pnpm-based
-  subprojects; every CI-matrix catalog's vitest suite re-run and
-  matched P1-T6's counts exactly; `pnpm -C lily-design-system-angular-helpers
-  build` (the one pnpm call inside the publish scripts) succeeded;
-  `bin/publish-headless --dry-run` / `bin/publish-helpers --dry-run`
-  packed real tarballs before hitting npm's expected
-  already-published gate. Full record: CHANGELOG.md.
+     This leaves two real, unresolved risks: (a) `publish.yml` still pins
+     10, so any future subproject whose _publish_ build depends on a
+     similarly hoisting-sensitive package could hit round 1's failure the
+     next time a tag is pushed — untouched here since it's the tag-gated
+     real-publish pipeline and deserves its own dedicated verification,
+     not a same-session fix; (b) every subproject's `package.json` still
+     carries the legacy `pnpm.onlyBuiltDependencies`/`pnpm.overrides`
+     fields pnpm 11 ignores — fine while CI stays on 10, but the moment
+     anything else needs 11 (per (a), or a future pnpm-10-only bug), those
+     fields need moving to the pnpm-11 location (`pnpm-workspace.yaml` or
+     `.npmrc`) first, project-wide, not job-by-job.
+     Verify: decide a single pnpm major version for the whole monorepo
+     (CI + publish + local tooling) rather than the current per-job split;
+     migrate every subproject's build-script allowlist to wherever that
+     version reads it; dry-run `publish.yml` and confirm every pack step
+     still produces the expected tarball contents.
+     Done 2026-09-02: the version split wasn't actually the root cause of
+     round 2's `[ERR_PNPM_IGNORED_BUILDS]` failures — two real bugs were.
+     Four `pnpm-workspace.yaml` files had the literal unfilled template
+     placeholder `"set this to true or false"` instead of `true` for
+     `esbuild` (and, in `html-headless`/`html-css-js-examples`,
+     `chromedriver`/`edgedriver`/`geckodriver` too — which also fully
+     explains and corrects the "browser run not re-executed: network
+     block" note in spec/testing/index.md; the real cause was this
+     ignored-postinstall bug, not the network). And ten subprojects
+     gitignored `pnpm-workspace.yaml` instead of committing it, so the
+     committed repo state — what CI and a fresh clone see — had no
+     allowlist for them at all, invisible locally because the untracked
+     file was still on disk. Fixed both, removed the now-redundant legacy
+     `pnpm.onlyBuiltDependencies` field from all 13 package.json files
+     that had it (confirmed `pnpm.overrides` still works from package.json
+     under pnpm 11 unchanged), and moved `ci.yml`'s `helpers`/`headless`/
+     `html-headless` jobs and `publish.yml` to pnpm 11, matching
+     `example-smoke` and this machine's own tooling. Verified: fresh
+     `pnpm install --no-frozen-lockfile` clean for all 19 pnpm-based
+     subprojects; every CI-matrix catalog's vitest suite re-run and
+     matched P1-T6's counts exactly; `pnpm -C lily-design-system-angular-helpers
+build` (the one pnpm call inside the publish scripts) succeeded;
+     `bin/publish-headless --dry-run` / `bin/publish-helpers --dry-run`
+     packed real tarballs before hitting npm's expected
+     already-published gate. Full record: CHANGELOG.md.
 
 - [x] **P7-T13 `svelte-headless`'s `Kbd` renders `<div>`, not the
-  `<kbd>` its own `components/kbd/AGENTS.md` documents ("HTML tag:
-  `<kbd>`").** Found 2026-08-29 while building P7-T3's
-  `bin/new-component`, using `kbd` as the cross-framework structural
-  reference — every other framework's `Kbd` (react, vue, angular, html,
-  blazor, nunjucks) correctly renders a native `<kbd>`; only
-  `lily-design-system-svelte-headless/src/lib/components/Kbd/Kbd.svelte`
-  (and its exact copy in `svelte-sveltekit-examples`) uses `<div>`
-  instead.
-  Verify: `Kbd.svelte` renders `<kbd>`; its existing test (which
-  currently asserts by `aria-label` and class, not tag name) gains an
-  assertion on the tag itself so this can't silently regress again.
-  Done 2026-08-30: both `<div>` → `<kbd>` (root `components/Kbd/Kbd.svelte`
-  AND its `src/lib/components/Kbd/Kbd.svelte` mirror — see P7-T14 below
-  for why there are two) plus the sveltekit-examples copy, three files
-  total. The test in all three now asserts `el.tagName === "KBD"`, not
-  just class/aria-label, so this exact regression can't recur silently.
-  The theme CSS already sets `display: inline-block` on `:where(.kbd)`
-  explicitly (confirmed in `themes/adobe-spectrum.css` and every
-  sibling theme), so the tag change carries zero visual/layout risk.
-  Verified for real: `pnpm exec vitest run` on each of the three
-  `Kbd.test.ts` files passes (2 passed in svelte-headless — both
-  mirrors' tests run together via vitest's default glob — plus 1 in
-  svelte-sveltekit-examples).
+      `<kbd>` its own `components/kbd/AGENTS.md` documents ("HTML tag:
+      `<kbd>`").** Found 2026-08-29 while building P7-T3's
+      `bin/new-component`, using `kbd` as the cross-framework structural
+      reference — every other framework's `Kbd` (react, vue, angular, html,
+      blazor, nunjucks) correctly renders a native `<kbd>`; only
+      `lily-design-system-svelte-headless/src/lib/components/Kbd/Kbd.svelte`
+      (and its exact copy in `svelte-sveltekit-examples`) uses `<div>`
+      instead.
+      Verify: `Kbd.svelte` renders `<kbd>`; its existing test (which
+      currently asserts by `aria-label` and class, not tag name) gains an
+      assertion on the tag itself so this can't silently regress again.
+      Done 2026-08-30: both `<div>` → `<kbd>` (root `components/Kbd/Kbd.svelte`
+      AND its `src/lib/components/Kbd/Kbd.svelte` mirror — see P7-T14 below
+      for why there are two) plus the sveltekit-examples copy, three files
+      total. The test in all three now asserts `el.tagName === "KBD"`, not
+      just class/aria-label, so this exact regression can't recur silently.
+      The theme CSS already sets `display: inline-block` on `:where(.kbd)`
+      explicitly (confirmed in `themes/adobe-spectrum.css` and every
+      sibling theme), so the tag change carries zero visual/layout risk.
+      Verified for real: `pnpm exec vitest run` on each of the three
+      `Kbd.test.ts` files passes (2 passed in svelte-headless — both
+      mirrors' tests run together via vitest's default glob — plus 1 in
+      svelte-sveltekit-examples).
 
 - [x] **P7-T14 `@lilydesignsystem/svelte-headless` carries a second,
-  likely-dead copy of every component under a root `components/`
-  directory, duplicating `src/lib/components/`.** Found 2026-08-29
-  alongside P7-T13.
-  Verify: confirm nothing loads `components/` at build, test, or
-  Storybook time (the way P7-T9 confirmed each dead `nhs.css` with a
-  live served-page check); if genuinely dead, delete the directory and
-  confirm `pnpm test`/`pnpm run build`/Storybook all stay green.
-  Corrected 2026-08-30 — the original finding was backwards. Reading
-  `build.mjs` (not checked before marking this a suspected duplicate)
-  shows the root `components/` directory is the ACTUAL PUBLISHED
-  SOURCE: `componentsDir = path.join(root, "components")`, read
-  directly to generate the package's `index.ts` barrel and its `dist/`
-  build. `src/lib/components/` is the SvelteKit-convention mirror kept
-  for local dev — both are real, both are exercised (vitest's default
-  include glob picks up `**/*.test.ts` project-wide, so both copies'
-  tests already ran in the P7-T1 CI job, matching the historical
-  "4,906 vitest cases across 983 dual-mirror spec files" acceptance
-  note this session had read but not connected to this finding before
-  investigating further). Consequence: P7-T13's initial fix (which only
-  touched `src/lib/components/Kbd/Kbd.svelte`) missed the copy that
-  actually ships to npm consumers — `components/Kbd/Kbd.svelte` was
-  still rendering `<div>`. Fixed in the same pass once caught. No
-  directory was deleted; both are real and load-bearing.
+      likely-dead copy of every component under a root `components/`
+      directory, duplicating `src/lib/components/`.** Found 2026-08-29
+      alongside P7-T13.
+      Verify: confirm nothing loads `components/` at build, test, or
+      Storybook time (the way P7-T9 confirmed each dead `nhs.css` with a
+      live served-page check); if genuinely dead, delete the directory and
+      confirm `pnpm test`/`pnpm run build`/Storybook all stay green.
+      Corrected 2026-08-30 — the original finding was backwards. Reading
+      `build.mjs` (not checked before marking this a suspected duplicate)
+      shows the root `components/` directory is the ACTUAL PUBLISHED
+      SOURCE: `componentsDir = path.join(root, "components")`, read
+      directly to generate the package's `index.ts` barrel and its `dist/`
+      build. `src/lib/components/` is the SvelteKit-convention mirror kept
+      for local dev — both are real, both are exercised (vitest's default
+      include glob picks up `**/*.test.ts` project-wide, so both copies'
+      tests already ran in the P7-T1 CI job, matching the historical
+      "4,906 vitest cases across 983 dual-mirror spec files" acceptance
+      note this session had read but not connected to this finding before
+      investigating further). Consequence: P7-T13's initial fix (which only
+      touched `src/lib/components/Kbd/Kbd.svelte`) missed the copy that
+      actually ships to npm consumers — `components/Kbd/Kbd.svelte` was
+      still rendering `<div>`. Fixed in the same pass once caught. No
+      directory was deleted; both are real and load-bearing.
 
 - [x] **P7-T15 `react-next-examples` and `vue-nuxt-examples` are each
-  missing per-component implementation files for all 80 national
-  personal identifier components.** Found 2026-08-29 building P7-T4's
-  `bin/check-coverage` — these two apps each carry only 411 of 491
-  possible `components/{Pascal}.{tsx,vue}` files (confirmed: the exact
-  same 80 missing names in both, all national-identifier
-  input/view pairs). These files aren't used by the apps'
-  `/components/{slug}` demo pages (those render from the shared
-  `component-demos.ts` registry + `dangerouslySetInnerHTML`/`v-html`,
-  confirmed by reading `app/components/[slug]/page.tsx`), so nothing is
-  currently broken — they exist so a *composed* page can `import` and
-  compose a real interactive component directly, the way
-  `book-an-appointment.tsx`/`.vue` already do for other components. No
-  composed page currently imports any of the 80 missing ones (confirmed
-  by grep), so this is a latent gap, not an active break. Deliberately
-  out of scope for `bin/check-coverage` itself (see P7-T4: that tool is
-  scoped to the 7 headless catalogs, not the examples' own copies) and
-  out of scope to fix here (porting 80 components x 2 frameworks is a
-  substantial task on its own, not a side effect of building a
-  coverage tool).
-  Verify: `find components -maxdepth 1 -iname '*.tsx'` (or `.vue`)
-  count reaches 491 in both apps; `bin/check-coverage` (or a follow-up
-  extension of it covering example-app copies) exits 0 against them.
-  Done 2026-08-30: confirmed the copy-pattern first (diffed several
-  existing shared components — the examples' `.tsx`/`.vue` files are
-  byte-identical copies of the headless source; the `.stories.tsx`/
-  `.stories.ts` companions differ only by a `title: 'Headless/...'` →
-  `'Examples/...'` rewrite, plus a Storybook framework import swap for
-  react's `.stories.tsx`). Copied all 80 `.tsx`+`.stories.tsx` pairs
-  into react-next-examples and all 80 `.vue`+`.stories.ts` pairs into
-  vue-nuxt-examples with that exact transform, scripted and verified
-  against every existing pair first (no manual one-offs). Both apps
-  reach 491/491. No registry/barrel file needed — neither app has an
-  index of component files, and both `.storybook/main.ts` configs glob
-  `components/**/*.stories.*`, so the new stories are picked up
-  automatically. Verified for real, not assumed: `next build` (509
-  static pages) and `nuxt build` both succeed; `vitest run` in both
-  apps shows the exact same pre-existing failure count before and
-  after (confirmed via `git stash push -- components/` round-trips —
-  12 failed/9 passed in react-next, 1 failed/263 passed in vue-nuxt,
-  identical either way, and none of the failing files are among the 80
-  added); react's `storybook build` succeeds with all 491 stories.
-  vue's `storybook build` does NOT succeed — logged separately as
-  P7-T18 rather than folded in here, since it's pre-existing (fails
-  identically with the 80 new files stashed out) and unrelated (the
-  one failing file, `TimelineListItem.vue`, isn't among the 80).
+      missing per-component implementation files for all 80 national
+      personal identifier components.** Found 2026-08-29 building P7-T4's
+      `bin/check-coverage` — these two apps each carry only 411 of 491
+      possible `components/{Pascal}.{tsx,vue}` files (confirmed: the exact
+      same 80 missing names in both, all national-identifier
+      input/view pairs). These files aren't used by the apps'
+      `/components/{slug}` demo pages (those render from the shared
+      `component-demos.ts` registry + `dangerouslySetInnerHTML`/`v-html`,
+      confirmed by reading `app/components/[slug]/page.tsx`), so nothing is
+      currently broken — they exist so a _composed_ page can `import` and
+      compose a real interactive component directly, the way
+      `book-an-appointment.tsx`/`.vue` already do for other components. No
+      composed page currently imports any of the 80 missing ones (confirmed
+      by grep), so this is a latent gap, not an active break. Deliberately
+      out of scope for `bin/check-coverage` itself (see P7-T4: that tool is
+      scoped to the 7 headless catalogs, not the examples' own copies) and
+      out of scope to fix here (porting 80 components x 2 frameworks is a
+      substantial task on its own, not a side effect of building a
+      coverage tool).
+      Verify: `find components -maxdepth 1 -iname '*.tsx'` (or `.vue`)
+      count reaches 491 in both apps; `bin/check-coverage` (or a follow-up
+      extension of it covering example-app copies) exits 0 against them.
+      Done 2026-08-30: confirmed the copy-pattern first (diffed several
+      existing shared components — the examples' `.tsx`/`.vue` files are
+      byte-identical copies of the headless source; the `.stories.tsx`/
+      `.stories.ts` companions differ only by a `title: 'Headless/...'` →
+      `'Examples/...'` rewrite, plus a Storybook framework import swap for
+      react's `.stories.tsx`). Copied all 80 `.tsx`+`.stories.tsx` pairs
+      into react-next-examples and all 80 `.vue`+`.stories.ts` pairs into
+      vue-nuxt-examples with that exact transform, scripted and verified
+      against every existing pair first (no manual one-offs). Both apps
+      reach 491/491. No registry/barrel file needed — neither app has an
+      index of component files, and both `.storybook/main.ts` configs glob
+      `components/**/*.stories.*`, so the new stories are picked up
+      automatically. Verified for real, not assumed: `next build` (509
+      static pages) and `nuxt build` both succeed; `vitest run` in both
+      apps shows the exact same pre-existing failure count before and
+      after (confirmed via `git stash push -- components/` round-trips —
+      12 failed/9 passed in react-next, 1 failed/263 passed in vue-nuxt,
+      identical either way, and none of the failing files are among the 80
+      added); react's `storybook build` succeeds with all 491 stories.
+      vue's `storybook build` does NOT succeed — logged separately as
+      P7-T18 rather than folded in here, since it's pre-existing (fails
+      identically with the 80 new files stashed out) and unrelated (the
+      one failing file, `TimelineListItem.vue`, isn't among the 80).
 
 - [x] **P7-T16 `.summary-list`'s CSS Grid track sizing overflows narrow
-  viewports: `grid-template-columns: max-content 1fr auto` forces the
-  first column to its full unwrapped text width, ignoring the
-  container.** Found and fixed 2026-08-30, surfaced by the P7-T9/P7-T10
-  `--nhs-*` fix itself: restoring `.page-wrapper`'s real padding
-  reduced `/dashboard`'s available width just enough to turn an
-  already-marginal `max-content` column into an actual 9px overflow at
-  375px — caught by real CI (`example-smoke`'s `responsive.spec.ts`
-  went red on `mobile /dashboard`), not found in advance. Root-caused
-  directly: instrumented the live page to find every element wider
-  than the viewport, traced it to `SummaryListItem`'s `<dt>`/`<dd>`
-  pair (dashboard's stat labels — "Total admissions", "Emergency
-  cases" — none of which fit on one line at 375px once the column
-  refuses to shrink). All 45 reference themes carried the identical
-  rule. Fixed by changing the first column to
-  `minmax(0, max-content)` in all 45 — strictly more permissive than
-  bare `max-content` (behaves identically once there's room, only
-  differs by allowing the column to shrink and wrap when there isn't),
-  so this can only reduce overflow risk, never introduce new layout
-  behaviour at normal viewport widths. Propagated via `bin/sync` to
-  each of the 7 apps' own served theme copies (the actual regression
-  needed this step too — a themes/ edit alone doesn't reach a served
-  page; each app's `static/`, `public/`, or `wwwroot/themes/`
-  directory is `bin/sync`'s rsync target, not a symlink).
-  Verify: `bin/check-theme` still passes on all 45; the exact failing
-  case (`e2e/responsive.spec.ts`'s mobile `/dashboard` check) passes
-  reliably (ran 1x directly, all 48 responsive cases green, plus the
-  other 4 example-smoke spec files, 96/96); no other viewport/route in
-  that suite regressed.
+      viewports: `grid-template-columns: max-content 1fr auto` forces the
+      first column to its full unwrapped text width, ignoring the
+      container.** Found and fixed 2026-08-30, surfaced by the P7-T9/P7-T10
+      `--nhs-*` fix itself: restoring `.page-wrapper`'s real padding
+      reduced `/dashboard`'s available width just enough to turn an
+      already-marginal `max-content` column into an actual 9px overflow at
+      375px — caught by real CI (`example-smoke`'s `responsive.spec.ts`
+      went red on `mobile /dashboard`), not found in advance. Root-caused
+      directly: instrumented the live page to find every element wider
+      than the viewport, traced it to `SummaryListItem`'s `<dt>`/`<dd>`
+      pair (dashboard's stat labels — "Total admissions", "Emergency
+      cases" — none of which fit on one line at 375px once the column
+      refuses to shrink). All 45 reference themes carried the identical
+      rule. Fixed by changing the first column to
+      `minmax(0, max-content)` in all 45 — strictly more permissive than
+      bare `max-content` (behaves identically once there's room, only
+      differs by allowing the column to shrink and wrap when there isn't),
+      so this can only reduce overflow risk, never introduce new layout
+      behaviour at normal viewport widths. Propagated via `bin/sync` to
+      each of the 7 apps' own served theme copies (the actual regression
+      needed this step too — a themes/ edit alone doesn't reach a served
+      page; each app's `static/`, `public/`, or `wwwroot/themes/`
+      directory is `bin/sync`'s rsync target, not a symlink).
+      Verify: `bin/check-theme` still passes on all 45; the exact failing
+      case (`e2e/responsive.spec.ts`'s mobile `/dashboard` check) passes
+      reliably (ran 1x directly, all 48 responsive cases green, plus the
+      other 4 example-smoke spec files, 96/96); no other viewport/route in
+      that suite regressed.
 
 - [x] **P7-T18 `vue-nuxt-examples`'s `storybook build` fails on
-  `TimelineListItem.vue` with an out-of-range parser error.** Done
-  2026-09-03. Root cause was never Rolldown/`@vitejs/plugin-vue`
-  interop, and never `TimelineListItem.vue`: this checkout's
-  `node_modules` had silently drifted out of sync with `package.json`/
-  the committed lockfile — `pnpm list` showed `storybook@9.1.20` and
-  `@vitejs/plugin-vue@5.2.4` actually installed while both files
-  correctly pinned `10.5.10` / `^6.0.8`. Storybook 9.1.20's
-  `@storybook/vue3-vite` bundles a peer range of
-  `vite@^5.0.0 || ^6.0.0 || ^7.0.0`, but this app's Nuxt 4 tree
-  resolves `vite@8.2.2` regardless of which Storybook major is
-  installed — an unsupported combination, and that's what produced the
-  misattributed out-of-range error. A plain `pnpm install
-  --frozen-lockfile` (no code change needed) synced `node_modules` to
-  the already-correct lockfile and the build now succeeds cleanly,
-  491/491 stories. Confirmed by first reproducing the exact reported
-  error on the stale install, then re-testing after sync; also
-  confirmed the `viteFinal` re-add of `@vitejs/plugin-vue` genuinely is
-  still required (removing it breaks every component with JSX parse
-  errors — Storybook's own Vue SFC plugin doesn't fully compile
-  `<script setup>` on its own in this Nuxt-hosted setup) and is not
-  itself duplicated (the framework preset registers no `vite:vue`
-  plugin under current Storybook). Incidental find while verifying:
-  `ProgressCircle.test.ts` in this app and in
-  `svelte-sveltekit-examples` asserted `getByRole("Progress")`
-  (capitalized, not a real ARIA role) in 4 of 6 tests, while the
-  canonical `vue-headless`/`react-headless` copies of the same file
-  correctly assert `getByRole("progressbar")` — a copy-paste defect
-  isolated to those two example apps' test files, not the components
-  themselves (`role="progressbar"` was always correct in the rendered
-  markup). Fixed both; full suites green (vue-nuxt-examples 1377/1377,
-  svelte-sveltekit-examples 2457/2457).
-  Verify: `npx storybook build` succeeds in
-  `lily-design-system-vue-nuxt-examples` with 491/491 stories — done.
+      `TimelineListItem.vue` with an out-of-range parser error.** Done
+      2026-09-03. Root cause was never Rolldown/`@vitejs/plugin-vue`
+      interop, and never `TimelineListItem.vue`: this checkout's
+      `node_modules` had silently drifted out of sync with `package.json`/
+      the committed lockfile — `pnpm list` showed `storybook@9.1.20` and
+      `@vitejs/plugin-vue@5.2.4` actually installed while both files
+      correctly pinned `10.5.10` / `^6.0.8`. Storybook 9.1.20's
+      `@storybook/vue3-vite` bundles a peer range of
+      `vite@^5.0.0 || ^6.0.0 || ^7.0.0`, but this app's Nuxt 4 tree
+      resolves `vite@8.2.2` regardless of which Storybook major is
+      installed — an unsupported combination, and that's what produced the
+      misattributed out-of-range error. A plain `pnpm install
+--frozen-lockfile` (no code change needed) synced `node_modules` to
+      the already-correct lockfile and the build now succeeds cleanly,
+      491/491 stories. Confirmed by first reproducing the exact reported
+      error on the stale install, then re-testing after sync; also
+      confirmed the `viteFinal` re-add of `@vitejs/plugin-vue` genuinely is
+      still required (removing it breaks every component with JSX parse
+      errors — Storybook's own Vue SFC plugin doesn't fully compile
+      `<script setup>` on its own in this Nuxt-hosted setup) and is not
+      itself duplicated (the framework preset registers no `vite:vue`
+      plugin under current Storybook). Incidental find while verifying:
+      `ProgressCircle.test.ts` in this app and in
+      `svelte-sveltekit-examples` asserted `getByRole("Progress")`
+      (capitalized, not a real ARIA role) in 4 of 6 tests, while the
+      canonical `vue-headless`/`react-headless` copies of the same file
+      correctly assert `getByRole("progressbar")` — a copy-paste defect
+      isolated to those two example apps' test files, not the components
+      themselves (`role="progressbar"` was always correct in the rendered
+      markup). Fixed both; full suites green (vue-nuxt-examples 1377/1377,
+      svelte-sveltekit-examples 2457/2457).
+      Verify: `npx storybook build` succeeds in
+      `lily-design-system-vue-nuxt-examples` with 491/491 stories — done.
 
 - [x] **Picker glyph convention reversed: bare literals, not escapes.**
-  Maintainer-directed reversal of the "glyphs never appear as bare
-  characters" rule in `AGENTS/helpers.md`, done 2026-09-03. The five
-  picker glyphs (theme-picker's ◑, locale-picker's 🌐︎, motion-picker's
-  ⏸︎, share-picker's ➤, date-time-picker's 📅︎) now appear as bare
-  literal characters in source — code contexts and markup contexts
-  alike — never a `\u` escape or an HTML numeric entity. Reversed the
-  rule text itself, `bin/test`'s enforcement (now flags an escape/entity
-  as the violation instead of a bare character), the glyph constant and
-  its consuming markup across all 7 catalogs' 5 affected pickers (35
-  packages) including tests and examples, the 2 `html-css-js-examples`
-  copies, and ~90 documentation files. Also fixed, found incidentally:
-  two pre-existing half-escaped assertions in Blazor's
-  `LocalePickerTests.cs` and two in the canonical Svelte `spec/index.md`.
-  Left open, also found incidentally and out of scope for today: roughly
-  a dozen older docs across angular/blazor/vue's locale-picker packages
-  show `&#127760;` alone (missing its `&#65038;` pair) as if it were the
-  complete glyph — a pre-existing documentation-accuracy defect, not
-  introduced by or in scope for this reversal.
-  Verify: `bin/test` and `bin/check-links` pass clean; full unit suites
-  re-run green in all 7 catalogs for the 5 affected pickers (213 svelte,
-  263 react, 259 vue, 292 angular, 300 html, 323 nunjucks, 204 blazor
-  facts); `npm run build` re-verified for the Svelte helper catalog.
+      Maintainer-directed reversal of the "glyphs never appear as bare
+      characters" rule in `AGENTS/helpers.md`, done 2026-09-03. The five
+      picker glyphs (theme-picker's ◑, locale-picker's 🌐︎, motion-picker's
+      ⏸︎, share-picker's ➤, date-time-picker's 📅︎) now appear as bare
+      literal characters in source — code contexts and markup contexts
+      alike — never a `\u` escape or an HTML numeric entity. Reversed the
+      rule text itself, `bin/test`'s enforcement (now flags an escape/entity
+      as the violation instead of a bare character), the glyph constant and
+      its consuming markup across all 7 catalogs' 5 affected pickers (35
+      packages) including tests and examples, the 2 `html-css-js-examples`
+      copies, and ~90 documentation files. Also fixed, found incidentally:
+      two pre-existing half-escaped assertions in Blazor's
+      `LocalePickerTests.cs` and two in the canonical Svelte `spec/index.md`.
+      Left open, also found incidentally and out of scope for today: roughly
+      a dozen older docs across angular/blazor/vue's locale-picker packages
+      show `&#127760;` alone (missing its `&#65038;` pair) as if it were the
+      complete glyph — a pre-existing documentation-accuracy defect, not
+      introduced by or in scope for this reversal.
+      Verify: `bin/test` and `bin/check-links` pass clean; full unit suites
+      re-run green in all 7 catalogs for the 5 affected pickers (213 svelte,
+      263 react, 259 vue, 292 angular, 300 html, 323 nunjucks, 204 blazor
+      facts); `npm run build` re-verified for the Svelte helper catalog.
 
 ## Phase 8 — Follow-ups surfaced 2026-09-03
 
@@ -1418,112 +1417,112 @@ Dependabot remediation), recorded rather than silently fixed or silently
 dropped. None is speculative.
 
 - [x] **P8-T1 `bin/test`'s glyph check does not cover `motion-picker`.**
-  Done 2026-09-03: added `PAUSE_SIGN *=` and `PauseSign *=` to the
-  constant-name grep in `test_helper_glyphs_are_bare` (16 `PAUSE_SIGN`
-  declarations across the six JS/TS catalogs + their tests/examples,
-  1 `PauseSign` in the Blazor `.razor.cs` — both spellings confirmed
-  present before adding them). Verified the way the task asks, not by
-  inspection: temporarily re-escaped `PAUSE_SIGN` to `"\u23F8\uFE0E"`
-  in `MotionPicker.svelte` → `bin/test` reported "glyph constant holds
-  an escape … MotionPicker.svelte" and exited FAILED; restored the
-  file (`git diff --quiet` clean) → `bin/test` exits 0.
-  `test_helper_glyphs_are_bare` greps for the constant names
-  `CIRCLE_WITH_RIGHT_HALF_BLACK`, `GLOBE_WITH_MERIDIANS`,
-  `BLACK_RIGHTWARDS_ARROWHEAD`, `CALENDAR` (and their C# `PascalCase`
-  twins) — but not `PAUSE_SIGN` / `PauseSign`, so `motion-picker`'s
-  glyph constant is the one picker the enforcement never inspects. The
-  2026-09-03 reversal sweep fixed it correctly anyway, but nothing
-  would catch a regression. Add both spellings to the grep list.
-  Verify: temporarily re-escape `PAUSE_SIGN` in one catalog and confirm
-  `bin/test` fails; restore; `bin/test` exits 0.
+      Done 2026-09-03: added `PAUSE_SIGN *=` and `PauseSign *=` to the
+      constant-name grep in `test_helper_glyphs_are_bare` (16 `PAUSE_SIGN`
+      declarations across the six JS/TS catalogs + their tests/examples,
+      1 `PauseSign` in the Blazor `.razor.cs` — both spellings confirmed
+      present before adding them). Verified the way the task asks, not by
+      inspection: temporarily re-escaped `PAUSE_SIGN` to `"\u23F8\uFE0E"`
+      in `MotionPicker.svelte` → `bin/test` reported "glyph constant holds
+      an escape … MotionPicker.svelte" and exited FAILED; restored the
+      file (`git diff --quiet` clean) → `bin/test` exits 0.
+      `test_helper_glyphs_are_bare` greps for the constant names
+      `CIRCLE_WITH_RIGHT_HALF_BLACK`, `GLOBE_WITH_MERIDIANS`,
+      `BLACK_RIGHTWARDS_ARROWHEAD`, `CALENDAR` (and their C# `PascalCase`
+      twins) — but not `PAUSE_SIGN` / `PauseSign`, so `motion-picker`'s
+      glyph constant is the one picker the enforcement never inspects. The
+      2026-09-03 reversal sweep fixed it correctly anyway, but nothing
+      would catch a regression. Add both spellings to the grep list.
+      Verify: temporarily re-escape `PAUSE_SIGN` in one catalog and confirm
+      `bin/test` fails; restore; `bin/test` exits 0.
 
 - [x] **P8-T2 Register the new root `spec/*-picker/` topics, and add the
-  two missing ones.** Done 2026-09-03: `spec/motion-picker/index.md`
-  and `spec/date-time-picker/index.md` written in the same shape as the
-  four existing ones (bare glyph, then the button / list / list-item
-  HTML), each with the `README.md → index.md` symlink the others carry.
-  `date-time-picker`'s page is deliberately different in kind — field +
-  trigger (`aria-haspopup="dialog"`) + `role="dialog"` — because it is
-  a form control, not a listbox; the page says so. All six added to
-  `spec/index.md`'s Topics table, and the `helpers` row's stale "5
-  pickers" corrected to 6.
-  Verify: `bin/check-links` clean; `grep -c "picker/index.md)"
-  spec/index.md` → 6; `bin/test` exits 0. `spec/theme-picker/`, `spec/locale-picker/`,
-  `spec/text-size-picker/`, and `spec/share-picker/` were added
-  2026-09-03 as root-level picker contracts (button / list / list-item
-  HTML), but none appears in `spec/index.md`'s Topics table, so they
-  are undiscoverable from the entry point; and `motion-picker` and
-  `date-time-picker` have no counterpart yet. Add the six to the
-  Topics table and write the two missing `index.md` files in the same
-  shape (bare glyph, button, list, list items), consistent with the
-  reversed glyph convention.
-  Verify: `bin/check-links` clean; all six link from `spec/index.md`.
+      two missing ones.** Done 2026-09-03: `spec/motion-picker/index.md`
+      and `spec/date-time-picker/index.md` written in the same shape as the
+      four existing ones (bare glyph, then the button / list / list-item
+      HTML), each with the `README.md → index.md` symlink the others carry.
+      `date-time-picker`'s page is deliberately different in kind — field +
+      trigger (`aria-haspopup="dialog"`) + `role="dialog"` — because it is
+      a form control, not a listbox; the page says so. All six added to
+      `spec/index.md`'s Topics table, and the `helpers` row's stale "5
+      pickers" corrected to 6.
+      Verify: `bin/check-links` clean; `grep -c "picker/index.md)"
+spec/index.md` → 6; `bin/test` exits 0. `spec/theme-picker/`, `spec/locale-picker/`,
+      `spec/text-size-picker/`, and `spec/share-picker/` were added
+      2026-09-03 as root-level picker contracts (button / list / list-item
+      HTML), but none appears in `spec/index.md`'s Topics table, so they
+      are undiscoverable from the entry point; and `motion-picker` and
+      `date-time-picker` have no counterpart yet. Add the six to the
+      Topics table and write the two missing `index.md` files in the same
+      shape (bare glyph, button, list, list items), consistent with the
+      reversed glyph convention.
+      Verify: `bin/check-links` clean; all six link from `spec/index.md`.
 
 - [x] **P8-T3 Root spec still frames the catalog as "7 headless /
-  21 subprojects".** Done 2026-09-03, framing chosen: "7 full-catalog
-  headless libraries + 1 partial (Web Components, 30/491)", never
-  restating parity for the 8th. Amended every present-tense claim:
-  `spec/index.md` (Topics rows for architecture/frameworks/helpers, §2
-  scope, §3's 21→22 subproject count, §11.2's 21→22 required-files
-  count, §11.7's Storybook clause), `spec/architecture/index.md`
-  (summary, scope, the "14 implementation subprojects" heading → 15, a
-  paragraph placing the unpaired partial catalog after the pairs table,
-  a sibling acceptance bullet; also fixed its stale helper list —
-  "theme-select, locale-select, text-size-select" → the six
-  `*-picker`s), `spec/overview/index.md`, `spec/frameworks/index.md`
-  (pairs framing kept — the 8th is genuinely unpaired — with a pointer
-  to architecture), `spec/testing/index.md` (Storybook "six of seven"
-  → six of seven full-catalog + the partial's 30/30), and the
-  subproject's own `spec/index.md` (its "root framing not itself
-  amended here" sentence replaced by the record that it now is).
-  Deliberately left: the `bin/publish-headless` / `bin/check-coverage`
-  table rows (they describe those scripts' actual 7-library lists —
-  P8-T6 tracks adding the 8th), §11.2/§11.4/architecture's checked
-  items scoped to the seven full-catalog libraries (true as written,
-  now with a sibling bullet for the 8th), and the dated 2026-09-02
-  P1-T6 record.
-  Verify: the task's grep returns only those five deliberately-left
-  lines; `bin/check-links` clean; `bin/test` exits 0. `spec/index.md` says so in roughly ten places
-  (§2 scope, §3 architecture, the `bin/publish-headless` and
-  `bin/check-coverage` table rows, §11.2, §11.4, §11.7) and
-  `spec/architecture/index.md` inherits the count. The 8th, partial
-  `@lilydesignsystem/web-components-headless` catalog (30/491) joined
-  2026-09-03 and its own `spec/index.md` explicitly notes the root
-  framing "predates this subproject and is not itself amended here".
-  Decide the framing once — "7 full-catalog + 1 partial" is the honest
-  shape — and apply it consistently; do not restate 491/491 parity for
-  the 8th.
-  Verify: `grep -n "7 headless\|seven headless\|21 subprojects"
-  spec/index.md spec/architecture/index.md` returns only lines that
-  are dated historical records, and `bin/check-links` is clean.
+      21 subprojects".** Done 2026-09-03, framing chosen: "7 full-catalog
+      headless libraries + 1 partial (Web Components, 30/491)", never
+      restating parity for the 8th. Amended every present-tense claim:
+      `spec/index.md` (Topics rows for architecture/frameworks/helpers, §2
+      scope, §3's 21→22 subproject count, §11.2's 21→22 required-files
+      count, §11.7's Storybook clause), `spec/architecture/index.md`
+      (summary, scope, the "14 implementation subprojects" heading → 15, a
+      paragraph placing the unpaired partial catalog after the pairs table,
+      a sibling acceptance bullet; also fixed its stale helper list —
+      "theme-select, locale-select, text-size-select" → the six
+      `*-picker`s), `spec/overview/index.md`, `spec/frameworks/index.md`
+      (pairs framing kept — the 8th is genuinely unpaired — with a pointer
+      to architecture), `spec/testing/index.md` (Storybook "six of seven"
+      → six of seven full-catalog + the partial's 30/30), and the
+      subproject's own `spec/index.md` (its "root framing not itself
+      amended here" sentence replaced by the record that it now is).
+      Deliberately left: the `bin/publish-headless` / `bin/check-coverage`
+      table rows (they describe those scripts' actual 7-library lists —
+      P8-T6 tracks adding the 8th), §11.2/§11.4/architecture's checked
+      items scoped to the seven full-catalog libraries (true as written,
+      now with a sibling bullet for the 8th), and the dated 2026-09-02
+      P1-T6 record.
+      Verify: the task's grep returns only those five deliberately-left
+      lines; `bin/check-links` clean; `bin/test` exits 0. `spec/index.md` says so in roughly ten places
+      (§2 scope, §3 architecture, the `bin/publish-headless` and
+      `bin/check-coverage` table rows, §11.2, §11.4, §11.7) and
+      `spec/architecture/index.md` inherits the count. The 8th, partial
+      `@lilydesignsystem/web-components-headless` catalog (30/491) joined
+      2026-09-03 and its own `spec/index.md` explicitly notes the root
+      framing "predates this subproject and is not itself amended here".
+      Decide the framing once — "7 full-catalog + 1 partial" is the honest
+      shape — and apply it consistently; do not restate 491/491 parity for
+      the 8th.
+      Verify: `grep -n "7 headless\|seven headless\|21 subprojects"
+spec/index.md spec/architecture/index.md` returns only lines that
+      are dated historical records, and `bin/check-links` is clean.
 
 - [x] **P8-T4 Guard against `package.json` `pnpm.overrides` recurring.**
-  Done 2026-09-03: new `test_no_package_json_pnpm_overrides` in
-  `bin/test` — a `find` (node_modules/.git pruned, same as the glyph
-  check) over every `package.json`, failing on any file that contains
-  both a `"pnpm"` key and an `"overrides"` key, with the message
-  pointing at `pnpm-workspace.yaml`'s `overrides:`. Verified the way
-  the task asks: injected a throwaway `pnpm.overrides` into
-  `lily-design-system-web-components-headless/package.json` →
-  `bin/test` printed the pointer message naming that file and exited
-  FAILED; restored (`git diff --quiet` clean) → `bin/test` exits 0.
-  Wall-clock unchanged (~90 s, dominated by the pre-existing git
-  lockfile walks); the new find costs nothing measurable.
-  The 2026-09-03 Dependabot pass found five subprojects carrying
-  `"pnpm": { "overrides": {...} }` blocks that had been silent no-ops
-  since the pnpm 10 upgrade (pnpm reads `overrides` from
-  `pnpm-workspace.yaml` now) — one carried 13 historical CVE-fix
-  entries that never applied. All are removed, but nothing stops the
-  pattern coming back via a copied template. Add a `bin/test` check
-  that fails on any `package.json` containing a `pnpm.overrides` key
-  (outside `node_modules`), pointing at `pnpm-workspace.yaml`.
-  Verify: add a throwaway `pnpm.overrides` to one `package.json`,
-  confirm `bin/test` fails with the pointer message; remove; exits 0.
+      Done 2026-09-03: new `test_no_package_json_pnpm_overrides` in
+      `bin/test` — a `find` (node_modules/.git pruned, same as the glyph
+      check) over every `package.json`, failing on any file that contains
+      both a `"pnpm"` key and an `"overrides"` key, with the message
+      pointing at `pnpm-workspace.yaml`'s `overrides:`. Verified the way
+      the task asks: injected a throwaway `pnpm.overrides` into
+      `lily-design-system-web-components-headless/package.json` →
+      `bin/test` printed the pointer message naming that file and exited
+      FAILED; restored (`git diff --quiet` clean) → `bin/test` exits 0.
+      Wall-clock unchanged (~90 s, dominated by the pre-existing git
+      lockfile walks); the new find costs nothing measurable.
+      The 2026-09-03 Dependabot pass found five subprojects carrying
+      `"pnpm": { "overrides": {...} }` blocks that had been silent no-ops
+      since the pnpm 10 upgrade (pnpm reads `overrides` from
+      `pnpm-workspace.yaml` now) — one carried 13 historical CVE-fix
+      entries that never applied. All are removed, but nothing stops the
+      pattern coming back via a copied template. Add a `bin/test` check
+      that fails on any `package.json` containing a `pnpm.overrides` key
+      (outside `node_modules`), pointing at `pnpm-workspace.yaml`.
+      Verify: add a throwaway `pnpm.overrides` to one `package.json`,
+      confirm `bin/test` fails with the pointer message; remove; exits 0.
 
 - [x] **P8-T5 `extract-zip` / `adm-zip` — Dependabot alerts with no
-  upstream fix.** Closed 2026-09-10 (dismissed, not fixed — no pin
-  resolves any of the six; see below). Grew from 2 to 6 open alerts
-  that day, all the same root cause:
+      upstream fix.** Closed 2026-09-10 (dismissed, not fixed — no pin
+      resolves any of the six; see below). Grew from 2 to 6 open alerts
+      that day, all the same root cause:
   - Alerts 183 (`html-headless`) / 130 (`html-css-js-examples`),
     `extract-zip` `<= 2.0.1`, GHSA-jmr9-qjv8-65gv "unvalidated symlink
     path traversal" — tracked since before 2026-09-03.
@@ -1536,307 +1535,307 @@ dropped. None is speculative.
     `>= 0.5.9, <= 0.6.0`, GHSA-vwc7-r8mq-g2x9 "extraction follows
     destination symlinks, allowing arbitrary file overwrite"
     (CVE-2026-76845).
-  All six: `first_patched_version` is null (`extract-zip` has no
-  release past 2.0.1 at all; `adm-zip`'s latest, 0.6.0, is itself
-  inside the vulnerable range with nothing newer published). Both
-  packages are `development`-scope only, reached exclusively through
-  WebdriverIO's Chrome-binary tooling — `extract-zip` via
-  `@wdio/utils` → `@puppeteer/browsers`; `adm-zip` via the `chromedriver`
-  npm package (used directly and via `wdio-chromedriver-service`),
-  which declares `"adm-zip": "^0.6.0"` — a caret range that pins the
-  vulnerable release with nothing older reachable without violating
-  chromedriver's own declared semver (and no evidence versions below
-  0.5.9 are actually safe rather than merely unaudited, so overriding
-  down would trade a documented risk for an unverified one). Both
-  vulnerability classes require extracting a maliciously crafted zip
-  containing symlink entries; the zips these tools extract are Chrome
-  and chromedriver binary downloads from Google's own distribution over
-  HTTPS, not attacker-supplied archives, so real-world exploitability
-  here is low. Not fixable by a pin today. Maintainer directed
-  (2026-09-10): dismissed all six via `gh api --method PATCH
-  .../dependabot/alerts/{n}` with `dismissed_reason=tolerable_risk` and
-  a `dismissed_comment` recording this reasoning on each (280-char
-  limit — trimmed to the essentials, one comment per package shared
-  across its two/four alerts). This closes the open-alert count without
-  changing any dependency; it is a risk-acceptance record, not a fix.
-  Revisit if either upstream ships a patched release, or if `chromedriver`
-  moves off `adm-zip` — re-open by re-running Dependabot's rescan
-  (`gh api --method POST .../dependabot/alerts/{n}` is not a re-scan
-  trigger; a fresh push or the periodic Dependabot scan will re-flag
-  automatically if the dependency reappears vulnerable) and re-dismiss
-  or fix as appropriate. Next check due ~2026-10-10.
-  Verify: `gh api .../dependabot/alerts --paginate -q '.[] |
-  select(.state=="open")'` returns zero rows (2026-09-10: confirmed
-  empty — the six above are `dismissed`, not absent).
+    All six: `first_patched_version` is null (`extract-zip` has no
+    release past 2.0.1 at all; `adm-zip`'s latest, 0.6.0, is itself
+    inside the vulnerable range with nothing newer published). Both
+    packages are `development`-scope only, reached exclusively through
+    WebdriverIO's Chrome-binary tooling — `extract-zip` via
+    `@wdio/utils` → `@puppeteer/browsers`; `adm-zip` via the `chromedriver`
+    npm package (used directly and via `wdio-chromedriver-service`),
+    which declares `"adm-zip": "^0.6.0"` — a caret range that pins the
+    vulnerable release with nothing older reachable without violating
+    chromedriver's own declared semver (and no evidence versions below
+    0.5.9 are actually safe rather than merely unaudited, so overriding
+    down would trade a documented risk for an unverified one). Both
+    vulnerability classes require extracting a maliciously crafted zip
+    containing symlink entries; the zips these tools extract are Chrome
+    and chromedriver binary downloads from Google's own distribution over
+    HTTPS, not attacker-supplied archives, so real-world exploitability
+    here is low. Not fixable by a pin today. Maintainer directed
+    (2026-09-10): dismissed all six via `gh api --method PATCH
+.../dependabot/alerts/{n}` with `dismissed_reason=tolerable_risk` and
+    a `dismissed_comment` recording this reasoning on each (280-char
+    limit — trimmed to the essentials, one comment per package shared
+    across its two/four alerts). This closes the open-alert count without
+    changing any dependency; it is a risk-acceptance record, not a fix.
+    Revisit if either upstream ships a patched release, or if `chromedriver`
+    moves off `adm-zip` — re-open by re-running Dependabot's rescan
+    (`gh api --method POST .../dependabot/alerts/{n}` is not a re-scan
+    trigger; a fresh push or the periodic Dependabot scan will re-flag
+    automatically if the dependency reappears vulnerable) and re-dismiss
+    or fix as appropriate. Next check due ~2026-10-10.
+    Verify: `gh api .../dependabot/alerts --paginate -q '.[] |
+select(.state=="open")'` returns zero rows (2026-09-10: confirmed
+    empty — the six above are `dismissed`, not absent).
 
 - [x] **P8-T6 Web Components headless: give it a standalone remote and
-  publish.** P7-T6 deliberately stopped short of two acceptance items:
-  the git-subtree standalone repos (GitHub / GitLab / Codeberg under
-  `LilyDesignSystem`) do not exist yet, so `bin/git-subtree-push`
-  cannot run for it, and `@lilydesignsystem/web-components-headless`
-  0.1.0 is unpublished on npm. Creating the GitLab and Codeberg repos
-  needs API tokens this environment does not hold (`gh` covers GitHub
-  only) — a maintainer step. Then `bin/git-subtree-push
-  @lilydesignsystem/web-components-headless` and add the package to
-  `bin/publish-headless` (it is not in that script's list either).
-  Progress 2026-09-03 — script half done: the package is now in
-  `bin/publish-headless`'s npm loop (publishes from the package root;
-  its `prepublishOnly` runs `build.mjs`). Verified by a real
-  `bin/publish-headless --dry-run`: the run reaches
-  `@lilydesignsystem/web-components-headless`, runs `build.mjs`,
-  packs cleanly (`+ @lilydesignsystem/web-components-headless@0.1.0`,
-  no registry conflict — it is unpublished), exit 0. Still open and
-  blocked on a maintainer: the GitLab/Codeberg standalone repos (no API
-  tokens here; `gh` covers GitHub only), then `bin/git-subtree-push`
-  and the real publish.
-  Verify: `bin/publish-headless --dry-run` reaches the package and
-  reports a clean pack (done); the three remotes resolve (pending).
-  Closed 2026-09-03 by maintainer decision: asked whether to create the
-  GitHub repo and subtree-push, the answer was to keep
-  `@lilydesignsystem/web-components-headless` **inside the monorepo**
-  — no standalone remote and no npm publish for now. The
-  `.git-subtree-push` file and the `bin/publish-headless` wiring stay
-  in place so either can be done later without rework; the package
-  remains unpublished and this is recorded, not glossed.
+      publish.** P7-T6 deliberately stopped short of two acceptance items:
+      the git-subtree standalone repos (GitHub / GitLab / Codeberg under
+      `LilyDesignSystem`) do not exist yet, so `bin/git-subtree-push`
+      cannot run for it, and `@lilydesignsystem/web-components-headless`
+      0.1.0 is unpublished on npm. Creating the GitLab and Codeberg repos
+      needs API tokens this environment does not hold (`gh` covers GitHub
+      only) — a maintainer step. Then `bin/git-subtree-push
+@lilydesignsystem/web-components-headless` and add the package to
+      `bin/publish-headless` (it is not in that script's list either).
+      Progress 2026-09-03 — script half done: the package is now in
+      `bin/publish-headless`'s npm loop (publishes from the package root;
+      its `prepublishOnly` runs `build.mjs`). Verified by a real
+      `bin/publish-headless --dry-run`: the run reaches
+      `@lilydesignsystem/web-components-headless`, runs `build.mjs`,
+      packs cleanly (`+ @lilydesignsystem/web-components-headless@0.1.0`,
+      no registry conflict — it is unpublished), exit 0. Still open and
+      blocked on a maintainer: the GitLab/Codeberg standalone repos (no API
+      tokens here; `gh` covers GitHub only), then `bin/git-subtree-push`
+      and the real publish.
+      Verify: `bin/publish-headless --dry-run` reaches the package and
+      reports a clean pack (done); the three remotes resolve (pending).
+      Closed 2026-09-03 by maintainer decision: asked whether to create the
+      GitHub repo and subtree-push, the answer was to keep
+      `@lilydesignsystem/web-components-headless` **inside the monorepo**
+      — no standalone remote and no npm publish for now. The
+      `.git-subtree-push` file and the `bin/publish-headless` wiring stay
+      in place so either can be done later without rework; the package
+      remains unpublished and this is recorded, not glossed.
 
 - [x] **P8-T7 Web Components headless: the `*ListItem` / table
-  sub-element gap.** Done 2026-09-03 for one family, as the task
-  allowed: `BreadcrumbNav > BreadcrumbList > BreadcrumbListItem` ship
-  (catalog 30 → 33) using an **upgrade in place** pattern — the list
-  item builds its real `<li>`, moves the host's children/attributes
-  in, then `this.replaceWith(li)`, so the custom element removes itself
-  and the rendered tree is a pure `<ol> > <li>` with no host node.
-  The cost is stated in the source, the subproject's `spec/index.md`
-  §2.1 and `AGENTS.md`: no custom-element instance survives upgrade,
-  so no live reactivity — acceptable only because the canonical
-  contract is passive (`Interactive: no`, one-shot `current` flag);
-  explicitly not to be copied to an interactive item. Table
-  sub-elements remain out of scope (untested `<table>` parser
-  interaction) and are recorded as such. `axe-core` added as a
-  devDependency for the gate.
-  Verify (as the task asks): `breadcrumb-list-item.test.ts` runs
-  axe-core restricted to the `list` / `listitem` rules over a rendered
-  three-crumb trail → zero violations; also asserts no
-  `<lily-breadcrumb-list-item>` remains and the `<ol>`'s children are
-  `["LI","LI","LI"]`. Full suite 34 files / 182 tests green, `tsc
-  --noEmit` clean, `build.mjs` registers 33, the built-bundle smoke
-  test passes at 33, Storybook builds the three new stories. Documented as unsolved in the subproject's own
-  `spec/index.md` §2: autonomous custom elements cannot use the
-  tag+attribute selector form (`li[lily-breadcrumb-list-item]`) that
-  angular-headless 0.3.0 used to avoid a wrapper element between a
-  parent and a child with a required content model (`<ol>`+`<li>`,
-  `<table>`+`<thead>`), and customized built-ins are unavailable in
-  WebKit. Evaluate the realistic options — a `slot`-free "upgrade in
-  place" pattern that moves the host's children into a real `<li>`
-  and removes the host, or an explicit `ElementInternals`-based
-  approach — pick one with an axe `list`/`listitem` test as the gate,
-  and either implement it for one family or record why none is
-  acceptable.
-  Verify: an axe run over a `BreadcrumbNav > BreadcrumbList >
-  BreadcrumbListItem` rendering reports no `list`/`listitem`
-  violation, or the spec records a reasoned "not possible" with the
-  evidence.
+      sub-element gap.** Done 2026-09-03 for one family, as the task
+      allowed: `BreadcrumbNav > BreadcrumbList > BreadcrumbListItem` ship
+      (catalog 30 → 33) using an **upgrade in place** pattern — the list
+      item builds its real `<li>`, moves the host's children/attributes
+      in, then `this.replaceWith(li)`, so the custom element removes itself
+      and the rendered tree is a pure `<ol> > <li>` with no host node.
+      The cost is stated in the source, the subproject's `spec/index.md`
+      §2.1 and `AGENTS.md`: no custom-element instance survives upgrade,
+      so no live reactivity — acceptable only because the canonical
+      contract is passive (`Interactive: no`, one-shot `current` flag);
+      explicitly not to be copied to an interactive item. Table
+      sub-elements remain out of scope (untested `<table>` parser
+      interaction) and are recorded as such. `axe-core` added as a
+      devDependency for the gate.
+      Verify (as the task asks): `breadcrumb-list-item.test.ts` runs
+      axe-core restricted to the `list` / `listitem` rules over a rendered
+      three-crumb trail → zero violations; also asserts no
+      `<lily-breadcrumb-list-item>` remains and the `<ol>`'s children are
+      `["LI","LI","LI"]`. Full suite 34 files / 182 tests green, `tsc
+--noEmit` clean, `build.mjs` registers 33, the built-bundle smoke
+      test passes at 33, Storybook builds the three new stories. Documented as unsolved in the subproject's own
+      `spec/index.md` §2: autonomous custom elements cannot use the
+      tag+attribute selector form (`li[lily-breadcrumb-list-item]`) that
+      angular-headless 0.3.0 used to avoid a wrapper element between a
+      parent and a child with a required content model (`<ol>`+`<li>`,
+      `<table>`+`<thead>`), and customized built-ins are unavailable in
+      WebKit. Evaluate the realistic options — a `slot`-free "upgrade in
+      place" pattern that moves the host's children into a real `<li>`
+      and removes the host, or an explicit `ElementInternals`-based
+      approach — pick one with an axe `list`/`listitem` test as the gate,
+      and either implement it for one family or record why none is
+      acceptable.
+      Verify: an axe run over a `BreadcrumbNav > BreadcrumbList >
+BreadcrumbListItem` rendering reports no `list`/`listitem`
+      violation, or the spec records a reasoned "not possible" with the
+      evidence.
 
 - [x] **P8-T8 `motion-picker`'s icon scale is still a placeholder.**
-  Done 2026-09-03. Method recovered from the originating commit
-  (`db081e793`): rendered-ink extent over the em box, in a real
-  browser, against the icon's *computed* font — no script was ever
-  committed, which is why the earlier bare-`system-ui` probe did not
-  match. Re-implemented as a one-off Playwright/canvas measurement
-  under `themes/light.css` (headless Chromium, `--lily-font-body`
-  resolving to Arial on this machine). Reproduction gate before
-  trusting the new number: ◑ 0.850 vs documented 0.842, 🌐 1.000 vs
-  0.996, "A" 0.675 vs 0.673 — all within 1%. ⏸ (U+23F8+FE0E) inks
-  0.495 (0.490 wide / 0.495 tall), so its factor is 0.850/0.495 =
-  **1.72**, applied to all 45 `themes/*.css` with the comment rewritten
-  from "reasoned placeholder" to the measurement and its method;
-  `AGENTS/helpers.md` and `spec/helpers/index.md` updated to match.
-  Finding recorded, not silently corrected: ➤ did **not** reproduce
-  (0.850 wide / 0.685 tall vs documented 0.613), and its own theme
-  comment cites ◑'s reference as 0.777 rather than 0.842 — it was
-  measured under a different resolved face. Its shipped 1.268 was left
-  as-is by this task because changing it is a visual decision across
-  45 themes, not a measurement correction — filed as P8-T10 and
-  resolved there the same day by maintainer decision (re-baselined to
-  1).
-  Verify: `bin/check-theme` clean (45 themes); the ⏸ note no longer
-  says "placeholder"; the four reproduced figures and the fifth all
-  cite the same method; `bin/test` exits 0; `bin/check-links` clean.
-  `AGENTS/helpers.md` records `--lily-picker-icon-scale: 1` for ⏸ as
-  "a reasoned placeholder, not a false-precision number" — the other
-  four glyphs were measured (◑ 0.842, 🌐 0.996, "A" 0.673, ➤ 0.613
-  ink-to-em ratios). The 2026-09-03 attempt to reproduce that
-  measurement could not match the documented figures, so no number was
-  invented. Recover or re-document the original measurement method
-  (pixel-count the glyph against its *computed* `font-family`, per the
-  same file), apply it to U+23F8, and update all 45 `themes/*.css`
-  and the helpers doc together.
-  Verify: `bin/check-theme` clean; the five factors in `AGENTS/helpers.md`
-  all cite the same method and the ⏸ note no longer says "placeholder".
+      Done 2026-09-03. Method recovered from the originating commit
+      (`db081e793`): rendered-ink extent over the em box, in a real
+      browser, against the icon's _computed_ font — no script was ever
+      committed, which is why the earlier bare-`system-ui` probe did not
+      match. Re-implemented as a one-off Playwright/canvas measurement
+      under `themes/light.css` (headless Chromium, `--lily-font-body`
+      resolving to Arial on this machine). Reproduction gate before
+      trusting the new number: ◑ 0.850 vs documented 0.842, 🌐 1.000 vs
+      0.996, "A" 0.675 vs 0.673 — all within 1%. ⏸ (U+23F8+FE0E) inks
+      0.495 (0.490 wide / 0.495 tall), so its factor is 0.850/0.495 =
+      **1.72**, applied to all 45 `themes/*.css` with the comment rewritten
+      from "reasoned placeholder" to the measurement and its method;
+      `AGENTS/helpers.md` and `spec/helpers/index.md` updated to match.
+      Finding recorded, not silently corrected: ➤ did **not** reproduce
+      (0.850 wide / 0.685 tall vs documented 0.613), and its own theme
+      comment cites ◑'s reference as 0.777 rather than 0.842 — it was
+      measured under a different resolved face. Its shipped 1.268 was left
+      as-is by this task because changing it is a visual decision across
+      45 themes, not a measurement correction — filed as P8-T10 and
+      resolved there the same day by maintainer decision (re-baselined to
+      1).
+      Verify: `bin/check-theme` clean (45 themes); the ⏸ note no longer
+      says "placeholder"; the four reproduced figures and the fifth all
+      cite the same method; `bin/test` exits 0; `bin/check-links` clean.
+      `AGENTS/helpers.md` records `--lily-picker-icon-scale: 1` for ⏸ as
+      "a reasoned placeholder, not a false-precision number" — the other
+      four glyphs were measured (◑ 0.842, 🌐 0.996, "A" 0.673, ➤ 0.613
+      ink-to-em ratios). The 2026-09-03 attempt to reproduce that
+      measurement could not match the documented figures, so no number was
+      invented. Recover or re-document the original measurement method
+      (pixel-count the glyph against its _computed_ `font-family`, per the
+      same file), apply it to U+23F8, and update all 45 `themes/*.css`
+      and the helpers doc together.
+      Verify: `bin/check-theme` clean; the five factors in `AGENTS/helpers.md`
+      all cite the same method and the ⏸ note no longer says "placeholder".
 
 - [x] **P8-T9 About a dozen picker docs show an incomplete globe
-  entity.** Done 2026-09-03: exactly 10 illustrative
-  `<span class="locale-picker-icon" aria-hidden="true">` snippets
-  (5 angular, 5 blazor — `AGENTS.md`, `index.md`, `AGENTS/api.md`,
-  `AGENTS/ssr.md`, `spec/index.md` in each) rendered `&#127760;`
-  alone; each now holds the bare `🌐︎` (U+1F310 + U+FE0E), matching the
-  runtime constant and the reversed glyph rule. The prose mentions that
-  cite `&#127760;` as the decimal value of U+1F310 (vue/angular/blazor/
-  svelte `spec/index.md`, svelte `docs/accessibility.md`) are correct as
-  written and untouched.
-  Verify: `grep -rn '&#127760;' --include=*.md . | grep -v node_modules
-  | grep -v CHANGELOG | grep -c aria-hidden` → 0. Found and deliberately left out of scope during the glyph
-  reversal: several illustrative HTML snippets in angular/blazor/vue's
-  locale-picker `AGENTS.md`, `AGENTS/api.md`, `AGENTS/ssr.md`,
-  `index.md`, and `spec/index.md` render the icon as `&#127760;` alone
-  — U+1F310 without its paired U+FE0E (`&#65038;`), so the snippet as
-  written would show the colour-emoji globe, not the text-presentation
-  one the component actually emits. The runtime constants are correct;
-  only these examples are wrong, and they predate the reversal. Under
-  the reversed rule the fix is the bare `🌐︎` in each. Prose that names
-  the codepoint's decimal value parenthetically is fine and not in
-  scope.
-  Verify: `grep -rn '&#127760;' --include=*.md . | grep -v node_modules
-  | grep -v CHANGELOG` returns only prose mentions, none inside an
-  `aria-hidden="true"` span.
+      entity.** Done 2026-09-03: exactly 10 illustrative
+      `<span class="locale-picker-icon" aria-hidden="true">` snippets
+      (5 angular, 5 blazor — `AGENTS.md`, `index.md`, `AGENTS/api.md`,
+      `AGENTS/ssr.md`, `spec/index.md` in each) rendered `&#127760;`
+      alone; each now holds the bare `🌐︎` (U+1F310 + U+FE0E), matching the
+      runtime constant and the reversed glyph rule. The prose mentions that
+      cite `&#127760;` as the decimal value of U+1F310 (vue/angular/blazor/
+      svelte `spec/index.md`, svelte `docs/accessibility.md`) are correct as
+      written and untouched.
+      Verify: `grep -rn '&#127760;' --include=*.md . | grep -v node_modules
+| grep -v CHANGELOG | grep -c aria-hidden` → 0. Found and deliberately left out of scope during the glyph
+      reversal: several illustrative HTML snippets in angular/blazor/vue's
+      locale-picker `AGENTS.md`, `AGENTS/api.md`, `AGENTS/ssr.md`,
+      `index.md`, and `spec/index.md` render the icon as `&#127760;` alone
+      — U+1F310 without its paired U+FE0E (`&#65038;`), so the snippet as
+      written would show the colour-emoji globe, not the text-presentation
+      one the component actually emits. The runtime constants are correct;
+      only these examples are wrong, and they predate the reversal. Under
+      the reversed rule the fix is the bare `🌐︎` in each. Prose that names
+      the codepoint's decimal value parenthetically is fine and not in
+      scope.
+      Verify: `grep -rn '&#127760;' --include=*.md . | grep -v node_modules
+| grep -v CHANGELOG` returns only prose mentions, none inside an
+      `aria-hidden="true"` span.
 
 - [x] **P8-T10 `share-picker`'s ➤ scale does not reproduce under the
-  documented method.** Done 2026-09-03, maintainer decision: re-baseline.
-  Re-ran the P8-T8 measurement as the gate first — identical to the
-  earlier run (◑ 0.850, 🌐 1.000, "A" 0.675 wide, ⏸ 0.495, ➤ 0.850 wide
-  / 0.685 tall). ➤'s max extent equals ◑'s, so its factor is
-  0.850/0.850 = **1** (was 1.268), applied to all 45 `themes/*.css`.
-  All five icon comments rewritten to cite the one baseline (◑ 0.850,
-  max ink extent; "A" on width, stated) — the other four *factors*
-  (0.845, 1.25, 1.72, and calendar's 0.845) are unchanged, since the
-  maintainer asked only for ➤ and each already reproduces within 1%.
-  `AGENTS/helpers.md` and `spec/helpers/index.md` updated to match.
-  Verify: every `--lily-picker-icon-scale` comment cites ◑ 0.850 and
-  names its metric; the re-run reproduced all five within 2%;
-  `bin/check-theme` clean (45); `bin/test` exits 0. Surfaced by P8-T8's reproduction gate
-  (2026-09-03): measuring all five glyphs by the one documented method
-  (real browser, the icon's *computed* font, ink extent over the em
-  box) reproduced ◑, 🌐 and "A" to within 1%, but ➤ came out 0.850 wide
-  / 0.685 tall against the documented 0.613 — and its own theme comment
-  cites ◑'s reference as 0.777 where every other comment says 0.842.
-  The share factor (1.268) was evidently measured in a different
-  session under a different resolved face (commit `9d30263b0`), so the
-  five shipped factors are not actually on one baseline. Decide, then
-  apply consistently across the 45 themes: either re-measure ➤ under
-  the current baseline (which gives ≈1.0–1.24 depending on whether
-  width or max-extent is the metric — pick one and document it for all
-  five) or record the share factor as intentionally taken under a
-  different stack. This is a visual decision, not a measurement
-  correction, which is why P8-T8 did not make it unilaterally.
-  Verify: every `--lily-picker-icon-scale` comment in `themes/*.css`
-  cites the same ◑ reference value and the same metric; a re-run of the
-  P8-T8 measurement reproduces all five within 2%; `bin/check-theme`
-  clean.
+      documented method.** Done 2026-09-03, maintainer decision: re-baseline.
+      Re-ran the P8-T8 measurement as the gate first — identical to the
+      earlier run (◑ 0.850, 🌐 1.000, "A" 0.675 wide, ⏸ 0.495, ➤ 0.850 wide
+      / 0.685 tall). ➤'s max extent equals ◑'s, so its factor is
+      0.850/0.850 = **1** (was 1.268), applied to all 45 `themes/*.css`.
+      All five icon comments rewritten to cite the one baseline (◑ 0.850,
+      max ink extent; "A" on width, stated) — the other four _factors_
+      (0.845, 1.25, 1.72, and calendar's 0.845) are unchanged, since the
+      maintainer asked only for ➤ and each already reproduces within 1%.
+      `AGENTS/helpers.md` and `spec/helpers/index.md` updated to match.
+      Verify: every `--lily-picker-icon-scale` comment cites ◑ 0.850 and
+      names its metric; the re-run reproduced all five within 2%;
+      `bin/check-theme` clean (45); `bin/test` exits 0. Surfaced by P8-T8's reproduction gate
+      (2026-09-03): measuring all five glyphs by the one documented method
+      (real browser, the icon's _computed_ font, ink extent over the em
+      box) reproduced ◑, 🌐 and "A" to within 1%, but ➤ came out 0.850 wide
+      / 0.685 tall against the documented 0.613 — and its own theme comment
+      cites ◑'s reference as 0.777 where every other comment says 0.842.
+      The share factor (1.268) was evidently measured in a different
+      session under a different resolved face (commit `9d30263b0`), so the
+      five shipped factors are not actually on one baseline. Decide, then
+      apply consistently across the 45 themes: either re-measure ➤ under
+      the current baseline (which gives ≈1.0–1.24 depending on whether
+      width or max-extent is the metric — pick one and document it for all
+      five) or record the share factor as intentionally taken under a
+      different stack. This is a visual decision, not a measurement
+      correction, which is why P8-T8 did not make it unilaterally.
+      Verify: every `--lily-picker-icon-scale` comment in `themes/*.css`
+      cites the same ◑ reference value and the same metric; a re-run of the
+      P8-T8 measurement reproduces all five within 2%; `bin/check-theme`
+      clean.
 
 - [x] **Web Components helpers catalog (maintainer-directed, 2026-09-03).**
-  `lily-design-system-web-components-helpers`: the six `*-picker`
-  helpers as `<lily-theme-picker>`, `<lily-locale-picker>`,
-  `<lily-text-size-picker>`, `<lily-motion-picker>`,
-  `<lily-share-picker>`, `<lily-date-time-picker>`. Surfaced before
-  building, not after: `lily-design-system-html-helpers` was already
-  six vanilla custom elements (`<theme-picker>` etc.), so this is an
-  **independent copy** differing only in tag prefix and package
-  naming; the alternatives (alias `lily-*` tags onto the HTML catalog;
-  thin re-export packages) were offered and declined in favour of the
-  literal request. Tag rewrites scoped to tag-shaped contexts only —
-  never the `.x-picker` class hooks the 45 themes target nor
-  `data-lily-*` attributes — with a post-copy report of every
-  remaining bare tag string reviewed by hand (three test-helper
-  defaults fixed). Provenance note in the catalog's `index.md`,
-  `AGENTS.md`, `spec/index.md`; wired into `bin/publish-helpers`,
-  `AGENTS/helpers.md`, `AGENTS/lily.md`, `spec/helpers`, root spec
-  (7 → 8 catalogs, 42 → 48 packages). No standalone remote. npm publish
-  attempted twice the same day (see P8-T11): blocked on a missing
-  `NPM_TOKEN` secret, not on the packages.
-  Verify: 6 files / 346 tests green — exactly the HTML catalog's count
-  — under the new tags; all six packages build; `bin/test` exits 0;
-  `bin/check-links` clean with the catalog's 74 markdown files linked.
+      `lily-design-system-web-components-helpers`: the six `*-picker`
+      helpers as `<lily-theme-picker>`, `<lily-locale-picker>`,
+      `<lily-text-size-picker>`, `<lily-motion-picker>`,
+      `<lily-share-picker>`, `<lily-date-time-picker>`. Surfaced before
+      building, not after: `lily-design-system-html-helpers` was already
+      six vanilla custom elements (`<theme-picker>` etc.), so this is an
+      **independent copy** differing only in tag prefix and package
+      naming; the alternatives (alias `lily-*` tags onto the HTML catalog;
+      thin re-export packages) were offered and declined in favour of the
+      literal request. Tag rewrites scoped to tag-shaped contexts only —
+      never the `.x-picker` class hooks the 45 themes target nor
+      `data-lily-*` attributes — with a post-copy report of every
+      remaining bare tag string reviewed by hand (three test-helper
+      defaults fixed). Provenance note in the catalog's `index.md`,
+      `AGENTS.md`, `spec/index.md`; wired into `bin/publish-helpers`,
+      `AGENTS/helpers.md`, `AGENTS/lily.md`, `spec/helpers`, root spec
+      (7 → 8 catalogs, 42 → 48 packages). No standalone remote. npm publish
+      attempted twice the same day (see P8-T11): blocked on a missing
+      `NPM_TOKEN` secret, not on the packages.
+      Verify: 6 files / 346 tests green — exactly the HTML catalog's count
+      — under the new tags; all six packages build; `bin/test` exits 0;
+      `bin/check-links` clean with the catalog's 74 markdown files linked.
 
 - [ ] **P8-T11 Publish `lily-design-system-web-components-helpers`
-  0.1.0 — blocked on `NPM_TOKEN`.** Release checklist steps 1–3 done
-  2026-09-03 (versions 0.1.0, first-release CHANGELOG entries,
-  scoped dry-run reaching all six, `bin/smoke-packages` "all packages
-  OK"). Step 4 attempted twice via `publish.yml`
-  (`real=true target=helpers only=lily-design-system-web-components-helpers`):
-  run 33811822759 went green while publishing nothing — exposing two
-  real `bin/publish-helpers` defects, both fixed and proven in
-  `c51f1cb0b` (a `$?`-after-`if` status bug that tolerated every
-  failure; no catalog devDependency install anywhere); run
-  33812429654 then failed correctly with `ENEEDAUTH`. The same two
-  defects were then found and fixed in `bin/publish-headless`
-  (`012a49320`, same proofs; the two scripts' `publish_npm_package`
-  are byte-identical). Cause: the repo
-  has exactly one Actions secret (`NUGET_USER`); `NPM_TOKEN` was never
-  configured. Maintainer step: create an npm automation token with
-  publish rights to the `lily-design-system-*` names, add it as the
-  `NPM_TOKEN` repository secret, then `gh workflow run publish.yml -f
-  real=true -f target=helpers -f only=lily-design-system-web-components-helpers`.
-  Verify: `npm view lily-design-system-web-components-{theme,locale,
-  text-size,motion,share,date-time}-picker version` → `0.1.0` for all
-  six, and the job log shows six `+ …@0.1.0` lines.
+      0.1.0 — blocked on `NPM_TOKEN`.** Release checklist steps 1–3 done
+      2026-09-03 (versions 0.1.0, first-release CHANGELOG entries,
+      scoped dry-run reaching all six, `bin/smoke-packages` "all packages
+      OK"). Step 4 attempted twice via `publish.yml`
+      (`real=true target=helpers only=lily-design-system-web-components-helpers`):
+      run 33811822759 went green while publishing nothing — exposing two
+      real `bin/publish-helpers` defects, both fixed and proven in
+      `c51f1cb0b` (a `$?`-after-`if` status bug that tolerated every
+      failure; no catalog devDependency install anywhere); run
+      33812429654 then failed correctly with `ENEEDAUTH`. The same two
+      defects were then found and fixed in `bin/publish-headless`
+      (`012a49320`, same proofs; the two scripts' `publish_npm_package`
+      are byte-identical). Cause: the repo
+      has exactly one Actions secret (`NUGET_USER`); `NPM_TOKEN` was never
+      configured. Maintainer step: create an npm automation token with
+      publish rights to the `lily-design-system-*` names, add it as the
+      `NPM_TOKEN` repository secret, then `gh workflow run publish.yml -f
+real=true -f target=helpers -f only=lily-design-system-web-components-helpers`.
+      Verify: `npm view lily-design-system-web-components-{theme,locale,
+text-size,motion,share,date-time}-picker version` → `0.1.0` for all
+      six, and the job log shows six `+ …@0.1.0` lines.
 
 - [x] **P8-T12 `date-time-picker`: week/day step buttons and a
-  time-zone select.** Closed 2026-09-04. Spec-first:
-  `spec/date-time-picker/index.md` (2026-09-03) specified four pairs of
-  step buttons — previous/next **year** and **month** (already
-  shipped, canonical DOM contract §4.3) plus previous/next **week** and
-  **day** (new) — and a native time-zone `<select>` populated from
-  `Intl.supportedValuesOf("timeZone")` (418 zones on Node 26, never a
-  bundled table), with its own hidden input, `data-time-zone` on the
-  root, optional `timeZones` subset and `timeZoneLabels`, and no
-  guessed default. Value contract unchanged (civil ISO); the zone is
-  metadata. Implemented Svelte canonical first (0.2.0, 71 tests, 6 new
-  acceptance clauses §7.56–§7.61), then ported clause-for-clause to
-  react, vue, angular, html, nunjucks, blazor, and web-components —
-  each catalog's `date-time-picker` package landed its own 0.2.0 (or
-  0.3.0 for Angular, which already carried an unrelated peer-range
-  bump) with the same six new tests, green in every catalog's full
-  suite. The Angular port found and fixed a real defect along the way:
-  the `<select>`'s own `[value]` binding raced its `@for`-generated
-  `<option>` children (Angular's update pass could apply the select's
-  value before the dynamically created options had their own `[value]`
-  applied, matching nothing) — switched to `[selected]` on each
-  `<option>`, evaluated as part of that option's own update instead.
-  `bin/smoke-packages`'s six `dtLabels` fixtures (react, vue, html,
-  web-components, nunjucks, svelte) and all 45 reference themes'
-  `.date-time-picker-*` CSS hooks (the four new header-button classes
-  plus `.date-time-picker-time-zone` / `-time-zone-label` /
-  `-time-zone-select`) were extended to match.
-  Verified: every catalog's date-time-picker suite green with the new
-  clauses (mutation-tested — each catalog's §7.59 confirmed to fail
-  when its range guard is removed); `bin/check-theme` clean across all
-  45 themes; the root spec's Status note updated from "implemented
-  nowhere yet" to shipped.
+      time-zone select.** Closed 2026-09-04. Spec-first:
+      `spec/date-time-picker/index.md` (2026-09-03) specified four pairs of
+      step buttons — previous/next **year** and **month** (already
+      shipped, canonical DOM contract §4.3) plus previous/next **week** and
+      **day** (new) — and a native time-zone `<select>` populated from
+      `Intl.supportedValuesOf("timeZone")` (418 zones on Node 26, never a
+      bundled table), with its own hidden input, `data-time-zone` on the
+      root, optional `timeZones` subset and `timeZoneLabels`, and no
+      guessed default. Value contract unchanged (civil ISO); the zone is
+      metadata. Implemented Svelte canonical first (0.2.0, 71 tests, 6 new
+      acceptance clauses §7.56–§7.61), then ported clause-for-clause to
+      react, vue, angular, html, nunjucks, blazor, and web-components —
+      each catalog's `date-time-picker` package landed its own 0.2.0 (or
+      0.3.0 for Angular, which already carried an unrelated peer-range
+      bump) with the same six new tests, green in every catalog's full
+      suite. The Angular port found and fixed a real defect along the way:
+      the `<select>`'s own `[value]` binding raced its `@for`-generated
+      `<option>` children (Angular's update pass could apply the select's
+      value before the dynamically created options had their own `[value]`
+      applied, matching nothing) — switched to `[selected]` on each
+      `<option>`, evaluated as part of that option's own update instead.
+      `bin/smoke-packages`'s six `dtLabels` fixtures (react, vue, html,
+      web-components, nunjucks, svelte) and all 45 reference themes'
+      `.date-time-picker-*` CSS hooks (the four new header-button classes
+      plus `.date-time-picker-time-zone` / `-time-zone-label` /
+      `-time-zone-select`) were extended to match.
+      Verified: every catalog's date-time-picker suite green with the new
+      clauses (mutation-tested — each catalog's §7.59 confirmed to fail
+      when its range guard is removed); `bin/check-theme` clean across all
+      45 themes; the root spec's Status note updated from "implemented
+      nowhere yet" to shipped.
 
 - [x] **P8-T13 Twelve more national personal identifiers** (24 new
-  components: 12 types × `-input`/`-view`), researched and sourced
-  2026-09-22, extending the existing 46-type / 92-component catalog
-  (`AGENTS/national-person-identifiers.tsv`) past its current
-  Europe + Australia + United States coverage into Asia, the
-  Americas, and Africa — several are literally a government health
-  insurance identifier, matching this task's own trigger. All twelve
-  verified against real sources (see each's own Wikipedia link and the
-  research notes below) rather than assumed from memory:
+      components: 12 types × `-input`/`-view`), researched and sourced
+      2026-09-22, extending the existing 46-type / 92-component catalog
+      (`AGENTS/national-person-identifiers.tsv`) past its current
+      Europe + Australia + United States coverage into Asia, the
+      Americas, and Africa — several are literally a government health
+      insurance identifier, matching this task's own trigger. All twelve
+      verified against real sources (see each's own Wikipedia link and the
+      research notes below) rather than assumed from memory:
 
-  | Slug | Country | Identifier | Why it's a good fit |
-  | --- | --- | --- | --- |
-  | `aotearoa-national-health-index` | New Zealand | National Health Index (NHI) Number — 7-char alphanumeric, Modulus-11 (legacy) / Modulus-23 (2026-expanded) check digit | A government health-system identifier, directly on point |
-  | `pilipinas-philhealth-identification-number` | Philippines | PhilHealth Identification Number (PIN) — 12 digits | The literal national government health-insurance corporation's own ID |
-  | `brasil-cartao-nacional-de-saude` | Brazil | Cartão Nacional de Saúde (CNS) — 15 digits, Modulus-11 | Brazil's national health-card number for the SUS public health system |
-  | `schweiz-ahv-nummer` | Switzerland | AHV-Nummer / Numéro AVS — 13 digits, EAN-13 check digit | Switzerland's social-insurance number, which its universal mandatory health-insurance system keys against; notable gap since every EU/EEA neighbour is already catalogued but Switzerland (EFTA, not EU) was not |
-  | `canada-social-insurance-number` | Canada | Social Insurance Number (SIN) — 9 digits, Luhn check digit | Large, previously-uncovered North American country; SIN underlies federal benefits including health-related ones (though day-to-day health cards are provincial, out of scope for a *national* identifier) |
-  | `hanguk-jumin-deungnok-beonho` | South Korea | Resident Registration Number (주민등록번호) — 13 digits, date-of-birth + sex + region + Modulus-11 check digit | First non-Latin-script entry; used for National Health Insurance enrolment |
-  | `nihon-kojin-bango` | Japan | Kojin Bangō / My Number (マイナンバー) — 12 digits, weighted Modulus-11 check digit | Unifies health-insurance, pension, and tax administration since 2016 |
-  | `bharat-aadhaar` | India | Aadhaar (आधार) — 12 digits, Verhoeff check digit | World's largest biometric ID system; increasingly the key for Ayushman Bharat and other public health schemes |
-  | `yisrael-teudat-zehut` | Israel | Teudat Zehut — 9 digits, Luhn check digit | Registers a person with their Kupat Cholim (statutory health fund) |
-  | `south-africa-identity-number` | South Africa | South African ID Number — 13 digits, date-of-birth + sex + citizenship + Luhn check digit | Large African country, previously uncovered |
-  | `mexico-clave-unica-de-registro-de-poblacion` | Mexico | CURP — 18-character alphanumeric, composed from name/DOB/sex/state, no trailing check digit | Keys IMSS/health-service registration; large North American country, previously uncovered |
-  | `singapore-national-registration-identity-card` | Singapore | NRIC / FIN — 1 letter + 7 digits + 1 check letter, Modulus-11 with prefix-dependent offset | Widely cited identifier format, previously uncovered |
+  | Slug                                            | Country      | Identifier                                                                                                             | Why it's a good fit                                                                                                                                                                                              |
+  | ----------------------------------------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+  | `aotearoa-national-health-index`                | New Zealand  | National Health Index (NHI) Number — 7-char alphanumeric, Modulus-11 (legacy) / Modulus-23 (2026-expanded) check digit | A government health-system identifier, directly on point                                                                                                                                                         |
+  | `pilipinas-philhealth-identification-number`    | Philippines  | PhilHealth Identification Number (PIN) — 12 digits                                                                     | The literal national government health-insurance corporation's own ID                                                                                                                                            |
+  | `brasil-cartao-nacional-de-saude`               | Brazil       | Cartão Nacional de Saúde (CNS) — 15 digits, Modulus-11                                                                 | Brazil's national health-card number for the SUS public health system                                                                                                                                            |
+  | `schweiz-ahv-nummer`                            | Switzerland  | AHV-Nummer / Numéro AVS — 13 digits, EAN-13 check digit                                                                | Switzerland's social-insurance number, which its universal mandatory health-insurance system keys against; notable gap since every EU/EEA neighbour is already catalogued but Switzerland (EFTA, not EU) was not |
+  | `canada-social-insurance-number`                | Canada       | Social Insurance Number (SIN) — 9 digits, Luhn check digit                                                             | Large, previously-uncovered North American country; SIN underlies federal benefits including health-related ones (though day-to-day health cards are provincial, out of scope for a _national_ identifier)       |
+  | `hanguk-jumin-deungnok-beonho`                  | South Korea  | Resident Registration Number (주민등록번호) — 13 digits, date-of-birth + sex + region + Modulus-11 check digit         | First non-Latin-script entry; used for National Health Insurance enrolment                                                                                                                                       |
+  | `nihon-kojin-bango`                             | Japan        | Kojin Bangō / My Number (マイナンバー) — 12 digits, weighted Modulus-11 check digit                                    | Unifies health-insurance, pension, and tax administration since 2016                                                                                                                                             |
+  | `bharat-aadhaar`                                | India        | Aadhaar (आधार) — 12 digits, Verhoeff check digit                                                                       | World's largest biometric ID system; increasingly the key for Ayushman Bharat and other public health schemes                                                                                                    |
+  | `yisrael-teudat-zehut`                          | Israel       | Teudat Zehut — 9 digits, Luhn check digit                                                                              | Registers a person with their Kupat Cholim (statutory health fund)                                                                                                                                               |
+  | `south-africa-identity-number`                  | South Africa | South African ID Number — 13 digits, date-of-birth + sex + citizenship + Luhn check digit                              | Large African country, previously uncovered                                                                                                                                                                      |
+  | `mexico-clave-unica-de-registro-de-poblacion`   | Mexico       | CURP — 18-character alphanumeric, composed from name/DOB/sex/state, no trailing check digit                            | Keys IMSS/health-service registration; large North American country, previously uncovered                                                                                                                        |
+  | `singapore-national-registration-identity-card` | Singapore    | NRIC / FIN — 1 letter + 7 digits + 1 check letter, Modulus-11 with prefix-dependent offset                             | Widely cited identifier format, previously uncovered                                                                                                                                                             |
 
   **Naming judgment calls** (documented per the churn-history precedent
   in `spec/national-identifiers/index.md`, not hidden): New Zealand
@@ -1860,34 +1859,34 @@ dropped. None is speculative.
   canonical; implement there first, then port to the other
   frameworks"):
   - [x] Add all 12 rows to `AGENTS/national-person-identifiers.tsv`
-    (`bin/sync` propagates it).
+        (`bin/sync` propagates it).
   - [x] Scaffold all 24 slugs into the catalog via `bin/new-component`
-    (catalog row, docs dir, CSS hook, all 7 headless implementations +
-    tests + stories, the two example apps, the github.io route, every
-    generated registry) — generic placeholders at this step.
+        (catalog row, docs dir, CSS hook, all 7 headless implementations +
+        tests + stories, the two example apps, the github.io route, every
+        generated registry) — generic placeholders at this step.
   - [x] Replace the Svelte canonical implementation (the binding
-    minimum) for all 24 with the real `-input`/`-view` pattern every
-    existing identifier follows (`<input type="text"
-    autocomplete="off">` / `<span aria-label="…">`), plus real
-    `AGENTS.md`/`index.md`/`spec/index.md` content — country, identifier
-    name, format, validation algorithm, where to find it — matching the
-    depth of an existing entry (e.g.
-    `components/malta-national-identification-number-input/`).
+        minimum) for all 24 with the real `-input`/`-view` pattern every
+        existing identifier follows (`<input type="text"
+autocomplete="off">` / `<span aria-label="…">`), plus real
+        `AGENTS.md`/`index.md`/`spec/index.md` content — country, identifier
+        name, format, validation algorithm, where to find it — matching the
+        depth of an existing entry (e.g.
+        `components/malta-national-identification-number-input/`).
   - [x] Port the corrected pattern + content to the other 7 headless
-    catalogs (React, Vue, Angular, HTML, Nunjucks, Blazor, Web
-    Components — including Web Components, a deliberate deviation from
-    P7-T6's 2026-09-03 "92 identifiers excluded" note: that note
-    predates this session's `kanban-board`/`gantt-chart` work, which
-    found `web-components-headless` had already grown well past its
-    original 30-component representative slice, so treating it like
-    every other catalog here is more current than preserving a
-    now-stale exclusion).
+        catalogs (React, Vue, Angular, HTML, Nunjucks, Blazor, Web
+        Components — including Web Components, a deliberate deviation from
+        P7-T6's 2026-09-03 "92 identifiers excluded" note: that note
+        predates this session's `kanban-board`/`gantt-chart` work, which
+        found `web-components-headless` had already grown well past its
+        original 30-component representative slice, so treating it like
+        every other catalog here is more current than preserving a
+        now-stale exclusion).
   - [x] Verify: `bin/test` and `bin/check-links` pass; `bin/check-coverage`
-    shows 0 gaps for all 24 new slugs across all 7 catalogs; each
-    catalog's full headless suite green; `bin/check-theme` clean
-    (24 new CSS hooks, still empty selectors per the existing
-    identifier convention); catalog count updated everywhere it's
-    stated (491 → 515).
+        shows 0 gaps for all 24 new slugs across all 7 catalogs; each
+        catalog's full headless suite green; `bin/check-theme` clean
+        (24 new CSS hooks, still empty selectors per the existing
+        identifier convention); catalog count updated everywhere it's
+        stated (491 → 515).
 
   Done 2026-09-22. Discovered mid-task that `bin/new-component` never
   learned to scaffold the 8th (Web Components) catalog at all — its
@@ -1917,29 +1916,29 @@ dropped. None is speculative.
   still stating a stale "456 of 491, no open backlog" framing.
 
 - [x] **P8-T15 Twelve more national personal identifiers, round two**
-  (24 new components: 12 types × `-input`/`-view`), researched and
-  sourced 2026-09-22, extending the 58-type / 116-component catalog
-  P8-T13 left off at. This round closes three real EU/EEA gaps the
-  first 46 types somehow skipped (Austria, Hungary, Luxembourg — every
-  other EU/EEA member already had an entry) and continues the global
-  expansion into Asia, Eastern Europe, Africa, and South America. All
-  twelve verified against real sources rather than assumed from
-  memory:
+      (24 new components: 12 types × `-input`/`-view`), researched and
+      sourced 2026-09-22, extending the 58-type / 116-component catalog
+      P8-T13 left off at. This round closes three real EU/EEA gaps the
+      first 46 types somehow skipped (Austria, Hungary, Luxembourg — every
+      other EU/EEA member already had an entry) and continues the global
+      expansion into Asia, Eastern Europe, Africa, and South America. All
+      twelve verified against real sources rather than assumed from
+      memory:
 
-  | Slug | Country | Identifier | Why it's a good fit |
-  | --- | --- | --- | --- |
-  | `osterreich-sozialversicherungsnummer` | Austria | Sozialversicherungsnummer (SVNR) — 10 digits, Modulus-11 check digit | Closes an EU/EEA gap; the number the statutory health-insurance system (Sozialversicherung) itself is keyed on |
-  | `magyarorszag-taj-szam` | Hungary | Társadalombiztosítási Azonosító Jel (TAJ) — 9 digits, weighted Modulus-10 check digit | Closes an EU/EEA gap; literally the health/social-insurance identification mark, used at every doctor visit |
-  | `luxembourg-matricule` | Luxembourg | Numéro d'Identification Nationale (Matricule) — 13 digits, Luhn (12th digit) + Verhoeff (13th digit) double check digit | Closes an EU/EEA gap; the last member state left uncatalogued |
-  | `zhongguo-jumin-shenfenzheng-haoma` | China | Resident Identity Card Number (居民身份证号码) — 18 characters, ISO 7064 MOD 11-2 check digit (may be X) | World's most populous country, previously uncovered |
-  | `rossiya-snils` | Russia | СНИЛС (Individual Insurance Account Number) — 11 digits, Modulus-101 check digit | Russia's own social/pension-insurance number; large previously-uncovered country |
-  | `turkiye-tc-kimlik-numarasi` | Turkey | T.C. Kimlik Numarası — 11 digits, two trailing check digits (odd/even-position weighted sums) | Keys SGK (Social Security Institution) health coverage; large previously-uncovered country spanning Europe/Asia |
-  | `argentina-codigo-unico-de-identificacion-laboral` | Argentina | Código Único de Identificación Laboral (CUIL) — 2-digit prefix + 8-digit DNI + Modulus-11 check digit | Keys obra social (health-insurance fund) registration; large previously-uncovered South American country |
-  | `ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv` | Ukraine | Реєстраційний номер облікової картки платника податків (РНОКПП) — 10 digits, date-of-birth-encoded + check digit | Large previously-uncovered Eastern European country |
-  | `indonesia-nomor-induk-kependudukan` | Indonesia | Nomor Induk Kependudukan (NIK) — 16 digits, region + date-of-birth + serial, no published check digit | Keys BPJS Kesehatan (the national government health-insurance body) registration; world's 4th-most-populous country |
-  | `prathet-thai-lek-prajam-tua-prachachon` | Thailand | เลขประจำตัวประชาชน (National ID Number) — 13 digits, Modulus-11 check digit | Keys the Universal Coverage Scheme ("Gold Card") national health system; previously-uncovered Southeast Asian country |
-  | `chile-rol-unico-nacional` | Chile | Rol Único Nacional (RUN) — 7-8 digits + Modulus-11 check digit/letter (0-9 or K) | Keys FONASA (public health insurance) registration; previously-uncovered South American country |
-  | `misr-al-raqm-al-qawmi` | Egypt | الرقم القومي (National Number) — 14 digits, century + date-of-birth + governorate + serial + check digit | First Middle East/North Africa entry; large previously-uncovered country |
+  | Slug                                                                 | Country    | Identifier                                                                                                              | Why it's a good fit                                                                                                   |
+  | -------------------------------------------------------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+  | `osterreich-sozialversicherungsnummer`                               | Austria    | Sozialversicherungsnummer (SVNR) — 10 digits, Modulus-11 check digit                                                    | Closes an EU/EEA gap; the number the statutory health-insurance system (Sozialversicherung) itself is keyed on        |
+  | `magyarorszag-taj-szam`                                              | Hungary    | Társadalombiztosítási Azonosító Jel (TAJ) — 9 digits, weighted Modulus-10 check digit                                   | Closes an EU/EEA gap; literally the health/social-insurance identification mark, used at every doctor visit           |
+  | `luxembourg-matricule`                                               | Luxembourg | Numéro d'Identification Nationale (Matricule) — 13 digits, Luhn (12th digit) + Verhoeff (13th digit) double check digit | Closes an EU/EEA gap; the last member state left uncatalogued                                                         |
+  | `zhongguo-jumin-shenfenzheng-haoma`                                  | China      | Resident Identity Card Number (居民身份证号码) — 18 characters, ISO 7064 MOD 11-2 check digit (may be X)                | World's most populous country, previously uncovered                                                                   |
+  | `rossiya-snils`                                                      | Russia     | СНИЛС (Individual Insurance Account Number) — 11 digits, Modulus-101 check digit                                        | Russia's own social/pension-insurance number; large previously-uncovered country                                      |
+  | `turkiye-tc-kimlik-numarasi`                                         | Turkey     | T.C. Kimlik Numarası — 11 digits, two trailing check digits (odd/even-position weighted sums)                           | Keys SGK (Social Security Institution) health coverage; large previously-uncovered country spanning Europe/Asia       |
+  | `argentina-codigo-unico-de-identificacion-laboral`                   | Argentina  | Código Único de Identificación Laboral (CUIL) — 2-digit prefix + 8-digit DNI + Modulus-11 check digit                   | Keys obra social (health-insurance fund) registration; large previously-uncovered South American country              |
+  | `ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv` | Ukraine    | Реєстраційний номер облікової картки платника податків (РНОКПП) — 10 digits, date-of-birth-encoded + check digit        | Large previously-uncovered Eastern European country                                                                   |
+  | `indonesia-nomor-induk-kependudukan`                                 | Indonesia  | Nomor Induk Kependudukan (NIK) — 16 digits, region + date-of-birth + serial, no published check digit                   | Keys BPJS Kesehatan (the national government health-insurance body) registration; world's 4th-most-populous country   |
+  | `prathet-thai-lek-prajam-tua-prachachon`                             | Thailand   | เลขประจำตัวประชาชน (National ID Number) — 13 digits, Modulus-11 check digit                                             | Keys the Universal Coverage Scheme ("Gold Card") national health system; previously-uncovered Southeast Asian country |
+  | `chile-rol-unico-nacional`                                           | Chile      | Rol Único Nacional (RUN) — 7-8 digits + Modulus-11 check digit/letter (0-9 or K)                                        | Keys FONASA (public health insurance) registration; previously-uncovered South American country                       |
+  | `misr-al-raqm-al-qawmi`                                              | Egypt      | الرقم القومي (National Number) — 14 digits, century + date-of-birth + governorate + serial + check digit                | First Middle East/North Africa entry; large previously-uncovered country                                              |
 
   **Naming judgment calls**: Austria (`Österreich`), Hungary
   (`Magyarország`), and Turkey (`Türkiye`) romanize by dropping
@@ -1959,22 +1958,22 @@ dropped. None is speculative.
 
   Scope, following P8-T13's exact proven workflow:
   - [x] Add all 12 rows to `AGENTS/national-person-identifiers.tsv`
-    (`bin/sync` propagates it).
+        (`bin/sync` propagates it).
   - [x] Scaffold all 24 slugs via `bin/new-component` into the 7
-    catalogs it supports (React, Vue, Angular, HTML, Blazor, Nunjucks,
-    Svelte); hand-build the Web Components equivalents separately, the
-    same workaround P8-T13 needed since `bin/new-component` has never
-    been extended to that 8th catalog.
+        catalogs it supports (React, Vue, Angular, HTML, Blazor, Nunjucks,
+        Svelte); hand-build the Web Components equivalents separately, the
+        same workaround P8-T13 needed since `bin/new-component` has never
+        been extended to that 8th catalog.
   - [x] Replace the Svelte canonical implementation for all 24 with
-    the real `-input`/`-view` pattern, plus real `AGENTS.md`/
-    `index.md` content — country, identifier name, format, validation
-    algorithm, where to find it.
+        the real `-input`/`-view` pattern, plus real `AGENTS.md`/
+        `index.md` content — country, identifier name, format, validation
+        algorithm, where to find it.
   - [x] Port the corrected pattern + content to the other 7 headless
-    catalogs (React, Vue, Angular, HTML, Nunjucks, Blazor, Web
-    Components).
+        catalogs (React, Vue, Angular, HTML, Nunjucks, Blazor, Web
+        Components).
   - [x] Verify: `bin/test`, `bin/check-links`, `bin/check-coverage`
-    (0 gaps for all 24 new slugs), `bin/check-theme` clean; catalog
-    count updated everywhere stated (515 → 539).
+        (0 gaps for all 24 new slugs), `bin/check-theme` clean; catalog
+        count updated everywhere stated (515 → 539).
 
   **Done 2026-09-22.** All 24 components (12 types × `-input`/`-view`)
   landed the same day as P8-T13, following its exact workflow. Svelte
@@ -1983,7 +1982,7 @@ dropped. None is speculative.
   the real Malta pair as its template; Web Components built from
   scratch again (that catalog still has no `bin/new-component`
   scaffold), mirroring the existing `malta-national-identification-
-  number-input.ts`/`view.ts` pattern, `index.ts` barrel regenerated
+number-input.ts`/`view.ts` pattern, `index.ts` barrel regenerated
   via `node build.mjs`, and the hardcoded component-count assertion in
   `index.test.ts` updated to 504. Every catalog port was independently
   re-verified by the coordinating session after each agent's
@@ -2017,49 +2016,49 @@ dropped. None is speculative.
   go-ahead.
 
 - [x] **P8-T16 angular-headless's index.ts barrel is missing every
-  national-identifier export.** Found 2026-09-25 while investigating
-  Dependabot CI failures: unlike svelte/react/vue/web-components-
-  headless, `lily-design-system-angular-headless/index.ts` (the real
-  ng-packagr `lib.entryFile`, not a legacy artifact — confirmed via
-  `ng-package.json`) has no `build.mjs`-style generator script keeping
-  it in sync with `components.tsv`. It currently exports none of the
-  national-identifier components at all — not just the 48 added in
-  P8-T13/P8-T15, but the original 92 too (495 lines, close to the old
-  491-component count with no identifiers). The published
-  `@lilydesignsystem/angular-headless` npm package is therefore
-  missing ~140 exports a consumer would expect. Component-level tests
-  still pass (1209/1209) because they import each component directly
-  by path, not through the barrel, which is why this went unnoticed
-  through both identifier rounds' verification sweeps.
+      national-identifier export.** Found 2026-09-25 while investigating
+      Dependabot CI failures: unlike svelte/react/vue/web-components-
+      headless, `lily-design-system-angular-headless/index.ts` (the real
+      ng-packagr `lib.entryFile`, not a legacy artifact — confirmed via
+      `ng-package.json`) has no `build.mjs`-style generator script keeping
+      it in sync with `components.tsv`. It currently exports none of the
+      national-identifier components at all — not just the 48 added in
+      P8-T13/P8-T15, but the original 92 too (495 lines, close to the old
+      491-component count with no identifiers). The published
+      `@lilydesignsystem/angular-headless` npm package is therefore
+      missing ~140 exports a consumer would expect. Component-level tests
+      still pass (1209/1209) because they import each component directly
+      by path, not through the barrel, which is why this went unnoticed
+      through both identifier rounds' verification sweeps.
   - [x] Write a generator (mirroring the other three catalogs'
-    `build.mjs` barrel-generation logic) that produces
-    `lily-design-system-angular-headless/index.ts` from
-    `components.tsv`, or extend an existing Angular build script if
-    one already covers adjacent generation.
+        `build.mjs` barrel-generation logic) that produces
+        `lily-design-system-angular-headless/index.ts` from
+        `components.tsv`, or extend an existing Angular build script if
+        one already covers adjacent generation.
   - [x] Regenerate and commit the file; confirm `ng-packagr` still
-    builds clean and the previously-missing exports resolve.
+        builds clean and the previously-missing exports resolve.
   - [x] Audit whether any other catalog's own barrel/registry has a
-    similar silent generator gap (this session only checked
-    svelte/react/vue/web-components/angular). **Done 2026-09-26:**
-    checked the remaining three. `html-headless` and `nunjucks-headless`
-    both discover components via a *dynamic* filesystem scan at call
-    time (`listComponents()` reads `components/` live), not a static
-    generated file — architecturally immune to this class of bug;
-    verified both currently return exactly 539. `blazor-headless` has
-    no barrel at all and needs none: `.razor` components are discovered
-    by the compiler via namespace (`_Imports.razor` has one `@using`
-    line for the whole namespace, not a per-component list).
-    angular-headless was the only catalog with this gap.
+        similar silent generator gap (this session only checked
+        svelte/react/vue/web-components/angular). **Done 2026-09-26:**
+        checked the remaining three. `html-headless` and `nunjucks-headless`
+        both discover components via a _dynamic_ filesystem scan at call
+        time (`listComponents()` reads `components/` live), not a static
+        generated file — architecturally immune to this class of bug;
+        verified both currently return exactly 539. `blazor-headless` has
+        no barrel at all and needs none: `.razor` components are discovered
+        by the compiler via namespace (`_Imports.razor` has one `@using`
+        line for the whole namespace, not a per-component list).
+        angular-headless was the only catalog with this gap.
 
   **Done 2026-09-26.** Added `lily-design-system-angular-headless/
-  generate-index.mjs`, discovering exports from each `components/*.ts`
+generate-index.mjs`, discovering exports from each `components/*.ts`
   source file (top-level `export class/interface/type`, not assumed to
   be exactly the filename) rather than reading `components.tsv`
   directly — this catches a real edge case `components.tsv` alone
   wouldn't: `Listbox.ts` also exports a type, `ListboxNavigation`, that
   the barrel needs re-exported alongside the class. Wired into
   `package.json`'s `"build"` script (`node generate-index.mjs &&
-  ng-packagr ...`), matching the other three catalogs' "regenerate then
+ng-packagr ...`), matching the other three catalogs' "regenerate then
   build" pattern. Verified idempotent (two consecutive runs produce
   identical output — checked deliberately, having just fixed a
   non-idempotent generator elsewhere this same session). Full rebuild
@@ -2073,60 +2072,60 @@ dropped. None is speculative.
   `bin/check-coverage` clean.
 
 - [x] **P8-T17 lilydesignsystem.github.io: multi-locale infrastructure
-  (15 locales), real `PickerBar`, real text-size defaults.** Implements
-  `lilydesignsystem.github.io/spec/locales-for-global-sharing-with-svelte`
-  (adapted from another project's SvelteKit i18n playbook — this site has
-  no `[locale]` dynamic route or markdown-per-topic content model, so the
-  adaptation is real static directories per locale plus a shared
-  `LocaleHome.svelte`, not a literal port).
+      (15 locales), real `PickerBar`, real text-size defaults.** Implements
+      `lilydesignsystem.github.io/spec/locales-for-global-sharing-with-svelte`
+      (adapted from another project's SvelteKit i18n playbook — this site has
+      no `[locale]` dynamic route or markdown-per-topic content model, so the
+      adaptation is real static directories per locale plus a shared
+      `LocaleHome.svelte`, not a literal port).
   - [x] `src/lib/locales.ts` — `LOCALE_LABELS` (endonyms, English
-    variants qualified for the picker), `locales()`, `bcp47Tag()`,
-    `isRtl()`. Fixed two real data bugs in the spec's own
-    `locales.tsv` along the way: `ar-001`/`bn-001` had their
-    endonym/exonym columns merged (missing tab), and `zh-cn`'s endonym
-    was a literal `?` placeholder (now `中文`).
+        variants qualified for the picker), `locales()`, `bcp47Tag()`,
+        `isRtl()`. Fixed two real data bugs in the spec's own
+        `locales.tsv` along the way: `ar-001`/`bn-001` had their
+        endonym/exonym columns merged (missing tab), and `zh-cn`'s endonym
+        was a literal `?` placeholder (now `中文`).
   - [x] `src/lib/i18n.ts` — real (not machine-stub) translations of the
-    nav/footer/picker-label/home-hero chrome strings for all 15 locales,
-    including the two RTL ones (Arabic, Urdu).
+        nav/footer/picker-label/home-hero chrome strings for all 15 locales,
+        including the two RTL ones (Arabic, Urdu).
   - [x] `src/hooks.server.ts` sets `<html lang dir>` correctly at
-    prerender time per locale (adapter-static still runs hooks once per
-    discovered page during the build); `+layout.svelte` keeps both in
-    sync across client-side navigation too.
+        prerender time per locale (adapter-static still runs hooks once per
+        discovered page during the build); `+layout.svelte` keeps both in
+        sync across client-side navigation too.
   - [x] Root `SitePreferences.svelte` rewritten to compose the real
-    `@lilydesignsystem/svelte-picker-bar` helper instead of assembling
-    theme/text-size/share pickers by hand, adding the locale picker as a
-    fourth control that navigates to `/<code>/` on change —
-    "add lily pickerbar" from earlier the same session.
+        `@lilydesignsystem/svelte-picker-bar` helper instead of assembling
+        theme/text-size/share pickers by hand, adding the locale picker as a
+        fourth control that navigates to `/<code>/` on change —
+        "add lily pickerbar" from earlier the same session.
   - [x] Adopted `svelte-picker-bar`'s own `DEFAULT_SIZES` (the seven-step
-    largest…smallest scale) instead of this site's old bespoke
-    small/medium/large/x-large set — "add lily text-size-picker
-    defaults." Found while verifying the swap: `static/assets/style.css`
-    never actually had a `[data-text-size]` rule at all despite a
-    comment claiming it did — the picker worked and set the attribute,
-    but no CSS ever consumed it, so changing text size has silently done
-    nothing since the picker was first added. Added the real
-    `html[data-text-size="…"] { font-size: …% }` scale.
+        largest…smallest scale) instead of this site's old bespoke
+        small/medium/large/x-large set — "add lily text-size-picker
+        defaults." Found while verifying the swap: `static/assets/style.css`
+        never actually had a `[data-text-size]` rule at all despite a
+        comment claiming it did — the picker worked and set the attribute,
+        but no CSS ever consumed it, so changing text size has silently done
+        nothing since the picker was first added. Added the real
+        `html[data-text-size="…"] { font-size: …% }` scale.
   - [x] `src/routes/` — an index page (locale list ordered per
-    the spec: default first, then grouped by language name, then
-    alphabetically by label) plus one real static directory per locale
-    (`ar-001`, `bn-001`, `cy-001`, `en-001`, `en-gb`, `en-gb-oxendict`,
-    `en-us`, `es-001`, `fr-001`, `hi-001`, `id-001`, `pt-001`, `ru-001`,
-    `ur-001`, `zh-cn`), each a thin `+page.svelte` around the shared
-    `LocaleHome.svelte`. A footer link to `/locales/` makes all 16 pages
-    discoverable to the static-adapter's prerender crawler (no dynamic
-    route, so nothing else would find them).
+        the spec: default first, then grouped by language name, then
+        alphabetically by label) plus one real static directory per locale
+        (`ar-001`, `bn-001`, `cy-001`, `en-001`, `en-gb`, `en-gb-oxendict`,
+        `en-us`, `es-001`, `fr-001`, `hi-001`, `id-001`, `pt-001`, `ru-001`,
+        `ur-001`, `zh-cn`), each a thin `+page.svelte` around the shared
+        `LocaleHome.svelte`. A footer link to `/locales/` makes all 16 pages
+        discoverable to the static-adapter's prerender crawler (no dynamic
+        route, so nothing else would find them).
   - [x] Verified: `pnpm run check` (0 errors), `pnpm run build` (all 16
-    pages prerendered, `<html lang dir>` spot-checked correct per
-    locale including RTL, no prerender warnings), root `/` unchanged
-    (still exactly `en-001`'s strings, which are the site's original
-    hardcoded English verbatim), `bin/test` clean.
+        pages prerendered, `<html lang dir>` spot-checked correct per
+        locale including RTL, no prerender warnings), root `/` unchanged
+        (still exactly `en-001`'s strings, which are the site's original
+        hardcoded English verbatim), `bin/test` clean.
   - [ ] **Deliberately not done**: translating the site's ~550 other
-    pages (tutorials, component docs, about, comparisons, etc.) into
-    these 15 locales. Every locale gets only its home page for now,
-    per the spec's own "starts empty" rollout note — each locale's home
-    page says so, in that locale's own language (`home.notice`). A
-    real per-page translation effort is a separate, much larger,
-    ongoing task, not a one-session addition.
+        pages (tutorials, component docs, about, comparisons, etc.) into
+        these 15 locales. Every locale gets only its home page for now,
+        per the spec's own "starts empty" rollout note — each locale's home
+        page says so, in that locale's own language (`home.notice`). A
+        real per-page translation effort is a separate, much larger,
+        ongoing task, not a one-session addition.
 
 ## Phase 9 — October 2026: pickers, Baby UI triage, charts, demonstration pages
 
@@ -2134,64 +2133,64 @@ All items below are done and verified (suites green, `bin/test`, `bin/check-cove
 `bin/check-links`); the verification for each is in its CHANGELOG entry.
 
 - [x] **P9-T1 `search-picker` in all eight catalogs, first in `picker-bar`** (2026-10-02).
-  Real WebKit/Chromium run found and fixed the Safari focusout defect.
+      Real WebKit/Chromium run found and fixed the Safari focusout defect.
 - [x] **P9-T2 Tooltips on every picker** (2026-10-04). Hoverable, dismissable `role="tooltip"`;
-  a real-browser run found hover-only Escape dismissal missing (WCAG 1.4.13) and fixed it in
-  all eight catalogs; the 45 themes style it.
+      a real-browser run found hover-only Escape dismissal missing (WCAG 1.4.13) and fixed it in
+      all eight catalogs; the 45 themes style it.
 - [x] **P9-T3 Baby UI triage and 16 components** (2026-10-05): `one-time-password-input`,
-  `multi-select` (+ extras), `empty-state`, `show-more`, `kbd-shortcut`, the four
-  `calendar-*-table` views, `thinking`, four charts, `file-tree`. Catalog 539 → 555.
+      `multi-select` (+ extras), `empty-state`, `show-more`, `kbd-shortcut`, the four
+      `calendar-*-table` views, `thinking`, four charts, `file-tree`. Catalog 539 → 555.
 - [x] **P9-T4 Charts: graphic + data-table structure** (2026-10-05, breaking): `role="img"` moved
-  to an inner graphic wrapper so the data table is reachable; all nine existing charts migrated.
+      to an inner graphic wrapper so the data table is reachable; all nine existing charts migrated.
 - [x] **P9-T5 Seven more charts** (2026-10-06): pie, ring, funnel, candlestick, composed,
-  choropleth, sunburst. Catalog 555 → 562.
+      choropleth, sunburst. Catalog 555 → 562.
 - [x] **P9-T6 `streaming-text`, `tool-call` + five inner parts, `mark`, `chat-composer`**
-  (2026-10-06). Catalog 562 → 571. Documented deviations: Blazor (no plain-Enter send), Nunjucks
-  and HTML (`chat-composer` markup-only).
+      (2026-10-06). Catalog 562 → 571. Documented deviations: Blazor (no plain-Enter send), Nunjucks
+      and HTML (`chat-composer` markup-only).
 - [x] **P9-T7 Demonstration pages** (2026-10-06): real usage examples and rendered variants in every
-  example app (`bin/generate-examples`, `component-variants.json`); the 80 placeholder docs-site
-  pages rebuilt and every site page given an Example section (`bin/generate-site-pages`); 166
-  missing site Playwright specs written; the site's stale themes copy re-synced by `bin/sync`;
-  raw-HTML-in-prose escaping; helpers tutorial extended.
+      example app (`bin/generate-examples`, `component-variants.json`); the 80 placeholder docs-site
+      pages rebuilt and every site page given an Example section (`bin/generate-site-pages`); 166
+      missing site Playwright specs written; the site's stale themes copy re-synced by `bin/sync`;
+      raw-HTML-in-prose escaping; helpers tutorial extended.
 - [x] **P9-T8 Releases** (2026-10-04 → 06): helper packages (tooltips, picker-bar 0.2.0), headless
-  0.3.0 and 0.4.0 (html 0.4.0/0.5.0, nunjucks 0.2.0/0.3.0, Blazor 0.2.0/0.3.0), themes 0.2.0; NuGet
-  trusted-publishing setup corrected (`NUGET_USER` = policy creator's username).
+      0.3.0 and 0.4.0 (html 0.4.0/0.5.0, nunjucks 0.2.0/0.3.0, Blazor 0.2.0/0.3.0), themes 0.2.0; NuGet
+      trusted-publishing setup corrected (`NUGET_USER` = policy creator's username).
 - [x] **P9-T9 Documentation sweep** (2026-10-06): counts, versions and contracts across `spec/`,
-  `AGENTS/`, READMEs, `llms.txt`/`llms.json`, skills and the site; `spec/index.md` cut from 68 KB to
-  37 KB (history moved to `spec/history/`); the retired `CLAUDE.md` removed from every "required
-  files" claim.
+      `AGENTS/`, READMEs, `llms.txt`/`llms.json`, skills and the site; `spec/index.md` cut from 68 KB to
+      37 KB (history moved to `spec/history/`); the retired `CLAUDE.md` removed from every "required
+      files" claim.
 
 ### Open
 
 - [x] **P9-T10 Monorepo tag and GitHub Release for the October work** — `v0.7.0`, 2026-10-06.
 - [x] **P9-T11 Per-framework CSS class-name audit for all 571 components** — closed 2026-10-06. New
-  `bin/check-class-names` (in `bin/test` and CI): all 571 implementations in each of 7 libraries and 536 in Web
-  Components carry the slug as the first token of a class list. Two mutation checks (slug renamed; slug moved behind
-  another class) each produce exactly one gap. It checks the hook's presence and position in the markup, not that it
-  sits on the root element — that needs a rendered DOM and stays with the per-component tests.
+      `bin/check-class-names` (in `bin/test` and CI): all 571 implementations in each of 7 libraries and 536 in Web
+      Components carry the slug as the first token of a class list. Two mutation checks (slug renamed; slug moved behind
+      another class) each produce exactly one gap. It checks the hook's presence and position in the markup, not that it
+      sits on the root element — that needs a rendered DOM and stays with the per-component tests.
 - [ ] **P9-T12 Deferred Baby UI ideas**: `attachment`, `tool-chips`, the other agent components
-  (`conversation`, `message`, `task-steps`, `loading-state`, …), advanced widgets (`table-of-contents`,
-  `filter-table`, `wheel-picker`, `flowchart`, …) and the small primitives (`native-select`,
-  `theme-toggle`, `date-picker`, …). Each needs a design pass first (see CHANGELOG 2026-10-05/06).
+      (`conversation`, `message`, `task-steps`, `loading-state`, …), advanced widgets (`table-of-contents`,
+      `filter-table`, `wheel-picker`, `flowchart`, …) and the small primitives (`native-select`,
+      `theme-toggle`, `date-picker`, …). Each needs a design pass first (see CHANGELOG 2026-10-05/06).
 - [x] **P9-T13 Docs-site `error-message` colour contrast** — closed 2026-10-06. Not a demo bug: 26 of the 45 themes
-  coloured error text with `--color-error`, a *fill* colour (2.35–4.4:1 on the error-tinted callout). Added
-  `--lily-error-text` (22% error mixed into the theme's own `--color-base-content`) and used it for the three text uses
-  (`.error-message`, failed `.validation-list-item`, `.dont-list-item` marker): 0 of 45 themes now fail on
-  `/components/error-message/`. The full docs-site axe sweep (575 pages, WCAG 2.2 AA tags) is clean after also making
-  every hand-written `<pre>` on the site keyboard-focusable (axe `scrollable-region-focusable`).
+      coloured error text with `--color-error`, a _fill_ colour (2.35–4.4:1 on the error-tinted callout). Added
+      `--lily-error-text` (22% error mixed into the theme's own `--color-base-content`) and used it for the three text uses
+      (`.error-message`, failed `.validation-list-item`, `.dont-list-item` marker): 0 of 45 themes now fail on
+      `/components/error-message/`. The full docs-site axe sweep (575 pages, WCAG 2.2 AA tags) is clean after also making
+      every hand-written `<pre>` on the site keyboard-focusable (axe `scrollable-region-focusable`).
 - [x] **P9-T14 `DateRange`/`ReviewDate` in angular-headless** — closed 2026-10-06. The real problem was a
-  contract split, not just `<div>` vs `<span>`: `components/date-range/AGENTS.md` said `<span>` while its own
-  prose, Svelte, React and Vue used a `<fieldset>` with two date inputs. Maintainer decision: **fieldset**.
-  `AGENTS.md` fixed; Angular (`start`/`end` `model()`s), Blazor (`@bind-Start`/`@bind-End`), HTML, Nunjucks
-  (macro params `label`, `startLabel`, `endLabel`, `start`, `end`) and Web Components (was a `<span role="group">`)
-  brought to it, with tests; the canonical demo and Angular `timeline-and-cards` workaround replaced.
-  `ReviewDate` in angular-headless is now a `<time datetime>` like Svelte/React/Vue/Web Components.
+      contract split, not just `<div>` vs `<span>`: `components/date-range/AGENTS.md` said `<span>` while its own
+      prose, Svelte, React and Vue used a `<fieldset>` with two date inputs. Maintainer decision: **fieldset**.
+      `AGENTS.md` fixed; Angular (`start`/`end` `model()`s), Blazor (`@bind-Start`/`@bind-End`), HTML, Nunjucks
+      (macro params `label`, `startLabel`, `endLabel`, `start`, `end`) and Web Components (was a `<span role="group">`)
+      brought to it, with tests; the canonical demo and Angular `timeline-and-cards` workaround replaced.
+      `ReviewDate` in angular-headless is now a `<time datetime>` like Svelte/React/Vue/Web Components.
 - [x] **P9-T15 `ReviewDate` shape in Blazor, HTML and Nunjucks** — closed 2026-10-06: all now render the `<time>`
-  itself with `datetime` and `aria-label` (as Svelte, React, Vue, Web Components and Angular). Nunjucks macro params
-  are now `datetime`, `text`, `label` (the combined reviewed + next-review block is gone: render two). Blazor gains a
-  `Datetime` parameter. `components/review-date/AGENTS.md` now says `<time>`.
+      itself with `datetime` and `aria-label` (as Svelte, React, Vue, Web Components and Angular). Nunjucks macro params
+      are now `datetime`, `text`, `label` (the combined reviewed + next-review block is gone: render two). Blazor gains a
+      `Datetime` parameter. `components/review-date/AGENTS.md` now says `<time>`.
 - [x] **P9-T16 Catalog description** — closed 2026-10-06: `date-range` is now "paired start and end date inputs" in
-  `components.tsv`, the CSS template, every registry, doc and docs-site page (37 files), regenerated.
+      `components.tsv`, the CSS template, every registry, doc and docs-site page (37 files), regenerated.
 
 ---
 
@@ -2203,77 +2202,77 @@ Ideas from reading [bref-ui](https://github.com/feuersteiner/bref-ui) at commit 
 ### Open
 
 - [x] **P10-T1 Form reset and native validation for stateful controls** — closed 2026-10-11 (reset; validation
-  not needed). An audit for the bug class — a control whose visible value is a one-way binding or its own state — found
-  `date-time-picker` (seven ports; Blazor a documented deviation), the three radio rating pickers in Svelte, React and
-  Vue, and `PinInputDiv` in Svelte, React, Vue and Web Components. Each restores its initial value one tick after
-  `reset` unless cancelled, with a test that fails on the old code (CHANGELOG 2026-10-11). The audit searched the Svelte
-  headless library and helpers; the other candidates in this task's first draft (`tag-input`, `combobox`,
-  `segment-group`, `multi-select-with-extras`) bind native inputs there, which Svelte re-syncs itself. Their React,
-  Vue and Angular versions were **not** audited — React and Vue controlled inputs can drift the same way (P10-T9). The `invalid`-routing half needs no work: no
-  component hides the native field that carries `required`, except `date-time-picker`, whose visible field carries it.
+      not needed). An audit for the bug class — a control whose visible value is a one-way binding or its own state — found
+      `date-time-picker` (seven ports; Blazor a documented deviation), the three radio rating pickers in Svelte, React and
+      Vue, and `PinInputDiv` in Svelte, React, Vue and Web Components. Each restores its initial value one tick after
+      `reset` unless cancelled, with a test that fails on the old code (CHANGELOG 2026-10-11). The audit searched the Svelte
+      headless library and helpers; the other candidates in this task's first draft (`tag-input`, `combobox`,
+      `segment-group`, `multi-select-with-extras`) bind native inputs there, which Svelte re-syncs itself. Their React,
+      Vue and Angular versions were **not** audited — React and Vue controlled inputs can drift the same way (P10-T9). The `invalid`-routing half needs no work: no
+      component hides the native field that carries `required`, except `date-time-picker`, whose visible field carries it.
 - [ ] **P10-T2 Native Popover API for `popover` (design pass).** Evaluate `popover="auto"` + `showPopover({ source })`
-  for the headless `Popover` (top layer, Escape and light dismiss from the browser) and, separately, for the pickers'
-  popups, whose Escape/Tab/focus-return contracts must survive unchanged. Record current browser support for the
-  Popover API, the `source` option and CSS anchor positioning before deciding; positioning (`position-area`,
-  `position-try-fallbacks`) would live in the themes, not the headless layer.
+      for the headless `Popover` (top layer, Escape and light dismiss from the browser) and, separately, for the pickers'
+      popups, whose Escape/Tab/focus-return contracts must survive unchanged. Record current browser support for the
+      Popover API, the `source` option and CSS anchor positioning before deciding; positioning (`position-area`,
+      `position-try-fallbacks`) would live in the themes, not the headless layer.
 - [ ] **P10-T3 Coarse-pointer target sizes in the 57 themes.** The themes already share a WCAG 2.5.8 (AA) floor —
-  every interactive hook at least 24×24 CSS px (the "target-size (minimum) floor" section `bin/check-theme` pins).
-  Add the AAA step: a `@media (pointer: coarse)` rule giving interactive controls (buttons, picker triggers, options,
-  form fields, links in lists) at least 44×44 CSS px (WCAG 2.5.5), as a new shared section the same check pins.
+      every interactive hook at least 24×24 CSS px (the "target-size (minimum) floor" section `bin/check-theme` pins).
+      Add the AAA step: a `@media (pointer: coarse)` rule giving interactive controls (buttons, picker triggers, options,
+      form fields, links in lists) at least 44×44 CSS px (WCAG 2.5.5), as a new shared section the same check pins.
 - [x] **P10-T4 Contrast checks in `bin/check-theme`** — closed 2026-10-11. `bin/check-theme --contrast` computes the
-  WCAG 2 ratio of 12 token pairs per theme (base content on the three base surfaces, each `-content` colour on its
-  fill, `--lily-error-text` on the page), parsing hex and `oklch()` and evaluating `color-mix(in oklch, …)`, and lists
-  every pair below AAA (7:1), marking those below AA (4.5:1). Report only: it changes no colour and exits 0, so it is
-  not in `bin/test`. The maths was checked against known values (white/black 21:1, `#767676` on white 4.54:1, sRGB red's
-  luminance 0.2126). First run: 540 pairs, 198 below AAA, **50 below AA** in 27 themes — most often `error-content`
-  on `error` (10), `success` (9) and `secondary` (9). Colours outside sRGB (111 of 900 declared colours, mostly the
-  DaisyUI-derived themes) are clipped, so those pairs are marked approximate. Follow-up: P10-T10.
+      WCAG 2 ratio of 12 token pairs per theme (base content on the three base surfaces, each `-content` colour on its
+      fill, `--lily-error-text` on the page), parsing hex and `oklch()` and evaluating `color-mix(in oklch, …)`, and lists
+      every pair below AAA (7:1), marking those below AA (4.5:1). Report only: it changes no colour and exits 0, so it is
+      not in `bin/test`. The maths was checked against known values (white/black 21:1, `#767676` on white 4.54:1, sRGB red's
+      luminance 0.2126). First run: 540 pairs, 198 below AAA, **50 below AA** in 27 themes — most often `error-content`
+      on `error` (10), `success` (9) and `secondary` (9). Colours outside sRGB (111 of 900 declared colours, mostly the
+      DaisyUI-derived themes) are clipped, so those pairs are marked approximate. Follow-up: P10-T10.
 - [ ] **P10-T5 Per-component agent reference.** Generate one compact block per component — purpose, one working
-  example, all props on one line (required first, with types and defaults) — from `components/*/AGENTS.md` into a
-  generated `llms-full.txt` (root and docs site), with a `--check` drift mode in `bin/test`.
+      example, all props on one line (required first, with types and defaults) — from `components/*/AGENTS.md` into a
+      generated `llms-full.txt` (root and docs site), with a `--check` drift mode in `bin/test`.
 - [ ] **P10-T6 Decide on a copy-into-project path.** Proposal written 2026-10-11, awaiting a decision:
-  [docs/copy-into-project-proposal.md](docs/copy-into-project-proposal.md). A maintainer decision first: whether Lily should offer a
-  shadcn-style `add <component>` that copies one component and its dependencies into a consumer project. If yes:
-  a per-component manifest (files, exports, dependencies) validated by one loader (unique ids, files exist, no cycles),
-  and an `add` that previews add / unchanged / conflict files and confirms each overwrite.
+      [docs/copy-into-project-proposal.md](docs/copy-into-project-proposal.md). A maintainer decision first: whether Lily should offer a
+      shadcn-style `add <component>` that copies one component and its dependencies into a consumer project. If yes:
+      a per-component manifest (files, exports, dependencies) validated by one loader (unique ids, files exist, no cycles),
+      and an `add` that previews add / unchanged / conflict files and confirms each overwrite.
 - [x] **P10-T7 Candidate component: a choice-chip group** — decided 2026-10-11: **no new component.** `radio-group`
-  and `checkbox-group` are already `<fieldset>` groups of real, consumer-supplied radio and checkbox inputs — semantically what
-  bref-ui's pill choice group is — and a chip is a visual decision, which the headless layer leaves to themes and
-  consumers. Removable chips are `tag-input`'s job. `segment-group` and `toggle-group` are the wrong base: their items
-  are buttons with `role="radio"` / `aria-pressed`, which submit nothing with a form. Documented instead as the
-  choice-chip composition pattern in `AGENTS/components.md`. The pass also found contract metadata that disagrees with
-  the code (P10-T11).
+      and `checkbox-group` are already `<fieldset>` groups of real, consumer-supplied radio and checkbox inputs — semantically what
+      bref-ui's pill choice group is — and a chip is a visual decision, which the headless layer leaves to themes and
+      consumers. Removable chips are `tag-input`'s job. `segment-group` and `toggle-group` are the wrong base: their items
+      are buttons with `role="radio"` / `aria-pressed`, which submit nothing with a form. Documented instead as the
+      choice-chip composition pattern in `AGENTS/components.md`. The pass also found contract metadata that disagrees with
+      the code (P10-T11).
 - [x] **P10-T8 Hardcoded English found during P10-T1** — closed 2026-10-11. `PinInputDiv` (`digitLabel`), `FiveStarRatingPicker`
-  (`starLabel`), `FiveFaceRatingPicker` / `FiveFaceRatingView` (numeric default labels) in Svelte, React, Vue, Web
-  Components and Nunjucks; Nunjucks also built English labels in its star, face and NPS buttons and views and its star
-  picker group, all removed. Every default now falls back to the consumer's `label` or the number. CHANGELOG 2026-10-11.
+      (`starLabel`), `FiveFaceRatingPicker` / `FiveFaceRatingView` (numeric default labels) in Svelte, React, Vue, Web
+      Components and Nunjucks; Nunjucks also built English labels in its star, face and NPS buttons and views and its star
+      picker group, all removed. Every default now falls back to the consumer's `label` or the number. CHANGELOG 2026-10-11.
 - [ ] **P10-T9 Form-reset audit beyond Svelte.** P10-T1's search ran over the Svelte code. Run the same check — a form
-  control whose visible value is controlled or held in component state — over the React, Vue and Angular headless
-  libraries, starting with `tag-input`, `combobox`, `segment-group`, `multi-select-with-extras` and `editable`.
+      control whose visible value is controlled or held in component state — over the React, Vue and Angular headless
+      libraries, starting with `tag-input`, `combobox`, `segment-group`, `multi-select-with-extras` and `editable`.
 - [ ] **P10-T10 Decide the colour fixes for the 50 AA contrast failures** from `bin/check-theme --contrast` (P10-T4).
-  A design decision per theme, not a mechanical fix: darken a fill, change its `-content` colour, or accept and document
-  it. Start with the public-sector themes, whose colours should match their upstream: the four NHS England and
-  Scotland themes' `success` fill is `oklch(56% 0.16 145)` (4.37:1 with white) where NHS's own green `#007f3b` gives
-  5.12:1; USWDS `success` (3.14:1); Adobe Spectrum `accent` and `success`; Mozilla Protocol `secondary` and `accent`.
+      A design decision per theme, not a mechanical fix: darken a fill, change its `-content` colour, or accept and document
+      it. Start with the public-sector themes, whose colours should match their upstream: the four NHS England and
+      Scotland themes' `success` fill is `oklch(56% 0.16 145)` (4.37:1 with white) where NHS's own green `#007f3b` gives
+      5.12:1; USWDS `success` (3.14:1); Adobe Spectrum `accent` and `success`; Mozilla Protocol `secondary` and `accent`.
 - [x] **P10-T11 Component contract metadata that disagrees with the code** — closed 2026-10-11 for the four named here.
-  `radio-group` / `checkbox-group`: `<fieldset>` in the contract and all eight libraries. `segment-group-item`: a
-  `<button role="radio">` in the contract, Angular and Blazor. `tag`: decided to be a plain `<span>` with the label as
-  screen-reader text, and a `role="status"` live region only with `live`. CHANGELOG 2026-10-11. The script-based audit
-  of every contract's "HTML tag" against each library is P10-T12.
+      `radio-group` / `checkbox-group`: `<fieldset>` in the contract and all eight libraries. `segment-group-item`: a
+      `<button role="radio">` in the contract, Angular and Blazor. `tag`: decided to be a plain `<span>` with the label as
+      screen-reader text, and a `role="status"` live region only with `live`. CHANGELOG 2026-10-11. The script-based audit
+      of every contract's "HTML tag" against each library is P10-T12.
 - [ ] **P10-T12 Audit every contract's HTML tag against all eight libraries.** P10-T11 found four contracts wrong and
-  libraries disagreeing with each other (Nunjucks rendered `tag` as `<strong>`; Angular `segment-group-item` had no
-  role). A script, as `bin/check-class-names` does for class hooks, comparing `components/*/AGENTS.md` "HTML tag"
-  with each library's rendered root. Known so far: `screen-reader-span` renders a `<div>` with `aria-label` (an
-  `aria-label` a plain element may not carry); Angular's headless components are thin wrappers that often omit the
-  ARIA their contract requires (e.g. `ToggleButton` has no `aria-pressed`).
+      libraries disagreeing with each other (Nunjucks rendered `tag` as `<strong>`; Angular `segment-group-item` had no
+      role). A script, as `bin/check-class-names` does for class hooks, comparing `components/*/AGENTS.md` "HTML tag"
+      with each library's rendered root. Known so far: `screen-reader-span` renders a `<div>` with `aria-label` (an
+      `aria-label` a plain element may not carry); Angular's headless components are thin wrappers that often omit the
+      ARIA their contract requires (e.g. `ToggleButton` has no `aria-pressed`).
 - [x] **P10-T13 One copy of the Svelte headless components** — closed 2026-10-11. `src/lib/components/` removed from
-  `lily-design-system-svelte-headless` (every differing file was identical or older there); the example apps' copies are
-  generated by `bin/sync-example-components`, checked by `bin/test`. The example apps still carry copies rather than
-  importing the library package: making each import its library (a path alias plus framework de-duplication in Vite,
-  Next.js and Angular) would remove the copies outright, and is the next step if wanted. CHANGELOG 2026-10-11.
+      `lily-design-system-svelte-headless` (every differing file was identical or older there); the example apps' copies are
+      generated by `bin/sync-example-components`, checked by `bin/test`. The example apps still carry copies rather than
+      importing the library package: making each import its library (a path alias plus framework de-duplication in Vite,
+      Next.js and Angular) would remove the copies outright, and is the next step if wanted. CHANGELOG 2026-10-11.
 - [ ] **P10-T14 Decide whether the themes reset a group fieldset's border.** `radio-group` and `checkbox-group` are now
-  `<fieldset>`s in every library; the 45 themes lay them out but leave the browser's default fieldset border, padding
-  and minimum width. A visual decision: reset them, or keep the border as a grouping cue.
+      `<fieldset>`s in every library; the 45 themes lay them out but leave the browser's default fieldset border, padding
+      and minimum width. A visual decision: reset them, or keep the border as a grouping cue.
 - [ ] **P10-T15 `scrollspy` as an option on `contents-nav`.** Decided 2026-10-14: add it to `contents-nav` (`spy`) rather than a new component. Svelte done; the other seven libraries follow. Research is in [spec/components/scrollspy.md](spec/components/scrollspy.md): the behaviour, the Bootstrap failure modes to avoid, a recommended `scrollspy-nav`, and three open questions for the maintainer.
 
 ## Phase 11 — Grid-like helpers, label packs and parity (2026-10-17/18)
@@ -2282,138 +2281,139 @@ Work from a developer's two rounds of feedback on the Svelte grid-like helpers, 
 is in `CHANGELOG.md` (2026-10-18) and each package's own CHANGELOG.
 
 - [x] **P11-T1 Docs follow the code.** The Svelte helpers' non-goals listed shipped features; six props were undocumented.
-  Fixed, and `bin/check-helper-docs` (in `bin/test`) now fails on an undocumented prop or a shipped prop listed as a non-goal.
+      Fixed, and `bin/check-helper-docs` (in `bin/test`) now fails on an undocumented prop or a shipped prop listed as a non-goal.
 - [x] **P11-T2 Dependency ranges.** The Svelte widgets took `svelte-headless ^0.4.0`, which a 0.x caret never lets reach 0.5.0, so
-  several copies installed side by side. Now a peer dependency (`>=0.4.0 <1.0.0`), tested on 0.5.0.
+      several copies installed side by side. Now a peer dependency (`>=0.4.0 <1.0.0`), tested on 0.5.0.
 - [x] **P11-T3 Gantt critical path and working-day lag.** `criticalPath()` / `applyCriticalPath()` (`shared/critical-path.ts`,
-  Svelte Gantt package) with all four dependency kinds, lags and leads, and `{ lagUnit: "working-days", weekends, unavailable }`;
-  `labels.criticalLabel` makes the state visible text in all eight catalogs. **Open:** port the calculation to the other
-  catalogs (P11-T9).
+      Svelte Gantt package) with all four dependency kinds, lags and leads, and `{ lagUnit: "working-days", weekends, unavailable }`;
+      `labels.criticalLabel` makes the state visible text in all eight catalogs. **Open:** port the calculation to the other
+      catalogs (P11-T9).
 - [x] **P11-T4 Data grid and kanban additions (Svelte).** Footer totals over every filtered row, `--data-grid-pinned-offset`,
-  remembered column order; kanban `canMove` lane argument, `allowLaneChange`, in-place title editing (all eight catalogs),
-  `showSearchLabel`, `fieldLayout="compact"`; calendar `periodTitle` anchor argument and the focusable-event note.
+      remembered column order; kanban `canMove` lane argument, `allowLaneChange`, in-place title editing (all eight catalogs),
+      `showSearchLabel`, `fieldLayout="compact"`; calendar `periodTitle` anchor argument and the focusable-event note.
 - [x] **P11-T5 Theme collisions.** Not reproducible in the 57 themes (today's cell is an outline everywhere; no theme sets a link
-  colour that could override `.button`). `bin/check-theme` now fails a filled current-day cell.
+      colour that could override `.button`). `bin/check-theme` now fails a filled current-day cell.
 - [x] **P11-T6 Label packs.** 46 locales in `shared/label-packs/` (English plus 45 unreviewed drafts); `labelsFor()`,
-  `nunjucksLabelsFor()` and Blazor's `LabelPack` / `ToXLabels()`; `bin/check-label-packs`; per-package tests with every pack.
-  Spec: `spec/label-packs/`.
+      `nunjucksLabelsFor()` and Blazor's `LabelPack` / `ToXLabels()`; `bin/check-label-packs`; per-package tests with every pack.
+      Spec: `spec/label-packs/`.
 - [x] **P11-T7 Release hygiene.** `bin/verify-published [--wait N]` checks that every helper version is on npm / nuget.org;
-  `bin/publish-helpers` prints the reminder.
+      `bin/publish-helpers` prints the reminder.
 - [ ] **P11-T8 Native-speaker review of the 45 draft label packs**, Welsh first. Flip a pack's `"reviewed"` to `true` only when a
-  native speaker has read it, screen-reader wording especially.
+      native speaker has read it, screen-reader wording especially.
 - [x] **P11-T9 Port the Svelte-only items** to the other catalogs — done 2026-10-18 in all seven: the Gantt critical path
-  (`criticalPath()` / `applyCriticalPath()`, Blazor `CriticalPath.Compute()` / `Apply()`), the calendar `periodTitle` anchor argument
-  (Blazor: `PeriodTitleWithAnchor`, so 3-argument code still compiles), the kanban lane rules (`canMove` lane argument,
-  `allowLaneChange`; Nunjucks passes a lane id, Blazor adds `CanMoveToLane`), `showSearchLabel` and `fieldLayout`, and the data grid
-  footer totals (`allRows` / `aggregate`; Blazor `AllRows` / `Total`), `--data-grid-pinned-offset` and remembered column order.
+      (`criticalPath()` / `applyCriticalPath()`, Blazor `CriticalPath.Compute()` / `Apply()`), the calendar `periodTitle` anchor argument
+      (Blazor: `PeriodTitleWithAnchor`, so 3-argument code still compiles), the kanban lane rules (`canMove` lane argument,
+      `allowLaneChange`; Nunjucks passes a lane id, Blazor adds `CanMoveToLane`), `showSearchLabel` and `fieldLayout`, and the data grid
+      footer totals (`allRows` / `aggregate`; Blazor `AllRows` / `Total`), `--data-grid-pinned-offset` and remembered column order.
 - [x] **P11-T10 (done 2026-10-18, published and verified: `@lilydesignsystem/locale-translations` and `LilyDesignSystem.Blazor.LocaleTranslations`, flat exports, no drafts path, plus `endonym` / `exonyms` / `direction` from locales.tsv) Publish the label packs as a package** (one export per locale; English stable, drafts under a separate path), with the
-  loaders; decide the name and whether Blazor ships the JSON as an embedded resource.
+      loaders; decide the name and whether Blazor ships the JSON as an embedded resource.
 - [x] **P11-T11 Release** (done 2026-10-18: data-grid 0.11.0, kanban-board and gantt-chart 0.8.0, calendar 0.7.0 in all eight catalogs; `bin/verify-published` reports all 129 versions on their registries; the README now ships in the tarballs). Original note: patch release for the unreleased items (versions bumped per package, changelogs already written), then
-  `bin/publish-helpers` and `bin/verify-published --wait 900`. Needs the maintainer's go-ahead. npm publishes from the maintainer's
-  machine until an `NPM_TOKEN` secret exists.
+      `bin/publish-helpers` and `bin/verify-published --wait 900`. Needs the maintainer's go-ahead. npm publishes from the maintainer's
+      machine until an `NPM_TOKEN` secret exists.
 - [x] **P11-T12 (done 2026-10-18: `>=26` in all 129 manifests and in `spec/node-current-version`; takes effect on npm/nuget.org at each package's next release) Decide the `engines.node` range for published packages.** The pin `=26` follows `spec/node-current-version`; a
-  consumer on another Node fails `pnpm install` under engine-strict. A range such as `>=26` is safer for published packages.
+      consumer on another Node fails `pnpm install` under engine-strict. A range such as `>=26` is safer for published packages.
 - [x] **P11-T13 Packaging** (done 2026-10-18: `bin/publish-headless` and `bin/publish-helpers` publish a real `README.md` copy, then restore the symlink). `README.md` is a symlink to `index.md` and npm leaves symlinks out of the tarball, so the `files`
-  entry `README.md` in the helper packages' manifests ships nothing; ship a real copy at pack time or drop the entry (checked with `npm pack --dry-run` for svelte-calendar).
+      entry `README.md` in the helper packages' manifests ships nothing; ship a real copy at pack time or drop the entry (checked with `npm pack --dry-run` for svelte-calendar).
 - [x] **P11-T14 Fix the headless `Editable`'s accessible name (WCAG 2.5.3, label in name)** — done 2026-10-18. `@axe-core/playwright` 4.14 reported
-  `label-content-name-mismatch` on the display-mode `role="button"` whose visible value was not in its `aria-label`. The display-mode name is now
-  `"value, label"` (the label alone when the value is empty) in Svelte, React, Vue and Web Components; Blazor's `Editable` gained an optional `Value`
-  parameter that does the same (pass the text you render). The edit-mode input keeps the label. Angular, HTML and Nunjucks render a non-button
-  wrapper or a `textbox`, which the rule does not flag, so they are unchanged. Tests, the example copies (`bin/sync-example-components`) and
-  `components/editable/` are updated, and the `@axe-core/playwright` `~4.13.0` pin and its `dependabot.yml` ignore are gone.
+      `label-content-name-mismatch` on the display-mode `role="button"` whose visible value was not in its `aria-label`. The display-mode name is now
+      `"value, label"` (the label alone when the value is empty) in Svelte, React, Vue and Web Components; Blazor's `Editable` gained an optional `Value`
+      parameter that does the same (pass the text you render). The edit-mode input keeps the label. Angular, HTML and Nunjucks render a non-button
+      wrapper or a `textbox`, which the rule does not flag, so they are unchanged. Tests, the example copies (`bin/sync-example-components`) and
+      `components/editable/` are updated, and the `@axe-core/playwright` `~4.13.0` pin and its `dependabot.yml` ignore are gone.
+
 ## Phase 12 — Code quality and capability gaps (2026-10-21)
 
 From the capabilities and code-quality audit in [plan.md](plan.md) § "Research findings (2026-10-21)". Every number in
 a task was measured on 2026-10-21; re-measure before closing it.
 
-- [ ] **P12-T1 Typecheck in CI.** *(Partly done 2026-10-21: `check` scripts and a CI step for svelte, react, vue, angular and web-components headless — `svelte-headless` runs `svelte-check` on `tsconfig.check.json` (source only, 0 errors, 13 a11y warnings); Web Components was not in the `headless` CI matrix at all and now is. *(2026-10-27: every React, Angular, HTML, Web Components and Alpine helper package with a tsconfig now has `check: tsc --noEmit`, 0 errors, run in the `helper-packages` CI job; a deliberate type error fails it.)* *(Also 2026-10-27: the HTML, Nunjucks and Alpine headless libraries have `tsconfig.json` + `check` and are clean; the HTML one has its own CI step.)* Still open: the Nunjucks helper packages (no tsconfig) and `vue-locale-translations` (*2026-10-27: 19 Vue helpers now have `check: vue-tsc --noEmit -p tsconfig.lib.json`, clean; it covers `index.ts` and what it imports, not the tests*); the `svelte-headless` stories (still excluded from `tsconfig.check.json`: Storybook is not a dependency of the package; with a stub for `@storybook/addon-svelte-csf` they check clean as of 2026-10-27, after fixing five stale sibling imports, two apostrophe parse errors from the generator, `Visible` and `ChatComposer`) *(2026-10-27: the 80 test files are now typechecked, 0 errors, 3,196 tests pass)*; the 13 `svelte-check` warnings (2026-10-27: each now carries a reasoned `svelte-ignore` and `check` runs `--fail-on-warnings`; `MentionsInput`'s `aria-controls` gap is fixed 2026-10-27 in Svelte, React, Vue, Web Components, HTML and Nunjucks (Angular and Blazor `MentionsInput` are stubs with no suggestions panel); `TreeSelect`'s invalid `aria-multiselectable` on its combobox is fixed 2026-10-28 in all eight libraries: the root now carries `data-multiple="true"`, and Alpine's tree carries `aria-multiselectable`; no known `svelte-check` gaps remain), e.g. `aria-multiselectable` on `TreeSelect`'s combobox, a redundant role in `StickyPromoBanner`, a tabindex on `Splitter`'s non-interactive element.)* Add a `check` script (`svelte-check`, `tsc --noEmit`, `vue-tsc --noEmit`, the Angular
-  compiler's `ngc -p` or `tsc`) to every TypeScript headless library and helper package that lacks one, and a CI job that runs them all.
-  Verify: the job is in `.github/workflows/ci.yml` and fails when a deliberate type error is introduced.
+- [ ] **P12-T1 Typecheck in CI.** _(Partly done 2026-10-21: `check` scripts and a CI step for svelte, react, vue, angular and web-components headless — `svelte-headless` runs `svelte-check` on `tsconfig.check.json` (source only, 0 errors, 13 a11y warnings); Web Components was not in the `headless` CI matrix at all and now is. *(2026-10-27: every React, Angular, HTML, Web Components and Alpine helper package with a tsconfig now has `check: tsc --noEmit`, 0 errors, run in the `helper-packages` CI job; a deliberate type error fails it.)* *(Also 2026-10-27: the HTML, Nunjucks and Alpine headless libraries have `tsconfig.json` + `check` and are clean; the HTML one has its own CI step.)* Still open: the Nunjucks helper packages (no tsconfig) and `vue-locale-translations` (*2026-10-27: 19 Vue helpers now have `check: vue-tsc --noEmit -p tsconfig.lib.json`, clean; it covers `index.ts` and what it imports, not the tests*); the `svelte-headless` stories (still excluded from `tsconfig.check.json`: Storybook is not a dependency of the package; with a stub for `@storybook/addon-svelte-csf` they check clean as of 2026-10-27, after fixing five stale sibling imports, two apostrophe parse errors from the generator, `Visible` and `ChatComposer`) *(2026-10-27: the 80 test files are now typechecked, 0 errors, 3,196 tests pass)*; the 13 `svelte-check` warnings (2026-10-27: each now carries a reasoned `svelte-ignore` and `check` runs `--fail-on-warnings`; `MentionsInput`'s `aria-controls` gap is fixed 2026-10-27 in Svelte, React, Vue, Web Components, HTML and Nunjucks (Angular and Blazor `MentionsInput` are stubs with no suggestions panel); `TreeSelect`'s invalid `aria-multiselectable` on its combobox is fixed 2026-10-28 in all eight libraries: the root now carries `data-multiple="true"`, and Alpine's tree carries `aria-multiselectable`; no known `svelte-check` gaps remain), e.g. `aria-multiselectable` on `TreeSelect`'s combobox, a redundant role in `StickyPromoBanner`, a tabindex on `Splitter`'s non-interactive element.)_ Add a `check` script (`svelte-check`, `tsc --noEmit`, `vue-tsc --noEmit`, the Angular
+      compiler's `ngc -p` or `tsc`) to every TypeScript headless library and helper package that lacks one, and a CI job that runs them all.
+      Verify: the job is in `.github/workflows/ci.yml` and fails when a deliberate type error is introduced.
 - [x] **P12-T2 (done 2026-10-21: React 405 → 0 — story files use `StoryObj<typeof Component>` so `args` are optional, 16 test props fixed; Vue, Angular and Web Components were already clean; 3,310 React tests pass) Fix the React headless type errors.** `tsc --noEmit -p lily-design-system-react-headless` reports 405
-  errors: 389 in `*.stories.tsx` (stories with no `args` for required props — fix in
-  `bin/generate-storybook-stories.mjs`, not by hand) and 16 in tests (e.g. `BannerBox.test.tsx` omits required
-  `children`, `CheckListItem.test.tsx` passes `unknown` as `ReactNode`). Then run the same check on Vue, Angular and
-  Web Components and fix what it finds.
-  Verify: `tsc --noEmit` exits 0 in each; P12-T1's job is green.
-- [ ] **P12-T3 Lint and format.** *(2026-10-28: ESLint flat config, Prettier config and a `lint` CI job landed at the repo root, scoped to the Svelte, React and Vue headless libraries: 0 errors, ~90 warnings reported. Decided: errors fail, warnings do not. Still open: widen the scope (Angular, Web Components, HTML, helper packages, examples), `angular-eslint`, `jsx-a11y`, `dotnet format` for Blazor, and widening the Prettier scope beyond those three libraries; Prettier is enforced by `pnpm format:check` in the same job, after a reformat of the three libraries listed in `.git-blame-ignore-revs`; use `git config blame.ignoreRevsFile .git-blame-ignore-revs`.)* Choose one ESLint flat config (with `eslint-plugin-svelte`, `-vue`, `-react-hooks`,
-  `angular-eslint`, `eslint-plugin-jsx-a11y` where it applies) and one Prettier config at the root, applied to every JS/TS
-  subproject; `dotnet format --verify-no-changes` for Blazor. Land the formatting as its own commit; then add a CI job.
-  Decide first whether lint warnings fail CI (recommend: errors only, warnings reported).
-  Verify: CI job green; `git blame --ignore-rev` file lists the formatting commit.
-- [ ] **P12-T4 Keyboard behaviour is missing, not just untested, in Angular and HTML (re-scoped 2026-10-21).** *(Angular, 2026-10-21/22: **all 23 done.** Roles, ARIA state and keys ported from Svelte for `Dialog`, `Menu`, `MenuBar`, `ContextMenu`, `DropdownMenu`, `ToggleButton`, `SwitchButton`, `TabBar`, `ToolBar`, `TaskBar`, `TreeList`, `Drawer`, `Sheet`, `SlideOutDrawer`, `ColorPicker` (was a `radiogroup`; the contract says `slider`), `Dial`, `HorizontalScroller`, `TileMap`, `Editable`, `EditableForm`, `PinInputDiv`, `Tour`, `TourList`, plus roles on the child `TabBarButton`, `MenuItem`, `MenuBarButton` and `TreeListItem`. Mutation-checked; overlays and `ContextMenu` render only while open, as in Svelte. Carried over from Svelte unchanged and worth a follow-up: `TileMap` hard-codes the English `aria-roledescription="tile map"` (against the i18n rule), and `Editable` does not move focus into the field it swaps in. **HTML is still open** — its component files contain no key handling.)* Measured:
-  of 162 components whose `AGENTS.md` has a `## Keyboard` section naming keys, 48 have key tests in at least two of Svelte,
-  React and Vue. For those, Svelte's source handles keys in 23 (`color-picker`, `context-menu`, `dial`, `dialog`, `drawer`,
-  `dropdown-menu`, `editable`, `editable-form`, `horizontal-scroller`, `menu`, `menu-bar`, `pin-input-div`, `sheet`,
-  `slide-out-drawer`, `switch-button`, `tab-bar`, `task-bar`, `tile-map`, `toggle-button`, `tool-bar`, `tour`, `tour-list`,
-  `tree-list`); **Angular's source handles keys in none of the 44 it was checked against** (its `Dialog`, `Menu` and
-  `TabBar` are bare wrappers: no Escape, no arrow keys), and the HTML library's component files contain none either.
-  Alpine centralises keys in `lily-alpine.js` (35 `keydown` sites) and is a different case. So the tests the earlier audit
-  asked for cannot be written until the behaviour exists. Decide per library: **implement** the 23 behaviours (Angular first,
-  porting from Svelte; for HTML, in the custom elements or a shared script), or **document** that the library is structural
-  only and correct the claims below. Then add the key tests.
-  Verify: for each of the 23, the Angular (and HTML) source handles the keys its `AGENTS.md` names, with a test sending them.
-- [ ] **P12-T4a Correct the keyboard claims.** *(2026-10-28: the HTML, Blazor, Vue, Svelte and React `index.md` claims softened with measured counts; Angular and Web Components were not claiming it; counts are a point-in-time grep for key handlers.)* `lily-design-system-html-headless/index.md` says "Full keyboard navigation
-  support" and "Keyboard navigation: Full keyboard support for all interactive components"; the Angular library has no
-  equivalent caveat. Until P12-T4 lands, say which components handle keys in each library, or soften the claim.
-  Verify: no library's `index.md` claims keyboard support its source lacks.
+      errors: 389 in `*.stories.tsx` (stories with no `args` for required props — fix in
+      `bin/generate-storybook-stories.mjs`, not by hand) and 16 in tests (e.g. `BannerBox.test.tsx` omits required
+      `children`, `CheckListItem.test.tsx` passes `unknown` as `ReactNode`). Then run the same check on Vue, Angular and
+      Web Components and fix what it finds.
+      Verify: `tsc --noEmit` exits 0 in each; P12-T1's job is green.
+- [ ] **P12-T3 Lint and format.** _(2026-10-28: ESLint flat config, Prettier config and a `lint` CI job landed at the repo root, scoped to the Svelte, React and Vue headless libraries: 0 errors, ~90 warnings reported. Decided: errors fail, warnings do not. Still open: widen the scope (Angular, Web Components, HTML, helper packages, examples), `angular-eslint`, `jsx-a11y`, `dotnet format` for Blazor, and widening the Prettier scope beyond those three libraries; Prettier is enforced by `pnpm format:check` in the same job, after a reformat of the three libraries listed in `.git-blame-ignore-revs`; use `git config blame.ignoreRevsFile .git-blame-ignore-revs`.)_ Choose one ESLint flat config (with `eslint-plugin-svelte`, `-vue`, `-react-hooks`,
+      `angular-eslint`, `eslint-plugin-jsx-a11y` where it applies) and one Prettier config at the root, applied to every JS/TS
+      subproject; `dotnet format --verify-no-changes` for Blazor. Land the formatting as its own commit; then add a CI job.
+      Decide first whether lint warnings fail CI (recommend: errors only, warnings reported).
+      Verify: CI job green; `git blame --ignore-rev` file lists the formatting commit.
+- [ ] **P12-T4 Keyboard behaviour is missing, not just untested, in Angular and HTML (re-scoped 2026-10-21).** _(Angular, 2026-10-21/22: **all 23 done.** Roles, ARIA state and keys ported from Svelte for `Dialog`, `Menu`, `MenuBar`, `ContextMenu`, `DropdownMenu`, `ToggleButton`, `SwitchButton`, `TabBar`, `ToolBar`, `TaskBar`, `TreeList`, `Drawer`, `Sheet`, `SlideOutDrawer`, `ColorPicker` (was a `radiogroup`; the contract says `slider`), `Dial`, `HorizontalScroller`, `TileMap`, `Editable`, `EditableForm`, `PinInputDiv`, `Tour`, `TourList`, plus roles on the child `TabBarButton`, `MenuItem`, `MenuBarButton` and `TreeListItem`. Mutation-checked; overlays and `ContextMenu` render only while open, as in Svelte. Carried over from Svelte unchanged and worth a follow-up: `TileMap` hard-codes the English `aria-roledescription="tile map"` (against the i18n rule), and `Editable` does not move focus into the field it swaps in. **HTML is still open** — its component files contain no key handling.)_ Measured:
+      of 162 components whose `AGENTS.md` has a `## Keyboard` section naming keys, 48 have key tests in at least two of Svelte,
+      React and Vue. For those, Svelte's source handles keys in 23 (`color-picker`, `context-menu`, `dial`, `dialog`, `drawer`,
+      `dropdown-menu`, `editable`, `editable-form`, `horizontal-scroller`, `menu`, `menu-bar`, `pin-input-div`, `sheet`,
+      `slide-out-drawer`, `switch-button`, `tab-bar`, `task-bar`, `tile-map`, `toggle-button`, `tool-bar`, `tour`, `tour-list`,
+      `tree-list`); **Angular's source handles keys in none of the 44 it was checked against** (its `Dialog`, `Menu` and
+      `TabBar` are bare wrappers: no Escape, no arrow keys), and the HTML library's component files contain none either.
+      Alpine centralises keys in `lily-alpine.js` (35 `keydown` sites) and is a different case. So the tests the earlier audit
+      asked for cannot be written until the behaviour exists. Decide per library: **implement** the 23 behaviours (Angular first,
+      porting from Svelte; for HTML, in the custom elements or a shared script), or **document** that the library is structural
+      only and correct the claims below. Then add the key tests.
+      Verify: for each of the 23, the Angular (and HTML) source handles the keys its `AGENTS.md` names, with a test sending them.
+- [ ] **P12-T4a Correct the keyboard claims.** _(2026-10-28: the HTML, Blazor, Vue, Svelte and React `index.md` claims softened with measured counts; Angular and Web Components were not claiming it; counts are a point-in-time grep for key handlers.)_ `lily-design-system-html-headless/index.md` says "Full keyboard navigation
+      support" and "Keyboard navigation: Full keyboard support for all interactive components"; the Angular library has no
+      equivalent caveat. Until P12-T4 lands, say which components handle keys in each library, or soften the claim.
+      Verify: no library's `index.md` claims keyboard support its source lacks.
 - [ ] **P12-T5 Add that list to `bin/check-coverage`.** Report, per catalog, components whose `AGENTS.md` names a
-  keyboard contract but whose test sends no key event; fail on regressions once P12-T4 is done.
-  Verify: `bin/check-coverage` prints the column; `bin/test` runs it.
+      keyboard contract but whose test sends no key event; fail on regressions once P12-T4 is done.
+      Verify: `bin/check-coverage` prints the column; `bin/test` runs it.
 - [x] **P12-T6 (done 2026-10-21: all six installs frozen; `alpine-headless`'s lockfile carried a stale `serialize-javascript` override and was regenerated; every other lockfile passed `pnpm install --frozen-lockfile --lockfile-only`) Frozen lockfiles in CI.** Replace the six `pnpm install --no-frozen-lockfile` in `ci.yml` with
-  `--frozen-lockfile`; regenerate any lockfile that is out of date.
-  Verify: CI green with frozen installs; a manifest edit without a lockfile update fails CI.
+      `--frozen-lockfile`; regenerate any lockfile that is out of date.
+      Verify: CI green with frozen installs; a manifest edit without a lockfile update fails CI.
 - [ ] **P12-T7 `bin/test` under 60 seconds.** It took 5 m 42 s on 2026-10-21 (25 s user, 215 s system — filesystem-bound).
-  Profile each check (`time` per step), then batch per-file shell loops into one `find`/`node` pass, cache the
-  component list, and skip `node_modules` / `dist` everywhere. Do not drop any check.
-  Verify: `time bin/test` < 60 s on the maintainer's machine, same checks, exit 0.
+      Profile each check (`time` per step), then batch per-file shell loops into one `find`/`node` pass, cache the
+      component list, and skip `node_modules` / `dist` everywhere. Do not drop any check.
+      Verify: `time bin/test` < 60 s on the maintainer's machine, same checks, exit 0.
 - [ ] **P12-T8 Decide a dependency policy** (maintainer decision). Options: (a) a root `pnpm-workspace.yaml` with a shared
-  catalog of versions (`catalog:` protocol), subprojects still publishable alone; (b) keep separate lockfiles but add a
-  `bin/check-dependency-versions` that fails on mixed ranges. Today: `vitest` ^4 in 15 packages vs ^5 in 122,
-  `typescript` ^5.9 in 90 vs ^6.0 in 43, ~24 GB of `node_modules`. Then align the ranges.
-  Verify: one version per dev dependency across the repo, enforced by a check in `bin/test`.
+      catalog of versions (`catalog:` protocol), subprojects still publishable alone; (b) keep separate lockfiles but add a
+      `bin/check-dependency-versions` that fails on mixed ranges. Today: `vitest` ^4 in 15 packages vs ^5 in 122,
+      `typescript` ^5.9 in 90 vs ^6.0 in 43, ~24 GB of `node_modules`. Then align the ranges.
+      Verify: one version per dev dependency across the repo, enforced by a check in `bin/test`.
 - [ ] **P12-T9 Generate the Web Components helpers from the HTML helpers.** They differ only in tag prefix and package
-  name (`data-grid.ts`: 4 of 2,066 lines; kanban/Gantt/data-grid element files: 0). Add `bin/sync-web-components-helpers`
-  (`--check` in `bin/test`), document the few real differences (`date-time-picker`: 292 lines — investigate whether
-  they are intended) as explicit patches, and update `AGENTS/helpers.md`.
-  Verify: `--check` passes; a deliberate edit to a WC copy fails `bin/test`.
+      name (`data-grid.ts`: 4 of 2,066 lines; kanban/Gantt/data-grid element files: 0). Add `bin/sync-web-components-helpers`
+      (`--check` in `bin/test`), document the few real differences (`date-time-picker`: 292 lines — investigate whether
+      they are intended) as explicit patches, and update `AGENTS/helpers.md`.
+      Verify: `--check` passes; a deliberate edit to a WC copy fails `bin/test`.
 - [ ] **P12-T10 Decide on `@lilydesignsystem/core`** (maintainer decision; `spec/headless-improvements` Tier 2.2). The
-  pure modules are copied into up to 39 packages each; a fix ships only when every package is re-released. Decide
-  between a published zero-dependency core package and keeping `bin/sync-shared-modules`.
-  Verify: decision recorded in `spec/headless-improvements/index.md` § Status.
+      pure modules are copied into up to 39 packages each; a fix ships only when every package is re-released. Decide
+      between a published zero-dependency core package and keeping `bin/sync-shared-modules`.
+      Verify: decision recorded in `spec/headless-improvements/index.md` § Status.
 - [ ] **P12-T11 Move non-rendering logic out of the big helper components.** `DataGrid.svelte` 1,843 lines,
-  `KanbanBoard.svelte` 1,496, `GanttChart.svelte` 1,304, `CalendarView.svelte` 1,179. Extract sorting, filtering,
-  selection, column state and windowing into tested pure modules in `shared/` (as `grid-navigation.ts` was), Svelte
-  first, then each port.
-  Verify: each Svelte component under ~1,000 lines; new `shared/*.test.ts`; all helper suites green.
+      `KanbanBoard.svelte` 1,496, `GanttChart.svelte` 1,304, `CalendarView.svelte` 1,179. Extract sorting, filtering,
+      selection, column state and windowing into tested pure modules in `shared/` (as `grid-navigation.ts` was), Svelte
+      first, then each port.
+      Verify: each Svelte component under ~1,000 lines; new `shared/*.test.ts`; all helper suites green.
 - [ ] **P12-T12 Themes honour the preference pickers.** None of the 57 themes styles `data-text-size` or `data-motion`;
-  only the docs site's `style.css` maps text size. Add the seven-step size scale and a `data-motion="reduce"` rule
-  (suppress transitions and animations) to every theme, ideally in one shared partial generated by
-  `bin/generate-theme-tokens`; extend `bin/check-theme` to require both.
-  Verify: `bin/check-theme` passes; selecting a size or motion in an example app visibly changes the page.
+      only the docs site's `style.css` maps text size. Add the seven-step size scale and a `data-motion="reduce"` rule
+      (suppress transitions and animations) to every theme, ideally in one shared partial generated by
+      `bin/generate-theme-tokens`; extend `bin/check-theme` to require both.
+      Verify: `bin/check-theme` passes; selecting a size or motion in an example app visibly changes the page.
 - [ ] **P12-T13 Forced colours and contrast preference in the themes.** 2 of 57 themes have a `forced-colors` block and
-  none `prefers-contrast`. Add a shared `@media (forced-colors: active)` block (focus rings, borders on controls that
-  rely on background colour, selected states via `Highlight`/`SelectedItem`) to every theme; test in Windows High
-  Contrast or Chromium's forced-colors emulation.
-  Verify: `bin/check-theme` requires the block; a Playwright run with `forcedColors: 'active'` shows focus and selection.
+      none `prefers-contrast`. Add a shared `@media (forced-colors: active)` block (focus rings, borders on controls that
+      rely on background colour, selected states via `Highlight`/`SelectedItem`) to every theme; test in Windows High
+      Contrast or Chromium's forced-colors emulation.
+      Verify: `bin/check-theme` requires the block; a Playwright run with `forcedColors: 'active'` shows focus and selection.
 - [ ] **P12-T14 Restamp the counts.** `spec/index.md` topic table and §2 say 491 components (571); §3 says 150
-  implementation subprojects / 133 helper packages; `plan.md` "Current state" says 172 subprojects and omits Alpine.
-  Actual 2026-10-21: 187 = 9 headless + 8 example apps + 133 helpers + 27 skills + 9 locale-translations + themes.
-  Consider a `bin/check-counts` that compares stated present-tense counts to the tree.
-  Verify: `grep -n '491' spec/index.md` shows only dated history; counts match `ls -d lily-design-system-*`.
+      implementation subprojects / 133 helper packages; `plan.md` "Current state" says 172 subprojects and omits Alpine.
+      Actual 2026-10-21: 187 = 9 headless + 8 example apps + 133 helpers + 27 skills + 9 locale-translations + themes.
+      Consider a `bin/check-counts` that compares stated present-tense counts to the tree.
+      Verify: `grep -n '491' spec/index.md` shows only dated history; counts match `ls -d lily-design-system-*`.
 - [ ] **P12-T15 Tidy the root scripts.** Move `generate-component-demos.js` (used by `bin/generate-registries`) into
-  `bin/`; delete or archive `generate-component-docs.js`, `upgrade-component-docs.js`, `upgrade-html-component-demos.js`
-  and `upgrade-subproject-docs.js` after confirming nothing references them.
-  Verify: `bin/test` passes; `grep -rn` finds no reference to a removed script.
+      `bin/`; delete or archive `generate-component-docs.js`, `upgrade-component-docs.js`, `upgrade-html-component-demos.js`
+      and `upgrade-subproject-docs.js` after confirming nothing references them.
+      Verify: `bin/test` passes; `grep -rn` finds no reference to a removed script.
 - [ ] **P12-T16 Turn the lessons topics into tasks.** `spec/bootstrap-lessons` (10 items), `spec/daisyui-lessons` (11),
-  `spec/shardsui-lessons` (4) and `spec/coss-ui-lessons` items 1, 4, 5, 6 have no task IDs. Triage each into a task
-  here, a "not adopted" note, or a maintainer decision, so they can be scheduled and closed.
-  Verify: every item in those four topics links to a task ID or a recorded decision.
+      `spec/shardsui-lessons` (4) and `spec/coss-ui-lessons` items 1, 4, 5, 6 have no task IDs. Triage each into a task
+      here, a "not adopted" note, or a maintainer decision, so they can be scheduled and closed.
+      Verify: every item in those four topics links to a task ID or a recorded decision.
 - [x] **P12-T17 (done 2026-10-21: `markdown_copies` rewrites sibling directory links to `slug.md` links; `bin/check-links` exits 0) Fix the 26 broken links in the generated `/components/{slug}.md` copies.** Since `c25bfe528`,
-  `bin/check-links` fails on `lilydesignsystem.github.io/static/components/*.md` (e.g. `theme-select.md` → `../select/`):
-  the copies keep `index.md`'s relative links, which do not resolve from `static/components/`. Rewrite them to site
-  URLs in `bin/generate-api-docs`. `bin/test` does not run `bin/check-links` (CI does, separately), which is why the
-  commit passed locally; either add it to `bin/test` or correct the plan's claim that it is there.
-  Verify: `bin/check-links` exits 0.
+      `bin/check-links` fails on `lilydesignsystem.github.io/static/components/*.md` (e.g. `theme-select.md` → `../select/`):
+      the copies keep `index.md`'s relative links, which do not resolve from `static/components/`. Rewrite them to site
+      URLs in `bin/generate-api-docs`. `bin/test` does not run `bin/check-links` (CI does, separately), which is why the
+      commit passed locally; either add it to `bin/test` or correct the plan's claim that it is there.
+      Verify: `bin/check-links` exits 0.
 
 ## Phase 13 — chanhdai.com and sv-chanhdai lessons (2026-10-22)
 
@@ -2422,35 +2422,35 @@ catalog, so most tasks are packaging and contract work. All are unscheduled; P12
 lessons topics. Numbers in the spec were measured 2026-10-22 from shallow clones; re-check before closing a task.
 
 - [x] **P13-T1 (done 2026-10-23: table in `AGENTS/lily.md`, `bin/check-generated-files` in `bin/test`; 3 generators still have no `--check`: `generate-component-categories`, `generate-examples`, `generate-site-pages`, and `generate-sitemap --check` is not yet in `bin/test`) Generated-files table.** One table in `AGENTS/lily.md`: generated file or glob → generator → check command,
-  with "edit the source, never the output" (chanhdai.com's `AGENTS.md` does this for its registry). Cover the example-app
-  registries, `component-examples` data, `/r/{slug}.json`, `components-categories.tsv`, the sitemap, mirrored example
-  components and `shared/` copies. Spec item 1.
-  Verify: a script fails when a generator in the table has no `--check`; `bin/test` runs it.
+      with "edit the source, never the output" (chanhdai.com's `AGENTS.md` does this for its registry). Cover the example-app
+      registries, `component-examples` data, `/r/{slug}.json`, `components-categories.tsv`, the sitemap, mirrored example
+      components and `shared/` copies. Spec item 1.
+      Verify: a script fails when a generator in the table has no `--check`; `bin/test` runs it.
 - [~] **P13-T2 (English done 2026-10-23: `bin/generate-page-markdown` writes `static/<route>.md` for the 22 text pages, `--check` in `bin/test`, linked from the site `llms.txt` / `llms.json`; the translated pages and the topic index pages have no twin yet; the repo-root `llms.txt` is unchanged) `.md` twin for every site page.** Today only `/components/{slug}.md` exists. Add twins for the eight main
   pages, the translated pages and the topic index pages, and link them from `llms.txt` / `llms.json`. Spec item 2.
   Verify: a drift check fails when a route with an HTML page has no `.md` twin or allow-listed reason.
 - [ ] **P13-T3 One per-component Markdown URL convention.** Choose `/components/{slug}.md` (today) or
-  `/components/{slug}/llms.txt` (sv-chanhdai); record it in `spec/llms-json-and-llms-txt`; point `llms.json` at it.
-  Needs a maintainer decision first. Spec item 3.
-  Verify: `bin/generate-api-docs` drift check covers the URL.
+      `/components/{slug}/llms.txt` (sv-chanhdai); record it in `spec/llms-json-and-llms-txt`; point `llms.json` at it.
+      Needs a maintainer decision first. Spec item 3.
+      Verify: `bin/generate-api-docs` drift check covers the URL.
 - [x] **P13-T4 (done 2026-10-23: all three scaffolders; `bin/test` asserts the tree is unchanged) `--dry-run` on the scaffolders.** `bin/new-component`, `bin/create-component-directory`,
-  `bin/create-implementation-directory` list each path and created/overwritten without writing. Spec item 4.
-  Verify: a test that a dry run leaves `git status` clean.
+      `bin/create-implementation-directory` list each path and created/overwritten without writing. Spec item 4.
+      Verify: a test that a dry run leaves `git status` clean.
 - [x] **P13-T5 (done 2026-10-23: `bin/test-generators`, a three-component fixture under `test/generators/` and goldens for all four generators (`generate-site-pages` starts from `generate-examples`' golden), in `bin/test`; each generator takes a `LILY_ROOT` override; CI not yet wired beyond `bin/test`) Golden tests for the generators.** A three-component fixture catalogue with golden outputs for
-  `bin/generate-registries`, `generate-examples`, `generate-site-pages`, `generate-api-docs`; goldens regenerate only by
-  an explicit flag and the diff is reviewed. Spec item 5.
-  Verify: the golden tests run in `bin/test` and CI; a deliberate generator change fails them.
+      `bin/generate-registries`, `generate-examples`, `generate-site-pages`, `generate-api-docs`; goldens regenerate only by
+      an explicit flag and the diff is reviewed. Spec item 5.
+      Verify: the golden tests run in `bin/test` and CI; a deliberate generator change fails them.
 - [x] **P13-T6 (done 2026-10-24: `e2e/reduced-motion.spec.ts` in the SvelteKit examples runs five demos with `reducedMotion: "reduce"` and asserts content and accessible names, 5 passing; it does not assert the themes stop animating, which is P12-T12. Docs done 2026-10-23: a "Reduced motion" section in `skeleton`, `loading`, `slide-out-drawer`, `scroller`, `scroller-video`, `slider` and `carousel`; "Reduced motion" sections.** For `carousel`, `slider`, `skeleton`, `slide-out-drawer`, `loading`,
-  `scroller*`: what to suppress and what must survive (content, focus, order); reduced motion changes how content appears,
-  never whether. Spec item 6. Related: P12-T12 (themes honour `data-motion`).
-  Verify: Playwright runs three affected demos with `reducedMotion: "reduce"` and asserts content is present.
+      `scroller*`: what to suppress and what must survive (content, focus, order); reduced motion changes how content appears,
+      never whether. Spec item 6. Related: P12-T12 (themes honour `data-motion`).
+      Verify: Playwright runs three affected demos with `reducedMotion: "reduce"` and asserts content is present.
 - [~] **P13-T7 (first cut 2026-10-23: class hooks, custom events and, for Web Components, observed attributes; wired into `bin/test`; Alpine props are not compared yet, and the 141 baseline differences in `bin/check-port-parity.allow.json` carry placeholder reasons to review) `bin/check-port-parity`.** For Web Components (vs HTML) and Alpine (vs Svelte): public names (props, events,
   class hooks) in the reference and missing from the port, with an allow-list and a reason per difference. Spec item 7.
   Verify: runs in `bin/test`; an unlisted difference fails.
 - [x] **P13-T8 (done 2026-10-23: recipe in `lily-design-system-svelte-share-picker/index.md`, one test; the other seven `share-picker` ports and the recipes layer from coss-ui-lessons are not touched) Open-in-assistant recipe.** From sv-chanhdai's `open-in-chat`: a recipe on `menu-picker` or `share-picker`
-  with consumer-supplied `targets` each having `href(query)`; **no bundled provider URLs** (as `share-picker`). One recipe
-  also serves the AI page links in `daisyui-lessons` and Copy Markdown in `coss-ui-lessons`. Spec item 8.
-  Verify: the recipe's test asserts real `<a rel="noopener">` links and a URL-encoded query.
+      with consumer-supplied `targets` each having `href(query)`; **no bundled provider URLs** (as `share-picker`). One recipe
+      also serves the AI page links in `daisyui-lessons` and Copy Markdown in `coss-ui-lessons`. Spec item 8.
+      Verify: the recipe's test asserts real `<a rel="noopener">` links and a URL-encoded query.
 - [~] **P13-T9 (contract documented 2026-10-23 in `button` and `loading`, and the `button` usage example that used `disabled` for pending is fixed; pass-through pinned by tests in Svelte, React and Vue; the `status-button` component decision is still open) Async-button pending contract, and `status-button`.** Document in `button`/`loading`: pending keeps the
   button focusable, sets `aria-busy="true"` and `aria-disabled="true"`, ignores repeat activation, announces completion via
   a live region; never `disabled` for pending. Decide whether to add a `status-button` (idle/loading/success/error,
@@ -2462,42 +2462,42 @@ lessons topics. Numbers in the spec were measured 2026-10-22 from shallow clones
   Spec item 10.
   Verify: the install blocks use it and pass the axe sweep.
 - [ ] **P13-T11 Decide the `ui/`-layer gap table.** Record add / recipe / decline for `item`, `frame`, `highlight`,
-  `annotation`, `light-switch` (proposed: item = decide; frame = recipe; highlight = theme recipe on `mark`
-  with `--marker-color`; annotation = open; light-switch = decline). Run `bin/new-component` for each "add". Spec item 11.
-  Verify: each row has a recorded decision in `spec/chanhdai-lessons`.
+      `annotation`, `light-switch` (proposed: item = decide; frame = recipe; highlight = theme recipe on `mark`
+      with `--marker-color`; annotation = open; light-switch = decline). Run `bin/new-component` for each "add". Spec item 11.
+      Verify: each row has a recorded decision in `spec/chanhdai-lessons`.
 - [x] **P13-T12 (done 2026-10-23: `shared/wheel-picker.ts` + 15 tests; Svelte 16 tests, React 16, Vue 16, Angular 14, Web Components 17, Alpine 13, Nunjucks 10, Blazor 16; the HTML script checked in jsdom and its WebdriverIO test written, not run; the 57 themes style it; Blazor cannot preventDefault per key or re-centre without JS interop; not yet used by `date-time-picker`) `wheel-picker`.** A `listbox` (vertical `aria-orientation`, `option` with `aria-selected`/`aria-disabled`,
-  roving tabindex, arrows/Home/End, type-ahead, optional loop); inertia and snapping stay CSS (`scroll-snap`). Candidate
-  control for the time part of `date-time-picker`. `bin/new-component`, Svelte first, then the other seven libraries
-  (Alpine as a snippet). Spec item 12.
-  Verify: per-library keyboard and ARIA tests; `bin/check-coverage` shows it in every catalog.
+      roving tabindex, arrows/Home/End, type-ahead, optional loop); inertia and snapping stay CSS (`scroll-snap`). Candidate
+      control for the time part of `date-time-picker`. `bin/new-component`, Svelte first, then the other seven libraries
+      (Alpine as a snippet). Spec item 12.
+      Verify: per-library keyboard and ARIA tests; `bin/check-coverage` shows it in every catalog.
 - [x] **P13-T13 (done 2026-10-23: all nine catalogs. Original note: Svelte canonical done: `shared/middle-truncation.ts` + 10 tests, `MiddleTruncation.svelte` + 10 tests, docs, the 57 themes' visually-hidden and bounded-block rules, a build change so a sibling `.ts` ships; then ported: React 10 tests, Vue 10, Angular 9, Web Components 11, Alpine 9, Nunjucks 9, Blazor 11 (a `MaxCharacters` character budget, no JS interop), HTML an inline script generated from the shared module and checked in jsdom, its WebdriverIO test written and not run; `bin/sync-shared-modules` now writes the module into six packages, stripping types for Alpine and filling a marked region in the HTML snippet) `middle-truncation`.** Strategies fixed-end / minimum-end / even-split (enum); ellipsis a prop with **no
-  default** (i18n); the full text stays in the accessibility tree (shortened visual `aria-hidden` plus a visually hidden
-  full-text sibling), unlike the source, which renders only the shortened string. Spec item 12.
-  Verify: a test that the full text is in the accessibility tree and a resize changes only the visual string.
+      default** (i18n); the full text stays in the accessibility tree (shortened visual `aria-hidden` plus a visually hidden
+      full-text sibling), unlike the source, which renders only the shortened string. Spec item 12.
+      Verify: a test that the full text is in the accessibility tree and a resize changes only the visual string.
 - [x] **P13-T14 (done 2026-10-23: read the Svelte source first — `Carousel` is a passive labelled region in every library, so this is documentation; the contract is in `components/carousel/index.md` "Controls the consumer builds", with no code or per-library test, since the component has no controls to test) Document the APG carousel in `carousel`.** Tab controls (`tablist`/`tab`/`tabpanel`, roving tabindex,
-  Arrow/Home/End), the rotation-control rule (WCAG 2.2.2: a Play/Pause button whose label changes, no autoplay until
-  pressed), and cloned slides `aria-hidden` and non-focusable (the sv-chanhdai clones are not hidden: do not copy that).
-  Read the Svelte `carousel` source first; this task was scoped from its docs only. Spec item 12.
-  Verify: `components/carousel/{index,AGENTS}.md` carry the contract; a keyboard test per library.
+      Arrow/Home/End), the rotation-control rule (WCAG 2.2.2: a Play/Pause button whose label changes, no autoplay until
+      pressed), and cloned slides `aria-hidden` and non-focusable (the sv-chanhdai clones are not hidden: do not copy that).
+      Read the Svelte `carousel` source first; this task was scoped from its docs only. Spec item 12.
+      Verify: `components/carousel/{index,AGENTS}.md` carry the contract; a keyboard test per library.
 - [x] **P13-T15 (done 2026-10-23, re-scoped after reading the source: `Slider` is a native `<input type="range">` in every library, so End, PageUp/PageDown, `role`, `aria-valuemin/max/now` were already native and documented. The real defects were the contract's HTML tag (`<div>`, so the manifest, category and acceptance criteria were wrong; now `<input>`, category forms) and an undocumented `aria-valuetext`; documented as a consumer-formatted rest prop and pinned by tests in Svelte, React and Vue) Tighten the `slider` contract.** Add `aria-valuetext` (consumer-supplied formatted string) and
-  PageUp/PageDown steps to the docs and implementations (Home is documented; End, PageUp/PageDown and `valuetext` were not
-  found in `slider/AGENTS.md`); add a Reduced motion note (P13-T6). Check the Svelte source first. Spec item 12.
-  Verify: per-library tests for `aria-valuetext` and PageUp/PageDown.
+      PageUp/PageDown steps to the docs and implementations (Home is documented; End, PageUp/PageDown and `valuetext` were not
+      found in `slider/AGENTS.md`); add a Reduced motion note (P13-T6). Check the Svelte source first. Spec item 12.
+      Verify: per-library tests for `aria-valuetext` and PageUp/PageDown.
 - [ ] **P13-T16 Record the declines and open questions.** Declined as built: `slide-to-unlock` (drag-only; fails 2.1.1 and
-  2.5.7 — a `button` confirm with optional drag is a recipe), `apple-hello-effect` (decoration; hardcoded greetings),
-  `github-contributions` fetching (a `heatmap-chart` recipe with consumer data only). Decide: shadcn-schema output for
-  `/r/{slug}.json`; a committed `.mcp.json` once the daisyUI-lessons MCP server exists; a generated `stats.json` to end
-  count drift (overlaps P12-T14); the `annotation` component (real text note, decorative arrow).
-  Verify: each has a dated decision in `spec/chanhdai-lessons` § Open questions.
+      2.5.7 — a `button` confirm with optional drag is a recipe), `apple-hello-effect` (decoration; hardcoded greetings),
+      `github-contributions` fetching (a `heatmap-chart` recipe with consumer data only). Decide: shadcn-schema output for
+      `/r/{slug}.json`; a committed `.mcp.json` once the daisyUI-lessons MCP server exists; a generated `stats.json` to end
+      count drift (overlaps P12-T14); the `annotation` component (real text note, decorative arrow).
+      Verify: each has a dated decision in `spec/chanhdai-lessons` § Open questions.
 
 - [x] **P13-T17 (done 2026-10-22: `bin/new-component`, then filled in for all nine headless catalogs; unit tests green in Svelte, React, Vue, Angular, Web Components, Nunjucks, Alpine and Blazor, HTML uses WebdriverIO and was not run) Add `heatmap-chart-with-year-of-days` (`HeatmapChartWithYearOfDays`).** A `HeatmapChart` specialisation for a
-  year of days (the `github-contributions` shape): required `year` and `weekStart` (0 = Sunday … 6 = Saturday, no default,
-  locale-dependent) reflected as `data-year` / `data-week-start`; the layout contract (`row = (weekday − weekStart + 7) mod 7`,
-  `column = floor((dayOfYear − 1 + row(1 January)) / 7)`, 53 or 54 columns); the same `-graphic` / `-data-table` siblings as
-  `heatmap-chart`. The component draws nothing and fetches nothing.
-  Verify: unit tests per library; `bin/check-coverage` and `bin/check-class-names` pass. The shared layout helper
-  (`shared/year-of-days-layout.ts`, 8 tests, 2026-10-23) returns `{ date, dayOfYear, column, row }` for a year. Still open: use it in the
-  example apps' demo drawing (the current demo SVG is a pre-generated string), and run the HTML WebdriverIO test.
+      year of days (the `github-contributions` shape): required `year` and `weekStart` (0 = Sunday … 6 = Saturday, no default,
+      locale-dependent) reflected as `data-year` / `data-week-start`; the layout contract (`row = (weekday − weekStart + 7) mod 7`,
+      `column = floor((dayOfYear − 1 + row(1 January)) / 7)`, 53 or 54 columns); the same `-graphic` / `-data-table` siblings as
+      `heatmap-chart`. The component draws nothing and fetches nothing.
+      Verify: unit tests per library; `bin/check-coverage` and `bin/check-class-names` pass. The shared layout helper
+      (`shared/year-of-days-layout.ts`, 8 tests, 2026-10-23) returns `{ date, dayOfYear, column, row }` for a year. Still open: use it in the
+      example apps' demo drawing (the current demo SVG is a pre-generated string), and run the HTML WebdriverIO test.
 
 ## Phase 14 — Markdown editor (2026-10-24)
 
@@ -2511,19 +2511,33 @@ lessons topics. Numbers in the spec were measured 2026-10-22 from shallow clones
   Verify: `pnpm exec playwright test tests/demo-svelte.spec.ts` in the site.
 
 - [ ] **P14-T4 Port the real-modal fix for the dialog family to the other catalogs.** Done 2026-10-24 in Svelte only: `Dialog`, `AlertDialog` and `FileDialog` are opened with `showModal()` (feature-detected, so jsdom falls back to the `open` attribute) through the `modalDialog` action in `components/Dialog/modal.ts`, `TimeoutDialog` through an effect; the native `cancel` / `close` events keep `open` in step and focus returns to the opener. Verified in Chromium; WebKit not run. Still to do: React, Vue, Angular, Web Components and HTML (they set `open` and say `aria-modal`), Blazor (needs JS interop, or a documented deviation); the Alpine snippet and the Nunjucks macro already document `showModal()`.
-  Verify: per catalog, a test that stubs `showModal` and asserts the call, as `components/Dialog/modal.test.ts` does.
+      Verify: per catalog, a test that stubs `showModal` and asserts the call, as `components/Dialog/modal.test.ts` does.
 
 - [x] **P14-T5 (done 2026-10-24) The `*ListItem` components no longer set `aria-current`.** `BreadcrumbListItem`, `SectionListItem`, `StepListItem` and `TourListItem` (Svelte, React, Vue, Web Components) and the Nunjucks macros for breadcrumb, contents, step, tour and tree now emit `data-current` when `current` is true and nothing else; the consumer puts `aria-current` on the link or text inside, or passes it as a rest prop. Angular, Blazor and Alpine have no `current` prop and are unchanged (the consumer sets the attribute). The 57 themes select the current breadcrumb with `[data-current]` or `[aria-current="page"]`; the Nunjucks example CSS uses `[data-current]`. Reason: `aria-current` on an `<li>` is valid ARIA but is announced most reliably on the link; `data-*` is the repo's mechanism for consumer CSS/JS state. Open: `chat-list-item`'s docs claim a `current` prop that the components do not implement.
-  Verify: the three-way tests (`data-current` present, absent, and no `aria-current`) in each catalog.
+      Verify: the three-way tests (`data-current` present, absent, and no `aria-current`) in each catalog.
 
 - [x] **P14-T6 (done 2026-10-24) `svelte-time-zone-picker`.** New helper `@lilydesignsystem/svelte-time-zone-picker` 0.1.0: an icon button (clock) opening an APG listbox of IANA zones, each shown as `UTC±HH:MM – full name` from `Intl` in a required `locale`, ordered by offset on a `date`; applies `data-time-zone`; same shape as `text-size-picker` (tooltip, hidden input, `storageKey`, `onChange`, bindable `open`). Pure logic in `zones.ts`. Themes style it (57, plus a shared width rule). Published as `@lilydesignsystem/svelte-time-zone-picker` 0.1.0.
-  Verify: `zones.test.ts`, `TimeZonePicker.test.ts` (65 tests), `bin/check-theme`.
+      Verify: `zones.test.ts`, `TimeZonePicker.test.ts` (65 tests), `bin/check-theme`.
 
 - [x] **P14-T7 (done 2026-10-24) `time-zone-picker` ports.** React, Vue, Angular, HTML, Web Components, Nunjucks and Blazor ports at 0.1.0 (Alpine has no pickers). The zone logic is one shared module, `shared/zones.ts` (+ `zones.test.ts`), copied by `bin/sync-shared-modules` into each TypeScript package and, stripped, into the Nunjucks one; Blazor re-implements it in C# (`TimeZones`). Deviations, documented in each package: Nunjucks takes `options` built by `timeZoneOptions()` at render time (a macro cannot call `Intl`); Blazor takes zone names from a `Names` dictionary or the platform (no per-locale name API in .NET). Open: not yet published; `picker-bar` slot; site demo.
-  Verify: per-package suites (React 64, Vue 60, Angular 37, HTML 61, Web Components 61, Nunjucks 50, Blazor 51), `bin/sync-shared-modules --check`, `bin/check-port-parity`.
+      Verify: per-package suites (React 64, Vue 60, Angular 37, HTML 61, Web Components 61, Nunjucks 50, Blazor 51), `bin/sync-shared-modules --check`, `bin/check-port-parity`.
 
 - [x] **P14-T8 (done 2026-10-24) CLDR zone names for `time-zone-picker`.** `bin/generate-zone-names` writes `shared/zone-names/<locale>.json` for all 64 label-pack locales from Unicode CLDR 48.0 (Node's ICU): standard and daylight long names for ~425 zones, current IANA ids included; zones CLDR has no name for are left out (Cornish, Scots and Wu are empty, Bhojpuri names only GMT). The packs and the CLDR licence ship in every `*-locale-translations` package (0.4.0; Blazor 0.3.0) with `zoneNamesFrom()` / `LocaleTranslations.ZoneNames()`; all eight pickers take a `names` input that wins over `Intl`, with a daylight pair following the picker's date. Spec: `spec/zone-names`. Open: publish; review the licence text against unicode.org/license.txt; `picker-bar` slot; site demo.
-  Verify: `shared/zone-names.test.ts` (in every locale-translations package), per-picker `names` tests, `bin/generate-zone-names --check`, `bin/sync-shared-modules --check`.
+      Verify: `shared/zone-names.test.ts` (in every locale-translations package), per-picker `names` tests, `bin/generate-zone-names --check`, `bin/sync-shared-modules --check`.
+
+## Phase 15 — Stephcraft responsive lessons (2026-10-28)
+
+Source and rationale: [spec/stephcraft-lessons](spec/stephcraft-lessons/index.md). Nothing below is built.
+
+- [ ] **P15-T1 Responsive rules.** `AGENTS/responsive.md` and `spec/responsive/`: mobile first, intrinsic sizing before breakpoints, logical properties, no `100vw` on `body`, reflow at 320 CSS px and 400% zoom.
+- [ ] **P15-T2 Container queries in the themes** for `card`, `summary-list`, `data-table`, `kanban-table`, `calendar-*-table`; `bin/check-theme` requires `container-type` beside any `@container`.
+- [ ] **P15-T3 Breakpoint table.** Published in `rem`; `bin/check-theme` enforces it (NHS Wales for patients uses a `40rem` query to decide).
+- [ ] **P15-T4 `grid` `minColumnWidth`** generating `repeat(auto-fit, minmax(min(W, 100%), 1fr))`, in all eight libraries.
+- [ ] **P15-T5 `picture` component** (catalog, eight libraries) and sizing advice on `image`.
+- [ ] **P15-T6 Scoped overflow rules** in the themes, with a 60-character-string test at 320px in every example app.
+- [ ] **P15-T7 `grail-layout` collapse contract**: which aside goes first, source order equals reading order.
+- [ ] **P15-T8 Sweep additions**: 320px and 400% zoom in every example app's responsive sweep.
+- [ ] **P15-T9 Fluid spacing tokens** (not fluid text) via `bin/generate-theme-tokens`.
 
 ---
 
