@@ -10,11 +10,23 @@
 -->
 
 <div x-data="lilyDialog(false)">
-  <button class="dialog-trigger" x-bind="trigger">
+  <button
+    class="dialog-trigger"
+    x-bind="trigger"
+  >
     <!-- Consumer provides trigger content -->
   </button>
-  <dialog class="dialog" aria-label="" x-bind="dialog">
+  <dialog
+    class="dialog"
+    aria-label=""
+    x-bind="dialog"
+  >
     <!-- Consumer provides dialog content -->
-    <button class="dialog-close" x-bind="closer"><!-- Consumer provides label --></button>
+    <button
+      class="dialog-close"
+      x-bind="closer"
+    >
+      <!-- Consumer provides label -->
+    </button>
   </dialog>
 </div>

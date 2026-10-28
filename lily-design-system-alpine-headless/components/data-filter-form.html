@@ -9,9 +9,18 @@
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<form class="data-filter-form" role="search" aria-label="" x-data="lilyDataFilterForm()" x-bind="form">
+<form
+  class="data-filter-form"
+  role="search"
+  aria-label=""
+  x-data="lilyDataFilterForm()"
+  x-bind="form"
+>
   <!-- Consumer provides form fields -->
-  <input name="q" aria-label="">
+  <input
+    name="q"
+    aria-label=""
+  />
   <button type="submit"><!-- Consumer provides apply label --></button>
   <button type="reset"><!-- Consumer provides reset label --></button>
 </form>

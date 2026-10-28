@@ -10,9 +10,29 @@
 -->
 
 <div x-data="lilyOverlay(false)">
-  <button class="slide-out-drawer-trigger" x-bind="trigger" aria-controls="slide-out-drawer-1"><!-- Consumer provides trigger label --></button>
-  <div class="slide-out-drawer" id="slide-out-drawer-1" role="dialog" aria-modal="true" aria-label="" tabindex="-1" data-side="right" x-bind="surface">
+  <button
+    class="slide-out-drawer-trigger"
+    x-bind="trigger"
+    aria-controls="slide-out-drawer-1"
+  >
+    <!-- Consumer provides trigger label -->
+  </button>
+  <div
+    class="slide-out-drawer"
+    id="slide-out-drawer-1"
+    role="dialog"
+    aria-modal="true"
+    aria-label=""
+    tabindex="-1"
+    data-side="right"
+    x-bind="surface"
+  >
     <!-- Consumer provides content -->
-    <button class="slide-out-drawer-close" x-bind="closer"><!-- Consumer provides close label --></button>
+    <button
+      class="slide-out-drawer-close"
+      x-bind="closer"
+    >
+      <!-- Consumer provides close label -->
+    </button>
   </div>
 </div>

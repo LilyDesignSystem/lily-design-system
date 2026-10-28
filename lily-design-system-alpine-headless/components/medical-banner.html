@@ -9,8 +9,22 @@
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<div class="medical-banner" role="region" aria-live="polite" aria-label="" data-type="info" data-context="medical"
-     x-data="lilyDismissible(true)" x-bind="root">
+<div
+  class="medical-banner"
+  role="region"
+  aria-live="polite"
+  aria-label=""
+  data-type="info"
+  data-context="medical"
+  x-data="lilyDismissible(true)"
+  x-bind="root"
+>
   <!-- Consumer provides content -->
-  <button data-dismiss x-bind="dismiss" aria-label=""><!-- Consumer provides label --></button>
+  <button
+    data-dismiss
+    x-bind="dismiss"
+    aria-label=""
+  >
+    <!-- Consumer provides label -->
+  </button>
 </div>

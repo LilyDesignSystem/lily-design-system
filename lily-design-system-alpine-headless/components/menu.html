@@ -9,8 +9,29 @@
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<div class="menu" role="menu" aria-label="" x-data="lilyMenu('vertical')" x-bind="menu">
-  <button class="menu-item" x-bind="item('one')"><!-- Consumer provides label --></button>
-  <button class="menu-item" x-bind="item('two')"><!-- Consumer provides label --></button>
-  <button class="menu-item" x-bind="item('three')"><!-- Consumer provides label --></button>
+<div
+  class="menu"
+  role="menu"
+  aria-label=""
+  x-data="lilyMenu('vertical')"
+  x-bind="menu"
+>
+  <button
+    class="menu-item"
+    x-bind="item('one')"
+  >
+    <!-- Consumer provides label -->
+  </button>
+  <button
+    class="menu-item"
+    x-bind="item('two')"
+  >
+    <!-- Consumer provides label -->
+  </button>
+  <button
+    class="menu-item"
+    x-bind="item('three')"
+  >
+    <!-- Consumer provides label -->
+  </button>
 </div>

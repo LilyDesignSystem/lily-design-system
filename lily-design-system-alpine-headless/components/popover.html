@@ -9,11 +9,26 @@
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<div class="popover" x-data="lilyPopover(false)" x-bind="root" aria-label="">
-  <button class="popover-trigger" x-bind="trigger" aria-controls="popover-panel-1">
+<div
+  class="popover"
+  x-data="lilyPopover(false)"
+  x-bind="root"
+  aria-label=""
+>
+  <button
+    class="popover-trigger"
+    x-bind="trigger"
+    aria-controls="popover-panel-1"
+  >
     <!-- Consumer provides trigger content -->
   </button>
-  <div class="popover-panel" id="popover-panel-1" role="dialog" aria-label="" x-bind="panel">
+  <div
+    class="popover-panel"
+    id="popover-panel-1"
+    role="dialog"
+    aria-label=""
+    x-bind="panel"
+  >
     <!-- Consumer provides content -->
   </div>
 </div>

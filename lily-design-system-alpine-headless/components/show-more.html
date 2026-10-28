@@ -9,11 +9,23 @@
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<div class="show-more" x-data="lilyShowMore(false)" x-bind="root">
-  <div class="show-more-content" id="show-more-content-1" x-bind="content">
+<div
+  class="show-more"
+  x-data="lilyShowMore(false)"
+  x-bind="root"
+>
+  <div
+    class="show-more-content"
+    id="show-more-content-1"
+    x-bind="content"
+  >
     <!-- Consumer provides long content; CSS clamps it while data-expanded is false -->
   </div>
-  <button class="show-more-button" x-bind="button" aria-controls="show-more-content-1">
+  <button
+    class="show-more-button"
+    x-bind="button"
+    aria-controls="show-more-content-1"
+  >
     <!-- Consumer provides the label, e.g. via x-text="expanded ? lessLabel : moreLabel" -->
   </button>
 </div>

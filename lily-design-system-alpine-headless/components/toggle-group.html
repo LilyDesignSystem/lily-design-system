@@ -9,7 +9,22 @@
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<div class="toggle-group" role="group" aria-label="" x-data="lilyToggleGroup([])">
-  <button class="toggle-group-item" x-bind="item('one')"><!-- Consumer provides content --></button>
-  <button class="toggle-group-item" x-bind="item('two')"><!-- Consumer provides content --></button>
+<div
+  class="toggle-group"
+  role="group"
+  aria-label=""
+  x-data="lilyToggleGroup([])"
+>
+  <button
+    class="toggle-group-item"
+    x-bind="item('one')"
+  >
+    <!-- Consumer provides content -->
+  </button>
+  <button
+    class="toggle-group-item"
+    x-bind="item('two')"
+  >
+    <!-- Consumer provides content -->
+  </button>
 </div>

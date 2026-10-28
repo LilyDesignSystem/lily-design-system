@@ -9,11 +9,25 @@
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<div class="hamburger-menu" x-data="lilyCollapsible(false)" x-bind="root">
-  <button class="hamburger-menu-button" x-bind="trigger" aria-label="" aria-controls="hamburger-menu-nav-1">
+<div
+  class="hamburger-menu"
+  x-data="lilyCollapsible(false)"
+  x-bind="root"
+>
+  <button
+    class="hamburger-menu-button"
+    x-bind="trigger"
+    aria-label=""
+    aria-controls="hamburger-menu-nav-1"
+  >
     <!-- Consumer provides the icon -->
   </button>
-  <nav class="hamburger-menu-nav" id="hamburger-menu-nav-1" aria-label="" x-bind="content">
+  <nav
+    class="hamburger-menu-nav"
+    id="hamburger-menu-nav-1"
+    aria-label=""
+    x-bind="content"
+  >
     <!-- Consumer provides navigation content -->
   </nav>
 </div>

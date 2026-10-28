@@ -9,7 +9,20 @@
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<div class="text-area-input-with-character-counter" x-data="lilyCountedTextarea(20)">
-  <textarea class="text-area-input-with-character-counter-textarea" aria-label="" aria-describedby="text-area-input-with-character-counter-count-1" x-bind="textarea"></textarea>
-  <span class="text-area-input-with-character-counter-count" id="text-area-input-with-character-counter-count-1" aria-label="" x-bind="counter"></span>
+<div
+  class="text-area-input-with-character-counter"
+  x-data="lilyCountedTextarea(20)"
+>
+  <textarea
+    class="text-area-input-with-character-counter-textarea"
+    aria-label=""
+    aria-describedby="text-area-input-with-character-counter-count-1"
+    x-bind="textarea"
+  ></textarea>
+  <span
+    class="text-area-input-with-character-counter-count"
+    id="text-area-input-with-character-counter-count-1"
+    aria-label=""
+    x-bind="counter"
+  ></span>
 </div>

@@ -9,11 +9,46 @@
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<div class="mentions-input" data-trigger-char="@" x-data="lilyMentions('@')">
-  <input class="mentions-input-control" type="text" aria-label="" aria-haspopup="listbox" aria-expanded="false" aria-autocomplete="list" aria-controls="mentions-input-suggestions-1" x-bind="input">
-  <div class="mentions-input-suggestions" id="mentions-input-suggestions-1" role="listbox" aria-label="" hidden x-bind="panel">
-    <div class="mentions-input-option" x-bind="option('mentions-input-option-1')"><!-- Consumer provides suggestion --></div>
-    <div class="mentions-input-option" x-bind="option('mentions-input-option-2')"><!-- Consumer provides suggestion --></div>
-    <div class="mentions-input-option" x-bind="option('mentions-input-option-3')"><!-- Consumer provides suggestion --></div>
+<div
+  class="mentions-input"
+  data-trigger-char="@"
+  x-data="lilyMentions('@')"
+>
+  <input
+    class="mentions-input-control"
+    type="text"
+    aria-label=""
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-autocomplete="list"
+    aria-controls="mentions-input-suggestions-1"
+    x-bind="input"
+  />
+  <div
+    class="mentions-input-suggestions"
+    id="mentions-input-suggestions-1"
+    role="listbox"
+    aria-label=""
+    hidden
+    x-bind="panel"
+  >
+    <div
+      class="mentions-input-option"
+      x-bind="option('mentions-input-option-1')"
+    >
+      <!-- Consumer provides suggestion -->
+    </div>
+    <div
+      class="mentions-input-option"
+      x-bind="option('mentions-input-option-2')"
+    >
+      <!-- Consumer provides suggestion -->
+    </div>
+    <div
+      class="mentions-input-option"
+      x-bind="option('mentions-input-option-3')"
+    >
+      <!-- Consumer provides suggestion -->
+    </div>
   </div>
 </div>

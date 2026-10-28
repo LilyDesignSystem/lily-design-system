@@ -9,11 +9,43 @@
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<div class="command" role="search" aria-label="" x-data="lilyCommand()">
-  <input class="command-input" type="search" autocomplete="off" aria-label="" aria-controls="command-listbox-1" x-bind="input">
-  <div class="command-listbox" id="command-listbox-1" role="listbox" aria-label="">
-    <div class="command-option" x-bind="option('command-option-1')"><!-- Consumer provides option --></div>
-    <div class="command-option" x-bind="option('command-option-2')"><!-- Consumer provides option --></div>
-    <div class="command-option" x-bind="option('command-option-3')"><!-- Consumer provides option --></div>
+<div
+  class="command"
+  role="search"
+  aria-label=""
+  x-data="lilyCommand()"
+>
+  <input
+    class="command-input"
+    type="search"
+    autocomplete="off"
+    aria-label=""
+    aria-controls="command-listbox-1"
+    x-bind="input"
+  />
+  <div
+    class="command-listbox"
+    id="command-listbox-1"
+    role="listbox"
+    aria-label=""
+  >
+    <div
+      class="command-option"
+      x-bind="option('command-option-1')"
+    >
+      <!-- Consumer provides option -->
+    </div>
+    <div
+      class="command-option"
+      x-bind="option('command-option-2')"
+    >
+      <!-- Consumer provides option -->
+    </div>
+    <div
+      class="command-option"
+      x-bind="option('command-option-3')"
+    >
+      <!-- Consumer provides option -->
+    </div>
   </div>
 </div>

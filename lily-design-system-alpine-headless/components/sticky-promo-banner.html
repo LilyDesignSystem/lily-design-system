@@ -9,10 +9,22 @@
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<aside class="sticky-promo-banner" role="complementary" aria-label="" data-position="bottom"
-       x-data="lilyDismissible(true)" x-bind="root">
+<aside
+  class="sticky-promo-banner"
+  role="complementary"
+  aria-label=""
+  data-position="bottom"
+  x-data="lilyDismissible(true)"
+  x-bind="root"
+>
   <div class="sticky-promo-banner-content">
     <!-- Consumer provides banner content -->
   </div>
-  <button class="sticky-promo-banner-dismiss" x-bind="dismiss" aria-label=""><!-- Consumer provides label --></button>
+  <button
+    class="sticky-promo-banner-dismiss"
+    x-bind="dismiss"
+    aria-label=""
+  >
+    <!-- Consumer provides label -->
+  </button>
 </aside>

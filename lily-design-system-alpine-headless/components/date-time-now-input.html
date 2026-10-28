@@ -9,8 +9,29 @@
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<div class="date-time-now-input" role="group" aria-label="" x-data="lilyDateTimeNow()">
-  <input class="date-time-now-input-date" type="date" aria-label="" x-model="date">
-  <input class="date-time-now-input-time" type="time" aria-label="" x-model="time">
-  <button class="date-time-now-input-now" aria-label="" x-bind="nowButton"><!-- Consumer provides button text --></button>
+<div
+  class="date-time-now-input"
+  role="group"
+  aria-label=""
+  x-data="lilyDateTimeNow()"
+>
+  <input
+    class="date-time-now-input-date"
+    type="date"
+    aria-label=""
+    x-model="date"
+  />
+  <input
+    class="date-time-now-input-time"
+    type="time"
+    aria-label=""
+    x-model="time"
+  />
+  <button
+    class="date-time-now-input-now"
+    aria-label=""
+    x-bind="nowButton"
+  >
+    <!-- Consumer provides button text -->
+  </button>
 </div>

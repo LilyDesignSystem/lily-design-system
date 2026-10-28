@@ -10,9 +10,29 @@
 -->
 
 <div x-data="lilyContextMenu()">
-  <div class="context-menu-target" tabindex="0" x-bind="target"><!-- Consumer provides the region that owns the menu --></div>
-  <div class="context-menu" aria-label="" x-bind="menu">
-    <button class="context-menu-item" x-bind="item"><!-- Consumer provides label --></button>
-    <button class="context-menu-item" x-bind="item"><!-- Consumer provides label --></button>
+  <div
+    class="context-menu-target"
+    tabindex="0"
+    x-bind="target"
+  >
+    <!-- Consumer provides the region that owns the menu -->
+  </div>
+  <div
+    class="context-menu"
+    aria-label=""
+    x-bind="menu"
+  >
+    <button
+      class="context-menu-item"
+      x-bind="item"
+    >
+      <!-- Consumer provides label -->
+    </button>
+    <button
+      class="context-menu-item"
+      x-bind="item"
+    >
+      <!-- Consumer provides label -->
+    </button>
   </div>
 </div>

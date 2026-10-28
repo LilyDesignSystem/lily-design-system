@@ -9,11 +9,22 @@
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<span class="tooltip-wrapper" x-data="lilyTooltip()">
-  <button class="tooltip-trigger" x-bind="trigger" aria-describedby="tooltip-1">
+<span
+  class="tooltip-wrapper"
+  x-data="lilyTooltip()"
+>
+  <button
+    class="tooltip-trigger"
+    x-bind="trigger"
+    aria-describedby="tooltip-1"
+  >
     <!-- Consumer provides trigger content -->
   </button>
-  <div class="tooltip" id="tooltip-1" x-bind="tooltip">
+  <div
+    class="tooltip"
+    id="tooltip-1"
+    x-bind="tooltip"
+  >
     <!-- Consumer provides content -->
   </div>
 </span>

@@ -9,19 +9,63 @@
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<ul class="tree-menu" role="tree" aria-label="" x-data="lilyTree(true)" x-bind="tree">
-  <li role="treeitem" class="tree-menu-item" x-bind="item('one', true)">
+<ul
+  class="tree-menu"
+  role="tree"
+  aria-label=""
+  x-data="lilyTree(true)"
+  x-bind="tree"
+>
+  <li
+    role="treeitem"
+    class="tree-menu-item"
+    x-bind="item('one', true)"
+  >
     <!-- Consumer provides label -->
-    <ul role="group" x-bind="group('one')">
-      <li role="treeitem" class="tree-menu-item" x-bind="item('one-a')"><!-- Consumer provides label --></li>
-      <li role="treeitem" class="tree-menu-item" x-bind="item('one-b')"><!-- Consumer provides label --></li>
+    <ul
+      role="group"
+      x-bind="group('one')"
+    >
+      <li
+        role="treeitem"
+        class="tree-menu-item"
+        x-bind="item('one-a')"
+      >
+        <!-- Consumer provides label -->
+      </li>
+      <li
+        role="treeitem"
+        class="tree-menu-item"
+        x-bind="item('one-b')"
+      >
+        <!-- Consumer provides label -->
+      </li>
     </ul>
   </li>
-  <li role="treeitem" class="tree-menu-item" x-bind="item('two')"><!-- Consumer provides label --></li>
-  <li role="treeitem" class="tree-menu-item" x-bind="item('three', true)">
+  <li
+    role="treeitem"
+    class="tree-menu-item"
+    x-bind="item('two')"
+  >
     <!-- Consumer provides label -->
-    <ul role="group" x-bind="group('three')">
-      <li role="treeitem" class="tree-menu-item" x-bind="item('three-a')"><!-- Consumer provides label --></li>
+  </li>
+  <li
+    role="treeitem"
+    class="tree-menu-item"
+    x-bind="item('three', true)"
+  >
+    <!-- Consumer provides label -->
+    <ul
+      role="group"
+      x-bind="group('three')"
+    >
+      <li
+        role="treeitem"
+        class="tree-menu-item"
+        x-bind="item('three-a')"
+      >
+        <!-- Consumer provides label -->
+      </li>
     </ul>
   </li>
 </ul>

@@ -9,7 +9,13 @@
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<select class="red-amber-green-picker" aria-label="" x-data="{ value: 'red' }" x-model="value" :data-value="value">
+<select
+  class="red-amber-green-picker"
+  aria-label=""
+  x-data="{ value: 'red' }"
+  x-model="value"
+  :data-value="value"
+>
   <option value="red"><!-- Consumer provides label --></option>
   <option value="amber"><!-- Consumer provides label --></option>
   <option value="green"><!-- Consumer provides label --></option>

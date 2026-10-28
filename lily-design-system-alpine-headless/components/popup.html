@@ -10,9 +10,27 @@
 -->
 
 <div x-data="lilyOverlay(false)">
-  <button class="popup-trigger" x-bind="trigger" aria-controls="popup-1"><!-- Consumer provides trigger label --></button>
-  <div class="popup" id="popup-1" role="dialog" aria-label="" tabindex="-1" x-bind="surface">
+  <button
+    class="popup-trigger"
+    x-bind="trigger"
+    aria-controls="popup-1"
+  >
+    <!-- Consumer provides trigger label -->
+  </button>
+  <div
+    class="popup"
+    id="popup-1"
+    role="dialog"
+    aria-label=""
+    tabindex="-1"
+    x-bind="surface"
+  >
     <!-- Consumer provides content -->
-    <button class="popup-close" x-bind="closer"><!-- Consumer provides close label --></button>
+    <button
+      class="popup-close"
+      x-bind="closer"
+    >
+      <!-- Consumer provides close label -->
+    </button>
   </div>
 </div>

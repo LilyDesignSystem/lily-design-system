@@ -9,8 +9,29 @@
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<div class="segment-group" role="radiogroup" aria-label="" x-data="lilySegmentGroup('one')" x-bind="group">
-  <button class="segment-group-item" x-bind="segment('one')"><!-- Consumer provides label --></button>
-  <button class="segment-group-item" x-bind="segment('two')"><!-- Consumer provides label --></button>
-  <button class="segment-group-item" x-bind="segment('three')"><!-- Consumer provides label --></button>
+<div
+  class="segment-group"
+  role="radiogroup"
+  aria-label=""
+  x-data="lilySegmentGroup('one')"
+  x-bind="group"
+>
+  <button
+    class="segment-group-item"
+    x-bind="segment('one')"
+  >
+    <!-- Consumer provides label -->
+  </button>
+  <button
+    class="segment-group-item"
+    x-bind="segment('two')"
+  >
+    <!-- Consumer provides label -->
+  </button>
+  <button
+    class="segment-group-item"
+    x-bind="segment('three')"
+  >
+    <!-- Consumer provides label -->
+  </button>
 </div>

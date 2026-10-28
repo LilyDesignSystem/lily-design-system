@@ -15,8 +15,16 @@
   class="wheel-picker"
   x-data="lilyWheelPicker({ value: '2', options: [{ value: '1', label: 'January' }, { value: '2', label: 'February' }, { value: '3', label: 'March' }] })"
 >
-  <div class="wheel-picker-list" x-ref="list" x-bind="list" aria-label="">
-    <template x-for="(option, index) in options" :key="option.value">
+  <div
+    class="wheel-picker-list"
+    x-ref="list"
+    x-bind="list"
+    aria-label=""
+  >
+    <template
+      x-for="(option, index) in options"
+      :key="option.value"
+    >
       <div
         class="wheel-picker-option"
         role="option"

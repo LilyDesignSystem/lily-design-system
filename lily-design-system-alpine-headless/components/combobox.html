@@ -9,11 +9,41 @@
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<div class="combobox" x-data="lilyCombobox()" x-bind="root">
-  <input class="combobox-input" type="text" aria-label="" aria-controls="combobox-listbox-1" x-bind="input">
-  <div class="combobox-listbox" id="combobox-listbox-1" aria-label="" x-bind="listbox">
-    <div class="combobox-option" x-bind="option('combobox-option-1')"><!-- Consumer provides option --></div>
-    <div class="combobox-option" x-bind="option('combobox-option-2')"><!-- Consumer provides option --></div>
-    <div class="combobox-option" x-bind="option('combobox-option-3')"><!-- Consumer provides option --></div>
+<div
+  class="combobox"
+  x-data="lilyCombobox()"
+  x-bind="root"
+>
+  <input
+    class="combobox-input"
+    type="text"
+    aria-label=""
+    aria-controls="combobox-listbox-1"
+    x-bind="input"
+  />
+  <div
+    class="combobox-listbox"
+    id="combobox-listbox-1"
+    aria-label=""
+    x-bind="listbox"
+  >
+    <div
+      class="combobox-option"
+      x-bind="option('combobox-option-1')"
+    >
+      <!-- Consumer provides option -->
+    </div>
+    <div
+      class="combobox-option"
+      x-bind="option('combobox-option-2')"
+    >
+      <!-- Consumer provides option -->
+    </div>
+    <div
+      class="combobox-option"
+      x-bind="option('combobox-option-3')"
+    >
+      <!-- Consumer provides option -->
+    </div>
   </div>
 </div>

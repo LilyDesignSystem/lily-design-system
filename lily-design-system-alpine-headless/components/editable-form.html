@@ -10,9 +10,22 @@
 -->
 
 <div x-data="lilyEditableForm()">
-  <button class="editable-form-edit" x-bind="editButton"><!-- Consumer provides edit label --></button>
-  <form class="editable-form" aria-label="" hidden x-bind="form">
-    <input name="title" aria-label="">
+  <button
+    class="editable-form-edit"
+    x-bind="editButton"
+  >
+    <!-- Consumer provides edit label -->
+  </button>
+  <form
+    class="editable-form"
+    aria-label=""
+    hidden
+    x-bind="form"
+  >
+    <input
+      name="title"
+      aria-label=""
+    />
     <button type="submit"><!-- Consumer provides save label --></button>
   </form>
 </div>

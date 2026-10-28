@@ -9,7 +9,25 @@
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<div class="expander" x-data="lilyCollapsible(false)" x-bind="root" role="group" aria-label="">
-  <button data-trigger x-bind="trigger" aria-controls="expander-content-1"><!-- Consumer provides trigger label --></button>
-  <div data-content id="expander-content-1" x-bind="content"><!-- Consumer provides content --></div>
+<div
+  class="expander"
+  x-data="lilyCollapsible(false)"
+  x-bind="root"
+  role="group"
+  aria-label=""
+>
+  <button
+    data-trigger
+    x-bind="trigger"
+    aria-controls="expander-content-1"
+  >
+    <!-- Consumer provides trigger label -->
+  </button>
+  <div
+    data-content
+    id="expander-content-1"
+    x-bind="content"
+  >
+    <!-- Consumer provides content -->
+  </div>
 </div>
