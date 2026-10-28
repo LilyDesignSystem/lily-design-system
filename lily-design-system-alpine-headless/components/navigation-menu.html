@@ -4,14 +4,19 @@
   Description: a site-wide navigation menu with links
   HTML tag: <nav>
   CSS class: navigation-menu
-  Keyboard: None (passive element)
-  Accessibility: Implicit navigation role, aria-label for accessible name
+  Keyboard: Links use Tab and Enter; in overflow mode Enter or Space toggle the More button, Escape closes the list and returns focus to the button, a click outside closes it
+  Accessibility: nav landmark named by aria-label; overflow mode: the More button carries aria-expanded and aria-controls, the opened list is in normal flow (never covers content), and the More item is hidden until something overflows. Without JavaScript the links simply wrap.
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<nav
-  class="navigation-menu"
-  aria-label=""
->
-  <!-- Consumer provides navigation list -->
+<nav class="navigation-menu" aria-label="" data-overflow="true" x-data="lilyNavigationMenu">
+  <ul class="navigation-menu-list">
+    <!-- Consumer provides <li> items -->
+    <li class="navigation-menu-more" hidden>
+      <button class="navigation-menu-more-button" type="button" aria-expanded="false">
+        <!-- Consumer provides the More label -->
+      </button>
+      <ul class="navigation-menu-more-list" hidden></ul>
+    </li>
+  </ul>
 </nav>

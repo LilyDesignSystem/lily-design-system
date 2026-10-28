@@ -47,6 +47,7 @@
     "index.js",
     "lily-alpine.js",
     "middle-truncation.js",
+    "overflow-navigation.js",
     "wheel-picker.js",
     "components/*.html",
     "index.md",
