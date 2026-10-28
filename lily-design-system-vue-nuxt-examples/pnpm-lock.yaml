@@ -12,14 +12,14 @@ importers:
   .:
     dependencies:
       '@lilydesignsystem/vue-locale-picker':
-        specifier: 0.2.0
-        version: 0.2.0(vue@3.5.44(typescript@5.9.3))
+        specifier: 0.3.1
+        version: 0.3.1(vue@3.5.44(typescript@5.9.3))
       '@lilydesignsystem/vue-text-size-picker':
-        specifier: 0.2.0
-        version: 0.2.0(vue@3.5.44(typescript@5.9.3))
+        specifier: 0.3.0
+        version: 0.3.0(vue@3.5.44(typescript@5.9.3))
       '@lilydesignsystem/vue-theme-picker':
-        specifier: 0.2.0
-        version: 0.2.0(vue@3.5.44(typescript@5.9.3))
+        specifier: 0.3.0
+        version: 0.3.0(vue@3.5.44(typescript@5.9.3))
       nuxt:
         specifier: ^4.6.2
         version: 4.6.2(73fb1db8ed26c5b7076419cdcb5cc057)
@@ -627,26 +627,32 @@ packages:
     peerDependencies:
       zod: ^4.0.0
 
-  '@lilydesignsystem/vue-headless@0.2.0':
-    resolution: {integrity: sha512-R6NWRndpVz7RtPbDK8fTUn6Anrc3RuoMlLJX7VbZDqpN5TqRJOPkbo/NwhIWkBjdhqO44DP/r5MGR3BfpTBVuQ==}
+  '@lilydesignsystem/vue-headless@0.4.0':
+    resolution: {integrity: sha512-CdpabsvwGPVef7R2BQT5xxcmyUeMDEdZXQ1cAdCBwaWSjeXMfUuMKW9itKEExtrCfvEOrqY3vAUX8Ilpx2W4TQ==}
     engines: {node: '=26'}
     peerDependencies:
       vue: ^3.4.0
 
-  '@lilydesignsystem/vue-locale-picker@0.2.0':
-    resolution: {integrity: sha512-T0Z0rSv7LmG9Fk1KMGXXPjBwSh5sotJUwWdS/SvJA8hVE1m6NprE5T+RHopPIZkPIqGS22x9mFIdIICKWEwXLA==}
+  '@lilydesignsystem/vue-headless@0.5.1':
+    resolution: {integrity: sha512-3WkJkzc5JUMKa1HmUssmWckY9oJPH4ZbyKzDH6szCXjdSle7QBZ3n71B8RiTb7gr8owU3T853hQIK5qDLB/kEw==}
+    engines: {node: '=26'}
+    peerDependencies:
+      vue: ^3.4.0
+
+  '@lilydesignsystem/vue-locale-picker@0.3.1':
+    resolution: {integrity: sha512-/z1aXzJOF7ShOPQydZiFB8NKtg8QEXAfkrPE8FGnS6nOpMKI5S640HHyL0/AV8R9COyzKTGIZURKg5Xq60JFDA==}
+    engines: {node: '>=26'}
+    peerDependencies:
+      vue: ^3.0.0
+
+  '@lilydesignsystem/vue-text-size-picker@0.3.0':
+    resolution: {integrity: sha512-W5h2cqyusT2J2fiAY+BZBjlMIrtDrTjuJXCYl3HUHaxlDwVIxZqnNeIJ90oBbtmeJqpR2148h0TgyNbpPNCLaQ==}
     engines: {node: '=26'}
     peerDependencies:
       vue: ^3.0.0
 
-  '@lilydesignsystem/vue-text-size-picker@0.2.0':
-    resolution: {integrity: sha512-zXdngh1arsRyvA0w8w4DH65+F5sTw0TnKCVxTV/QwCe8bcomG2K8pEiw1DmJu1x7NPQQ+fK7aJ1zZ16KlqaIpA==}
-    engines: {node: '=26'}
-    peerDependencies:
-      vue: ^3.0.0
-
-  '@lilydesignsystem/vue-theme-picker@0.2.0':
-    resolution: {integrity: sha512-Y8eZUJm8/8KvpUiYmfbJjLkKDj0N+VeiesxPGWxQLIED3eQaAErTn/4PXM1vznGWfz9s+tRiC+meSRKbT2VQGw==}
+  '@lilydesignsystem/vue-theme-picker@0.3.0':
+    resolution: {integrity: sha512-dqi9UhhhE/o9A/hFmVyEahl3szLK7Fo5qsMA0q55v2ukLgiHOU3HfIlr/ryhSaXs3cFXd6upLxhyw9dg7hoz4Q==}
     engines: {node: '=26'}
     peerDependencies:
       vue: ^3.0.0
@@ -2939,6 +2945,9 @@ packages:
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
 
+  magic-string@1.4.3:
+    resolution: {integrity: sha512-z12OxmaPGE0F4xlpGdjuAUckipLpQlTAuAmyGhNoD7ODpYUzvDfvtxUbjM/jwznyP178oju/KDdyi220wNJ0RQ==}
+
   magic-string@1.4.4:
     resolution: {integrity: sha512-jQz9sVhrZuphH4NrAIHSgkDJCluQO7Ioi4KGRLa7aTUjAODQ13hENX0YIytqYE/rIkO485gQG2LeBxJaW53kkQ==}
 
@@ -4867,24 +4876,29 @@ snapshots:
     dependencies:
       zod: 4.6.7
 
-  '@lilydesignsystem/vue-headless@0.2.0(vue@3.5.44(typescript@5.9.3))':
+  '@lilydesignsystem/vue-headless@0.4.0(vue@3.5.44(typescript@5.9.3))':
     dependencies:
       aria-query: 5.3.2
       vue: 3.5.44(typescript@5.9.3)
 
-  '@lilydesignsystem/vue-locale-picker@0.2.0(vue@3.5.44(typescript@5.9.3))':
+  '@lilydesignsystem/vue-headless@0.5.1(vue@3.5.44(typescript@5.9.3))':
     dependencies:
-      '@lilydesignsystem/vue-headless': 0.2.0(vue@3.5.44(typescript@5.9.3))
+      aria-query: 5.3.2
       vue: 3.5.44(typescript@5.9.3)
 
-  '@lilydesignsystem/vue-text-size-picker@0.2.0(vue@3.5.44(typescript@5.9.3))':
+  '@lilydesignsystem/vue-locale-picker@0.3.1(vue@3.5.44(typescript@5.9.3))':
     dependencies:
-      '@lilydesignsystem/vue-headless': 0.2.0(vue@3.5.44(typescript@5.9.3))
+      '@lilydesignsystem/vue-headless': 0.5.1(vue@3.5.44(typescript@5.9.3))
       vue: 3.5.44(typescript@5.9.3)
 
-  '@lilydesignsystem/vue-theme-picker@0.2.0(vue@3.5.44(typescript@5.9.3))':
+  '@lilydesignsystem/vue-text-size-picker@0.3.0(vue@3.5.44(typescript@5.9.3))':
     dependencies:
-      '@lilydesignsystem/vue-headless': 0.2.0(vue@3.5.44(typescript@5.9.3))
+      '@lilydesignsystem/vue-headless': 0.4.0(vue@3.5.44(typescript@5.9.3))
+      vue: 3.5.44(typescript@5.9.3)
+
+  '@lilydesignsystem/vue-theme-picker@0.3.0(vue@3.5.44(typescript@5.9.3))':
+    dependencies:
+      '@lilydesignsystem/vue-headless': 0.4.0(vue@3.5.44(typescript@5.9.3))
       vue: 3.5.44(typescript@5.9.3)
 
   '@mapbox/node-pre-gyp@2.0.3(supports-color@10.2.2)':
@@ -7244,6 +7258,10 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.6.0
 
+  magic-string@1.4.3:
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.6.0
+
   magic-string@1.4.4:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.6.0
@@ -8456,7 +8474,7 @@ snapshots:
       escape-string-regexp: 5.0.0
       estree-walker: 3.0.3
       local-pkg: 1.2.1
-      magic-string: 1.4.4
+      magic-string: 1.4.3
       mlly: 1.8.2
       pathe: 2.0.3
       picomatch: 4.0.7
