@@ -51,14 +51,14 @@ full-width blocks). Moving the themes to `min-width` queries is not planned: the
 
 ## Where each rule is verified
 
-| Rule                    | Check today                                                                          | Planned                              |
-| ----------------------- | ------------------------------------------------------------------------------------ | ------------------------------------ |
-| No horizontal overflow  | Four-viewport sweep in every example app                                             | 320px and 400% zoom (P15-T8)         |
-| Breakpoints in `rem`    | `bin/check-theme` rule 9, against the table above                                    | none                                 |
-| `container-type` set    | `bin/check-theme` rule 8; the section is pinned across all 57 themes                 | none                                 |
-| Fluid values have floor | `bin/check-theme` rule 11; `bin/generate-theme-tokens --check`                       | none                                 |
-| No `100vw` on `body`    | none                                                                                 | `bin/check-theme` (P15-T1 follow-up) |
-| Headless has no queries | Forbidden-literal list in [AGENTS/theme.md](../../AGENTS/theme.md), reviewed by hand | none                                 |
+| Rule                    | Check today                                                                                                                                                                                                                                                                                                               | Planned                              |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| No horizontal overflow  | Six-width sweep in every example app: 320 (reflow), 375, 768, 1280, 2560, plus 320 at deviceScaleFactor 4 (400% zoom emulation); a 60-character unbroken string in a `summary-list` and a `data-table` at 320px; grail-layout DOM order equals visual order at 320, 768 and 1280 (`e2e/responsive.spec.ts`, P15-T6/T7/T8) | none                                 |
+| Breakpoints in `rem`    | `bin/check-theme` rule 9, against the table above                                                                                                                                                                                                                                                                         | none                                 |
+| `container-type` set    | `bin/check-theme` rule 8; the section is pinned across all 57 themes                                                                                                                                                                                                                                                      | none                                 |
+| Fluid values have floor | `bin/check-theme` rule 11; `bin/generate-theme-tokens --check`                                                                                                                                                                                                                                                            | none                                 |
+| No `100vw` on `body`    | none                                                                                                                                                                                                                                                                                                                      | `bin/check-theme` (P15-T1 follow-up) |
+| Headless has no queries | Forbidden-literal list in [AGENTS/theme.md](../../AGENTS/theme.md), reviewed by hand                                                                                                                                                                                                                                      | none                                 |
 
 ## Acceptance criteria
 

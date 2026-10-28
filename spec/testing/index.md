@@ -105,7 +105,7 @@ axe-core / Playwright integration runs across all seven example apps. Rule set: 
 
 ## Responsive viewport sweep
 
-A responsive smoke check (spec/index.md §11.6) runs ~10 representative routes per app across four viewport sizes, asserting: skip-link present, `<main>` and H1 visible, no horizontal page overflow.
+A responsive smoke check (spec/index.md §11.6) runs ~10 representative routes per app across four viewport sizes (plus the 320px and 400%-zoom cases below), asserting: skip-link present, `<main>` and H1 visible, no horizontal page overflow.
 
 | Viewport | Size        |
 | -------- | ----------- |
@@ -113,6 +113,15 @@ A responsive smoke check (spec/index.md §11.6) runs ~10 representative routes p
 | tablet   | 768 × 1024  |
 | desktop  | 1280 × 800  |
 | 4K       | 2560 × 1440 |
+
+P15-T8 added further cases to the same `e2e/responsive.spec.ts` in all 7 apps (WCAG 1.4.10 and 1.4.4; rules in [responsive](../responsive/index.md)):
+
+| Case                | Viewport                         | Asserts                                                                                                                                                                                                                                    |
+| ------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| reflow 320          | 320 × 256                        | Every sweep route: skip-link, visible `<main>` and H1, no document-level horizontal scroll.                                                                                                                                                |
+| 400% zoom emulation | 320 × 256, `deviceScaleFactor` 4 | As reflow 320. Playwright cannot set browser zoom, so this is 1280/4 CSS px at 4x density; it does not detect clipped or overlapping text (only page scroll and H1).                                                                       |
+| 60-character string | 320 × 568                        | A 60-character unbroken string injected (`page.evaluate`, no demo-page change) into a `summary-list` and a `data-table` in `<main>`: no document-level horizontal scroll (P15-T6).                                                         |
+| grail-layout order  | 320, 768 and 1280 × 800          | On `/components/grail-layout`: DOM order is header, left aside, main, right aside, footer, and no region is visually before its predecessor (below it, or right of it in the same row) (P15-T7). Skipped where no `.grail-layout` renders. |
 
 Ported to all 7 example apps with route paths adjusted per app:
 
