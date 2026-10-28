@@ -20,6 +20,7 @@ It does **not** cover: the headless markup rules (see [headless](../headless/ind
 - **No `100vw` widths** on `body` or full-width blocks.
 - **Reflow (WCAG 1.4.10) and resize (1.4.4).** No horizontal page scroll at 320 CSS pixels; usable at 400% zoom. Wide content scrolls inside its own labelled, focusable region.
 - **Text stays at or above `1rem`;** fluid values are for spacing only.
+- **Fluid spacing tokens.** `--space-fluid-gutter` (container and main padding) and `--space-fluid-section` (stack and grid gaps) are `clamp()` values with a `1rem` floor that grow with the viewport. They are DTCG tokens (`$type: fluidDimension`) in `themes/tokens/*.json`, emitted by `bin/generate-theme-tokens`; `bin/check-theme` rule 11 requires every `clamp()` in a theme to start with a `rem` floor. The three practitioner NHS themes keep their dense fixed spacing.
 - **`(hover: none)` and `(pointer: coarse)`** decide touch affordances, not viewport width.
 - **Headless stays clean.** No media or container queries, `vw`/`vh` units or breakpoint literals in a component ([theme](../theme/index.md)).
 
@@ -32,8 +33,8 @@ down here instead, in `rem` (Tailwind's scale, so adopters moving between system
 | Name  | Width   | Used today                                                                |
 | ----- | ------- | ------------------------------------------------------------------------- |
 | `sm`  | `40rem` | NHS Wales for patients: a primary button in a form goes full width (DHCW) |
-| `md`  | `48rem` | All 57 themes: `grail-layout` collapses to one column                     |
-| `lg`  | `64rem` | unused                                                                    |
+| `md`  | `48rem` | All 57 themes: `grail-layout` is one column (left aside above `main`)     |
+| `lg`  | `64rem` | All 57 themes: `grail-layout` right aside drops below `main`              |
 | `xl`  | `80rem` | unused                                                                    |
 | `2xl` | `96rem` | unused                                                                    |
 
@@ -55,6 +56,7 @@ full-width blocks). Moving the themes to `min-width` queries is not planned: the
 | No horizontal overflow  | Four-viewport sweep in every example app                                             | 320px and 400% zoom (P15-T8)         |
 | Breakpoints in `rem`    | `bin/check-theme` rule 9, against the table above                                    | none                                 |
 | `container-type` set    | `bin/check-theme` rule 8; the section is pinned across all 57 themes                 | none                                 |
+| Fluid values have floor | `bin/check-theme` rule 11; `bin/generate-theme-tokens --check`                       | none                                 |
 | No `100vw` on `body`    | none                                                                                 | `bin/check-theme` (P15-T1 follow-up) |
 | Headless has no queries | Forbidden-literal list in [AGENTS/theme.md](../../AGENTS/theme.md), reviewed by hand | none                                 |
 

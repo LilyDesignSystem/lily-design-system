@@ -22,6 +22,18 @@
 - Spreads `restProps` onto the div for consumer customization
 - No layout styles applied; consumers provide CSS Grid or Flexbox for positioning
 
+## Collapse contract
+
+As the window narrows, regions give up width in a fixed priority. The reference themes implement it; a consumer's CSS should do the same.
+
+1. **Right aside first.** At `lg` (64rem) it drops below `main` and spans the full width.
+2. **Left aside second.** At `md` (48rem) the layout is one column: header, left aside, main, right aside, footer.
+3. **Header, main and footer never collapse.** `main` is always visible.
+
+- **Source order is visual order.** The pattern's source order is header, left aside, main, right aside, footer, and every step stacks regions in exactly that order. Never reorder visually only (`order`, or `grid-template-areas` that differ from source order within a row), because reading order and tab order must equal what is seen (WCAG 1.3.2 Meaningful Sequence, 2.4.3 Focus Order). A consumer who wants `main` before the left aside on a phone puts `main` first in the source, and accepts that on a wide screen the reading order then differs from the left-to-right order.
+- **Nothing is hidden.** A collapsed region is stacked, not `display: none`, so its content stays reachable by keyboard and screen reader. Offering a "show/hide" disclosure for an aside is the consumer's choice, not the default.
+- **Viewport queries, not container queries.** The `grail-layout` root is not a container (only its regions are), and it is a page shell, which answers to the window ([AGENTS/responsive.md](../../AGENTS/responsive.md)).
+
 ## Keyboard
 
 - No keyboard interactions — this is a passive element

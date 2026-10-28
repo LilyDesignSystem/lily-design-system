@@ -82,7 +82,7 @@ The consumer provides all CSS styling. Common approaches include CSS Grid with n
 ## Advice
 
 - **Designers**: Define clear visual hierarchy between sections. Ensure the layout degrades gracefully on smaller screens by stacking sections vertically.
-- **Developers**: Use CSS Grid with `grid-template-areas` for the most readable layout implementation. Consider making sidebars collapsible on mobile viewports.
+- **Developers**: Use CSS Grid with `grid-template-areas` for the most readable layout implementation. Collapse in this order as the window narrows: the right aside first (it drops below `main` at 64rem), then the left aside (one column at 48rem). Keep source order equal to visual order (header, left aside, main, right aside, footer) and stack rather than hide, so reading order and focus order match what is seen and every region stays reachable (WCAG 1.3.2, 2.4.3). The full contract is in `AGENTS.md`.
 
 ## Composition
 

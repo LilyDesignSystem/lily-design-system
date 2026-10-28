@@ -39,7 +39,10 @@ GUARD_RE = re.compile(
 DIM_RE = re.compile(r"^([\d.]+)(rem|px|em)$")
 NUM_RE = re.compile(r"^[\d.]+$")
 HEX_RE = re.compile(r"^#[0-9a-fA-F]{6}$")
-OKLCH_RE = re.compile(r"^oklch\(\s*([\d.]+)%\s+([\d.]+)\s+([\d.]+)\s*\)$")
+FLUID_RE = re.compile(
+    r"^clamp\(\s*([\d.]+)rem,\s*([\d.]+)rem\s*\+\s*([\d.]+)vw,\s*([\d.]+)rem\s*\)$"
+)
+OKLCH_RE =re.compile(r"^oklch\(\s*([\d.]+)%\s+([\d.]+)\s+([\d.]+)\s*\)$")
 
 
 def parse_value(v):
@@ -53,6 +56,15 @@ def parse_value(v):
         return "color", {"colorSpace": "srgb",
                          "components": [round(r, 4), round(g, 4), round(b, 4)],
                          "hex": v.lower()}
+    m = FLUID_RE.match(v)
+    if m:
+        fl, ba, gr, ce = (float(x) for x in m.groups())
+        return "fluidDimension", {
+            "floor": {"value": fl, "unit": "rem"},
+            "base": {"value": ba, "unit": "rem"},
+            "grow": {"value": gr, "unit": "vw"},
+            "ceiling": {"value": ce, "unit": "rem"},
+        }
     m = DIM_RE.match(v)
     if m:
         return "dimension", {"value": float(m.group(1)), "unit": m.group(2)}
@@ -74,6 +86,12 @@ def emit_value(typ, val):
         raise ValueError(f"unhandled color: {val}")
     if typ == "dimension":
         return f"{val['value']:g}{val['unit']}"
+    if typ == "fluidDimension":
+        # clamp(floor, base + grow, ceiling): grows with the viewport, never
+        # below a rem floor (bin/check-theme enforces the floor). For spacing,
+        # not text (spec/responsive).
+        d = lambda x: f"{x['value']:g}{x['unit']}"
+        return f"clamp({d(val['floor'])}, {d(val['base'])} + {d(val['grow'])}, {d(val['ceiling'])})"
     if typ == "number":
         return f"{val:g}"
     raise ValueError(typ)

@@ -154,6 +154,14 @@
        easy to read. */
     --depth: 0;
     --noise: 0;
+    /* Fluid inline gutter for page containers and the main
+       region: grows with the viewport from a 1rem floor to a 2rem
+       ceiling. Spacing only, never text. */
+    --space-fluid-gutter: clamp(1rem, 0.5rem + 2vw, 2rem);
+    /* Fluid gap between sections (stacks and grids): grows with
+       the viewport from a 1rem floor to a 2rem ceiling. Spacing
+       only, never text. */
+    --space-fluid-section: clamp(1rem, 0.75rem + 1vw, 2rem);
 }
 
 /* ----------------------------------------------------------------------------
@@ -1591,7 +1599,7 @@
         display: block;
         width: 100%;
         margin-inline: auto;
-        padding-inline: 1rem;
+        padding-inline: var(--space-fluid-gutter);
         box-sizing: border-box;
     }
     /* Fixed-width — caps at a comfortable reading width (~1152px). */
@@ -1611,11 +1619,11 @@
     :where(.flex-stack) {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: var(--space-fluid-section);
     }
     :where(.grid) {
         display: grid;
-        gap: 1rem;
+        gap: var(--space-fluid-section);
     }
     :where(.masonry) {
         column-count: 3;
@@ -1670,7 +1678,7 @@
     :where(.content-block) {
         max-width: var(--content-width-normal);
         margin-inline: auto;
-        padding-inline: 1rem;
+        padding-inline: var(--space-fluid-gutter);
         box-sizing: border-box;
     }
     :where(.content-block[data-width="narrower"]) {
@@ -1688,7 +1696,8 @@
 
     /* --- Grail layout (5-region responsive page shell) --------------------- */
     /* Header spans the top; left-aside / main / right-aside fill the middle;
-       footer spans the bottom. At ≤768px the asides drop below the main. */
+       footer spans the bottom. The collapse as the window narrows is in the shared
+       container section at the end of this file. */
     :where(.grail-layout) {
         display: grid;
         min-height: 100vh;
@@ -1728,15 +1737,7 @@
     }
     /* Main content area — primary surface, more generous padding. */
     :where(.grail-layout-center-main) {
-        padding: 1.5rem;
-    }
-    /* Mobile breakpoint — collapse to a single column, stacking the regions. */
-    @media (max-width: 48rem) {
-        :where(.grail-layout) {
-            grid-template-areas: "header" "main" "left" "right" "footer";
-            grid-template-columns: 1fr;
-            grid-template-rows: auto auto auto auto auto;
-        }
+        padding: var(--space-fluid-gutter);
     }
 
     /* Standalone semantic header / footer landmarks. */
@@ -3852,6 +3853,125 @@
 }
 
 /* ============================================================================
+ * Scoped overflow — shared verbatim by all themes.
+ *
+ * Long unbroken strings (a national identifier, an email address, a URL) and
+ * grid/flex tracks that refuse to shrink are the usual causes of horizontal
+ * page scroll (WCAG 1.4.10). Both fixes are scoped, never put on `body` or `*`:
+ * `overflow-wrap: anywhere` on the places a long value lands (table cells are
+ * covered by Overflow guards above), and `min-inline-size: 0` on the direct
+ * children of Lily's grid and flex containers so a child can shrink below its
+ * content. The identifier `-view` list below is the catalog's 70 national
+ * identifier views (components-categories.tsv); bin/check-theme fails when it
+ * drifts from the catalog. :where() keeps specificity at zero.
+ * ========================================================================= */
+
+:where(
+    .alba-community-health-index-view,
+    .australia-individual-healthcare-identifier-view,
+    .belgique-numero-de-registre-national-view,
+    .bulgaria-edinen-grazhdanski-nomer-view,
+    .cesko-cestovni-pas-view,
+    .cesko-rodne-cislo-view,
+    .cymru-rhif-y-gwasanaeth-iechyd-gwladol-view,
+    .kypros-national-passport-number-view,
+    .danmark-personnummer-view,
+    .deutschland-krankenversichertennummer-view,
+    .eesti-isikukood-view,
+    .ellada-dematerialised-securities-system-view,
+    .england-national-health-service-number-view,
+    .espana-codigo-de-identificacion-fiscal-view,
+    .espana-tarjeta-sanitaria-individual-view,
+    .france-numero-d-identification-au-repertoire-view,
+    .hrvatska-osobni-identifikacijski-broj-view,
+    .eire-individual-health-identifier-view,
+    .island-kennitala-view,
+    .italia-codice-fiscale-view,
+    .latvija-personas-kods-view,
+    .liechtenstein-national-identity-card-number-view,
+    .liechtenstein-passport-number-view,
+    .lietuva-asmens-kodas-view,
+    .lietuva-pasas-view,
+    .malta-national-identification-number-view,
+    .malta-passport-number-view,
+    .nederland-burgerservice-nummer-view,
+    .nederland-identiteitskaart-nummer-view,
+    .nederland-paspoort-nummer-view,
+    .norge-fodselsnummer-view,
+    .tuaisceart-eireann-health-and-care-number-view,
+    .polska-numer-identyfikacji-podatkowej-view,
+    .polska-pesel-view,
+    .portugal-numero-de-identificacao-fiscal-view,
+    .portugal-passaporte-view,
+    .romania-cod-numeric-personal-view,
+    .romania-pasaport-view,
+    .slovenija-emso-view,
+    .slovensko-pas-view,
+    .slovensko-rodne-cislo-view,
+    .suomi-henkilotunnus-view,
+    .sverige-personnummer-view,
+    .united-kingdom-national-health-service-number-view,
+    .united-kingdom-national-insurance-number-view,
+    .united-states-social-security-number-view,
+    .aotearoa-national-health-index-view,
+    .pilipinas-philhealth-identification-number-view,
+    .brasil-cartao-nacional-de-saude-view,
+    .schweiz-ahv-nummer-view,
+    .canada-social-insurance-number-view,
+    .hanguk-jumin-deungnok-beonho-view,
+    .nihon-kojin-bango-view,
+    .bharat-aadhaar-view,
+    .yisrael-teudat-zehut-view,
+    .south-africa-identity-number-view,
+    .mexico-clave-unica-de-registro-de-poblacion-view,
+    .singapore-national-registration-identity-card-view,
+    .osterreich-sozialversicherungsnummer-view,
+    .magyarorszag-taj-szam-view,
+    .luxembourg-matricule-view,
+    .zhongguo-jumin-shenfenzheng-haoma-view,
+    .rossiya-snils-view,
+    .turkiye-tc-kimlik-numarasi-view,
+    .argentina-codigo-unico-de-identificacion-laboral-view,
+    .ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view,
+    .indonesia-nomor-induk-kependudukan-view,
+    .prathet-thai-lek-prajam-tua-prachachon-view,
+    .chile-rol-unico-nacional-view,
+    .misr-al-raqm-al-qawmi-view
+) {
+    overflow-wrap: anywhere;
+}
+
+:where(.summary-list, .summary-list-item, .description-list) :where(dd) {
+    overflow-wrap: anywhere;
+}
+
+:where(
+    .grid,
+    .flex-stack,
+    .grail-layout,
+    .summary-list,
+    .description-list,
+    .form,
+    .editable-form,
+    .field,
+    .input-group,
+    .button-group,
+    .radio-group,
+    .checkbox-group,
+    .toggle-group,
+    .tag-group,
+    .split-view,
+    .photo-pack,
+    .data-filter-form,
+    .action-bar,
+    .tool-bar,
+    .menu-bar,
+    .tab-bar
+) > :where(*) {
+    min-inline-size: 0;
+}
+
+/* ============================================================================
  * Helper packages — layout and look, shared verbatim by all themes.
  *
  * The data grid, kanban board, Gantt chart and calendar view are wide by nature.
@@ -4017,6 +4137,37 @@
 
 :where(.grail-layout-left-aside, .grail-layout-center-main, .grail-layout-right-aside) {
     container-type: inline-size;
+}
+
+/* grail-layout collapse (contract: components/grail-layout/AGENTS.md). The page shell answers to the
+   window, so these are viewport queries: the grail-layout root is not a container, only its regions are.
+   Priority: the right aside collapses first (at lg it drops below main, full width), then the left aside
+   (at md everything is one column). Every step keeps DOM order = visual order (header, left aside, main,
+   right aside, footer), so reading and tab order match what is seen (WCAG 1.3.2, 2.4.3); nothing is
+   hidden, so all content stays reachable. */
+@media (max-width: 64rem) {
+    :where(.grail-layout) {
+        grid-template-areas:
+            "header header"
+            "left   main"
+            "right  right"
+            "footer footer";
+        grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+        grid-template-rows: auto auto auto auto;
+    }
+}
+
+@media (max-width: 48rem) {
+    :where(.grail-layout) {
+        grid-template-areas:
+            "header"
+            "left"
+            "main"
+            "right"
+            "footer";
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto auto auto auto auto;
+    }
 }
 
 @container (max-width: 30rem) {

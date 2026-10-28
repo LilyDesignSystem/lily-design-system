@@ -30,7 +30,9 @@
         "--size-field",
         "--border",
         "--depth",
-        "--noise"
+        "--noise",
+        "--space-fluid-gutter",
+        "--space-fluid-section"
       ]
     }
   },
@@ -342,6 +344,52 @@
       "$type": "number",
       "$value": 1.0,
       "$description": "Noise flag (0 or 1). Reserved for theme extensions that want to layer a subtle texture; the baseline rules do not consume it."
+    }
+  },
+  "space": {
+    "fluid-gutter": {
+      "$type": "fluidDimension",
+      "$value": {
+        "floor": {
+          "value": 1,
+          "unit": "rem"
+        },
+        "base": {
+          "value": 0.5,
+          "unit": "rem"
+        },
+        "grow": {
+          "value": 2,
+          "unit": "vw"
+        },
+        "ceiling": {
+          "value": 2,
+          "unit": "rem"
+        }
+      },
+      "$description": "Fluid inline gutter for page containers and the main region: grows with the viewport from a 1rem floor to a 2rem ceiling. Spacing only, never text."
+    },
+    "fluid-section": {
+      "$type": "fluidDimension",
+      "$value": {
+        "floor": {
+          "value": 1,
+          "unit": "rem"
+        },
+        "base": {
+          "value": 0.75,
+          "unit": "rem"
+        },
+        "grow": {
+          "value": 1,
+          "unit": "vw"
+        },
+        "ceiling": {
+          "value": 2,
+          "unit": "rem"
+        }
+      },
+      "$description": "Fluid gap between sections (stacks and grids): grows with the viewport from a 1rem floor to a 2rem ceiling. Spacing only, never text."
     }
   }
 }
