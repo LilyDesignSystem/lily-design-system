@@ -38,6 +38,11 @@ Asserts the contracts a theme stylesheet must honour (plan P3-T5):
      sets `container-type` somewhere: a query with no container never matches
      and fails silently (spec/stephcraft-lessons, plan P15-T2).
 
+  9. Breakpoints are in the published table. Every viewport `@media` width
+     (`min-width` / `max-width`) is in `rem` and is one of BREAKPOINTS_REM
+     (spec/responsive, plan P15-T3). `@media` cannot read a custom property, so
+     the table is the single source and this check is what keeps it one.
+
 Exits non-zero listing every violation. Wired into bin/test.
 
 `bin/check-theme --contrast` (plan P10-T4) is a separate, report-only pass:
@@ -83,6 +88,10 @@ REQUIRED_TOKENS = [
     "--lily-picker-icon-scale",
     "--radius-box", "--radius-field", "--radius-selector",
 ]
+
+# The breakpoint table (spec/responsive), in rem: Tailwind's scale. 40rem is
+# DHCW's tablet breakpoint (NHS Wales for patients); 48rem is the page shell.
+BREAKPOINTS_REM = ("40rem", "48rem", "64rem", "80rem", "96rem")
 
 SHARED_SECTIONS = (
     "target-size (minimum) floor",
@@ -349,6 +358,14 @@ def main() -> int:
         for m in re.finditer(r"([^{}]*\[aria-current=\"date\"\][^{}]*)\{([^{}]*)\}", css):
             if re.search(r"\bbackground(-color|-image)?\s*:", m.group(2)):
                 errors.append(f"{base}: the current-day rule {m.group(1).strip()[:60]!r} sets a background (use an outline or a border)")
+
+        # 9. viewport breakpoints come from the published table, in rem
+        for m in re.finditer(r"@media[^{]*?\(\s*(?:min|max)-width\s*:\s*([^)]+?)\s*\)", css):
+            if m.group(1) not in BREAKPOINTS_REM:
+                errors.append(
+                    f"{base}: @media width {m.group(1)!r} is not in the breakpoint table "
+                    f"({', '.join(BREAKPOINTS_REM)}); see spec/responsive"
+                )
 
         # 8. a query needs a container: without container-type it never matches
         if "@container" in css and "container-type" not in css:

@@ -23,6 +23,23 @@ It does **not** cover: the headless markup rules (see [headless](../headless/ind
 - **`(hover: none)` and `(pointer: coarse)`** decide touch affordances, not viewport width.
 - **Headless stays clean.** No media or container queries, `vw`/`vh` units or breakpoint literals in a component ([theme](../theme/index.md)).
 
+## Breakpoint table
+
+`@media` cannot read a custom property, so a `--lily-breakpoint-md` token would not work. The numbers are written
+down here instead, in `rem` (Tailwind's scale, so adopters moving between systems see no surprises), and
+`bin/check-theme` rejects any viewport `@media` width in a theme that is not in the table.
+
+| Name  | Width   | Used today                                                                |
+| ----- | ------- | ------------------------------------------------------------------------- |
+| `sm`  | `40rem` | NHS Wales for patients: a primary button in a form goes full width (DHCW) |
+| `md`  | `48rem` | All 57 themes: `grail-layout` collapses to one column                     |
+| `lg`  | `64rem` | unused                                                                    |
+| `xl`  | `80rem` | unused                                                                    |
+| `2xl` | `96rem` | unused                                                                    |
+
+A new breakpoint is a change to this table and to `BREAKPOINTS_REM` in `bin/check-theme`, in the same commit.
+Container queries ( `@container` ) size a component, not the page, and are not in this table.
+
 ## Current state of the themes
 
 Measured 2026-10-28 over `themes/*.css`: every theme has one `@media (max-width: 48rem)` query, so they are
@@ -36,7 +53,7 @@ full-width blocks). Moving the themes to `min-width` queries is not planned: the
 | Rule                    | Check today                                                                          | Planned                              |
 | ----------------------- | ------------------------------------------------------------------------------------ | ------------------------------------ |
 | No horizontal overflow  | Four-viewport sweep in every example app                                             | 320px and 400% zoom (P15-T8)         |
-| Breakpoints in `rem`    | none                                                                                 | `bin/check-theme` (P15-T3)           |
+| Breakpoints in `rem`    | `bin/check-theme` rule 9, against the table above                                    | none                                 |
 | `container-type` set    | `bin/check-theme` rule 8; the section is pinned across all 57 themes                 | none                                 |
 | No `100vw` on `body`    | none                                                                                 | `bin/check-theme` (P15-T1 follow-up) |
 | Headless has no queries | Forbidden-literal list in [AGENTS/theme.md](../../AGENTS/theme.md), reviewed by hand | none                                 |
@@ -45,7 +62,8 @@ full-width blocks). Moving the themes to `min-width` queries is not planned: the
 
 - [x] `AGENTS/responsive.md` states the rules and is loaded by `AGENTS.md`.
 - [x] This topic is listed in the spec index.
-- [ ] `bin/check-theme` rejects `px` breakpoints and `100vw` widths in `themes/*.css`.
+- [x] `bin/check-theme` rejects `px` and off-table viewport breakpoints in `themes/*.css`.
+- [ ] `bin/check-theme` rejects `100vw` widths on `body` and full-width blocks.
 - [ ] The rules are reflected in the Lily skills ([agent-skills](../agent-skills/index.md)).
 
 ## Related topics
