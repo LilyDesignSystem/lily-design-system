@@ -5,7 +5,7 @@ A select dropdown showing a tree of hierarchical options. The component is a `ro
 ## Implementation Notes
 
 - `label` is non-optional -- the combobox MUST have an accessible name
-- `aria-multiselectable` is set when `multiple=true`
+- `data-multiple="true"` is set when `multiple=true`
 - The trigger is a `<button type="button">`
 - The panel uses the `hidden` attribute, controlled by `expanded`
 - Display text falls back from `value` to `placeholder`
@@ -15,7 +15,7 @@ A select dropdown showing a tree of hierarchical options. The component is a `ro
 - `label`: string (**required**) -- aria-label
 - `expanded`: boolean (default: `false`)
 - `disabled`: boolean (default: `false`)
-- `multiple`: boolean (default: `false`) -- sets `aria-multiselectable`
+- `multiple`: boolean (default: `false`) -- sets `data-multiple`
 - `placeholder`: string (optional)
 - `value`: string (optional) -- display value
 - `onClick`: (event: React.MouseEvent) => void (optional)
@@ -46,4 +46,4 @@ A select dropdown showing a tree of hierarchical options. The component is a `ro
 - `aria-haspopup="tree"`
 - `aria-expanded` reflects `expanded`
 - `aria-label` from the `label` prop
-- `aria-multiselectable` when `multiple=true`
+- `data-multiple` when `multiple=true`

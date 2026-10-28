@@ -39,14 +39,14 @@ describe("TreeSelect", () => {
         expect((host.querySelector(".tree-select-panel") as HTMLElement).hidden).toBe(false);
     });
 
-    test("aria-multiselectable is set only when multiple is present", () => {
+    test("data-multiple is set only when multiple is present", () => {
         const single = render('<lily-tree-select label="Select category"></lily-tree-select>');
-        expect(single.hasAttribute("aria-multiselectable")).toBe(false);
+        expect(single.hasAttribute("data-multiple")).toBe(false);
 
         document.body.innerHTML = "";
 
         const multi = render('<lily-tree-select label="Select departments" multiple></lily-tree-select>');
-        expect(multi.getAttribute("aria-multiselectable")).toBe("true");
+        expect(multi.getAttribute("data-multiple")).toBe("true");
     });
 
     test("trigger shows value, falling back to placeholder, then empty", () => {

@@ -14,8 +14,8 @@
     - aria-haspopup="tree" indicates a hierarchical popup
     - aria-expanded reflects panel visibility
     - aria-label is REQUIRED — the accessible name
-    - aria-multiselectable="true" is set when the consumer enables multiple
-      selection (omitted otherwise so the default false applies)
+    - data-multiple="true" marks multiple selection (aria-multiselectable is
+      invalid on a combobox; put it on the consumer's role="tree" instead)
 
   Behavior:
     Renders a <div role="combobox"> with a <button class="tree-select-trigger">

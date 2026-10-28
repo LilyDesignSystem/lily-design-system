@@ -19,7 +19,8 @@
     //
     // Accessibility:
     //   - role="combobox" with aria-haspopup="tree", aria-expanded, aria-label,
-    //     aria-multiselectable when multiple=true.
+    //     data-multiple="true" when multiple=true (aria-multiselectable is not
+    //     valid on a combobox; the consumer's role="tree" carries it).
     //   - Trigger is a native <button>.
     //
     // Internationalization:
@@ -70,14 +71,13 @@
 </script>
 
 <!-- TreeSelect.svelte -->
-<!-- svelte-ignore a11y_role_supports_aria_props (aria-multiselectable is not valid on a combobox; kept as the documented multiple-mode signal; known gap) -->
 <div
     class={`tree-select ${className}`}
     role="combobox"
     aria-haspopup="tree"
     aria-expanded={expanded}
     aria-label={label}
-    aria-multiselectable={multiple || undefined}
+    data-multiple={multiple || undefined}
     {...restProps}
 >
     <button

@@ -135,7 +135,9 @@ describe("TreeSelect", () => {
   });
   it("multiple mode keeps the panel open and selects several", async () => {
     await mount("tree-select", snippet("tree-select").replace("lilyTreeSelect()", "lilyTreeSelect(true)"));
-    expect(el().getAttribute("aria-multiselectable")).toBe("true");
+    expect(el().getAttribute("data-multiple")).toBe("true");
+    expect(el().hasAttribute("aria-multiselectable")).toBe(false);
+    expect(el().querySelector('[role="tree"]').getAttribute("aria-multiselectable")).toBe("true");
     await open();
     item("two").click(); await tick();
     item("three").click(); await tick();

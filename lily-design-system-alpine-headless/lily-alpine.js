@@ -860,7 +860,7 @@ export default function lily(Alpine) {
       },
       root: {
         ":aria-expanded"() { return String(this.open); },
-        ":aria-multiselectable"() { return this.multiple ? "true" : null; },
+        ":data-multiple"() { return this.multiple ? "true" : null; },
         "@keydown.escape"() {
           if (!this.open) return;
           this.open = false;
@@ -878,6 +878,11 @@ export default function lily(Alpine) {
       },
       panel: {
         ":hidden"() { return !this.open; },
+      },
+      // aria-multiselectable is valid on the tree, not on the combobox root.
+      tree: {
+        "@keydown"(event) { this.treeKey(event); },
+        ":aria-multiselectable"() { return this.multiple ? "true" : null; },
       },
     }));
   popupTree("lilyTreeSelect", false);

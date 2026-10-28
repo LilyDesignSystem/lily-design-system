@@ -9,8 +9,9 @@ that wraps a trigger `<button>` and a panel containing a tree of
 options. Consumers compose the inner tree (typically `<ul role="tree">`
 or a `TreeNav`/`TreeList` component).
 
-When `multiple` is `true`, the container reports
-`aria-multiselectable="true"` so assistive technology announces the
+When `multiple` is `true`, the container carries
+`data-multiple="true"`. `aria-multiselectable` is invalid on a combobox, so
+put it on your own `role="tree"` for assistive technology to announce the
 multi-select behaviour.
 
 ## HTML tag
@@ -28,7 +29,7 @@ multi-select behaviour.
   open (`aria-expanded`).
 - `disabled` — boolean. Disables the trigger button.
 - `multiple` — boolean. Default `false`. Sets
-  `aria-multiselectable="true"` on the container.
+  `data-multiple="true"` on the container.
 - `placeholder` — string. Placeholder text on the trigger when no
   value is selected.
 - `value` — string. Display value (consumer formats label).
@@ -77,7 +78,7 @@ Follow the
 - `role="combobox"` and `aria-haspopup="tree"` describe the
   trigger/panel relationship.
 - `aria-expanded` reflects the panel state.
-- `aria-multiselectable` is added when `multiple` is `true`.
+- `data-multiple` is added when `multiple` is `true`.
 - `aria-label` supplies the accessible name. Use `attributes` to
   pass `aria-labelledby` instead when a visible label exists.
 
@@ -89,7 +90,7 @@ navigation, selection, and styling.
 ## Testing
 
 `components/tree-select/macro.test.js` verifies the role, aria
-attributes including `aria-multiselectable`, expanded/disabled state,
+attributes including `data-multiple`, expanded/disabled state,
 trigger placeholder/value, hidden panel, and pass-through.
 
 ## References

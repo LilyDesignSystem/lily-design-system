@@ -10,7 +10,7 @@
     //   label       — string, REQUIRED. aria-label.
     //   expanded    — boolean, default false. Whether the tree panel is open.
     //   disabled    — boolean, default false.
-    //   multiple    — boolean, default false. Sets aria-multiselectable.
+    //   multiple    — boolean, default false. Sets data-multiple.
     //   placeholder — string, optional.
     //   value       — string, optional. Display value.
     //   default slot — tree content (typically TreeNav/TreeList).
@@ -24,7 +24,7 @@
     // Accessibility:
     //   - role="combobox" with aria-haspopup="tree"
     //   - aria-expanded reflects panel visibility
-    //   - aria-multiselectable when multiple=true
+    //   - data-multiple when multiple=true (aria-multiselectable is invalid on a combobox)
     //
     // Internationalization:
     //   - All text content (label, value, placeholder) is consumer-supplied.
@@ -64,7 +64,7 @@
         (e: "click", event: MouseEvent): void;
     }>();
 
-    const ariaMultiselectable = computed<boolean | undefined>(() => (props.multiple ? true : undefined));
+    const dataMultiple = computed<boolean | undefined>(() => (props.multiple ? true : undefined));
 
 </script>
 
@@ -76,7 +76,7 @@
         aria-haspopup="tree"
         :aria-expanded="expanded"
         :aria-label="label"
-        :aria-multiselectable="ariaMultiselectable"
+        :data-multiple="dataMultiple"
     >
         <button
             class="tree-select-trigger"

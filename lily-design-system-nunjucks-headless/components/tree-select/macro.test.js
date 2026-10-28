@@ -31,20 +31,20 @@ describe("tree-select", () => {
       .toBe("true");
   });
 
-  it("omits aria-multiselectable by default", () => {
+  it("omits data-multiple by default", () => {
     const { document } = render("tree-select", { label: "Category" });
     expect(
-      document.querySelector("div.tree-select").hasAttribute("aria-multiselectable"),
+      document.querySelector("div.tree-select").hasAttribute("data-multiple"),
     ).toBe(false);
   });
 
-  it("renders aria-multiselectable='true' when multiple is true", () => {
+  it("renders data-multiple='true' when multiple is true", () => {
     const { document } = render("tree-select", {
       label: "Category",
       multiple: true,
     });
     expect(
-      document.querySelector("div.tree-select").getAttribute("aria-multiselectable"),
+      document.querySelector("div.tree-select").getAttribute("data-multiple"),
     ).toBe("true");
   });
 

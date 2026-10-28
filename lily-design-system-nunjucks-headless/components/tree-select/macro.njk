@@ -7,14 +7,14 @@
   Accessibility:
     - role="combobox", aria-haspopup="tree".
     - aria-expanded reflects the panel state.
-    - aria-multiselectable when `multiple` is true.
+    - data-multiple when `multiple` is true.
     - aria-label is REQUIRED.
 
   Params:
     label        string   REQUIRED. aria-label for the combobox.
     expanded     boolean  Whether the tree panel is open. Default false.
     disabled     boolean  Disables the trigger button. Default false.
-    multiple     boolean  When true, sets aria-multiselectable="true".
+    multiple     boolean  When true, sets data-multiple="true".
                           Default false.
     placeholder  string   Placeholder text on the trigger button.
     value        string   Display value (consumer formats label).
@@ -41,7 +41,7 @@
   role="combobox"
   aria-haspopup="tree"
   aria-expanded="{{ 'true' if p.expanded else 'false' }}"
-  {%- if p.multiple %} aria-multiselectable="true"{% endif %}
+  {%- if p.multiple %} data-multiple="true"{% endif %}
   {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >

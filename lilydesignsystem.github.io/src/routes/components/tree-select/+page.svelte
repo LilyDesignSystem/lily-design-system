@@ -86,7 +86,7 @@
       <li>aria-haspopup="tree"</li>
       <li>aria-expanded reflects expanded prop</li>
       <li>aria-label is the accessible name (required)</li>
-      <li>aria-multiselectable="true" only when multiple is true</li>
+      <li>data-multiple="true" only when multiple is true; no aria-multiselectable on the combobox</li>
     </ul>
     <h3>Keyboard</h3>
     <ul>

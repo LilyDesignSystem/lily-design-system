@@ -14,7 +14,7 @@
 //   expanded — presence-based boolean; bindable (also a JS `expanded`
 //     property, mirroring split-button's `menuOpen`).
 //   disabled — presence-based boolean; disables the trigger.
-//   multiple — presence-based boolean; sets aria-multiselectable="true".
+//   multiple — presence-based boolean; sets data-multiple="true".
 //   placeholder — optional. Trigger text when no value is set.
 //   value — optional. Display value shown on the trigger.
 //
@@ -48,7 +48,7 @@ export class TreeSelect extends HTMLElement {
         this.setAttribute("aria-haspopup", "tree");
         const label = this.getAttribute("label");
         if (label !== null) this.setAttribute("aria-label", label);
-        if (this.hasAttribute("multiple")) this.setAttribute("aria-multiselectable", "true");
+        if (this.hasAttribute("multiple")) this.setAttribute("data-multiple", "true");
 
         const trigger = document.createElement("button");
         trigger.type = "button";

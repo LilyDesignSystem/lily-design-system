@@ -43,24 +43,24 @@ describe("TreeSelect", () => {
         expect(root.getAttribute("aria-expanded")).toBe("true");
     });
 
-    test("aria-multiselectable set when multiple=true", () => {
+    test("data-multiple set when multiple=true", () => {
         const { container } = render(Subject, { props: {
             label: "Category",
             multiple: true,
         }});
 
         const root = container.querySelector("div.tree-select") as HTMLElement;
-        expect(root.getAttribute("aria-multiselectable")).toBe("true");
+        expect(root.getAttribute("data-multiple")).toBe("true");
     });
 
-    test("aria-multiselectable absent when multiple=false", () => {
+    test("data-multiple absent when multiple=false", () => {
         const { container } = render(Subject, { props: {
             label: "Category",
             multiple: false,
         }});
 
         const root = container.querySelector("div.tree-select") as HTMLElement;
-        expect(root.getAttribute("aria-multiselectable")).toBeNull();
+        expect(root.getAttribute("data-multiple")).toBeNull();
     });
 
     test("panel hidden when not expanded", () => {

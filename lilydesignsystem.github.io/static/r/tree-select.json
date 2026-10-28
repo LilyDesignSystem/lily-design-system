@@ -16,7 +16,7 @@
     "aria-haspopup=\"tree\"",
     "aria-expanded reflects expanded prop",
     "aria-label is the accessible name (required)",
-    "aria-multiselectable=\"true\" only when multiple is true"
+    "data-multiple=\"true\" only when multiple is true; no aria-multiselectable on the combobox"
   ],
   "keyboard": [
     "Tab: Focus the trigger",

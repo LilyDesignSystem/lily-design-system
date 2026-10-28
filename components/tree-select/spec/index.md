@@ -14,7 +14,7 @@ Implement the TreeSelect component: a select dropdown showing a tree of hierarch
 ## Approach
 
 1. Use semantic <div> container with role="combobox" and class="tree-select"
-2. Apply aria-haspopup="tree", aria-expanded, aria-label, and aria-multiselectable when multiple
+2. Apply aria-haspopup="tree", aria-expanded, aria-label, and data-multiple when multiple
 3. Render <button class="tree-select-trigger" type="button"> with the trigger label/value/placeholder
 4. Render <div class="tree-select-panel"> for the dropdown content
 5. Toggle panel visibility with the hidden attribute based on expanded
@@ -29,7 +29,7 @@ Implement the TreeSelect component: a select dropdown showing a tree of hierarch
 
 - [ ] Renders <div role="combobox"> with class="tree-select"
 - [ ] Trigger and panel have correct classes and behavior
-- [ ] aria-haspopup, aria-expanded, aria-label, aria-multiselectable, disabled, hidden applied correctly
+- [ ] aria-haspopup, aria-expanded, aria-label, data-multiple, disabled, hidden applied correctly
 - [ ] All user-facing strings come through props or params (i18n-ready)
 - [ ] Headless: zero CSS classes beyond the base classes plus consumer extras
 - [ ] WCAG 2.2 AAA compliant

@@ -7,7 +7,7 @@ A select dropdown showing a tree of hierarchical options. Renders a `role="combo
 - Headless: no CSS, no styles
 - `label` is **required** and non-optional in the TypeScript interface
 - Container uses `role="combobox"` with `aria-haspopup="tree"`
-- When `multiple` is `true`, `aria-multiselectable="true"` is set on the container
+- When `multiple` is `true`, `data-multiple="true"` is set on the container
 - The panel is hidden when `expanded` is `false`
 
 ## Props
@@ -15,7 +15,7 @@ A select dropdown showing a tree of hierarchical options. Renders a `role="combo
 - `label`: string (**required**) — accessible name (aria-label)
 - `expanded`: boolean (default `false`) — whether the panel is open
 - `disabled`: boolean (default `false`)
-- `multiple`: boolean (default `false`) — sets `aria-multiselectable`
+- `multiple`: boolean (default `false`) — sets `data-multiple`
 - `placeholder`: string — placeholder text on the trigger
 - `value`: string — display value on the trigger
 - default slot — tree content (typically `TreeNav` / `TreeList`)
@@ -54,7 +54,7 @@ A select dropdown showing a tree of hierarchical options. Renders a `role="combo
 - `role="combobox"` on the container
 - `aria-haspopup="tree"`
 - `aria-expanded` reflects panel state
-- `aria-multiselectable` when `multiple` is `true`
+- `data-multiple` when `multiple` is `true`
 - `aria-label` is required
 
 ## When to Use
@@ -74,7 +74,7 @@ The component renders semantic HTML and ARIA structure. Consumers supply tree co
 ## Testing
 
 - Verify the root `tree-select` class and `role="combobox"`
-- Verify `aria-haspopup="tree"`, `aria-expanded`, `aria-label`, and `aria-multiselectable`
+- Verify `aria-haspopup="tree"`, `aria-expanded`, `aria-label`, and `data-multiple`
 - Verify trigger renders `value` or `placeholder`
 - Verify panel hidden state
 - Verify the click event is emitted

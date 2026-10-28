@@ -43,22 +43,22 @@ describe("TreeSelect", () => {
         expect(screen.getByRole("combobox").getAttribute("aria-expanded")).toBe("true");
     });
 
-    test("aria-multiselectable when multiple", () => {
+    test("data-multiple when multiple", () => {
         render(
             <Subject label="C" multiple>
                 <ul>x</ul>
             </Subject>
         );
-        expect(screen.getByRole("combobox").getAttribute("aria-multiselectable")).toBe("true");
+        expect(screen.getByRole("combobox").getAttribute("data-multiple")).toBe("true");
     });
 
-    test("no aria-multiselectable when single select", () => {
+    test("no data-multiple when single select", () => {
         render(
             <Subject label="C">
                 <ul>x</ul>
             </Subject>
         );
-        expect(screen.getByRole("combobox").getAttribute("aria-multiselectable")).toBeNull();
+        expect(screen.getByRole("combobox").getAttribute("data-multiple")).toBeNull();
     });
 
     test("trigger displays value when provided", () => {

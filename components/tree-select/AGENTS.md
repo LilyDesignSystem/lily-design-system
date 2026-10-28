@@ -16,7 +16,7 @@
 - Trigger is a native <button class="tree-select-trigger" type="button">
 - Panel is a <div class="tree-select-panel"> toggled with the hidden attribute
 - label prop is REQUIRED and sets aria-label on the combobox
-- multiple prop sets aria-multiselectable="true" when true
+- multiple prop sets data-multiple="true" on the combobox when true (aria-multiselectable is not valid on a combobox; the consumer's role="tree" carries it)
 - disabled disables the trigger button
 - Children typically include TreeNav/TreeList
 
@@ -26,7 +26,7 @@
 - aria-haspopup="tree"
 - aria-expanded reflects expanded prop
 - aria-label is the accessible name (required)
-- aria-multiselectable="true" only when multiple is true
+- data-multiple="true" only when multiple is true; no aria-multiselectable on the combobox
 
 ## Keyboard
 
@@ -53,7 +53,7 @@
 - [ ] role="combobox" and aria-haspopup="tree" are present
 - [ ] aria-expanded reflects the expanded prop
 - [ ] aria-label equals the label prop
-- [ ] aria-multiselectable="true" set only when multiple is true
+- [ ] data-multiple="true" set only when multiple is true
 - [ ] Trigger button has type="button" and respects disabled
 - [ ] Panel is hidden when expanded is false
 - [ ] Children render inside the panel

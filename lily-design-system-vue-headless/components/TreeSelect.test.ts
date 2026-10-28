@@ -36,18 +36,18 @@ describe("TreeSelect", () => {
         expect(root.getAttribute("aria-expanded")).toBe("true");
     });
 
-    test("aria-multiselectable true when multiple", () => {
+    test("data-multiple true when multiple", () => {
         const { container } = render(Subject, { props: { label: "Department", multiple: true } });
 
         const root: HTMLElement = container.firstElementChild as HTMLElement;
-        expect(root.getAttribute("aria-multiselectable")).toBe("true");
+        expect(root.getAttribute("data-multiple")).toBe("true");
     });
 
-    test("no aria-multiselectable when not multiple", () => {
+    test("no data-multiple when not multiple", () => {
         const { container } = render(Subject, { props: { label: "Department" } });
 
         const root: HTMLElement = container.firstElementChild as HTMLElement;
-        expect(root.getAttribute("aria-multiselectable")).toBeNull();
+        expect(root.getAttribute("data-multiple")).toBeNull();
     });
 
     test("renders trigger with placeholder when no value", () => {
