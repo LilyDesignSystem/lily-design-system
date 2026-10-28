@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@lilydesignsystem/nunjucks-date-time-picker": "^0.2.0",
-    "@lilydesignsystem/nunjucks-headless": "^0.5.0"
+    "@lilydesignsystem/nunjucks-headless": "^0.6.0"
   },
   "devDependencies": {
     "jsdom": "^30.1.3",
