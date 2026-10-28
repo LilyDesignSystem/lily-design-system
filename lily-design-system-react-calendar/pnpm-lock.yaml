@@ -15,8 +15,8 @@ importers:
         specifier: ^0.2.0
         version: 0.2.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@lilydesignsystem/react-headless':
-        specifier: ^0.5.1
-        version: 0.5.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+        specifier: ^0.6.0
+        version: 0.6.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
     devDependencies:
       '@testing-library/react':
         specifier: ^16.3.3
@@ -306,9 +306,9 @@ packages:
       react: ^18.0.0 || ^19.0.0
       react-dom: ^18.0.0 || ^19.0.0
 
-  '@lilydesignsystem/react-headless@0.5.1':
-    resolution: {integrity: sha512-JIq0bioEkxwfJedVrL9LsoJfUcX6ORhYskYCEzqOeH8vM/vw6kipIwA3cJgTfTbuoTrKKkorvl2mj6QbNy+kug==}
-    engines: {node: '=26'}
+  '@lilydesignsystem/react-headless@0.6.0':
+    resolution: {integrity: sha512-RGpS1RByuSyexqd5XywJ1KELWmIWaG/L67GjHNc+OpzKU2ErN7tb5uPo3+OEo9vrZ68yCdQ4PSi6LJYFHXmSEQ==}
+    engines: {node: '>=26'}
     peerDependencies:
       react: ^18.0.0 || ^19.0.0
       react-dom: ^18.0.0 || ^19.0.0
@@ -1342,7 +1342,7 @@ snapshots:
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
 
-  '@lilydesignsystem/react-headless@0.5.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
+  '@lilydesignsystem/react-headless@0.6.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
     dependencies:
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
