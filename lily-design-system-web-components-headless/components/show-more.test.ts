@@ -15,7 +15,8 @@ function render(html: string): HTMLElement {
     return document.body.firstElementChild as HTMLElement;
 }
 
-const BASE = '<lily-show-more more-label="Show more" less-label="Show less"><p>Long text</p></lily-show-more>';
+const BASE =
+    '<lily-show-more more-label="Show more" less-label="Show less"><p>Long text</p></lily-show-more>';
 
 describe("ShowMore", () => {
     test("root carries the show-more class", () => {
@@ -27,7 +28,9 @@ describe("ShowMore", () => {
         const button = host.querySelector("button.show-more-button")!;
         expect(button.textContent).toBe("Show more");
         expect(button.getAttribute("aria-expanded")).toBe("false");
-        expect(host.querySelector(".show-more-content")!.getAttribute("data-expanded")).toBe("false");
+        expect(host.querySelector(".show-more-content")!.getAttribute("data-expanded")).toBe(
+            "false",
+        );
     });
 
     test("content stays in the DOM and accessibility tree while collapsed", () => {
@@ -43,7 +46,9 @@ describe("ShowMore", () => {
         button.click();
         expect(button.textContent).toBe("Show less");
         expect(button.getAttribute("aria-expanded")).toBe("true");
-        expect(host.querySelector(".show-more-content")!.getAttribute("data-expanded")).toBe("true");
+        expect(host.querySelector(".show-more-content")!.getAttribute("data-expanded")).toBe(
+            "true",
+        );
         expect(host.hasAttribute("expanded")).toBe(true);
     });
 

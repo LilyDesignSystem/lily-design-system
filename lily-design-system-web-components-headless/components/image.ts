@@ -20,7 +20,8 @@ const HANDLED = new Set(["src", "alt", "caption", "loading"]);
 
 export class Image extends HTMLElement {
     connectedCallback(): void {
-        if (this.querySelector(":scope > img.image") || this.querySelector(":scope > figure.image")) return;
+        if (this.querySelector(":scope > img.image") || this.querySelector(":scope > figure.image"))
+            return;
 
         const src = this.getAttribute("src") ?? "";
         const alt = this.getAttribute("alt") ?? "";

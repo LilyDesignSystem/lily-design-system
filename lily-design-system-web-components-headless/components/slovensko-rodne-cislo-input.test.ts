@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("SlovenskoRodneCisloInput", () => {
     test("renders a native input type=text with the correct class", () => {
-        const host = render('<lily-slovensko-rodne-cislo-input label="Rodné číslo (RČ)"></lily-slovensko-rodne-cislo-input>');
+        const host = render(
+            '<lily-slovensko-rodne-cislo-input label="Rodné číslo (RČ)"></lily-slovensko-rodne-cislo-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.type).toBe("text");
@@ -25,13 +27,17 @@ describe("SlovenskoRodneCisloInput", () => {
     });
 
     test("always forces autocomplete=off, even if the consumer tries to override it", () => {
-        const host = render('<lily-slovensko-rodne-cislo-input label="Rodné číslo (RČ)" autocomplete="on"></lily-slovensko-rodne-cislo-input>');
+        const host = render(
+            '<lily-slovensko-rodne-cislo-input label="Rodné číslo (RČ)" autocomplete="on"></lily-slovensko-rodne-cislo-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("autocomplete")).toBe("off");
     });
 
     test("seeds the initial value and exposes a live value property", () => {
-        const host = render('<lily-slovensko-rodne-cislo-input label="Rodné číslo (RČ)" value="9606234816"></lily-slovensko-rodne-cislo-input>') as unknown as SlovenskoRodneCisloInput;
+        const host = render(
+            '<lily-slovensko-rodne-cislo-input label="Rodné číslo (RČ)" value="9606234816"></lily-slovensko-rodne-cislo-input>',
+        ) as unknown as SlovenskoRodneCisloInput;
 
         expect(host.value).toBe("9606234816");
 
@@ -40,7 +46,9 @@ describe("SlovenskoRodneCisloInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-slovensko-rodne-cislo-input label="Rodné číslo (RČ)" required disabled></lily-slovensko-rodne-cislo-input>');
+        const host = render(
+            '<lily-slovensko-rodne-cislo-input label="Rodné číslo (RČ)" required disabled></lily-slovensko-rodne-cislo-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -48,7 +56,9 @@ describe("SlovenskoRodneCisloInput", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-slovensko-rodne-cislo-input label="Rodné číslo (RČ)"></lily-slovensko-rodne-cislo-input>');
+        const host = render(
+            '<lily-slovensko-rodne-cislo-input label="Rodné číslo (RČ)"></lily-slovensko-rodne-cislo-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("Rodné číslo (RČ)");
     });

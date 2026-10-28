@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("BreadcrumbLink", () => {
     test("renders a native anchor with the given href", () => {
-        const host = render('<lily-breadcrumb-link href="/products">Products</lily-breadcrumb-link>');
+        const host = render(
+            '<lily-breadcrumb-link href="/products">Products</lily-breadcrumb-link>',
+        );
 
         const a = host.querySelector("a") as HTMLAnchorElement;
         expect(a.className).toBe("breadcrumb-link");
@@ -34,19 +36,25 @@ describe("BreadcrumbLink", () => {
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-breadcrumb-link href="/x" class="extra">Go</lily-breadcrumb-link>');
+        const host = render(
+            '<lily-breadcrumb-link href="/x" class="extra">Go</lily-breadcrumb-link>',
+        );
 
         expect(host.querySelector("a")!.className).toBe("breadcrumb-link extra");
     });
 
     test("passes through rest attributes", () => {
-        const host = render('<lily-breadcrumb-link href="/x" data-testid="crumb">Go</lily-breadcrumb-link>');
+        const host = render(
+            '<lily-breadcrumb-link href="/x" data-testid="crumb">Go</lily-breadcrumb-link>',
+        );
 
         expect(host.querySelector("a")!.getAttribute("data-testid")).toBe("crumb");
     });
 
     test("moves children into the rendered anchor", () => {
-        const host = render('<lily-breadcrumb-link href="/x"><span>Home</span></lily-breadcrumb-link>');
+        const host = render(
+            '<lily-breadcrumb-link href="/x"><span>Home</span></lily-breadcrumb-link>',
+        );
 
         expect(host.querySelector("a > span")!.textContent).toBe("Home");
     });

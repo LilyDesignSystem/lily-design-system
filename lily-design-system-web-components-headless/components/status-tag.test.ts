@@ -37,9 +37,13 @@ describe("StatusTag", () => {
     });
 
     test("an explicit label becomes aria-label", () => {
-        const host = render('<lily-status-tag label="Task status: completed">Completed</lily-status-tag>');
+        const host = render(
+            '<lily-status-tag label="Task status: completed">Completed</lily-status-tag>',
+        );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Task status: completed");
+        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
+            "Task status: completed",
+        );
     });
 
     test("omits aria-label when no label is given", () => {

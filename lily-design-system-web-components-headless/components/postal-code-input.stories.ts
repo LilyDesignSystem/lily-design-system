@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Forms/PostalCodeInput",
     render: (args) => h("lily-postal-code-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Postal code"
+        label: "Postal code",
     },
 };
 

@@ -7,7 +7,9 @@ describe("TuaisceartEireannHealthAndCareNumberInput", () => {
   test("renders the input root with the base class", () => {
     const fixture = TestBed.createComponent(TuaisceartEireannHealthAndCareNumberInput);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.tuaisceart-eireann-health-and-care-number-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.tuaisceart-eireann-health-and-care-number-input",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("TuaisceartEireannHealthAndCareNumberInput", () => {
     const fixture = TestBed.createComponent(TuaisceartEireannHealthAndCareNumberInput);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.tuaisceart-eireann-health-and-care-number-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.tuaisceart-eireann-health-and-care-number-input",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

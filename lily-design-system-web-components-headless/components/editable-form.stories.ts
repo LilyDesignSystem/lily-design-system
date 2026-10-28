@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Forms/EditableForm",
     render: (args) => h("lily-editable-form", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Edit profile",
-        "editing": true
+        label: "Edit profile",
+        editing: true,
     },
 };
 

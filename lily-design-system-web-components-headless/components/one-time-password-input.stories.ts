@@ -7,8 +7,9 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Forms/OneTimePasswordInput",
-    render: (args) => h("lily-one-time-password-input", args as Record<string, string | boolean>, SLOT),
-    args: { "label": "Verification code", "length": "6" },
+    render: (args) =>
+        h("lily-one-time-password-input", args as Record<string, string | boolean>, SLOT),
+    args: { label: "Verification code", length: "6" },
 };
 
 export default meta;

@@ -12,8 +12,8 @@ const meta: Meta = {
     title: "Content/Autosuggest",
     render: (args) => h("lily-autosuggest", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Country",
-        "placeholder": "Start typing…",
+        label: "Country",
+        placeholder: "Start typing…",
     },
 };
 

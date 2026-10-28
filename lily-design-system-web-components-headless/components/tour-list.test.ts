@@ -67,13 +67,17 @@ describe("TourList", () => {
     });
 
     test("moves its children into the ol", () => {
-        const host = render('<lily-tour-list label="Getting started" active><li>Welcome</li></lily-tour-list>');
+        const host = render(
+            '<lily-tour-list label="Getting started" active><li>Welcome</li></lily-tour-list>',
+        );
 
         expect(host.querySelector("ol > li")!.textContent).toBe("Welcome");
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-tour-list label="Getting started" class="extra"></lily-tour-list>');
+        const host = render(
+            '<lily-tour-list label="Getting started" class="extra"></lily-tour-list>',
+        );
 
         expect(host.querySelector("ol")!.className).toBe("tour-list extra");
     });

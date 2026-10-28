@@ -7,10 +7,15 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Pickers/RedOrangeYellowGreenBluePickerButton",
-    render: (args) => h("lily-red-orange-yellow-green-blue-picker-button", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-red-orange-yellow-green-blue-picker-button",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "value": "yellow",
-        "label": "Yellow - Caution"
+        value: "yellow",
+        label: "Yellow - Caution",
     },
 };
 

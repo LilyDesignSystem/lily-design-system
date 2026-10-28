@@ -39,7 +39,8 @@ export class ToolCall extends HTMLElement {
             details.appendChild(content);
 
             for (const child of Array.from(this.childNodes)) {
-                if (child instanceof Element && child.getAttribute("slot") === "summary") summary.appendChild(child);
+                if (child instanceof Element && child.getAttribute("slot") === "summary")
+                    summary.appendChild(child);
                 else content.appendChild(child);
             }
             this.appendChild(details);
@@ -67,6 +68,8 @@ export class ToolCall extends HTMLElement {
         const open = this.#details?.open ?? false;
         if (open === this.hasAttribute("open")) return;
         this.toggleAttribute("open", open);
-        this.dispatchEvent(new CustomEvent("lily-change", { detail: { open }, bubbles: true, composed: true }));
+        this.dispatchEvent(
+            new CustomEvent("lily-change", { detail: { open }, bubbles: true, composed: true }),
+        );
     };
 }

@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("ItaliaCodiceFiscaleInput", () => {
     test("renders a native input type=text with the correct class", () => {
-        const host = render('<lily-italia-codice-fiscale-input label="Codice Fiscale"></lily-italia-codice-fiscale-input>');
+        const host = render(
+            '<lily-italia-codice-fiscale-input label="Codice Fiscale"></lily-italia-codice-fiscale-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.type).toBe("text");
@@ -25,13 +27,17 @@ describe("ItaliaCodiceFiscaleInput", () => {
     });
 
     test("always forces autocomplete to off, even if the consumer tries to override it", () => {
-        const host = render('<lily-italia-codice-fiscale-input label="Codice Fiscale" autocomplete="on"></lily-italia-codice-fiscale-input>');
+        const host = render(
+            '<lily-italia-codice-fiscale-input label="Codice Fiscale" autocomplete="on"></lily-italia-codice-fiscale-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("autocomplete")).toBe("off");
     });
 
     test("seeds the initial value from the value attribute and exposes a live value property", () => {
-        const host = render('<lily-italia-codice-fiscale-input label="Codice Fiscale" value="RSSMRA85M01H501Z"></lily-italia-codice-fiscale-input>') as unknown as ItaliaCodiceFiscaleInput;
+        const host = render(
+            '<lily-italia-codice-fiscale-input label="Codice Fiscale" value="RSSMRA85M01H501Z"></lily-italia-codice-fiscale-input>',
+        ) as unknown as ItaliaCodiceFiscaleInput;
 
         expect((host.querySelector("input") as HTMLInputElement).value).toBe("RSSMRA85M01H501Z");
 
@@ -41,7 +47,9 @@ describe("ItaliaCodiceFiscaleInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-italia-codice-fiscale-input label="Codice Fiscale" required disabled></lily-italia-codice-fiscale-input>');
+        const host = render(
+            '<lily-italia-codice-fiscale-input label="Codice Fiscale" required disabled></lily-italia-codice-fiscale-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -49,7 +57,9 @@ describe("ItaliaCodiceFiscaleInput", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-italia-codice-fiscale-input label="Codice Fiscale"></lily-italia-codice-fiscale-input>');
+        const host = render(
+            '<lily-italia-codice-fiscale-input label="Codice Fiscale"></lily-italia-codice-fiscale-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("Codice Fiscale");
     });

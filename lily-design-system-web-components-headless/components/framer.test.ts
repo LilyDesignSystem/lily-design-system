@@ -17,7 +17,7 @@ function render(html: string): HTMLElement {
 
 describe("Framer", () => {
     test("renders as itself with the base class", () => {
-        const host = render("<lily-framer><img src=\"a.jpg\" alt=\"A\" /></lily-framer>");
+        const host = render('<lily-framer><img src="a.jpg" alt="A" /></lily-framer>');
 
         expect(host.tagName.toLowerCase()).toBe("lily-framer");
         expect(host.className).toBe("framer");

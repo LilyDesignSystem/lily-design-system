@@ -27,7 +27,8 @@ function key(el: Element, k: string) {
   return event;
 }
 
-const ITEMS = '<button role="tab">One</button><button role="tab">Two</button><button role="tab">Three</button>';
+const ITEMS =
+  '<button role="tab">One</button><button role="tab">Two</button><button role="tab">Three</button>';
 
 describe("TabBar — role and roving focus", () => {
   function create() {

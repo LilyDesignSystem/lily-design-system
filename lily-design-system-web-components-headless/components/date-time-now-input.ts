@@ -118,7 +118,11 @@ export class DateTimeNowInput extends HTMLElement {
         this.setAttribute("date-value", dateValue);
         this.setAttribute("time-value", timeValue);
         this.dispatchEvent(
-            new CustomEvent("lily-change", { detail: { dateValue, timeValue }, bubbles: true, composed: true }),
+            new CustomEvent("lily-change", {
+                detail: { dateValue, timeValue },
+                bubbles: true,
+                composed: true,
+            }),
         );
     };
 }

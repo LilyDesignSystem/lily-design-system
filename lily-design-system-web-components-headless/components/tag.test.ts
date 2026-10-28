@@ -46,7 +46,9 @@ describe("Tag", () => {
     });
 
     test("passes through rest attributes onto the span", () => {
-        const host = render('<lily-tag label="Status: Active" data-testid="tag-1">Active</lily-tag>');
+        const host = render(
+            '<lily-tag label="Status: Active" data-testid="tag-1">Active</lily-tag>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("data-testid")).toBe("tag-1");
     });

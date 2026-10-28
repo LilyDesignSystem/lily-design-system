@@ -97,7 +97,9 @@ describe("Combobox", () => {
         expect(host.value).toBe("Apple");
         expect(host.hasAttribute("open")).toBe(false);
         expect(handler).toHaveBeenCalledTimes(1);
-        expect((handler.mock.calls[0][0] as CustomEvent<{ value: string }>).detail).toEqual({ value: "Apple" });
+        expect((handler.mock.calls[0][0] as CustomEvent<{ value: string }>).detail).toEqual({
+            value: "Apple",
+        });
     });
 
     test("Escape closes the dropdown without changing the value", () => {

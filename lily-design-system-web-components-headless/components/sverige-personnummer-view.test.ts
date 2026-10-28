@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("SverigePersonnummerView", () => {
     test("renders a native span with the correct class", () => {
-        const host = render('<lily-sverige-personnummer-view label="Personnummer"></lily-sverige-personnummer-view>');
+        const host = render(
+            '<lily-sverige-personnummer-view label="Personnummer"></lily-sverige-personnummer-view>',
+        );
 
         const span = host.querySelector("span") as HTMLSpanElement;
         expect(span).not.toBeNull();
@@ -25,13 +27,17 @@ describe("SverigePersonnummerView", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-sverige-personnummer-view label="Personnummer"></lily-sverige-personnummer-view>');
+        const host = render(
+            '<lily-sverige-personnummer-view label="Personnummer"></lily-sverige-personnummer-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Personnummer");
     });
 
     test("seeds the initial value as text content and exposes a live value property", () => {
-        const host = render('<lily-sverige-personnummer-view label="Personnummer" value="198507099805"></lily-sverige-personnummer-view>') as unknown as SverigePersonnummerView;
+        const host = render(
+            '<lily-sverige-personnummer-view label="Personnummer" value="198507099805"></lily-sverige-personnummer-view>',
+        ) as unknown as SverigePersonnummerView;
 
         expect(host.value).toBe("198507099805");
         expect(host.querySelector("span")!.textContent).toBe("198507099805");
@@ -42,7 +48,9 @@ describe("SverigePersonnummerView", () => {
     });
 
     test('sets role="text" so the identifier announces as a single unit', () => {
-        const host = render('<lily-sverige-personnummer-view label="Personnummer"></lily-sverige-personnummer-view>');
+        const host = render(
+            '<lily-sverige-personnummer-view label="Personnummer"></lily-sverige-personnummer-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });

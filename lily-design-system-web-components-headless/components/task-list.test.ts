@@ -35,7 +35,9 @@ describe("TaskList", () => {
     });
 
     test("moves its children into the ol", () => {
-        const host = render('<lily-task-list label="Tasks"><li>Review pull requests</li></lily-task-list>');
+        const host = render(
+            '<lily-task-list label="Tasks"><li>Review pull requests</li></lily-task-list>',
+        );
 
         expect(host.querySelector("ol > li")!.textContent).toBe("Review pull requests");
     });

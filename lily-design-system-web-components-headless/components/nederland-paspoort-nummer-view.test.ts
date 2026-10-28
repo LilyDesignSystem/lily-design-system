@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("NederlandPaspoortNummerView", () => {
     test("renders a native span with the correct class", () => {
-        const host = render('<lily-nederland-paspoort-nummer-view label="Paspoort Nummer" value="NR1234567"></lily-nederland-paspoort-nummer-view>');
+        const host = render(
+            '<lily-nederland-paspoort-nummer-view label="Paspoort Nummer" value="NR1234567"></lily-nederland-paspoort-nummer-view>',
+        );
 
         const span = host.querySelector("span") as HTMLSpanElement;
         expect(span).not.toBeNull();
@@ -25,13 +27,17 @@ describe("NederlandPaspoortNummerView", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-nederland-paspoort-nummer-view label="Paspoort Nummer" value="NR1234567"></lily-nederland-paspoort-nummer-view>');
+        const host = render(
+            '<lily-nederland-paspoort-nummer-view label="Paspoort Nummer" value="NR1234567"></lily-nederland-paspoort-nummer-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Paspoort Nummer");
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
-        const host = render('<lily-nederland-paspoort-nummer-view label="Paspoort Nummer" value="NR1234567"></lily-nederland-paspoort-nummer-view>') as unknown as NederlandPaspoortNummerView;
+        const host = render(
+            '<lily-nederland-paspoort-nummer-view label="Paspoort Nummer" value="NR1234567"></lily-nederland-paspoort-nummer-view>',
+        ) as unknown as NederlandPaspoortNummerView;
 
         expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("NR1234567");
         expect(host.value).toBe("NR1234567");
@@ -42,7 +48,9 @@ describe("NederlandPaspoortNummerView", () => {
     });
 
     test("has role=text so the identifier announces as a single unit", () => {
-        const host = render('<lily-nederland-paspoort-nummer-view label="Paspoort Nummer" value="NR1234567"></lily-nederland-paspoort-nummer-view>');
+        const host = render(
+            '<lily-nederland-paspoort-nummer-view label="Paspoort Nummer" value="NR1234567"></lily-nederland-paspoort-nummer-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });

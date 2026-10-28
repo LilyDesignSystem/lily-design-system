@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/SuccessPanel",
     render: (args) => h("lily-success-panel", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Application complete",
+        label: "Application complete",
     },
 };
 

@@ -32,7 +32,9 @@ describe("ErrorMessage", () => {
     });
 
     test("passes through rest attributes onto the span", () => {
-        const host = render('<lily-error-message id="password-error">Password is required</lily-error-message>');
+        const host = render(
+            '<lily-error-message id="password-error">Password is required</lily-error-message>',
+        );
 
         expect(host.querySelector("span")!.id).toBe("password-error");
     });

@@ -7,10 +7,11 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/LietuvaAsmensKodasView",
-    render: (args) => h("lily-lietuva-asmens-kodas-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-lietuva-asmens-kodas-view", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Asmens kodas",
-        "value": "38801234567"
+        label: "Asmens kodas",
+        value: "38801234567",
     },
 };
 

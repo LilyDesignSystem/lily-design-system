@@ -7,7 +7,9 @@ describe("MexicoClaveUnicaDeRegistroDePoblacionInput", () => {
   test("renders the input root with the base class", () => {
     const fixture = TestBed.createComponent(MexicoClaveUnicaDeRegistroDePoblacionInput);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.mexico-clave-unica-de-registro-de-poblacion-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.mexico-clave-unica-de-registro-de-poblacion-input",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("MexicoClaveUnicaDeRegistroDePoblacionInput", () => {
     const fixture = TestBed.createComponent(MexicoClaveUnicaDeRegistroDePoblacionInput);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.mexico-clave-unica-de-registro-de-poblacion-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.mexico-clave-unica-de-registro-de-poblacion-input",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });
@@ -23,7 +27,9 @@ describe("MexicoClaveUnicaDeRegistroDePoblacionInput", () => {
   test("sets autocomplete to off", () => {
     const fixture = TestBed.createComponent(MexicoClaveUnicaDeRegistroDePoblacionInput);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.mexico-clave-unica-de-registro-de-poblacion-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.mexico-clave-unica-de-registro-de-poblacion-input",
+    );
     expect(el.getAttribute("autocomplete")).toBe("off");
   });
 
@@ -31,7 +37,9 @@ describe("MexicoClaveUnicaDeRegistroDePoblacionInput", () => {
     const fixture = TestBed.createComponent(MexicoClaveUnicaDeRegistroDePoblacionInput);
     fixture.componentRef.setInput("label", "Hello");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.mexico-clave-unica-de-registro-de-poblacion-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.mexico-clave-unica-de-registro-de-poblacion-input",
+    );
     expect(el.getAttribute("aria-label")).toBe("Hello");
   });
 
@@ -39,7 +47,9 @@ describe("MexicoClaveUnicaDeRegistroDePoblacionInput", () => {
     const fixture = TestBed.createComponent(MexicoClaveUnicaDeRegistroDePoblacionInput);
     fixture.componentRef.setInput("required", true);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.mexico-clave-unica-de-registro-de-poblacion-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.mexico-clave-unica-de-registro-de-poblacion-input",
+    );
     expect(el.required).toBe(true);
   });
 
@@ -47,7 +57,9 @@ describe("MexicoClaveUnicaDeRegistroDePoblacionInput", () => {
     const fixture = TestBed.createComponent(MexicoClaveUnicaDeRegistroDePoblacionInput);
     fixture.componentRef.setInput("disabled", true);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.mexico-clave-unica-de-registro-de-poblacion-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.mexico-clave-unica-de-registro-de-poblacion-input",
+    );
     expect(el.disabled).toBe(true);
   });
 
@@ -55,7 +67,9 @@ describe("MexicoClaveUnicaDeRegistroDePoblacionInput", () => {
     const fixture = TestBed.createComponent(MexicoClaveUnicaDeRegistroDePoblacionInput);
     fixture.componentRef.setInput("value", "abc123");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.mexico-clave-unica-de-registro-de-poblacion-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.mexico-clave-unica-de-registro-de-poblacion-input",
+    );
     expect(el.value).toBe("abc123");
   });
 });

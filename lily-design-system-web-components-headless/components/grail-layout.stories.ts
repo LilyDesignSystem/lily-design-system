@@ -3,7 +3,8 @@ import type { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./grail-layout.js";
 import { h } from "../stories/render.js";
 
-const SLOT = "<header>Clinical Portal</header><aside>Sections</aside><main>Patient Dashboard</main><aside>Quick links</aside><footer>Footer</footer>";
+const SLOT =
+    "<header>Clinical Portal</header><aside>Sections</aside><main>Patient Dashboard</main><aside>Quick links</aside><footer>Footer</footer>";
 
 const meta: Meta = {
     title: "Content/GrailLayout",

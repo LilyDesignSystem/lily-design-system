@@ -22,26 +22,36 @@ const CATEGORIES_JSON = JSON.stringify([
 
 describe("BarChart", () => {
     test("exposes the graphic as a named image, not the figure", () => {
-        const host = render(`<lily-bar-chart label="Sales by day" categories='${CATEGORIES_JSON}'></lily-bar-chart>`);
+        const host = render(
+            `<lily-bar-chart label="Sales by day" categories='${CATEGORIES_JSON}'></lily-bar-chart>`,
+        );
 
         expect(host.querySelector(".bar-chart-graphic")!.getAttribute("role")).toBe("img");
         expect(host.querySelector("figure")!.hasAttribute("role")).toBe(false);
     });
 
     test("uses label as the accessible name", () => {
-        const host = render(`<lily-bar-chart label="Sales by day" categories='${CATEGORIES_JSON}'></lily-bar-chart>`);
+        const host = render(
+            `<lily-bar-chart label="Sales by day" categories='${CATEGORIES_JSON}'></lily-bar-chart>`,
+        );
 
-        expect(host.querySelector(".bar-chart-graphic")!.getAttribute("aria-label")).toBe("Sales by day");
+        expect(host.querySelector(".bar-chart-graphic")!.getAttribute("aria-label")).toBe(
+            "Sales by day",
+        );
     });
 
     test("renders one svg rect per category", () => {
-        const host = render(`<lily-bar-chart label="Sales by day" categories='${CATEGORIES_JSON}'></lily-bar-chart>`);
+        const host = render(
+            `<lily-bar-chart label="Sales by day" categories='${CATEGORIES_JSON}'></lily-bar-chart>`,
+        );
 
         expect(host.querySelectorAll("svg rect").length).toBe(2);
     });
 
     test("the svg is decorative (presentation role, aria-hidden)", () => {
-        const host = render(`<lily-bar-chart label="Sales by day" categories='${CATEGORIES_JSON}'></lily-bar-chart>`);
+        const host = render(
+            `<lily-bar-chart label="Sales by day" categories='${CATEGORIES_JSON}'></lily-bar-chart>`,
+        );
 
         const svg = host.querySelector("svg")!;
         expect(svg.getAttribute("role")).toBe("presentation");
@@ -70,7 +80,9 @@ describe("BarChart", () => {
     });
 
     test("the categories property is live and re-renders on set", () => {
-        const host = render('<lily-bar-chart label="Sales by day"></lily-bar-chart>') as unknown as BarChart;
+        const host = render(
+            '<lily-bar-chart label="Sales by day"></lily-bar-chart>',
+        ) as unknown as BarChart;
 
         expect(host.querySelectorAll("svg rect").length).toBe(0);
 
@@ -81,7 +93,9 @@ describe("BarChart", () => {
     });
 
     test("ignores malformed JSON in the categories attribute", () => {
-        const host = render('<lily-bar-chart label="Sales by day" categories="not json"></lily-bar-chart>') as unknown as BarChart;
+        const host = render(
+            '<lily-bar-chart label="Sales by day" categories="not json"></lily-bar-chart>',
+        ) as unknown as BarChart;
 
         expect(host.categories).toEqual([]);
     });

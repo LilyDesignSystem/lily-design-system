@@ -31,7 +31,9 @@ describe("StatusLight", () => {
     });
 
     test("honours an explicit variant", () => {
-        const host = render('<lily-status-light variant="positive" label="Active"></lily-status-light>');
+        const host = render(
+            '<lily-status-light variant="positive" label="Active"></lily-status-light>',
+        );
 
         expect(host.querySelector(".status-light")!.getAttribute("data-variant")).toBe("positive");
     });
@@ -50,7 +52,9 @@ describe("StatusLight", () => {
     });
 
     test("merges the consumer's class attribute with the base class", () => {
-        const host = render('<lily-status-light label="Active" class="my-light"></lily-status-light>');
+        const host = render(
+            '<lily-status-light label="Active" class="my-light"></lily-status-light>',
+        );
 
         const span = host.querySelector("span.status-light") as HTMLSpanElement;
         expect(span.classList.contains("status-light")).toBe(true);

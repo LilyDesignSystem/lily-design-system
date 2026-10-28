@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/Loading",
     render: (args) => h("lily-loading", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Loading dashboard",
+        label: "Loading dashboard",
     },
 };
 

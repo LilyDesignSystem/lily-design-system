@@ -10,7 +10,7 @@ const meta: Meta = {
     title: "Content/ErrorSummary",
     render: (args) => h("lily-error-summary", args as Record<string, string | boolean>, SLOT),
     args: {
-        "title": "There is a problem",
+        title: "There is a problem",
     },
 };
 

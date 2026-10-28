@@ -9,9 +9,9 @@ const meta: Meta = {
     title: "Media and data/Pictogram",
     render: (args) => h("lily-pictogram", args as Record<string, string | boolean>, SLOT),
     args: {
-        "layout": "centered",
-        "heading": "Privacy",
-        "description": "Your data stays on your device."
+        layout: "centered",
+        heading: "Privacy",
+        description: "Your data stays on your device.",
     },
 };
 

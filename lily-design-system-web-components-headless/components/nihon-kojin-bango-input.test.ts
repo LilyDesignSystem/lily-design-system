@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("NihonKojinBangoInput", () => {
     test("renders a native input type=text with the correct class", () => {
-        const host = render('<lily-nihon-kojin-bango-input label="Individual Number / My Number (マイナンバー)"></lily-nihon-kojin-bango-input>');
+        const host = render(
+            '<lily-nihon-kojin-bango-input label="Individual Number / My Number (マイナンバー)"></lily-nihon-kojin-bango-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.type).toBe("text");
@@ -25,13 +27,17 @@ describe("NihonKojinBangoInput", () => {
     });
 
     test("always forces autocomplete to off, even if the consumer tries to override it", () => {
-        const host = render('<lily-nihon-kojin-bango-input label="Individual Number / My Number (マイナンバー)" autocomplete="on"></lily-nihon-kojin-bango-input>');
+        const host = render(
+            '<lily-nihon-kojin-bango-input label="Individual Number / My Number (マイナンバー)" autocomplete="on"></lily-nihon-kojin-bango-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("autocomplete")).toBe("off");
     });
 
     test("seeds the initial value from the value attribute and exposes a live value property", () => {
-        const host = render('<lily-nihon-kojin-bango-input label="Individual Number / My Number (マイナンバー)" value="123456789012"></lily-nihon-kojin-bango-input>') as unknown as NihonKojinBangoInput;
+        const host = render(
+            '<lily-nihon-kojin-bango-input label="Individual Number / My Number (マイナンバー)" value="123456789012"></lily-nihon-kojin-bango-input>',
+        ) as unknown as NihonKojinBangoInput;
 
         expect((host.querySelector("input") as HTMLInputElement).value).toBe("123456789012");
 
@@ -41,7 +47,9 @@ describe("NihonKojinBangoInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-nihon-kojin-bango-input label="Individual Number / My Number (マイナンバー)" required disabled></lily-nihon-kojin-bango-input>');
+        const host = render(
+            '<lily-nihon-kojin-bango-input label="Individual Number / My Number (マイナンバー)" required disabled></lily-nihon-kojin-bango-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -49,8 +57,12 @@ describe("NihonKojinBangoInput", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-nihon-kojin-bango-input label="Individual Number / My Number (マイナンバー)"></lily-nihon-kojin-bango-input>');
+        const host = render(
+            '<lily-nihon-kojin-bango-input label="Individual Number / My Number (マイナンバー)"></lily-nihon-kojin-bango-input>',
+        );
 
-        expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("Individual Number / My Number (マイナンバー)");
+        expect(host.querySelector("input")!.getAttribute("aria-label")).toBe(
+            "Individual Number / My Number (マイナンバー)",
+        );
     });
 });

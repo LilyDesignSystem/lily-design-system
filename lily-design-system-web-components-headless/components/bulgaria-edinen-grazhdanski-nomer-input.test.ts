@@ -3,7 +3,10 @@ import { afterEach, describe, expect, test } from "vitest";
 import { BulgariaEdinenGrazhdanskiNomerInput } from "./bulgaria-edinen-grazhdanski-nomer-input.js";
 
 if (!customElements.get("lily-bulgaria-edinen-grazhdanski-nomer-input")) {
-    customElements.define("lily-bulgaria-edinen-grazhdanski-nomer-input", BulgariaEdinenGrazhdanskiNomerInput);
+    customElements.define(
+        "lily-bulgaria-edinen-grazhdanski-nomer-input",
+        BulgariaEdinenGrazhdanskiNomerInput,
+    );
 }
 
 afterEach(() => {
@@ -17,7 +20,9 @@ function render(html: string): HTMLElement {
 
 describe("BulgariaEdinenGrazhdanskiNomerInput", () => {
     test("renders a native input type=text with the correct class", () => {
-        const host = render('<lily-bulgaria-edinen-grazhdanski-nomer-input label="ID"></lily-bulgaria-edinen-grazhdanski-nomer-input>');
+        const host = render(
+            '<lily-bulgaria-edinen-grazhdanski-nomer-input label="ID"></lily-bulgaria-edinen-grazhdanski-nomer-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.type).toBe("text");
@@ -25,13 +30,17 @@ describe("BulgariaEdinenGrazhdanskiNomerInput", () => {
     });
 
     test("autocomplete is always off, even if the consumer tries to override it", () => {
-        const host = render('<lily-bulgaria-edinen-grazhdanski-nomer-input label="ID" autocomplete="on"></lily-bulgaria-edinen-grazhdanski-nomer-input>');
+        const host = render(
+            '<lily-bulgaria-edinen-grazhdanski-nomer-input label="ID" autocomplete="on"></lily-bulgaria-edinen-grazhdanski-nomer-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("autocomplete")).toBe("off");
     });
 
     test("seeds the initial value and exposes a live value property", () => {
-        const host = render('<lily-bulgaria-edinen-grazhdanski-nomer-input label="ID" value="7523169263"></lily-bulgaria-edinen-grazhdanski-nomer-input>') as unknown as BulgariaEdinenGrazhdanskiNomerInput;
+        const host = render(
+            '<lily-bulgaria-edinen-grazhdanski-nomer-input label="ID" value="7523169263"></lily-bulgaria-edinen-grazhdanski-nomer-input>',
+        ) as unknown as BulgariaEdinenGrazhdanskiNomerInput;
 
         expect(host.value).toBe("7523169263");
 
@@ -41,7 +50,9 @@ describe("BulgariaEdinenGrazhdanskiNomerInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-bulgaria-edinen-grazhdanski-nomer-input label="ID" required disabled></lily-bulgaria-edinen-grazhdanski-nomer-input>');
+        const host = render(
+            '<lily-bulgaria-edinen-grazhdanski-nomer-input label="ID" required disabled></lily-bulgaria-edinen-grazhdanski-nomer-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -49,8 +60,12 @@ describe("BulgariaEdinenGrazhdanskiNomerInput", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-bulgaria-edinen-grazhdanski-nomer-input label="Edinen Grazhdanski Nomer"></lily-bulgaria-edinen-grazhdanski-nomer-input>');
+        const host = render(
+            '<lily-bulgaria-edinen-grazhdanski-nomer-input label="Edinen Grazhdanski Nomer"></lily-bulgaria-edinen-grazhdanski-nomer-input>',
+        );
 
-        expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("Edinen Grazhdanski Nomer");
+        expect(host.querySelector("input")!.getAttribute("aria-label")).toBe(
+            "Edinen Grazhdanski Nomer",
+        );
     });
 });

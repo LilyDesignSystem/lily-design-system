@@ -10,7 +10,7 @@ const meta: Meta = {
     title: "Lists/TaskList",
     render: (args) => h("lily-task-list", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Today's tasks",
+        label: "Today's tasks",
     },
 };
 

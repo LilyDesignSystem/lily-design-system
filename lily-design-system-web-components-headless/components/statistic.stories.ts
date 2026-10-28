@@ -9,10 +9,10 @@ const meta: Meta = {
     title: "Content/Statistic",
     render: (args) => h("lily-statistic", args as Record<string, string | boolean>, SLOT),
     args: {
-        "title": "Revenue",
-        "value": "2,400",
-        "prefix": "$",
-        "suffix": "K",
+        title: "Revenue",
+        value: "2,400",
+        prefix: "$",
+        suffix: "K",
     },
 };
 

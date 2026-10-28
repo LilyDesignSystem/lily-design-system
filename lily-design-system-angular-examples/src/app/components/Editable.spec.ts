@@ -30,14 +30,17 @@ function key(el: Element, k: string, init: KeyboardEventInit = {}) {
 describe("Editable — display button and text field", () => {
   function create(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(Editable);
-    for (const [k, v] of Object.entries({ label: "Title", value: "Hello", ...inputs })) fixture.componentRef.setInput(k, v);
+    for (const [k, v] of Object.entries({ label: "Title", value: "Hello", ...inputs }))
+      fixture.componentRef.setInput(k, v);
     fixture.detectChanges();
     return fixture;
   }
-  const span = (f: ComponentFixture<Editable>) => f.nativeElement.querySelector("span.editable") as HTMLElement;
-  const field = (f: ComponentFixture<Editable>) => f.nativeElement.querySelector("input.editable") as HTMLInputElement;
+  const span = (f: ComponentFixture<Editable>) =>
+    f.nativeElement.querySelector("span.editable") as HTMLElement;
+  const field = (f: ComponentFixture<Editable>) =>
+    f.nativeElement.querySelector("input.editable") as HTMLInputElement;
 
-  test("shows the value as a button named \"value, label\"", () => {
+  test('shows the value as a button named "value, label"', () => {
     const f = create();
     expect(span(f).getAttribute("role")).toBe("button");
     expect(span(f).getAttribute("tabindex")).toBe("0");

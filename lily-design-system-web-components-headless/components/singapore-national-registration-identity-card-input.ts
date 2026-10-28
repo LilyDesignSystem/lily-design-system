@@ -30,7 +30,10 @@ export class SingaporeNationalRegistrationIdentityCardInput extends HTMLElement 
 
         const input = document.createElement("input");
         input.type = "text";
-        input.className = rootClassName(this, "singapore-national-registration-identity-card-input");
+        input.className = rootClassName(
+            this,
+            "singapore-national-registration-identity-card-input",
+        );
         const label = this.getAttribute("label");
         if (label !== null) input.setAttribute("aria-label", label);
         input.value = this.getAttribute("value") ?? "";

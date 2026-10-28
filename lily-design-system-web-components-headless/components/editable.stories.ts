@@ -7,8 +7,8 @@ const meta: Meta = {
     title: "Content/Editable",
     render: (args) => h("lily-editable", args as Record<string, string | boolean>),
     args: {
-        "label": "Name",
-        "value": "Ada Lovelace",
+        label: "Name",
+        value: "Ada Lovelace",
     },
 };
 
@@ -19,8 +19,8 @@ export const Default: Story = {};
 
 export const Editing: Story = {
     args: {
-        "label": "Name",
-        "value": "Ada Lovelace",
-        "editing": true,
+        label: "Name",
+        value: "Ada Lovelace",
+        editing: true,
     },
 };

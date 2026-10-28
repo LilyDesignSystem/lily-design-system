@@ -41,7 +41,9 @@ export class TourListItem extends HTMLElement {
         const stepNumber = this.getAttribute("step-number");
         const totalSteps = this.getAttribute("total-steps");
         const fullLabel =
-            stepNumber !== null && totalSteps !== null ? `${label} (Step ${stepNumber} of ${totalSteps})` : label;
+            stepNumber !== null && totalSteps !== null
+                ? `${label} (Step ${stepNumber} of ${totalSteps})`
+                : label;
         li.setAttribute("aria-label", fullLabel);
 
         const current = this.hasAttribute("current");

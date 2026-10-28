@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Buttons and links/SwitchButton",
     render: (args) => h("lily-switch-button", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Dark mode"
+        label: "Dark mode",
     },
 };
 

@@ -45,7 +45,9 @@ export class PinInputDiv implements OnInit {
   readonly label = input<string>("");
   readonly length = input<number>(4);
   /** Accessible name of one box, e.g. `(n, total) => ...`. Falls back to `label`. */
-  readonly digitLabel = input<((position: number, length: number) => string) | undefined>(undefined);
+  readonly digitLabel = input<((position: number, length: number) => string) | undefined>(
+    undefined,
+  );
   /** The digits entered so far, as one string. Two-way bindable. */
   readonly value = model<string>("");
   readonly disabled = input<boolean>(false);
@@ -71,7 +73,9 @@ export class PinInputDiv implements OnInit {
         timer = setTimeout(() => {
           if (event.defaultPrevented) return;
           this.digits.set([...this.initialDigits]);
-          this.inputs().forEach((ref, i) => (ref.nativeElement.value = this.initialDigits[i] ?? ""));
+          this.inputs().forEach(
+            (ref, i) => (ref.nativeElement.value = this.initialDigits[i] ?? ""),
+          );
         }, 0);
       };
       form.addEventListener("reset", onReset);
@@ -84,7 +88,9 @@ export class PinInputDiv implements OnInit {
 
   ngOnInit(): void {
     const v = this.value();
-    this.initialDigits = Array.from({ length: this.length() }, (_, i) => (/^[0-9]$/.test(v[i] ?? "") ? v[i] : ""));
+    this.initialDigits = Array.from({ length: this.length() }, (_, i) =>
+      /^[0-9]$/.test(v[i] ?? "") ? v[i] : "",
+    );
     this.digits.set([...this.initialDigits]);
   }
 

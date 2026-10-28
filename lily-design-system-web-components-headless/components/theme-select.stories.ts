@@ -13,8 +13,8 @@ const meta: Meta = {
     title: "Forms/ThemeSelect",
     render: (args) => h("lily-theme-select", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Theme",
-        "value": "light",
+        label: "Theme",
+        value: "light",
     },
 };
 

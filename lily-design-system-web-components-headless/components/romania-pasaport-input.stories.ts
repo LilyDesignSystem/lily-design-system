@@ -7,9 +7,10 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/RomaniaPasaportInput",
-    render: (args) => h("lily-romania-pasaport-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-romania-pasaport-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Pașaport"
+        label: "Pașaport",
     },
 };
 

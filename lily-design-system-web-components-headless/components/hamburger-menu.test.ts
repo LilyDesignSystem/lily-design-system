@@ -73,8 +73,10 @@ describe("HamburgerMenu", () => {
 
     test("toggling open syncs the hidden attribute of the referenced aria-controls target", () => {
         document.body.innerHTML =
-            '<lily-hamburger-menu aria-controls="site-nav"></lily-hamburger-menu>' + '<nav id="site-nav" hidden></nav>';
-        if (!customElements.get("lily-hamburger-menu")) customElements.define("lily-hamburger-menu", HamburgerMenu);
+            '<lily-hamburger-menu aria-controls="site-nav"></lily-hamburger-menu>' +
+            '<nav id="site-nav" hidden></nav>';
+        if (!customElements.get("lily-hamburger-menu"))
+            customElements.define("lily-hamburger-menu", HamburgerMenu);
         const host = document.querySelector("lily-hamburger-menu")!;
         const button = host.querySelector("button") as HTMLButtonElement;
         const nav = document.getElementById("site-nav") as HTMLElement;

@@ -35,7 +35,9 @@ describe("SectionList", () => {
     });
 
     test("moves its children into the ul", () => {
-        const host = render('<lily-section-list><li><a href="/intro">Introduction</a></li></lily-section-list>');
+        const host = render(
+            '<lily-section-list><li><a href="/intro">Introduction</a></li></lily-section-list>',
+        );
 
         expect(host.querySelector("ul > li")!.textContent).toBe("Introduction");
     });

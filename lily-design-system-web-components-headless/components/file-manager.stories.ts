@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/FileManager",
     render: (args) => h("lily-file-manager", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Project files",
+        label: "Project files",
     },
 };
 

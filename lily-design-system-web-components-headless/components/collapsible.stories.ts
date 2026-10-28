@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/Collapsible",
     render: (args) => h("lily-collapsible", args as Record<string, string | boolean>, SLOT),
     args: {
-        "summary": "Advanced settings",
+        summary: "Advanced settings",
     },
 };
 

@@ -21,7 +21,8 @@ function make(inputs: Record<string, unknown> = {}) {
   return fixture;
 }
 const list = (f: any): HTMLElement => f.nativeElement.querySelector(".wheel-picker-list");
-const selected = (f: any): string | undefined => f.nativeElement.querySelector('[role="option"][aria-selected="true"]')?.textContent;
+const selected = (f: any): string | undefined =>
+  f.nativeElement.querySelector('[role="option"][aria-selected="true"]')?.textContent;
 const key = (f: any, k: string): KeyboardEvent => {
   const event = new KeyboardEvent("keydown", { key: k, bubbles: true, cancelable: true });
   list(f).dispatchEvent(event);
@@ -29,7 +30,9 @@ const key = (f: any, k: string): KeyboardEvent => {
   return event;
 };
 const click = (f: any, text: string): void => {
-  const option = Array.from<HTMLElement>(f.nativeElement.querySelectorAll('[role="option"]')).find((o) => o.textContent === text)!;
+  const option = Array.from<HTMLElement>(f.nativeElement.querySelectorAll('[role="option"]')).find(
+    (o) => o.textContent === text,
+  )!;
   option.click();
   f.detectChanges();
 };
@@ -118,7 +121,9 @@ describe("WheelPicker", () => {
 
   test("marks disabled options with aria-disabled", () => {
     const f = make();
-    const april = Array.from<HTMLElement>(f.nativeElement.querySelectorAll('[role="option"]')).find((o) => o.textContent === "April")!;
+    const april = Array.from<HTMLElement>(f.nativeElement.querySelectorAll('[role="option"]')).find(
+      (o) => o.textContent === "April",
+    )!;
     expect(april.getAttribute("aria-disabled")).toBe("true");
   });
 

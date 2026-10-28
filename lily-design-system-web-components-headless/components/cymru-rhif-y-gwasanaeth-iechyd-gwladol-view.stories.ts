@@ -7,10 +7,15 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/CymruRhifYGwasanaethIechydGwladolView",
-    render: (args) => h("lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-view",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Rhif y Gwasanaeth Iechyd Gwladol",
-        "value": "943 476 5919"
+        label: "Rhif y Gwasanaeth Iechyd Gwladol",
+        value: "943 476 5919",
     },
 };
 

@@ -8,7 +8,7 @@ const SLOT = "100 US dollars";
 const meta: Meta = {
     title: "Forms/ConvertDiv",
     render: (args) => h("lily-convert-div", args as Record<string, string | boolean>, SLOT),
-    args: {"label": "Currency converter"},
+    args: { label: "Currency converter" },
 };
 
 export default meta;

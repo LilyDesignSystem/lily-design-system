@@ -10,11 +10,13 @@ const meta: Meta = {
     render: (args) => {
         const ul = document.createElement("ul");
         ul.className = "validation-list";
-        ul.appendChild(h("lily-validation-list-item", args as Record<string, string | boolean>, SLOT));
+        ul.appendChild(
+            h("lily-validation-list-item", args as Record<string, string | boolean>, SLOT),
+        );
         return ul;
     },
     args: {
-        "status": "passed",
+        status: "passed",
     },
 };
 

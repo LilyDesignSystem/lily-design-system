@@ -3,7 +3,10 @@ import { afterEach, describe, expect, test } from "vitest";
 import { TuaisceartEireannHealthAndCareNumberView } from "./tuaisceart-eireann-health-and-care-number-view.js";
 
 if (!customElements.get("lily-tuaisceart-eireann-health-and-care-number-view")) {
-    customElements.define("lily-tuaisceart-eireann-health-and-care-number-view", TuaisceartEireannHealthAndCareNumberView);
+    customElements.define(
+        "lily-tuaisceart-eireann-health-and-care-number-view",
+        TuaisceartEireannHealthAndCareNumberView,
+    );
 }
 
 afterEach(() => {
@@ -17,7 +20,9 @@ function render(html: string): HTMLElement {
 
 describe("TuaisceartEireannHealthAndCareNumberView", () => {
     test("renders a native span with the correct class", () => {
-        const host = render('<lily-tuaisceart-eireann-health-and-care-number-view label="Health and Care (H&C) Number" value="123 456 7890"></lily-tuaisceart-eireann-health-and-care-number-view>');
+        const host = render(
+            '<lily-tuaisceart-eireann-health-and-care-number-view label="Health and Care (H&C) Number" value="123 456 7890"></lily-tuaisceart-eireann-health-and-care-number-view>',
+        );
 
         const span = host.querySelector("span") as HTMLSpanElement;
         expect(span).not.toBeNull();
@@ -25,13 +30,19 @@ describe("TuaisceartEireannHealthAndCareNumberView", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-tuaisceart-eireann-health-and-care-number-view label="Health and Care (H&C) Number" value="123 456 7890"></lily-tuaisceart-eireann-health-and-care-number-view>');
+        const host = render(
+            '<lily-tuaisceart-eireann-health-and-care-number-view label="Health and Care (H&C) Number" value="123 456 7890"></lily-tuaisceart-eireann-health-and-care-number-view>',
+        );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Health and Care (H&C) Number");
+        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
+            "Health and Care (H&C) Number",
+        );
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
-        const host = render('<lily-tuaisceart-eireann-health-and-care-number-view label="Health and Care (H&C) Number" value="123 456 7890"></lily-tuaisceart-eireann-health-and-care-number-view>') as unknown as TuaisceartEireannHealthAndCareNumberView;
+        const host = render(
+            '<lily-tuaisceart-eireann-health-and-care-number-view label="Health and Care (H&C) Number" value="123 456 7890"></lily-tuaisceart-eireann-health-and-care-number-view>',
+        ) as unknown as TuaisceartEireannHealthAndCareNumberView;
 
         expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("123 456 7890");
         expect(host.value).toBe("123 456 7890");

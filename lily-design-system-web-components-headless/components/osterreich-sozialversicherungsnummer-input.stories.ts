@@ -7,9 +7,14 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/OsterreichSozialversicherungsnummerInput",
-    render: (args) => h("lily-osterreich-sozialversicherungsnummer-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-osterreich-sozialversicherungsnummer-input",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Sozialversicherungsnummer (SVNR)"
+        label: "Sozialversicherungsnummer (SVNR)",
     },
 };
 

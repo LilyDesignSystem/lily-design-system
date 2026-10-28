@@ -36,10 +36,12 @@ export class IconButton extends HTMLElement {
 
         const button = document.createElement("button");
         button.className = rootClassName(this, baseClass);
-        button.type = (this.getAttribute("type") as "button" | "submit" | "reset" | null) ?? "button";
+        button.type =
+            (this.getAttribute("type") as "button" | "submit" | "reset" | null) ?? "button";
         if (this.hasAttribute("disabled")) button.disabled = true;
         const pressed = this.getAttribute("pressed");
-        if (pressed !== null) button.setAttribute("aria-pressed", pressed === "false" ? "false" : "true");
+        if (pressed !== null)
+            button.setAttribute("aria-pressed", pressed === "false" ? "false" : "true");
         const label = this.getAttribute("label");
         if (label === null) {
             throw new Error("<lily-icon-button> requires a label attribute (WCAG 4.1.2)");

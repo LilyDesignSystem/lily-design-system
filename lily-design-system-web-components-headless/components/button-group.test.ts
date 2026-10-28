@@ -38,7 +38,9 @@ describe("ButtonGroup", () => {
     });
 
     test("appends the consumer's class attribute to the base class", () => {
-        const host = render('<lily-button-group label="Form actions" class="my-extra"></lily-button-group>');
+        const host = render(
+            '<lily-button-group label="Form actions" class="my-extra"></lily-button-group>',
+        );
 
         expect(host.className).toBe("button-group my-extra");
     });

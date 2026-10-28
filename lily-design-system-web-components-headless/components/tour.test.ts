@@ -36,7 +36,9 @@ describe("Tour", () => {
     });
 
     test("preserves consumer-supplied children (typically a TourList)", () => {
-        const host = render('<lily-tour label="Getting started"><lily-tour-list label="Steps"></lily-tour-list></lily-tour>');
+        const host = render(
+            '<lily-tour label="Getting started"><lily-tour-list label="Steps"></lily-tour-list></lily-tour>',
+        );
 
         expect(host.querySelector("lily-tour-list")).toBeTruthy();
     });

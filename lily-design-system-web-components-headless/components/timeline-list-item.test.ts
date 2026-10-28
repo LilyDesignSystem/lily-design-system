@@ -61,7 +61,8 @@ describe("TimelineListItem (upgrade in place)", () => {
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        document.body.innerHTML = '<ol><lily-timeline-list-item class="extra">X</lily-timeline-list-item></ol>';
+        document.body.innerHTML =
+            '<ol><lily-timeline-list-item class="extra">X</lily-timeline-list-item></ol>';
 
         expect(document.querySelector("li")!.className).toBe("timeline-list-item extra");
     });

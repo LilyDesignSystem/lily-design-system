@@ -53,7 +53,9 @@ describe("Dialog — keyboard and ARIA contract", () => {
 
   test("other keys leave the dialog open", () => {
     const { fixture, el } = create({ open: true });
-    el.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }));
+    el.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }),
+    );
     fixture.detectChanges();
     expect(fixture.componentInstance.open()).toBe(true);
   });

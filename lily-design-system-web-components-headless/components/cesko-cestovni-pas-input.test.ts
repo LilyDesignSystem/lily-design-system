@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("CeskoCestovniPasInput", () => {
     test("renders a native input type=text with the correct class", () => {
-        const host = render('<lily-cesko-cestovni-pas-input label="ID"></lily-cesko-cestovni-pas-input>');
+        const host = render(
+            '<lily-cesko-cestovni-pas-input label="ID"></lily-cesko-cestovni-pas-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.type).toBe("text");
@@ -25,13 +27,17 @@ describe("CeskoCestovniPasInput", () => {
     });
 
     test("autocomplete is always off, even if the consumer tries to override it", () => {
-        const host = render('<lily-cesko-cestovni-pas-input label="ID" autocomplete="on"></lily-cesko-cestovni-pas-input>');
+        const host = render(
+            '<lily-cesko-cestovni-pas-input label="ID" autocomplete="on"></lily-cesko-cestovni-pas-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("autocomplete")).toBe("off");
     });
 
     test("seeds the initial value and exposes a live value property", () => {
-        const host = render('<lily-cesko-cestovni-pas-input label="ID" value="12345678"></lily-cesko-cestovni-pas-input>') as unknown as CeskoCestovniPasInput;
+        const host = render(
+            '<lily-cesko-cestovni-pas-input label="ID" value="12345678"></lily-cesko-cestovni-pas-input>',
+        ) as unknown as CeskoCestovniPasInput;
 
         expect(host.value).toBe("12345678");
 
@@ -41,7 +47,9 @@ describe("CeskoCestovniPasInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-cesko-cestovni-pas-input label="ID" required disabled></lily-cesko-cestovni-pas-input>');
+        const host = render(
+            '<lily-cesko-cestovni-pas-input label="ID" required disabled></lily-cesko-cestovni-pas-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -49,7 +57,9 @@ describe("CeskoCestovniPasInput", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-cesko-cestovni-pas-input label="Cestovní Pas"></lily-cesko-cestovni-pas-input>');
+        const host = render(
+            '<lily-cesko-cestovni-pas-input label="Cestovní Pas"></lily-cesko-cestovni-pas-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("Cestovní Pas");
     });

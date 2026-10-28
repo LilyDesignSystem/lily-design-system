@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Media and data/Meter",
     render: (args) => h("lily-meter", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Disk usage",
-        "value": "72"
+        label: "Disk usage",
+        value: "72",
     },
 };
 

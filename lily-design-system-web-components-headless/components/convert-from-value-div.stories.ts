@@ -7,7 +7,8 @@ const SLOT = "100 US dollars";
 
 const meta: Meta = {
     title: "Forms/ConvertFromValueDiv",
-    render: (args) => h("lily-convert-from-value-div", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-convert-from-value-div", args as Record<string, string | boolean>, SLOT),
     args: {},
 };
 

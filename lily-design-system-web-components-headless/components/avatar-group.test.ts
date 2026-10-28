@@ -38,7 +38,9 @@ describe("AvatarGroup", () => {
     });
 
     test("appends the consumer's class attribute to the base class", () => {
-        const host = render('<lily-avatar-group label="Team members" class="my-extra"></lily-avatar-group>');
+        const host = render(
+            '<lily-avatar-group label="Team members" class="my-extra"></lily-avatar-group>',
+        );
 
         expect(host.className).toBe("avatar-group my-extra");
     });

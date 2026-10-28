@@ -66,7 +66,11 @@ export class SwitchButton extends HTMLElement {
         const next = !this.hasAttribute("checked");
         this.toggleAttribute("checked", next);
         this.dispatchEvent(
-            new CustomEvent("lily-change", { detail: { checked: next }, bubbles: true, composed: true }),
+            new CustomEvent("lily-change", {
+                detail: { checked: next },
+                bubbles: true,
+                composed: true,
+            }),
         );
     };
 }

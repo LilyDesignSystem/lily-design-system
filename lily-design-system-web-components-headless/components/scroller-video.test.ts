@@ -39,7 +39,10 @@ const MARKUP =
 describe("ScrollerVideo", () => {
     beforeEach(() => {
         lastCallback = null;
-        vi.stubGlobal("IntersectionObserver", FakeIntersectionObserver as unknown as typeof IntersectionObserver);
+        vi.stubGlobal(
+            "IntersectionObserver",
+            FakeIntersectionObserver as unknown as typeof IntersectionObserver,
+        );
     });
 
     test("carries the base class", () => {
@@ -86,7 +89,9 @@ describe("ScrollerVideo", () => {
         host.addEventListener("lily-index-change", handler);
         const stepTwo = host.querySelector(".scroller-video-foreground")!.children[1];
 
-        lastCallback?.([{ isIntersecting: true, target: stepTwo } as unknown as IntersectionObserverEntry]);
+        lastCallback?.([
+            { isIntersecting: true, target: stepTwo } as unknown as IntersectionObserverEntry,
+        ]);
 
         expect(host.index).toBe(1);
         expect(handler).toHaveBeenCalled();

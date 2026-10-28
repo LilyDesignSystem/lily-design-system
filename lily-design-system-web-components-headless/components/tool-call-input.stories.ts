@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Media and data/ToolCallInput",
     render: (args) => h("lily-tool-call-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "ToolCallInput"
+        label: "ToolCallInput",
     },
 };
 

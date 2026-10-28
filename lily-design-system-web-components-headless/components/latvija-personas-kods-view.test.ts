@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("LatvijaPersonasKodsView", () => {
     test("renders a native span with the correct class", () => {
-        const host = render('<lily-latvija-personas-kods-view label="Personas kods" value="090482-11234"></lily-latvija-personas-kods-view>');
+        const host = render(
+            '<lily-latvija-personas-kods-view label="Personas kods" value="090482-11234"></lily-latvija-personas-kods-view>',
+        );
 
         const span = host.querySelector("span") as HTMLSpanElement;
         expect(span).not.toBeNull();
@@ -25,13 +27,17 @@ describe("LatvijaPersonasKodsView", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-latvija-personas-kods-view label="Personas kods" value="090482-11234"></lily-latvija-personas-kods-view>');
+        const host = render(
+            '<lily-latvija-personas-kods-view label="Personas kods" value="090482-11234"></lily-latvija-personas-kods-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Personas kods");
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
-        const host = render('<lily-latvija-personas-kods-view label="Personas kods" value="090482-11234"></lily-latvija-personas-kods-view>') as unknown as LatvijaPersonasKodsView;
+        const host = render(
+            '<lily-latvija-personas-kods-view label="Personas kods" value="090482-11234"></lily-latvija-personas-kods-view>',
+        ) as unknown as LatvijaPersonasKodsView;
 
         expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("090482-11234");
         expect(host.value).toBe("090482-11234");
@@ -42,7 +48,9 @@ describe("LatvijaPersonasKodsView", () => {
     });
 
     test("has role=text so the identifier announces as a single unit", () => {
-        const host = render('<lily-latvija-personas-kods-view label="Personas kods" value="090482-11234"></lily-latvija-personas-kods-view>');
+        const host = render(
+            '<lily-latvija-personas-kods-view label="Personas kods" value="090482-11234"></lily-latvija-personas-kods-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });

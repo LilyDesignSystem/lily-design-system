@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("CallToAction", () => {
     test("renders an <a> when href is provided", () => {
-        const host = render('<lily-call-to-action href="/signup">Sign Up Now</lily-call-to-action>');
+        const host = render(
+            '<lily-call-to-action href="/signup">Sign Up Now</lily-call-to-action>',
+        );
 
         const link = host.querySelector("a.call-to-action") as HTMLAnchorElement;
         expect(link).toBeTruthy();
@@ -41,9 +43,13 @@ describe("CallToAction", () => {
     });
 
     test("uses label as an aria-label override", () => {
-        const host = render('<lily-call-to-action label="Sign up for the newsletter" href="/signup">Sign Up</lily-call-to-action>');
+        const host = render(
+            '<lily-call-to-action label="Sign up for the newsletter" href="/signup">Sign Up</lily-call-to-action>',
+        );
 
-        expect(host.querySelector("a")!.getAttribute("aria-label")).toBe("Sign up for the newsletter");
+        expect(host.querySelector("a")!.getAttribute("aria-label")).toBe(
+            "Sign up for the newsletter",
+        );
     });
 
     test("disabled only applies in button mode", () => {
@@ -53,7 +59,9 @@ describe("CallToAction", () => {
     });
 
     test("disabled is not set as an attribute on the anchor", () => {
-        const host = render('<lily-call-to-action href="/signup" disabled>Sign Up</lily-call-to-action>');
+        const host = render(
+            '<lily-call-to-action href="/signup" disabled>Sign Up</lily-call-to-action>',
+        );
 
         expect(host.querySelector("a")!.hasAttribute("disabled")).toBe(false);
     });

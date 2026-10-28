@@ -16,7 +16,8 @@ function render(html: string): HTMLElement {
 }
 
 const SVG = '<svg data-testid="art" viewBox="0 0 10 10"><circle r="4"></circle></svg>';
-const TABLE = '<table slot="data-table"><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>';
+const TABLE =
+    '<table slot="data-table"><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>';
 const BASIC = `<lily-heatmap-chart label="Test">${SVG}</lily-heatmap-chart>`;
 const WITH_TABLE = `<lily-heatmap-chart label="Test">${SVG}${TABLE}</lily-heatmap-chart>`;
 
@@ -41,11 +42,15 @@ describe("HeatmapChart", () => {
 
     test("moves the consumer svg into the graphic wrapper", () => {
         const host = render(BASIC);
-        expect(host.querySelector("svg")!.closest("[role=img]")).toBe(host.querySelector(".heatmap-chart-graphic"));
+        expect(host.querySelector("svg")!.closest("[role=img]")).toBe(
+            host.querySelector(".heatmap-chart-graphic"),
+        );
     });
 
     test("spreads other attributes onto the figure", () => {
-        const host = render('<lily-heatmap-chart label="T" id="c1" data-testid="chart"></lily-heatmap-chart>');
+        const host = render(
+            '<lily-heatmap-chart label="T" id="c1" data-testid="chart"></lily-heatmap-chart>',
+        );
         const fig = host.querySelector("figure")!;
         expect(fig.id).toBe("c1");
         expect(fig.getAttribute("data-testid")).toBe("chart");

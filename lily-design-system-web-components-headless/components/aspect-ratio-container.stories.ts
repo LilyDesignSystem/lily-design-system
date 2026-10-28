@@ -7,9 +7,10 @@ const SLOT = "16:9 content area";
 
 const meta: Meta = {
     title: "Content/AspectRatioContainer",
-    render: (args) => h("lily-aspect-ratio-container", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-aspect-ratio-container", args as Record<string, string | boolean>, SLOT),
     args: {
-        "ratio": "1.777",
+        ratio: "1.777",
     },
 };
 

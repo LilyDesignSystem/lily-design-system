@@ -9,11 +9,11 @@ const meta: Meta = {
     title: "Content/Slider",
     render: (args) => h("lily-slider", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Volume",
-        "value": "50",
-        "min": "0",
-        "max": "100",
-        "step": "1"
+        label: "Volume",
+        value: "50",
+        min: "0",
+        max: "100",
+        step: "1",
     },
 };
 

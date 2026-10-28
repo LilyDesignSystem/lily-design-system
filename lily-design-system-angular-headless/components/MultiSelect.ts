@@ -57,8 +57,6 @@ export class MultiSelect {
   }
 
   protected onChange(): void {
-    this.value.set(
-      Array.from(this.select().nativeElement.selectedOptions).map((o) => o.value),
-    );
+    this.value.set(Array.from(this.select().nativeElement.selectedOptions).map((o) => o.value));
   }
 }

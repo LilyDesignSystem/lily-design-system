@@ -7,10 +7,11 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Pickers/FiveFaceRatingPickerButton",
-    render: (args) => h("lily-five-face-rating-picker-button", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-five-face-rating-picker-button", args as Record<string, string | boolean>, SLOT),
     args: {
-        "value": "4",
-        "label": "Good"
+        value: "4",
+        label: "Good",
     },
 };
 

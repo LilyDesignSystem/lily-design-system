@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("IconButton", () => {
     test("renders as a native button with the label as aria-label", () => {
-        const host = render('<lily-icon-button label="Close"><span aria-hidden="true">x</span></lily-icon-button>');
+        const host = render(
+            '<lily-icon-button label="Close"><span aria-hidden="true">x</span></lily-icon-button>',
+        );
 
         const button = host.querySelector("button") as HTMLButtonElement;
         expect(button.getAttribute("aria-label")).toBe("Close");
@@ -31,7 +33,9 @@ describe("IconButton", () => {
         // an ordinary synchronous function call.
         const host = document.createElement("lily-icon-button");
 
-        expect(() => (host as unknown as IconButton).connectedCallback()).toThrow(/label attribute/);
+        expect(() => (host as unknown as IconButton).connectedCallback()).toThrow(
+            /label attribute/,
+        );
     });
 
     test("defaults to type button", () => {
@@ -53,7 +57,9 @@ describe("IconButton", () => {
     });
 
     test("base-class replaces the default class token outright, not appended", () => {
-        const host = render('<lily-icon-button label="Theme" base-class="theme-picker-button"></lily-icon-button>');
+        const host = render(
+            '<lily-icon-button label="Theme" base-class="theme-picker-button"></lily-icon-button>',
+        );
 
         const button = host.querySelector("button") as HTMLButtonElement;
         expect(button.className).toBe("theme-picker-button");

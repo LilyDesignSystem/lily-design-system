@@ -29,7 +29,9 @@ describe("CollectionList", () => {
     });
 
     test("aria-label reflects a provided label", () => {
-        const host = render('<lily-collection-list label="Recent articles"></lily-collection-list>');
+        const host = render(
+            '<lily-collection-list label="Recent articles"></lily-collection-list>',
+        );
 
         expect(host.querySelector("ul")!.getAttribute("aria-label")).toBe("Recent articles");
     });
@@ -47,7 +49,9 @@ describe("CollectionList", () => {
     });
 
     test("passes through rest attributes to the ul", () => {
-        const host = render('<lily-collection-list data-testid="collection"></lily-collection-list>');
+        const host = render(
+            '<lily-collection-list data-testid="collection"></lily-collection-list>',
+        );
 
         expect(host.querySelector("ul")!.getAttribute("data-testid")).toBe("collection");
     });

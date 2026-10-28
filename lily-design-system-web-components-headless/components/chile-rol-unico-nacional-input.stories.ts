@@ -7,9 +7,10 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/ChileRolUnicoNacionalInput",
-    render: (args) => h("lily-chile-rol-unico-nacional-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-chile-rol-unico-nacional-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Rol Único Nacional (RUN)"
+        label: "Rol Único Nacional (RUN)",
     },
 };
 

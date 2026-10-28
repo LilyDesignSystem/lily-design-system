@@ -3,7 +3,10 @@ import { afterEach, describe, expect, test } from "vitest";
 import { TextAreaInputWithCharacterCounter } from "./text-area-input-with-character-counter.js";
 
 if (!customElements.get("lily-text-area-input-with-character-counter")) {
-    customElements.define("lily-text-area-input-with-character-counter", TextAreaInputWithCharacterCounter);
+    customElements.define(
+        "lily-text-area-input-with-character-counter",
+        TextAreaInputWithCharacterCounter,
+    );
 }
 
 afterEach(() => {

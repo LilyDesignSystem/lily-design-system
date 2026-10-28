@@ -12,7 +12,7 @@ const meta: Meta = {
     title: "Content/TransferList",
     render: (args) => h("lily-transfer-list", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Assign roles",
+        label: "Assign roles",
         "source-label": "Available roles",
         "target-label": "Selected roles",
     },

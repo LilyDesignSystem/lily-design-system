@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Special-Purpose Identifiers/RossiyaSnilsView",
     render: (args) => h("lily-rossiya-snils-view", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "СНИЛС (SNILS)",
-        "value": "112-233-445 95"
+        label: "СНИЛС (SNILS)",
+        value: "112-233-445 95",
     },
 };
 

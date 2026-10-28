@@ -44,7 +44,9 @@ export class TaskBar extends HTMLElement {
     }
 
     #onKeydown = (event: KeyboardEvent): void => {
-        const items = Array.from(this.querySelectorAll<HTMLElement>("button, [role='button'], [tabindex]"));
+        const items = Array.from(
+            this.querySelectorAll<HTMLElement>("button, [role='button'], [tabindex]"),
+        );
         const current = document.activeElement as HTMLElement;
         const index = items.indexOf(current);
         switch (event.key) {

@@ -129,6 +129,8 @@ describe("ChatComposer", () => {
   test("projects content before the textarea", () => {
     const f = TestBed.createComponent(Host);
     f.detectChanges();
-    expect(f.nativeElement.querySelector("form").firstElementChild.getAttribute("data-testid")).toBe("extra");
+    expect(
+      f.nativeElement.querySelector("form").firstElementChild.getAttribute("data-testid"),
+    ).toBe("extra");
   });
 });

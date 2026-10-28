@@ -36,13 +36,17 @@ describe("ContextMenuItem", () => {
     });
 
     test("the consumer's class is appended to the base class", () => {
-        const host = render('<lily-context-menu-item class="my-extra">Cut</lily-context-menu-item>');
+        const host = render(
+            '<lily-context-menu-item class="my-extra">Cut</lily-context-menu-item>',
+        );
 
         expect(host.className).toBe("context-menu-item my-extra");
     });
 
     test("consumer can add aria-disabled", () => {
-        const host = render('<lily-context-menu-item aria-disabled="true">Delete</lily-context-menu-item>');
+        const host = render(
+            '<lily-context-menu-item aria-disabled="true">Delete</lily-context-menu-item>',
+        );
 
         expect(host.getAttribute("aria-disabled")).toBe("true");
     });

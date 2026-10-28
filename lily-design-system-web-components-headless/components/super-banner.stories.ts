@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Overlays/SuperBanner",
     render: (args) => h("lily-super-banner", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "System status",
-        "dismissable": true
+        label: "System status",
+        dismissable: true,
     },
 };
 

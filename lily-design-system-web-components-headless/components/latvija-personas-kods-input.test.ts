@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("LatvijaPersonasKodsInput", () => {
     test("renders a native input type=text with the correct class", () => {
-        const host = render('<lily-latvija-personas-kods-input label="Personas kods"></lily-latvija-personas-kods-input>');
+        const host = render(
+            '<lily-latvija-personas-kods-input label="Personas kods"></lily-latvija-personas-kods-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.type).toBe("text");
@@ -25,13 +27,17 @@ describe("LatvijaPersonasKodsInput", () => {
     });
 
     test("always forces autocomplete to off, even if the consumer tries to override it", () => {
-        const host = render('<lily-latvija-personas-kods-input label="Personas kods" autocomplete="on"></lily-latvija-personas-kods-input>');
+        const host = render(
+            '<lily-latvija-personas-kods-input label="Personas kods" autocomplete="on"></lily-latvija-personas-kods-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("autocomplete")).toBe("off");
     });
 
     test("seeds the initial value from the value attribute and exposes a live value property", () => {
-        const host = render('<lily-latvija-personas-kods-input label="Personas kods" value="090482-11234"></lily-latvija-personas-kods-input>') as unknown as LatvijaPersonasKodsInput;
+        const host = render(
+            '<lily-latvija-personas-kods-input label="Personas kods" value="090482-11234"></lily-latvija-personas-kods-input>',
+        ) as unknown as LatvijaPersonasKodsInput;
 
         expect((host.querySelector("input") as HTMLInputElement).value).toBe("090482-11234");
 
@@ -41,7 +47,9 @@ describe("LatvijaPersonasKodsInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-latvija-personas-kods-input label="Personas kods" required disabled></lily-latvija-personas-kods-input>');
+        const host = render(
+            '<lily-latvija-personas-kods-input label="Personas kods" required disabled></lily-latvija-personas-kods-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -49,7 +57,9 @@ describe("LatvijaPersonasKodsInput", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-latvija-personas-kods-input label="Personas kods"></lily-latvija-personas-kods-input>');
+        const host = render(
+            '<lily-latvija-personas-kods-input label="Personas kods"></lily-latvija-personas-kods-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("Personas kods");
     });

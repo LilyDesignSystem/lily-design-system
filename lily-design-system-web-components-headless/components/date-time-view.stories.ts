@@ -7,9 +7,9 @@ const meta: Meta = {
     title: "Content/DateTimeView",
     render: (args) => h("lily-date-time-view", args as Record<string, string | boolean>),
     args: {
-        "value": "2026-04-27T09:00:00Z",
-        "format": "27 April 2026, 09:00",
-        "label": "Published",
+        value: "2026-04-27T09:00:00Z",
+        format: "27 April 2026, 09:00",
+        label: "Published",
     },
 };
 

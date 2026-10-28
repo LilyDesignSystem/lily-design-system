@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/BeachBall",
     render: (args) => h("lily-beach-ball", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Loading results",
+        label: "Loading results",
     },
 };
 

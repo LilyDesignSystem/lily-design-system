@@ -25,13 +25,17 @@ describe("SlovenskoPasInput", () => {
     });
 
     test("always forces autocomplete=off, even if the consumer tries to override it", () => {
-        const host = render('<lily-slovensko-pas-input label="Pas" autocomplete="on"></lily-slovensko-pas-input>');
+        const host = render(
+            '<lily-slovensko-pas-input label="Pas" autocomplete="on"></lily-slovensko-pas-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("autocomplete")).toBe("off");
     });
 
     test("seeds the initial value and exposes a live value property", () => {
-        const host = render('<lily-slovensko-pas-input label="Pas" value="AB1234567"></lily-slovensko-pas-input>') as unknown as SlovenskoPasInput;
+        const host = render(
+            '<lily-slovensko-pas-input label="Pas" value="AB1234567"></lily-slovensko-pas-input>',
+        ) as unknown as SlovenskoPasInput;
 
         expect(host.value).toBe("AB1234567");
 
@@ -40,7 +44,9 @@ describe("SlovenskoPasInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-slovensko-pas-input label="Pas" required disabled></lily-slovensko-pas-input>');
+        const host = render(
+            '<lily-slovensko-pas-input label="Pas" required disabled></lily-slovensko-pas-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);

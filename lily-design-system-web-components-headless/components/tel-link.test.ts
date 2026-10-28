@@ -40,7 +40,9 @@ describe("TelLink", () => {
     });
 
     test("passes through rest attributes", () => {
-        const host = render('<lily-tel-link phone="+1-555-0100" data-testid="tel-link"></lily-tel-link>');
+        const host = render(
+            '<lily-tel-link phone="+1-555-0100" data-testid="tel-link"></lily-tel-link>',
+        );
 
         expect(host.querySelector("a")!.getAttribute("data-testid")).toBe("tel-link");
     });

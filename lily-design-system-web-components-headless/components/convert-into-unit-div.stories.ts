@@ -7,7 +7,8 @@ const SLOT = "100 US dollars";
 
 const meta: Meta = {
     title: "Forms/ConvertIntoUnitDiv",
-    render: (args) => h("lily-convert-into-unit-div", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-convert-into-unit-div", args as Record<string, string | boolean>, SLOT),
     args: {},
 };
 

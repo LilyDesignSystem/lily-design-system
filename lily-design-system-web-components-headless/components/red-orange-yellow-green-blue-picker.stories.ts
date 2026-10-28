@@ -19,9 +19,14 @@ const SLOT = [
 
 const meta: Meta = {
     title: "Pickers/RedOrangeYellowGreenBluePicker",
-    render: (args) => h("lily-red-orange-yellow-green-blue-picker", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-red-orange-yellow-green-blue-picker",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Sprint status"
+        label: "Sprint status",
     },
 };
 

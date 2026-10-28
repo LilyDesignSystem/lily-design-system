@@ -26,7 +26,8 @@ function parseLabels(raw: string | null): string[] {
     if (!raw) return DEFAULT_LABELS;
     try {
         const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed) && parsed.every((item) => typeof item === "string")) return parsed;
+        if (Array.isArray(parsed) && parsed.every((item) => typeof item === "string"))
+            return parsed;
     } catch {
         /* ignore malformed JSON, fall back to defaults */
     }

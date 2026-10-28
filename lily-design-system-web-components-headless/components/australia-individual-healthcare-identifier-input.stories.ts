@@ -7,9 +7,14 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/AustraliaIndividualHealthcareIdentifierInput",
-    render: (args) => h("lily-australia-individual-healthcare-identifier-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-australia-individual-healthcare-identifier-input",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Individual Healthcare Identifier"
+        label: "Individual Healthcare Identifier",
     },
 };
 

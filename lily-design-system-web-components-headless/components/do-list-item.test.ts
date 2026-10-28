@@ -46,7 +46,11 @@ describe("DoListItem (upgrade in place)", () => {
         renderList();
 
         const items = Array.from(document.querySelectorAll("li.do-list-item"));
-        expect(items.map((li) => li.getAttribute("data-recommendation"))).toEqual(["do", "do", "do"]);
+        expect(items.map((li) => li.getAttribute("data-recommendation"))).toEqual([
+            "do",
+            "do",
+            "do",
+        ]);
     });
 
     test("moves the host's children into the <li>", () => {
@@ -63,7 +67,8 @@ describe("DoListItem (upgrade in place)", () => {
     });
 
     test("passes through rest attributes to the <li>", () => {
-        document.body.innerHTML = '<ul><lily-do-list-item data-testid="rule">X</lily-do-list-item></ul>';
+        document.body.innerHTML =
+            '<ul><lily-do-list-item data-testid="rule">X</lily-do-list-item></ul>';
 
         expect(document.querySelector("li")!.getAttribute("data-testid")).toBe("rule");
     });

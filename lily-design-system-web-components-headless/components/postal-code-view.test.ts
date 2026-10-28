@@ -25,7 +25,9 @@ describe("PostalCodeView", () => {
     });
 
     test("seeds the initial text as textContent and exposes a live text property", () => {
-        const host = render('<lily-postal-code-view text="SW1A 1AA"></lily-postal-code-view>') as unknown as PostalCodeView;
+        const host = render(
+            '<lily-postal-code-view text="SW1A 1AA"></lily-postal-code-view>',
+        ) as unknown as PostalCodeView;
 
         expect(host.querySelector("span")!.textContent).toBe("SW1A 1AA");
         expect(host.text).toBe("SW1A 1AA");
@@ -42,13 +44,17 @@ describe("PostalCodeView", () => {
     });
 
     test("passes through rest attributes onto the span", () => {
-        const host = render('<lily-postal-code-view text="90210" data-testid="zip"></lily-postal-code-view>');
+        const host = render(
+            '<lily-postal-code-view text="90210" data-testid="zip"></lily-postal-code-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("data-testid")).toBe("zip");
     });
 
     test("appends the consumer's class onto the base class", () => {
-        const host = render('<lily-postal-code-view text="90210" class="my-view"></lily-postal-code-view>');
+        const host = render(
+            '<lily-postal-code-view text="90210" class="my-view"></lily-postal-code-view>',
+        );
 
         expect(host.querySelector("span")!.className).toBe("postal-code-view my-view");
     });

@@ -55,7 +55,9 @@ describe("Details", () => {
     });
 
     test("moves its children into the details, after the summary", () => {
-        const host = render('<lily-details summary="More information"><p id="body"></p></lily-details>');
+        const host = render(
+            '<lily-details summary="More information"><p id="body"></p></lily-details>',
+        );
 
         const details = host.querySelector("details") as HTMLDetailsElement;
         expect(details.children[0]!.tagName).toBe("SUMMARY");
@@ -63,7 +65,9 @@ describe("Details", () => {
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-details summary="More information" class="extra"></lily-details>');
+        const host = render(
+            '<lily-details summary="More information" class="extra"></lily-details>',
+        );
 
         expect(host.querySelector("details")!.className).toBe("details extra");
     });

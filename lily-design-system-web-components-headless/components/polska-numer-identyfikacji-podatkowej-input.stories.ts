@@ -7,9 +7,14 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/PolskaNumerIdentyfikacjiPodatkowejInput",
-    render: (args) => h("lily-polska-numer-identyfikacji-podatkowej-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-polska-numer-identyfikacji-podatkowej-input",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Numer Identyfikacji Podatkowej (NIP)"
+        label: "Numer Identyfikacji Podatkowej (NIP)",
     },
 };
 

@@ -31,7 +31,9 @@ describe("AiLabel", () => {
     });
 
     test("honours an explicit label and text", () => {
-        const host = render('<lily-ai-label label="AI-generated summary" text="AI"></lily-ai-label>');
+        const host = render(
+            '<lily-ai-label label="AI-generated summary" text="AI"></lily-ai-label>',
+        );
 
         const span = host.querySelector("span")!;
         expect(span.getAttribute("aria-label")).toBe("AI-generated summary");

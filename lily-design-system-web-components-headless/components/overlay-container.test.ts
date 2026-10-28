@@ -49,13 +49,17 @@ describe("OverlayContainer", () => {
     });
 
     test("label is optional and maps to aria-label when provided", () => {
-        const host = render('<lily-overlay-container label="Modal backdrop"></lily-overlay-container>');
+        const host = render(
+            '<lily-overlay-container label="Modal backdrop"></lily-overlay-container>',
+        );
 
         expect(host.getAttribute("aria-label")).toBe("Modal backdrop");
     });
 
     test("clicking the backdrop itself fires lily-close", () => {
-        const host = render('<lily-overlay-container open><div role="dialog">Content</div></lily-overlay-container>');
+        const host = render(
+            '<lily-overlay-container open><div role="dialog">Content</div></lily-overlay-container>',
+        );
         const handler = vi.fn();
         host.addEventListener("lily-close", handler);
 
@@ -65,11 +69,15 @@ describe("OverlayContainer", () => {
     });
 
     test("clicking a child does not fire lily-close", () => {
-        const host = render('<lily-overlay-container open><div role="dialog">Content</div></lily-overlay-container>');
+        const host = render(
+            '<lily-overlay-container open><div role="dialog">Content</div></lily-overlay-container>',
+        );
         const handler = vi.fn();
         host.addEventListener("lily-close", handler);
 
-        (host.querySelector("[role=dialog]") as HTMLElement).dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        (host.querySelector("[role=dialog]") as HTMLElement).dispatchEvent(
+            new MouseEvent("click", { bubbles: true }),
+        );
 
         expect(handler).not.toHaveBeenCalled();
     });

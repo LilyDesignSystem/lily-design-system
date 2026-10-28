@@ -28,20 +28,28 @@ const SERIES_JSON = JSON.stringify([
 
 describe("ScatterChart", () => {
     test("exposes the graphic as a named image, not the figure", () => {
-        const host = render(`<lily-scatter-chart label="Heights vs weights" series='${SERIES_JSON}'></lily-scatter-chart>`);
+        const host = render(
+            `<lily-scatter-chart label="Heights vs weights" series='${SERIES_JSON}'></lily-scatter-chart>`,
+        );
 
         expect(host.querySelector(".scatter-chart-graphic")!.getAttribute("role")).toBe("img");
         expect(host.querySelector("figure")!.hasAttribute("role")).toBe(false);
     });
 
     test("uses label as the accessible name", () => {
-        const host = render(`<lily-scatter-chart label="Heights vs weights" series='${SERIES_JSON}'></lily-scatter-chart>`);
+        const host = render(
+            `<lily-scatter-chart label="Heights vs weights" series='${SERIES_JSON}'></lily-scatter-chart>`,
+        );
 
-        expect(host.querySelector(".scatter-chart-graphic")!.getAttribute("aria-label")).toBe("Heights vs weights");
+        expect(host.querySelector(".scatter-chart-graphic")!.getAttribute("aria-label")).toBe(
+            "Heights vs weights",
+        );
     });
 
     test("renders one circle per point", () => {
-        const host = render(`<lily-scatter-chart label="Heights vs weights" series='${SERIES_JSON}'></lily-scatter-chart>`);
+        const host = render(
+            `<lily-scatter-chart label="Heights vs weights" series='${SERIES_JSON}'></lily-scatter-chart>`,
+        );
 
         const circles = host.querySelectorAll("svg circle");
         expect(circles.length).toBe(3);
@@ -49,7 +57,9 @@ describe("ScatterChart", () => {
     });
 
     test("the svg is decorative (presentation role, aria-hidden)", () => {
-        const host = render(`<lily-scatter-chart label="Heights vs weights" series='${SERIES_JSON}'></lily-scatter-chart>`);
+        const host = render(
+            `<lily-scatter-chart label="Heights vs weights" series='${SERIES_JSON}'></lily-scatter-chart>`,
+        );
 
         const svg = host.querySelector("svg")!;
         expect(svg.getAttribute("role")).toBe("presentation");
@@ -78,7 +88,9 @@ describe("ScatterChart", () => {
     });
 
     test("the series property is live and re-renders on set", () => {
-        const host = render('<lily-scatter-chart label="Scatter"></lily-scatter-chart>') as unknown as ScatterChart;
+        const host = render(
+            '<lily-scatter-chart label="Scatter"></lily-scatter-chart>',
+        ) as unknown as ScatterChart;
 
         expect(host.querySelectorAll("svg circle").length).toBe(0);
 
@@ -89,7 +101,9 @@ describe("ScatterChart", () => {
     });
 
     test("ignores malformed JSON in the series attribute", () => {
-        const host = render('<lily-scatter-chart label="Scatter" series="not json"></lily-scatter-chart>') as unknown as ScatterChart;
+        const host = render(
+            '<lily-scatter-chart label="Scatter" series="not json"></lily-scatter-chart>',
+        ) as unknown as ScatterChart;
 
         expect(host.series).toEqual([]);
     });

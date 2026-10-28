@@ -23,7 +23,8 @@ describe("ContextMenu", () => {
   });
 });
 
-const ITEMS = '<button role="menuitem">One</button><button role="menuitem">Two</button><button role="menuitem">Three</button>';
+const ITEMS =
+  '<button role="menuitem">One</button><button role="menuitem">Two</button><button role="menuitem">Three</button>';
 
 function key(el: Element, k: string) {
   const event = new KeyboardEvent("keydown", { key: k, bubbles: true, cancelable: true });
@@ -34,7 +35,8 @@ function key(el: Element, k: string) {
 describe("ContextMenu — roles and roving focus", () => {
   function create(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(ContextMenu);
-    for (const [k, v] of Object.entries({ label: "Actions", open: true, ...inputs })) fixture.componentRef.setInput(k, v);
+    for (const [k, v] of Object.entries({ label: "Actions", open: true, ...inputs }))
+      fixture.componentRef.setInput(k, v);
     fixture.detectChanges();
     const menu = fixture.nativeElement.querySelector("[role='menu']") as HTMLElement;
     menu.innerHTML = ITEMS;

@@ -51,7 +51,9 @@ describe("RangeInput", () => {
     });
 
     test("exposes a live value property proxying the inner input", () => {
-        const host = render('<lily-range-input label="Volume"></lily-range-input>') as unknown as RangeInput;
+        const host = render(
+            '<lily-range-input label="Volume"></lily-range-input>',
+        ) as unknown as RangeInput;
         const input = host.querySelector("input") as HTMLInputElement;
 
         host.value = "75";

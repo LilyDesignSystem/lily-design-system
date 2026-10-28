@@ -7,10 +7,11 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Content/FiveStarRatingView",
-    render: (args) => h("lily-five-star-rating-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-five-star-rating-view", args as Record<string, string | boolean>, SLOT),
     args: {
-        "value": "4",
-        "label": "4 out of 5 stars",
+        value: "4",
+        label: "4 out of 5 stars",
     },
 };
 

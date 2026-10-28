@@ -57,7 +57,9 @@ describe("Thinking", () => {
     });
 
     test("streaming sets data-streaming and aria-busy", () => {
-        const details = render('<lily-thinking label="T" streaming>x</lily-thinking>').querySelector("details")!;
+        const details = render(
+            '<lily-thinking label="T" streaming>x</lily-thinking>',
+        ).querySelector("details")!;
         expect(details.getAttribute("data-streaming")).toBe("true");
         expect(details.getAttribute("aria-busy")).toBe("true");
     });
@@ -69,7 +71,9 @@ describe("Thinking", () => {
     });
 
     test("passes through attributes and consumer class", () => {
-        const details = render('<lily-thinking label="T" data-testid="x" class="extra">x</lily-thinking>').querySelector("details")!;
+        const details = render(
+            '<lily-thinking label="T" data-testid="x" class="extra">x</lily-thinking>',
+        ).querySelector("details")!;
         expect(details.getAttribute("data-testid")).toBe("x");
         expect(details.className).toBe("thinking extra");
     });

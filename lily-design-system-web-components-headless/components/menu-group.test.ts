@@ -39,7 +39,9 @@ describe("MenuGroup", () => {
     });
 
     test("children are rendered after the heading", () => {
-        const host = render('<lily-menu-group label="File"><div role="menuitem">Open</div></lily-menu-group>');
+        const host = render(
+            '<lily-menu-group label="File"><div role="menuitem">Open</div></lily-menu-group>',
+        );
 
         const children = Array.from(host.children);
         expect(children[0]!.className).toBe("menu-group-heading");

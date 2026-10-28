@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/Icon",
     render: (args) => h("lily-icon", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Close",
+        label: "Close",
     },
 };
 
@@ -20,7 +20,7 @@ export const Default: Story = {};
 
 export const Decorative: Story = {
     args: {
-        "label": undefined,
-        "decorative": true,
+        label: undefined,
+        decorative: true,
     },
 };

@@ -53,7 +53,10 @@ describe("Visible", () => {
     });
 
     test("intersection sets data-visible=true and fires lily-visibility-change", () => {
-        vi.stubGlobal("IntersectionObserver", FakeIntersectionObserver as unknown as typeof IntersectionObserver);
+        vi.stubGlobal(
+            "IntersectionObserver",
+            FakeIntersectionObserver as unknown as typeof IntersectionObserver,
+        );
         FakeIntersectionObserver.instances = [];
 
         const host = render("<lily-visible>Content</lily-visible>") as unknown as Visible;
@@ -66,11 +69,16 @@ describe("Visible", () => {
         expect(host.getAttribute("data-visible")).toBe("true");
         expect(host.visible).toBe(true);
         expect(handler).toHaveBeenCalledTimes(1);
-        expect((handler.mock.calls[0][0] as CustomEvent<{ visible: boolean }>).detail).toEqual({ visible: true });
+        expect((handler.mock.calls[0][0] as CustomEvent<{ visible: boolean }>).detail).toEqual({
+            visible: true,
+        });
     });
 
     test("scrolling back out sets data-visible=false again", () => {
-        vi.stubGlobal("IntersectionObserver", FakeIntersectionObserver as unknown as typeof IntersectionObserver);
+        vi.stubGlobal(
+            "IntersectionObserver",
+            FakeIntersectionObserver as unknown as typeof IntersectionObserver,
+        );
         FakeIntersectionObserver.instances = [];
 
         const host = render("<lily-visible>Content</lily-visible>") as unknown as Visible;
@@ -84,7 +92,10 @@ describe("Visible", () => {
     });
 
     test("once disconnects the observer after the first intersection", () => {
-        vi.stubGlobal("IntersectionObserver", FakeIntersectionObserver as unknown as typeof IntersectionObserver);
+        vi.stubGlobal(
+            "IntersectionObserver",
+            FakeIntersectionObserver as unknown as typeof IntersectionObserver,
+        );
         FakeIntersectionObserver.instances = [];
 
         render("<lily-visible once>Content</lily-visible>");
@@ -96,16 +107,25 @@ describe("Visible", () => {
     });
 
     test("threshold and root-margin are passed to the observer", () => {
-        vi.stubGlobal("IntersectionObserver", FakeIntersectionObserver as unknown as typeof IntersectionObserver);
+        vi.stubGlobal(
+            "IntersectionObserver",
+            FakeIntersectionObserver as unknown as typeof IntersectionObserver,
+        );
         FakeIntersectionObserver.instances = [];
 
         render('<lily-visible threshold="0.5" root-margin="10px">Content</lily-visible>');
 
-        expect(FakeIntersectionObserver.lastOptions).toEqual({ threshold: 0.5, rootMargin: "10px" });
+        expect(FakeIntersectionObserver.lastOptions).toEqual({
+            threshold: 0.5,
+            rootMargin: "10px",
+        });
     });
 
     test("does not fire the change event when intersecting state is unchanged", () => {
-        vi.stubGlobal("IntersectionObserver", FakeIntersectionObserver as unknown as typeof IntersectionObserver);
+        vi.stubGlobal(
+            "IntersectionObserver",
+            FakeIntersectionObserver as unknown as typeof IntersectionObserver,
+        );
         FakeIntersectionObserver.instances = [];
 
         const host = render("<lily-visible>Content</lily-visible>") as unknown as Visible;

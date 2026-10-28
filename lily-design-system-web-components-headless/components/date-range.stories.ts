@@ -7,11 +7,11 @@ const meta: Meta = {
     title: "Content/DateRange",
     render: (args) => h("lily-date-range", args as Record<string, string | boolean>),
     args: {
-        "label": "Trip dates",
+        label: "Trip dates",
         "start-label": "Departure",
         "end-label": "Return",
-        "start": "2026-06-01",
-        "end": "2026-06-10",
+        start: "2026-06-01",
+        end: "2026-06-10",
     },
 };
 

@@ -52,7 +52,9 @@ const visual = (h: HTMLElement) => h.querySelector(".middle-truncation-visual")!
 describe("MiddleTruncation", () => {
     test("renders a <span> with the base class first, then the host's class", () => {
         const host = render(`text="${text}" ellipsis="…" class="mine"`);
-        expect(host.querySelector("span.middle-truncation")!.getAttribute("class")).toBe("middle-truncation mine");
+        expect(host.querySelector("span.middle-truncation")!.getAttribute("class")).toBe(
+            "middle-truncation mine",
+        );
     });
 
     test("shortens the visual text to the measured width", () => {
@@ -61,7 +63,9 @@ describe("MiddleTruncation", () => {
 
     test("keeps the full text in the accessibility tree and hides the shortened copy from it", () => {
         const host = render(`text="${text}" ellipsis="…"`);
-        expect(host.querySelector(".middle-truncation-visual")!.getAttribute("aria-hidden")).toBe("true");
+        expect(host.querySelector(".middle-truncation-visual")!.getAttribute("aria-hidden")).toBe(
+            "true",
+        );
         const full = host.querySelector(".middle-truncation-full")!;
         expect(full.textContent).toBe(text);
         expect(full.closest("[aria-hidden]")).toBeNull();
@@ -71,7 +75,9 @@ describe("MiddleTruncation", () => {
         width = 100;
         const host = render(`text="${text}" ellipsis="…"`);
         expect(visual(host)).toBe(text);
-        expect(host.querySelector(".middle-truncation")!.hasAttribute("data-truncated")).toBe(false);
+        expect(host.querySelector(".middle-truncation")!.hasAttribute("data-truncated")).toBe(
+            false,
+        );
     });
 
     test("sets data-truncated and data-strategy", () => {
@@ -87,7 +93,9 @@ describe("MiddleTruncation", () => {
 
     test("keeps `end` characters at the end for fixed-end", () => {
         width = 12;
-        expect(visual(render(`text="${text}" ellipsis="…" strategy="fixed-end" end="4"`))).toBe("abcdefg…wxyz");
+        expect(visual(render(`text="${text}" ellipsis="…" strategy="fixed-end" end="4"`))).toBe(
+            "abcdefg…wxyz",
+        );
     });
 
     test("re-measures when the container resizes, changing only the visual string", () => {

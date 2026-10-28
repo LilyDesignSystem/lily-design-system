@@ -88,13 +88,19 @@ export class SplitButton extends HTMLElement {
             trigger.setAttribute("aria-expanded", isOpen ? "true" : "false");
             menu.hidden = !isOpen;
             this.dispatchEvent(
-                new CustomEvent("lily-menu-toggle", { detail: { open: isOpen }, bubbles: true, composed: true }),
+                new CustomEvent("lily-menu-toggle", {
+                    detail: { open: isOpen },
+                    bubbles: true,
+                    composed: true,
+                }),
             );
         };
 
         primary.addEventListener("click", () => {
             if (primary.disabled) return;
-            this.dispatchEvent(new CustomEvent("lily-primary-click", { bubbles: true, composed: true }));
+            this.dispatchEvent(
+                new CustomEvent("lily-primary-click", { bubbles: true, composed: true }),
+            );
         });
 
         trigger.addEventListener("click", () => {
@@ -104,14 +110,20 @@ export class SplitButton extends HTMLElement {
 
         this.addEventListener("keydown", (event: Event) => {
             const keyboardEvent = event as KeyboardEvent;
-            if (keyboardEvent.key === "Escape" && trigger.getAttribute("aria-expanded") === "true") {
+            if (
+                keyboardEvent.key === "Escape" &&
+                trigger.getAttribute("aria-expanded") === "true"
+            ) {
                 setOpen(false);
                 trigger.focus();
             }
         });
 
         document.addEventListener("click", (event: Event) => {
-            if (!this.contains(event.target as Node) && trigger.getAttribute("aria-expanded") === "true") {
+            if (
+                !this.contains(event.target as Node) &&
+                trigger.getAttribute("aria-expanded") === "true"
+            ) {
                 setOpen(false);
             }
         });

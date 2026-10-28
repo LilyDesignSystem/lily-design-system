@@ -17,25 +17,33 @@ function render(html: string): HTMLElement {
 
 describe("PostalCodeInput", () => {
     test("renders a native input type=text", () => {
-        const host = render('<lily-postal-code-input label="Postal code"></lily-postal-code-input>');
+        const host = render(
+            '<lily-postal-code-input label="Postal code"></lily-postal-code-input>',
+        );
 
         expect((host.querySelector("input") as HTMLInputElement).type).toBe("text");
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-postal-code-input label="Postal code"></lily-postal-code-input>');
+        const host = render(
+            '<lily-postal-code-input label="Postal code"></lily-postal-code-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("Postal code");
     });
 
     test("sets autocomplete to postal-code", () => {
-        const host = render('<lily-postal-code-input label="Postal code"></lily-postal-code-input>');
+        const host = render(
+            '<lily-postal-code-input label="Postal code"></lily-postal-code-input>',
+        );
 
         expect((host.querySelector("input") as HTMLInputElement).autocomplete).toBe("postal-code");
     });
 
     test("seeds the initial value from the value attribute", () => {
-        const host = render('<lily-postal-code-input label="Postal code" value="SW1A 1AA"></lily-postal-code-input>');
+        const host = render(
+            '<lily-postal-code-input label="Postal code" value="SW1A 1AA"></lily-postal-code-input>',
+        );
 
         expect((host.querySelector("input") as HTMLInputElement).value).toBe("SW1A 1AA");
     });
@@ -53,7 +61,9 @@ describe("PostalCodeInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-postal-code-input label="Postal code" required disabled></lily-postal-code-input>');
+        const host = render(
+            '<lily-postal-code-input label="Postal code" required disabled></lily-postal-code-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);

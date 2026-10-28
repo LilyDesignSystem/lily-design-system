@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("AvatarImage", () => {
     test("renders a native img with src and alt", () => {
-        const host = render('<lily-avatar-image src="/avatar.png" alt="Ada Lovelace"></lily-avatar-image>');
+        const host = render(
+            '<lily-avatar-image src="/avatar.png" alt="Ada Lovelace"></lily-avatar-image>',
+        );
 
         const img = host.querySelector("img") as HTMLImageElement;
         expect(img.getAttribute("src")).toBe("/avatar.png");
@@ -25,7 +27,9 @@ describe("AvatarImage", () => {
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-avatar-image src="/a.png" alt="A" class="large"></lily-avatar-image>');
+        const host = render(
+            '<lily-avatar-image src="/a.png" alt="A" class="large"></lily-avatar-image>',
+        );
 
         expect(host.querySelector("img")!.className).toBe("avatar-image large");
     });

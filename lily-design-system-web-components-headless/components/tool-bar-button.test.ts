@@ -49,7 +49,9 @@ describe("ToolBarButton", () => {
     });
 
     test("passes through rest attributes to the button", () => {
-        const host = render('<lily-tool-bar-button aria-label="Pen tool">Pen</lily-tool-bar-button>');
+        const host = render(
+            '<lily-tool-bar-button aria-label="Pen tool">Pen</lily-tool-bar-button>',
+        );
 
         expect(host.querySelector("button")!.getAttribute("aria-label")).toBe("Pen tool");
     });

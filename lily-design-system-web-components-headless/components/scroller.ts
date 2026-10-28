@@ -127,7 +127,11 @@ export class Scroller extends HTMLElement {
         this.#index = index;
         this.setAttribute("data-index", String(index));
         this.dispatchEvent(
-            new CustomEvent("lily-index-change", { detail: { index }, bubbles: true, composed: true }),
+            new CustomEvent("lily-index-change", {
+                detail: { index },
+                bubbles: true,
+                composed: true,
+            }),
         );
     }
 
@@ -135,7 +139,11 @@ export class Scroller extends HTMLElement {
         this.#progress = progress;
         this.setAttribute("data-progress", String(progress));
         this.dispatchEvent(
-            new CustomEvent("lily-progress-change", { detail: { progress }, bubbles: true, composed: true }),
+            new CustomEvent("lily-progress-change", {
+                detail: { progress },
+                bubbles: true,
+                composed: true,
+            }),
         );
     }
 }

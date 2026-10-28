@@ -27,7 +27,8 @@ function key(el: Element, k: string) {
   return event;
 }
 
-const ITEMS = '<button type="button">One</button><button type="button">Two</button><button type="button">Three</button>';
+const ITEMS =
+  '<button type="button">One</button><button type="button">Two</button><button type="button">Three</button>';
 
 describe("TaskBar — role and roving focus", () => {
   function create() {

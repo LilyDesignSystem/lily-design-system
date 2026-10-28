@@ -17,13 +17,17 @@ function render(html: string): HTMLElement {
 
 describe("AccordionCheckbox", () => {
     test("the custom element itself is the wrapper (self-is-the-wrapper)", () => {
-        const host = render('<lily-accordion-checkbox label="Comments">Tell us more.</lily-accordion-checkbox>');
+        const host = render(
+            '<lily-accordion-checkbox label="Comments">Tell us more.</lily-accordion-checkbox>',
+        );
 
         expect(host.className).toBe("accordion-checkbox");
     });
 
     test("renders a linked checkbox, label, and panel", () => {
-        const host = render('<lily-accordion-checkbox label="Comments">Tell us more.</lily-accordion-checkbox>');
+        const host = render(
+            '<lily-accordion-checkbox label="Comments">Tell us more.</lily-accordion-checkbox>',
+        );
 
         const input = host.querySelector("input.accordion-checkbox-input") as HTMLInputElement;
         const label = host.querySelector("label.accordion-checkbox-label") as HTMLLabelElement;
@@ -38,27 +42,35 @@ describe("AccordionCheckbox", () => {
     });
 
     test("moves original content into the panel", () => {
-        const host = render('<lily-accordion-checkbox label="Comments">Tell us more.</lily-accordion-checkbox>');
+        const host = render(
+            '<lily-accordion-checkbox label="Comments">Tell us more.</lily-accordion-checkbox>',
+        );
 
         expect(host.querySelector(".accordion-checkbox-panel")!.textContent).toBe("Tell us more.");
     });
 
     test("panel is hidden unless checked", () => {
-        const host = render('<lily-accordion-checkbox label="Comments">Content</lily-accordion-checkbox>');
+        const host = render(
+            '<lily-accordion-checkbox label="Comments">Content</lily-accordion-checkbox>',
+        );
 
         expect((host.querySelector(".accordion-checkbox-panel") as HTMLElement).hidden).toBe(true);
         expect(host.querySelector("input")!.getAttribute("aria-expanded")).toBe("false");
     });
 
     test("checked attribute reveals the panel", () => {
-        const host = render('<lily-accordion-checkbox label="Comments" checked>Content</lily-accordion-checkbox>');
+        const host = render(
+            '<lily-accordion-checkbox label="Comments" checked>Content</lily-accordion-checkbox>',
+        );
 
         expect((host.querySelector(".accordion-checkbox-panel") as HTMLElement).hidden).toBe(false);
         expect(host.querySelector("input")!.getAttribute("aria-expanded")).toBe("true");
     });
 
     test("toggling the checkbox reveals the panel and dispatches lily-change", () => {
-        const host = render('<lily-accordion-checkbox label="Comments">Content</lily-accordion-checkbox>');
+        const host = render(
+            '<lily-accordion-checkbox label="Comments">Content</lily-accordion-checkbox>',
+        );
         const input = host.querySelector("input") as HTMLInputElement;
         const handler = vi.fn();
         host.addEventListener("lily-change", handler);

@@ -7,10 +7,11 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Forms/MeasurementSystemInput",
-    render: (args) => h("lily-measurement-system-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-measurement-system-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Measurement system",
-        "value": "metric"
+        label: "Measurement system",
+        value: "metric",
     },
 };
 

@@ -14,8 +14,8 @@ const meta: Meta = {
         return ol;
     },
     args: {
-        "label": "Welcome",
-        "current": true,
+        label: "Welcome",
+        current: true,
         "step-number": "1",
         "total-steps": "3",
     },

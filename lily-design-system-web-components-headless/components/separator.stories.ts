@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Navigation/Separator",
     render: (args) => h("lily-separator", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "End of introduction"
+        label: "End of introduction",
     },
 };
 

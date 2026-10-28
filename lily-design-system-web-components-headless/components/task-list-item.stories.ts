@@ -12,7 +12,7 @@ const meta: Meta = {
         return ol;
     },
     args: {
-        "label": "Review pull request",
+        label: "Review pull request",
     },
 };
 

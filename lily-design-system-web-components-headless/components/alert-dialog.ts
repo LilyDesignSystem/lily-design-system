@@ -16,7 +16,12 @@
 // References:
 //   - components/alert-dialog/index.md (canonical contract)
 
-import { moveChildrenInto, passThroughAttributes, nextId, rootClassName } from "../lib/dom-utils.js";
+import {
+    moveChildrenInto,
+    passThroughAttributes,
+    nextId,
+    rootClassName,
+} from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["open", "title", "description"]);
 

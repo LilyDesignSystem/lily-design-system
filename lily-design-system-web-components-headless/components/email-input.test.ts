@@ -29,7 +29,9 @@ describe("EmailInput", () => {
     });
 
     test("seeds the initial value and exposes a live value property", () => {
-        const host = render('<lily-email-input label="Email" value="a@example.com"></lily-email-input>') as unknown as EmailInput;
+        const host = render(
+            '<lily-email-input label="Email" value="a@example.com"></lily-email-input>',
+        ) as unknown as EmailInput;
 
         expect(host.value).toBe("a@example.com");
 
@@ -38,7 +40,9 @@ describe("EmailInput", () => {
     });
 
     test("required and disabled propagate", () => {
-        const host = render('<lily-email-input label="Email" required disabled></lily-email-input>');
+        const host = render(
+            '<lily-email-input label="Email" required disabled></lily-email-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);

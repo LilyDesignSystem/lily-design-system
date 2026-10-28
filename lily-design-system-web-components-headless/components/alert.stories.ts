@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Content/Alert",
     render: (args) => h("lily-alert", args as Record<string, string | boolean>, SLOT),
     args: {
-        "heading": "Error",
-        "type": "error"
+        heading: "Error",
+        type: "error",
     },
 };
 

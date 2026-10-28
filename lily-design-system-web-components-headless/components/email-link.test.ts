@@ -40,7 +40,9 @@ describe("EmailLink", () => {
     });
 
     test("passes through rest attributes", () => {
-        const host = render('<lily-email-link email="a@b.com" data-testid="email-link"></lily-email-link>');
+        const host = render(
+            '<lily-email-link email="a@b.com" data-testid="email-link"></lily-email-link>',
+        );
 
         expect(host.querySelector("a")!.getAttribute("data-testid")).toBe("email-link");
     });

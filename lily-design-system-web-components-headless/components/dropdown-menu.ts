@@ -129,7 +129,9 @@ export class DropdownMenu extends HTMLElement {
                 event.preventDefault();
                 this.removeAttribute("open");
                 this.#button?.focus();
-                this.dispatchEvent(new CustomEvent("lily-close", { bubbles: true, composed: true }));
+                this.dispatchEvent(
+                    new CustomEvent("lily-close", { bubbles: true, composed: true }),
+                );
                 break;
             }
         }

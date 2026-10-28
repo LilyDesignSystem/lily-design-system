@@ -11,7 +11,7 @@ const meta: Meta = {
     title: "Content/TileMap",
     render: (args) => h("lily-tile-map", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "US election results by state",
+        label: "US election results by state",
     },
 };
 

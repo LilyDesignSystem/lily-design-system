@@ -58,17 +58,21 @@ describe("IconListItem (upgrade in place)", () => {
 
         const items = Array.from(document.querySelectorAll("li.icon-list-item"));
         expect(items[0]!.querySelector("span.icon-list-item-text")!.textContent).toBe("Fast");
-        expect(items[1]!.querySelector("span.icon-list-item-text")!.textContent).toBe("No icon here");
+        expect(items[1]!.querySelector("span.icon-list-item-text")!.textContent).toBe(
+            "No icon here",
+        );
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        document.body.innerHTML = '<ul><lily-icon-list-item class="extra">X</lily-icon-list-item></ul>';
+        document.body.innerHTML =
+            '<ul><lily-icon-list-item class="extra">X</lily-icon-list-item></ul>';
 
         expect(document.querySelector("li")!.className).toBe("icon-list-item extra");
     });
 
     test("passes through rest attributes to the <li>", () => {
-        document.body.innerHTML = '<ul><lily-icon-list-item data-testid="benefit">X</lily-icon-list-item></ul>';
+        document.body.innerHTML =
+            '<ul><lily-icon-list-item data-testid="benefit">X</lily-icon-list-item></ul>';
 
         expect(document.querySelector("li")!.getAttribute("data-testid")).toBe("benefit");
     });

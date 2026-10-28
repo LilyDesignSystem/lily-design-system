@@ -22,7 +22,12 @@
 // References:
 //   - components/government-banner/index.md (canonical contract)
 
-import { moveChildrenInto, nextId, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import {
+    moveChildrenInto,
+    nextId,
+    passThroughAttributes,
+    rootClassName,
+} from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["label", "header-text", "expand-label", "expanded"]);
 

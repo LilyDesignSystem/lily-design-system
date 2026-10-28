@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("GoToNextSection", () => {
     test("renders a native anchor with href and label as visible text", () => {
-        const host = render('<lily-go-to-next-section href="#section-3" label="Next: Pricing"></lily-go-to-next-section>');
+        const host = render(
+            '<lily-go-to-next-section href="#section-3" label="Next: Pricing"></lily-go-to-next-section>',
+        );
 
         const a = host.querySelector("a") as HTMLAnchorElement;
         expect(a.className).toBe("go-to-next-section");
@@ -26,7 +28,9 @@ describe("GoToNextSection", () => {
     });
 
     test("accessible name is derived natively from the link text", () => {
-        const host = render('<lily-go-to-next-section href="#section-3" label="Next: Pricing"></lily-go-to-next-section>');
+        const host = render(
+            '<lily-go-to-next-section href="#section-3" label="Next: Pricing"></lily-go-to-next-section>',
+        );
 
         expect(host.querySelector("a")!.hasAttribute("aria-label")).toBe(false);
     });
@@ -40,7 +44,9 @@ describe("GoToNextSection", () => {
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-go-to-next-section href="#x" label="Next" class="extra"></lily-go-to-next-section>');
+        const host = render(
+            '<lily-go-to-next-section href="#x" label="Next" class="extra"></lily-go-to-next-section>',
+        );
 
         expect(host.querySelector("a")!.className).toBe("go-to-next-section extra");
     });
@@ -54,7 +60,9 @@ describe("GoToNextSection", () => {
     });
 
     test("is idempotent if connectedCallback runs more than once", () => {
-        const host = render('<lily-go-to-next-section href="#x" label="Next"></lily-go-to-next-section>');
+        const host = render(
+            '<lily-go-to-next-section href="#x" label="Next"></lily-go-to-next-section>',
+        );
 
         (host as unknown as GoToNextSection).connectedCallback();
 

@@ -7,10 +7,11 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Content/RedAmberGreenView",
-    render: (args) => h("lily-red-amber-green-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-red-amber-green-view", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Project status",
-        "value": "green"
+        label: "Project status",
+        value: "green",
     },
 };
 

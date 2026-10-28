@@ -17,13 +17,17 @@ function render(html: string): HTMLElement {
 
 describe("ContextualHelp", () => {
     test("the custom element itself carries the base class (self-is-the-wrapper)", () => {
-        const host = render('<lily-contextual-help label="What is this?">Help text.</lily-contextual-help>');
+        const host = render(
+            '<lily-contextual-help label="What is this?">Help text.</lily-contextual-help>',
+        );
 
         expect(host.className).toBe("contextual-help");
     });
 
     test("renders a trigger button with aria-haspopup=dialog and the label", () => {
-        const host = render('<lily-contextual-help label="What is this?">Help text.</lily-contextual-help>');
+        const host = render(
+            '<lily-contextual-help label="What is this?">Help text.</lily-contextual-help>',
+        );
 
         const trigger = host.querySelector(".contextual-help-trigger") as HTMLButtonElement;
         expect(trigger.getAttribute("aria-haspopup")).toBe("dialog");
@@ -31,7 +35,9 @@ describe("ContextualHelp", () => {
     });
 
     test("moves original content into the panel, hidden by default", () => {
-        const host = render('<lily-contextual-help label="What is this?">Help text.</lily-contextual-help>');
+        const host = render(
+            '<lily-contextual-help label="What is this?">Help text.</lily-contextual-help>',
+        );
 
         const panel = host.querySelector(".contextual-help-panel") as HTMLDivElement;
         expect(panel.textContent).toBe("Help text.");
@@ -40,7 +46,9 @@ describe("ContextualHelp", () => {
     });
 
     test("trigger aria-controls references the panel's id", () => {
-        const host = render('<lily-contextual-help label="What is this?">Help text.</lily-contextual-help>');
+        const host = render(
+            '<lily-contextual-help label="What is this?">Help text.</lily-contextual-help>',
+        );
 
         const trigger = host.querySelector(".contextual-help-trigger") as HTMLButtonElement;
         const panel = host.querySelector(".contextual-help-panel") as HTMLDivElement;
@@ -48,7 +56,9 @@ describe("ContextualHelp", () => {
     });
 
     test("clicking the trigger opens the panel, sets aria-expanded, and dispatches lily-click", () => {
-        const host = render('<lily-contextual-help label="What is this?">Help text.</lily-contextual-help>');
+        const host = render(
+            '<lily-contextual-help label="What is this?">Help text.</lily-contextual-help>',
+        );
         const trigger = host.querySelector(".contextual-help-trigger") as HTMLButtonElement;
         const panel = host.querySelector(".contextual-help-panel") as HTMLDivElement;
         const handler = vi.fn();

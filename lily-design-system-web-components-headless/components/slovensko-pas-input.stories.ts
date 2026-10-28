@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Special-Purpose Identifiers/SlovenskoPasInput",
     render: (args) => h("lily-slovensko-pas-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Pas"
+        label: "Pas",
     },
 };
 

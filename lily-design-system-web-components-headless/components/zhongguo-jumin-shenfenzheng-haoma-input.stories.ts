@@ -7,9 +7,14 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/ZhongguoJuminShenfenzhengHaomaInput",
-    render: (args) => h("lily-zhongguo-jumin-shenfenzheng-haoma-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-zhongguo-jumin-shenfenzheng-haoma-input",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Resident Identity Card Number (居民身份证号码)"
+        label: "Resident Identity Card Number (居民身份证号码)",
     },
 };
 

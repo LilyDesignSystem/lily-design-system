@@ -3,7 +3,10 @@ import { afterEach, describe, expect, test } from "vitest";
 import { UnitedKingdomNationalInsuranceNumberView } from "./united-kingdom-national-insurance-number-view.js";
 
 if (!customElements.get("lily-united-kingdom-national-insurance-number-view")) {
-    customElements.define("lily-united-kingdom-national-insurance-number-view", UnitedKingdomNationalInsuranceNumberView);
+    customElements.define(
+        "lily-united-kingdom-national-insurance-number-view",
+        UnitedKingdomNationalInsuranceNumberView,
+    );
 }
 
 afterEach(() => {
@@ -17,7 +20,9 @@ function render(html: string): HTMLElement {
 
 describe("UnitedKingdomNationalInsuranceNumberView", () => {
     test("renders a native span with the correct class", () => {
-        const host = render('<lily-united-kingdom-national-insurance-number-view label="National Insurance number"></lily-united-kingdom-national-insurance-number-view>');
+        const host = render(
+            '<lily-united-kingdom-national-insurance-number-view label="National Insurance number"></lily-united-kingdom-national-insurance-number-view>',
+        );
 
         const span = host.querySelector("span") as HTMLSpanElement;
         expect(span).not.toBeNull();
@@ -25,13 +30,19 @@ describe("UnitedKingdomNationalInsuranceNumberView", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-united-kingdom-national-insurance-number-view label="National Insurance number"></lily-united-kingdom-national-insurance-number-view>');
+        const host = render(
+            '<lily-united-kingdom-national-insurance-number-view label="National Insurance number"></lily-united-kingdom-national-insurance-number-view>',
+        );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("National Insurance number");
+        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
+            "National Insurance number",
+        );
     });
 
     test("seeds the initial value as text content and exposes a live value property", () => {
-        const host = render('<lily-united-kingdom-national-insurance-number-view label="National Insurance number" value="AB123456C"></lily-united-kingdom-national-insurance-number-view>') as unknown as UnitedKingdomNationalInsuranceNumberView;
+        const host = render(
+            '<lily-united-kingdom-national-insurance-number-view label="National Insurance number" value="AB123456C"></lily-united-kingdom-national-insurance-number-view>',
+        ) as unknown as UnitedKingdomNationalInsuranceNumberView;
 
         expect(host.value).toBe("AB123456C");
         expect(host.querySelector("span")!.textContent).toBe("AB123456C");
@@ -42,7 +53,9 @@ describe("UnitedKingdomNationalInsuranceNumberView", () => {
     });
 
     test('sets role="text" so the identifier announces as a single unit', () => {
-        const host = render('<lily-united-kingdom-national-insurance-number-view label="National Insurance number"></lily-united-kingdom-national-insurance-number-view>');
+        const host = render(
+            '<lily-united-kingdom-national-insurance-number-view label="National Insurance number"></lily-united-kingdom-national-insurance-number-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });

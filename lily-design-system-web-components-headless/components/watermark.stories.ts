@@ -9,9 +9,9 @@ const meta: Meta = {
     title: "Content/Watermark",
     render: (args) => h("lily-watermark", args as Record<string, string | boolean>, SLOT),
     args: {
-        "text": "DRAFT",
-        "rotate": "-22",
-        "gap": "120px",
+        text: "DRAFT",
+        rotate: "-22",
+        gap: "120px",
     },
 };
 

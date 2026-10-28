@@ -17,7 +17,11 @@ function render(html: string): HTMLElement {
 
 describe("ToolCallInput", () => {
     test("renders a div with the base class", () => {
-        expect(render("<lily-tool-call-input>Hello</lily-tool-call-input>").querySelector("div.tool-call-input")).toBeTruthy();
+        expect(
+            render("<lily-tool-call-input>Hello</lily-tool-call-input>").querySelector(
+                "div.tool-call-input",
+            ),
+        ).toBeTruthy();
     });
 
     test("with a label it is a named group (live); without one it has neither role nor aria-label", () => {
@@ -31,16 +35,25 @@ describe("ToolCallInput", () => {
     });
 
     test("appends the consumer class after the base class", () => {
-        expect(render('<lily-tool-call-input class="mine">x</lily-tool-call-input>').querySelector("div")!.getAttribute("class")).toBe("tool-call-input mine");
+        expect(
+            render('<lily-tool-call-input class="mine">x</lily-tool-call-input>')
+                .querySelector("div")!
+                .getAttribute("class"),
+        ).toBe("tool-call-input mine");
     });
 
     test("moves the children into the element", () => {
-        const host = render('<lily-tool-call-input><b data-testid="txt">Hello</b></lily-tool-call-input>');
+        const host = render(
+            '<lily-tool-call-input><b data-testid="txt">Hello</b></lily-tool-call-input>',
+        );
         expect(host.querySelector("div [data-testid=txt]")!.textContent).toBe("Hello");
     });
 
     test("spreads other attributes", () => {
-        expect(render('<lily-tool-call-input id="x1">x</lily-tool-call-input>').querySelector("div")!.id).toBe("x1");
+        expect(
+            render('<lily-tool-call-input id="x1">x</lily-tool-call-input>').querySelector("div")!
+                .id,
+        ).toBe("x1");
     });
 
     test("is idempotent if connectedCallback runs twice", () => {

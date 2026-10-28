@@ -30,9 +30,11 @@ function key(el: Element, k: string, init: KeyboardEventInit = {}) {
 describe("PinInputDiv — boxes, digits and keys", () => {
   function create(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(PinInputDiv);
-    for (const [k, v] of Object.entries({ label: "PIN", ...inputs })) fixture.componentRef.setInput(k, v);
+    for (const [k, v] of Object.entries({ label: "PIN", ...inputs }))
+      fixture.componentRef.setInput(k, v);
     fixture.detectChanges();
-    const boxes = () => Array.from(fixture.nativeElement.querySelectorAll("input")) as HTMLInputElement[];
+    const boxes = () =>
+      Array.from(fixture.nativeElement.querySelectorAll("input")) as HTMLInputElement[];
     const type = (i: number, v: string) => {
       const b = boxes()[i];
       b.value = v;
@@ -44,7 +46,9 @@ describe("PinInputDiv — boxes, digits and keys", () => {
 
   test("is a labelled group with `length` numeric single-character boxes", () => {
     const { fixture, boxes } = create({ length: 6 });
-    expect(fixture.nativeElement.querySelector("[role='group']").getAttribute("aria-label")).toBe("PIN");
+    expect(fixture.nativeElement.querySelector("[role='group']").getAttribute("aria-label")).toBe(
+      "PIN",
+    );
     expect(boxes()).toHaveLength(6);
     expect(boxes()[0].getAttribute("inputmode")).toBe("numeric");
     expect(boxes()[0].getAttribute("maxlength")).toBe("1");
@@ -53,7 +57,10 @@ describe("PinInputDiv — boxes, digits and keys", () => {
   test("each box is named by digitLabel(position, length), else by label", () => {
     const a = create({ length: 3 });
     expect(a.boxes()[1].getAttribute("aria-label")).toBe("PIN");
-    const b = create({ length: 3, digitLabel: (n: number, total: number) => `Digit ${n} of ${total}` });
+    const b = create({
+      length: 3,
+      digitLabel: (n: number, total: number) => `Digit ${n} of ${total}`,
+    });
     expect(b.boxes()[1].getAttribute("aria-label")).toBe("Digit 2 of 3");
   });
 

@@ -9,9 +9,9 @@ const meta: Meta = {
     title: "Forms/NumberInput",
     render: (args) => h("lily-number-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Age",
-        "min": "0",
-        "max": "120"
+        label: "Age",
+        min: "0",
+        max: "120",
     },
 };
 

@@ -10,7 +10,7 @@ const meta: Meta = {
     title: "Navigation/PaginationNav",
     render: (args) => h("lily-pagination-nav", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Pagination"
+        label: "Pagination",
     },
 };
 

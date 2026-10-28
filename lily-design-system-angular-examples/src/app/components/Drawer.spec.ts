@@ -32,7 +32,8 @@ function key(el: Element, k: string) {
 describe("Drawer — dialog contract and Escape", () => {
   function create(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(Drawer);
-    for (const [k, v] of Object.entries({ label: "Panel", open: true, ...inputs })) fixture.componentRef.setInput(k, v);
+    for (const [k, v] of Object.entries({ label: "Panel", open: true, ...inputs }))
+      fixture.componentRef.setInput(k, v);
     fixture.detectChanges();
     return { fixture, el: fixture.nativeElement.querySelector("div.drawer") as HTMLElement };
   }

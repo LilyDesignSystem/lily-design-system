@@ -7,10 +7,11 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/SuomiHenkilotunnusView",
-    render: (args) => h("lily-suomi-henkilotunnus-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-suomi-henkilotunnus-view", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Henkilötunnus (HETU)",
-        "value": "131052-308T"
+        label: "Henkilötunnus (HETU)",
+        value: "131052-308T",
     },
 };
 

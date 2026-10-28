@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Links/AccordionLink",
     render: (args) => h("lily-accordion-link", args as Record<string, string | boolean>, SLOT),
     args: {
-        "href": "#section-1"
+        href: "#section-1",
     },
 };
 

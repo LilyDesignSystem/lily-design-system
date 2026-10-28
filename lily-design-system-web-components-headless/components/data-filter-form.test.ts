@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("DataFilterForm", () => {
     test("renders a native form with role=search and the base class", () => {
-        const host = render('<lily-data-filter-form label="Filter results"></lily-data-filter-form>');
+        const host = render(
+            '<lily-data-filter-form label="Filter results"></lily-data-filter-form>',
+        );
 
         const form = host.querySelector("form") as HTMLFormElement;
         expect(form.getAttribute("role")).toBe("search");
@@ -25,7 +27,9 @@ describe("DataFilterForm", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-data-filter-form label="Filter results"></lily-data-filter-form>');
+        const host = render(
+            '<lily-data-filter-form label="Filter results"></lily-data-filter-form>',
+        );
 
         expect(host.querySelector("form")!.getAttribute("aria-label")).toBe("Filter results");
     });
@@ -39,7 +43,9 @@ describe("DataFilterForm", () => {
     });
 
     test("prevents the default submit navigation", () => {
-        const host = render('<lily-data-filter-form label="Filter results"></lily-data-filter-form>');
+        const host = render(
+            '<lily-data-filter-form label="Filter results"></lily-data-filter-form>',
+        );
         const form = host.querySelector("form") as HTMLFormElement;
 
         const event = new Event("submit", { bubbles: true, cancelable: true });
@@ -49,7 +55,9 @@ describe("DataFilterForm", () => {
     });
 
     test("the submit event still bubbles for the consumer to observe", () => {
-        const host = render('<lily-data-filter-form label="Filter results"></lily-data-filter-form>');
+        const host = render(
+            '<lily-data-filter-form label="Filter results"></lily-data-filter-form>',
+        );
         const form = host.querySelector("form") as HTMLFormElement;
 
         let observed = false;

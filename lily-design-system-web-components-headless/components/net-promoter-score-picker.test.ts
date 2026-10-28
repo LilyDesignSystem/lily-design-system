@@ -57,7 +57,9 @@ describe("NetPromoterScorePicker", () => {
     });
 
     test("is idempotent across repeated connectedCallback invocations", () => {
-        const host = render('<lily-net-promoter-score-picker label="NPS"></lily-net-promoter-score-picker>');
+        const host = render(
+            '<lily-net-promoter-score-picker label="NPS"></lily-net-promoter-score-picker>',
+        );
 
         (host as unknown as NetPromoterScorePicker).connectedCallback();
 

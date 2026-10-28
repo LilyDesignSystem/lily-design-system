@@ -7,9 +7,10 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/LatvijaPersonasKodsInput",
-    render: (args) => h("lily-latvija-personas-kods-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-latvija-personas-kods-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Personas kods"
+        label: "Personas kods",
     },
 };
 

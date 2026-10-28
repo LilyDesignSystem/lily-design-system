@@ -42,7 +42,10 @@ describe("ScrollerBase", () => {
     beforeEach(() => {
         observed = [];
         lastCallback = null;
-        vi.stubGlobal("IntersectionObserver", FakeIntersectionObserver as unknown as typeof IntersectionObserver);
+        vi.stubGlobal(
+            "IntersectionObserver",
+            FakeIntersectionObserver as unknown as typeof IntersectionObserver,
+        );
     });
 
     test("carries the base class", () => {
@@ -52,7 +55,9 @@ describe("ScrollerBase", () => {
     });
 
     test("sets aria-label when label is provided", () => {
-        const host = render('<lily-scroller-base label="Story steps"><div>Step 1</div></lily-scroller-base>');
+        const host = render(
+            '<lily-scroller-base label="Story steps"><div>Step 1</div></lily-scroller-base>',
+        );
 
         expect(host.getAttribute("aria-label")).toBe("Story steps");
     });
@@ -64,28 +69,38 @@ describe("ScrollerBase", () => {
     });
 
     test("reports the active step index via data-index and the index property", () => {
-        const host = render("<lily-scroller-base><div>Step 1</div><div>Step 2</div></lily-scroller-base>") as unknown as ScrollerBase;
+        const host = render(
+            "<lily-scroller-base><div>Step 1</div><div>Step 2</div></lily-scroller-base>",
+        ) as unknown as ScrollerBase;
         const stepTwo = host.children[1];
 
-        lastCallback?.([{ isIntersecting: true, target: stepTwo } as unknown as IntersectionObserverEntry]);
+        lastCallback?.([
+            { isIntersecting: true, target: stepTwo } as unknown as IntersectionObserverEntry,
+        ]);
 
         expect(host.getAttribute("data-index")).toBe("1");
         expect(host.index).toBe(1);
     });
 
     test("dispatches lily-index-change when the active step changes", () => {
-        const host = render("<lily-scroller-base><div>Step 1</div></lily-scroller-base>") as unknown as ScrollerBase;
+        const host = render(
+            "<lily-scroller-base><div>Step 1</div></lily-scroller-base>",
+        ) as unknown as ScrollerBase;
         const handler = vi.fn();
         host.addEventListener("lily-index-change", handler);
         const stepOne = host.children[0];
 
-        lastCallback?.([{ isIntersecting: true, target: stepOne } as unknown as IntersectionObserverEntry]);
+        lastCallback?.([
+            { isIntersecting: true, target: stepOne } as unknown as IntersectionObserverEntry,
+        ]);
 
         expect(handler).toHaveBeenCalled();
     });
 
     test("keeps step children in place", () => {
-        const host = render("<lily-scroller-base><div>Step 1</div><div>Step 2</div></lily-scroller-base>");
+        const host = render(
+            "<lily-scroller-base><div>Step 1</div><div>Step 2</div></lily-scroller-base>",
+        );
 
         expect(host.children.length).toBe(2);
         expect(host.children[0].textContent).toBe("Step 1");

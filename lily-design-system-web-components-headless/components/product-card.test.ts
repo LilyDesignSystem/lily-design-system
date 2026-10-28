@@ -17,13 +17,17 @@ function render(html: string): HTMLElement {
 
 describe("ProductCard", () => {
     test("renders a native article", () => {
-        const host = render('<lily-product-card name="Wonder Widget" price="$19.99"></lily-product-card>');
+        const host = render(
+            '<lily-product-card name="Wonder Widget" price="$19.99"></lily-product-card>',
+        );
 
         expect(host.querySelector("article.product-card")).toBeTruthy();
     });
 
     test("aria-label defaults to name", () => {
-        const host = render('<lily-product-card name="Wonder Widget" price="$19.99"></lily-product-card>');
+        const host = render(
+            '<lily-product-card name="Wonder Widget" price="$19.99"></lily-product-card>',
+        );
 
         expect(host.querySelector("article")!.getAttribute("aria-label")).toBe("Wonder Widget");
     });
@@ -37,7 +41,9 @@ describe("ProductCard", () => {
     });
 
     test("renders no image when image-url is absent", () => {
-        const host = render('<lily-product-card name="Wonder Widget" price="$19.99"></lily-product-card>');
+        const host = render(
+            '<lily-product-card name="Wonder Widget" price="$19.99"></lily-product-card>',
+        );
 
         expect(host.querySelector("img")).toBeNull();
     });
@@ -54,13 +60,17 @@ describe("ProductCard", () => {
     });
 
     test("name renders inside h3.product-card-name", () => {
-        const host = render('<lily-product-card name="Wonder Widget" price="$19.99"></lily-product-card>');
+        const host = render(
+            '<lily-product-card name="Wonder Widget" price="$19.99"></lily-product-card>',
+        );
 
         expect(host.querySelector("h3.product-card-name")!.textContent).toBe("Wonder Widget");
     });
 
     test("price renders inside p.product-card-price", () => {
-        const host = render('<lily-product-card name="Wonder Widget" price="$19.99"></lily-product-card>');
+        const host = render(
+            '<lily-product-card name="Wonder Widget" price="$19.99"></lily-product-card>',
+        );
 
         expect(host.querySelector("p.product-card-price")!.textContent).toBe("$19.99");
     });

@@ -52,7 +52,9 @@ describe("PopconfirmDialog", () => {
         const withDescription = render(
             '<lily-popconfirm-dialog title="Delete file?" description="This cannot be undone." confirm-label="Delete" cancel-label="Cancel"></lily-popconfirm-dialog>',
         );
-        const description = withDescription.querySelector("p.popconfirm-dialog-description") as HTMLElement;
+        const description = withDescription.querySelector(
+            "p.popconfirm-dialog-description",
+        ) as HTMLElement;
         expect(description.textContent).toBe("This cannot be undone.");
         expect(description.hidden).toBe(false);
         expect(withDescription.getAttribute("aria-describedby")).toBe(description.id);
@@ -61,7 +63,10 @@ describe("PopconfirmDialog", () => {
             '<lily-popconfirm-dialog title="Delete file?" confirm-label="Delete" cancel-label="Cancel"></lily-popconfirm-dialog>',
         );
         expect(withoutDescription.hasAttribute("aria-describedby")).toBe(false);
-        expect((withoutDescription.querySelector("p.popconfirm-dialog-description") as HTMLElement).hidden).toBe(true);
+        expect(
+            (withoutDescription.querySelector("p.popconfirm-dialog-description") as HTMLElement)
+                .hidden,
+        ).toBe(true);
     });
 
     test("cancel and confirm buttons carry the correct classes, type, and labels", () => {

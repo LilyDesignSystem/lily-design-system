@@ -21,7 +21,8 @@ describe("MenuBar", () => {
   });
 });
 
-const ITEMS = '<button role="menuitem">One</button><button role="menuitem">Two</button><button role="menuitem">Three</button>';
+const ITEMS =
+  '<button role="menuitem">One</button><button role="menuitem">Two</button><button role="menuitem">Three</button>';
 
 function key(el: Element, k: string) {
   const event = new KeyboardEvent("keydown", { key: k, bubbles: true, cancelable: true });

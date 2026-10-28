@@ -47,7 +47,9 @@ describe("MenuItem", () => {
     });
 
     test("a consumer-supplied aria-haspopup/aria-expanded pair is preserved", () => {
-        const host = render('<lily-menu-item aria-haspopup="true" aria-expanded="false">Recent Files</lily-menu-item>');
+        const host = render(
+            '<lily-menu-item aria-haspopup="true" aria-expanded="false">Recent Files</lily-menu-item>',
+        );
 
         expect(host.getAttribute("aria-haspopup")).toBe("true");
         expect(host.getAttribute("aria-expanded")).toBe("false");

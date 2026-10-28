@@ -7,7 +7,9 @@ describe("PolskaNumerIdentyfikacjiPodatkowejView", () => {
   test("renders the span root with the base class", () => {
     const fixture = TestBed.createComponent(PolskaNumerIdentyfikacjiPodatkowejView);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.polska-numer-identyfikacji-podatkowej-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.polska-numer-identyfikacji-podatkowej-view",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("PolskaNumerIdentyfikacjiPodatkowejView", () => {
     const fixture = TestBed.createComponent(PolskaNumerIdentyfikacjiPodatkowejView);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.polska-numer-identyfikacji-podatkowej-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.polska-numer-identyfikacji-podatkowej-view",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

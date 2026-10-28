@@ -7,9 +7,14 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/NederlandBurgerserviceNummerInput",
-    render: (args) => h("lily-nederland-burgerservice-nummer-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-nederland-burgerservice-nummer-input",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Burgerservicenummer (BSN)"
+        label: "Burgerservicenummer (BSN)",
     },
 };
 

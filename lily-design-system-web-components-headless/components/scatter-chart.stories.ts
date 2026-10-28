@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Media and data/ScatterChart",
     render: (args) => h("lily-scatter-chart", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Heights vs weights",
-        "series": "[{\"name\":\"Sample\",\"points\":[{\"x\":1,\"y\":2},{\"x\":2,\"y\":4},{\"x\":3,\"y\":3},{\"x\":4,\"y\":5}]}]"
+        label: "Heights vs weights",
+        series: '[{"name":"Sample","points":[{"x":1,"y":2},{"x":2,"y":4},{"x":3,"y":3},{"x":4,"y":5}]}]',
     },
 };
 

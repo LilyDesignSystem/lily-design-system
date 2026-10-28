@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("DateTimeNowInput", () => {
     test("the custom element itself is the wrapper, role=group (self-is-the-wrapper)", () => {
-        const host = render('<lily-date-time-now-input label="Event time"></lily-date-time-now-input>');
+        const host = render(
+            '<lily-date-time-now-input label="Event time"></lily-date-time-now-input>',
+        );
 
         expect(host.className).toBe("date-time-now-input");
         expect(host.getAttribute("role")).toBe("group");
@@ -25,7 +27,9 @@ describe("DateTimeNowInput", () => {
     });
 
     test("contains a date input, a time input, and a Now button with default labels", () => {
-        const host = render('<lily-date-time-now-input label="Event time"></lily-date-time-now-input>');
+        const host = render(
+            '<lily-date-time-now-input label="Event time"></lily-date-time-now-input>',
+        );
 
         const dateInput = host.querySelector('input[type="date"]') as HTMLInputElement;
         const timeInput = host.querySelector('input[type="time"]') as HTMLInputElement;
@@ -48,22 +52,31 @@ describe("DateTimeNowInput", () => {
     });
 
     test("the Now button sets both inputs to the current date and time and dispatches lily-change", () => {
-        const host = render('<lily-date-time-now-input label="Event time"></lily-date-time-now-input>') as unknown as DateTimeNowInput;
+        const host = render(
+            '<lily-date-time-now-input label="Event time"></lily-date-time-now-input>',
+        ) as unknown as DateTimeNowInput;
         const handler = vi.fn();
         host.addEventListener("lily-change", handler);
 
-        (host as unknown as HTMLElement).querySelector("button")!.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        (host as unknown as HTMLElement)
+            .querySelector("button")!
+            .dispatchEvent(new MouseEvent("click", { bubbles: true }));
 
         expect(host.dateValue).not.toBe("");
         expect(host.timeValue).not.toBe("");
         expect(handler).toHaveBeenCalledTimes(1);
-        const event = handler.mock.calls[0][0] as CustomEvent<{ dateValue: string; timeValue: string }>;
+        const event = handler.mock.calls[0][0] as CustomEvent<{
+            dateValue: string;
+            timeValue: string;
+        }>;
         expect(event.detail.dateValue).toBe(host.dateValue);
         expect(event.detail.timeValue).toBe(host.timeValue);
     });
 
     test("required and disabled apply to both inputs; disabled also applies to the button", () => {
-        const host = render('<lily-date-time-now-input label="Event time" required disabled></lily-date-time-now-input>');
+        const host = render(
+            '<lily-date-time-now-input label="Event time" required disabled></lily-date-time-now-input>',
+        );
 
         const dateInput = host.querySelector('input[type="date"]') as HTMLInputElement;
         const timeInput = host.querySelector('input[type="time"]') as HTMLInputElement;
@@ -77,7 +90,9 @@ describe("DateTimeNowInput", () => {
     });
 
     test("exposes live dateValue/timeValue properties", () => {
-        const host = render('<lily-date-time-now-input label="Event time"></lily-date-time-now-input>') as unknown as DateTimeNowInput;
+        const host = render(
+            '<lily-date-time-now-input label="Event time"></lily-date-time-now-input>',
+        ) as unknown as DateTimeNowInput;
 
         host.dateValue = "2026-06-01";
         host.timeValue = "09:30";

@@ -7,10 +7,15 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/TuaisceartEireannHealthAndCareNumberView",
-    render: (args) => h("lily-tuaisceart-eireann-health-and-care-number-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-tuaisceart-eireann-health-and-care-number-view",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Health and Care (H&C) Number",
-        "value": "123 456 7890"
+        label: "Health and Care (H&C) Number",
+        value: "123 456 7890",
     },
 };
 

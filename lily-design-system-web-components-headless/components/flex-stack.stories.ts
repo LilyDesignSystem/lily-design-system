@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Content/FlexStack",
     render: (args) => h("lily-flex-stack", args as Record<string, string | boolean>, SLOT),
     args: {
-        "direction": "row",
-        "gap": "1rem",
+        direction: "row",
+        gap: "1rem",
     },
 };
 

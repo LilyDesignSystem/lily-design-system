@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/TimePickerInput",
     render: (args) => h("lily-time-picker-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Appointment time",
+        label: "Appointment time",
     },
 };
 

@@ -16,7 +16,8 @@ function render(html: string): HTMLElement {
 }
 
 const SVG = '<svg data-testid="art" viewBox="0 0 10 10"><circle r="4"></circle></svg>';
-const TABLE = '<table slot="data-table"><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>';
+const TABLE =
+    '<table slot="data-table"><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>';
 const BASIC = `<lily-composed-chart label="Test">${SVG}</lily-composed-chart>`;
 const WITH_TABLE = `<lily-composed-chart label="Test">${SVG}${TABLE}</lily-composed-chart>`;
 
@@ -41,11 +42,15 @@ describe("ComposedChart", () => {
 
     test("moves the consumer svg into the graphic wrapper", () => {
         const host = render(BASIC);
-        expect(host.querySelector("svg")!.closest("[role=img]")).toBe(host.querySelector(".composed-chart-graphic"));
+        expect(host.querySelector("svg")!.closest("[role=img]")).toBe(
+            host.querySelector(".composed-chart-graphic"),
+        );
     });
 
     test("spreads other attributes onto the figure", () => {
-        const host = render('<lily-composed-chart label="T" id="c1" data-testid="chart"></lily-composed-chart>');
+        const host = render(
+            '<lily-composed-chart label="T" id="c1" data-testid="chart"></lily-composed-chart>',
+        );
         const fig = host.querySelector("figure")!;
         expect(fig.id).toBe("c1");
         expect(fig.getAttribute("data-testid")).toBe("chart");

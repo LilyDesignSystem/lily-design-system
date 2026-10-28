@@ -50,7 +50,8 @@ function make(inputs: Record<string, unknown> = {}) {
   return fixture;
 }
 const root = (f: any): HTMLElement => f.nativeElement.querySelector(".middle-truncation");
-const visual = (f: any): string => f.nativeElement.querySelector(".middle-truncation-visual").textContent;
+const visual = (f: any): string =>
+  f.nativeElement.querySelector(".middle-truncation-visual").textContent;
 const full = (f: any): HTMLElement => f.nativeElement.querySelector(".middle-truncation-full");
 
 describe("MiddleTruncation", () => {
@@ -66,7 +67,9 @@ describe("MiddleTruncation", () => {
 
   test("keeps the full text in the accessibility tree and hides the shortened copy from it", () => {
     const f = make();
-    expect(f.nativeElement.querySelector(".middle-truncation-visual").getAttribute("aria-hidden")).toBe("true");
+    expect(
+      f.nativeElement.querySelector(".middle-truncation-visual").getAttribute("aria-hidden"),
+    ).toBe("true");
     expect(full(f).textContent).toBe(text);
     expect(full(f).closest("[aria-hidden]")).toBeNull();
   });

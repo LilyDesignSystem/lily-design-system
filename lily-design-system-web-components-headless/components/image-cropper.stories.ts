@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/ImageCropper",
     render: (args) => h("lily-image-cropper", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Crop your profile photo",
+        label: "Crop your profile photo",
     },
 };
 

@@ -15,7 +15,8 @@ function render(html: string): HTMLElement {
     return document.body.firstElementChild as HTMLElement;
 }
 
-const BASIC = '<lily-calendar-week-table label="Week of 6 January 2025"></lily-calendar-week-table>';
+const BASIC =
+    '<lily-calendar-week-table label="Week of 6 January 2025"></lily-calendar-week-table>';
 
 describe("CalendarWeekTable", () => {
     test("renders a native table", () => {
@@ -31,12 +32,16 @@ describe("CalendarWeekTable", () => {
     });
 
     test("appends the consumer class after the base class", () => {
-        const host = render('<lily-calendar-week-table label="x" class="mine"></lily-calendar-week-table>');
+        const host = render(
+            '<lily-calendar-week-table label="x" class="mine"></lily-calendar-week-table>',
+        );
         expect(host.querySelector("table")!.className).toBe("calendar-week-table mine");
     });
 
     test("uses label as aria-label", () => {
-        expect(render(BASIC).querySelector("table")!.getAttribute("aria-label")).toBe("Week of 6 January 2025");
+        expect(render(BASIC).querySelector("table")!.getAttribute("aria-label")).toBe(
+            "Week of 6 January 2025",
+        );
     });
 
     test("marks the view as data-view=week", () => {
@@ -44,7 +49,9 @@ describe("CalendarWeekTable", () => {
     });
 
     test("renders a caption when provided", () => {
-        const host = render('<lily-calendar-week-table label="x" caption="Visible caption"></lily-calendar-week-table>');
+        const host = render(
+            '<lily-calendar-week-table label="x" caption="Visible caption"></lily-calendar-week-table>',
+        );
         expect(host.querySelector("table > caption")!.textContent).toBe("Visible caption");
     });
 
@@ -67,7 +74,9 @@ describe("CalendarWeekTable", () => {
     });
 
     test("passes through other attributes", () => {
-        const host = render('<lily-calendar-week-table label="x" data-testid="cal"></lily-calendar-week-table>');
+        const host = render(
+            '<lily-calendar-week-table label="x" data-testid="cal"></lily-calendar-week-table>',
+        );
         expect(host.querySelector("table")!.getAttribute("data-testid")).toBe("cal");
     });
 

@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Forms/TextAreaInput",
     render: (args) => h("lily-text-area-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Comments",
-        "rows": "4",
+        label: "Comments",
+        rows: "4",
     },
 };
 

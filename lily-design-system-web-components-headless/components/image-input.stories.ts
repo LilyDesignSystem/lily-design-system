@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Forms/ImageInput",
     render: (args) => h("lily-image-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "src": "https://example.com/submit.png",
-        "alt": "Submit"
+        src: "https://example.com/submit.png",
+        alt: "Submit",
     },
 };
 

@@ -34,13 +34,17 @@ describe("Field", () => {
     });
 
     test("respects a caller-supplied input-id instead of assigning its own", () => {
-        const host = render('<lily-field label="Name" input-id="my-input"><input id="my-input" /></lily-field>');
+        const host = render(
+            '<lily-field label="Name" input-id="my-input"><input id="my-input" /></lily-field>',
+        );
 
         expect(host.querySelector("label")!.htmlFor).toBe("my-input");
     });
 
     test("renders a description paragraph before the content", () => {
-        const host = render('<lily-field label="Name" description="Enter full name"><input /></lily-field>');
+        const host = render(
+            '<lily-field label="Name" description="Enter full name"><input /></lily-field>',
+        );
 
         const description = host.querySelector("p")!;
         expect(description.textContent).toBe("Enter full name");
@@ -48,7 +52,9 @@ describe("Field", () => {
     });
 
     test("renders an error paragraph with role=alert after the content", () => {
-        const host = render('<lily-field label="Email" error="Email is required"><input /></lily-field>');
+        const host = render(
+            '<lily-field label="Email" error="Email is required"><input /></lily-field>',
+        );
 
         const error = host.querySelector('[role="alert"]') as HTMLElement;
         expect(error.textContent).toBe("Email is required");

@@ -7,9 +7,10 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/SverigePersonnummerInput",
-    render: (args) => h("lily-sverige-personnummer-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-sverige-personnummer-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Personnummer"
+        label: "Personnummer",
     },
 };
 

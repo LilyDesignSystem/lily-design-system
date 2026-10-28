@@ -35,13 +35,17 @@ describe("ActionBarButton", () => {
     });
 
     test("disabled attribute propagates to the native button", () => {
-        const host = render('<lily-action-bar-button label="Delete" disabled></lily-action-bar-button>');
+        const host = render(
+            '<lily-action-bar-button label="Delete" disabled></lily-action-bar-button>',
+        );
 
         expect((host.querySelector("button") as HTMLButtonElement).disabled).toBe(true);
     });
 
     test("moves its children into the button", () => {
-        const host = render('<lily-action-bar-button label="Delete"><span>Delete</span></lily-action-bar-button>');
+        const host = render(
+            '<lily-action-bar-button label="Delete"><span>Delete</span></lily-action-bar-button>',
+        );
 
         expect(host.querySelector("button > span")).toBeTruthy();
     });
@@ -58,7 +62,9 @@ describe("ActionBarButton", () => {
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-action-bar-button label="Delete" class="extra"></lily-action-bar-button>');
+        const host = render(
+            '<lily-action-bar-button label="Delete" class="extra"></lily-action-bar-button>',
+        );
 
         expect(host.querySelector("button")!.className).toBe("action-bar-button extra");
     });

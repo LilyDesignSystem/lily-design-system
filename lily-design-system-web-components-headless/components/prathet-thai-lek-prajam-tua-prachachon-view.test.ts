@@ -3,7 +3,10 @@ import { afterEach, describe, expect, test } from "vitest";
 import { PrathetThaiLekPrajamTuaPrachachonView } from "./prathet-thai-lek-prajam-tua-prachachon-view.js";
 
 if (!customElements.get("lily-prathet-thai-lek-prajam-tua-prachachon-view")) {
-    customElements.define("lily-prathet-thai-lek-prajam-tua-prachachon-view", PrathetThaiLekPrajamTuaPrachachonView);
+    customElements.define(
+        "lily-prathet-thai-lek-prajam-tua-prachachon-view",
+        PrathetThaiLekPrajamTuaPrachachonView,
+    );
 }
 
 afterEach(() => {
@@ -17,7 +20,9 @@ function render(html: string): HTMLElement {
 
 describe("PrathetThaiLekPrajamTuaPrachachonView", () => {
     test("renders a native span with the correct class", () => {
-        const host = render('<lily-prathet-thai-lek-prajam-tua-prachachon-view label="เลขประจำตัวประชาชน (National ID)" value="1234567890123"></lily-prathet-thai-lek-prajam-tua-prachachon-view>');
+        const host = render(
+            '<lily-prathet-thai-lek-prajam-tua-prachachon-view label="เลขประจำตัวประชาชน (National ID)" value="1234567890123"></lily-prathet-thai-lek-prajam-tua-prachachon-view>',
+        );
 
         const span = host.querySelector("span") as HTMLSpanElement;
         expect(span).not.toBeNull();
@@ -25,13 +30,19 @@ describe("PrathetThaiLekPrajamTuaPrachachonView", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-prathet-thai-lek-prajam-tua-prachachon-view label="เลขประจำตัวประชาชน (National ID)" value="1234567890123"></lily-prathet-thai-lek-prajam-tua-prachachon-view>');
+        const host = render(
+            '<lily-prathet-thai-lek-prajam-tua-prachachon-view label="เลขประจำตัวประชาชน (National ID)" value="1234567890123"></lily-prathet-thai-lek-prajam-tua-prachachon-view>',
+        );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("เลขประจำตัวประชาชน (National ID)");
+        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
+            "เลขประจำตัวประชาชน (National ID)",
+        );
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
-        const host = render('<lily-prathet-thai-lek-prajam-tua-prachachon-view label="เลขประจำตัวประชาชน (National ID)" value="1234567890123"></lily-prathet-thai-lek-prajam-tua-prachachon-view>') as unknown as PrathetThaiLekPrajamTuaPrachachonView;
+        const host = render(
+            '<lily-prathet-thai-lek-prajam-tua-prachachon-view label="เลขประจำตัวประชาชน (National ID)" value="1234567890123"></lily-prathet-thai-lek-prajam-tua-prachachon-view>',
+        ) as unknown as PrathetThaiLekPrajamTuaPrachachonView;
 
         expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("1234567890123");
         expect(host.value).toBe("1234567890123");
@@ -42,7 +53,9 @@ describe("PrathetThaiLekPrajamTuaPrachachonView", () => {
     });
 
     test("has role=text so the identifier announces as a single unit", () => {
-        const host = render('<lily-prathet-thai-lek-prajam-tua-prachachon-view label="เลขประจำตัวประชาชน (National ID)" value="1234567890123"></lily-prathet-thai-lek-prajam-tua-prachachon-view>');
+        const host = render(
+            '<lily-prathet-thai-lek-prajam-tua-prachachon-view label="เลขประจำตัวประชาชน (National ID)" value="1234567890123"></lily-prathet-thai-lek-prajam-tua-prachachon-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });

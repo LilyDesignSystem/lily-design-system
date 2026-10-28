@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/AccordionCheckbox",
     render: (args) => h("lily-accordion-checkbox", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "I have additional comments",
+        label: "I have additional comments",
     },
 };
 

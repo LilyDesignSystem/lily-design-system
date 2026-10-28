@@ -9,9 +9,9 @@ const meta: Meta = {
     title: "Navigation/SplitView",
     render: (args) => h("lily-split-view", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Files and editor",
-        "orientation": "horizontal",
-        "split-percent": "30"
+        label: "Files and editor",
+        orientation: "horizontal",
+        "split-percent": "30",
     },
 };
 

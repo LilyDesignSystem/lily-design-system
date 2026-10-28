@@ -12,7 +12,7 @@ const meta: Meta = {
     title: "Navigation/Menu",
     render: (args) => h("lily-menu", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Actions"
+        label: "Actions",
     },
 };
 

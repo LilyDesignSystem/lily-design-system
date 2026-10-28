@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Content/Masonry",
     render: (args) => h("lily-masonry", args as Record<string, string | boolean>, SLOT),
     args: {
-        "columns": "3",
-        "gap": "1rem",
+        columns: "3",
+        gap: "1rem",
     },
 };
 

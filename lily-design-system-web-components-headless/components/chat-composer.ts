@@ -18,10 +18,32 @@
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
-const HANDLED = new Set(["label", "send-label", "stop-label", "placeholder", "name", "min-rows", "max-rows", "busy", "disabled", "value"]);
+const HANDLED = new Set([
+    "label",
+    "send-label",
+    "stop-label",
+    "placeholder",
+    "name",
+    "min-rows",
+    "max-rows",
+    "busy",
+    "disabled",
+    "value",
+]);
 
 export class ChatComposer extends HTMLElement {
-    static observedAttributes = ["label", "send-label", "stop-label", "placeholder", "name", "min-rows", "max-rows", "busy", "disabled", "value"];
+    static observedAttributes = [
+        "label",
+        "send-label",
+        "stop-label",
+        "placeholder",
+        "name",
+        "min-rows",
+        "max-rows",
+        "busy",
+        "disabled",
+        "value",
+    ];
 
     #form: HTMLFormElement | null = null;
     #textarea: HTMLTextAreaElement | null = null;
@@ -60,7 +82,8 @@ export class ChatComposer extends HTMLElement {
     }
 
     attributeChangedCallback(name: string): void {
-        if (name === "value" && this.#textarea) this.#textarea.value = this.getAttribute("value") ?? "";
+        if (name === "value" && this.#textarea)
+            this.#textarea.value = this.getAttribute("value") ?? "";
         this.#sync();
     }
 
@@ -89,7 +112,10 @@ export class ChatComposer extends HTMLElement {
         const label = this.getAttribute("label");
         if (label !== null) ta.setAttribute("aria-label", label);
         else ta.removeAttribute("aria-label");
-        for (const [attr, prop] of [["placeholder", "placeholder"], ["name", "name"]] as const) {
+        for (const [attr, prop] of [
+            ["placeholder", "placeholder"],
+            ["name", "name"],
+        ] as const) {
             const v = this.getAttribute(attr);
             if (v !== null) ta.setAttribute(prop, v);
             else ta.removeAttribute(prop);
@@ -102,12 +128,19 @@ export class ChatComposer extends HTMLElement {
         button.type = busy ? "button" : "submit";
         button.setAttribute("data-state", busy ? "stop" : "send");
         button.disabled = this.#disabled || (!busy && ta.value.trim() === "");
-        this.#label.textContent = (busy ? this.getAttribute("stop-label") : this.getAttribute("send-label")) ?? "";
+        this.#label.textContent =
+            (busy ? this.getAttribute("stop-label") : this.getAttribute("send-label")) ?? "";
     }
 
     #trySend(): void {
         if (this.#disabled || this.#busy || this.value.trim() === "") return;
-        this.dispatchEvent(new CustomEvent("lily-send", { detail: { value: this.value }, bubbles: true, composed: true }));
+        this.dispatchEvent(
+            new CustomEvent("lily-send", {
+                detail: { value: this.value },
+                bubbles: true,
+                composed: true,
+            }),
+        );
     }
 
     #onInput = (): void => {
@@ -129,6 +162,7 @@ export class ChatComposer extends HTMLElement {
     };
 
     #onButtonClick = (): void => {
-        if (this.#busy) this.dispatchEvent(new CustomEvent("lily-stop", { bubbles: true, composed: true }));
+        if (this.#busy)
+            this.dispatchEvent(new CustomEvent("lily-stop", { bubbles: true, composed: true }));
     };
 }

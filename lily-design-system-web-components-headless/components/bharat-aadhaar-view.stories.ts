@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Special-Purpose Identifiers/BharatAadhaarView",
     render: (args) => h("lily-bharat-aadhaar-view", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Aadhaar (आधार)",
-        "value": "234567890123"
+        label: "Aadhaar (आधार)",
+        value: "234567890123",
     },
 };
 

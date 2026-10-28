@@ -7,10 +7,15 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/EspanaTarjetaSanitariaIndividualView",
-    render: (args) => h("lily-espana-tarjeta-sanitaria-individual-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-espana-tarjeta-sanitaria-individual-view",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Tarjeta Sanitaria Individual",
-        "value": "AA1234567"
+        label: "Tarjeta Sanitaria Individual",
+        value: "AA1234567",
     },
 };
 

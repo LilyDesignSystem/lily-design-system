@@ -9,9 +9,9 @@ const meta: Meta = {
     title: "Content/Drawer",
     render: (args) => h("lily-drawer", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Navigation",
-        "side": "left",
-        "open": true,
+        label: "Navigation",
+        side: "left",
+        open: true,
     },
 };
 

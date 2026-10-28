@@ -29,13 +29,17 @@ describe("ContentsNav", () => {
     });
 
     test("moves its children into the nav", () => {
-        const host = render('<lily-contents-nav label="Contents"><ol id="list"></ol></lily-contents-nav>');
+        const host = render(
+            '<lily-contents-nav label="Contents"><ol id="list"></ol></lily-contents-nav>',
+        );
 
         expect(host.querySelector("nav > #list")).toBeTruthy();
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-contents-nav label="Contents" class="extra"></lily-contents-nav>');
+        const host = render(
+            '<lily-contents-nav label="Contents" class="extra"></lily-contents-nav>',
+        );
 
         expect(host.querySelector("nav")!.className).toBe("contents-nav extra");
     });
@@ -60,13 +64,26 @@ const linksHtml = (ids: string[]) =>
 function sections(ids: string[]): Record<string, number> {
     const tops: Record<string, number> = {};
     // A tall page, so the viewport is not "at the bottom" unless a test says so.
-    Object.defineProperty(document.documentElement, "scrollHeight", { value: 5000, configurable: true });
+    Object.defineProperty(document.documentElement, "scrollHeight", {
+        value: 5000,
+        configurable: true,
+    });
     for (const id of ids) {
         const el = document.createElement("section");
         el.id = id;
         tops[id] = 0;
         el.getBoundingClientRect = () =>
-            ({ top: tops[id], bottom: tops[id] + 100, left: 0, right: 0, width: 0, height: 100, x: 0, y: tops[id], toJSON() {} }) as DOMRect;
+            ({
+                top: tops[id],
+                bottom: tops[id] + 100,
+                left: 0,
+                right: 0,
+                width: 0,
+                height: 100,
+                x: 0,
+                y: tops[id],
+                toJSON() {},
+            }) as DOMRect;
         document.body.appendChild(el);
     }
     return tops;
@@ -127,7 +144,9 @@ describe("ContentsNav — scrollspy", () => {
 
     test("marks the link of the section in view with aria-current and data-active", async () => {
         const tops = sections(IDS);
-        tops.intro = -400; tops.usage = -20; tops.api = 500;
+        tops.intro = -400;
+        tops.usage = -20;
+        tops.api = 500;
         mountNav("spy", linksHtml(IDS));
         await settle();
         expect(activeLink()!.textContent).toBe("usage");
@@ -138,21 +157,29 @@ describe("ContentsNav — scrollspy", () => {
 
     test("moves the mark when the reader scrolls, and back again", async () => {
         const tops = sections(IDS);
-        tops.intro = 0; tops.usage = 300; tops.api = 600;
+        tops.intro = 0;
+        tops.usage = 300;
+        tops.api = 600;
         mountNav("spy", linksHtml(IDS));
         await settle();
         expect(activeLink()!.textContent).toBe("intro");
-        tops.intro = -400; tops.usage = -100; tops.api = 200;
+        tops.intro = -400;
+        tops.usage = -100;
+        tops.api = 200;
         await scroll();
         expect(activeLink()!.textContent).toBe("usage");
-        tops.intro = 0; tops.usage = 300; tops.api = 600;
+        tops.intro = 0;
+        tops.usage = 300;
+        tops.api = 600;
         await scroll();
         expect(activeLink()!.textContent).toBe("intro");
     });
 
     test("offset moves the activation line", async () => {
         const tops = sections(IDS);
-        tops.intro = -400; tops.usage = 60; tops.api = 500;
+        tops.intro = -400;
+        tops.usage = 60;
+        tops.api = 500;
         mountNav("spy offset=80", linksHtml(IDS));
         await settle();
         expect(activeLink()!.textContent).toBe("usage");
@@ -167,12 +194,16 @@ describe("ContentsNav — scrollspy", () => {
 
     test("a click makes its link current at once and holds it while the scroll settles", async () => {
         const tops = sections(IDS);
-        tops.intro = 0; tops.usage = 300; tops.api = 600;
+        tops.intro = 0;
+        tops.usage = 300;
+        tops.api = 600;
         mountNav("spy", linksHtml(IDS));
         await settle();
         (document.querySelector('a[href="#api"]') as HTMLElement).click();
         expect(activeLink()!.textContent).toBe("api");
-        tops.intro = -100; tops.usage = 0; tops.api = 300;
+        tops.intro = -100;
+        tops.usage = 0;
+        tops.api = 300;
         await scroll();
         expect(activeLink()!.textContent).toBe("api");
         await scroll("scrollend");
@@ -181,7 +212,9 @@ describe("ContentsNav — scrollspy", () => {
 
     test("lily-active-change fires once per change, with the section id, and `active` holds it", async () => {
         const tops = sections(IDS);
-        tops.intro = 0; tops.usage = 300; tops.api = 600;
+        tops.intro = 0;
+        tops.usage = 300;
+        tops.api = 600;
         const onChange = vi.fn();
         const host = document.createElement("lily-contents-nav");
         host.setAttribute("label", "Contents");
@@ -192,7 +225,9 @@ describe("ContentsNav — scrollspy", () => {
         await settle();
         expect(onChange).toHaveBeenCalledTimes(1);
         expect(onChange).toHaveBeenLastCalledWith("intro");
-        tops.intro = -400; tops.usage = -100; tops.api = 200;
+        tops.intro = -400;
+        tops.usage = -100;
+        tops.api = 200;
         await scroll();
         expect(onChange).toHaveBeenCalledTimes(2);
         expect(onChange).toHaveBeenLastCalledWith("usage");
@@ -201,8 +236,13 @@ describe("ContentsNav — scrollspy", () => {
 
     test("at the bottom of the page the last section is current even if it never reaches the line", async () => {
         const tops = sections(IDS);
-        tops.intro = -900; tops.usage = -500; tops.api = 400;
-        Object.defineProperty(document.documentElement, "scrollHeight", { value: window.innerHeight + 10, configurable: true });
+        tops.intro = -900;
+        tops.usage = -500;
+        tops.api = 400;
+        Object.defineProperty(document.documentElement, "scrollHeight", {
+            value: window.innerHeight + 10,
+            configurable: true,
+        });
         Object.defineProperty(window, "scrollY", { value: 10, configurable: true });
         mountNav("spy", linksHtml(IDS));
         await settle();
@@ -212,7 +252,9 @@ describe("ContentsNav — scrollspy", () => {
 
     test("the URL hash wins on load", async () => {
         const tops = sections(IDS);
-        tops.intro = 0; tops.usage = 300; tops.api = 600;
+        tops.intro = 0;
+        tops.usage = 300;
+        tops.api = 600;
         window.location.hash = "#api";
         mountNav("spy", linksHtml(IDS));
         await settle();
@@ -221,8 +263,12 @@ describe("ContentsNav — scrollspy", () => {
 
     test("ancestors of the active link get data-descendant-active", async () => {
         const tops = sections(["intro", "child"]);
-        tops.intro = -400; tops.child = -10;
-        mountNav("spy", '<ol><li><a href="#intro">intro</a><ol><li><a href="#child">child</a></li></ol></li></ol>');
+        tops.intro = -400;
+        tops.child = -10;
+        mountNav(
+            "spy",
+            '<ol><li><a href="#intro">intro</a><ol><li><a href="#child">child</a></li></ol></li></ol>',
+        );
         await settle();
         expect(activeLink()!.textContent).toBe("child");
         expect(document.querySelector("li")!.hasAttribute("data-descendant-active")).toBe(true);

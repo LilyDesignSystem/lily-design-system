@@ -17,14 +17,18 @@ function render(html: string): HTMLElement {
 
 describe("FloatingPanel", () => {
     test("renders as itself with the base class", () => {
-        const host = render('<lily-floating-panel label="Options"><p>Content</p></lily-floating-panel>');
+        const host = render(
+            '<lily-floating-panel label="Options"><p>Content</p></lily-floating-panel>',
+        );
 
         expect(host.tagName.toLowerCase()).toBe("lily-floating-panel");
         expect(host.className).toBe("floating-panel");
     });
 
     test("is hidden and carries no role/aria-label by default (closed)", () => {
-        const host = render('<lily-floating-panel label="Options"><p>Content</p></lily-floating-panel>');
+        const host = render(
+            '<lily-floating-panel label="Options"><p>Content</p></lily-floating-panel>',
+        );
 
         expect(host.hidden).toBe(true);
         expect(host.hasAttribute("role")).toBe(false);
@@ -32,7 +36,9 @@ describe("FloatingPanel", () => {
     });
 
     test("shows role=region and aria-label when open", () => {
-        const host = render('<lily-floating-panel open label="Options"><p>Content</p></lily-floating-panel>');
+        const host = render(
+            '<lily-floating-panel open label="Options"><p>Content</p></lily-floating-panel>',
+        );
 
         expect(host.hidden).toBe(false);
         expect(host.getAttribute("role")).toBe("region");
@@ -40,7 +46,9 @@ describe("FloatingPanel", () => {
     });
 
     test("toggling the open attribute updates hidden and ARIA reactively", () => {
-        const host = render('<lily-floating-panel label="Options"><p>Content</p></lily-floating-panel>');
+        const host = render(
+            '<lily-floating-panel label="Options"><p>Content</p></lily-floating-panel>',
+        );
 
         expect(host.hidden).toBe(true);
         host.setAttribute("open", "");
@@ -53,13 +61,17 @@ describe("FloatingPanel", () => {
     });
 
     test("preserves children content in place", () => {
-        const host = render('<lily-floating-panel open label="Options"><p>Panel content</p></lily-floating-panel>');
+        const host = render(
+            '<lily-floating-panel open label="Options"><p>Panel content</p></lily-floating-panel>',
+        );
 
         expect(host.textContent).toBe("Panel content");
     });
 
     test("appends the consumer's class hook to the base class", () => {
-        const host = render('<lily-floating-panel label="Options" class="chat-widget"></lily-floating-panel>');
+        const host = render(
+            '<lily-floating-panel label="Options" class="chat-widget"></lily-floating-panel>',
+        );
 
         expect(host.className).toBe("floating-panel chat-widget");
     });

@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Content/Grid",
     render: (args) => h("lily-grid", args as Record<string, string | boolean>, SLOT),
     args: {
-        "columns": "3",
-        "gap": "1.5rem",
+        columns: "3",
+        gap: "1.5rem",
     },
 };
 

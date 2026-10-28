@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Content/AiLabel",
     render: (args) => h("lily-ai-label", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "AI-generated summary",
-        "text": "AI",
+        label: "AI-generated summary",
+        text: "AI",
     },
 };
 

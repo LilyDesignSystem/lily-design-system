@@ -35,7 +35,9 @@ describe("Option", () => {
     });
 
     test("selected and disabled propagate to the inner option", () => {
-        const host = render('<lily-option value="ada" selected disabled>Ada Lovelace</lily-option>');
+        const host = render(
+            '<lily-option value="ada" selected disabled>Ada Lovelace</lily-option>',
+        );
 
         const option = host.querySelector("option") as HTMLOptionElement;
         expect(option.selected).toBe(true);

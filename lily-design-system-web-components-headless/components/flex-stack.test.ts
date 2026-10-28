@@ -38,7 +38,9 @@ describe("FlexStack", () => {
     });
 
     test("exposes align and justify via data attributes only when provided", () => {
-        const host = render('<lily-flex-stack align="center" justify="space-between"></lily-flex-stack>');
+        const host = render(
+            '<lily-flex-stack align="center" justify="space-between"></lily-flex-stack>',
+        );
 
         expect(host.getAttribute("data-align")).toBe("center");
         expect(host.getAttribute("data-justify")).toBe("space-between");

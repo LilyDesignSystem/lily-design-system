@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Forms/HiddenInput",
     render: (args) => h("lily-hidden-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "name": "csrf-token",
-        "value": "abc123"
+        name: "csrf-token",
+        value: "abc123",
     },
 };
 

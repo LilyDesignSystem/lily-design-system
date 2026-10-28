@@ -31,17 +31,23 @@ describe("PasswordInput", () => {
     test("defaults autocomplete to current-password", () => {
         const host = render('<lily-password-input label="Password"></lily-password-input>');
 
-        expect((host.querySelector("input") as HTMLInputElement).autocomplete).toBe("current-password");
+        expect((host.querySelector("input") as HTMLInputElement).autocomplete).toBe(
+            "current-password",
+        );
     });
 
     test("autocomplete can be overridden", () => {
-        const host = render('<lily-password-input label="Password" autocomplete="new-password"></lily-password-input>');
+        const host = render(
+            '<lily-password-input label="Password" autocomplete="new-password"></lily-password-input>',
+        );
 
         expect((host.querySelector("input") as HTMLInputElement).autocomplete).toBe("new-password");
     });
 
     test("exposes a live value property proxying the inner input", () => {
-        const host = render('<lily-password-input label="Password"></lily-password-input>') as unknown as PasswordInput;
+        const host = render(
+            '<lily-password-input label="Password"></lily-password-input>',
+        ) as unknown as PasswordInput;
         const input = host.querySelector("input") as HTMLInputElement;
 
         host.value = "hunter2";
@@ -51,7 +57,9 @@ describe("PasswordInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-password-input label="Password" required disabled></lily-password-input>');
+        const host = render(
+            '<lily-password-input label="Password" required disabled></lily-password-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);

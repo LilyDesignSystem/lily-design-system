@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Content/StatusLight",
     render: (args) => h("lily-status-light", args as Record<string, string | boolean>, SLOT),
     args: {
-        "variant": "positive",
-        "label": "Active",
+        variant: "positive",
+        label: "Active",
     },
 };
 

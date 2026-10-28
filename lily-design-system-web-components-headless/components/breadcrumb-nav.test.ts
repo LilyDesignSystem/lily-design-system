@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("BreadcrumbNav", () => {
     test("renders a native nav landmark", () => {
-        const host = render('<lily-breadcrumb-nav label="Breadcrumb"><ol></ol></lily-breadcrumb-nav>');
+        const host = render(
+            '<lily-breadcrumb-nav label="Breadcrumb"><ol></ol></lily-breadcrumb-nav>',
+        );
 
         expect(host.querySelector("nav.breadcrumb-nav")).toBeTruthy();
     });
@@ -29,13 +31,17 @@ describe("BreadcrumbNav", () => {
     });
 
     test("moves its children into the nav", () => {
-        const host = render('<lily-breadcrumb-nav label="Breadcrumb"><ol id="trail"></ol></lily-breadcrumb-nav>');
+        const host = render(
+            '<lily-breadcrumb-nav label="Breadcrumb"><ol id="trail"></ol></lily-breadcrumb-nav>',
+        );
 
         expect(host.querySelector("nav > #trail")).toBeTruthy();
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-breadcrumb-nav label="Breadcrumb" class="extra"></lily-breadcrumb-nav>');
+        const host = render(
+            '<lily-breadcrumb-nav label="Breadcrumb" class="extra"></lily-breadcrumb-nav>',
+        );
 
         expect(host.querySelector("nav")!.className).toBe("breadcrumb-nav extra");
     });

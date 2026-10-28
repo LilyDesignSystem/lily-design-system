@@ -7,10 +7,15 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/AustraliaIndividualHealthcareIdentifierView",
-    render: (args) => h("lily-australia-individual-healthcare-identifier-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-australia-individual-healthcare-identifier-view",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Individual Healthcare Identifier",
-        "value": "8003608833357361"
+        label: "Individual Healthcare Identifier",
+        value: "8003608833357361",
     },
 };
 

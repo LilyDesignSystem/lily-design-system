@@ -7,7 +7,9 @@ describe("ElladaDematerialisedSecuritiesSystemInput", () => {
   test("renders the input root with the base class", () => {
     const fixture = TestBed.createComponent(ElladaDematerialisedSecuritiesSystemInput);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.ellada-dematerialised-securities-system-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.ellada-dematerialised-securities-system-input",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("ElladaDematerialisedSecuritiesSystemInput", () => {
     const fixture = TestBed.createComponent(ElladaDematerialisedSecuritiesSystemInput);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.ellada-dematerialised-securities-system-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.ellada-dematerialised-securities-system-input",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

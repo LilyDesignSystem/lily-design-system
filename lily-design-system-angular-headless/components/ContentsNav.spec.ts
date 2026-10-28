@@ -57,13 +57,26 @@ class Host {
 function sections(ids: string[]): Record<string, number> {
   const tops: Record<string, number> = {};
   // A tall page, so the viewport is not "at the bottom" unless a test says so.
-  Object.defineProperty(document.documentElement, "scrollHeight", { value: 5000, configurable: true });
+  Object.defineProperty(document.documentElement, "scrollHeight", {
+    value: 5000,
+    configurable: true,
+  });
   for (const id of ids) {
     const el = document.createElement("section");
     el.id = id;
     tops[id] = 0;
     el.getBoundingClientRect = () =>
-      ({ top: tops[id], bottom: tops[id] + 100, left: 0, right: 0, width: 0, height: 100, x: 0, y: tops[id], toJSON() {} }) as DOMRect;
+      ({
+        top: tops[id],
+        bottom: tops[id] + 100,
+        left: 0,
+        right: 0,
+        width: 0,
+        height: 100,
+        x: 0,
+        y: tops[id],
+        toJSON() {},
+      }) as DOMRect;
     document.body.appendChild(el);
   }
   return tops;
@@ -127,7 +140,9 @@ describe("ContentsNav — scrollspy", () => {
 
   test("marks the link of the section in view with aria-current and data-active", async () => {
     const tops = sections(IDS);
-    tops["intro"] = -400; tops["usage"] = -20; tops["api"] = 500;
+    tops["intro"] = -400;
+    tops["usage"] = -20;
+    tops["api"] = 500;
     mountHost();
     await settle();
     expect(activeLink()!.textContent).toBe("usage");
@@ -138,21 +153,29 @@ describe("ContentsNav — scrollspy", () => {
 
   test("moves the mark when the reader scrolls, and back again", async () => {
     const tops = sections(IDS);
-    tops["intro"] = 0; tops["usage"] = 300; tops["api"] = 600;
+    tops["intro"] = 0;
+    tops["usage"] = 300;
+    tops["api"] = 600;
     mountHost();
     await settle();
     expect(activeLink()!.textContent).toBe("intro");
-    tops["intro"] = -400; tops["usage"] = -100; tops["api"] = 200;
+    tops["intro"] = -400;
+    tops["usage"] = -100;
+    tops["api"] = 200;
     await scroll();
     expect(activeLink()!.textContent).toBe("usage");
-    tops["intro"] = 0; tops["usage"] = 300; tops["api"] = 600;
+    tops["intro"] = 0;
+    tops["usage"] = 300;
+    tops["api"] = 600;
     await scroll();
     expect(activeLink()!.textContent).toBe("intro");
   });
 
   test("offset moves the activation line", async () => {
     const tops = sections(IDS);
-    tops["intro"] = -400; tops["usage"] = 60; tops["api"] = 500;
+    tops["intro"] = -400;
+    tops["usage"] = 60;
+    tops["api"] = 500;
     mountHost((h) => h.offset.set(80));
     await settle();
     expect(activeLink()!.textContent).toBe("usage");
@@ -167,12 +190,16 @@ describe("ContentsNav — scrollspy", () => {
 
   test("a click makes its link current at once and holds it while the scroll settles", async () => {
     const tops = sections(IDS);
-    tops["intro"] = 0; tops["usage"] = 300; tops["api"] = 600;
+    tops["intro"] = 0;
+    tops["usage"] = 300;
+    tops["api"] = 600;
     mountHost();
     await settle();
     (document.querySelector('a[href="#api"]') as HTMLElement).click();
     expect(activeLink()!.textContent).toBe("api");
-    tops["intro"] = -100; tops["usage"] = 0; tops["api"] = 300;
+    tops["intro"] = -100;
+    tops["usage"] = 0;
+    tops["api"] = 300;
     await scroll();
     expect(activeLink()!.textContent).toBe("api");
     await scroll("scrollend");
@@ -181,20 +208,29 @@ describe("ContentsNav — scrollspy", () => {
 
   test("activeChange fires once per change, with the section id", async () => {
     const tops = sections(IDS);
-    tops["intro"] = 0; tops["usage"] = 300; tops["api"] = 600;
+    tops["intro"] = 0;
+    tops["usage"] = 300;
+    tops["api"] = 600;
     const fixture = mountHost();
     await settle();
     await scroll();
     expect(fixture.componentInstance.changes).toEqual(["intro"]);
-    tops["intro"] = -400; tops["usage"] = -100; tops["api"] = 200;
+    tops["intro"] = -400;
+    tops["usage"] = -100;
+    tops["api"] = 200;
     await scroll();
     expect(fixture.componentInstance.changes).toEqual(["intro", "usage"]);
   });
 
   test("at the bottom of the page the last section is current even if it never reaches the line", async () => {
     const tops = sections(IDS);
-    tops["intro"] = -900; tops["usage"] = -500; tops["api"] = 400;
-    Object.defineProperty(document.documentElement, "scrollHeight", { value: window.innerHeight + 10, configurable: true });
+    tops["intro"] = -900;
+    tops["usage"] = -500;
+    tops["api"] = 400;
+    Object.defineProperty(document.documentElement, "scrollHeight", {
+      value: window.innerHeight + 10,
+      configurable: true,
+    });
     Object.defineProperty(window, "scrollY", { value: 10, configurable: true });
     mountHost();
     await settle();
@@ -204,7 +240,9 @@ describe("ContentsNav — scrollspy", () => {
 
   test("the URL hash wins on load", async () => {
     const tops = sections(IDS);
-    tops["intro"] = 0; tops["usage"] = 300; tops["api"] = 600;
+    tops["intro"] = 0;
+    tops["usage"] = 300;
+    tops["api"] = 600;
     window.location.hash = "#api";
     mountHost();
     await settle();

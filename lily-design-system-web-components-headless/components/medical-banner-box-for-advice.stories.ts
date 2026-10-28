@@ -7,7 +7,8 @@ const SLOT = "<span>GP: Dr Patel</span><span>Care plan: annual review due March<
 
 const meta: Meta = {
     title: "Content/MedicalBannerBoxForAdvice",
-    render: (args) => h("lily-medical-banner-box-for-advice", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-medical-banner-box-for-advice", args as Record<string, string | boolean>, SLOT),
     args: {
         label: "Care contacts",
     },

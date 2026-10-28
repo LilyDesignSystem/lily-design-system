@@ -90,7 +90,9 @@ describe("Listbox", () => {
     });
 
     test("appends the consumer's class hook to the base class", () => {
-        const host = render(`<lily-listbox label="Select priority" class="settings-list">${OPTIONS_HTML}</lily-listbox>`);
+        const host = render(
+            `<lily-listbox label="Select priority" class="settings-list">${OPTIONS_HTML}</lily-listbox>`,
+        );
 
         expect(host.className).toBe("listbox settings-list");
     });

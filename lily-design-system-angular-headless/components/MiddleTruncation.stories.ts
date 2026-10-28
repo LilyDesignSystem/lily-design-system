@@ -10,4 +10,11 @@ const meta: Meta<MiddleTruncation> = {
 export default meta;
 type Story = StoryObj<MiddleTruncation>;
 
-export const Default: Story = { args: { text: "quarterly-report-final-version-3.pdf", ellipsis: "…", strategy: "min-end", end: 6 } };
+export const Default: Story = {
+  args: {
+    text: "quarterly-report-final-version-3.pdf",
+    ellipsis: "…",
+    strategy: "min-end",
+    end: 6,
+  },
+};

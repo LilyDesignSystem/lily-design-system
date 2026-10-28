@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Forms/SplitButton",
     render: (args) => h("lily-split-button", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Save options",
+        label: "Save options",
         "primary-label": "Save",
         "menu-label": "More save options",
     },

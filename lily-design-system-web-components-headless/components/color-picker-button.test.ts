@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("ColorPickerButton", () => {
     test("renders a native button", () => {
-        const host = render('<lily-color-picker-button color="#ff0000" label="Red"></lily-color-picker-button>');
+        const host = render(
+            '<lily-color-picker-button color="#ff0000" label="Red"></lily-color-picker-button>',
+        );
 
         const button = host.querySelector("button") as HTMLButtonElement;
         expect(button.type).toBe("button");
@@ -25,13 +27,17 @@ describe("ColorPickerButton", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-color-picker-button color="#ff0000" label="Red"></lily-color-picker-button>');
+        const host = render(
+            '<lily-color-picker-button color="#ff0000" label="Red"></lily-color-picker-button>',
+        );
 
         expect(host.querySelector("button")!.getAttribute("aria-label")).toBe("Red");
     });
 
     test("exposes color via data-color rather than an inline style", () => {
-        const host = render('<lily-color-picker-button color="#ff0000" label="Red"></lily-color-picker-button>');
+        const host = render(
+            '<lily-color-picker-button color="#ff0000" label="Red"></lily-color-picker-button>',
+        );
 
         const button = host.querySelector("button") as HTMLButtonElement;
         expect(button.getAttribute("data-color")).toBe("#ff0000");
@@ -39,7 +45,9 @@ describe("ColorPickerButton", () => {
     });
 
     test("defaults aria-pressed to false, and reflects selected", () => {
-        const unselected = render('<lily-color-picker-button color="#ff0000" label="Red"></lily-color-picker-button>');
+        const unselected = render(
+            '<lily-color-picker-button color="#ff0000" label="Red"></lily-color-picker-button>',
+        );
         expect(unselected.querySelector("button")!.getAttribute("aria-pressed")).toBe("false");
 
         const selected = render(
@@ -61,7 +69,9 @@ describe("ColorPickerButton", () => {
             '<lily-color-picker-button color="#ff0000" label="Red" class="swatch"></lily-color-picker-button>',
         );
 
-        expect(host.querySelector("button")!.getAttribute("class")).toBe("color-picker-button swatch");
+        expect(host.querySelector("button")!.getAttribute("class")).toBe(
+            "color-picker-button swatch",
+        );
     });
 
     test("passes through rest attributes", () => {

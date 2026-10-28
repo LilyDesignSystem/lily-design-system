@@ -42,12 +42,16 @@ export class PinInputDiv extends HTMLElement {
     }
     set digitLabel(fn: ((position: number, length: number) => string) | undefined) {
         this.#digitLabel = fn;
-        this.#inputs.forEach((input, index) => input.setAttribute("aria-label", this.#inputLabel(index)));
+        this.#inputs.forEach((input, index) =>
+            input.setAttribute("aria-label", this.#inputLabel(index)),
+        );
     }
 
     #inputLabel(index: number): string {
         const length = this.#inputs.length || Number(this.getAttribute("length") ?? "4") || 4;
-        return this.#digitLabel ? this.#digitLabel(index + 1, length) : (this.getAttribute("label") ?? "");
+        return this.#digitLabel
+            ? this.#digitLabel(index + 1, length)
+            : (this.getAttribute("label") ?? "");
     }
 
     connectedCallback(): void {

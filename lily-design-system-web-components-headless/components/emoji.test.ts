@@ -37,7 +37,9 @@ describe("Emoji", () => {
     });
 
     test("passes through rest attributes onto the span", () => {
-        const host = render('<lily-emoji emoji="⚠️" label="Warning" data-testid="warn"></lily-emoji>');
+        const host = render(
+            '<lily-emoji emoji="⚠️" label="Warning" data-testid="warn"></lily-emoji>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("data-testid")).toBe("warn");
     });

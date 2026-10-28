@@ -57,13 +57,17 @@ describe("Popover", () => {
     });
 
     test("keeps consumer content in place", () => {
-        const host = render('<lily-popover label="More information" open><p>Content.</p></lily-popover>');
+        const host = render(
+            '<lily-popover label="More information" open><p>Content.</p></lily-popover>',
+        );
 
         expect(host.querySelector("p")?.textContent).toBe("Content.");
     });
 
     test("appends the consumer's class onto the base class", () => {
-        const host = render('<lily-popover label="More information" class="my-popover"></lily-popover>');
+        const host = render(
+            '<lily-popover label="More information" class="my-popover"></lily-popover>',
+        );
 
         expect(host.getAttribute("class")).toBe("popover my-popover");
     });

@@ -39,7 +39,9 @@ describe("Footnote", () => {
     });
 
     test("moves children into the inner aside", () => {
-        const host = render('<lily-footnote id="fn1"><a href="#ref1">1.</a> Example, A. (2024).</lily-footnote>');
+        const host = render(
+            '<lily-footnote id="fn1"><a href="#ref1">1.</a> Example, A. (2024).</lily-footnote>',
+        );
 
         const aside = host.querySelector("aside")!;
         expect(aside.querySelector("a")).not.toBeNull();

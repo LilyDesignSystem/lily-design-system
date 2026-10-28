@@ -4,7 +4,7 @@ import "./contents-list.js";
 
 import { h } from "../stories/render.js";
 
-const SLOT = "<li><a href=\"#introduction\">Introduction</a></li><li><a href=\"#usage\">Usage</a></li>";
+const SLOT = '<li><a href="#introduction">Introduction</a></li><li><a href="#usage">Usage</a></li>';
 
 const meta: Meta = {
     title: "Lists/ContentsList",

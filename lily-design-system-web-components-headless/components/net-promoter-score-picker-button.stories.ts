@@ -7,10 +7,11 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Pickers/NetPromoterScorePickerButton",
-    render: (args) => h("lily-net-promoter-score-picker-button", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-net-promoter-score-picker-button", args as Record<string, string | boolean>, SLOT),
     args: {
-        "value": "9",
-        "label": "9"
+        value: "9",
+        label: "9",
     },
 };
 

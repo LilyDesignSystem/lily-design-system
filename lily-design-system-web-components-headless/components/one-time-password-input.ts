@@ -22,7 +22,16 @@
 
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
-const HANDLED = new Set(["label", "length", "value", "inputmode", "pattern", "name", "required", "disabled"]);
+const HANDLED = new Set([
+    "label",
+    "length",
+    "value",
+    "inputmode",
+    "pattern",
+    "name",
+    "required",
+    "disabled",
+]);
 
 export class OneTimePasswordInput extends HTMLElement {
     #input: HTMLInputElement | null = null;

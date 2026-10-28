@@ -43,7 +43,9 @@ describe("ClampText", () => {
     });
 
     test("uses label as aria-label when provided", () => {
-        const host = render('<lily-clamp-text label="Article summary">Long paragraph text.</lily-clamp-text>');
+        const host = render(
+            '<lily-clamp-text label="Article summary">Long paragraph text.</lily-clamp-text>',
+        );
 
         expect(host.getAttribute("aria-label")).toBe("Article summary");
     });

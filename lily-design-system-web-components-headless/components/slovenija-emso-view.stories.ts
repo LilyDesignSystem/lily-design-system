@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Special-Purpose Identifiers/SlovenijaEmsoView",
     render: (args) => h("lily-slovenija-emso-view", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Enotna Matična Številka Občana (EMŠO)",
-        "value": "0101006500006"
+        label: "Enotna Matična Številka Občana (EMŠO)",
+        value: "0101006500006",
     },
 };
 

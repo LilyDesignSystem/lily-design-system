@@ -93,7 +93,11 @@ export class FileTree extends HTMLElement {
     #ownText(item: HTMLElement): string {
         let text = "";
         item.childNodes.forEach((n) => {
-            if (n.nodeType === Node.ELEMENT_NODE && (n as HTMLElement).getAttribute("role") === "group") return;
+            if (
+                n.nodeType === Node.ELEMENT_NODE &&
+                (n as HTMLElement).getAttribute("role") === "group"
+            )
+                return;
             text += n.textContent ?? "";
         });
         return text.trim().toLowerCase();
@@ -163,7 +167,10 @@ export class FileTree extends HTMLElement {
                 if (expanded === "false") {
                     item.setAttribute("aria-expanded", "true");
                 } else if (expanded === "true") {
-                    this.#focusItem(item.querySelector<HTMLElement>("[role='group'] [role='treeitem']") ?? undefined);
+                    this.#focusItem(
+                        item.querySelector<HTMLElement>("[role='group'] [role='treeitem']") ??
+                            undefined,
+                    );
                 }
                 return;
             case "ArrowLeft":
@@ -184,7 +191,10 @@ export class FileTree extends HTMLElement {
             case "*":
                 event.preventDefault();
                 for (const sibling of Array.from(item.parentElement?.children ?? [])) {
-                    if (sibling.getAttribute("role") === "treeitem" && sibling.getAttribute("aria-expanded") === "false") {
+                    if (
+                        sibling.getAttribute("role") === "treeitem" &&
+                        sibling.getAttribute("aria-expanded") === "false"
+                    ) {
                         sibling.setAttribute("aria-expanded", "true");
                     }
                 }

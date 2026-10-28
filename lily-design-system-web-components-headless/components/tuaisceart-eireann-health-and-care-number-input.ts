@@ -15,7 +15,15 @@
 
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
-const HANDLED = new Set(["label", "value", "required", "disabled", "autocomplete", "pattern", "inputmode"]);
+const HANDLED = new Set([
+    "label",
+    "value",
+    "required",
+    "disabled",
+    "autocomplete",
+    "pattern",
+    "inputmode",
+]);
 
 export class TuaisceartEireannHealthAndCareNumberInput extends HTMLElement {
     #input: HTMLInputElement | null = null;

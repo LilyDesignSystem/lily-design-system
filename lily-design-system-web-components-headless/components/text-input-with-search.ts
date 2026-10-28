@@ -78,6 +78,8 @@ export class TextInputWithSearch extends HTMLElement {
 
     #search(): void {
         const value = this.value;
-        this.dispatchEvent(new CustomEvent("lily-search", { detail: { value }, bubbles: true, composed: true }));
+        this.dispatchEvent(
+            new CustomEvent("lily-search", { detail: { value }, bubbles: true, composed: true }),
+        );
     }
 }

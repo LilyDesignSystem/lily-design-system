@@ -20,7 +20,7 @@ function render(html: string): HTMLElement {
 }
 
 const ITEMS =
-    '<lily-context-menu-item>Cut</lily-context-menu-item><lily-context-menu-item>Copy</lily-context-menu-item><lily-context-menu-item>Paste</lily-context-menu-item>';
+    "<lily-context-menu-item>Cut</lily-context-menu-item><lily-context-menu-item>Copy</lily-context-menu-item><lily-context-menu-item>Paste</lily-context-menu-item>";
 
 describe("ContextMenu", () => {
     test("renders with role=menu and the base class", () => {

@@ -10,7 +10,7 @@ const meta: Meta = {
     title: "Lists/ChatList",
     render: (args) => h("lily-chat-list", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Conversation",
+        label: "Conversation",
     },
 };
 

@@ -7,10 +7,15 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/HrvatskaOsobniIdentifikacijskiBrojView",
-    render: (args) => h("lily-hrvatska-osobni-identifikacijski-broj-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-hrvatska-osobni-identifikacijski-broj-view",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Osobni identifikacijski broj (OIB)",
-        "value": "94577403194"
+        label: "Osobni identifikacijski broj (OIB)",
+        value: "94577403194",
     },
 };
 

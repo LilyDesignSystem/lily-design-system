@@ -16,7 +16,8 @@ function render(html: string): HTMLElement {
 }
 
 const SVG = '<svg data-testid="art" viewBox="0 0 10 10"><circle r="4"></circle></svg>';
-const TABLE = '<table slot="data-table"><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>';
+const TABLE =
+    '<table slot="data-table"><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>';
 const BASIC = `<lily-candlestick-chart label="Test">${SVG}</lily-candlestick-chart>`;
 const WITH_TABLE = `<lily-candlestick-chart label="Test">${SVG}${TABLE}</lily-candlestick-chart>`;
 
@@ -35,17 +36,23 @@ describe("CandlestickChart", () => {
     });
 
     test("appends the consumer class after the base class", () => {
-        const host = render('<lily-candlestick-chart label="T" class="mine"></lily-candlestick-chart>');
+        const host = render(
+            '<lily-candlestick-chart label="T" class="mine"></lily-candlestick-chart>',
+        );
         expect(host.querySelector("figure")!.getAttribute("class")).toBe("candlestick-chart mine");
     });
 
     test("moves the consumer svg into the graphic wrapper", () => {
         const host = render(BASIC);
-        expect(host.querySelector("svg")!.closest("[role=img]")).toBe(host.querySelector(".candlestick-chart-graphic"));
+        expect(host.querySelector("svg")!.closest("[role=img]")).toBe(
+            host.querySelector(".candlestick-chart-graphic"),
+        );
     });
 
     test("spreads other attributes onto the figure", () => {
-        const host = render('<lily-candlestick-chart label="T" id="c1" data-testid="chart"></lily-candlestick-chart>');
+        const host = render(
+            '<lily-candlestick-chart label="T" id="c1" data-testid="chart"></lily-candlestick-chart>',
+        );
         const fig = host.querySelector("figure")!;
         expect(fig.id).toBe("c1");
         expect(fig.getAttribute("data-testid")).toBe("chart");

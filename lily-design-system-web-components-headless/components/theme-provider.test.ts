@@ -23,7 +23,9 @@ describe("ThemeProvider", () => {
     });
 
     test("uses display: contents on the host", () => {
-        const host = render("<lily-theme-provider></lily-theme-provider>") as unknown as HTMLElement;
+        const host = render(
+            "<lily-theme-provider></lily-theme-provider>",
+        ) as unknown as HTMLElement;
 
         expect(host.style.display).toBe("contents");
     });
@@ -41,7 +43,9 @@ describe("ThemeProvider", () => {
     });
 
     test("the theme property flattens flat keys to --theme-* CSS variables", () => {
-        const host = render("<lily-theme-provider></lily-theme-provider>") as unknown as ThemeProvider;
+        const host = render(
+            "<lily-theme-provider></lily-theme-provider>",
+        ) as unknown as ThemeProvider;
 
         host.theme = { primary: "#fff", danger: "#dc2626" };
 
@@ -50,7 +54,9 @@ describe("ThemeProvider", () => {
     });
 
     test("the theme property flattens nested keys with hyphenated paths", () => {
-        const host = render("<lily-theme-provider></lily-theme-provider>") as unknown as ThemeProvider;
+        const host = render(
+            "<lily-theme-provider></lily-theme-provider>",
+        ) as unknown as ThemeProvider;
 
         host.theme = { color: { primary: "#fff", danger: "#dc2626" } };
 
@@ -59,7 +65,9 @@ describe("ThemeProvider", () => {
     });
 
     test("re-setting the theme property removes custom properties no longer present", () => {
-        const host = render("<lily-theme-provider></lily-theme-provider>") as unknown as ThemeProvider;
+        const host = render(
+            "<lily-theme-provider></lily-theme-provider>",
+        ) as unknown as ThemeProvider;
 
         host.theme = { primary: "#fff", danger: "#dc2626" };
         host.theme = { primary: "#000" };

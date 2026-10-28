@@ -7,7 +7,9 @@ describe("EspanaCodigoDeIdentificacionFiscalView", () => {
   test("renders the span root with the base class", () => {
     const fixture = TestBed.createComponent(EspanaCodigoDeIdentificacionFiscalView);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.espana-codigo-de-identificacion-fiscal-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.espana-codigo-de-identificacion-fiscal-view",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("EspanaCodigoDeIdentificacionFiscalView", () => {
     const fixture = TestBed.createComponent(EspanaCodigoDeIdentificacionFiscalView);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.espana-codigo-de-identificacion-fiscal-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.espana-codigo-de-identificacion-fiscal-view",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

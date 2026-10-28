@@ -153,7 +153,9 @@ describe("ChatComposer", () => {
 
     test("moves the children into the form before the textarea", () => {
         const h = render("", '<span data-testid="extra">E</span>');
-        expect(h.querySelector("form")!.firstElementChild!.getAttribute("data-testid")).toBe("extra");
+        expect(h.querySelector("form")!.firstElementChild!.getAttribute("data-testid")).toBe(
+            "extra",
+        );
     });
 
     test("is idempotent if connectedCallback runs twice", () => {

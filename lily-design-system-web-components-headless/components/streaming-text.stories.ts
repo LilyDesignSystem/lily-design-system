@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Media and data/StreamingText",
     render: (args) => h("lily-streaming-text", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "StreamingText"
+        label: "StreamingText",
     },
 };
 

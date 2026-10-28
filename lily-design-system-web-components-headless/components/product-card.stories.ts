@@ -9,10 +9,10 @@ const meta: Meta = {
     title: "Navigation/ProductCard",
     render: (args) => h("lily-product-card", args as Record<string, string | boolean>, SLOT),
     args: {
-        "name": "Wonder Widget",
-        "price": "$19.99",
+        name: "Wonder Widget",
+        price: "$19.99",
         "image-url": "https://placehold.co/200x200",
-        "image-alt": "A photo of the Wonder Widget"
+        "image-alt": "A photo of the Wonder Widget",
     },
 };
 

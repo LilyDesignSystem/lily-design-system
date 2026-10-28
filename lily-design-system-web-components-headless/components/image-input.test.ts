@@ -38,7 +38,9 @@ describe("ImageInput", () => {
     });
 
     test("width and height propagate to the inner input", () => {
-        const host = render('<lily-image-input src="submit.png" alt="Submit" width="64" height="32"></lily-image-input>');
+        const host = render(
+            '<lily-image-input src="submit.png" alt="Submit" width="64" height="32"></lily-image-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.width).toBe(64);
@@ -46,19 +48,25 @@ describe("ImageInput", () => {
     });
 
     test("disabled propagates to the inner input", () => {
-        const host = render('<lily-image-input src="submit.png" alt="Submit" disabled></lily-image-input>');
+        const host = render(
+            '<lily-image-input src="submit.png" alt="Submit" disabled></lily-image-input>',
+        );
 
         expect((host.querySelector("input") as HTMLInputElement).disabled).toBe(true);
     });
 
     test("the consumer's class is appended to the base class", () => {
-        const host = render('<lily-image-input src="submit.png" alt="Submit" class="my-extra"></lily-image-input>');
+        const host = render(
+            '<lily-image-input src="submit.png" alt="Submit" class="my-extra"></lily-image-input>',
+        );
 
         expect(host.querySelector("input")!.className).toBe("image-input my-extra");
     });
 
     test("passes through rest attributes such as id", () => {
-        const host = render('<lily-image-input src="submit.png" alt="Submit" id="submit-image"></lily-image-input>');
+        const host = render(
+            '<lily-image-input src="submit.png" alt="Submit" id="submit-image"></lily-image-input>',
+        );
 
         expect(host.querySelector("input")!.id).toBe("submit-image");
     });

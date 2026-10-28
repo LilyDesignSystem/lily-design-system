@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("PortugalPassaporteInput", () => {
     test("renders a native input type=text with the correct class", () => {
-        const host = render('<lily-portugal-passaporte-input label="Passaporte"></lily-portugal-passaporte-input>');
+        const host = render(
+            '<lily-portugal-passaporte-input label="Passaporte"></lily-portugal-passaporte-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.type).toBe("text");
@@ -25,13 +27,17 @@ describe("PortugalPassaporteInput", () => {
     });
 
     test("always forces autocomplete=off, even if the consumer tries to override it", () => {
-        const host = render('<lily-portugal-passaporte-input label="Passaporte" autocomplete="on"></lily-portugal-passaporte-input>');
+        const host = render(
+            '<lily-portugal-passaporte-input label="Passaporte" autocomplete="on"></lily-portugal-passaporte-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("autocomplete")).toBe("off");
     });
 
     test("seeds the initial value and exposes a live value property", () => {
-        const host = render('<lily-portugal-passaporte-input label="Passaporte" value="N123456"></lily-portugal-passaporte-input>') as unknown as PortugalPassaporteInput;
+        const host = render(
+            '<lily-portugal-passaporte-input label="Passaporte" value="N123456"></lily-portugal-passaporte-input>',
+        ) as unknown as PortugalPassaporteInput;
 
         expect(host.value).toBe("N123456");
 
@@ -40,7 +46,9 @@ describe("PortugalPassaporteInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-portugal-passaporte-input label="Passaporte" required disabled></lily-portugal-passaporte-input>');
+        const host = render(
+            '<lily-portugal-passaporte-input label="Passaporte" required disabled></lily-portugal-passaporte-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -48,7 +56,9 @@ describe("PortugalPassaporteInput", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-portugal-passaporte-input label="Passaporte"></lily-portugal-passaporte-input>');
+        const host = render(
+            '<lily-portugal-passaporte-input label="Passaporte"></lily-portugal-passaporte-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("Passaporte");
     });

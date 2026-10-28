@@ -7,10 +7,15 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/FranceNumeroDIdentificationAuRepertoireView",
-    render: (args) => h("lily-france-numero-d-identification-au-repertoire-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-france-numero-d-identification-au-repertoire-view",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Numéro d'Identification au Répertoire",
-        "value": "1 85 05 75 116 001 23"
+        label: "Numéro d'Identification au Répertoire",
+        value: "1 85 05 75 116 001 23",
     },
 };
 

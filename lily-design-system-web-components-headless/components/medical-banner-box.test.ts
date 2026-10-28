@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("MedicalBannerBox", () => {
     test("the custom element itself is the box (self-is-the-wrapper)", () => {
-        const host = render("<lily-medical-banner-box><span>Patient: John Smith</span></lily-medical-banner-box>");
+        const host = render(
+            "<lily-medical-banner-box><span>Patient: John Smith</span></lily-medical-banner-box>",
+        );
 
         expect(host.className).toBe("medical-banner-box");
     });
@@ -29,7 +31,9 @@ describe("MedicalBannerBox", () => {
     });
 
     test("label is optional and maps to aria-label when provided", () => {
-        const host = render('<lily-medical-banner-box label="Patient summary"></lily-medical-banner-box>');
+        const host = render(
+            '<lily-medical-banner-box label="Patient summary"></lily-medical-banner-box>',
+        );
 
         expect(host.getAttribute("aria-label")).toBe("Patient summary");
     });
@@ -41,7 +45,9 @@ describe("MedicalBannerBox", () => {
     });
 
     test("keeps children in place", () => {
-        const host = render("<lily-medical-banner-box><span>NHS: 123 456 7890</span></lily-medical-banner-box>");
+        const host = render(
+            "<lily-medical-banner-box><span>NHS: 123 456 7890</span></lily-medical-banner-box>",
+        );
 
         expect(host.querySelector("span")!.textContent).toBe("NHS: 123 456 7890");
     });

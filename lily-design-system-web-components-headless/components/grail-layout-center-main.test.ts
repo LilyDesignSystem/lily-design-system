@@ -23,19 +23,25 @@ describe("GrailLayoutCenterMain", () => {
     });
 
     test("moves its children into the main", () => {
-        const host = render('<lily-grail-layout-center-main><p id="content"></p></lily-grail-layout-center-main>');
+        const host = render(
+            '<lily-grail-layout-center-main><p id="content"></p></lily-grail-layout-center-main>',
+        );
 
         expect(host.querySelector("main > #content")).toBeTruthy();
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-grail-layout-center-main class="extra"></lily-grail-layout-center-main>');
+        const host = render(
+            '<lily-grail-layout-center-main class="extra"></lily-grail-layout-center-main>',
+        );
 
         expect(host.querySelector("main")!.className).toBe("grail-layout-center-main extra");
     });
 
     test("rest attributes pass through to the main", () => {
-        const host = render('<lily-grail-layout-center-main data-testid="x"></lily-grail-layout-center-main>');
+        const host = render(
+            '<lily-grail-layout-center-main data-testid="x"></lily-grail-layout-center-main>',
+        );
 
         expect(host.querySelector("main")!.getAttribute("data-testid")).toBe("x");
     });

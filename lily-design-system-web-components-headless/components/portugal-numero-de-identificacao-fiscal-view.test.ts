@@ -3,7 +3,10 @@ import { afterEach, describe, expect, test } from "vitest";
 import { PortugalNumeroDeIdentificacaoFiscalView } from "./portugal-numero-de-identificacao-fiscal-view.js";
 
 if (!customElements.get("lily-portugal-numero-de-identificacao-fiscal-view")) {
-    customElements.define("lily-portugal-numero-de-identificacao-fiscal-view", PortugalNumeroDeIdentificacaoFiscalView);
+    customElements.define(
+        "lily-portugal-numero-de-identificacao-fiscal-view",
+        PortugalNumeroDeIdentificacaoFiscalView,
+    );
 }
 
 afterEach(() => {
@@ -17,7 +20,9 @@ function render(html: string): HTMLElement {
 
 describe("PortugalNumeroDeIdentificacaoFiscalView", () => {
     test("renders a native span with the correct class", () => {
-        const host = render('<lily-portugal-numero-de-identificacao-fiscal-view label="Número de Identificação Fiscal (NIF)"></lily-portugal-numero-de-identificacao-fiscal-view>');
+        const host = render(
+            '<lily-portugal-numero-de-identificacao-fiscal-view label="Número de Identificação Fiscal (NIF)"></lily-portugal-numero-de-identificacao-fiscal-view>',
+        );
 
         const span = host.querySelector("span") as HTMLSpanElement;
         expect(span).not.toBeNull();
@@ -25,13 +30,19 @@ describe("PortugalNumeroDeIdentificacaoFiscalView", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-portugal-numero-de-identificacao-fiscal-view label="Número de Identificação Fiscal (NIF)"></lily-portugal-numero-de-identificacao-fiscal-view>');
+        const host = render(
+            '<lily-portugal-numero-de-identificacao-fiscal-view label="Número de Identificação Fiscal (NIF)"></lily-portugal-numero-de-identificacao-fiscal-view>',
+        );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Número de Identificação Fiscal (NIF)");
+        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
+            "Número de Identificação Fiscal (NIF)",
+        );
     });
 
     test("seeds the initial value as text content and exposes a live value property", () => {
-        const host = render('<lily-portugal-numero-de-identificacao-fiscal-view label="Número de Identificação Fiscal (NIF)" value="123456789"></lily-portugal-numero-de-identificacao-fiscal-view>') as unknown as PortugalNumeroDeIdentificacaoFiscalView;
+        const host = render(
+            '<lily-portugal-numero-de-identificacao-fiscal-view label="Número de Identificação Fiscal (NIF)" value="123456789"></lily-portugal-numero-de-identificacao-fiscal-view>',
+        ) as unknown as PortugalNumeroDeIdentificacaoFiscalView;
 
         expect(host.value).toBe("123456789");
         expect(host.querySelector("span")!.textContent).toBe("123456789");
@@ -42,7 +53,9 @@ describe("PortugalNumeroDeIdentificacaoFiscalView", () => {
     });
 
     test('sets role="text" so the identifier announces as a single unit', () => {
-        const host = render('<lily-portugal-numero-de-identificacao-fiscal-view label="Número de Identificação Fiscal (NIF)"></lily-portugal-numero-de-identificacao-fiscal-view>');
+        const host = render(
+            '<lily-portugal-numero-de-identificacao-fiscal-view label="Número de Identificação Fiscal (NIF)"></lily-portugal-numero-de-identificacao-fiscal-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });

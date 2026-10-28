@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Content/FloatingPanel",
     render: (args) => h("lily-floating-panel", args as Record<string, string | boolean>, SLOT),
     args: {
-        "open": true,
-        "label": "Live chat",
+        open: true,
+        label: "Live chat",
     },
 };
 
@@ -21,6 +21,6 @@ export const Default: Story = {};
 
 export const Closed: Story = {
     args: {
-        "open": false,
+        open: false,
     },
 };

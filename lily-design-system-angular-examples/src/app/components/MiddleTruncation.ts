@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, ElementRef, effect, input, signal, viewChild } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  effect,
+  input,
+  signal,
+  viewChild,
+} from "@angular/core";
 import { truncateMiddle, type TruncationStrategy } from "./middle-truncation";
 
 /**
@@ -45,7 +53,8 @@ export class MiddleTruncation {
 
       const recalculate = (): void => {
         const width = el.clientWidth;
-        if (this.context === undefined) this.context = document.createElement("canvas").getContext("2d");
+        if (this.context === undefined)
+          this.context = document.createElement("canvas").getContext("2d");
         const ctx = this.context;
         if (!ctx || width <= 0) {
           this.shown.set(null);
@@ -53,7 +62,13 @@ export class MiddleTruncation {
         }
         const style = getComputedStyle(el);
         ctx.font = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
-        const result = truncateMiddle(text, { ellipsis, strategy, end, maxWidth: width, measure: (s) => ctx.measureText(s).width });
+        const result = truncateMiddle(text, {
+          ellipsis,
+          strategy,
+          end,
+          maxWidth: width,
+          measure: (s) => ctx.measureText(s).width,
+        });
         this.shown.set(result === text ? null : result);
       };
 

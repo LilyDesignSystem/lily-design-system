@@ -7,7 +7,8 @@ const SLOT = "<p>&copy; 2026 Lily Design System</p>";
 
 const meta: Meta = {
     title: "Navigation/GrailLayoutBottomFooter",
-    render: (args) => h("lily-grail-layout-bottom-footer", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-grail-layout-bottom-footer", args as Record<string, string | boolean>, SLOT),
     args: {},
 };
 

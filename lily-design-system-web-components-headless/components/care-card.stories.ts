@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Content/CareCard",
     render: (args) => h("lily-care-card", args as Record<string, string | boolean>, SLOT),
     args: {
-        "heading": "Speak to a GP if:",
-        "type": "non-urgent",
+        heading: "Speak to a GP if:",
+        type: "non-urgent",
     },
 };
 

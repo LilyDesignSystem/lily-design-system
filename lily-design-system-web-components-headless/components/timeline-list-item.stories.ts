@@ -10,12 +10,14 @@ const meta: Meta = {
     render: (args) => {
         const ol = document.createElement("ol");
         ol.className = "timeline-list";
-        ol.appendChild(h("lily-timeline-list-item", args as Record<string, string | boolean>, SLOT));
+        ol.appendChild(
+            h("lily-timeline-list-item", args as Record<string, string | boolean>, SLOT),
+        );
         return ol;
     },
     args: {
-        "datetime": "2024-01-15",
-        "heading": "January 15, 2024",
+        datetime: "2024-01-15",
+        heading: "January 15, 2024",
     },
 };
 

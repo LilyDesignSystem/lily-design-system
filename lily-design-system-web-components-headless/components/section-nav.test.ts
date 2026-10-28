@@ -37,13 +37,17 @@ describe("SectionNav", () => {
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-section-nav label="In this section" class="extra"></lily-section-nav>');
+        const host = render(
+            '<lily-section-nav label="In this section" class="extra"></lily-section-nav>',
+        );
 
         expect(host.querySelector("nav")!.className).toBe("section-nav extra");
     });
 
     test("passes through rest attributes to the nav", () => {
-        const host = render('<lily-section-nav label="In this section" data-testid="sn"></lily-section-nav>');
+        const host = render(
+            '<lily-section-nav label="In this section" data-testid="sn"></lily-section-nav>',
+        );
 
         expect(host.querySelector("nav")!.getAttribute("data-testid")).toBe("sn");
     });

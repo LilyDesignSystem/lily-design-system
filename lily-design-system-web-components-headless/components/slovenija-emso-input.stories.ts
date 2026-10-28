@@ -7,9 +7,10 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/SlovenijaEmsoInput",
-    render: (args) => h("lily-slovenija-emso-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-slovenija-emso-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Enotna Matična Številka Občana (EMŠO)"
+        label: "Enotna Matična Številka Občana (EMŠO)",
     },
 };
 

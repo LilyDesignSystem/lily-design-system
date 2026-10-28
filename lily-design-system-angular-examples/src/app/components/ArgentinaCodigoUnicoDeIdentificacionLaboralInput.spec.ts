@@ -7,7 +7,9 @@ describe("ArgentinaCodigoUnicoDeIdentificacionLaboralInput", () => {
   test("renders the input root with the base class", () => {
     const fixture = TestBed.createComponent(ArgentinaCodigoUnicoDeIdentificacionLaboralInput);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.argentina-codigo-unico-de-identificacion-laboral-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.argentina-codigo-unico-de-identificacion-laboral-input",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("ArgentinaCodigoUnicoDeIdentificacionLaboralInput", () => {
     const fixture = TestBed.createComponent(ArgentinaCodigoUnicoDeIdentificacionLaboralInput);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.argentina-codigo-unico-de-identificacion-laboral-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.argentina-codigo-unico-de-identificacion-laboral-input",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

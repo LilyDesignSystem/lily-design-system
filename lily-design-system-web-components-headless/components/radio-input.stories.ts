@@ -9,9 +9,9 @@ const meta: Meta = {
     title: "Forms/RadioInput",
     render: (args) => h("lily-radio-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Email",
-        "name": "delivery",
-        "value": "email"
+        label: "Email",
+        name: "delivery",
+        value: "email",
     },
 };
 

@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("Blockquote", () => {
     test("renders a native blockquote with the given cite", () => {
-        const host = render('<lily-blockquote cite="https://example.com/source">Quoted text.</lily-blockquote>');
+        const host = render(
+            '<lily-blockquote cite="https://example.com/source">Quoted text.</lily-blockquote>',
+        );
 
         const blockquote = host.querySelector("blockquote") as HTMLQuoteElement;
         expect(blockquote.getAttribute("cite")).toBe("https://example.com/source");
@@ -31,13 +33,17 @@ describe("Blockquote", () => {
     });
 
     test("renders a footer with citation-text when given", () => {
-        const host = render('<lily-blockquote citation-text="Ada Lovelace">Quoted text.</lily-blockquote>');
+        const host = render(
+            '<lily-blockquote citation-text="Ada Lovelace">Quoted text.</lily-blockquote>',
+        );
 
         expect(host.querySelector("footer.blockquote-citation")!.textContent).toBe("Ada Lovelace");
     });
 
     test("uses label as an aria-label override", () => {
-        const host = render('<lily-blockquote label="A famous quote">Quoted text.</lily-blockquote>');
+        const host = render(
+            '<lily-blockquote label="A famous quote">Quoted text.</lily-blockquote>',
+        );
 
         expect(host.querySelector("blockquote")!.getAttribute("aria-label")).toBe("A famous quote");
     });

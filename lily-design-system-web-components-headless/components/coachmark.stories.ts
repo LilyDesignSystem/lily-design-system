@@ -9,10 +9,10 @@ const meta: Meta = {
     title: "Overlays/Coachmark",
     render: (args) => h("lily-coachmark", args as Record<string, string | boolean>, SLOT),
     args: {
-        "title": "New feature",
-        "description": "Try it out.",
+        title: "New feature",
+        description: "Try it out.",
         "dismiss-label": "Dismiss",
-        "open": true
+        open: true,
     },
 };
 

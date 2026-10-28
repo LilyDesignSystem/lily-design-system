@@ -7,7 +7,9 @@ describe("PrathetThaiLekPrajamTuaPrachachonInput", () => {
   test("renders the input root with the base class", () => {
     const fixture = TestBed.createComponent(PrathetThaiLekPrajamTuaPrachachonInput);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.prathet-thai-lek-prajam-tua-prachachon-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.prathet-thai-lek-prajam-tua-prachachon-input",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("PrathetThaiLekPrajamTuaPrachachonInput", () => {
     const fixture = TestBed.createComponent(PrathetThaiLekPrajamTuaPrachachonInput);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.prathet-thai-lek-prajam-tua-prachachon-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.prathet-thai-lek-prajam-tua-prachachon-input",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

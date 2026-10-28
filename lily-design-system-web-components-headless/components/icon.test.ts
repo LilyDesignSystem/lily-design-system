@@ -47,7 +47,9 @@ describe("Icon", () => {
     });
 
     test("passes through rest attributes and the class hook", () => {
-        const host = render('<lily-icon label="Search" class="extra" data-testid="search-icon">Q</lily-icon>');
+        const host = render(
+            '<lily-icon label="Search" class="extra" data-testid="search-icon">Q</lily-icon>',
+        );
 
         const span = host.querySelector("span")!;
         expect(span.className).toBe("icon extra");

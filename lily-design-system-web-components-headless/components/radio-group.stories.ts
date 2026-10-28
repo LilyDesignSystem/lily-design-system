@@ -4,13 +4,13 @@ import "./radio-group.js";
 import { h } from "../stories/render.js";
 
 const SLOT =
-    "<label><input type=\"radio\" name=\"delivery\" value=\"email\"> Email</label><label><input type=\"radio\" name=\"delivery\" value=\"post\"> Post</label>";
+    '<label><input type="radio" name="delivery" value="email"> Email</label><label><input type="radio" name="delivery" value="post"> Post</label>';
 
 const meta: Meta = {
     title: "Forms/RadioGroup",
     render: (args) => h("lily-radio-group", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Delivery method"
+        label: "Delivery method",
     },
 };
 

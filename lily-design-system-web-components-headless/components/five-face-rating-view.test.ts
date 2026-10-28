@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("FiveFaceRatingView", () => {
     test("renders a span with the correct class and role=img", () => {
-        const host = render('<lily-five-face-rating-view value="4" label="Good rating"></lily-five-face-rating-view>');
+        const host = render(
+            '<lily-five-face-rating-view value="4" label="Good rating"></lily-five-face-rating-view>',
+        );
 
         const span = host.querySelector("span") as HTMLSpanElement;
         expect(span).not.toBeNull();
@@ -26,13 +28,19 @@ describe("FiveFaceRatingView", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-five-face-rating-view value="4" label="Patient satisfaction: Good"></lily-five-face-rating-view>');
+        const host = render(
+            '<lily-five-face-rating-view value="4" label="Patient satisfaction: Good"></lily-five-face-rating-view>',
+        );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Patient satisfaction: Good");
+        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
+            "Patient satisfaction: Good",
+        );
     });
 
     test("exposes data-value and derives the default face label", () => {
-        const host = render('<lily-five-face-rating-view value="4" label="Good"></lily-five-face-rating-view>');
+        const host = render(
+            '<lily-five-face-rating-view value="4" label="Good"></lily-five-face-rating-view>',
+        );
 
         const span = host.querySelector("span")!;
         expect(span.getAttribute("data-value")).toBe("4");
@@ -59,7 +67,9 @@ describe("FiveFaceRatingView", () => {
     });
 
     test("exposes a live value property that re-renders the face label", () => {
-        const host = render('<lily-five-face-rating-view value="1" label="Very bad"></lily-five-face-rating-view>') as unknown as FiveFaceRatingView;
+        const host = render(
+            '<lily-five-face-rating-view value="1" label="Very bad"></lily-five-face-rating-view>',
+        ) as unknown as FiveFaceRatingView;
 
         expect(host.value).toBe(1);
         host.value = 3;

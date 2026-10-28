@@ -25,7 +25,9 @@ describe("Fieldset", () => {
     });
 
     test("moves children after the legend", () => {
-        const host = render('<lily-fieldset legend="Contact details"><input type="text"></lily-fieldset>');
+        const host = render(
+            '<lily-fieldset legend="Contact details"><input type="text"></lily-fieldset>',
+        );
 
         const fieldset = host.querySelector("fieldset") as HTMLFieldSetElement;
         expect(fieldset.children[0]!.tagName).toBe("LEGEND");

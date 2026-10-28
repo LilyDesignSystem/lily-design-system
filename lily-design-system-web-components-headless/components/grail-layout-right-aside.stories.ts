@@ -7,7 +7,8 @@ const SLOT = "<nav>Related links</nav>";
 
 const meta: Meta = {
     title: "Navigation/GrailLayoutRightAside",
-    render: (args) => h("lily-grail-layout-right-aside", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-grail-layout-right-aside", args as Record<string, string | boolean>, SLOT),
     args: {},
 };
 

@@ -15,7 +15,8 @@ function render(html: string): HTMLElement {
     return document.body.firstElementChild as HTMLElement;
 }
 
-const OPTIONS = '<li role="option" data-value="uk">United Kingdom</li><li role="option" data-value="us">United States</li>';
+const OPTIONS =
+    '<li role="option" data-value="uk">United Kingdom</li><li role="option" data-value="us">United States</li>';
 
 describe("Autosuggest", () => {
     test("the custom element itself is the combobox wrapper (self-is-the-wrapper)", () => {
@@ -74,7 +75,9 @@ describe("Autosuggest", () => {
     });
 
     test("Escape closes the listbox without changing the value", () => {
-        const host = render(`<lily-autosuggest label="Country" value="Can">${OPTIONS}</lily-autosuggest>`);
+        const host = render(
+            `<lily-autosuggest label="Country" value="Can">${OPTIONS}</lily-autosuggest>`,
+        );
         const input = host.querySelector("input") as HTMLInputElement;
 
         input.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }));
@@ -97,7 +100,9 @@ describe("Autosuggest", () => {
     });
 
     test("value property proxies the inner input", () => {
-        const host = render(`<lily-autosuggest label="Country">${OPTIONS}</lily-autosuggest>`) as Autosuggest;
+        const host = render(
+            `<lily-autosuggest label="Country">${OPTIONS}</lily-autosuggest>`,
+        ) as Autosuggest;
 
         host.value = "France";
 

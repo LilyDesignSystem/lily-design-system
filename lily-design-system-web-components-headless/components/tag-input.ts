@@ -59,7 +59,11 @@ export class TagInput extends HTMLElement {
         event.preventDefault();
         input.value = "";
         this.dispatchEvent(
-            new CustomEvent("lily-add", { detail: { value: trimmed }, bubbles: true, composed: true }),
+            new CustomEvent("lily-add", {
+                detail: { value: trimmed },
+                bubbles: true,
+                composed: true,
+            }),
         );
     };
 }

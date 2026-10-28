@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Content/Resizable",
     render: (args) => h("lily-resizable", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Resizable panel",
-        "direction": "both"
+        label: "Resizable panel",
+        direction: "both",
     },
 };
 

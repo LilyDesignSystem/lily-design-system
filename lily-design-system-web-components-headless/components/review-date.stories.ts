@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Content/ReviewDate",
     render: (args) => h("lily-review-date", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Next review",
-        "datetime": "2025-06-15"
+        label: "Next review",
+        datetime: "2025-06-15",
     },
 };
 

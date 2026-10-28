@@ -14,8 +14,10 @@ function make(inputs: Record<string, unknown> = {}) {
   return fixture;
 }
 const fig = (f: any): HTMLElement => f.nativeElement.querySelector("figure");
-const graphic = (f: any): HTMLElement => f.nativeElement.querySelector(".heatmap-chart-with-year-of-days-graphic");
-const wrap = (f: any): HTMLElement => f.nativeElement.querySelector(".heatmap-chart-with-year-of-days-data-table");
+const graphic = (f: any): HTMLElement =>
+  f.nativeElement.querySelector(".heatmap-chart-with-year-of-days-graphic");
+const wrap = (f: any): HTMLElement =>
+  f.nativeElement.querySelector(".heatmap-chart-with-year-of-days-data-table");
 
 @Component({
   standalone: true,
@@ -59,7 +61,9 @@ describe("HeatmapChartWithYearOfDays", () => {
     const f = TestBed.createComponent(Host);
     f.detectChanges();
     const art = f.nativeElement.querySelector("[data-testid=art]");
-    expect(art.closest("[role=img]")).toBe(f.nativeElement.querySelector(".heatmap-chart-with-year-of-days-graphic"));
+    expect(art.closest("[role=img]")).toBe(
+      f.nativeElement.querySelector(".heatmap-chart-with-year-of-days-graphic"),
+    );
   });
   test("the data-table wrapper is empty when nothing is projected", () => {
     expect(wrap(make()).children.length).toBe(0);
@@ -69,7 +73,9 @@ describe("HeatmapChartWithYearOfDays", () => {
     f.detectChanges();
     const w = f.nativeElement.querySelector(".heatmap-chart-with-year-of-days-data-table");
     expect(w.querySelector("table")).toBeTruthy();
-    expect(w.previousElementSibling).toBe(f.nativeElement.querySelector(".heatmap-chart-with-year-of-days-graphic"));
+    expect(w.previousElementSibling).toBe(
+      f.nativeElement.querySelector(".heatmap-chart-with-year-of-days-graphic"),
+    );
     expect(w.parentElement.tagName).toBe("FIGURE");
   });
   test("keeps the table outside the role=img element so assistive technology can reach it", () => {

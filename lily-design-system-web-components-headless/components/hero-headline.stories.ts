@@ -10,7 +10,7 @@ const meta: Meta = {
     title: "Content/HeroHeadline",
     render: (args) => h("lily-hero-headline", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Feature story",
+        label: "Feature story",
     },
 };
 

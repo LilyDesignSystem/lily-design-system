@@ -17,13 +17,17 @@ function render(html: string): HTMLElement {
 
 describe("PasswordInputOrTextInputDiv", () => {
     test("the custom element itself is the wrapper (self-is-the-wrapper)", () => {
-        const host = render('<lily-password-input-or-text-input-div label="Password"></lily-password-input-or-text-input-div>');
+        const host = render(
+            '<lily-password-input-or-text-input-div label="Password"></lily-password-input-or-text-input-div>',
+        );
 
         expect(host.className).toBe("password-input-or-text-input-div");
     });
 
     test("renders a password input with autocomplete=current-password and aria-label", () => {
-        const host = render('<lily-password-input-or-text-input-div label="Password"></lily-password-input-or-text-input-div>');
+        const host = render(
+            '<lily-password-input-or-text-input-div label="Password"></lily-password-input-or-text-input-div>',
+        );
         const input = host.querySelector("input") as HTMLInputElement;
 
         expect(input.type).toBe("password");
@@ -32,7 +36,9 @@ describe("PasswordInputOrTextInputDiv", () => {
     });
 
     test("renders a toggle button by default with aria-pressed=false", () => {
-        const host = render('<lily-password-input-or-text-input-div label="Password"></lily-password-input-or-text-input-div>');
+        const host = render(
+            '<lily-password-input-or-text-input-div label="Password"></lily-password-input-or-text-input-div>',
+        );
         const toggle = host.querySelector("button") as HTMLButtonElement;
 
         expect(toggle).not.toBeNull();
@@ -41,7 +47,9 @@ describe("PasswordInputOrTextInputDiv", () => {
     });
 
     test("toggleLabel defaults to Show password and is the toggle's accessible name and text", () => {
-        const host = render('<lily-password-input-or-text-input-div label="Password"></lily-password-input-or-text-input-div>');
+        const host = render(
+            '<lily-password-input-or-text-input-div label="Password"></lily-password-input-or-text-input-div>',
+        );
         const toggle = host.querySelector("button") as HTMLButtonElement;
 
         expect(toggle.getAttribute("aria-label")).toBe("Show password");
@@ -49,13 +57,17 @@ describe("PasswordInputOrTextInputDiv", () => {
     });
 
     test("show-toggle=false omits the toggle button", () => {
-        const host = render('<lily-password-input-or-text-input-div label="Password" show-toggle="false"></lily-password-input-or-text-input-div>');
+        const host = render(
+            '<lily-password-input-or-text-input-div label="Password" show-toggle="false"></lily-password-input-or-text-input-div>',
+        );
 
         expect(host.querySelector("button")).toBeNull();
     });
 
     test("clicking the toggle switches the input type to text and sets aria-pressed=true", () => {
-        const host = render('<lily-password-input-or-text-input-div label="Password"></lily-password-input-or-text-input-div>');
+        const host = render(
+            '<lily-password-input-or-text-input-div label="Password"></lily-password-input-or-text-input-div>',
+        );
         const input = host.querySelector("input") as HTMLInputElement;
         const toggle = host.querySelector("button") as HTMLButtonElement;
 
@@ -71,7 +83,9 @@ describe("PasswordInputOrTextInputDiv", () => {
     });
 
     test("required and disabled propagate to the input", () => {
-        const host = render('<lily-password-input-or-text-input-div label="Password" required disabled></lily-password-input-or-text-input-div>');
+        const host = render(
+            '<lily-password-input-or-text-input-div label="Password" required disabled></lily-password-input-or-text-input-div>',
+        );
         const input = host.querySelector("input") as HTMLInputElement;
 
         expect(input.required).toBe(true);
@@ -90,7 +104,9 @@ describe("PasswordInputOrTextInputDiv", () => {
     });
 
     test("applies the consumer's class hook alongside the base class", () => {
-        const host = render('<lily-password-input-or-text-input-div label="Password" class="extra"></lily-password-input-or-text-input-div>');
+        const host = render(
+            '<lily-password-input-or-text-input-div label="Password" class="extra"></lily-password-input-or-text-input-div>',
+        );
 
         expect(host.className).toBe("password-input-or-text-input-div extra");
     });

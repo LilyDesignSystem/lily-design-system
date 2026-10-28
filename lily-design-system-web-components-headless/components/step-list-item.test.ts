@@ -46,7 +46,11 @@ describe("StepListItem (upgrade in place)", () => {
         renderList();
 
         const items = Array.from(document.querySelectorAll("li.step-list-item"));
-        expect(items.map((li) => li.getAttribute("data-status"))).toEqual(["finished", "in-progress", "waiting"]);
+        expect(items.map((li) => li.getAttribute("data-status"))).toEqual([
+            "finished",
+            "in-progress",
+            "waiting",
+        ]);
     });
 
     test("data-current is set only when current is present", () => {
@@ -73,13 +77,15 @@ describe("StepListItem (upgrade in place)", () => {
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        document.body.innerHTML = '<ol><lily-step-list-item class="extra">X</lily-step-list-item></ol>';
+        document.body.innerHTML =
+            '<ol><lily-step-list-item class="extra">X</lily-step-list-item></ol>';
 
         expect(document.querySelector("li")!.className).toBe("step-list-item extra");
     });
 
     test("passes through rest attributes to the <li>", () => {
-        document.body.innerHTML = '<ol><lily-step-list-item data-testid="step">X</lily-step-list-item></ol>';
+        document.body.innerHTML =
+            '<ol><lily-step-list-item data-testid="step">X</lily-step-list-item></ol>';
 
         expect(document.querySelector("li")!.getAttribute("data-testid")).toBe("step");
     });

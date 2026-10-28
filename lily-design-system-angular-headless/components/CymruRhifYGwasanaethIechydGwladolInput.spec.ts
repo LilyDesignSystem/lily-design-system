@@ -7,7 +7,9 @@ describe("CymruRhifYGwasanaethIechydGwladolInput", () => {
   test("renders the input root with the base class", () => {
     const fixture = TestBed.createComponent(CymruRhifYGwasanaethIechydGwladolInput);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.cymru-rhif-y-gwasanaeth-iechyd-gwladol-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.cymru-rhif-y-gwasanaeth-iechyd-gwladol-input",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("CymruRhifYGwasanaethIechydGwladolInput", () => {
     const fixture = TestBed.createComponent(CymruRhifYGwasanaethIechydGwladolInput);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.cymru-rhif-y-gwasanaeth-iechyd-gwladol-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.cymru-rhif-y-gwasanaeth-iechyd-gwladol-input",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

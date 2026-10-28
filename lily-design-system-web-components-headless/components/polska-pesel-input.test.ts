@@ -25,13 +25,17 @@ describe("PolskaPeselInput", () => {
     });
 
     test("always forces autocomplete=off, even if the consumer tries to override it", () => {
-        const host = render('<lily-polska-pesel-input label="PESEL" autocomplete="on"></lily-polska-pesel-input>');
+        const host = render(
+            '<lily-polska-pesel-input label="PESEL" autocomplete="on"></lily-polska-pesel-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("autocomplete")).toBe("off");
     });
 
     test("seeds the initial value and exposes a live value property", () => {
-        const host = render('<lily-polska-pesel-input label="PESEL" value="44051401359"></lily-polska-pesel-input>') as unknown as PolskaPeselInput;
+        const host = render(
+            '<lily-polska-pesel-input label="PESEL" value="44051401359"></lily-polska-pesel-input>',
+        ) as unknown as PolskaPeselInput;
 
         expect(host.value).toBe("44051401359");
 
@@ -40,7 +44,9 @@ describe("PolskaPeselInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-polska-pesel-input label="PESEL" required disabled></lily-polska-pesel-input>');
+        const host = render(
+            '<lily-polska-pesel-input label="PESEL" required disabled></lily-polska-pesel-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);

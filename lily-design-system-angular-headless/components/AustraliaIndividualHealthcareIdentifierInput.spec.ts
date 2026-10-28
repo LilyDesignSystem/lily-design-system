@@ -7,7 +7,9 @@ describe("AustraliaIndividualHealthcareIdentifierInput", () => {
   test("renders the input root with the base class", () => {
     const fixture = TestBed.createComponent(AustraliaIndividualHealthcareIdentifierInput);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.australia-individual-healthcare-identifier-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.australia-individual-healthcare-identifier-input",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("AustraliaIndividualHealthcareIdentifierInput", () => {
     const fixture = TestBed.createComponent(AustraliaIndividualHealthcareIdentifierInput);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.australia-individual-healthcare-identifier-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.australia-individual-healthcare-identifier-input",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

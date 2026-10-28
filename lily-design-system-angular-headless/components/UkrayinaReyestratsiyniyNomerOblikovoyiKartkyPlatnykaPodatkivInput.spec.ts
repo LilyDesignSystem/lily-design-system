@@ -5,17 +5,25 @@ import { UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput } fro
 
 describe("UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput", () => {
   test("renders the input root with the base class", () => {
-    const fixture = TestBed.createComponent(UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput);
+    const fixture = TestBed.createComponent(
+      UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput,
+    );
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input",
+    );
     expect(el).toBeTruthy();
   });
 
   test("appends the className input to the root class list", () => {
-    const fixture = TestBed.createComponent(UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput);
+    const fixture = TestBed.createComponent(
+      UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput,
+    );
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

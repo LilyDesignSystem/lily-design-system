@@ -7,7 +7,9 @@ describe("PortugalNumeroDeIdentificacaoFiscalInput", () => {
   test("renders the input root with the base class", () => {
     const fixture = TestBed.createComponent(PortugalNumeroDeIdentificacaoFiscalInput);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.portugal-numero-de-identificacao-fiscal-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.portugal-numero-de-identificacao-fiscal-input",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("PortugalNumeroDeIdentificacaoFiscalInput", () => {
     const fixture = TestBed.createComponent(PortugalNumeroDeIdentificacaoFiscalInput);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.portugal-numero-de-identificacao-fiscal-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.portugal-numero-de-identificacao-fiscal-input",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

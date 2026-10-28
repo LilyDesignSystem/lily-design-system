@@ -82,7 +82,9 @@ describe("TreeMenu", () => {
     });
 
     test("appends the consumer's class attribute to the base class", () => {
-        const host = render('<lily-tree-menu label="File actions" class="my-extra"></lily-tree-menu>');
+        const host = render(
+            '<lily-tree-menu label="File actions" class="my-extra"></lily-tree-menu>',
+        );
 
         expect(host.className).toBe("tree-menu my-extra");
     });

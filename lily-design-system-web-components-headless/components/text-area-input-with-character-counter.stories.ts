@@ -7,11 +7,16 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Content/TextAreaInputWithCharacterCounter",
-    render: (args) => h("lily-text-area-input-with-character-counter", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-text-area-input-with-character-counter",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Feedback",
+        label: "Feedback",
         "max-length": "500",
-        "placeholder": "Tell us what you think…",
+        placeholder: "Tell us what you think…",
     },
 };
 

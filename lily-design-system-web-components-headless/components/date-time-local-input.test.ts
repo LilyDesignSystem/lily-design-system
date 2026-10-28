@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("DateTimeLocalInput", () => {
     test("renders a native input type=datetime-local with the base class", () => {
-        const host = render('<lily-date-time-local-input label="Appointment"></lily-date-time-local-input>');
+        const host = render(
+            '<lily-date-time-local-input label="Appointment"></lily-date-time-local-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.type).toBe("datetime-local");
@@ -25,7 +27,9 @@ describe("DateTimeLocalInput", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-date-time-local-input label="Appointment"></lily-date-time-local-input>');
+        const host = render(
+            '<lily-date-time-local-input label="Appointment"></lily-date-time-local-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("Appointment");
     });

@@ -48,7 +48,9 @@ describe("Progress", () => {
     });
 
     test("honours an explicit max", () => {
-        const host = render('<lily-progress label="Upload progress" value="4" max="10"></lily-progress>');
+        const host = render(
+            '<lily-progress label="Upload progress" value="4" max="10"></lily-progress>',
+        );
 
         expect((host.querySelector("progress") as HTMLProgressElement).max).toBe(10);
     });

@@ -12,7 +12,7 @@ const meta: Meta = {
     title: "Content/SharePage",
     render: (args) => h("lily-share-page", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Share this page"
+        label: "Share this page",
     },
 };
 

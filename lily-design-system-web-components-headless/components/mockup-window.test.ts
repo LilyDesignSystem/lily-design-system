@@ -23,7 +23,9 @@ describe("MockupWindow", () => {
     });
 
     test("label is optional and maps to aria-label when provided", () => {
-        const host = render('<lily-mockup-window label="Preview of the settings window"></lily-mockup-window>');
+        const host = render(
+            '<lily-mockup-window label="Preview of the settings window"></lily-mockup-window>',
+        );
 
         expect(host.getAttribute("aria-label")).toBe("Preview of the settings window");
     });

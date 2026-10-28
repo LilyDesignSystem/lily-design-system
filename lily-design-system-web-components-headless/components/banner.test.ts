@@ -37,13 +37,17 @@ describe("Banner", () => {
     });
 
     test("dismissible renders a dismiss button with close-label as its accessible name", () => {
-        const host = render('<lily-banner dismissible close-label="Dismiss">New version available.</lily-banner>');
+        const host = render(
+            '<lily-banner dismissible close-label="Dismiss">New version available.</lily-banner>',
+        );
 
         expect(host.querySelector(".banner-dismiss")!.getAttribute("aria-label")).toBe("Dismiss");
     });
 
     test("dismissing fires lily-close and hides the banner", () => {
-        const host = render('<lily-banner dismissible close-label="Dismiss">New version available.</lily-banner>');
+        const host = render(
+            '<lily-banner dismissible close-label="Dismiss">New version available.</lily-banner>',
+        );
         const handler = vi.fn();
         host.addEventListener("lily-close", handler);
 

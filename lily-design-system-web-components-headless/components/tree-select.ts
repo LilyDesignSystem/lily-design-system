@@ -94,7 +94,11 @@ export class TreeSelect extends HTMLElement {
         this.setAttribute("aria-expanded", value ? "true" : "false");
         if (this.#panel) this.#panel.hidden = !value;
         this.dispatchEvent(
-            new CustomEvent("lily-expanded-change", { detail: { expanded: value }, bubbles: true, composed: true }),
+            new CustomEvent("lily-expanded-change", {
+                detail: { expanded: value },
+                bubbles: true,
+                composed: true,
+            }),
         );
     }
 

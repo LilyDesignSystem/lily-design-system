@@ -31,12 +31,16 @@ describe("CalendarMonthTable", () => {
     });
 
     test("appends the consumer class after the base class", () => {
-        const host = render('<lily-calendar-month-table label="x" class="mine"></lily-calendar-month-table>');
+        const host = render(
+            '<lily-calendar-month-table label="x" class="mine"></lily-calendar-month-table>',
+        );
         expect(host.querySelector("table")!.className).toBe("calendar-month-table mine");
     });
 
     test("uses label as aria-label", () => {
-        expect(render(BASIC).querySelector("table")!.getAttribute("aria-label")).toBe("January 2025");
+        expect(render(BASIC).querySelector("table")!.getAttribute("aria-label")).toBe(
+            "January 2025",
+        );
     });
 
     test("marks the view as data-view=month", () => {
@@ -44,7 +48,9 @@ describe("CalendarMonthTable", () => {
     });
 
     test("renders a caption when provided", () => {
-        const host = render('<lily-calendar-month-table label="x" caption="Visible caption"></lily-calendar-month-table>');
+        const host = render(
+            '<lily-calendar-month-table label="x" caption="Visible caption"></lily-calendar-month-table>',
+        );
         expect(host.querySelector("table > caption")!.textContent).toBe("Visible caption");
     });
 
@@ -67,7 +73,9 @@ describe("CalendarMonthTable", () => {
     });
 
     test("passes through other attributes", () => {
-        const host = render('<lily-calendar-month-table label="x" data-testid="cal"></lily-calendar-month-table>');
+        const host = render(
+            '<lily-calendar-month-table label="x" data-testid="cal"></lily-calendar-month-table>',
+        );
         expect(host.querySelector("table")!.getAttribute("data-testid")).toBe("cal");
     });
 

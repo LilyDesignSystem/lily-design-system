@@ -26,7 +26,10 @@ export class UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput e
 
         const input = document.createElement("input");
         input.type = "text";
-        input.className = rootClassName(this, "ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input");
+        input.className = rootClassName(
+            this,
+            "ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input",
+        );
         const label = this.getAttribute("label");
         if (label !== null) input.setAttribute("aria-label", label);
         input.value = this.getAttribute("value") ?? "";

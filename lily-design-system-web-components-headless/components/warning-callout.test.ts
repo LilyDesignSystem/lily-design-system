@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("WarningCallout", () => {
     test("renders a native aside with role=alert", () => {
-        const host = render("<lily-warning-callout>This action cannot be undone.</lily-warning-callout>");
+        const host = render(
+            "<lily-warning-callout>This action cannot be undone.</lily-warning-callout>",
+        );
 
         const aside = host.querySelector("aside") as HTMLElement;
         expect(aside.getAttribute("role")).toBe("alert");
@@ -28,7 +30,9 @@ describe("WarningCallout", () => {
         const withoutLabel = render("<lily-warning-callout>Careful.</lily-warning-callout>");
         expect(withoutLabel.querySelector("aside")!.hasAttribute("aria-label")).toBe(false);
 
-        const withLabel = render('<lily-warning-callout label="Warning">Careful.</lily-warning-callout>');
+        const withLabel = render(
+            '<lily-warning-callout label="Warning">Careful.</lily-warning-callout>',
+        );
         expect(withLabel.querySelector("aside")!.getAttribute("aria-label")).toBe("Warning");
     });
 

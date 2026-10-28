@@ -11,8 +11,8 @@ const meta: Meta = {
     title: "Navigation/ContextMenu",
     render: (args) => h("lily-context-menu", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Actions",
-        "open": true
+        label: "Actions",
+        open: true,
     },
 };
 

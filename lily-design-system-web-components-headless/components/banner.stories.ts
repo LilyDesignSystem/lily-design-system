@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Content/Banner",
     render: (args) => h("lily-banner", args as Record<string, string | boolean>, SLOT),
     args: {
-        "dismissible": true,
-        "close-label": "Dismiss"
+        dismissible: true,
+        "close-label": "Dismiss",
     },
 };
 

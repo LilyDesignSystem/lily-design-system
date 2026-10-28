@@ -52,7 +52,9 @@ describe("VideoPlayer", () => {
     });
 
     test("applies aria-label from label", () => {
-        const host = render('<lily-video-player src="/v.mp4" label="Demo video"></lily-video-player>');
+        const host = render(
+            '<lily-video-player src="/v.mp4" label="Demo video"></lily-video-player>',
+        );
 
         expect(host.querySelector(".video-player")?.getAttribute("aria-label")).toBe("Demo video");
     });
@@ -72,13 +74,17 @@ describe("VideoPlayer", () => {
     });
 
     test("controls=false omits native controls", () => {
-        const host = render('<lily-video-player src="/v.mp4" label="x" controls="false"></lily-video-player>');
+        const host = render(
+            '<lily-video-player src="/v.mp4" label="x" controls="false"></lily-video-player>',
+        );
 
         expect((host.querySelector("video") as HTMLVideoElement).controls).toBe(false);
     });
 
     test("muted and loop are reflected", () => {
-        const host = render('<lily-video-player src="/v.mp4" label="x" muted loop></lily-video-player>');
+        const host = render(
+            '<lily-video-player src="/v.mp4" label="x" muted loop></lily-video-player>',
+        );
 
         const video = host.querySelector("video") as HTMLVideoElement;
         expect(video.muted).toBe(true);
@@ -86,9 +92,13 @@ describe("VideoPlayer", () => {
     });
 
     test("poster is reflected", () => {
-        const host = render('<lily-video-player src="/v.mp4" label="x" poster="/poster.jpg"></lily-video-player>');
+        const host = render(
+            '<lily-video-player src="/v.mp4" label="x" poster="/poster.jpg"></lily-video-player>',
+        );
 
-        expect((host.querySelector("video") as HTMLVideoElement).getAttribute("poster")).toBe("/poster.jpg");
+        expect((host.querySelector("video") as HTMLVideoElement).getAttribute("poster")).toBe(
+            "/poster.jpg",
+        );
     });
 
     test("renders caption inside figcaption via slot=caption", () => {
@@ -96,7 +106,9 @@ describe("VideoPlayer", () => {
             '<lily-video-player src="/v.mp4" label="x"><span slot="caption">A caption</span></lily-video-player>',
         );
 
-        expect(host.querySelector("figcaption.video-player-caption")?.textContent).toBe("A caption");
+        expect(host.querySelector("figcaption.video-player-caption")?.textContent).toBe(
+            "A caption",
+        );
     });
 
     test("omits figcaption when no caption slot is given", () => {
@@ -115,7 +127,10 @@ describe("VideoPlayer", () => {
     });
 
     test("plays on intersect and pauses on scroll-out when autoplay is set", () => {
-        vi.stubGlobal("IntersectionObserver", FakeIntersectionObserver as unknown as typeof IntersectionObserver);
+        vi.stubGlobal(
+            "IntersectionObserver",
+            FakeIntersectionObserver as unknown as typeof IntersectionObserver,
+        );
         const video = window.HTMLMediaElement.prototype;
         const play = vi.spyOn(video, "play").mockResolvedValue(undefined);
         const pause = vi.spyOn(video, "pause").mockImplementation(() => {});
@@ -134,7 +149,10 @@ describe("VideoPlayer", () => {
     });
 
     test("does not construct an IntersectionObserver when autoplay is absent", () => {
-        vi.stubGlobal("IntersectionObserver", FakeIntersectionObserver as unknown as typeof IntersectionObserver);
+        vi.stubGlobal(
+            "IntersectionObserver",
+            FakeIntersectionObserver as unknown as typeof IntersectionObserver,
+        );
         FakeIntersectionObserver.instances = [];
 
         render('<lily-video-player src="/v.mp4" label="x"></lily-video-player>');

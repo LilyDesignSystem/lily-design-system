@@ -36,7 +36,9 @@ describe("TextInput", () => {
     });
 
     test("exposes a live value property proxying the inner input", () => {
-        const host = render('<lily-text-input label="Name"></lily-text-input>') as unknown as TextInput;
+        const host = render(
+            '<lily-text-input label="Name"></lily-text-input>',
+        ) as unknown as TextInput;
         const input = host.querySelector("input") as HTMLInputElement;
 
         host.value = "Grace";
@@ -54,7 +56,9 @@ describe("TextInput", () => {
     });
 
     test("passes through rest attributes such as placeholder", () => {
-        const host = render('<lily-text-input label="Name" placeholder="e.g. Ada"></lily-text-input>');
+        const host = render(
+            '<lily-text-input label="Name" placeholder="e.g. Ada"></lily-text-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("placeholder")).toBe("e.g. Ada");
     });

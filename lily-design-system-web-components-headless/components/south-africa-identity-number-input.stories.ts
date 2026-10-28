@@ -7,9 +7,14 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/SouthAfricaIdentityNumberInput",
-    render: (args) => h("lily-south-africa-identity-number-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-south-africa-identity-number-input",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "South African Identity Number"
+        label: "South African Identity Number",
     },
 };
 

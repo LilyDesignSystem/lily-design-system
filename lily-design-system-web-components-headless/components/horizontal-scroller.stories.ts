@@ -10,7 +10,7 @@ const meta: Meta = {
     title: "Content/HorizontalScroller",
     render: (args) => h("lily-horizontal-scroller", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Photo gallery",
+        label: "Photo gallery",
     },
 };
 

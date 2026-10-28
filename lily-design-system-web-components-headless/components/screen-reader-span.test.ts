@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("ScreenReaderSpan", () => {
     test("renders a native span with the correct class", () => {
-        const host = render("<lily-screen-reader-span>Opens in a new tab</lily-screen-reader-span>");
+        const host = render(
+            "<lily-screen-reader-span>Opens in a new tab</lily-screen-reader-span>",
+        );
 
         const span = host.querySelector("span") as HTMLSpanElement;
         expect(span).not.toBeNull();
@@ -25,7 +27,9 @@ describe("ScreenReaderSpan", () => {
     });
 
     test("moves children into the span", () => {
-        const host = render("<lily-screen-reader-span>Opens in a new tab</lily-screen-reader-span>");
+        const host = render(
+            "<lily-screen-reader-span>Opens in a new tab</lily-screen-reader-span>",
+        );
 
         expect(host.querySelector("span")!.textContent).toBe("Opens in a new tab");
     });
@@ -39,7 +43,9 @@ describe("ScreenReaderSpan", () => {
     });
 
     test("omits aria-label when label is absent", () => {
-        const host = render("<lily-screen-reader-span>Opens in a new tab</lily-screen-reader-span>");
+        const host = render(
+            "<lily-screen-reader-span>Opens in a new tab</lily-screen-reader-span>",
+        );
 
         expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });

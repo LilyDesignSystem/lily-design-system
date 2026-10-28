@@ -7,9 +7,14 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/SingaporeNationalRegistrationIdentityCardInput",
-    render: (args) => h("lily-singapore-national-registration-identity-card-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-singapore-national-registration-identity-card-input",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "National Registration Identity Card Number / Foreign Identification Number (NRIC/FIN)"
+        label: "National Registration Identity Card Number / Foreign Identification Number (NRIC/FIN)",
     },
 };
 

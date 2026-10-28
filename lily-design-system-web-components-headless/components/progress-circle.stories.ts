@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Content/ProgressCircle",
     render: (args) => h("lily-progress-circle", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Upload progress",
-        "value": "75"
+        label: "Upload progress",
+        value: "75",
     },
 };
 

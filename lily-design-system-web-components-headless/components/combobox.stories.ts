@@ -10,8 +10,8 @@ const meta: Meta = {
     title: "Content/Combobox",
     render: (args) => h("lily-combobox", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Choose a fruit",
-        "open": true,
+        label: "Choose a fruit",
+        open: true,
     },
 };
 

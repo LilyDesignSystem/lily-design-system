@@ -60,7 +60,9 @@ describe("GoToPreviousSection", () => {
     });
 
     test("is idempotent if connectedCallback runs more than once", () => {
-        const host = render('<lily-go-to-previous-section href="#x" label="Previous"></lily-go-to-previous-section>');
+        const host = render(
+            '<lily-go-to-previous-section href="#x" label="Previous"></lily-go-to-previous-section>',
+        );
 
         (host as unknown as GoToPreviousSection).connectedCallback();
 

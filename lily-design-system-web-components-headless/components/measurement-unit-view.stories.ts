@@ -7,7 +7,8 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Content/MeasurementUnitView",
-    render: (args) => h("lily-measurement-unit-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-measurement-unit-view", args as Record<string, string | boolean>, SLOT),
     args: {
         value: "kg",
         label: "Weight in kilograms",

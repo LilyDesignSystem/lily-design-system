@@ -31,13 +31,17 @@ describe("CheckboxInput", () => {
     });
 
     test("checked attribute seeds the initial checked state", () => {
-        const host = render('<lily-checkbox-input label="Subscribe" checked></lily-checkbox-input>');
+        const host = render(
+            '<lily-checkbox-input label="Subscribe" checked></lily-checkbox-input>',
+        );
 
         expect((host.querySelector("input") as HTMLInputElement).checked).toBe(true);
     });
 
     test("exposes a live checked property proxying the inner input", () => {
-        const host = render('<lily-checkbox-input label="Subscribe"></lily-checkbox-input>') as unknown as CheckboxInput;
+        const host = render(
+            '<lily-checkbox-input label="Subscribe"></lily-checkbox-input>',
+        ) as unknown as CheckboxInput;
         const input = host.querySelector("input") as HTMLInputElement;
 
         host.checked = true;
@@ -47,7 +51,9 @@ describe("CheckboxInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-checkbox-input label="Subscribe" required disabled></lily-checkbox-input>');
+        const host = render(
+            '<lily-checkbox-input label="Subscribe" required disabled></lily-checkbox-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -55,7 +61,9 @@ describe("CheckboxInput", () => {
     });
 
     test("passes through rest attributes such as name and value", () => {
-        const host = render('<lily-checkbox-input label="Subscribe" name="ch" value="email"></lily-checkbox-input>');
+        const host = render(
+            '<lily-checkbox-input label="Subscribe" name="ch" value="email"></lily-checkbox-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.getAttribute("name")).toBe("ch");

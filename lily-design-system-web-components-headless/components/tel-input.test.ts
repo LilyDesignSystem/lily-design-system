@@ -29,7 +29,9 @@ describe("TelInput", () => {
     });
 
     test("seeds the initial value and exposes a live value property", () => {
-        const host = render('<lily-tel-input label="Phone" value="0123"></lily-tel-input>') as unknown as TelInput;
+        const host = render(
+            '<lily-tel-input label="Phone" value="0123"></lily-tel-input>',
+        ) as unknown as TelInput;
 
         expect(host.value).toBe("0123");
 

@@ -84,6 +84,10 @@ describe("TransferList", () => {
         );
 
         const classes = Array.from(host.children).map((el) => el.className);
-        expect(classes).toEqual(["transfer-list-source", "transfer-list-actions", "transfer-list-target"]);
+        expect(classes).toEqual([
+            "transfer-list-source",
+            "transfer-list-actions",
+            "transfer-list-target",
+        ]);
     });
 });

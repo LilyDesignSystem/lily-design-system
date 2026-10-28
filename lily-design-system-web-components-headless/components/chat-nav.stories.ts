@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Navigation/ChatNav",
     render: (args) => h("lily-chat-nav", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Chat conversations"
+        label: "Chat conversations",
     },
 };
 

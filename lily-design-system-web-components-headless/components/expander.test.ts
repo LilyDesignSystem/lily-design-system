@@ -40,7 +40,9 @@ describe("Expander", () => {
         expect(closed.querySelector('[role="region"]')!.hasAttribute("hidden")).toBe(true);
         expect(closed.querySelector("button")!.getAttribute("aria-expanded")).toBe("false");
 
-        const open = render('<lily-expander label="Show details" expanded><p>Details</p></lily-expander>');
+        const open = render(
+            '<lily-expander label="Show details" expanded><p>Details</p></lily-expander>',
+        );
         expect(open.querySelector('[role="region"]')!.hasAttribute("hidden")).toBe(false);
         expect(open.querySelector("button")!.getAttribute("aria-expanded")).toBe("true");
     });
@@ -56,7 +58,9 @@ describe("Expander", () => {
     });
 
     test("preserves the expandable content", () => {
-        const host = render('<lily-expander label="Show details"><p>Advanced settings go here.</p></lily-expander>');
+        const host = render(
+            '<lily-expander label="Show details"><p>Advanced settings go here.</p></lily-expander>',
+        );
 
         expect(host.querySelector("p")!.textContent).toBe("Advanced settings go here.");
     });

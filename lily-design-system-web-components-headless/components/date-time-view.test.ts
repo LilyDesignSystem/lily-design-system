@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("DateTimeView", () => {
     test("renders a native time element with the datetime attribute", () => {
-        const host = render('<lily-date-time-view value="2026-04-27T09:00:00Z"></lily-date-time-view>');
+        const host = render(
+            '<lily-date-time-view value="2026-04-27T09:00:00Z"></lily-date-time-view>',
+        );
 
         const time = host.querySelector("time") as HTMLTimeElement;
         expect(time.className).toBe("date-time-view");
@@ -25,7 +27,9 @@ describe("DateTimeView", () => {
     });
 
     test("falls back to the raw value when no format or children are given", () => {
-        const host = render('<lily-date-time-view value="2026-04-27T09:00:00Z"></lily-date-time-view>');
+        const host = render(
+            '<lily-date-time-view value="2026-04-27T09:00:00Z"></lily-date-time-view>',
+        );
 
         expect(host.querySelector("time")!.textContent).toBe("2026-04-27T09:00:00Z");
     });
@@ -52,7 +56,9 @@ describe("DateTimeView", () => {
         );
         expect(withLabel.querySelector("time")!.getAttribute("aria-label")).toBe("Published");
 
-        const withoutLabel = render('<lily-date-time-view value="2026-04-27T09:00:00Z"></lily-date-time-view>');
+        const withoutLabel = render(
+            '<lily-date-time-view value="2026-04-27T09:00:00Z"></lily-date-time-view>',
+        );
         expect(withoutLabel.querySelector("time")!.hasAttribute("aria-label")).toBe(false);
     });
 });

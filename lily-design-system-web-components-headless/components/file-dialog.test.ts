@@ -56,7 +56,9 @@ describe("FileDialog", () => {
     });
 
     test("moves the consumer's children into the dialog", () => {
-        const host = render('<lily-file-dialog label="Choose a file" open><ul><li>report.pdf</li></ul></lily-file-dialog>');
+        const host = render(
+            '<lily-file-dialog label="Choose a file" open><ul><li>report.pdf</li></ul></lily-file-dialog>',
+        );
 
         expect(host.querySelector("dialog ul li")!.textContent).toBe("report.pdf");
     });

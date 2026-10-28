@@ -36,7 +36,9 @@ describe("ScrollBar", () => {
     });
 
     test("reflects orientation attribute", () => {
-        const host = render('<lily-scroll-bar label="Timeline scroll" orientation="horizontal"></lily-scroll-bar>');
+        const host = render(
+            '<lily-scroll-bar label="Timeline scroll" orientation="horizontal"></lily-scroll-bar>',
+        );
 
         expect(host.getAttribute("aria-orientation")).toBe("horizontal");
     });
@@ -58,7 +60,9 @@ describe("ScrollBar", () => {
     });
 
     test("appends the consumer's class attribute to the base class", () => {
-        const host = render('<lily-scroll-bar label="Chat scroll" class="my-extra"></lily-scroll-bar>');
+        const host = render(
+            '<lily-scroll-bar label="Chat scroll" class="my-extra"></lily-scroll-bar>',
+        );
 
         expect(host.className).toBe("scroll-bar my-extra");
     });

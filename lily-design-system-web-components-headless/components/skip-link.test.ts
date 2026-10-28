@@ -26,7 +26,9 @@ describe("SkipLink", () => {
     });
 
     test("allows a configurable href and label", () => {
-        const host = render('<lily-skip-link href="#main" label="Skip to main content"></lily-skip-link>');
+        const host = render(
+            '<lily-skip-link href="#main" label="Skip to main content"></lily-skip-link>',
+        );
 
         const a = host.querySelector("a")!;
         expect(a.getAttribute("href")).toBe("#main");

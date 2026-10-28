@@ -31,7 +31,9 @@ describe("TagInput", () => {
     });
 
     test("seeds the input from the value attribute and exposes a live value property", () => {
-        const host = render('<lily-tag-input label="Add tag" value="draft"></lily-tag-input>') as unknown as TagInput;
+        const host = render(
+            '<lily-tag-input label="Add tag" value="draft"></lily-tag-input>',
+        ) as unknown as TagInput;
 
         expect(host.value).toBe("draft");
         host.value = "urgent";
@@ -45,7 +47,9 @@ describe("TagInput", () => {
     });
 
     test("Enter with a non-empty trimmed value fires lily-add and clears the input", () => {
-        const host = render('<lily-tag-input label="Add tag"></lily-tag-input>') as unknown as TagInput;
+        const host = render(
+            '<lily-tag-input label="Add tag"></lily-tag-input>',
+        ) as unknown as TagInput;
         const input = host.querySelector("input") as HTMLInputElement;
         const handler = vi.fn();
         host.addEventListener("lily-add", handler);
@@ -60,7 +64,9 @@ describe("TagInput", () => {
     });
 
     test("Enter with an empty (or whitespace-only) value does nothing", () => {
-        const host = render('<lily-tag-input label="Add tag"></lily-tag-input>') as unknown as TagInput;
+        const host = render(
+            '<lily-tag-input label="Add tag"></lily-tag-input>',
+        ) as unknown as TagInput;
         const input = host.querySelector("input") as HTMLInputElement;
         const handler = vi.fn();
         host.addEventListener("lily-add", handler);

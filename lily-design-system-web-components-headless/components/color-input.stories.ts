@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Forms/ColorInput",
     render: (args) => h("lily-color-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Accent colour",
-        "value": "#2563eb"
+        label: "Accent colour",
+        value: "#2563eb",
     },
 };
 

@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Navigation/TabBarButton",
     render: (args) => h("lily-tab-bar-button", args as Record<string, string | boolean>, SLOT),
     args: {
-        "selected": true,
-        "controls": "panel-general"
+        selected: true,
+        controls: "panel-general",
     },
 };
 

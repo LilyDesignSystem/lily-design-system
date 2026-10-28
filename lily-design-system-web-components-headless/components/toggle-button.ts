@@ -73,7 +73,11 @@ export class ToggleButton extends HTMLElement {
         const next = !this.hasAttribute("pressed");
         this.toggleAttribute("pressed", next);
         this.dispatchEvent(
-            new CustomEvent("lily-change", { detail: { pressed: next }, bubbles: true, composed: true }),
+            new CustomEvent("lily-change", {
+                detail: { pressed: next },
+                bubbles: true,
+                composed: true,
+            }),
         );
     };
 }

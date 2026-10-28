@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Special-Purpose Identifiers/LietuvaPasasView",
     render: (args) => h("lily-lietuva-pasas-view", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Pasas (Passport Number)",
-        "value": "12345678"
+        label: "Pasas (Passport Number)",
+        value: "12345678",
     },
 };
 

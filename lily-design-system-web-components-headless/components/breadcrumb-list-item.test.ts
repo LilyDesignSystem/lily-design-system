@@ -9,8 +9,10 @@ import { BreadcrumbList } from "./breadcrumb-list.js";
 import { BreadcrumbListItem } from "./breadcrumb-list-item.js";
 import { BreadcrumbNav } from "./breadcrumb-nav.js";
 
-if (!customElements.get("lily-breadcrumb-nav")) customElements.define("lily-breadcrumb-nav", BreadcrumbNav);
-if (!customElements.get("lily-breadcrumb-list")) customElements.define("lily-breadcrumb-list", BreadcrumbList);
+if (!customElements.get("lily-breadcrumb-nav"))
+    customElements.define("lily-breadcrumb-nav", BreadcrumbNav);
+if (!customElements.get("lily-breadcrumb-list"))
+    customElements.define("lily-breadcrumb-list", BreadcrumbList);
 if (!customElements.get("lily-breadcrumb-list-item")) {
     customElements.define("lily-breadcrumb-list-item", BreadcrumbListItem);
 }

@@ -17,19 +17,25 @@ function render(html: string): HTMLElement {
 
 describe("FiveFaceRatingPicker", () => {
     test("carries the base class", () => {
-        const host = render('<lily-five-face-rating-picker label="Rate your visit"></lily-five-face-rating-picker>');
+        const host = render(
+            '<lily-five-face-rating-picker label="Rate your visit"></lily-five-face-rating-picker>',
+        );
 
         expect(host.classList.contains("five-face-rating-picker")).toBe(true);
     });
 
     test("has role=radiogroup", () => {
-        const host = render('<lily-five-face-rating-picker label="Rate your visit"></lily-five-face-rating-picker>');
+        const host = render(
+            '<lily-five-face-rating-picker label="Rate your visit"></lily-five-face-rating-picker>',
+        );
 
         expect(host.getAttribute("role")).toBe("radiogroup");
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-five-face-rating-picker label="Rate your visit"></lily-five-face-rating-picker>');
+        const host = render(
+            '<lily-five-face-rating-picker label="Rate your visit"></lily-five-face-rating-picker>',
+        );
 
         expect(host.getAttribute("aria-label")).toBe("Rate your visit");
     });
@@ -51,7 +57,9 @@ describe("FiveFaceRatingPicker", () => {
     });
 
     test("is idempotent across repeated connectedCallback invocations", () => {
-        const host = render('<lily-five-face-rating-picker label="Rate your visit"></lily-five-face-rating-picker>');
+        const host = render(
+            '<lily-five-face-rating-picker label="Rate your visit"></lily-five-face-rating-picker>',
+        );
 
         (host as unknown as FiveFaceRatingPicker).connectedCallback();
 

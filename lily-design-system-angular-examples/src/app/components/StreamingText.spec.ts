@@ -12,7 +12,11 @@ function make(inputs: Record<string, unknown> = {}) {
 }
 const root = (f: any): HTMLElement => f.nativeElement.querySelector("div");
 
-@Component({ standalone: true, imports: [StreamingText], template: `<lily-streaming-text><span data-testid="txt">Hello</span></lily-streaming-text>` })
+@Component({
+  standalone: true,
+  imports: [StreamingText],
+  template: `<lily-streaming-text><span data-testid="txt">Hello</span></lily-streaming-text>`,
+})
 class Host {}
 
 describe("StreamingText", () => {

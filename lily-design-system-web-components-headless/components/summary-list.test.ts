@@ -29,20 +29,26 @@ describe("SummaryList", () => {
     });
 
     test("moves its children into the dl", () => {
-        const host = render('<lily-summary-list label="Order summary"><dt>Product</dt><dd>Widget</dd></lily-summary-list>');
+        const host = render(
+            '<lily-summary-list label="Order summary"><dt>Product</dt><dd>Widget</dd></lily-summary-list>',
+        );
 
         expect(host.querySelector("dl > dt")!.textContent).toBe("Product");
         expect(host.querySelector("dl > dd")!.textContent).toBe("Widget");
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-summary-list label="Order summary" class="extra"></lily-summary-list>');
+        const host = render(
+            '<lily-summary-list label="Order summary" class="extra"></lily-summary-list>',
+        );
 
         expect(host.querySelector("dl")!.className).toBe("summary-list extra");
     });
 
     test("passes through rest attributes to the dl", () => {
-        const host = render('<lily-summary-list label="Order summary" data-testid="summary"></lily-summary-list>');
+        const host = render(
+            '<lily-summary-list label="Order summary" data-testid="summary"></lily-summary-list>',
+        );
 
         expect(host.querySelector("dl")!.getAttribute("data-testid")).toBe("summary");
     });

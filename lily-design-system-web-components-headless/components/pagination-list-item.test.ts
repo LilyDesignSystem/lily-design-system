@@ -51,7 +51,8 @@ describe("PaginationListItem (upgrade in place)", () => {
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        document.body.innerHTML = '<ol><lily-pagination-list-item class="extra">X</lily-pagination-list-item></ol>';
+        document.body.innerHTML =
+            '<ol><lily-pagination-list-item class="extra">X</lily-pagination-list-item></ol>';
 
         expect(document.querySelector("li")!.className).toBe("pagination-list-item extra");
     });

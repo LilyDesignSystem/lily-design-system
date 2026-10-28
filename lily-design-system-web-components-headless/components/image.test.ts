@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("Image", () => {
     test("renders a plain img when no caption is provided", () => {
-        const host = render('<lily-image src="/photo.jpg" alt="A sunset over the ocean"></lily-image>');
+        const host = render(
+            '<lily-image src="/photo.jpg" alt="A sunset over the ocean"></lily-image>',
+        );
 
         const img = host.querySelector("img") as HTMLImageElement;
         expect(img.className).toBe("image");
@@ -27,7 +29,9 @@ describe("Image", () => {
     });
 
     test("renders a figure with figcaption when caption is provided", () => {
-        const host = render('<lily-image src="/photo.jpg" alt="A sunset" caption="Photo by Jane Doe"></lily-image>');
+        const host = render(
+            '<lily-image src="/photo.jpg" alt="A sunset" caption="Photo by Jane Doe"></lily-image>',
+        );
 
         const figure = host.querySelector("figure")!;
         expect(figure.className).toBe("image");
@@ -36,10 +40,14 @@ describe("Image", () => {
     });
 
     test("propagates the loading attribute in both branches", () => {
-        const withoutCaption = render('<lily-image src="/a.jpg" alt="A" loading="lazy"></lily-image>');
+        const withoutCaption = render(
+            '<lily-image src="/a.jpg" alt="A" loading="lazy"></lily-image>',
+        );
         expect(withoutCaption.querySelector("img")!.getAttribute("loading")).toBe("lazy");
 
-        const withCaption = render('<lily-image src="/a.jpg" alt="A" caption="Caption" loading="eager"></lily-image>');
+        const withCaption = render(
+            '<lily-image src="/a.jpg" alt="A" caption="Caption" loading="eager"></lily-image>',
+        );
         expect(withCaption.querySelector("img")!.getAttribute("loading")).toBe("eager");
     });
 

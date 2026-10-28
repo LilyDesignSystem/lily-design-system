@@ -31,9 +31,13 @@ describe("Panel", () => {
     });
 
     test("moves light-DOM children into the section", () => {
-        const host = render('<lily-panel label="Settings"><p>Adjust your preferences below.</p></lily-panel>');
+        const host = render(
+            '<lily-panel label="Settings"><p>Adjust your preferences below.</p></lily-panel>',
+        );
 
-        expect(host.querySelector("section")!.querySelector("p")!.textContent).toBe("Adjust your preferences below.");
+        expect(host.querySelector("section")!.querySelector("p")!.textContent).toBe(
+            "Adjust your preferences below.",
+        );
     });
 
     test("passes through rest attributes onto the section", () => {

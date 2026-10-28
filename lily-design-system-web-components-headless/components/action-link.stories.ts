@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Buttons and links/ActionLink",
     render: (args) => h("lily-action-link", args as Record<string, string | boolean>, SLOT),
     args: {
-        "href": "/settings"
+        href: "/settings",
     },
 };
 

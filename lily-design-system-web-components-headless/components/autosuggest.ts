@@ -121,7 +121,9 @@ export class Autosuggest extends HTMLElement {
     }
 
     #options(): HTMLElement[] {
-        return Array.from(this.#list?.querySelectorAll<HTMLElement>(":scope > [role='option']") ?? []);
+        return Array.from(
+            this.#list?.querySelectorAll<HTMLElement>(":scope > [role='option']") ?? [],
+        );
     }
 
     #refreshOptions = (): void => {
@@ -129,7 +131,8 @@ export class Autosuggest extends HTMLElement {
         for (const option of options) {
             option.setAttribute("role", "option");
             if (!option.id) option.id = nextId("autosuggest-option");
-            if (!option.hasAttribute("aria-selected")) option.setAttribute("aria-selected", "false");
+            if (!option.hasAttribute("aria-selected"))
+                option.setAttribute("aria-selected", "false");
             option.addEventListener("mousedown", this.#onOptionMousedown);
         }
         if (this.#activeIndex >= options.length) this.#activeIndex = options.length - 1;

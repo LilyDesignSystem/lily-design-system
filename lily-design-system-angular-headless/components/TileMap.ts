@@ -59,7 +59,10 @@ export class TileMap {
           })
           .map(({ t }) => {
             const r = t.getBoundingClientRect();
-            return { t, score: Math.abs(r.left + r.width / 2 - targetX) + Math.abs(r.top - currentRect.top) };
+            return {
+              t,
+              score: Math.abs(r.left + r.width / 2 - targetX) + Math.abs(r.top - currentRect.top),
+            };
           })
           .sort((a, b) => a.score - b.score)[0]?.t;
         next?.focus();

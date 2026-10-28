@@ -7,10 +7,15 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/AotearoaNationalHealthIndexView",
-    render: (args) => h("lily-aotearoa-national-health-index-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-aotearoa-national-health-index-view",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "National Health Index (NHI) Number",
-        "value": "ABC1234"
+        label: "National Health Index (NHI) Number",
+        value: "ABC1234",
     },
 };
 

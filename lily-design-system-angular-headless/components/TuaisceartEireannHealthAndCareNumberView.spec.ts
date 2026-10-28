@@ -7,7 +7,9 @@ describe("TuaisceartEireannHealthAndCareNumberView", () => {
   test("renders the span root with the base class", () => {
     const fixture = TestBed.createComponent(TuaisceartEireannHealthAndCareNumberView);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.tuaisceart-eireann-health-and-care-number-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.tuaisceart-eireann-health-and-care-number-view",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("TuaisceartEireannHealthAndCareNumberView", () => {
     const fixture = TestBed.createComponent(TuaisceartEireannHealthAndCareNumberView);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.tuaisceart-eireann-health-and-care-number-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.tuaisceart-eireann-health-and-care-number-view",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

@@ -51,6 +51,10 @@ describe("BreadcrumbListItem", () => {
     const ol = fixture.nativeElement.querySelector("ol.breadcrumb-list");
     expect(ol).toBeTruthy();
     expect(ol.children.length).toBe(2);
-    expect(Array.from(ol.children as HTMLCollection).every((child) => (child as HTMLElement).tagName === "LI")).toBe(true);
+    expect(
+      Array.from(ol.children as HTMLCollection).every(
+        (child) => (child as HTMLElement).tagName === "LI",
+      ),
+    ).toBe(true);
   });
 });

@@ -17,24 +17,41 @@ function render(html: string): HTMLElement {
 
 describe("ToolCallError", () => {
     test("renders a div with the base class", () => {
-        expect(render("<lily-tool-call-error>Hello</lily-tool-call-error>").querySelector("div.tool-call-error")).toBeTruthy();
+        expect(
+            render("<lily-tool-call-error>Hello</lily-tool-call-error>").querySelector(
+                "div.tool-call-error",
+            ),
+        ).toBeTruthy();
     });
 
     test("is an alert region", () => {
-        expect(render("<lily-tool-call-error>x</lily-tool-call-error>").querySelector("div")!.getAttribute("role")).toBe("alert");
+        expect(
+            render("<lily-tool-call-error>x</lily-tool-call-error>")
+                .querySelector("div")!
+                .getAttribute("role"),
+        ).toBe("alert");
     });
 
     test("appends the consumer class after the base class", () => {
-        expect(render('<lily-tool-call-error class="mine">x</lily-tool-call-error>').querySelector("div")!.getAttribute("class")).toBe("tool-call-error mine");
+        expect(
+            render('<lily-tool-call-error class="mine">x</lily-tool-call-error>')
+                .querySelector("div")!
+                .getAttribute("class"),
+        ).toBe("tool-call-error mine");
     });
 
     test("moves the children into the element", () => {
-        const host = render('<lily-tool-call-error><b data-testid="txt">Hello</b></lily-tool-call-error>');
+        const host = render(
+            '<lily-tool-call-error><b data-testid="txt">Hello</b></lily-tool-call-error>',
+        );
         expect(host.querySelector("div [data-testid=txt]")!.textContent).toBe("Hello");
     });
 
     test("spreads other attributes", () => {
-        expect(render('<lily-tool-call-error id="x1">x</lily-tool-call-error>').querySelector("div")!.id).toBe("x1");
+        expect(
+            render('<lily-tool-call-error id="x1">x</lily-tool-call-error>').querySelector("div")!
+                .id,
+        ).toBe("x1");
     });
 
     test("is idempotent if connectedCallback runs twice", () => {

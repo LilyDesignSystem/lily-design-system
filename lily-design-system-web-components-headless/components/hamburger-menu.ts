@@ -78,7 +78,11 @@ export class HamburgerMenu extends HTMLElement {
         const next = !this.hasAttribute("open");
         this.toggleAttribute("open", next);
         this.dispatchEvent(
-            new CustomEvent("lily-change", { detail: { open: next }, bubbles: true, composed: true }),
+            new CustomEvent("lily-change", {
+                detail: { open: next },
+                bubbles: true,
+                composed: true,
+            }),
         );
     };
 }

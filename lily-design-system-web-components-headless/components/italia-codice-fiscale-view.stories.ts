@@ -7,10 +7,11 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/ItaliaCodiceFiscaleView",
-    render: (args) => h("lily-italia-codice-fiscale-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-italia-codice-fiscale-view", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Codice Fiscale",
-        "value": "RSSMRA85M01H501Z"
+        label: "Codice Fiscale",
+        value: "RSSMRA85M01H501Z",
     },
 };
 

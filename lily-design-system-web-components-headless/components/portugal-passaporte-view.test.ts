@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("PortugalPassaporteView", () => {
     test("renders a native span with the correct class", () => {
-        const host = render('<lily-portugal-passaporte-view label="Passaporte"></lily-portugal-passaporte-view>');
+        const host = render(
+            '<lily-portugal-passaporte-view label="Passaporte"></lily-portugal-passaporte-view>',
+        );
 
         const span = host.querySelector("span") as HTMLSpanElement;
         expect(span).not.toBeNull();
@@ -25,13 +27,17 @@ describe("PortugalPassaporteView", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-portugal-passaporte-view label="Passaporte"></lily-portugal-passaporte-view>');
+        const host = render(
+            '<lily-portugal-passaporte-view label="Passaporte"></lily-portugal-passaporte-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Passaporte");
     });
 
     test("seeds the initial value as text content and exposes a live value property", () => {
-        const host = render('<lily-portugal-passaporte-view label="Passaporte" value="N123456"></lily-portugal-passaporte-view>') as unknown as PortugalPassaporteView;
+        const host = render(
+            '<lily-portugal-passaporte-view label="Passaporte" value="N123456"></lily-portugal-passaporte-view>',
+        ) as unknown as PortugalPassaporteView;
 
         expect(host.value).toBe("N123456");
         expect(host.querySelector("span")!.textContent).toBe("N123456");
@@ -42,7 +48,9 @@ describe("PortugalPassaporteView", () => {
     });
 
     test('sets role="text" so the identifier announces as a single unit', () => {
-        const host = render('<lily-portugal-passaporte-view label="Passaporte"></lily-portugal-passaporte-view>');
+        const host = render(
+            '<lily-portugal-passaporte-view label="Passaporte"></lily-portugal-passaporte-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });

@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Buttons and links/BackLink",
     render: (args) => h("lily-back-link", args as Record<string, string | boolean>, SLOT),
     args: {
-        "href": "/previous"
+        href: "/previous",
     },
 };
 

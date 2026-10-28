@@ -8,9 +8,10 @@ const SLOT =
 
 const meta: Meta = {
     title: "Pickers/CalendarRangePicker",
-    render: (args) => h("lily-calendar-range-picker", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-calendar-range-picker", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Select travel dates"
+        label: "Select travel dates",
     },
 };
 

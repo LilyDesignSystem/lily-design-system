@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Forms/SegmentGroupItem",
     render: (args) => h("lily-segment-group-item", args as Record<string, string | boolean>, SLOT),
     args: {
-        "value": "day",
-        "checked": true,
+        value: "day",
+        checked: true,
     },
 };
 

@@ -7,9 +7,10 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/YisraelTeudatZehutInput",
-    render: (args) => h("lily-yisrael-teudat-zehut-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-yisrael-teudat-zehut-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Teudat Zehut (תעודת זהות)"
+        label: "Teudat Zehut (תעודת זהות)",
     },
 };
 

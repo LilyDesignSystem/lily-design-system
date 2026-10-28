@@ -58,6 +58,8 @@ export class ActionBar extends HTMLElement {
     }
 
     #onClear = (): void => {
-        this.dispatchEvent(new CustomEvent("lily-clear-selection", { bubbles: true, composed: true }));
+        this.dispatchEvent(
+            new CustomEvent("lily-clear-selection", { bubbles: true, composed: true }),
+        );
     };
 }

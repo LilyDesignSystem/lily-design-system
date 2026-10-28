@@ -43,7 +43,9 @@ describe("CheckboxGroup", () => {
         // form control for free (HTML fieldset-disabling algorithm).
         // jsdom does not implement that propagation, so this asserts
         // only what the component itself is responsible for.
-        const host = render('<lily-checkbox-group label="Notify me by" disabled></lily-checkbox-group>');
+        const host = render(
+            '<lily-checkbox-group label="Notify me by" disabled></lily-checkbox-group>',
+        );
 
         expect((host.querySelector("fieldset") as HTMLFieldSetElement).disabled).toBe(true);
     });

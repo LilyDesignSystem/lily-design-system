@@ -9,9 +9,9 @@ const meta: Meta = {
     title: "Pickers/ColorPicker",
     render: (args) => h("lily-color-picker", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Color saturation and brightness",
-        "x": "50",
-        "y": "50"
+        label: "Color saturation and brightness",
+        x: "50",
+        y: "50",
     },
 };
 

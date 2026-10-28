@@ -28,13 +28,17 @@ function render(html: string): HTMLElement {
 
 describe("ClipboardCopyButton", () => {
     test("starts with data-copied=false", () => {
-        const host = render('<lily-clipboard-copy-button text="hi" label="Copy"></lily-clipboard-copy-button>');
+        const host = render(
+            '<lily-clipboard-copy-button text="hi" label="Copy"></lily-clipboard-copy-button>',
+        );
 
         expect(host.querySelector("button")!.getAttribute("data-copied")).toBe("false");
     });
 
     test("copies text via navigator.clipboard.writeText and sets data-copied=true", async () => {
-        const host = render('<lily-clipboard-copy-button text="hello" label="Copy"></lily-clipboard-copy-button>');
+        const host = render(
+            '<lily-clipboard-copy-button text="hello" label="Copy"></lily-clipboard-copy-button>',
+        );
         const button = host.querySelector("button") as HTMLButtonElement;
 
         button.click();
@@ -45,7 +49,9 @@ describe("ClipboardCopyButton", () => {
     });
 
     test("dispatches lily-success after a successful copy", async () => {
-        const host = render('<lily-clipboard-copy-button text="hello" label="Copy"></lily-clipboard-copy-button>');
+        const host = render(
+            '<lily-clipboard-copy-button text="hello" label="Copy"></lily-clipboard-copy-button>',
+        );
         const button = host.querySelector("button") as HTMLButtonElement;
         const handler = vi.fn();
         host.addEventListener("lily-success", handler);
@@ -59,7 +65,9 @@ describe("ClipboardCopyButton", () => {
     test("resets data-copied back to false after 2 seconds", async () => {
         vi.useFakeTimers();
         try {
-            const host = render('<lily-clipboard-copy-button text="hello" label="Copy"></lily-clipboard-copy-button>');
+            const host = render(
+                '<lily-clipboard-copy-button text="hello" label="Copy"></lily-clipboard-copy-button>',
+            );
             const button = host.querySelector("button") as HTMLButtonElement;
 
             button.click();
@@ -78,7 +86,9 @@ describe("ClipboardCopyButton", () => {
             value: { writeText: vi.fn().mockRejectedValue(new Error("denied")) },
             configurable: true,
         });
-        const host = render('<lily-clipboard-copy-button text="hello" label="Copy"></lily-clipboard-copy-button>');
+        const host = render(
+            '<lily-clipboard-copy-button text="hello" label="Copy"></lily-clipboard-copy-button>',
+        );
         const button = host.querySelector("button") as HTMLButtonElement;
         const handler = vi.fn();
         host.addEventListener("lily-error", handler);
@@ -90,7 +100,9 @@ describe("ClipboardCopyButton", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-clipboard-copy-button text="hi" label="Copy link"></lily-clipboard-copy-button>');
+        const host = render(
+            '<lily-clipboard-copy-button text="hi" label="Copy link"></lily-clipboard-copy-button>',
+        );
 
         expect(host.querySelector("button")!.getAttribute("aria-label")).toBe("Copy link");
     });

@@ -26,25 +26,33 @@ describe("PaginationLink", () => {
     });
 
     test("uses label as an aria-label override", () => {
-        const host = render('<lily-pagination-link href="?page=2" label="Go to page 2">2</lily-pagination-link>');
+        const host = render(
+            '<lily-pagination-link href="?page=2" label="Go to page 2">2</lily-pagination-link>',
+        );
 
         expect(host.querySelector("a")!.getAttribute("aria-label")).toBe("Go to page 2");
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-pagination-link href="?page=1" class="extra">1</lily-pagination-link>');
+        const host = render(
+            '<lily-pagination-link href="?page=1" class="extra">1</lily-pagination-link>',
+        );
 
         expect(host.querySelector("a")!.className).toBe("pagination-link extra");
     });
 
     test("passes through rest attributes", () => {
-        const host = render('<lily-pagination-link href="?page=1" data-testid="page-link">1</lily-pagination-link>');
+        const host = render(
+            '<lily-pagination-link href="?page=1" data-testid="page-link">1</lily-pagination-link>',
+        );
 
         expect(host.querySelector("a")!.getAttribute("data-testid")).toBe("page-link");
     });
 
     test("moves children into the rendered anchor", () => {
-        const host = render('<lily-pagination-link href="?page=1"><span>1</span></lily-pagination-link>');
+        const host = render(
+            '<lily-pagination-link href="?page=1"><span>1</span></lily-pagination-link>',
+        );
 
         expect(host.querySelector("a > span")!.textContent).toBe("1");
     });

@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/ProgressSpinner",
     render: (args) => h("lily-progress-spinner", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Loading data"
+        label: "Loading data",
     },
 };
 

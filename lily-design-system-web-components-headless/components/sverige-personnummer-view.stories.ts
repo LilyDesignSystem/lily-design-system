@@ -7,10 +7,11 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/SverigePersonnummerView",
-    render: (args) => h("lily-sverige-personnummer-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-sverige-personnummer-view", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Personnummer",
-        "value": "198507099805"
+        label: "Personnummer",
+        value: "198507099805",
     },
 };
 

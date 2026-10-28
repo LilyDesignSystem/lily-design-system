@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Forms/DataFilterForm",
     render: (args) => h("lily-data-filter-form", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Filter results"
+        label: "Filter results",
     },
 };
 

@@ -25,7 +25,9 @@ describe("Hint", () => {
     });
 
     test("carries the id for aria-describedby linking when provided", () => {
-        const host = render('<lily-hint id="nhs-number-hint">This is a 10-digit number.</lily-hint>');
+        const host = render(
+            '<lily-hint id="nhs-number-hint">This is a 10-digit number.</lily-hint>',
+        );
 
         expect(host.querySelector("span")!.id).toBe("nhs-number-hint");
     });

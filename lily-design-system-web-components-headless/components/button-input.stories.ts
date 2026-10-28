@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Forms/ButtonInput",
     render: (args) => h("lily-button-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "value": "Submit"
+        value: "Submit",
     },
 };
 

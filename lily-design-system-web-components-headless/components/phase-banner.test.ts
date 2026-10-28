@@ -17,19 +17,25 @@ function render(html: string): HTMLElement {
 
 describe("PhaseBanner", () => {
     test("the custom element itself is the wrapper div (self-is-the-wrapper)", () => {
-        const host = render('<lily-phase-banner phase="Beta">This is a new service.</lily-phase-banner>');
+        const host = render(
+            '<lily-phase-banner phase="Beta">This is a new service.</lily-phase-banner>',
+        );
 
         expect(host.className).toBe("phase-banner");
     });
 
     test("renders no role by default", () => {
-        const host = render('<lily-phase-banner phase="Beta">This is a new service.</lily-phase-banner>');
+        const host = render(
+            '<lily-phase-banner phase="Beta">This is a new service.</lily-phase-banner>',
+        );
 
         expect(host.hasAttribute("role")).toBe(false);
     });
 
     test("renders the phase in a strong element before the existing content", () => {
-        const host = render('<lily-phase-banner phase="Beta">This is a new service.</lily-phase-banner>');
+        const host = render(
+            '<lily-phase-banner phase="Beta">This is a new service.</lily-phase-banner>',
+        );
 
         const strong = host.querySelector("strong.phase-banner-phase")!;
         expect(strong.textContent).toBe("Beta");
@@ -38,7 +44,9 @@ describe("PhaseBanner", () => {
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-phase-banner phase="Beta" class="extra">Feedback link.</lily-phase-banner>');
+        const host = render(
+            '<lily-phase-banner phase="Beta" class="extra">Feedback link.</lily-phase-banner>',
+        );
 
         expect(host.className).toBe("phase-banner extra");
     });

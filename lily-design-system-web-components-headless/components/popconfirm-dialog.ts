@@ -83,7 +83,8 @@ export class PopconfirmDialog extends HTMLElement {
     }
 
     #sync(): void {
-        if (!this.#titleEl || !this.#descriptionEl || !this.#cancelButton || !this.#confirmButton) return;
+        if (!this.#titleEl || !this.#descriptionEl || !this.#cancelButton || !this.#confirmButton)
+            return;
 
         this.hidden = !this.hasAttribute("open");
         this.#titleEl.textContent = this.getAttribute("title") ?? "";

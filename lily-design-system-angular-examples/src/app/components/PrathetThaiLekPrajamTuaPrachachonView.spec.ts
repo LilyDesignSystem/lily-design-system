@@ -7,7 +7,9 @@ describe("PrathetThaiLekPrajamTuaPrachachonView", () => {
   test("renders the span root with the base class", () => {
     const fixture = TestBed.createComponent(PrathetThaiLekPrajamTuaPrachachonView);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.prathet-thai-lek-prajam-tua-prachachon-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.prathet-thai-lek-prajam-tua-prachachon-view",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("PrathetThaiLekPrajamTuaPrachachonView", () => {
     const fixture = TestBed.createComponent(PrathetThaiLekPrajamTuaPrachachonView);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.prathet-thai-lek-prajam-tua-prachachon-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.prathet-thai-lek-prajam-tua-prachachon-view",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

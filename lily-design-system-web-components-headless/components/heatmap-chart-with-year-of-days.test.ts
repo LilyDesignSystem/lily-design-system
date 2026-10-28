@@ -16,7 +16,8 @@ function render(html: string): HTMLElement {
 }
 
 const SVG = '<svg data-testid="art" viewBox="0 0 10 10"><circle r="4"></circle></svg>';
-const TABLE = '<table slot="data-table"><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>';
+const TABLE =
+    '<table slot="data-table"><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>';
 const BASIC = `<lily-heatmap-chart-with-year-of-days label="Test" year="2026" week-start="0">${SVG}</lily-heatmap-chart-with-year-of-days>`;
 const WITH_TABLE = `<lily-heatmap-chart-with-year-of-days label="Test" year="2026" week-start="0">${SVG}${TABLE}</lily-heatmap-chart-with-year-of-days>`;
 
@@ -35,31 +36,43 @@ describe("HeatmapChartWithYearOfDays", () => {
     });
 
     test("appends the consumer class after the base class", () => {
-        const host = render('<lily-heatmap-chart-with-year-of-days label="T" year="2026" week-start="0" class="mine"></lily-heatmap-chart-with-year-of-days>');
-        expect(host.querySelector("figure")!.getAttribute("class")).toBe("heatmap-chart-with-year-of-days mine");
+        const host = render(
+            '<lily-heatmap-chart-with-year-of-days label="T" year="2026" week-start="0" class="mine"></lily-heatmap-chart-with-year-of-days>',
+        );
+        expect(host.querySelector("figure")!.getAttribute("class")).toBe(
+            "heatmap-chart-with-year-of-days mine",
+        );
     });
 
     test("moves the consumer svg into the graphic wrapper", () => {
         const host = render(BASIC);
-        expect(host.querySelector("svg")!.closest("[role=img]")).toBe(host.querySelector(".heatmap-chart-with-year-of-days-graphic"));
+        expect(host.querySelector("svg")!.closest("[role=img]")).toBe(
+            host.querySelector(".heatmap-chart-with-year-of-days-graphic"),
+        );
     });
 
     test("spreads other attributes onto the figure", () => {
-        const host = render('<lily-heatmap-chart-with-year-of-days label="T" year="2026" week-start="0" id="c1" data-testid="chart"></lily-heatmap-chart-with-year-of-days>');
+        const host = render(
+            '<lily-heatmap-chart-with-year-of-days label="T" year="2026" week-start="0" id="c1" data-testid="chart"></lily-heatmap-chart-with-year-of-days>',
+        );
         const fig = host.querySelector("figure")!;
         expect(fig.id).toBe("c1");
         expect(fig.getAttribute("data-testid")).toBe("chart");
     });
 
     test("renders no data-table wrapper without a slot=data-table child", () => {
-        expect(render(BASIC).querySelector(".heatmap-chart-with-year-of-days-data-table")).toBeNull();
+        expect(
+            render(BASIC).querySelector(".heatmap-chart-with-year-of-days-data-table"),
+        ).toBeNull();
     });
 
     test("moves a slot=data-table child into a sibling wrapper after the graphic", () => {
         const host = render(WITH_TABLE);
         const wrap = host.querySelector(".heatmap-chart-with-year-of-days-data-table")!;
         expect(wrap.querySelector("table")).toBeTruthy();
-        expect(wrap.previousElementSibling).toBe(host.querySelector(".heatmap-chart-with-year-of-days-graphic"));
+        expect(wrap.previousElementSibling).toBe(
+            host.querySelector(".heatmap-chart-with-year-of-days-graphic"),
+        );
         expect(wrap.parentElement!.tagName).toBe("FIGURE");
     });
 
@@ -77,7 +90,9 @@ describe("HeatmapChartWithYearOfDays", () => {
     });
 
     test("reflects year and week-start as data attributes on the figure", () => {
-        const host = render('<lily-heatmap-chart-with-year-of-days label="T" year="2025" week-start="1"></lily-heatmap-chart-with-year-of-days>');
+        const host = render(
+            '<lily-heatmap-chart-with-year-of-days label="T" year="2025" week-start="1"></lily-heatmap-chart-with-year-of-days>',
+        );
         const fig = host.querySelector("figure")!;
         expect(fig.getAttribute("data-year")).toBe("2025");
         expect(fig.getAttribute("data-week-start")).toBe("1");

@@ -17,19 +17,25 @@ function render(html: string): HTMLElement {
 
 describe("MeasurementUnitInput", () => {
     test("renders a native input type=text", () => {
-        const host = render('<lily-measurement-unit-input label="Unit"></lily-measurement-unit-input>');
+        const host = render(
+            '<lily-measurement-unit-input label="Unit"></lily-measurement-unit-input>',
+        );
 
         expect((host.querySelector("input") as HTMLInputElement).type).toBe("text");
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-measurement-unit-input label="Unit"></lily-measurement-unit-input>');
+        const host = render(
+            '<lily-measurement-unit-input label="Unit"></lily-measurement-unit-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("Unit");
     });
 
     test("seeds the initial value from the value attribute", () => {
-        const host = render('<lily-measurement-unit-input label="Unit" value="kg"></lily-measurement-unit-input>');
+        const host = render(
+            '<lily-measurement-unit-input label="Unit" value="kg"></lily-measurement-unit-input>',
+        );
 
         expect((host.querySelector("input") as HTMLInputElement).value).toBe("kg");
     });

@@ -14,7 +14,9 @@ describe("ReviewDate", () => {
     const fixture = TestBed.createComponent(ReviewDate);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector("time.review-date").classList.contains("extra")).toBe(true);
+    expect(
+      fixture.nativeElement.querySelector("time.review-date").classList.contains("extra"),
+    ).toBe(true);
   });
 
   test("renders datetime and aria-label when given, and omits them otherwise", () => {

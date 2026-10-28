@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("AngleSliderRangeInput", () => {
     test("renders a native input type=range with the base class", () => {
-        const host = render('<lily-angle-slider-range-input label="Rotation"></lily-angle-slider-range-input>');
+        const host = render(
+            '<lily-angle-slider-range-input label="Rotation"></lily-angle-slider-range-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.type).toBe("range");
@@ -25,13 +27,17 @@ describe("AngleSliderRangeInput", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-angle-slider-range-input label="Rotation"></lily-angle-slider-range-input>');
+        const host = render(
+            '<lily-angle-slider-range-input label="Rotation"></lily-angle-slider-range-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("Rotation");
     });
 
     test("defaults min, max, step, and value", () => {
-        const host = render('<lily-angle-slider-range-input label="Rotation"></lily-angle-slider-range-input>');
+        const host = render(
+            '<lily-angle-slider-range-input label="Rotation"></lily-angle-slider-range-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.min).toBe("0");
@@ -73,7 +79,9 @@ describe("AngleSliderRangeInput", () => {
     });
 
     test("updates aria-valuetext live on input events", () => {
-        const host = render('<lily-angle-slider-range-input label="Rotation"></lily-angle-slider-range-input>');
+        const host = render(
+            '<lily-angle-slider-range-input label="Rotation"></lily-angle-slider-range-input>',
+        );
         const input = host.querySelector("input") as HTMLInputElement;
 
         input.value = "45";
@@ -97,7 +105,9 @@ describe("AngleSliderRangeInput", () => {
     });
 
     test("disabled propagates to the inner input", () => {
-        const host = render('<lily-angle-slider-range-input label="Rotation" disabled></lily-angle-slider-range-input>');
+        const host = render(
+            '<lily-angle-slider-range-input label="Rotation" disabled></lily-angle-slider-range-input>',
+        );
 
         expect((host.querySelector("input") as HTMLInputElement).disabled).toBe(true);
     });

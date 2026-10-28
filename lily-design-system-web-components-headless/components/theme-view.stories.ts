@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Content/ThemeView",
     render: (args) => h("lily-theme-view", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Current theme",
-        "value": "dark",
+        label: "Current theme",
+        value: "dark",
     },
 };
 

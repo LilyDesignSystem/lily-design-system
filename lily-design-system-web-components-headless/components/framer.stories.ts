@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/Framer",
     render: (args) => h("lily-framer", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Screenshot of the application dashboard",
+        label: "Screenshot of the application dashboard",
     },
 };
 

@@ -30,7 +30,8 @@ function key(el: Element, k: string, init: KeyboardEventInit = {}) {
 describe("Dial — slider semantics and keys", () => {
   function create(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(Dial);
-    for (const [k, v] of Object.entries({ label: "Volume", ...inputs })) fixture.componentRef.setInput(k, v);
+    for (const [k, v] of Object.entries({ label: "Volume", ...inputs }))
+      fixture.componentRef.setInput(k, v);
     fixture.detectChanges();
     return { fixture, el: fixture.nativeElement.querySelector("div.dial") as HTMLElement };
   }

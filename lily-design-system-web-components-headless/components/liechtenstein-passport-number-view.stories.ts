@@ -7,10 +7,15 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/LiechtensteinPassportNumberView",
-    render: (args) => h("lily-liechtenstein-passport-number-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-liechtenstein-passport-number-view",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Passport Number",
-        "value": "R00536"
+        label: "Passport Number",
+        value: "R00536",
     },
 };
 

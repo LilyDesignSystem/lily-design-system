@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("TimeoutDialog", () => {
     test("renders a native dialog with role=alertdialog", () => {
-        const host = render('<lily-timeout-dialog title="Session timeout" remaining-seconds="60" open></lily-timeout-dialog>');
+        const host = render(
+            '<lily-timeout-dialog title="Session timeout" remaining-seconds="60" open></lily-timeout-dialog>',
+        );
 
         const dialog = host.querySelector("dialog") as HTMLDialogElement;
         expect(dialog.className).toBe("timeout-dialog");
@@ -26,7 +28,9 @@ describe("TimeoutDialog", () => {
     });
 
     test("renders the title and references it via aria-labelledby", () => {
-        const host = render('<lily-timeout-dialog title="Session timeout" remaining-seconds="60" open></lily-timeout-dialog>');
+        const host = render(
+            '<lily-timeout-dialog title="Session timeout" remaining-seconds="60" open></lily-timeout-dialog>',
+        );
 
         const dialog = host.querySelector("dialog")!;
         const labelledbyId = dialog.getAttribute("aria-labelledby")!;
@@ -34,13 +38,17 @@ describe("TimeoutDialog", () => {
     });
 
     test("exposes remaining-seconds as data-remaining-seconds", () => {
-        const host = render('<lily-timeout-dialog title="Session timeout" remaining-seconds="45" open></lily-timeout-dialog>');
+        const host = render(
+            '<lily-timeout-dialog title="Session timeout" remaining-seconds="45" open></lily-timeout-dialog>',
+        );
 
         expect(host.querySelector("dialog")!.getAttribute("data-remaining-seconds")).toBe("45");
     });
 
     test("updating remaining-seconds externally updates data-remaining-seconds", () => {
-        const host = render('<lily-timeout-dialog title="Session timeout" remaining-seconds="45" open></lily-timeout-dialog>');
+        const host = render(
+            '<lily-timeout-dialog title="Session timeout" remaining-seconds="45" open></lily-timeout-dialog>',
+        );
 
         host.setAttribute("remaining-seconds", "44");
 
@@ -48,7 +56,9 @@ describe("TimeoutDialog", () => {
     });
 
     test("Escape does not close the dialog but fires lily-cancel", () => {
-        const host = render('<lily-timeout-dialog title="Session timeout" remaining-seconds="60" open></lily-timeout-dialog>');
+        const host = render(
+            '<lily-timeout-dialog title="Session timeout" remaining-seconds="60" open></lily-timeout-dialog>',
+        );
         const dialog = host.querySelector("dialog") as HTMLDialogElement;
         const handler = vi.fn();
         host.addEventListener("lily-cancel", handler);

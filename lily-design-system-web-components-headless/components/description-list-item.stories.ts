@@ -7,9 +7,10 @@ const SLOT = "<dt>Name</dt><dd>Ada Lovelace</dd>";
 
 const meta: Meta = {
     title: "Content/DescriptionListItem",
-    render: (args) => h("lily-description-list-item", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-description-list-item", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Name",
+        label: "Name",
     },
 };
 

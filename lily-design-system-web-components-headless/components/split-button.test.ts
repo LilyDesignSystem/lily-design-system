@@ -101,8 +101,12 @@ describe("SplitButton", () => {
             '<lily-split-button label="Save options" primary-label="Save" menu-label="More save options" disabled></lily-split-button>',
         );
 
-        expect((host.querySelector(".split-button-primary") as HTMLButtonElement).disabled).toBe(true);
-        expect((host.querySelector(".split-button-menu-trigger") as HTMLButtonElement).disabled).toBe(true);
+        expect((host.querySelector(".split-button-primary") as HTMLButtonElement).disabled).toBe(
+            true,
+        );
+        expect(
+            (host.querySelector(".split-button-menu-trigger") as HTMLButtonElement).disabled,
+        ).toBe(true);
     });
 
     test("clicking the primary button fires a bubbling lily-primary-click event", () => {

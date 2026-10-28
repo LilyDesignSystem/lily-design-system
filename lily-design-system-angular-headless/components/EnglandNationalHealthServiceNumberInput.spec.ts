@@ -7,7 +7,9 @@ describe("EnglandNationalHealthServiceNumberInput", () => {
   test("renders the input root with the base class", () => {
     const fixture = TestBed.createComponent(EnglandNationalHealthServiceNumberInput);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.england-national-health-service-number-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.england-national-health-service-number-input",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("EnglandNationalHealthServiceNumberInput", () => {
     const fixture = TestBed.createComponent(EnglandNationalHealthServiceNumberInput);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.england-national-health-service-number-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.england-national-health-service-number-input",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

@@ -7,9 +7,14 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/CymruRhifYGwasanaethIechydGwladolInput",
-    render: (args) => h("lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Rhif y Gwasanaeth Iechyd Gwladol"
+        label: "Rhif y Gwasanaeth Iechyd Gwladol",
     },
 };
 

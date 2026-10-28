@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Content/HoverCard",
     render: (args) => h("lily-hover-card", args as Record<string, string | boolean>, SLOT),
     args: {
-        "open": true,
-        "label": "Profile preview for jdoe",
+        open: true,
+        label: "Profile preview for jdoe",
     },
 };
 
@@ -21,6 +21,6 @@ export const Default: Story = {};
 
 export const Closed: Story = {
     args: {
-        "open": false,
+        open: false,
     },
 };

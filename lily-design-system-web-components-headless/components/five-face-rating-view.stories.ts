@@ -7,10 +7,11 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Content/FiveFaceRatingView",
-    render: (args) => h("lily-five-face-rating-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-five-face-rating-view", args as Record<string, string | boolean>, SLOT),
     args: {
-        "value": "4",
-        "label": "Patient satisfaction: Good",
+        value: "4",
+        label: "Patient satisfaction: Good",
     },
 };
 

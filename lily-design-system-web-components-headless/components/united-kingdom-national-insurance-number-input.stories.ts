@@ -7,9 +7,14 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/UnitedKingdomNationalInsuranceNumberInput",
-    render: (args) => h("lily-united-kingdom-national-insurance-number-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-united-kingdom-national-insurance-number-input",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "National Insurance number"
+        label: "National Insurance number",
     },
 };
 

@@ -10,7 +10,7 @@ const meta: Meta = {
     title: "Lists/DescriptionList",
     render: (args) => h("lily-description-list", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Order details",
+        label: "Order details",
     },
 };
 

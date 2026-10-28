@@ -21,7 +21,11 @@ describe("Mark", () => {
     });
 
     test("appends the consumer class after the base class", () => {
-        expect(render('<lily-mark class="mine">x</lily-mark>').querySelector("mark")!.getAttribute("class")).toBe("mark mine");
+        expect(
+            render('<lily-mark class="mine">x</lily-mark>')
+                .querySelector("mark")!
+                .getAttribute("class"),
+        ).toBe("mark mine");
     });
 
     test("moves the children into the element", () => {

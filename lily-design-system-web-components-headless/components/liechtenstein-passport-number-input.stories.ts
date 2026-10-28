@@ -7,9 +7,14 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/LiechtensteinPassportNumberInput",
-    render: (args) => h("lily-liechtenstein-passport-number-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-liechtenstein-passport-number-input",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Passport Number"
+        label: "Passport Number",
     },
 };
 

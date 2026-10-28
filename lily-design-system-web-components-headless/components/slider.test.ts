@@ -50,7 +50,9 @@ describe("Slider", () => {
     });
 
     test("ArrowRight increases the value by one step and dispatches lily-change", () => {
-        const host = render('<lily-slider label="Volume" value="50" step="5"></lily-slider>') as unknown as Slider;
+        const host = render(
+            '<lily-slider label="Volume" value="50" step="5"></lily-slider>',
+        ) as unknown as Slider;
         const handler = vi.fn();
         host.addEventListener("lily-change", handler);
 
@@ -62,7 +64,9 @@ describe("Slider", () => {
     });
 
     test("ArrowLeft decreases the value by one step", () => {
-        const host = render('<lily-slider label="Volume" value="50" step="5"></lily-slider>') as unknown as Slider;
+        const host = render(
+            '<lily-slider label="Volume" value="50" step="5"></lily-slider>',
+        ) as unknown as Slider;
 
         host.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft", bubbles: true }));
 
@@ -70,7 +74,9 @@ describe("Slider", () => {
     });
 
     test("Home jumps to min, End jumps to max", () => {
-        const host = render('<lily-slider label="Volume" value="50" min="0" max="100"></lily-slider>') as unknown as Slider;
+        const host = render(
+            '<lily-slider label="Volume" value="50" min="0" max="100"></lily-slider>',
+        ) as unknown as Slider;
 
         host.dispatchEvent(new KeyboardEvent("keydown", { key: "Home", bubbles: true }));
         expect(host.value).toBe(0);
@@ -80,7 +86,9 @@ describe("Slider", () => {
     });
 
     test("clamps the value to min/max", () => {
-        const host = render('<lily-slider label="Volume" value="98" step="10" max="100"></lily-slider>') as unknown as Slider;
+        const host = render(
+            '<lily-slider label="Volume" value="98" step="10" max="100"></lily-slider>',
+        ) as unknown as Slider;
 
         host.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
 
@@ -88,7 +96,9 @@ describe("Slider", () => {
     });
 
     test("disabled prevents keyboard adjustment and sets aria-disabled + tabindex=-1", () => {
-        const host = render('<lily-slider label="Volume" value="50" disabled></lily-slider>') as unknown as Slider;
+        const host = render(
+            '<lily-slider label="Volume" value="50" disabled></lily-slider>',
+        ) as unknown as Slider;
 
         expect(host.getAttribute("aria-disabled")).toBe("true");
         expect(host.tabIndex).toBe(-1);

@@ -51,14 +51,18 @@ describe("HeroHeadline", () => {
     });
 
     test("renders both wrappers even without media content", () => {
-        const host = render('<lily-hero-headline label="Feature story"><h1>Title</h1></lily-hero-headline>');
+        const host = render(
+            '<lily-hero-headline label="Feature story"><h1>Title</h1></lily-hero-headline>',
+        );
 
         expect(host.querySelector(".hero-headline-media")).not.toBeNull();
         expect(host.querySelector(".hero-headline-content")!.textContent).toBe("Title");
     });
 
     test("appends the consumer's class hook to the base class", () => {
-        const host = render('<lily-hero-headline label="Feature story" class="story-lead"></lily-hero-headline>');
+        const host = render(
+            '<lily-hero-headline label="Feature story" class="story-lead"></lily-hero-headline>',
+        );
 
         expect(host.className).toBe("hero-headline story-lead");
     });

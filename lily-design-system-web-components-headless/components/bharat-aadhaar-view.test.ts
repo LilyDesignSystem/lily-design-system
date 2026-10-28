@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("BharatAadhaarView", () => {
     test("renders a native span with the correct class", () => {
-        const host = render('<lily-bharat-aadhaar-view label="Aadhaar (आधार)" value="234567890123"></lily-bharat-aadhaar-view>');
+        const host = render(
+            '<lily-bharat-aadhaar-view label="Aadhaar (आधार)" value="234567890123"></lily-bharat-aadhaar-view>',
+        );
 
         const span = host.querySelector("span") as HTMLSpanElement;
         expect(span).not.toBeNull();
@@ -25,13 +27,17 @@ describe("BharatAadhaarView", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-bharat-aadhaar-view label="Aadhaar (आधार)" value="234567890123"></lily-bharat-aadhaar-view>');
+        const host = render(
+            '<lily-bharat-aadhaar-view label="Aadhaar (आधार)" value="234567890123"></lily-bharat-aadhaar-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Aadhaar (आधार)");
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
-        const host = render('<lily-bharat-aadhaar-view label="Aadhaar (आधार)" value="234567890123"></lily-bharat-aadhaar-view>') as unknown as BharatAadhaarView;
+        const host = render(
+            '<lily-bharat-aadhaar-view label="Aadhaar (आधार)" value="234567890123"></lily-bharat-aadhaar-view>',
+        ) as unknown as BharatAadhaarView;
 
         expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("234567890123");
         expect(host.value).toBe("234567890123");
@@ -42,7 +48,9 @@ describe("BharatAadhaarView", () => {
     });
 
     test("has role=text so the identifier announces as a single unit", () => {
-        const host = render('<lily-bharat-aadhaar-view label="Aadhaar (आधार)" value="234567890123"></lily-bharat-aadhaar-view>');
+        const host = render(
+            '<lily-bharat-aadhaar-view label="Aadhaar (आधार)" value="234567890123"></lily-bharat-aadhaar-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });

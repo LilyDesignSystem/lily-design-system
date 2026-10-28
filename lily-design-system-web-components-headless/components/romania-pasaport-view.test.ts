@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("RomaniaPasaportView", () => {
     test("renders a native span with the correct class", () => {
-        const host = render('<lily-romania-pasaport-view label="Pașaport"></lily-romania-pasaport-view>');
+        const host = render(
+            '<lily-romania-pasaport-view label="Pașaport"></lily-romania-pasaport-view>',
+        );
 
         const span = host.querySelector("span") as HTMLSpanElement;
         expect(span).not.toBeNull();
@@ -25,13 +27,17 @@ describe("RomaniaPasaportView", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-romania-pasaport-view label="Pașaport"></lily-romania-pasaport-view>');
+        const host = render(
+            '<lily-romania-pasaport-view label="Pașaport"></lily-romania-pasaport-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Pașaport");
     });
 
     test("seeds the initial value as text content and exposes a live value property", () => {
-        const host = render('<lily-romania-pasaport-view label="Pașaport" value="AB123456"></lily-romania-pasaport-view>') as unknown as RomaniaPasaportView;
+        const host = render(
+            '<lily-romania-pasaport-view label="Pașaport" value="AB123456"></lily-romania-pasaport-view>',
+        ) as unknown as RomaniaPasaportView;
 
         expect(host.value).toBe("AB123456");
         expect(host.querySelector("span")!.textContent).toBe("AB123456");
@@ -42,7 +48,9 @@ describe("RomaniaPasaportView", () => {
     });
 
     test('sets role="text" so the identifier announces as a single unit', () => {
-        const host = render('<lily-romania-pasaport-view label="Pașaport"></lily-romania-pasaport-view>');
+        const host = render(
+            '<lily-romania-pasaport-view label="Pașaport"></lily-romania-pasaport-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });

@@ -26,7 +26,8 @@ export class ActionBarButton extends HTMLElement {
 
         const button = document.createElement("button");
         button.className = rootClassName(this, "action-bar-button");
-        button.type = (this.getAttribute("type") as "button" | "submit" | "reset" | null) ?? "button";
+        button.type =
+            (this.getAttribute("type") as "button" | "submit" | "reset" | null) ?? "button";
         if (this.hasAttribute("disabled")) button.disabled = true;
         const label = this.getAttribute("label");
         if (label !== null) button.setAttribute("aria-label", label);

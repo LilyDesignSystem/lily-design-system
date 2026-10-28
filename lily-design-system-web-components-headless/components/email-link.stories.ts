@@ -7,7 +7,7 @@ const meta: Meta = {
     title: "Links/EmailLink",
     render: (args) => h("lily-email-link", args as Record<string, string | boolean>),
     args: {
-        "email": "alice@example.com"
+        email: "alice@example.com",
     },
 };
 

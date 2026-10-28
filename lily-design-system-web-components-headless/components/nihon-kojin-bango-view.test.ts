@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("NihonKojinBangoView", () => {
     test("renders a native span with the correct class", () => {
-        const host = render('<lily-nihon-kojin-bango-view label="Individual Number / My Number (マイナンバー)" value="123456789012"></lily-nihon-kojin-bango-view>');
+        const host = render(
+            '<lily-nihon-kojin-bango-view label="Individual Number / My Number (マイナンバー)" value="123456789012"></lily-nihon-kojin-bango-view>',
+        );
 
         const span = host.querySelector("span") as HTMLSpanElement;
         expect(span).not.toBeNull();
@@ -25,13 +27,19 @@ describe("NihonKojinBangoView", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-nihon-kojin-bango-view label="Individual Number / My Number (マイナンバー)" value="123456789012"></lily-nihon-kojin-bango-view>');
+        const host = render(
+            '<lily-nihon-kojin-bango-view label="Individual Number / My Number (マイナンバー)" value="123456789012"></lily-nihon-kojin-bango-view>',
+        );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Individual Number / My Number (マイナンバー)");
+        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
+            "Individual Number / My Number (マイナンバー)",
+        );
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
-        const host = render('<lily-nihon-kojin-bango-view label="Individual Number / My Number (マイナンバー)" value="123456789012"></lily-nihon-kojin-bango-view>') as unknown as NihonKojinBangoView;
+        const host = render(
+            '<lily-nihon-kojin-bango-view label="Individual Number / My Number (マイナンバー)" value="123456789012"></lily-nihon-kojin-bango-view>',
+        ) as unknown as NihonKojinBangoView;
 
         expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("123456789012");
         expect(host.value).toBe("123456789012");
@@ -42,7 +50,9 @@ describe("NihonKojinBangoView", () => {
     });
 
     test("has role=text so the identifier announces as a single unit", () => {
-        const host = render('<lily-nihon-kojin-bango-view label="Individual Number / My Number (マイナンバー)" value="123456789012"></lily-nihon-kojin-bango-view>');
+        const host = render(
+            '<lily-nihon-kojin-bango-view label="Individual Number / My Number (マイナンバー)" value="123456789012"></lily-nihon-kojin-bango-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });

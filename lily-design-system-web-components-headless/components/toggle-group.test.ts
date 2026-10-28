@@ -38,13 +38,17 @@ describe("ToggleGroup", () => {
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-toggle-group label="Text formatting" class="extra"></lily-toggle-group>');
+        const host = render(
+            '<lily-toggle-group label="Text formatting" class="extra"></lily-toggle-group>',
+        );
 
         expect(host.className).toBe("toggle-group extra");
     });
 
     test("passes through rest attributes such as data-testid", () => {
-        const host = render('<lily-toggle-group label="Text formatting" data-testid="fmt"></lily-toggle-group>');
+        const host = render(
+            '<lily-toggle-group label="Text formatting" data-testid="fmt"></lily-toggle-group>',
+        );
 
         expect(host.getAttribute("data-testid")).toBe("fmt");
     });

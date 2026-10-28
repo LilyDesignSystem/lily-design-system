@@ -27,26 +27,34 @@ function render(html: string): HTMLElement {
 
 describe("ThemeSelect", () => {
     test("renders a native select", () => {
-        const host = render(`<lily-theme-select label="Theme">${PLAIN_OPTIONS}</lily-theme-select>`);
+        const host = render(
+            `<lily-theme-select label="Theme">${PLAIN_OPTIONS}</lily-theme-select>`,
+        );
 
         expect(host.querySelector("select")).toBeTruthy();
     });
 
     test("uses label as the accessible name", () => {
-        const host = render(`<lily-theme-select label="Theme">${PLAIN_OPTIONS}</lily-theme-select>`);
+        const host = render(
+            `<lily-theme-select label="Theme">${PLAIN_OPTIONS}</lily-theme-select>`,
+        );
 
         expect(host.querySelector("select")!.getAttribute("aria-label")).toBe("Theme");
     });
 
     test("moves plain option children into the select and seeds value immediately", () => {
-        const host = render(`<lily-theme-select label="Theme" value="dark">${PLAIN_OPTIONS}</lily-theme-select>`);
+        const host = render(
+            `<lily-theme-select label="Theme" value="dark">${PLAIN_OPTIONS}</lily-theme-select>`,
+        );
 
         expect(host.querySelectorAll("select > option").length).toBe(2);
         expect((host.querySelector("select") as HTMLSelectElement).value).toBe("dark");
     });
 
     test("with nested ThemeSelectOption children, the initial value applies once they finish upgrading", async () => {
-        const host = render(`<lily-theme-select label="Theme" value="dark">${NESTED_OPTIONS}</lily-theme-select>`);
+        const host = render(
+            `<lily-theme-select label="Theme" value="dark">${NESTED_OPTIONS}</lily-theme-select>`,
+        );
 
         // Flush the queued microtask that re-applies `value` once every
         // nested ThemeSelectOption has replaced itself with a real <option>.
@@ -58,7 +66,9 @@ describe("ThemeSelect", () => {
     });
 
     test("exposes a live value property proxying the inner select", () => {
-        const host = render(`<lily-theme-select label="Theme">${PLAIN_OPTIONS}</lily-theme-select>`) as unknown as ThemeSelect;
+        const host = render(
+            `<lily-theme-select label="Theme">${PLAIN_OPTIONS}</lily-theme-select>`,
+        ) as unknown as ThemeSelect;
         const select = host.querySelector("select") as HTMLSelectElement;
 
         host.value = "dark";
@@ -68,13 +78,17 @@ describe("ThemeSelect", () => {
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render(`<lily-theme-select label="Theme" class="extra">${PLAIN_OPTIONS}</lily-theme-select>`);
+        const host = render(
+            `<lily-theme-select label="Theme" class="extra">${PLAIN_OPTIONS}</lily-theme-select>`,
+        );
 
         expect(host.querySelector("select")!.className).toBe("theme-select extra");
     });
 
     test("passes through rest attributes such as disabled even though it is not a documented prop", () => {
-        const host = render(`<lily-theme-select label="Theme" disabled>${PLAIN_OPTIONS}</lily-theme-select>`);
+        const host = render(
+            `<lily-theme-select label="Theme" disabled>${PLAIN_OPTIONS}</lily-theme-select>`,
+        );
 
         expect((host.querySelector("select") as HTMLSelectElement).disabled).toBe(true);
     });

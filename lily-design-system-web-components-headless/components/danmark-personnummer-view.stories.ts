@@ -7,10 +7,11 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/DanmarkPersonnummerView",
-    render: (args) => h("lily-danmark-personnummer-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-danmark-personnummer-view", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Personnummer",
-        "value": "0101851234"
+        label: "Personnummer",
+        value: "0101851234",
     },
 };
 

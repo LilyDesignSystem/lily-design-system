@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Content/InputWithMask",
     render: (args) => h("lily-input-with-mask", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Phone number",
-        "mask": "(___) ___-____",
+        label: "Phone number",
+        mask: "(___) ___-____",
     },
 };
 

@@ -28,20 +28,28 @@ const SERIES_JSON = JSON.stringify([
 
 describe("AreaChart", () => {
     test("exposes the graphic as a named image, not the figure", () => {
-        const host = render(`<lily-area-chart label="Visitors over time" series='${SERIES_JSON}'></lily-area-chart>`);
+        const host = render(
+            `<lily-area-chart label="Visitors over time" series='${SERIES_JSON}'></lily-area-chart>`,
+        );
 
         expect(host.querySelector(".area-chart-graphic")!.getAttribute("role")).toBe("img");
         expect(host.querySelector("figure")!.hasAttribute("role")).toBe(false);
     });
 
     test("uses label as the accessible name", () => {
-        const host = render(`<lily-area-chart label="Visitors over time" series='${SERIES_JSON}'></lily-area-chart>`);
+        const host = render(
+            `<lily-area-chart label="Visitors over time" series='${SERIES_JSON}'></lily-area-chart>`,
+        );
 
-        expect(host.querySelector(".area-chart-graphic")!.getAttribute("aria-label")).toBe("Visitors over time");
+        expect(host.querySelector(".area-chart-graphic")!.getAttribute("aria-label")).toBe(
+            "Visitors over time",
+        );
     });
 
     test("renders one filled path per series", () => {
-        const host = render(`<lily-area-chart label="Visitors over time" series='${SERIES_JSON}'></lily-area-chart>`);
+        const host = render(
+            `<lily-area-chart label="Visitors over time" series='${SERIES_JSON}'></lily-area-chart>`,
+        );
 
         const paths = host.querySelectorAll("svg path");
         expect(paths.length).toBe(1);
@@ -50,7 +58,9 @@ describe("AreaChart", () => {
     });
 
     test("the svg is decorative (presentation role, aria-hidden)", () => {
-        const host = render(`<lily-area-chart label="Visitors over time" series='${SERIES_JSON}'></lily-area-chart>`);
+        const host = render(
+            `<lily-area-chart label="Visitors over time" series='${SERIES_JSON}'></lily-area-chart>`,
+        );
 
         const svg = host.querySelector("svg")!;
         expect(svg.getAttribute("role")).toBe("presentation");
@@ -64,7 +74,9 @@ describe("AreaChart", () => {
 
         const graphic = host.querySelector(".area-chart-graphic")!;
         const describedbyId = graphic.getAttribute("aria-describedby")!;
-        expect(document.getElementById(describedbyId)!.textContent).toBe("Area shows visitor volume.");
+        expect(document.getElementById(describedbyId)!.textContent).toBe(
+            "Area shows visitor volume.",
+        );
     });
 
     test("moves a slot=data-table child into a sibling wrapper after the graphic, outside role=img", () => {
@@ -79,7 +91,9 @@ describe("AreaChart", () => {
     });
 
     test("the series property is live and re-renders on set", () => {
-        const host = render('<lily-area-chart label="Visitors"></lily-area-chart>') as unknown as AreaChart;
+        const host = render(
+            '<lily-area-chart label="Visitors"></lily-area-chart>',
+        ) as unknown as AreaChart;
 
         expect(host.querySelectorAll("svg path").length).toBe(0);
 
@@ -90,7 +104,9 @@ describe("AreaChart", () => {
     });
 
     test("ignores malformed JSON in the series attribute", () => {
-        const host = render('<lily-area-chart label="Visitors" series="not json"></lily-area-chart>') as unknown as AreaChart;
+        const host = render(
+            '<lily-area-chart label="Visitors" series="not json"></lily-area-chart>',
+        ) as unknown as AreaChart;
 
         expect(host.series).toEqual([]);
     });

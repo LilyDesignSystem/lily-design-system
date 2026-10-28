@@ -17,14 +17,18 @@ function render(html: string): HTMLElement {
 
 describe("Statistic", () => {
     test("carries the base class and role=group", () => {
-        const host = render('<lily-statistic title="Active users" value="12,345"></lily-statistic>');
+        const host = render(
+            '<lily-statistic title="Active users" value="12,345"></lily-statistic>',
+        );
 
         expect(host.classList.contains("statistic")).toBe(true);
         expect(host.getAttribute("role")).toBe("group");
     });
 
     test("defaults aria-label to '{title}: {value}'", () => {
-        const host = render('<lily-statistic title="Active users" value="12,345"></lily-statistic>');
+        const host = render(
+            '<lily-statistic title="Active users" value="12,345"></lily-statistic>',
+        );
 
         expect(host.getAttribute("aria-label")).toBe("Active users: 12,345");
     });
@@ -50,14 +54,18 @@ describe("Statistic", () => {
     });
 
     test("renders prefix and suffix only when provided", () => {
-        const withBoth = render('<lily-statistic title="Revenue" value="2,400" prefix="$" suffix="K"></lily-statistic>');
+        const withBoth = render(
+            '<lily-statistic title="Revenue" value="2,400" prefix="$" suffix="K"></lily-statistic>',
+        );
 
         expect(withBoth.querySelector(".statistic-prefix")?.textContent).toBe("$");
         expect(withBoth.querySelector(".statistic-suffix")?.textContent).toBe("K");
 
         document.body.innerHTML = "";
 
-        const withNeither = render('<lily-statistic title="Revenue" value="2,400"></lily-statistic>');
+        const withNeither = render(
+            '<lily-statistic title="Revenue" value="2,400"></lily-statistic>',
+        );
 
         expect(withNeither.querySelector(".statistic-prefix")).toBeNull();
         expect(withNeither.querySelector(".statistic-suffix")).toBeNull();

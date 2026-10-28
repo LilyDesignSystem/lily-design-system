@@ -13,7 +13,7 @@ const meta: Meta = {
     title: "Navigation/MenuBar",
     render: (args) => h("lily-menu-bar", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Main menu"
+        label: "Main menu",
     },
 };
 

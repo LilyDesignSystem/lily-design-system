@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Forms/Label",
     render: (args) => h("lily-label", args as Record<string, string | boolean>, SLOT),
     args: {
-        "for": "name-input"
+        for: "name-input",
     },
 };
 

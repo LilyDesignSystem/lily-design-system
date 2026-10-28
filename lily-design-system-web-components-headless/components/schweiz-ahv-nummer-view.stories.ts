@@ -7,10 +7,11 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/SchweizAhvNummerView",
-    render: (args) => h("lily-schweiz-ahv-nummer-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-schweiz-ahv-nummer-view", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "AHV-Nummer / Numéro AVS",
-        "value": "756.1234.5678.97"
+        label: "AHV-Nummer / Numéro AVS",
+        value: "756.1234.5678.97",
     },
 };
 

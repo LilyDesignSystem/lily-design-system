@@ -7,7 +7,9 @@ describe("PolskaNumerIdentyfikacjiPodatkowejInput", () => {
   test("renders the input root with the base class", () => {
     const fixture = TestBed.createComponent(PolskaNumerIdentyfikacjiPodatkowejInput);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.polska-numer-identyfikacji-podatkowej-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.polska-numer-identyfikacji-podatkowej-input",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("PolskaNumerIdentyfikacjiPodatkowejInput", () => {
     const fixture = TestBed.createComponent(PolskaNumerIdentyfikacjiPodatkowejInput);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.polska-numer-identyfikacji-podatkowej-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.polska-numer-identyfikacji-podatkowej-input",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

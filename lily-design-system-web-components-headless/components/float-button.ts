@@ -37,7 +37,8 @@ export class FloatButton extends HTMLElement {
         const position = (this.getAttribute("position") as Position | null) ?? "bottom-right";
         const button = document.createElement("button");
         button.className = rootClassName(this, "float-button");
-        button.type = (this.getAttribute("type") as "button" | "submit" | "reset" | null) ?? "button";
+        button.type =
+            (this.getAttribute("type") as "button" | "submit" | "reset" | null) ?? "button";
         if (this.hasAttribute("disabled")) button.disabled = true;
         const label = this.getAttribute("label");
         if (label === null) {

@@ -62,22 +62,36 @@ describe("NewsletterSignup", () => {
     });
 
     test("state=submitting disables the email input and submit button", () => {
-        const host = render(`<lily-newsletter-signup ${BASE_ATTRS} state="submitting"></lily-newsletter-signup>`);
+        const host = render(
+            `<lily-newsletter-signup ${BASE_ATTRS} state="submitting"></lily-newsletter-signup>`,
+        );
 
-        expect((host.querySelector(".newsletter-signup-email") as HTMLInputElement).disabled).toBe(true);
-        expect((host.querySelector(".newsletter-signup-submit") as HTMLButtonElement).disabled).toBe(true);
+        expect((host.querySelector(".newsletter-signup-email") as HTMLInputElement).disabled).toBe(
+            true,
+        );
+        expect(
+            (host.querySelector(".newsletter-signup-submit") as HTMLButtonElement).disabled,
+        ).toBe(true);
     });
 
     test("state=success reveals the success message and re-enables the form", () => {
-        const host = render(`<lily-newsletter-signup ${BASE_ATTRS} state="success"></lily-newsletter-signup>`);
+        const host = render(
+            `<lily-newsletter-signup ${BASE_ATTRS} state="success"></lily-newsletter-signup>`,
+        );
 
-        expect((host.querySelector(".newsletter-signup-success") as HTMLElement).hidden).toBe(false);
+        expect((host.querySelector(".newsletter-signup-success") as HTMLElement).hidden).toBe(
+            false,
+        );
         expect((host.querySelector(".newsletter-signup-error") as HTMLElement).hidden).toBe(true);
-        expect((host.querySelector(".newsletter-signup-email") as HTMLInputElement).disabled).toBe(false);
+        expect((host.querySelector(".newsletter-signup-email") as HTMLInputElement).disabled).toBe(
+            false,
+        );
     });
 
     test("state=error reveals the error message", () => {
-        const host = render(`<lily-newsletter-signup ${BASE_ATTRS} state="error"></lily-newsletter-signup>`);
+        const host = render(
+            `<lily-newsletter-signup ${BASE_ATTRS} state="error"></lily-newsletter-signup>`,
+        );
 
         expect((host.querySelector(".newsletter-signup-error") as HTMLElement).hidden).toBe(false);
         expect((host.querySelector(".newsletter-signup-success") as HTMLElement).hidden).toBe(true);
@@ -89,7 +103,9 @@ describe("NewsletterSignup", () => {
         host.setAttribute("state", "success");
 
         expect(host.querySelector("form")!.getAttribute("data-state")).toBe("success");
-        expect((host.querySelector(".newsletter-signup-success") as HTMLElement).hidden).toBe(false);
+        expect((host.querySelector(".newsletter-signup-success") as HTMLElement).hidden).toBe(
+            false,
+        );
     });
 
     test("renders the optional heading and description", () => {
@@ -97,7 +113,11 @@ describe("NewsletterSignup", () => {
             `<lily-newsletter-signup ${BASE_ATTRS} heading="Stay in the loop" description="Monthly updates, no spam."></lily-newsletter-signup>`,
         );
 
-        expect(host.querySelector(".newsletter-signup-heading")!.textContent).toBe("Stay in the loop");
-        expect(host.querySelector(".newsletter-signup-description")!.textContent).toBe("Monthly updates, no spam.");
+        expect(host.querySelector(".newsletter-signup-heading")!.textContent).toBe(
+            "Stay in the loop",
+        );
+        expect(host.querySelector(".newsletter-signup-description")!.textContent).toBe(
+            "Monthly updates, no spam.",
+        );
     });
 });

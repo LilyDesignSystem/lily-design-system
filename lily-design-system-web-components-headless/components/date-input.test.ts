@@ -31,13 +31,17 @@ describe("DateInput", () => {
     });
 
     test("seeds the initial value from the value attribute", () => {
-        const host = render('<lily-date-input label="Date of birth" value="1990-01-15"></lily-date-input>');
+        const host = render(
+            '<lily-date-input label="Date of birth" value="1990-01-15"></lily-date-input>',
+        );
 
         expect((host.querySelector("input") as HTMLInputElement).value).toBe("1990-01-15");
     });
 
     test("exposes a live value property proxying the inner input", () => {
-        const host = render('<lily-date-input label="Date of birth"></lily-date-input>') as unknown as DateInput;
+        const host = render(
+            '<lily-date-input label="Date of birth"></lily-date-input>',
+        ) as unknown as DateInput;
         const input = host.querySelector("input") as HTMLInputElement;
 
         host.value = "2000-06-01";
@@ -57,7 +61,9 @@ describe("DateInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-date-input label="Date of birth" required disabled></lily-date-input>');
+        const host = render(
+            '<lily-date-input label="Date of birth" required disabled></lily-date-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);

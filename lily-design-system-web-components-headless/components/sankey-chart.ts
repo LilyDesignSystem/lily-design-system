@@ -40,7 +40,9 @@ export class SankeyChart extends HTMLElement {
         if (label !== null) graphic.setAttribute("aria-label", label);
 
         // Pull the slot="data-table" children out before the rest become the graphic.
-        const tables = Array.from(this.children).filter((c) => c.getAttribute("slot") === "data-table");
+        const tables = Array.from(this.children).filter(
+            (c) => c.getAttribute("slot") === "data-table",
+        );
         for (const t of tables) this.removeChild(t);
 
         moveChildrenInto(this, graphic);

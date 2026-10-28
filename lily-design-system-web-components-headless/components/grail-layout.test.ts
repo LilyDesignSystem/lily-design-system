@@ -31,7 +31,9 @@ describe("GrailLayout", () => {
     });
 
     test("preserves section children in place", () => {
-        const host = render("<lily-grail-layout><header>Top</header><main>Center</main><footer>Bottom</footer></lily-grail-layout>");
+        const host = render(
+            "<lily-grail-layout><header>Top</header><main>Center</main><footer>Bottom</footer></lily-grail-layout>",
+        );
 
         expect(host.children.length).toBe(3);
         expect(host.querySelector("header")).not.toBeNull();

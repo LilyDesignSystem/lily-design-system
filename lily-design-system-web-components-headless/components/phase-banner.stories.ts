@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Overlays/PhaseBanner",
     render: (args) => h("lily-phase-banner", args as Record<string, string | boolean>, SLOT),
     args: {
-        "phase": "Beta"
+        phase: "Beta",
     },
 };
 

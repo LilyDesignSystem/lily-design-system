@@ -11,14 +11,18 @@ const SLOT = [
     ["4", "Good"],
     ["5", "Very good"],
 ]
-    .map(([value, label]) => `<lily-five-face-rating-picker-button value="${value}" label="${label}"></lily-five-face-rating-picker-button>`)
+    .map(
+        ([value, label]) =>
+            `<lily-five-face-rating-picker-button value="${value}" label="${label}"></lily-five-face-rating-picker-button>`,
+    )
     .join("");
 
 const meta: Meta = {
     title: "Pickers/FiveFaceRatingPicker",
-    render: (args) => h("lily-five-face-rating-picker", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-five-face-rating-picker", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Rate your visit"
+        label: "Rate your visit",
     },
 };
 

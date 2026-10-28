@@ -33,7 +33,9 @@ describe("TreeSelect", () => {
     });
 
     test("an initial expanded attribute opens the panel", () => {
-        const host = render('<lily-tree-select label="Select category" expanded></lily-tree-select>');
+        const host = render(
+            '<lily-tree-select label="Select category" expanded></lily-tree-select>',
+        );
 
         expect(host.getAttribute("aria-expanded")).toBe("true");
         expect((host.querySelector(".tree-select-panel") as HTMLElement).hidden).toBe(false);
@@ -45,7 +47,9 @@ describe("TreeSelect", () => {
 
         document.body.innerHTML = "";
 
-        const multi = render('<lily-tree-select label="Select departments" multiple></lily-tree-select>');
+        const multi = render(
+            '<lily-tree-select label="Select departments" multiple></lily-tree-select>',
+        );
         expect(multi.getAttribute("data-multiple")).toBe("true");
     });
 
@@ -57,18 +61,26 @@ describe("TreeSelect", () => {
 
         document.body.innerHTML = "";
 
-        const withPlaceholder = render('<lily-tree-select label="Select category" placeholder="Choose…"></lily-tree-select>');
+        const withPlaceholder = render(
+            '<lily-tree-select label="Select category" placeholder="Choose…"></lily-tree-select>',
+        );
         expect(withPlaceholder.querySelector(".tree-select-trigger")!.textContent).toBe("Choose…");
     });
 
     test("disabled disables the trigger button", () => {
-        const host = render('<lily-tree-select label="Select category" disabled></lily-tree-select>');
+        const host = render(
+            '<lily-tree-select label="Select category" disabled></lily-tree-select>',
+        );
 
-        expect((host.querySelector(".tree-select-trigger") as HTMLButtonElement).disabled).toBe(true);
+        expect((host.querySelector(".tree-select-trigger") as HTMLButtonElement).disabled).toBe(
+            true,
+        );
     });
 
     test("clicking the trigger toggles the panel open and closed, and fires lily-expanded-change", () => {
-        const host = render('<lily-tree-select label="Select category"></lily-tree-select>') as unknown as TreeSelect;
+        const host = render(
+            '<lily-tree-select label="Select category"></lily-tree-select>',
+        ) as unknown as TreeSelect;
         const trigger = host.querySelector(".tree-select-trigger") as HTMLButtonElement;
         const panel = host.querySelector(".tree-select-panel") as HTMLElement;
         const handler = vi.fn();
@@ -79,7 +91,9 @@ describe("TreeSelect", () => {
         expect(panel.hidden).toBe(false);
         expect(host.expanded).toBe(true);
         expect(handler).toHaveBeenCalledTimes(1);
-        expect((handler.mock.calls[0][0] as CustomEvent<{ expanded: boolean }>).detail).toEqual({ expanded: true });
+        expect((handler.mock.calls[0][0] as CustomEvent<{ expanded: boolean }>).detail).toEqual({
+            expanded: true,
+        });
 
         trigger.click();
         expect(host.getAttribute("aria-expanded")).toBe("false");
@@ -88,7 +102,9 @@ describe("TreeSelect", () => {
     });
 
     test("a disabled trigger does not respond to clicks", () => {
-        const host = render('<lily-tree-select label="Select category" disabled></lily-tree-select>') as unknown as TreeSelect;
+        const host = render(
+            '<lily-tree-select label="Select category" disabled></lily-tree-select>',
+        ) as unknown as TreeSelect;
         const trigger = host.querySelector(".tree-select-trigger") as HTMLButtonElement;
 
         trigger.click();
@@ -97,7 +113,9 @@ describe("TreeSelect", () => {
     });
 
     test("Escape closes the panel and returns focus to the trigger", () => {
-        const host = render('<lily-tree-select label="Select category" expanded></lily-tree-select>') as unknown as TreeSelect;
+        const host = render(
+            '<lily-tree-select label="Select category" expanded></lily-tree-select>',
+        ) as unknown as TreeSelect;
         const trigger = host.querySelector(".tree-select-trigger") as HTMLButtonElement;
 
         host.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
@@ -107,7 +125,9 @@ describe("TreeSelect", () => {
     });
 
     test("the expanded property sets/reads state and is idempotent", () => {
-        const host = render('<lily-tree-select label="Select category"></lily-tree-select>') as unknown as TreeSelect;
+        const host = render(
+            '<lily-tree-select label="Select category"></lily-tree-select>',
+        ) as unknown as TreeSelect;
         const handler = vi.fn();
         host.addEventListener("lily-expanded-change", handler);
 

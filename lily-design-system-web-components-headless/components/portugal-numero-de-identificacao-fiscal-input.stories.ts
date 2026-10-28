@@ -7,9 +7,14 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/PortugalNumeroDeIdentificacaoFiscalInput",
-    render: (args) => h("lily-portugal-numero-de-identificacao-fiscal-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-portugal-numero-de-identificacao-fiscal-input",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Número de Identificação Fiscal (NIF)"
+        label: "Número de Identificação Fiscal (NIF)",
     },
 };
 

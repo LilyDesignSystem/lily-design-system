@@ -14,7 +14,7 @@ const meta: Meta = {
     title: "Content/Tour",
     render: (args) => h("lily-tour", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Patient record system walkthrough",
+        label: "Patient record system walkthrough",
     },
 };
 

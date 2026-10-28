@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, computed, input } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  ViewChild,
+  computed,
+  input,
+} from "@angular/core";
 
 /**
  * IconButton — a button containing only an icon with a required accessible label

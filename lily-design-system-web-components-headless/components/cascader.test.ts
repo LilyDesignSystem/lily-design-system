@@ -65,7 +65,9 @@ describe("Cascader", () => {
     });
 
     test("disabled disables the trigger and prevents toggling", () => {
-        const host = render('<lily-cascader label="Region" disabled><ul>Options</ul></lily-cascader>');
+        const host = render(
+            '<lily-cascader label="Region" disabled><ul>Options</ul></lily-cascader>',
+        );
         const trigger = host.querySelector(".cascader-trigger") as HTMLButtonElement;
 
         expect(trigger.disabled).toBe(true);
@@ -75,7 +77,9 @@ describe("Cascader", () => {
     });
 
     test("Escape closes the panel", () => {
-        const host = render('<lily-cascader label="Region" expanded><ul>Options</ul></lily-cascader>');
+        const host = render(
+            '<lily-cascader label="Region" expanded><ul>Options</ul></lily-cascader>',
+        );
         const trigger = host.querySelector(".cascader-trigger") as HTMLButtonElement;
 
         trigger.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));

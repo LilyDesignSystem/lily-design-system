@@ -10,7 +10,7 @@ const meta: Meta = {
     title: "Lists/DocumentList",
     render: (args) => h("lily-document-list", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Attachments",
+        label: "Attachments",
     },
 };
 

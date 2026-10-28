@@ -14,8 +14,8 @@ const meta: Meta = {
     title: "Content/Scroller",
     render: (args) => h("lily-scroller", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Our story",
-        "offset": "0.5"
+        label: "Our story",
+        offset: "0.5",
     },
 };
 

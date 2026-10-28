@@ -7,10 +7,11 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/CeskoRodneCisloView",
-    render: (args) => h("lily-cesko-rodne-cislo-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-cesko-rodne-cislo-view", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Rodné Číslo",
-        "value": "855323/1237"
+        label: "Rodné Číslo",
+        value: "855323/1237",
     },
 };
 

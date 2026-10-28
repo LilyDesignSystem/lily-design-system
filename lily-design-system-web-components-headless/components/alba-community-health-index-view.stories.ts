@@ -7,10 +7,11 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/AlbaCommunityHealthIndexView",
-    render: (args) => h("lily-alba-community-health-index-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-alba-community-health-index-view", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Community Health Index",
-        "value": "1505850123"
+        label: "Community Health Index",
+        value: "1505850123",
     },
 };
 

@@ -35,7 +35,9 @@ describe("DataTable", () => {
     });
 
     test("renders a visible caption when provided, and omits aria-label", () => {
-        const host = render('<lily-data-table label="User accounts" caption="Quarterly sales"></lily-data-table>');
+        const host = render(
+            '<lily-data-table label="User accounts" caption="Quarterly sales"></lily-data-table>',
+        );
 
         const table = host.querySelector("table")!;
         expect(table.querySelector("caption")!.textContent).toBe("Quarterly sales");

@@ -42,7 +42,9 @@ describe("SearchInput", () => {
     });
 
     test("exposes a live value property proxying the inner input", () => {
-        const host = render('<lily-search-input label="Search"></lily-search-input>') as unknown as SearchInput;
+        const host = render(
+            '<lily-search-input label="Search"></lily-search-input>',
+        ) as unknown as SearchInput;
         const input = host.querySelector("input") as HTMLInputElement;
 
         host.value = "dogs";
@@ -52,7 +54,9 @@ describe("SearchInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-search-input label="Search" required disabled></lily-search-input>');
+        const host = render(
+            '<lily-search-input label="Search" required disabled></lily-search-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -60,7 +64,9 @@ describe("SearchInput", () => {
     });
 
     test("passes through rest attributes such as placeholder", () => {
-        const host = render('<lily-search-input label="Search" placeholder="e.g. cats"></lily-search-input>');
+        const host = render(
+            '<lily-search-input label="Search" placeholder="e.g. cats"></lily-search-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("placeholder")).toBe("e.g. cats");
     });

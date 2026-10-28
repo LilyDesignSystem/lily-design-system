@@ -7,12 +7,13 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Content/TextInputWithSearch",
-    render: (args) => h("lily-text-input-with-search", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-text-input-with-search", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Site search",
+        label: "Site search",
         "input-label": "Search",
         "search-label": "Search",
-        "placeholder": "Search the site…",
+        placeholder: "Search the site…",
     },
 };
 

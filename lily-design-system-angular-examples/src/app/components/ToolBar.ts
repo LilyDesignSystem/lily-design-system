@@ -25,7 +25,9 @@ export class ToolBar {
   /** Roving focus over buttons and tabindex descendants (left/right, wrapping; Home/End). */
   protected onKeydown(event: KeyboardEvent): void {
     const root = event.currentTarget as HTMLElement;
-    const items = Array.from(root.querySelectorAll<HTMLElement>("button, [role='button'], [tabindex]"));
+    const items = Array.from(
+      root.querySelectorAll<HTMLElement>("button, [role='button'], [tabindex]"),
+    );
     const index = items.indexOf(document.activeElement as HTMLElement);
     switch (event.key) {
       case "ArrowRight":

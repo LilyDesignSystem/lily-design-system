@@ -7,10 +7,11 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/NorgeFodselsnummerView",
-    render: (args) => h("lily-norge-fodselsnummer-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-norge-fodselsnummer-view", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Fødselsnummer",
-        "value": "01129012345"
+        label: "Fødselsnummer",
+        value: "01129012345",
     },
 };
 

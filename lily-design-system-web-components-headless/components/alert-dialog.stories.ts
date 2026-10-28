@@ -9,9 +9,9 @@ const meta: Meta = {
     title: "Overlays/AlertDialog",
     render: (args) => h("lily-alert-dialog", args as Record<string, string | boolean>, SLOT),
     args: {
-        "title": "Delete item",
-        "description": "This cannot be undone.",
-        "open": true
+        title: "Delete item",
+        description: "This cannot be undone.",
+        open: true,
     },
 };
 

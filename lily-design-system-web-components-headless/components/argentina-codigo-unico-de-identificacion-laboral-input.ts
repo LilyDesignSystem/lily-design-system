@@ -26,7 +26,10 @@ export class ArgentinaCodigoUnicoDeIdentificacionLaboralInput extends HTMLElemen
 
         const input = document.createElement("input");
         input.type = "text";
-        input.className = rootClassName(this, "argentina-codigo-unico-de-identificacion-laboral-input");
+        input.className = rootClassName(
+            this,
+            "argentina-codigo-unico-de-identificacion-laboral-input",
+        );
         const label = this.getAttribute("label");
         if (label !== null) input.setAttribute("aria-label", label);
         input.value = this.getAttribute("value") ?? "";

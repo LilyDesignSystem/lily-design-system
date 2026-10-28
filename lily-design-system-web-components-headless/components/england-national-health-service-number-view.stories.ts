@@ -7,10 +7,15 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/EnglandNationalHealthServiceNumberView",
-    render: (args) => h("lily-england-national-health-service-number-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-england-national-health-service-number-view",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "National Health Service Number",
-        "value": "943 476 5919"
+        label: "National Health Service Number",
+        value: "943 476 5919",
     },
 };
 

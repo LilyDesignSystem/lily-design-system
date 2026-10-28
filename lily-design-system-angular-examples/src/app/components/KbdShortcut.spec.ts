@@ -21,7 +21,9 @@ describe("KbdShortcut", () => {
 
   test("renders one inner <kbd class=kbd-shortcut-key> per key, in order", () => {
     const { root } = make({ keys: ["Ctrl", "Shift", "P"] });
-    const keys = Array.from(root.querySelectorAll("kbd.kbd-shortcut-key")).map((k) => k.textContent);
+    const keys = Array.from(root.querySelectorAll("kbd.kbd-shortcut-key")).map(
+      (k) => k.textContent,
+    );
     expect(keys).toEqual(["Ctrl", "Shift", "P"]);
   });
 
@@ -50,7 +52,9 @@ describe("KbdShortcut", () => {
   });
 
   test("label becomes aria-label; absent otherwise", () => {
-    expect(make({ label: "Control plus K" }).root.getAttribute("aria-label")).toBe("Control plus K");
+    expect(make({ label: "Control plus K" }).root.getAttribute("aria-label")).toBe(
+      "Control plus K",
+    );
     expect(make().root.hasAttribute("aria-label")).toBe(false);
   });
 });

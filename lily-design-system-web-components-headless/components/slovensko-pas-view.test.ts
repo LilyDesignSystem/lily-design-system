@@ -31,7 +31,9 @@ describe("SlovenskoPasView", () => {
     });
 
     test("seeds the initial value as text content and exposes a live value property", () => {
-        const host = render('<lily-slovensko-pas-view label="Pas" value="AB1234567"></lily-slovensko-pas-view>') as unknown as SlovenskoPasView;
+        const host = render(
+            '<lily-slovensko-pas-view label="Pas" value="AB1234567"></lily-slovensko-pas-view>',
+        ) as unknown as SlovenskoPasView;
 
         expect(host.value).toBe("AB1234567");
         expect(host.querySelector("span")!.textContent).toBe("AB1234567");

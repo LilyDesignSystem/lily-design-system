@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Navigation/Place",
     render: (args) => h("lily-place", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Grand Canyon"
+        label: "Grand Canyon",
     },
 };
 

@@ -117,7 +117,11 @@ export class Dial extends HTMLElement {
         event.preventDefault();
         this.#sync();
         this.dispatchEvent(
-            new CustomEvent("lily-change", { detail: { value: this.#value }, bubbles: true, composed: true }),
+            new CustomEvent("lily-change", {
+                detail: { value: this.#value },
+                bubbles: true,
+                composed: true,
+            }),
         );
     };
 }

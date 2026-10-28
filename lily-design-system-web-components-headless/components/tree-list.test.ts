@@ -97,7 +97,9 @@ describe("TreeList", () => {
     });
 
     test("passes through rest attributes to the ol", () => {
-        const host = render('<lily-tree-list label="File browser" data-testid="tree"></lily-tree-list>');
+        const host = render(
+            '<lily-tree-list label="File browser" data-testid="tree"></lily-tree-list>',
+        );
 
         expect(host.querySelector("ol")!.getAttribute("data-testid")).toBe("tree");
     });

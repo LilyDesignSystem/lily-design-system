@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Navigation/ScrollBar",
     render: (args) => h("lily-scroll-bar", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Chat scroll",
-        "orientation": "vertical"
+        label: "Chat scroll",
+        orientation: "vertical",
     },
 };
 

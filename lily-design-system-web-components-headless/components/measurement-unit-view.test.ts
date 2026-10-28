@@ -31,7 +31,9 @@ describe("MeasurementUnitView", () => {
     });
 
     test("label is optional and maps to aria-label when provided", () => {
-        const host = render('<lily-measurement-unit-view value="lb" label="Pounds"></lily-measurement-unit-view>');
+        const host = render(
+            '<lily-measurement-unit-view value="lb" label="Pounds"></lily-measurement-unit-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Pounds");
     });
@@ -43,7 +45,9 @@ describe("MeasurementUnitView", () => {
     });
 
     test("exposes a live value property", () => {
-        const host = render('<lily-measurement-unit-view value="kg"></lily-measurement-unit-view>') as unknown as MeasurementUnitView;
+        const host = render(
+            '<lily-measurement-unit-view value="kg"></lily-measurement-unit-view>',
+        ) as unknown as MeasurementUnitView;
 
         expect(host.value).toBe("kg");
         host.value = "cm";
@@ -52,13 +56,17 @@ describe("MeasurementUnitView", () => {
     });
 
     test("passes through rest attributes onto the span", () => {
-        const host = render('<lily-measurement-unit-view value="kg" data-testid="unit"></lily-measurement-unit-view>');
+        const host = render(
+            '<lily-measurement-unit-view value="kg" data-testid="unit"></lily-measurement-unit-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("data-testid")).toBe("unit");
     });
 
     test("applies the consumer's class hook alongside the base class", () => {
-        const host = render('<lily-measurement-unit-view value="kg" class="extra"></lily-measurement-unit-view>');
+        const host = render(
+            '<lily-measurement-unit-view value="kg" class="extra"></lily-measurement-unit-view>',
+        );
 
         expect(host.querySelector("span")!.className).toBe("measurement-unit-view extra");
     });

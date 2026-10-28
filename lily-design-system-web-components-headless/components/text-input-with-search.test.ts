@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("TextInputWithSearch", () => {
     test("carries the base class and role=search", () => {
-        const host = render('<lily-text-input-with-search label="Site search"></lily-text-input-with-search>');
+        const host = render(
+            '<lily-text-input-with-search label="Site search"></lily-text-input-with-search>',
+        );
 
         expect(host.classList.contains("text-input-with-search")).toBe(true);
         expect(host.getAttribute("role")).toBe("search");
@@ -25,7 +27,9 @@ describe("TextInputWithSearch", () => {
     });
 
     test("renders an input[type=text] and a button[type=button] with default labels", () => {
-        const host = render('<lily-text-input-with-search label="Site search"></lily-text-input-with-search>');
+        const host = render(
+            '<lily-text-input-with-search label="Site search"></lily-text-input-with-search>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         const button = host.querySelector("button") as HTMLButtonElement;

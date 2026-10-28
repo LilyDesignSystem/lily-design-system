@@ -14,6 +14,10 @@ export const Default: Story = {
   args: {
     label: "Month",
     value: "2",
-    options: [{ value: "1", label: "January" }, { value: "2", label: "February" }, { value: "3", label: "March" }],
+    options: [
+      { value: "1", label: "January" },
+      { value: "2", label: "February" },
+      { value: "3", label: "March" },
+    ],
   },
 };

@@ -35,7 +35,9 @@ describe("NumberInput", () => {
     });
 
     test("exposes a live value property proxying the inner input", () => {
-        const host = render('<lily-number-input label="Age"></lily-number-input>') as unknown as NumberInput;
+        const host = render(
+            '<lily-number-input label="Age"></lily-number-input>',
+        ) as unknown as NumberInput;
         const input = host.querySelector("input") as HTMLInputElement;
 
         host.value = "7";
@@ -45,7 +47,9 @@ describe("NumberInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-number-input label="Age" required disabled></lily-number-input>');
+        const host = render(
+            '<lily-number-input label="Age" required disabled></lily-number-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -53,7 +57,9 @@ describe("NumberInput", () => {
     });
 
     test("passes through min, max, and step", () => {
-        const host = render('<lily-number-input label="Age" min="0" max="120" step="1"></lily-number-input>');
+        const host = render(
+            '<lily-number-input label="Age" min="0" max="120" step="1"></lily-number-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.min).toBe("0");

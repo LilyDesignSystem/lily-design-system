@@ -31,13 +31,17 @@ describe("GrailLayoutBottomFooter", () => {
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-grail-layout-bottom-footer class="extra"></lily-grail-layout-bottom-footer>');
+        const host = render(
+            '<lily-grail-layout-bottom-footer class="extra"></lily-grail-layout-bottom-footer>',
+        );
 
         expect(host.querySelector("footer")!.className).toBe("grail-layout-bottom-footer extra");
     });
 
     test("rest attributes pass through to the footer", () => {
-        const host = render('<lily-grail-layout-bottom-footer data-testid="x"></lily-grail-layout-bottom-footer>');
+        const host = render(
+            '<lily-grail-layout-bottom-footer data-testid="x"></lily-grail-layout-bottom-footer>',
+        );
 
         expect(host.querySelector("footer")!.getAttribute("data-testid")).toBe("x");
     });

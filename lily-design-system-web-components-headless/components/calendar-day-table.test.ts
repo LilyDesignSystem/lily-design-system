@@ -31,12 +31,16 @@ describe("CalendarDayTable", () => {
     });
 
     test("appends the consumer class after the base class", () => {
-        const host = render('<lily-calendar-day-table label="x" class="mine"></lily-calendar-day-table>');
+        const host = render(
+            '<lily-calendar-day-table label="x" class="mine"></lily-calendar-day-table>',
+        );
         expect(host.querySelector("table")!.className).toBe("calendar-day-table mine");
     });
 
     test("uses label as aria-label", () => {
-        expect(render(BASIC).querySelector("table")!.getAttribute("aria-label")).toBe("Monday 6 January 2025");
+        expect(render(BASIC).querySelector("table")!.getAttribute("aria-label")).toBe(
+            "Monday 6 January 2025",
+        );
     });
 
     test("marks the view as data-view=day", () => {
@@ -44,7 +48,9 @@ describe("CalendarDayTable", () => {
     });
 
     test("renders a caption when provided", () => {
-        const host = render('<lily-calendar-day-table label="x" caption="Visible caption"></lily-calendar-day-table>');
+        const host = render(
+            '<lily-calendar-day-table label="x" caption="Visible caption"></lily-calendar-day-table>',
+        );
         expect(host.querySelector("table > caption")!.textContent).toBe("Visible caption");
     });
 
@@ -67,7 +73,9 @@ describe("CalendarDayTable", () => {
     });
 
     test("passes through other attributes", () => {
-        const host = render('<lily-calendar-day-table label="x" data-testid="cal"></lily-calendar-day-table>');
+        const host = render(
+            '<lily-calendar-day-table label="x" data-testid="cal"></lily-calendar-day-table>',
+        );
         expect(host.querySelector("table")!.getAttribute("data-testid")).toBe("cal");
     });
 

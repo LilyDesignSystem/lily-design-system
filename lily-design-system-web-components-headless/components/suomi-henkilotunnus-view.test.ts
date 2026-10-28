@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("SuomiHenkilotunnusView", () => {
     test("renders a native span with the correct class", () => {
-        const host = render('<lily-suomi-henkilotunnus-view label="Henkilötunnus (HETU)"></lily-suomi-henkilotunnus-view>');
+        const host = render(
+            '<lily-suomi-henkilotunnus-view label="Henkilötunnus (HETU)"></lily-suomi-henkilotunnus-view>',
+        );
 
         const span = host.querySelector("span") as HTMLSpanElement;
         expect(span).not.toBeNull();
@@ -25,13 +27,17 @@ describe("SuomiHenkilotunnusView", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-suomi-henkilotunnus-view label="Henkilötunnus (HETU)"></lily-suomi-henkilotunnus-view>');
+        const host = render(
+            '<lily-suomi-henkilotunnus-view label="Henkilötunnus (HETU)"></lily-suomi-henkilotunnus-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Henkilötunnus (HETU)");
     });
 
     test("seeds the initial value as text content and exposes a live value property", () => {
-        const host = render('<lily-suomi-henkilotunnus-view label="Henkilötunnus (HETU)" value="131052-308T"></lily-suomi-henkilotunnus-view>') as unknown as SuomiHenkilotunnusView;
+        const host = render(
+            '<lily-suomi-henkilotunnus-view label="Henkilötunnus (HETU)" value="131052-308T"></lily-suomi-henkilotunnus-view>',
+        ) as unknown as SuomiHenkilotunnusView;
 
         expect(host.value).toBe("131052-308T");
         expect(host.querySelector("span")!.textContent).toBe("131052-308T");
@@ -42,7 +48,9 @@ describe("SuomiHenkilotunnusView", () => {
     });
 
     test('sets role="text" so the identifier announces as a single unit', () => {
-        const host = render('<lily-suomi-henkilotunnus-view label="Henkilötunnus (HETU)"></lily-suomi-henkilotunnus-view>');
+        const host = render(
+            '<lily-suomi-henkilotunnus-view label="Henkilötunnus (HETU)"></lily-suomi-henkilotunnus-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });

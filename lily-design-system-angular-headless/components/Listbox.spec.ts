@@ -46,7 +46,10 @@ describe("Listbox", () => {
 });
 
 function optionsHtml(count: number): string {
-  return Array.from({ length: count }, (_, i) => `<div role="option" id="opt-${i}">Option ${i}</div>`).join("");
+  return Array.from(
+    { length: count },
+    (_, i) => `<div role="option" id="opt-${i}">Option ${i}</div>`,
+  ).join("");
 }
 
 /**

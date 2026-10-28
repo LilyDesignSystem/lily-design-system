@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("TimePickerInput", () => {
     test("renders a native input[type=time]", () => {
-        const host = render('<lily-time-picker-input label="Appointment time"></lily-time-picker-input>');
+        const host = render(
+            '<lily-time-picker-input label="Appointment time"></lily-time-picker-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.type).toBe("time");
@@ -25,7 +27,9 @@ describe("TimePickerInput", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-time-picker-input label="Departure time"></lily-time-picker-input>');
+        const host = render(
+            '<lily-time-picker-input label="Departure time"></lily-time-picker-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("Departure time");
     });

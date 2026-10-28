@@ -31,7 +31,9 @@ describe("CalendarYearTable", () => {
     });
 
     test("appends the consumer class after the base class", () => {
-        const host = render('<lily-calendar-year-table label="x" class="mine"></lily-calendar-year-table>');
+        const host = render(
+            '<lily-calendar-year-table label="x" class="mine"></lily-calendar-year-table>',
+        );
         expect(host.querySelector("table")!.className).toBe("calendar-year-table mine");
     });
 
@@ -44,7 +46,9 @@ describe("CalendarYearTable", () => {
     });
 
     test("renders a caption when provided", () => {
-        const host = render('<lily-calendar-year-table label="x" caption="Visible caption"></lily-calendar-year-table>');
+        const host = render(
+            '<lily-calendar-year-table label="x" caption="Visible caption"></lily-calendar-year-table>',
+        );
         expect(host.querySelector("table > caption")!.textContent).toBe("Visible caption");
     });
 
@@ -67,7 +71,9 @@ describe("CalendarYearTable", () => {
     });
 
     test("passes through other attributes", () => {
-        const host = render('<lily-calendar-year-table label="x" data-testid="cal"></lily-calendar-year-table>');
+        const host = render(
+            '<lily-calendar-year-table label="x" data-testid="cal"></lily-calendar-year-table>',
+        );
         expect(host.querySelector("table")!.getAttribute("data-testid")).toBe("cal");
     });
 

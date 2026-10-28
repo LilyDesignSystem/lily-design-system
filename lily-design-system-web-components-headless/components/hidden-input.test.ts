@@ -37,13 +37,17 @@ describe("HiddenInput", () => {
     });
 
     test("seeds the initial value from the value attribute", () => {
-        const host = render('<lily-hidden-input name="csrf-token" value="abc123"></lily-hidden-input>');
+        const host = render(
+            '<lily-hidden-input name="csrf-token" value="abc123"></lily-hidden-input>',
+        );
 
         expect((host.querySelector("input") as HTMLInputElement).value).toBe("abc123");
     });
 
     test("exposes a live value property proxying the inner input", () => {
-        const host = render('<lily-hidden-input name="csrf-token"></lily-hidden-input>') as unknown as HiddenInput;
+        const host = render(
+            '<lily-hidden-input name="csrf-token"></lily-hidden-input>',
+        ) as unknown as HiddenInput;
         const input = host.querySelector("input") as HTMLInputElement;
 
         host.value = "xyz789";

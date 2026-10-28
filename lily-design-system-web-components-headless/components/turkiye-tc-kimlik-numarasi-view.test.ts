@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("TurkiyeTcKimlikNumarasiView", () => {
     test("renders a native span with the correct class", () => {
-        const host = render('<lily-turkiye-tc-kimlik-numarasi-view label="T.C. Kimlik Numarası" value="12345678902"></lily-turkiye-tc-kimlik-numarasi-view>');
+        const host = render(
+            '<lily-turkiye-tc-kimlik-numarasi-view label="T.C. Kimlik Numarası" value="12345678902"></lily-turkiye-tc-kimlik-numarasi-view>',
+        );
 
         const span = host.querySelector("span") as HTMLSpanElement;
         expect(span).not.toBeNull();
@@ -25,13 +27,17 @@ describe("TurkiyeTcKimlikNumarasiView", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-turkiye-tc-kimlik-numarasi-view label="T.C. Kimlik Numarası" value="12345678902"></lily-turkiye-tc-kimlik-numarasi-view>');
+        const host = render(
+            '<lily-turkiye-tc-kimlik-numarasi-view label="T.C. Kimlik Numarası" value="12345678902"></lily-turkiye-tc-kimlik-numarasi-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("T.C. Kimlik Numarası");
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
-        const host = render('<lily-turkiye-tc-kimlik-numarasi-view label="T.C. Kimlik Numarası" value="12345678902"></lily-turkiye-tc-kimlik-numarasi-view>') as unknown as TurkiyeTcKimlikNumarasiView;
+        const host = render(
+            '<lily-turkiye-tc-kimlik-numarasi-view label="T.C. Kimlik Numarası" value="12345678902"></lily-turkiye-tc-kimlik-numarasi-view>',
+        ) as unknown as TurkiyeTcKimlikNumarasiView;
 
         expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("12345678902");
         expect(host.value).toBe("12345678902");
@@ -42,7 +48,9 @@ describe("TurkiyeTcKimlikNumarasiView", () => {
     });
 
     test("has role=text so the identifier announces as a single unit", () => {
-        const host = render('<lily-turkiye-tc-kimlik-numarasi-view label="T.C. Kimlik Numarası" value="12345678902"></lily-turkiye-tc-kimlik-numarasi-view>');
+        const host = render(
+            '<lily-turkiye-tc-kimlik-numarasi-view label="T.C. Kimlik Numarası" value="12345678902"></lily-turkiye-tc-kimlik-numarasi-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });

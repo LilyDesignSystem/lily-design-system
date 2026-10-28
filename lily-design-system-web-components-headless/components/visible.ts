@@ -71,7 +71,11 @@ export class Visible extends HTMLElement {
         this.#visible = value;
         this.setAttribute("data-visible", String(value));
         this.dispatchEvent(
-            new CustomEvent("lily-visibility-change", { detail: { visible: value }, bubbles: true, composed: true }),
+            new CustomEvent("lily-visibility-change", {
+                detail: { visible: value },
+                bubbles: true,
+                composed: true,
+            }),
         );
     }
 }

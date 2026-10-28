@@ -7,10 +7,15 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/ElladaDematerialisedSecuritiesSystemView",
-    render: (args) => h("lily-ellada-dematerialised-securities-system-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-ellada-dematerialised-securities-system-view",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Dematerialised Securities System",
-        "value": "1234567890"
+        label: "Dematerialised Securities System",
+        value: "1234567890",
     },
 };
 

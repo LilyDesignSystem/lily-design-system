@@ -14,9 +14,9 @@ const meta: Meta = {
         return ol;
     },
     args: {
-        "status": "in-progress",
-        "current": true,
-        "label": "Step 2: Shipping",
+        status: "in-progress",
+        current: true,
+        label: "Step 2: Shipping",
     },
 };
 

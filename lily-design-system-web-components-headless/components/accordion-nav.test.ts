@@ -35,7 +35,9 @@ describe("AccordionNav", () => {
     });
 
     test("moves its children into the nav", () => {
-        const host = render('<lily-accordion-nav label="FAQ"><div id="list"></div></lily-accordion-nav>');
+        const host = render(
+            '<lily-accordion-nav label="FAQ"><div id="list"></div></lily-accordion-nav>',
+        );
 
         expect(host.querySelector("nav > #list")).toBeTruthy();
     });

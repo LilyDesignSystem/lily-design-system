@@ -23,7 +23,9 @@ describe("MockupBrowser", () => {
     });
 
     test("label is optional and maps to aria-label when provided", () => {
-        const host = render('<lily-mockup-browser label="Preview of the homepage"></lily-mockup-browser>');
+        const host = render(
+            '<lily-mockup-browser label="Preview of the homepage"></lily-mockup-browser>',
+        );
 
         expect(host.getAttribute("aria-label")).toBe("Preview of the homepage");
     });

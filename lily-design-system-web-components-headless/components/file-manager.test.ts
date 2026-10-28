@@ -30,7 +30,9 @@ describe("FileManager", () => {
     });
 
     test("preserves children content", () => {
-        const host = render('<lily-file-manager label="Project files"><ul><li>document.pdf</li></ul></lily-file-manager>');
+        const host = render(
+            '<lily-file-manager label="Project files"><ul><li>document.pdf</li></ul></lily-file-manager>',
+        );
 
         expect(host.querySelector("li")!.textContent).toBe("document.pdf");
     });

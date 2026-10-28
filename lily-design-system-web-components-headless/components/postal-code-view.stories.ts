@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/PostalCodeView",
     render: (args) => h("lily-postal-code-view", args as Record<string, string | boolean>, SLOT),
     args: {
-        "text": "SW1A 1AA"
+        text: "SW1A 1AA",
     },
 };
 

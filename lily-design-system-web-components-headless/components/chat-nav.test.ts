@@ -29,13 +29,17 @@ describe("ChatNav", () => {
     });
 
     test("moves its children into the nav", () => {
-        const host = render('<lily-chat-nav label="Chat conversations"><ol id="list"></ol></lily-chat-nav>');
+        const host = render(
+            '<lily-chat-nav label="Chat conversations"><ol id="list"></ol></lily-chat-nav>',
+        );
 
         expect(host.querySelector("nav > #list")).toBeTruthy();
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-chat-nav label="Chat conversations" class="extra"></lily-chat-nav>');
+        const host = render(
+            '<lily-chat-nav label="Chat conversations" class="extra"></lily-chat-nav>',
+        );
 
         expect(host.querySelector("nav")!.className).toBe("chat-nav extra");
     });

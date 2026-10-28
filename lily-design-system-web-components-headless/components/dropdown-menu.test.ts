@@ -72,7 +72,9 @@ describe("DropdownMenu", () => {
     });
 
     test("ArrowDown / ArrowUp navigate with wrapping", () => {
-        const host = render(`<lily-dropdown-menu label="Options" open>${ITEMS}</lily-dropdown-menu>`);
+        const host = render(
+            `<lily-dropdown-menu label="Options" open>${ITEMS}</lily-dropdown-menu>`,
+        );
         const menu = host.querySelector("[role='menu']")!;
         const items = Array.from(host.querySelectorAll("[role='menuitem']")) as HTMLElement[];
         items[0]!.focus();
@@ -85,7 +87,9 @@ describe("DropdownMenu", () => {
     });
 
     test("Home and End jump to first and last item", () => {
-        const host = render(`<lily-dropdown-menu label="Options" open>${ITEMS}</lily-dropdown-menu>`);
+        const host = render(
+            `<lily-dropdown-menu label="Options" open>${ITEMS}</lily-dropdown-menu>`,
+        );
         const menu = host.querySelector("[role='menu']")!;
         const items = Array.from(host.querySelectorAll("[role='menuitem']")) as HTMLElement[];
 
@@ -97,7 +101,9 @@ describe("DropdownMenu", () => {
     });
 
     test("Escape closes the menu, returns focus to the button, and fires lily-close", () => {
-        const host = render(`<lily-dropdown-menu label="Options" open>${ITEMS}</lily-dropdown-menu>`);
+        const host = render(
+            `<lily-dropdown-menu label="Options" open>${ITEMS}</lily-dropdown-menu>`,
+        );
         const handler = vi.fn();
         host.addEventListener("lily-close", handler);
         const menu = host.querySelector("[role='menu']")!;

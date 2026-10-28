@@ -32,7 +32,8 @@ function key(el: Element, k: string, init: KeyboardEventInit = {}) {
 describe("TourList — dialog contract and Escape", () => {
   function create(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(TourList);
-    for (const [k, v] of Object.entries({ label: "Welcome tour", active: true, ...inputs })) fixture.componentRef.setInput(k, v);
+    for (const [k, v] of Object.entries({ label: "Welcome tour", active: true, ...inputs }))
+      fixture.componentRef.setInput(k, v);
     fixture.detectChanges();
     return { fixture, el: fixture.nativeElement.querySelector("ol.tour-list") as HTMLElement };
   }

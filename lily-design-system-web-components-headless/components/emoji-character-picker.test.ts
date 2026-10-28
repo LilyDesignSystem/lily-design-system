@@ -17,19 +17,25 @@ function render(html: string): HTMLElement {
 
 describe("EmojiCharacterPicker", () => {
     test("carries the base class", () => {
-        const host = render('<lily-emoji-character-picker label="Choose an emoji"></lily-emoji-character-picker>');
+        const host = render(
+            '<lily-emoji-character-picker label="Choose an emoji"></lily-emoji-character-picker>',
+        );
 
         expect(host.classList.contains("emoji-character-picker")).toBe(true);
     });
 
     test("has role=grid", () => {
-        const host = render('<lily-emoji-character-picker label="Choose an emoji"></lily-emoji-character-picker>');
+        const host = render(
+            '<lily-emoji-character-picker label="Choose an emoji"></lily-emoji-character-picker>',
+        );
 
         expect(host.getAttribute("role")).toBe("grid");
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-emoji-character-picker label="Choose an emoji"></lily-emoji-character-picker>');
+        const host = render(
+            '<lily-emoji-character-picker label="Choose an emoji"></lily-emoji-character-picker>',
+        );
 
         expect(host.getAttribute("aria-label")).toBe("Choose an emoji");
     });
@@ -51,7 +57,9 @@ describe("EmojiCharacterPicker", () => {
     });
 
     test("is idempotent across repeated connectedCallback invocations", () => {
-        const host = render('<lily-emoji-character-picker label="Choose an emoji"></lily-emoji-character-picker>');
+        const host = render(
+            '<lily-emoji-character-picker label="Choose an emoji"></lily-emoji-character-picker>',
+        );
 
         (host as unknown as EmojiCharacterPicker).connectedCallback();
 

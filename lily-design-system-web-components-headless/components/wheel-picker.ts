@@ -123,7 +123,8 @@ export class WheelPicker extends HTMLElement {
         if (this.#isDisabled) list.setAttribute("aria-disabled", "true");
         else list.removeAttribute("aria-disabled");
         list.tabIndex = this.#isDisabled ? -1 : 0;
-        if (selected >= 0) list.setAttribute("aria-activedescendant", `${this.#uid}-option-${selected}`);
+        if (selected >= 0)
+            list.setAttribute("aria-activedescendant", `${this.#uid}-option-${selected}`);
         else list.removeAttribute("aria-activedescendant");
 
         list.replaceChildren(
@@ -156,8 +157,10 @@ export class WheelPicker extends HTMLElement {
         }
 
         // Keep the selected option centred in the list. Only the list scrolls (never the page), and instantly: no animation.
-        const option = selected >= 0 ? list.querySelector<HTMLElement>(`[data-index="${selected}"]`) : null;
-        if (option) list.scrollTop = option.offsetTop - (list.clientHeight - option.offsetHeight) / 2;
+        const option =
+            selected >= 0 ? list.querySelector<HTMLElement>(`[data-index="${selected}"]`) : null;
+        if (option)
+            list.scrollTop = option.offsetTop - (list.clientHeight - option.offsetHeight) / 2;
     }
 
     #select(index: number): void {
@@ -173,10 +176,17 @@ export class WheelPicker extends HTMLElement {
         if (WHEEL_MOVE_KEYS.includes(event.key)) {
             event.preventDefault();
             const pageSize = Number(this.getAttribute("page-size") ?? 5);
-            this.#select(nextWheelIndex(this.#options, this.#selectedIndex, event.key as WheelMoveKey, { loop: this.hasAttribute("loop"), pageSize }));
+            this.#select(
+                nextWheelIndex(this.#options, this.#selectedIndex, event.key as WheelMoveKey, {
+                    loop: this.hasAttribute("loop"),
+                    pageSize,
+                }),
+            );
         } else if (isWheelTypeaheadKey(event)) {
             this.#typeahead = nextWheelPrefix(this.#typeahead, event.key, Date.now());
-            this.#select(wheelTypeaheadIndex(this.#options, this.#selectedIndex, this.#typeahead.prefix));
+            this.#select(
+                wheelTypeaheadIndex(this.#options, this.#selectedIndex, this.#typeahead.prefix),
+            );
         }
     };
 

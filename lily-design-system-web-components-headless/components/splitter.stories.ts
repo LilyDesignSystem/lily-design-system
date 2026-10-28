@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Content/Splitter",
     render: (args) => h("lily-splitter", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Resize file tree and editor",
-        "orientation": "vertical",
+        label: "Resize file tree and editor",
+        orientation: "vertical",
     },
 };
 

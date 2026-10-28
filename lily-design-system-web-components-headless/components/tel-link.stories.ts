@@ -7,7 +7,7 @@ const meta: Meta = {
     title: "Links/TelLink",
     render: (args) => h("lily-tel-link", args as Record<string, string | boolean>),
     args: {
-        "phone": "+1-555-0100"
+        phone: "+1-555-0100",
     },
 };
 

@@ -20,7 +20,15 @@
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
-const HANDLED = new Set(["heading", "href", "meta", "description", "image-url", "image-alt", "label"]);
+const HANDLED = new Set([
+    "heading",
+    "href",
+    "meta",
+    "description",
+    "image-url",
+    "image-alt",
+    "label",
+]);
 
 export class CollectionListItem extends HTMLElement {
     connectedCallback(): void {

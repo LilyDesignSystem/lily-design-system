@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Navigation/ProgressBar",
     render: (args) => h("lily-progress-bar", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Upload progress",
-        "value": "40"
+        label: "Upload progress",
+        value: "40",
     },
 };
 

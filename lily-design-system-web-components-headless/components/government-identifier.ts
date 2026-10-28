@@ -27,7 +27,14 @@
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
-const HANDLED = new Set(["label", "agency-name", "agency-href", "logo-url", "logo-alt", "description"]);
+const HANDLED = new Set([
+    "label",
+    "agency-name",
+    "agency-href",
+    "logo-url",
+    "logo-alt",
+    "description",
+]);
 
 export class GovernmentIdentifier extends HTMLElement {
     connectedCallback(): void {

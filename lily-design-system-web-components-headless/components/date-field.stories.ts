@@ -7,9 +7,9 @@ const meta: Meta = {
     title: "Content/DateField",
     render: (args) => h("lily-date-field", args as Record<string, string | boolean>),
     args: {
-        "label": "Start date",
-        "description": "Format: YYYY-MM-DD",
-        "value": "2026-06-01",
+        label: "Start date",
+        description: "Format: YYYY-MM-DD",
+        value: "2026-06-01",
     },
 };
 
@@ -20,8 +20,8 @@ export const Default: Story = {};
 
 export const WithError: Story = {
     args: {
-        "label": "End date",
-        "error": "End date is required",
-        "required": true,
+        label: "End date",
+        error: "End date is required",
+        required: true,
     },
 };

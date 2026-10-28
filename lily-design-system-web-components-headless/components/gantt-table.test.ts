@@ -54,7 +54,9 @@ describe("GanttTable", () => {
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-gantt-table label="Project timeline" class="compact"></lily-gantt-table>');
+        const host = render(
+            '<lily-gantt-table label="Project timeline" class="compact"></lily-gantt-table>',
+        );
 
         expect(host.querySelector("table")!.className).toBe("gantt-table compact");
     });

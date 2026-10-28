@@ -30,7 +30,9 @@ describe("Watermark", () => {
     });
 
     test("honours explicit rotate and gap", () => {
-        const host = render('<lily-watermark text="DRAFT" rotate="0" gap="200px"></lily-watermark>');
+        const host = render(
+            '<lily-watermark text="DRAFT" rotate="0" gap="200px"></lily-watermark>',
+        );
 
         expect(host.getAttribute("data-rotate")).toBe("0");
         expect(host.getAttribute("data-gap")).toBe("200px");
@@ -47,11 +49,15 @@ describe("Watermark", () => {
     test("sets data-image-url on the overlay when imageUrl is provided", () => {
         const host = render('<lily-watermark image-url="/brand.svg"></lily-watermark>');
 
-        expect(host.querySelector(".watermark-overlay")!.getAttribute("data-image-url")).toBe("/brand.svg");
+        expect(host.querySelector(".watermark-overlay")!.getAttribute("data-image-url")).toBe(
+            "/brand.svg",
+        );
     });
 
     test("children render after the overlay element", () => {
-        const host = render('<lily-watermark text="DRAFT"><article>Body content</article></lily-watermark>');
+        const host = render(
+            '<lily-watermark text="DRAFT"><article>Body content</article></lily-watermark>',
+        );
 
         expect(host.children[0].classList.contains("watermark-overlay")).toBe(true);
         expect(host.children[1].tagName).toBe("ARTICLE");

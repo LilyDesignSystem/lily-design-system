@@ -46,7 +46,11 @@ describe("SectionListItem (upgrade in place)", () => {
         renderList();
 
         const items = Array.from(document.querySelectorAll("li.section-list-item"));
-        expect(items.map((li) => li.getAttribute("aria-label"))).toEqual([null, "Pricing section", null]);
+        expect(items.map((li) => li.getAttribute("aria-label"))).toEqual([
+            null,
+            "Pricing section",
+            null,
+        ]);
     });
 
     test("moves the host's children into the <li>", () => {
@@ -58,7 +62,8 @@ describe("SectionListItem (upgrade in place)", () => {
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        document.body.innerHTML = '<ul><lily-section-list-item class="extra">X</lily-section-list-item></ul>';
+        document.body.innerHTML =
+            '<ul><lily-section-list-item class="extra">X</lily-section-list-item></ul>';
 
         expect(document.querySelector("li")!.className).toBe("section-list-item extra");
     });

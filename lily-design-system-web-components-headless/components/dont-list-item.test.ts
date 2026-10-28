@@ -46,7 +46,11 @@ describe("DontListItem (upgrade in place)", () => {
         renderList();
 
         const items = Array.from(document.querySelectorAll("li.dont-list-item"));
-        expect(items.map((li) => li.getAttribute("data-recommendation"))).toEqual(["dont", "dont", "dont"]);
+        expect(items.map((li) => li.getAttribute("data-recommendation"))).toEqual([
+            "dont",
+            "dont",
+            "dont",
+        ]);
     });
 
     test("moves the host's children into the <li>", () => {
@@ -57,13 +61,15 @@ describe("DontListItem (upgrade in place)", () => {
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        document.body.innerHTML = '<ul><lily-dont-list-item class="extra">X</lily-dont-list-item></ul>';
+        document.body.innerHTML =
+            '<ul><lily-dont-list-item class="extra">X</lily-dont-list-item></ul>';
 
         expect(document.querySelector("li")!.className).toBe("dont-list-item extra");
     });
 
     test("passes through rest attributes to the <li>", () => {
-        document.body.innerHTML = '<ul><lily-dont-list-item data-testid="rule">X</lily-dont-list-item></ul>';
+        document.body.innerHTML =
+            '<ul><lily-dont-list-item data-testid="rule">X</lily-dont-list-item></ul>';
 
         expect(document.querySelector("li")!.getAttribute("data-testid")).toBe("rule");
     });

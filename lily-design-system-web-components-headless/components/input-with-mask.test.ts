@@ -17,20 +17,26 @@ function render(html: string): HTMLElement {
 
 describe("InputWithMask", () => {
     test("renders as itself with the base class", () => {
-        const host = render('<lily-input-with-mask label="Phone number" mask="(___) ___-____"></lily-input-with-mask>');
+        const host = render(
+            '<lily-input-with-mask label="Phone number" mask="(___) ___-____"></lily-input-with-mask>',
+        );
 
         expect(host.tagName.toLowerCase()).toBe("lily-input-with-mask");
         expect(host.className).toBe("input-with-mask");
     });
 
     test("exposes data-mask on the wrapper", () => {
-        const host = render('<lily-input-with-mask label="Phone number" mask="(___) ___-____"></lily-input-with-mask>');
+        const host = render(
+            '<lily-input-with-mask label="Phone number" mask="(___) ___-____"></lily-input-with-mask>',
+        );
 
         expect(host.getAttribute("data-mask")).toBe("(___) ___-____");
     });
 
     test("renders the decorative mask display span", () => {
-        const host = render('<lily-input-with-mask label="Phone number" mask="(___) ___-____"></lily-input-with-mask>');
+        const host = render(
+            '<lily-input-with-mask label="Phone number" mask="(___) ___-____"></lily-input-with-mask>',
+        );
 
         const display = host.querySelector(".input-with-mask-display")!;
         expect(display.getAttribute("aria-hidden")).toBe("true");
@@ -38,7 +44,9 @@ describe("InputWithMask", () => {
     });
 
     test("renders the control input with type=text and aria-label", () => {
-        const host = render('<lily-input-with-mask label="Phone number" mask="(___) ___-____"></lily-input-with-mask>');
+        const host = render(
+            '<lily-input-with-mask label="Phone number" mask="(___) ___-____"></lily-input-with-mask>',
+        );
 
         const input = host.querySelector("input.input-with-mask-control") as HTMLInputElement;
         expect(input).not.toBeNull();

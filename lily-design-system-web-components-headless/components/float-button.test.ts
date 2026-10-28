@@ -23,7 +23,9 @@ describe("FloatButton", () => {
     });
 
     test("honours an explicit position", () => {
-        const host = render('<lily-float-button label="Add" position="top-left"></lily-float-button>');
+        const host = render(
+            '<lily-float-button label="Add" position="top-left"></lily-float-button>',
+        );
 
         const button = host.querySelector("button") as HTMLButtonElement;
         expect(button.getAttribute("data-position")).toBe("top-left");
@@ -34,7 +36,9 @@ describe("FloatButton", () => {
     test("throws when label is missing (WCAG 4.1.2)", () => {
         const host = document.createElement("lily-float-button");
 
-        expect(() => (host as unknown as FloatButton).connectedCallback()).toThrow(/label attribute/);
+        expect(() => (host as unknown as FloatButton).connectedCallback()).toThrow(
+            /label attribute/,
+        );
     });
 
     test("uses label as the accessible name", () => {

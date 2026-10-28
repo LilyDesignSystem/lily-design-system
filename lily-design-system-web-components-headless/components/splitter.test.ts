@@ -36,7 +36,9 @@ describe("Splitter", () => {
     });
 
     test("honours an explicit orientation", () => {
-        const host = render('<lily-splitter label="Resize panels" orientation="horizontal"></lily-splitter>');
+        const host = render(
+            '<lily-splitter label="Resize panels" orientation="horizontal"></lily-splitter>',
+        );
 
         expect(host.getAttribute("aria-orientation")).toBe("horizontal");
     });
@@ -51,7 +53,9 @@ describe("Splitter", () => {
     });
 
     test("merges the consumer's class attribute with the base class", () => {
-        const host = render('<lily-splitter label="Resize panels" class="my-splitter"></lily-splitter>');
+        const host = render(
+            '<lily-splitter label="Resize panels" class="my-splitter"></lily-splitter>',
+        );
 
         expect(host.classList.contains("splitter")).toBe(true);
         expect(host.classList.contains("my-splitter")).toBe(true);

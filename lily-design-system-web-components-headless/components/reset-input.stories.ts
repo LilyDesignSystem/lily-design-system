@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Forms/ResetInput",
     render: (args) => h("lily-reset-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "value": "Reset",
+        value: "Reset",
     },
 };
 

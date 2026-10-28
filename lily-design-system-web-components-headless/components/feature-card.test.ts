@@ -21,7 +21,9 @@ describe("FeatureCard", () => {
 
         const article = host.querySelector("article.feature-card")!;
         expect(article).toBeTruthy();
-        expect(article.querySelector("header > h3.feature-card-heading")!.textContent).toBe("Privacy first");
+        expect(article.querySelector("header > h3.feature-card-heading")!.textContent).toBe(
+            "Privacy first",
+        );
     });
 
     test("defaults data-image-position to start", () => {
@@ -31,7 +33,9 @@ describe("FeatureCard", () => {
     });
 
     test("data-image-position reflects the image-position attribute", () => {
-        const host = render('<lily-feature-card heading="Privacy first" image-position="end"></lily-feature-card>');
+        const host = render(
+            '<lily-feature-card heading="Privacy first" image-position="end"></lily-feature-card>',
+        );
 
         expect(host.querySelector("article")!.getAttribute("data-image-position")).toBe("end");
     });
@@ -40,7 +44,9 @@ describe("FeatureCard", () => {
         const host = render('<lily-feature-card heading="Privacy first"></lily-feature-card>');
         expect(host.querySelector("article")!.getAttribute("aria-label")).toBe("Privacy first");
 
-        const host2 = render('<lily-feature-card heading="Privacy first" label="Custom name"></lily-feature-card>');
+        const host2 = render(
+            '<lily-feature-card heading="Privacy first" label="Custom name"></lily-feature-card>',
+        );
         expect(host2.querySelector("article")!.getAttribute("aria-label")).toBe("Custom name");
     });
 
@@ -57,9 +63,13 @@ describe("FeatureCard", () => {
     });
 
     test("renders a description only when provided", () => {
-        const host = render('<lily-feature-card heading="Privacy first" description="Your data stays yours."></lily-feature-card>');
+        const host = render(
+            '<lily-feature-card heading="Privacy first" description="Your data stays yours."></lily-feature-card>',
+        );
 
-        expect(host.querySelector(".feature-card-description")!.textContent).toBe("Your data stays yours.");
+        expect(host.querySelector(".feature-card-description")!.textContent).toBe(
+            "Your data stays yours.",
+        );
     });
 
     test("children render after the description", () => {
@@ -73,7 +83,9 @@ describe("FeatureCard", () => {
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-feature-card heading="Privacy first" class="extra"></lily-feature-card>');
+        const host = render(
+            '<lily-feature-card heading="Privacy first" class="extra"></lily-feature-card>',
+        );
 
         expect(host.querySelector("article")!.className).toBe("feature-card extra");
     });

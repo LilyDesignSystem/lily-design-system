@@ -15,7 +15,8 @@ function render(html: string): HTMLElement {
     return document.body.firstElementChild as HTMLElement;
 }
 
-const BASIC = '<lily-tool-call><span slot="summary" data-testid="sum">search_web</span><span data-testid="body">Body</span></lily-tool-call>';
+const BASIC =
+    '<lily-tool-call><span slot="summary" data-testid="sum">search_web</span><span data-testid="body">Body</span></lily-tool-call>';
 
 describe("ToolCall", () => {
     test("renders a details with the base class, closed by default", () => {
@@ -41,7 +42,9 @@ describe("ToolCall", () => {
     });
 
     test("sets data-status from status (live), and omits it without one", () => {
-        const host = render('<lily-tool-call status="done"><span slot="summary">x</span></lily-tool-call>');
+        const host = render(
+            '<lily-tool-call status="done"><span slot="summary">x</span></lily-tool-call>',
+        );
         const el = host.querySelector("details")!;
         expect(el.getAttribute("data-status")).toBe("done");
         host.removeAttribute("status");
@@ -49,7 +52,9 @@ describe("ToolCall", () => {
     });
 
     test("is busy only while running", () => {
-        const host = render('<lily-tool-call status="running"><span slot="summary">x</span></lily-tool-call>');
+        const host = render(
+            '<lily-tool-call status="running"><span slot="summary">x</span></lily-tool-call>',
+        );
         const el = host.querySelector("details")!;
         expect(el.getAttribute("aria-busy")).toBe("true");
         host.setAttribute("status", "done");
@@ -68,11 +73,17 @@ describe("ToolCall", () => {
     });
 
     test("appends the consumer class after the base class", () => {
-        expect(render('<lily-tool-call class="mine"></lily-tool-call>').querySelector("details")!.getAttribute("class")).toBe("tool-call mine");
+        expect(
+            render('<lily-tool-call class="mine"></lily-tool-call>')
+                .querySelector("details")!
+                .getAttribute("class"),
+        ).toBe("tool-call mine");
     });
 
     test("spreads other attributes onto the details", () => {
-        expect(render('<lily-tool-call id="t1"></lily-tool-call>').querySelector("details")!.id).toBe("t1");
+        expect(
+            render('<lily-tool-call id="t1"></lily-tool-call>').querySelector("details")!.id,
+        ).toBe("t1");
     });
 
     test("is idempotent if connectedCallback runs twice", () => {

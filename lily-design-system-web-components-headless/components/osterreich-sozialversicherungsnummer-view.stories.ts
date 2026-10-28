@@ -7,10 +7,15 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/OsterreichSozialversicherungsnummerView",
-    render: (args) => h("lily-osterreich-sozialversicherungsnummer-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-osterreich-sozialversicherungsnummer-view",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Sozialversicherungsnummer (SVNR)",
-        "value": "1234 010180"
+        label: "Sozialversicherungsnummer (SVNR)",
+        value: "1234 010180",
     },
 };
 

@@ -14,7 +14,7 @@ const meta: Meta = {
         return dl;
     },
     args: {
-        "term": "Product",
+        term: "Product",
     },
 };
 

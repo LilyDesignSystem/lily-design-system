@@ -30,7 +30,9 @@ describe("TimeInput", () => {
     });
 
     test("seeds the initial value from the value attribute", () => {
-        const host = render('<lily-time-input label="Appointment time" value="14:30"></lily-time-input>');
+        const host = render(
+            '<lily-time-input label="Appointment time" value="14:30"></lily-time-input>',
+        );
 
         expect((host.querySelector("input") as HTMLInputElement).value).toBe("14:30");
     });
@@ -48,7 +50,9 @@ describe("TimeInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-time-input label="Appointment time" required disabled></lily-time-input>');
+        const host = render(
+            '<lily-time-input label="Appointment time" required disabled></lily-time-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -56,7 +60,9 @@ describe("TimeInput", () => {
     });
 
     test("passes through rest attributes such as step", () => {
-        const host = render('<lily-time-input label="Appointment time" step="60"></lily-time-input>');
+        const host = render(
+            '<lily-time-input label="Appointment time" step="60"></lily-time-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("step")).toBe("60");
     });

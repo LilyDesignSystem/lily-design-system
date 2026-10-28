@@ -26,7 +26,9 @@ describe("GoToTop", () => {
     });
 
     test("allows a configurable href", () => {
-        const host = render('<lily-go-to-top href="#main-content" label="Back to top"></lily-go-to-top>');
+        const host = render(
+            '<lily-go-to-top href="#main-content" label="Back to top"></lily-go-to-top>',
+        );
 
         expect(host.querySelector("a")!.getAttribute("href")).toBe("#main-content");
     });
@@ -46,7 +48,9 @@ describe("GoToTop", () => {
     });
 
     test("passes through rest attributes", () => {
-        const host = render('<lily-go-to-top label="Top" data-testid="go-to-top"></lily-go-to-top>');
+        const host = render(
+            '<lily-go-to-top label="Top" data-testid="go-to-top"></lily-go-to-top>',
+        );
 
         expect(host.querySelector("a")!.getAttribute("data-testid")).toBe("go-to-top");
     });

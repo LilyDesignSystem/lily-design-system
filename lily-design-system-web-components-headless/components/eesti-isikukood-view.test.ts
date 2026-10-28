@@ -25,7 +25,9 @@ describe("EestiIsikukoodView", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-eesti-isikukood-view label="Isikukood"></lily-eesti-isikukood-view>');
+        const host = render(
+            '<lily-eesti-isikukood-view label="Isikukood"></lily-eesti-isikukood-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Isikukood");
     });
@@ -37,7 +39,9 @@ describe("EestiIsikukoodView", () => {
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
-        const host = render('<lily-eesti-isikukood-view label="ID" value="38001085718"></lily-eesti-isikukood-view>') as unknown as EestiIsikukoodView;
+        const host = render(
+            '<lily-eesti-isikukood-view label="ID" value="38001085718"></lily-eesti-isikukood-view>',
+        ) as unknown as EestiIsikukoodView;
 
         expect(host.querySelector("span")!.textContent).toBe("38001085718");
         expect(host.value).toBe("38001085718");

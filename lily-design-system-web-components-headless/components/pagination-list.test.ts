@@ -35,7 +35,9 @@ describe("PaginationList", () => {
     });
 
     test("moves its children into the ol", () => {
-        const host = render('<lily-pagination-list><li><a href="/page/1">1</a></li></lily-pagination-list>');
+        const host = render(
+            '<lily-pagination-list><li><a href="/page/1">1</a></li></lily-pagination-list>',
+        );
 
         expect(host.querySelector("ol > li")!.textContent).toBe("1");
     });

@@ -7,8 +7,8 @@ const meta: Meta = {
     title: "Links/GoToPreviousSection",
     render: (args) => h("lily-go-to-previous-section", args as Record<string, string | boolean>),
     args: {
-        "href": "#section-1",
-        "label": "Previous: Overview"
+        href: "#section-1",
+        label: "Previous: Overview",
     },
 };
 

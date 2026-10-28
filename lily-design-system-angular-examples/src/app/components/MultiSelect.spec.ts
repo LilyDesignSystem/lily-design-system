@@ -28,7 +28,9 @@ class Host {
   disabled = signal(false);
 }
 
-function make(init: Partial<{ value: string[]; size: number; required: boolean; disabled: boolean }> = {}) {
+function make(
+  init: Partial<{ value: string[]; size: number; required: boolean; disabled: boolean }> = {},
+) {
   const fixture = TestBed.createComponent(Host);
   if (init.value) fixture.componentInstance.value.set(init.value);
   if (init.size) fixture.componentInstance.size.set(init.size);

@@ -105,7 +105,8 @@ export class Command extends HTMLElement {
 
     #options(): HTMLElement[] {
         return Array.from(this.#listbox?.children ?? []).filter(
-            (el): el is HTMLElement => el instanceof HTMLElement && el.getAttribute("role") === "option",
+            (el): el is HTMLElement =>
+                el instanceof HTMLElement && el.getAttribute("role") === "option",
         );
     }
 
@@ -127,7 +128,11 @@ export class Command extends HTMLElement {
         this.#input!.value = text;
         this.setAttribute("value", text);
         this.dispatchEvent(
-            new CustomEvent("lily-change", { detail: { value: text }, bubbles: true, composed: true }),
+            new CustomEvent("lily-change", {
+                detail: { value: text },
+                bubbles: true,
+                composed: true,
+            }),
         );
     }
 

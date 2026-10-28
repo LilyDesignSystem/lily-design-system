@@ -12,7 +12,11 @@ function make(inputs: Record<string, unknown> = {}) {
 }
 const root = (f: any): HTMLElement => f.nativeElement.querySelector("mark");
 
-@Component({ standalone: true, imports: [Mark], template: `<lily-mark><span data-testid="txt">Hello</span></lily-mark>` })
+@Component({
+  standalone: true,
+  imports: [Mark],
+  template: `<lily-mark><span data-testid="txt">Hello</span></lily-mark>`,
+})
 class Host {}
 
 describe("Mark", () => {

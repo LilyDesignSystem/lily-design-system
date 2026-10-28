@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/ContentBlock",
     render: (args) => h("lily-content-block", args as Record<string, string | boolean>, SLOT),
     args: {
-        "width": "normal",
+        width: "normal",
     },
 };
 

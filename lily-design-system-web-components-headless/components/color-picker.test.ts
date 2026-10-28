@@ -30,7 +30,9 @@ describe("ColorPicker", () => {
     });
 
     test("seeds x/y from attributes and exposes aria-valuenow + data-x/data-y", () => {
-        const host = render('<lily-color-picker label="Pick a color" x="20" y="30"></lily-color-picker>');
+        const host = render(
+            '<lily-color-picker label="Pick a color" x="20" y="30"></lily-color-picker>',
+        );
 
         expect(host.getAttribute("aria-valuenow")).toBe("20");
         expect(host.getAttribute("data-x")).toBe("20");
@@ -38,7 +40,9 @@ describe("ColorPicker", () => {
     });
 
     test("exposes live x/y properties", () => {
-        const host = render('<lily-color-picker label="Pick a color"></lily-color-picker>') as unknown as ColorPicker;
+        const host = render(
+            '<lily-color-picker label="Pick a color"></lily-color-picker>',
+        ) as unknown as ColorPicker;
 
         host.x = 55;
         host.y = 40;
@@ -49,17 +53,23 @@ describe("ColorPicker", () => {
     });
 
     test("ArrowRight increases x by 1, Shift+ArrowRight by 10", () => {
-        const host = render('<lily-color-picker label="Pick a color" x="10"></lily-color-picker>') as unknown as ColorPicker;
+        const host = render(
+            '<lily-color-picker label="Pick a color" x="10"></lily-color-picker>',
+        ) as unknown as ColorPicker;
 
         host.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
         expect(host.x).toBe(11);
 
-        host.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", shiftKey: true, bubbles: true }));
+        host.dispatchEvent(
+            new KeyboardEvent("keydown", { key: "ArrowRight", shiftKey: true, bubbles: true }),
+        );
         expect(host.x).toBe(21);
     });
 
     test("Home sets x to 0, End sets x to 100", () => {
-        const host = render('<lily-color-picker label="Pick a color" x="50"></lily-color-picker>') as unknown as ColorPicker;
+        const host = render(
+            '<lily-color-picker label="Pick a color" x="50"></lily-color-picker>',
+        ) as unknown as ColorPicker;
 
         host.dispatchEvent(new KeyboardEvent("keydown", { key: "Home", bubbles: true }));
         expect(host.x).toBe(0);
@@ -81,7 +91,9 @@ describe("ColorPicker", () => {
     });
 
     test("fires lily-change with the updated x/y on keyboard interaction", () => {
-        const host = render('<lily-color-picker label="Pick a color"></lily-color-picker>') as unknown as ColorPicker;
+        const host = render(
+            '<lily-color-picker label="Pick a color"></lily-color-picker>',
+        ) as unknown as ColorPicker;
         const handler = vi.fn();
         host.addEventListener("lily-change", handler);
 

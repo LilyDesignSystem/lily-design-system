@@ -38,7 +38,9 @@ describe("DownloadButton", () => {
     });
 
     test("omits data-file-size and data-file-format when not provided", () => {
-        const host = render('<lily-download-button href="/x" label="Download"></lily-download-button>');
+        const host = render(
+            '<lily-download-button href="/x" label="Download"></lily-download-button>',
+        );
 
         const a = host.querySelector("a")!;
         expect(a.hasAttribute("data-file-size")).toBe(false);
@@ -46,7 +48,9 @@ describe("DownloadButton", () => {
     });
 
     test("defaults to a bare download attribute", () => {
-        const host = render('<lily-download-button href="/x" label="Download"></lily-download-button>');
+        const host = render(
+            '<lily-download-button href="/x" label="Download"></lily-download-button>',
+        );
 
         const a = host.querySelector("a")!;
         expect(a.hasAttribute("download")).toBe(true);
@@ -54,7 +58,9 @@ describe("DownloadButton", () => {
     });
 
     test("renders download as a bare attribute when download=true", () => {
-        const host = render('<lily-download-button href="/x" label="Download" download="true"></lily-download-button>');
+        const host = render(
+            '<lily-download-button href="/x" label="Download" download="true"></lily-download-button>',
+        );
 
         expect(host.querySelector("a")!.getAttribute("download")).toBe("");
     });
@@ -68,13 +74,17 @@ describe("DownloadButton", () => {
     });
 
     test("omits download entirely when download=false", () => {
-        const host = render('<lily-download-button href="/x" label="Download" download="false"></lily-download-button>');
+        const host = render(
+            '<lily-download-button href="/x" label="Download" download="false"></lily-download-button>',
+        );
 
         expect(host.querySelector("a")!.hasAttribute("download")).toBe(false);
     });
 
     test("defaults visible content to the label when no children are provided", () => {
-        const host = render('<lily-download-button href="/x" label="Download report"></lily-download-button>');
+        const host = render(
+            '<lily-download-button href="/x" label="Download report"></lily-download-button>',
+        );
 
         expect(host.querySelector("a")!.textContent).toBe("Download report");
     });
@@ -88,7 +98,9 @@ describe("DownloadButton", () => {
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-download-button href="/x" label="Download" class="extra"></lily-download-button>');
+        const host = render(
+            '<lily-download-button href="/x" label="Download" class="extra"></lily-download-button>',
+        );
 
         expect(host.querySelector("a")!.className).toBe("download-button extra");
     });
@@ -102,7 +114,9 @@ describe("DownloadButton", () => {
     });
 
     test("is idempotent if connectedCallback runs more than once", () => {
-        const host = render('<lily-download-button href="/x" label="Download"></lily-download-button>');
+        const host = render(
+            '<lily-download-button href="/x" label="Download"></lily-download-button>',
+        );
 
         (host as unknown as DownloadButton).connectedCallback();
 

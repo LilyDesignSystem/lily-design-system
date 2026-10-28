@@ -9,10 +9,10 @@ const meta: Meta = {
     title: "Overlays/StickyPromoBanner",
     render: (args) => h("lily-sticky-promo-banner", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Promotion",
-        "position": "bottom",
-        "dismissible": true,
-        "dismiss-label": "Dismiss promotion"
+        label: "Promotion",
+        position: "bottom",
+        dismissible: true,
+        "dismiss-label": "Dismiss promotion",
     },
 };
 

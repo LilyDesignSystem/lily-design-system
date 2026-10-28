@@ -17,13 +17,17 @@ function render(html: string): HTMLElement {
 
 describe("PaddingReset", () => {
     test("the custom element itself is the wrapper (self-is-the-wrapper)", () => {
-        const host = render("<lily-padding-reset><figure>Full-bleed chart</figure></lily-padding-reset>");
+        const host = render(
+            "<lily-padding-reset><figure>Full-bleed chart</figure></lily-padding-reset>",
+        );
 
         expect(host.className).toBe("padding-reset");
     });
 
     test("keeps children in place", () => {
-        const host = render("<lily-padding-reset><figure>Full-bleed chart</figure></lily-padding-reset>");
+        const host = render(
+            "<lily-padding-reset><figure>Full-bleed chart</figure></lily-padding-reset>",
+        );
 
         expect(host.querySelector("figure")!.textContent).toBe("Full-bleed chart");
     });

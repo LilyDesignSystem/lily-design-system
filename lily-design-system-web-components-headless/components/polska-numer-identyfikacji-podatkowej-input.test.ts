@@ -3,7 +3,10 @@ import { afterEach, describe, expect, test } from "vitest";
 import { PolskaNumerIdentyfikacjiPodatkowejInput } from "./polska-numer-identyfikacji-podatkowej-input.js";
 
 if (!customElements.get("lily-polska-numer-identyfikacji-podatkowej-input")) {
-    customElements.define("lily-polska-numer-identyfikacji-podatkowej-input", PolskaNumerIdentyfikacjiPodatkowejInput);
+    customElements.define(
+        "lily-polska-numer-identyfikacji-podatkowej-input",
+        PolskaNumerIdentyfikacjiPodatkowejInput,
+    );
 }
 
 afterEach(() => {
@@ -17,7 +20,9 @@ function render(html: string): HTMLElement {
 
 describe("PolskaNumerIdentyfikacjiPodatkowejInput", () => {
     test("renders a native input type=text with the correct class", () => {
-        const host = render('<lily-polska-numer-identyfikacji-podatkowej-input label="Numer Identyfikacji Podatkowej (NIP)"></lily-polska-numer-identyfikacji-podatkowej-input>');
+        const host = render(
+            '<lily-polska-numer-identyfikacji-podatkowej-input label="Numer Identyfikacji Podatkowej (NIP)"></lily-polska-numer-identyfikacji-podatkowej-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.type).toBe("text");
@@ -25,13 +30,17 @@ describe("PolskaNumerIdentyfikacjiPodatkowejInput", () => {
     });
 
     test("always forces autocomplete=off, even if the consumer tries to override it", () => {
-        const host = render('<lily-polska-numer-identyfikacji-podatkowej-input label="Numer Identyfikacji Podatkowej (NIP)" autocomplete="on"></lily-polska-numer-identyfikacji-podatkowej-input>');
+        const host = render(
+            '<lily-polska-numer-identyfikacji-podatkowej-input label="Numer Identyfikacji Podatkowej (NIP)" autocomplete="on"></lily-polska-numer-identyfikacji-podatkowej-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("autocomplete")).toBe("off");
     });
 
     test("seeds the initial value and exposes a live value property", () => {
-        const host = render('<lily-polska-numer-identyfikacji-podatkowej-input label="Numer Identyfikacji Podatkowej (NIP)" value="1234563218"></lily-polska-numer-identyfikacji-podatkowej-input>') as unknown as PolskaNumerIdentyfikacjiPodatkowejInput;
+        const host = render(
+            '<lily-polska-numer-identyfikacji-podatkowej-input label="Numer Identyfikacji Podatkowej (NIP)" value="1234563218"></lily-polska-numer-identyfikacji-podatkowej-input>',
+        ) as unknown as PolskaNumerIdentyfikacjiPodatkowejInput;
 
         expect(host.value).toBe("1234563218");
 
@@ -40,7 +49,9 @@ describe("PolskaNumerIdentyfikacjiPodatkowejInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-polska-numer-identyfikacji-podatkowej-input label="Numer Identyfikacji Podatkowej (NIP)" required disabled></lily-polska-numer-identyfikacji-podatkowej-input>');
+        const host = render(
+            '<lily-polska-numer-identyfikacji-podatkowej-input label="Numer Identyfikacji Podatkowej (NIP)" required disabled></lily-polska-numer-identyfikacji-podatkowej-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -48,8 +59,12 @@ describe("PolskaNumerIdentyfikacjiPodatkowejInput", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-polska-numer-identyfikacji-podatkowej-input label="Numer Identyfikacji Podatkowej (NIP)"></lily-polska-numer-identyfikacji-podatkowej-input>');
+        const host = render(
+            '<lily-polska-numer-identyfikacji-podatkowej-input label="Numer Identyfikacji Podatkowej (NIP)"></lily-polska-numer-identyfikacji-podatkowej-input>',
+        );
 
-        expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("Numer Identyfikacji Podatkowej (NIP)");
+        expect(host.querySelector("input")!.getAttribute("aria-label")).toBe(
+            "Numer Identyfikacji Podatkowej (NIP)",
+        );
     });
 });

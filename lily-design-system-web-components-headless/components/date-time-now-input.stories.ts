@@ -7,7 +7,7 @@ const meta: Meta = {
     title: "Content/DateTimeNowInput",
     render: (args) => h("lily-date-time-now-input", args as Record<string, string | boolean>),
     args: {
-        "label": "Event time",
+        label: "Event time",
         "date-label": "Date",
         "time-label": "Time",
         "now-label": "Now",

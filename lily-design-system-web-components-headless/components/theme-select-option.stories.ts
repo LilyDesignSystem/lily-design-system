@@ -14,11 +14,13 @@ const meta: Meta = {
     title: "Forms/ThemeSelectOption",
     render: (args) => {
         const select = document.createElement("select");
-        select.appendChild(h("lily-theme-select-option", args as Record<string, string | boolean>, SLOT));
+        select.appendChild(
+            h("lily-theme-select-option", args as Record<string, string | boolean>, SLOT),
+        );
         return select;
     },
     args: {
-        "value": "dark",
+        value: "dark",
     },
 };
 

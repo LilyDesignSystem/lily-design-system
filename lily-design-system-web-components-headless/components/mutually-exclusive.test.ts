@@ -25,7 +25,9 @@ describe("MutuallyExclusive", () => {
     });
 
     test("label is optional and maps to aria-label when provided", () => {
-        const host = render('<lily-mutually-exclusive label="Choose one"></lily-mutually-exclusive>');
+        const host = render(
+            '<lily-mutually-exclusive label="Choose one"></lily-mutually-exclusive>',
+        );
 
         expect(host.querySelector("fieldset")!.getAttribute("aria-label")).toBe("Choose one");
     });
@@ -46,7 +48,9 @@ describe("MutuallyExclusive", () => {
     });
 
     test("passes through rest attributes onto the fieldset", () => {
-        const host = render('<lily-mutually-exclusive data-testid="group"></lily-mutually-exclusive>');
+        const host = render(
+            '<lily-mutually-exclusive data-testid="group"></lily-mutually-exclusive>',
+        );
 
         expect(host.querySelector("fieldset")!.getAttribute("data-testid")).toBe("group");
     });

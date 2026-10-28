@@ -60,13 +60,17 @@ describe("Dial", () => {
     test("Shift+Arrow adjusts by 10 steps", () => {
         const host = render('<lily-dial label="Volume" value="50"></lily-dial>') as unknown as Dial;
 
-        host.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowUp", shiftKey: true, bubbles: true }));
+        host.dispatchEvent(
+            new KeyboardEvent("keydown", { key: "ArrowUp", shiftKey: true, bubbles: true }),
+        );
 
         expect(host.value).toBe(60);
     });
 
     test("Home sets value to min, End sets value to max", () => {
-        const host = render('<lily-dial label="Volume" value="50" min="10" max="90"></lily-dial>') as unknown as Dial;
+        const host = render(
+            '<lily-dial label="Volume" value="50" min="10" max="90"></lily-dial>',
+        ) as unknown as Dial;
 
         host.dispatchEvent(new KeyboardEvent("keydown", { key: "Home", bubbles: true }));
         expect(host.value).toBe(10);
@@ -76,7 +80,9 @@ describe("Dial", () => {
     });
 
     test("disabled sets tabindex=-1 and aria-disabled=true, and blocks keyboard changes", () => {
-        const host = render('<lily-dial label="Volume" value="50" disabled></lily-dial>') as unknown as Dial;
+        const host = render(
+            '<lily-dial label="Volume" value="50" disabled></lily-dial>',
+        ) as unknown as Dial;
 
         expect(host.tabIndex).toBe(-1);
         expect(host.getAttribute("aria-disabled")).toBe("true");

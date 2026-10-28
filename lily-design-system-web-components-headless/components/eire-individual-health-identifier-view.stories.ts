@@ -7,10 +7,15 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/EireIndividualHealthIdentifierView",
-    render: (args) => h("lily-eire-individual-health-identifier-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-eire-individual-health-identifier-view",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Individual Health Identifier (IHI)",
-        "value": "1234567890"
+        label: "Individual Health Identifier (IHI)",
+        value: "1234567890",
     },
 };
 

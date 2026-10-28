@@ -38,7 +38,9 @@ describe("DialGroup", () => {
     });
 
     test("appends the consumer's class attribute to the base class", () => {
-        const host = render('<lily-dial-group label="Thermostat controls" class="my-extra"></lily-dial-group>');
+        const host = render(
+            '<lily-dial-group label="Thermostat controls" class="my-extra"></lily-dial-group>',
+        );
 
         expect(host.className).toBe("dial-group my-extra");
     });

@@ -7,7 +7,9 @@ describe("ElladaDematerialisedSecuritiesSystemView", () => {
   test("renders the span root with the base class", () => {
     const fixture = TestBed.createComponent(ElladaDematerialisedSecuritiesSystemView);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.ellada-dematerialised-securities-system-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.ellada-dematerialised-securities-system-view",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("ElladaDematerialisedSecuritiesSystemView", () => {
     const fixture = TestBed.createComponent(ElladaDematerialisedSecuritiesSystemView);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.ellada-dematerialised-securities-system-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.ellada-dematerialised-securities-system-view",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

@@ -17,21 +17,29 @@ function render(html: string): HTMLElement {
 
 describe("SignaturePad", () => {
     test("renders a native canvas with the base class", () => {
-        const host = render('<lily-signature-pad label="Sign to accept the terms"></lily-signature-pad>');
+        const host = render(
+            '<lily-signature-pad label="Sign to accept the terms"></lily-signature-pad>',
+        );
 
         expect(host.querySelector("canvas")!.className).toBe("signature-pad");
     });
 
     test("has role=application", () => {
-        const host = render('<lily-signature-pad label="Sign to accept the terms"></lily-signature-pad>');
+        const host = render(
+            '<lily-signature-pad label="Sign to accept the terms"></lily-signature-pad>',
+        );
 
         expect(host.querySelector("canvas")!.getAttribute("role")).toBe("application");
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-signature-pad label="Sign to accept the terms"></lily-signature-pad>');
+        const host = render(
+            '<lily-signature-pad label="Sign to accept the terms"></lily-signature-pad>',
+        );
 
-        expect(host.querySelector("canvas")!.getAttribute("aria-label")).toBe("Sign to accept the terms");
+        expect(host.querySelector("canvas")!.getAttribute("aria-label")).toBe(
+            "Sign to accept the terms",
+        );
     });
 
     test("root class hook includes the consumer's class attribute", () => {
@@ -41,7 +49,9 @@ describe("SignaturePad", () => {
     });
 
     test("passes rest attributes (e.g. width/height) through onto the canvas", () => {
-        const host = render('<lily-signature-pad label="Sign" width="400" height="150"></lily-signature-pad>');
+        const host = render(
+            '<lily-signature-pad label="Sign" width="400" height="150"></lily-signature-pad>',
+        );
 
         const canvas = host.querySelector("canvas") as HTMLCanvasElement;
         expect(canvas.width).toBe(400);

@@ -29,7 +29,9 @@ describe("RadioInput", () => {
     });
 
     test("sets name and value for grouping", () => {
-        const host = render('<lily-radio-input label="Email" name="delivery" value="email"></lily-radio-input>');
+        const host = render(
+            '<lily-radio-input label="Email" name="delivery" value="email"></lily-radio-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.name).toBe("delivery");
@@ -57,7 +59,9 @@ describe("RadioInput", () => {
     });
 
     test("passes through rest attributes such as id", () => {
-        const host = render('<lily-radio-input label="Email" id="delivery-email"></lily-radio-input>');
+        const host = render(
+            '<lily-radio-input label="Email" id="delivery-email"></lily-radio-input>',
+        );
 
         expect(host.querySelector("input")!.id).toBe("delivery-email");
     });

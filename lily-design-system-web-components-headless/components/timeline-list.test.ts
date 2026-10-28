@@ -37,13 +37,17 @@ describe("TimelineList", () => {
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-timeline-list label="Order history" class="extra"></lily-timeline-list>');
+        const host = render(
+            '<lily-timeline-list label="Order history" class="extra"></lily-timeline-list>',
+        );
 
         expect(host.querySelector("ol")!.className).toBe("timeline-list extra");
     });
 
     test("passes through rest attributes to the ol", () => {
-        const host = render('<lily-timeline-list label="Order history" data-testid="timeline"></lily-timeline-list>');
+        const host = render(
+            '<lily-timeline-list label="Order history" data-testid="timeline"></lily-timeline-list>',
+        );
 
         expect(host.querySelector("ol")!.getAttribute("data-testid")).toBe("timeline");
     });

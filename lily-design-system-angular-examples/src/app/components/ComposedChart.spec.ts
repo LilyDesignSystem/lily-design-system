@@ -60,7 +60,9 @@ describe("ComposedChart", () => {
     const f = TestBed.createComponent(Host);
     f.detectChanges();
     const art = f.nativeElement.querySelector("[data-testid=art]");
-    expect(art.closest("[role=img]")).toBe(f.nativeElement.querySelector(".composed-chart-graphic"));
+    expect(art.closest("[role=img]")).toBe(
+      f.nativeElement.querySelector(".composed-chart-graphic"),
+    );
   });
   test("the data-table wrapper is empty when nothing is projected", () => {
     expect(wrap(make()).children.length).toBe(0);

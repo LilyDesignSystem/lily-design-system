@@ -23,7 +23,9 @@ describe("ContentsList", () => {
     });
 
     test("moves its children into the ol", () => {
-        const host = render('<lily-contents-list><li><a href="#usage">Usage</a></li></lily-contents-list>');
+        const host = render(
+            '<lily-contents-list><li><a href="#usage">Usage</a></li></lily-contents-list>',
+        );
 
         expect(host.querySelector("ol > li")!.textContent).toBe("Usage");
     });

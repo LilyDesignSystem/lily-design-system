@@ -12,8 +12,10 @@ function make(inputs: Record<string, unknown> = {}) {
   return fixture;
 }
 const fig = (f: any): HTMLElement => f.nativeElement.querySelector("figure");
-const graphic = (f: any): HTMLElement => f.nativeElement.querySelector(".candlestick-chart-graphic");
-const wrap = (f: any): HTMLElement => f.nativeElement.querySelector(".candlestick-chart-data-table");
+const graphic = (f: any): HTMLElement =>
+  f.nativeElement.querySelector(".candlestick-chart-graphic");
+const wrap = (f: any): HTMLElement =>
+  f.nativeElement.querySelector(".candlestick-chart-data-table");
 
 @Component({
   standalone: true,
@@ -60,7 +62,9 @@ describe("CandlestickChart", () => {
     const f = TestBed.createComponent(Host);
     f.detectChanges();
     const art = f.nativeElement.querySelector("[data-testid=art]");
-    expect(art.closest("[role=img]")).toBe(f.nativeElement.querySelector(".candlestick-chart-graphic"));
+    expect(art.closest("[role=img]")).toBe(
+      f.nativeElement.querySelector(".candlestick-chart-graphic"),
+    );
   });
   test("the data-table wrapper is empty when nothing is projected", () => {
     expect(wrap(make()).children.length).toBe(0);
@@ -70,7 +74,9 @@ describe("CandlestickChart", () => {
     f.detectChanges();
     const w = f.nativeElement.querySelector(".candlestick-chart-data-table");
     expect(w.querySelector("table")).toBeTruthy();
-    expect(w.previousElementSibling).toBe(f.nativeElement.querySelector(".candlestick-chart-graphic"));
+    expect(w.previousElementSibling).toBe(
+      f.nativeElement.querySelector(".candlestick-chart-graphic"),
+    );
     expect(w.parentElement.tagName).toBe("FIGURE");
   });
   test("keeps the table outside the role=img element so assistive technology can reach it", () => {

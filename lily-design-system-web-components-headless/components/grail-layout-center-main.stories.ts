@@ -7,7 +7,8 @@ const SLOT = "<h1>Primary content</h1><p>The main content region of the page.</p
 
 const meta: Meta = {
     title: "Navigation/GrailLayoutCenterMain",
-    render: (args) => h("lily-grail-layout-center-main", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-grail-layout-center-main", args as Record<string, string | boolean>, SLOT),
     args: {},
 };
 

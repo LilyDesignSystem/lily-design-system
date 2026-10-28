@@ -7,9 +7,10 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/CeskoCestovniPasInput",
-    render: (args) => h("lily-cesko-cestovni-pas-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-cesko-cestovni-pas-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Cestovní Pas"
+        label: "Cestovní Pas",
     },
 };
 

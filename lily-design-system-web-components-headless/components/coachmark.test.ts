@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("Coachmark", () => {
     test("the custom element itself is the dialog (self-is-the-wrapper)", () => {
-        const host = render('<lily-coachmark title="New feature" dismiss-label="Dismiss"></lily-coachmark>');
+        const host = render(
+            '<lily-coachmark title="New feature" dismiss-label="Dismiss"></lily-coachmark>',
+        );
 
         expect(host.getAttribute("role")).toBe("dialog");
         expect(host.getAttribute("aria-modal")).toBe("false");
@@ -25,15 +27,21 @@ describe("Coachmark", () => {
     });
 
     test("hidden reflects !open", () => {
-        const closed = render('<lily-coachmark title="New feature" dismiss-label="Dismiss"></lily-coachmark>');
+        const closed = render(
+            '<lily-coachmark title="New feature" dismiss-label="Dismiss"></lily-coachmark>',
+        );
         expect(closed.hidden).toBe(true);
 
-        const open = render('<lily-coachmark title="New feature" dismiss-label="Dismiss" open></lily-coachmark>');
+        const open = render(
+            '<lily-coachmark title="New feature" dismiss-label="Dismiss" open></lily-coachmark>',
+        );
         expect(open.hidden).toBe(false);
     });
 
     test("renders the title, referenced by aria-labelledby", () => {
-        const host = render('<lily-coachmark title="New feature" dismiss-label="Dismiss" open></lily-coachmark>');
+        const host = render(
+            '<lily-coachmark title="New feature" dismiss-label="Dismiss" open></lily-coachmark>',
+        );
 
         const labelledbyId = host.getAttribute("aria-labelledby")!;
         expect(document.getElementById(labelledbyId)!.textContent).toBe("New feature");
@@ -49,19 +57,25 @@ describe("Coachmark", () => {
     });
 
     test("omits aria-describedby when there is no description", () => {
-        const host = render('<lily-coachmark title="New feature" dismiss-label="Dismiss" open></lily-coachmark>');
+        const host = render(
+            '<lily-coachmark title="New feature" dismiss-label="Dismiss" open></lily-coachmark>',
+        );
 
         expect(host.hasAttribute("aria-describedby")).toBe(false);
     });
 
     test("dismiss button uses dismiss-label as its accessible name", () => {
-        const host = render('<lily-coachmark title="New feature" dismiss-label="Got it" open></lily-coachmark>');
+        const host = render(
+            '<lily-coachmark title="New feature" dismiss-label="Got it" open></lily-coachmark>',
+        );
 
         expect(host.querySelector(".coachmark-dismiss")!.getAttribute("aria-label")).toBe("Got it");
     });
 
     test("clicking dismiss fires lily-dismiss", () => {
-        const host = render('<lily-coachmark title="New feature" dismiss-label="Dismiss" open></lily-coachmark>');
+        const host = render(
+            '<lily-coachmark title="New feature" dismiss-label="Dismiss" open></lily-coachmark>',
+        );
         const handler = vi.fn();
         host.addEventListener("lily-dismiss", handler);
 

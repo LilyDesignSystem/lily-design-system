@@ -19,13 +19,17 @@ const OPTIONS = '<option value="us">USA</option><option value="uk">United Kingdo
 
 describe("SelectWithExtras", () => {
     test("carries the base class on the wrapper", () => {
-        const host = render(`<lily-select-with-extras label="Country">${OPTIONS}</lily-select-with-extras>`);
+        const host = render(
+            `<lily-select-with-extras label="Country">${OPTIONS}</lily-select-with-extras>`,
+        );
 
         expect(host.classList.contains("select-with-extras")).toBe(true);
     });
 
     test("renders a native select with the option children moved in", () => {
-        const host = render(`<lily-select-with-extras label="Country">${OPTIONS}</lily-select-with-extras>`);
+        const host = render(
+            `<lily-select-with-extras label="Country">${OPTIONS}</lily-select-with-extras>`,
+        );
 
         const select = host.querySelector("select") as HTMLSelectElement;
         expect(select).not.toBeNull();
@@ -33,7 +37,9 @@ describe("SelectWithExtras", () => {
     });
 
     test("uses label as the accessible name on the select", () => {
-        const host = render(`<lily-select-with-extras label="Country">${OPTIONS}</lily-select-with-extras>`);
+        const host = render(
+            `<lily-select-with-extras label="Country">${OPTIONS}</lily-select-with-extras>`,
+        );
 
         expect(host.querySelector("select")!.getAttribute("aria-label")).toBe("Country");
     });

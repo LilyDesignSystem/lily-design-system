@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Content/ScrollerBase",
     render: (args) => h("lily-scroller-base", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Story steps",
-        "offset": "0.5"
+        label: "Story steps",
+        offset: "0.5",
     },
 };
 

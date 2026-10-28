@@ -40,7 +40,9 @@ describe("TreeLink", () => {
     });
 
     test("passes through rest attributes", () => {
-        const host = render('<lily-tree-link href="/x" data-testid="tree-link">Go</lily-tree-link>');
+        const host = render(
+            '<lily-tree-link href="/x" data-testid="tree-link">Go</lily-tree-link>',
+        );
 
         expect(host.querySelector("a")!.getAttribute("data-testid")).toBe("tree-link");
     });

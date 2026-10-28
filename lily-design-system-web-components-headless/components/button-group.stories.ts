@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Forms/ButtonGroup",
     render: (args) => h("lily-button-group", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Form actions"
+        label: "Form actions",
     },
 };
 

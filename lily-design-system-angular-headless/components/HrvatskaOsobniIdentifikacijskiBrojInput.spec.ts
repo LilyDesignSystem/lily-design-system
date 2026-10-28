@@ -7,7 +7,9 @@ describe("HrvatskaOsobniIdentifikacijskiBrojInput", () => {
   test("renders the input root with the base class", () => {
     const fixture = TestBed.createComponent(HrvatskaOsobniIdentifikacijskiBrojInput);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.hrvatska-osobni-identifikacijski-broj-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.hrvatska-osobni-identifikacijski-broj-input",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("HrvatskaOsobniIdentifikacijskiBrojInput", () => {
     const fixture = TestBed.createComponent(HrvatskaOsobniIdentifikacijskiBrojInput);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.hrvatska-osobni-identifikacijski-broj-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.hrvatska-osobni-identifikacijski-broj-input",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

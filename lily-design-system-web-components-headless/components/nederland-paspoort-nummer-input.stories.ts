@@ -7,9 +7,10 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/NederlandPaspoortNummerInput",
-    render: (args) => h("lily-nederland-paspoort-nummer-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-nederland-paspoort-nummer-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Paspoort Nummer"
+        label: "Paspoort Nummer",
     },
 };
 

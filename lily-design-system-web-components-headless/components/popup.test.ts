@@ -57,7 +57,9 @@ describe("Popup", () => {
     });
 
     test("keeps consumer content in place", () => {
-        const host = render('<lily-popup label="Confirmation" open><p>Are you sure?</p></lily-popup>');
+        const host = render(
+            '<lily-popup label="Confirmation" open><p>Are you sure?</p></lily-popup>',
+        );
 
         expect(host.querySelector("p")?.textContent).toBe("Are you sure?");
     });

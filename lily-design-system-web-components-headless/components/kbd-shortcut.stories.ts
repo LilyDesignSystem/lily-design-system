@@ -8,7 +8,7 @@ const SLOT = "";
 const meta: Meta = {
     title: "Content/KbdShortcut",
     render: (args) => h("lily-kbd-shortcut", args as Record<string, string | boolean>, SLOT),
-    args: { "keys": "[\"Ctrl\",\"K\"]", "label": "Control K" },
+    args: { keys: '["Ctrl","K"]', label: "Control K" },
 };
 
 export default meta;

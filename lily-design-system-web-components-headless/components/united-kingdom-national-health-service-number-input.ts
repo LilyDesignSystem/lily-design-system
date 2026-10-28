@@ -19,7 +19,15 @@
 
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
-const HANDLED = new Set(["label", "value", "required", "disabled", "autocomplete", "pattern", "inputmode"]);
+const HANDLED = new Set([
+    "label",
+    "value",
+    "required",
+    "disabled",
+    "autocomplete",
+    "pattern",
+    "inputmode",
+]);
 
 export class UnitedKingdomNationalHealthServiceNumberInput extends HTMLElement {
     #input: HTMLInputElement | null = null;
@@ -29,7 +37,10 @@ export class UnitedKingdomNationalHealthServiceNumberInput extends HTMLElement {
 
         const input = document.createElement("input");
         input.type = "text";
-        input.className = rootClassName(this, "united-kingdom-national-health-service-number-input");
+        input.className = rootClassName(
+            this,
+            "united-kingdom-national-health-service-number-input",
+        );
         const label = this.getAttribute("label");
         if (label !== null) input.setAttribute("aria-label", label);
         input.value = this.getAttribute("value") ?? "";

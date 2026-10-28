@@ -18,6 +18,6 @@ export const Default: Story = {};
 
 export const Meaningful: Story = {
     args: {
-        "label": "Role: Moderator",
+        label: "Role: Moderator",
     },
 };

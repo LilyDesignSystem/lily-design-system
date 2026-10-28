@@ -7,7 +7,8 @@ const SLOT = "<span>Penicillin: anaphylaxis</span>";
 
 const meta: Meta = {
     title: "Content/MedicalBannerBoxForDanger",
-    render: (args) => h("lily-medical-banner-box-for-danger", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-medical-banner-box-for-danger", args as Record<string, string | boolean>, SLOT),
     args: {
         label: "Allergies",
     },

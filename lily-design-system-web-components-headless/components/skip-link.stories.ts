@@ -7,8 +7,8 @@ const meta: Meta = {
     title: "Links/SkipLink",
     render: (args) => h("lily-skip-link", args as Record<string, string | boolean>),
     args: {
-        "href": "#content",
-        "label": "Skip to content"
+        href: "#content",
+        label: "Skip to content",
     },
 };
 

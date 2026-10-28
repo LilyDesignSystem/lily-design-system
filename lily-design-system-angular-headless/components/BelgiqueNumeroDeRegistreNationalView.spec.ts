@@ -7,7 +7,9 @@ describe("BelgiqueNumeroDeRegistreNationalView", () => {
   test("renders the span root with the base class", () => {
     const fixture = TestBed.createComponent(BelgiqueNumeroDeRegistreNationalView);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.belgique-numero-de-registre-national-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.belgique-numero-de-registre-national-view",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("BelgiqueNumeroDeRegistreNationalView", () => {
     const fixture = TestBed.createComponent(BelgiqueNumeroDeRegistreNationalView);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.belgique-numero-de-registre-national-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.belgique-numero-de-registre-national-view",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

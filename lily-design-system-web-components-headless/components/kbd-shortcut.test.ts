@@ -29,16 +29,16 @@ describe("KbdShortcut", () => {
     });
 
     test("separators go between keys only, default +", () => {
-        const seps = render(`<lily-kbd-shortcut keys='["Ctrl","Shift","P"]'></lily-kbd-shortcut>`).querySelectorAll(
-            ".kbd-shortcut-separator",
-        );
+        const seps = render(
+            `<lily-kbd-shortcut keys='["Ctrl","Shift","P"]'></lily-kbd-shortcut>`,
+        ).querySelectorAll(".kbd-shortcut-separator");
         expect(Array.from(seps).map((s) => s.textContent)).toEqual(["+", "+"]);
     });
 
     test("separator is configurable", () => {
-        const sep = render(`<lily-kbd-shortcut keys='["g","h"]' separator="then"></lily-kbd-shortcut>`).querySelector(
-            ".kbd-shortcut-separator",
-        )!;
+        const sep = render(
+            `<lily-kbd-shortcut keys='["g","h"]' separator="then"></lily-kbd-shortcut>`,
+        ).querySelector(".kbd-shortcut-separator")!;
         expect(sep.textContent).toBe("then");
     });
 
@@ -53,15 +53,21 @@ describe("KbdShortcut", () => {
     });
 
     test("comma-separated keys and the keys property both work", () => {
-        const host = render(`<lily-kbd-shortcut keys="Alt,F4"></lily-kbd-shortcut>`) as unknown as KbdShortcut;
+        const host = render(
+            `<lily-kbd-shortcut keys="Alt,F4"></lily-kbd-shortcut>`,
+        ) as unknown as KbdShortcut;
         expect(host.querySelectorAll(".kbd-shortcut-key").length).toBe(2);
         host.keys = ["A", "B", "C"];
         expect(host.querySelectorAll(".kbd-shortcut-key").length).toBe(3);
     });
 
     test("label becomes aria-label; absent otherwise", () => {
-        const labelled = render(`<lily-kbd-shortcut keys='["Ctrl","K"]' label="Control K"></lily-kbd-shortcut>`);
-        expect(labelled.querySelector(":scope > kbd")!.getAttribute("aria-label")).toBe("Control K");
+        const labelled = render(
+            `<lily-kbd-shortcut keys='["Ctrl","K"]' label="Control K"></lily-kbd-shortcut>`,
+        );
+        expect(labelled.querySelector(":scope > kbd")!.getAttribute("aria-label")).toBe(
+            "Control K",
+        );
         expect(render(BASE).querySelector(":scope > kbd")!.hasAttribute("aria-label")).toBe(false);
     });
 

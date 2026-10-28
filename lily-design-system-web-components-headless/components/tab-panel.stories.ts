@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Overlays/TabPanel",
     render: (args) => h("lily-tab-panel", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Details",
-        "selected": true
+        label: "Details",
+        selected: true,
     },
 };
 

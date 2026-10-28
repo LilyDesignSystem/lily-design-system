@@ -7,7 +7,9 @@ describe("CymruRhifYGwasanaethIechydGwladolView", () => {
   test("renders the span root with the base class", () => {
     const fixture = TestBed.createComponent(CymruRhifYGwasanaethIechydGwladolView);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.cymru-rhif-y-gwasanaeth-iechyd-gwladol-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.cymru-rhif-y-gwasanaeth-iechyd-gwladol-view",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("CymruRhifYGwasanaethIechydGwladolView", () => {
     const fixture = TestBed.createComponent(CymruRhifYGwasanaethIechydGwladolView);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.cymru-rhif-y-gwasanaeth-iechyd-gwladol-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.cymru-rhif-y-gwasanaeth-iechyd-gwladol-view",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

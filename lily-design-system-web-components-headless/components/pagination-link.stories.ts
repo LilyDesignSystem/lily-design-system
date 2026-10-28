@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Links/PaginationLink",
     render: (args) => h("lily-pagination-link", args as Record<string, string | boolean>, SLOT),
     args: {
-        "href": "?page=2"
+        href: "?page=2",
     },
 };
 

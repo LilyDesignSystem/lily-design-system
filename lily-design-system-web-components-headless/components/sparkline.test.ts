@@ -15,7 +15,8 @@ function render(html: string): HTMLElement {
     return document.body.firstElementChild as HTMLElement;
 }
 
-const SVG = '<svg viewBox="0 0 100 20"><polyline points="0,20 20,10 40,15 60,5 80,12 100,2"></polyline></svg>';
+const SVG =
+    '<svg viewBox="0 0 100 20"><polyline points="0,20 20,10 40,15 60,5 80,12 100,2"></polyline></svg>';
 
 describe("Sparkline", () => {
     test("renders a native span with the correct class", () => {
@@ -45,13 +46,17 @@ describe("Sparkline", () => {
     });
 
     test("passes through rest attributes onto the span", () => {
-        const host = render(`<lily-sparkline label="Sales trend" data-testid="trend">${SVG}</lily-sparkline>`);
+        const host = render(
+            `<lily-sparkline label="Sales trend" data-testid="trend">${SVG}</lily-sparkline>`,
+        );
 
         expect(host.querySelector("span")!.getAttribute("data-testid")).toBe("trend");
     });
 
     test("appends the consumer's class onto the base class", () => {
-        const host = render(`<lily-sparkline label="Sales trend" class="my-sparkline">${SVG}</lily-sparkline>`);
+        const host = render(
+            `<lily-sparkline label="Sales trend" class="my-sparkline">${SVG}</lily-sparkline>`,
+        );
 
         expect(host.querySelector("span")!.className).toBe("sparkline my-sparkline");
     });

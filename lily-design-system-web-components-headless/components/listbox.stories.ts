@@ -13,7 +13,7 @@ const meta: Meta = {
     title: "Content/Listbox",
     render: (args) => h("lily-listbox", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Select priority",
+        label: "Select priority",
     },
 };
 

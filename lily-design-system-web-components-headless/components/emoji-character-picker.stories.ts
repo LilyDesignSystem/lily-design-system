@@ -8,9 +8,10 @@ const SLOT =
 
 const meta: Meta = {
     title: "Pickers/EmojiCharacterPicker",
-    render: (args) => h("lily-emoji-character-picker", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-emoji-character-picker", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Choose an emoji"
+        label: "Choose an emoji",
     },
 };
 

@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("TurkiyeTcKimlikNumarasiInput", () => {
     test("renders a native input type=text with the correct class", () => {
-        const host = render('<lily-turkiye-tc-kimlik-numarasi-input label="T.C. Kimlik Numarası"></lily-turkiye-tc-kimlik-numarasi-input>');
+        const host = render(
+            '<lily-turkiye-tc-kimlik-numarasi-input label="T.C. Kimlik Numarası"></lily-turkiye-tc-kimlik-numarasi-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.type).toBe("text");
@@ -25,13 +27,17 @@ describe("TurkiyeTcKimlikNumarasiInput", () => {
     });
 
     test("always forces autocomplete to off, even if the consumer tries to override it", () => {
-        const host = render('<lily-turkiye-tc-kimlik-numarasi-input label="T.C. Kimlik Numarası" autocomplete="on"></lily-turkiye-tc-kimlik-numarasi-input>');
+        const host = render(
+            '<lily-turkiye-tc-kimlik-numarasi-input label="T.C. Kimlik Numarası" autocomplete="on"></lily-turkiye-tc-kimlik-numarasi-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("autocomplete")).toBe("off");
     });
 
     test("seeds the initial value from the value attribute and exposes a live value property", () => {
-        const host = render('<lily-turkiye-tc-kimlik-numarasi-input label="T.C. Kimlik Numarası" value="12345678902"></lily-turkiye-tc-kimlik-numarasi-input>') as unknown as TurkiyeTcKimlikNumarasiInput;
+        const host = render(
+            '<lily-turkiye-tc-kimlik-numarasi-input label="T.C. Kimlik Numarası" value="12345678902"></lily-turkiye-tc-kimlik-numarasi-input>',
+        ) as unknown as TurkiyeTcKimlikNumarasiInput;
 
         expect((host.querySelector("input") as HTMLInputElement).value).toBe("12345678902");
 
@@ -41,7 +47,9 @@ describe("TurkiyeTcKimlikNumarasiInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-turkiye-tc-kimlik-numarasi-input label="T.C. Kimlik Numarası" required disabled></lily-turkiye-tc-kimlik-numarasi-input>');
+        const host = render(
+            '<lily-turkiye-tc-kimlik-numarasi-input label="T.C. Kimlik Numarası" required disabled></lily-turkiye-tc-kimlik-numarasi-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -49,8 +57,12 @@ describe("TurkiyeTcKimlikNumarasiInput", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-turkiye-tc-kimlik-numarasi-input label="T.C. Kimlik Numarası"></lily-turkiye-tc-kimlik-numarasi-input>');
+        const host = render(
+            '<lily-turkiye-tc-kimlik-numarasi-input label="T.C. Kimlik Numarası"></lily-turkiye-tc-kimlik-numarasi-input>',
+        );
 
-        expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("T.C. Kimlik Numarası");
+        expect(host.querySelector("input")!.getAttribute("aria-label")).toBe(
+            "T.C. Kimlik Numarası",
+        );
     });
 });

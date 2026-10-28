@@ -9,9 +9,9 @@ const meta: Meta = {
     title: "Media and data/ChatComposer",
     render: (args) => h("lily-chat-composer", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Message",
+        label: "Message",
         "send-label": "Send",
-        "stop-label": "Stop"
+        "stop-label": "Stop",
     },
 };
 

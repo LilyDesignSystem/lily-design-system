@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Forms/CheckboxInput",
     render: (args) => h("lily-checkbox-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Subscribe to newsletter"
+        label: "Subscribe to newsletter",
     },
 };
 

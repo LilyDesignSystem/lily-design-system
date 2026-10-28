@@ -7,10 +7,15 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/MaltaNationalIdentificationNumberView",
-    render: (args) => h("lily-malta-national-identification-number-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-malta-national-identification-number-view",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "National Identification Number",
-        "value": "1234567M"
+        label: "National Identification Number",
+        value: "1234567M",
     },
 };
 

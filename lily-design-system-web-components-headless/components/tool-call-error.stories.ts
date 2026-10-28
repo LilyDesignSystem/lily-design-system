@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Media and data/ToolCallError",
     render: (args) => h("lily-tool-call-error", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "ToolCallError"
+        label: "ToolCallError",
     },
 };
 

@@ -120,7 +120,11 @@ export class Slider extends HTMLElement {
         event.preventDefault();
         this.value = next;
         this.dispatchEvent(
-            new CustomEvent("lily-change", { detail: { value: this.value }, bubbles: true, composed: true }),
+            new CustomEvent("lily-change", {
+                detail: { value: this.value },
+                bubbles: true,
+                composed: true,
+            }),
         );
     };
 }

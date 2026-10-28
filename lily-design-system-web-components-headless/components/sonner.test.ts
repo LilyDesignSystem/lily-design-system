@@ -41,7 +41,9 @@ describe("Sonner", () => {
     });
 
     test("keeps consumer-supplied toast content in place", () => {
-        const host = render('<lily-sonner label="Notifications"><div role="status">Saved.</div></lily-sonner>');
+        const host = render(
+            '<lily-sonner label="Notifications"><div role="status">Saved.</div></lily-sonner>',
+        );
 
         expect(host.querySelector('[role="status"]')?.textContent).toBe("Saved.");
     });

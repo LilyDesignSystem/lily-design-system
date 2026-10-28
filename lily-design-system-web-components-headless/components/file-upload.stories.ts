@@ -7,8 +7,8 @@ const meta: Meta = {
     title: "Content/FileUpload",
     render: (args) => h("lily-file-upload", args as Record<string, string | boolean>),
     args: {
-        "label": "Upload files",
-        "accept": ".pdf,.docx",
+        label: "Upload files",
+        accept: ".pdf,.docx",
     },
 };
 
@@ -19,8 +19,8 @@ export const Default: Story = {};
 
 export const Multiple: Story = {
     args: {
-        "label": "Upload images",
-        "accept": "image/*",
-        "multiple": true,
+        label: "Upload images",
+        accept: "image/*",
+        multiple: true,
     },
 };

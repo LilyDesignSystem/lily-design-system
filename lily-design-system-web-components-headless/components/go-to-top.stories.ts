@@ -7,7 +7,7 @@ const meta: Meta = {
     title: "Links/GoToTop",
     render: (args) => h("lily-go-to-top", args as Record<string, string | boolean>),
     args: {
-        "label": "Back to top"
+        label: "Back to top",
     },
 };
 

@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("StickyPromoBanner", () => {
     test("renders a native aside with role=complementary", () => {
-        const host = render('<lily-sticky-promo-banner label="Promotion">Save 20% this week.</lily-sticky-promo-banner>');
+        const host = render(
+            '<lily-sticky-promo-banner label="Promotion">Save 20% this week.</lily-sticky-promo-banner>',
+        );
 
         const aside = host.querySelector("aside")!;
         expect(aside.className).toBe("sticky-promo-banner");
@@ -25,13 +27,17 @@ describe("StickyPromoBanner", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-sticky-promo-banner label="Promotion">Save 20%.</lily-sticky-promo-banner>');
+        const host = render(
+            '<lily-sticky-promo-banner label="Promotion">Save 20%.</lily-sticky-promo-banner>',
+        );
 
         expect(host.querySelector("aside")!.getAttribute("aria-label")).toBe("Promotion");
     });
 
     test("defaults data-position to bottom, with no inline style set (the consumer's CSS positions it)", () => {
-        const host = render('<lily-sticky-promo-banner label="Promotion">Save 20%.</lily-sticky-promo-banner>');
+        const host = render(
+            '<lily-sticky-promo-banner label="Promotion">Save 20%.</lily-sticky-promo-banner>',
+        );
 
         const aside = host.querySelector("aside") as HTMLElement;
         expect(aside.getAttribute("data-position")).toBe("bottom");
@@ -39,7 +45,9 @@ describe("StickyPromoBanner", () => {
     });
 
     test("position=top sets data-position, still no inline style", () => {
-        const host = render('<lily-sticky-promo-banner label="Promotion" position="top">Save 20%.</lily-sticky-promo-banner>');
+        const host = render(
+            '<lily-sticky-promo-banner label="Promotion" position="top">Save 20%.</lily-sticky-promo-banner>',
+        );
 
         const aside = host.querySelector("aside") as HTMLElement;
         expect(aside.getAttribute("data-position")).toBe("top");
@@ -47,13 +55,17 @@ describe("StickyPromoBanner", () => {
     });
 
     test("open=false hides the aside", () => {
-        const host = render('<lily-sticky-promo-banner label="Promotion" open="false">Save 20%.</lily-sticky-promo-banner>');
+        const host = render(
+            '<lily-sticky-promo-banner label="Promotion" open="false">Save 20%.</lily-sticky-promo-banner>',
+        );
 
         expect((host.querySelector("aside") as HTMLElement).hidden).toBe(true);
     });
 
     test("does not render a dismiss button unless dismissible", () => {
-        const host = render('<lily-sticky-promo-banner label="Promotion">Save 20%.</lily-sticky-promo-banner>');
+        const host = render(
+            '<lily-sticky-promo-banner label="Promotion">Save 20%.</lily-sticky-promo-banner>',
+        );
 
         expect(host.querySelector(".sticky-promo-banner-dismiss")).toBeNull();
     });
@@ -74,8 +86,12 @@ describe("StickyPromoBanner", () => {
     });
 
     test("moves the consumer's content into the content wrapper", () => {
-        const host = render('<lily-sticky-promo-banner label="Promotion">Save 20% this week.</lily-sticky-promo-banner>');
+        const host = render(
+            '<lily-sticky-promo-banner label="Promotion">Save 20% this week.</lily-sticky-promo-banner>',
+        );
 
-        expect(host.querySelector(".sticky-promo-banner-content")!.textContent).toBe("Save 20% this week.");
+        expect(host.querySelector(".sticky-promo-banner-content")!.textContent).toBe(
+            "Save 20% this week.",
+        );
     });
 });

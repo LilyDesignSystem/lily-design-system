@@ -7,9 +7,10 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/BharatAadhaarInput",
-    render: (args) => h("lily-bharat-aadhaar-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-bharat-aadhaar-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Aadhaar (आधार)"
+        label: "Aadhaar (आधार)",
     },
 };
 

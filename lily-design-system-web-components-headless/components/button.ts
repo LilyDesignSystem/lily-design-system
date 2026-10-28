@@ -43,10 +43,12 @@ export class Button extends HTMLElement {
 
         const button = document.createElement("button");
         button.className = rootClassName(this, "button");
-        button.type = (this.getAttribute("type") as "button" | "submit" | "reset" | null) ?? "button";
+        button.type =
+            (this.getAttribute("type") as "button" | "submit" | "reset" | null) ?? "button";
         if (this.hasAttribute("disabled")) button.disabled = true;
         const pressed = this.getAttribute("pressed");
-        if (pressed !== null) button.setAttribute("aria-pressed", pressed === "false" ? "false" : "true");
+        if (pressed !== null)
+            button.setAttribute("aria-pressed", pressed === "false" ? "false" : "true");
         const label = this.getAttribute("label");
         if (label !== null) button.setAttribute("aria-label", label);
         passThroughAttributes(this, button, HANDLED);

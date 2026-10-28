@@ -33,7 +33,9 @@ describe("DateField", () => {
     });
 
     test("renders a native date input", () => {
-        const host = render('<lily-date-field label="Start date" value="2026-06-01"></lily-date-field>');
+        const host = render(
+            '<lily-date-field label="Start date" value="2026-06-01"></lily-date-field>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.type).toBe("date");
@@ -41,7 +43,9 @@ describe("DateField", () => {
     });
 
     test("uses a caller-supplied id instead of auto-generating one", () => {
-        const host = render('<lily-date-field label="Start date" id="start-date"></lily-date-field>');
+        const host = render(
+            '<lily-date-field label="Start date" id="start-date"></lily-date-field>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.id).toBe("start-date");
@@ -49,7 +53,9 @@ describe("DateField", () => {
     });
 
     test("renders a description paragraph linked via aria-describedby", () => {
-        const host = render('<lily-date-field label="Birthday" description="Format: YYYY-MM-DD"></lily-date-field>');
+        const host = render(
+            '<lily-date-field label="Birthday" description="Format: YYYY-MM-DD"></lily-date-field>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         const description = host.querySelector("p")!;
@@ -58,7 +64,9 @@ describe("DateField", () => {
     });
 
     test("renders an error with role=alert linked via aria-errormessage", () => {
-        const host = render('<lily-date-field label="End date" error="Required"></lily-date-field>');
+        const host = render(
+            '<lily-date-field label="End date" error="Required"></lily-date-field>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         const error = host.querySelector('[role="alert"]') as HTMLElement;
@@ -68,7 +76,9 @@ describe("DateField", () => {
     });
 
     test("required and disabled reflect onto the input", () => {
-        const host = render('<lily-date-field label="Start date" required disabled></lily-date-field>');
+        const host = render(
+            '<lily-date-field label="Start date" required disabled></lily-date-field>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -76,7 +86,9 @@ describe("DateField", () => {
     });
 
     test("removing the error attribute removes the error paragraph and ARIA", () => {
-        const host = render('<lily-date-field label="End date" error="Required"></lily-date-field>');
+        const host = render(
+            '<lily-date-field label="End date" error="Required"></lily-date-field>',
+        );
 
         host.removeAttribute("error");
 
@@ -86,7 +98,9 @@ describe("DateField", () => {
     });
 
     test("exposes a live value property", () => {
-        const host = render('<lily-date-field label="Start date"></lily-date-field>') as unknown as DateField;
+        const host = render(
+            '<lily-date-field label="Start date"></lily-date-field>',
+        ) as unknown as DateField;
 
         host.value = "2026-12-25";
 

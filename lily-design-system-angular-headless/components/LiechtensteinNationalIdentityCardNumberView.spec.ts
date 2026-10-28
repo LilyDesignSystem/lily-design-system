@@ -7,7 +7,9 @@ describe("LiechtensteinNationalIdentityCardNumberView", () => {
   test("renders the span root with the base class", () => {
     const fixture = TestBed.createComponent(LiechtensteinNationalIdentityCardNumberView);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.liechtenstein-national-identity-card-number-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.liechtenstein-national-identity-card-number-view",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("LiechtensteinNationalIdentityCardNumberView", () => {
     const fixture = TestBed.createComponent(LiechtensteinNationalIdentityCardNumberView);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.liechtenstein-national-identity-card-number-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.liechtenstein-national-identity-card-number-view",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

@@ -30,14 +30,18 @@ describe("AspectRatioContainer", () => {
     });
 
     test("honours an explicit ratio", () => {
-        const host = render('<lily-aspect-ratio-container ratio="1.777">Content</lily-aspect-ratio-container>');
+        const host = render(
+            '<lily-aspect-ratio-container ratio="1.777">Content</lily-aspect-ratio-container>',
+        );
 
         expect(host.getAttribute("data-aspect-ratio")).toBe("1.777");
         expect(host.style.getPropertyValue("--aspect-ratio-container-ratio")).toBe("1.777");
     });
 
     test("preserves original content", () => {
-        const host = render("<lily-aspect-ratio-container><img src='/x.png' /></lily-aspect-ratio-container>");
+        const host = render(
+            "<lily-aspect-ratio-container><img src='/x.png' /></lily-aspect-ratio-container>",
+        );
 
         expect(host.querySelector("img")).toBeTruthy();
     });

@@ -44,7 +44,9 @@ describe("Select", () => {
     });
 
     test("exposes a live value property proxying the inner select", () => {
-        const host = render(`<lily-select label="Colour">${OPTIONS}</lily-select>`) as unknown as Select;
+        const host = render(
+            `<lily-select label="Colour">${OPTIONS}</lily-select>`,
+        ) as unknown as Select;
         const select = host.querySelector("select") as HTMLSelectElement;
 
         host.value = "blue";
@@ -54,7 +56,9 @@ describe("Select", () => {
     });
 
     test("required and disabled propagate to the inner select", () => {
-        const host = render(`<lily-select label="Colour" required disabled>${OPTIONS}</lily-select>`);
+        const host = render(
+            `<lily-select label="Colour" required disabled>${OPTIONS}</lily-select>`,
+        );
 
         const select = host.querySelector("select") as HTMLSelectElement;
         expect(select.required).toBe(true);

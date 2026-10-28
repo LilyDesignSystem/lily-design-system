@@ -44,7 +44,9 @@ describe("SegmentGroup", () => {
     });
 
     test("passes through rest attributes such as data-testid", () => {
-        const host = render('<lily-segment-group label="View" data-testid="view"></lily-segment-group>');
+        const host = render(
+            '<lily-segment-group label="View" data-testid="view"></lily-segment-group>',
+        );
 
         expect(host.getAttribute("data-testid")).toBe("view");
     });

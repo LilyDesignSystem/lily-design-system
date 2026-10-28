@@ -7,7 +7,9 @@ describe("DeutschlandKrankenversichertennummerView", () => {
   test("renders the span root with the base class", () => {
     const fixture = TestBed.createComponent(DeutschlandKrankenversichertennummerView);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.deutschland-krankenversichertennummer-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.deutschland-krankenversichertennummer-view",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("DeutschlandKrankenversichertennummerView", () => {
     const fixture = TestBed.createComponent(DeutschlandKrankenversichertennummerView);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.deutschland-krankenversichertennummer-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.deutschland-krankenversichertennummer-view",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

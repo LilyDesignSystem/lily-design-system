@@ -7,10 +7,15 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/BrasilCartaoNacionalDeSaudeView",
-    render: (args) => h("lily-brasil-cartao-nacional-de-saude-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-brasil-cartao-nacional-de-saude-view",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Cartão Nacional de Saúde (CNS)",
-        "value": "123 4567 8901 234"
+        label: "Cartão Nacional de Saúde (CNS)",
+        value: "123 4567 8901 234",
     },
 };
 

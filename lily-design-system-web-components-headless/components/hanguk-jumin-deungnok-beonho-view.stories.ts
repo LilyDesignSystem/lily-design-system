@@ -7,10 +7,11 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/HangukJuminDeungnokBeonhoView",
-    render: (args) => h("lily-hanguk-jumin-deungnok-beonho-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-hanguk-jumin-deungnok-beonho-view", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Resident Registration Number (주민등록번호)",
-        "value": "900101-1234567"
+        label: "Resident Registration Number (주민등록번호)",
+        value: "900101-1234567",
     },
 };
 

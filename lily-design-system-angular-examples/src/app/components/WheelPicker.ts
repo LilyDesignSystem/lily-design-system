@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, ElementRef, effect, input, model, viewChild } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  effect,
+  input,
+  model,
+  viewChild,
+} from "@angular/core";
 import {
   isWheelTypeaheadKey,
   nextWheelIndex,
@@ -81,7 +89,12 @@ export class WheelPicker {
     if (this.disabled()) return;
     if (WHEEL_MOVE_KEYS.includes(event.key)) {
       event.preventDefault();
-      this.select(nextWheelIndex(this.options(), this.selectedIndex(), event.key as WheelMoveKey, { loop: this.loop(), pageSize: this.pageSize() }));
+      this.select(
+        nextWheelIndex(this.options(), this.selectedIndex(), event.key as WheelMoveKey, {
+          loop: this.loop(),
+          pageSize: this.pageSize(),
+        }),
+      );
     } else if (isWheelTypeaheadKey(event)) {
       this.typeahead = nextWheelPrefix(this.typeahead, event.key, Date.now());
       this.select(wheelTypeaheadIndex(this.options(), this.selectedIndex(), this.typeahead.prefix));

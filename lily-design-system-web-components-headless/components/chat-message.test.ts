@@ -35,7 +35,9 @@ describe("ChatMessage", () => {
     });
 
     test("moves its children into the article", () => {
-        const host = render('<lily-chat-message><time datetime="2026-09-04"></time></lily-chat-message>');
+        const host = render(
+            '<lily-chat-message><time datetime="2026-09-04"></time></lily-chat-message>',
+        );
 
         expect(host.querySelector("article > time")).toBeTruthy();
     });

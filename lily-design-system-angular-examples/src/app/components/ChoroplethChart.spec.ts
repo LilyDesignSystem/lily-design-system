@@ -60,7 +60,9 @@ describe("ChoroplethChart", () => {
     const f = TestBed.createComponent(Host);
     f.detectChanges();
     const art = f.nativeElement.querySelector("[data-testid=art]");
-    expect(art.closest("[role=img]")).toBe(f.nativeElement.querySelector(".choropleth-chart-graphic"));
+    expect(art.closest("[role=img]")).toBe(
+      f.nativeElement.querySelector(".choropleth-chart-graphic"),
+    );
   });
   test("the data-table wrapper is empty when nothing is projected", () => {
     expect(wrap(make()).children.length).toBe(0);
@@ -70,7 +72,9 @@ describe("ChoroplethChart", () => {
     f.detectChanges();
     const w = f.nativeElement.querySelector(".choropleth-chart-data-table");
     expect(w.querySelector("table")).toBeTruthy();
-    expect(w.previousElementSibling).toBe(f.nativeElement.querySelector(".choropleth-chart-graphic"));
+    expect(w.previousElementSibling).toBe(
+      f.nativeElement.querySelector(".choropleth-chart-graphic"),
+    );
     expect(w.parentElement.tagName).toBe("FIGURE");
   });
   test("keeps the table outside the role=img element so assistive technology can reach it", () => {

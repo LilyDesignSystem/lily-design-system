@@ -7,9 +7,14 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/RomaniaCodNumericPersonalInput",
-    render: (args) => h("lily-romania-cod-numeric-personal-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-romania-cod-numeric-personal-input",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Cod Numeric Personal (CNP)"
+        label: "Cod Numeric Personal (CNP)",
     },
 };
 

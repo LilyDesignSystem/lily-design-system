@@ -7,10 +7,11 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/NederlandPaspoortNummerView",
-    render: (args) => h("lily-nederland-paspoort-nummer-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-nederland-paspoort-nummer-view", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Paspoort Nummer",
-        "value": "NR1234567"
+        label: "Paspoort Nummer",
+        value: "NR1234567",
     },
 };
 

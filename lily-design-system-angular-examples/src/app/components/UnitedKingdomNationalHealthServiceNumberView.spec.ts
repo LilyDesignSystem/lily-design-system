@@ -7,7 +7,9 @@ describe("UnitedKingdomNationalHealthServiceNumberView", () => {
   test("renders the span root with the base class", () => {
     const fixture = TestBed.createComponent(UnitedKingdomNationalHealthServiceNumberView);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.united-kingdom-national-health-service-number-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.united-kingdom-national-health-service-number-view",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("UnitedKingdomNationalHealthServiceNumberView", () => {
     const fixture = TestBed.createComponent(UnitedKingdomNationalHealthServiceNumberView);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.united-kingdom-national-health-service-number-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.united-kingdom-national-health-service-number-view",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

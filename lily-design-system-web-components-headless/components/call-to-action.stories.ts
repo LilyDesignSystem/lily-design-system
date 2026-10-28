@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/CallToAction",
     render: (args) => h("lily-call-to-action", args as Record<string, string | boolean>, SLOT),
     args: {
-        "href": "/signup",
+        href: "/signup",
     },
 };
 

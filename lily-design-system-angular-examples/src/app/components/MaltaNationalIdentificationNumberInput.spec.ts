@@ -7,7 +7,9 @@ describe("MaltaNationalIdentificationNumberInput", () => {
   test("renders the input root with the base class", () => {
     const fixture = TestBed.createComponent(MaltaNationalIdentificationNumberInput);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.malta-national-identification-number-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.malta-national-identification-number-input",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("MaltaNationalIdentificationNumberInput", () => {
     const fixture = TestBed.createComponent(MaltaNationalIdentificationNumberInput);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.malta-national-identification-number-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.malta-national-identification-number-input",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

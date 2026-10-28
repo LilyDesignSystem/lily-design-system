@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("MedicalBanner", () => {
     test("the custom element itself is the live region (self-is-the-wrapper)", () => {
-        const host = render('<lily-medical-banner label="Patient alerts">Allergy on file.</lily-medical-banner>');
+        const host = render(
+            '<lily-medical-banner label="Patient alerts">Allergy on file.</lily-medical-banner>',
+        );
 
         expect(host.className).toBe("medical-banner");
         expect(host.getAttribute("role")).toBe("region");
@@ -25,25 +27,33 @@ describe("MedicalBanner", () => {
     });
 
     test("always carries data-context=medical", () => {
-        const host = render('<lily-medical-banner label="Patient alerts">Allergy on file.</lily-medical-banner>');
+        const host = render(
+            '<lily-medical-banner label="Patient alerts">Allergy on file.</lily-medical-banner>',
+        );
 
         expect(host.getAttribute("data-context")).toBe("medical");
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-medical-banner label="Patient alerts">Allergy on file.</lily-medical-banner>');
+        const host = render(
+            '<lily-medical-banner label="Patient alerts">Allergy on file.</lily-medical-banner>',
+        );
 
         expect(host.getAttribute("aria-label")).toBe("Patient alerts");
     });
 
     test("defaults data-type to info", () => {
-        const host = render('<lily-medical-banner label="Patient alerts">Allergy on file.</lily-medical-banner>');
+        const host = render(
+            '<lily-medical-banner label="Patient alerts">Allergy on file.</lily-medical-banner>',
+        );
 
         expect(host.getAttribute("data-type")).toBe("info");
     });
 
     test("honours an explicit type", () => {
-        const host = render('<lily-medical-banner label="Patient alerts" type="warning">Allergy.</lily-medical-banner>');
+        const host = render(
+            '<lily-medical-banner label="Patient alerts" type="warning">Allergy.</lily-medical-banner>',
+        );
 
         expect(host.getAttribute("data-type")).toBe("warning");
     });
@@ -53,7 +63,9 @@ describe("MedicalBanner", () => {
             '<lily-medical-banner label="Patient alerts" dismissible close-label="Dismiss">Allergy.</lily-medical-banner>',
         );
 
-        expect(host.querySelector(".medical-banner-dismiss")!.getAttribute("aria-label")).toBe("Dismiss");
+        expect(host.querySelector(".medical-banner-dismiss")!.getAttribute("aria-label")).toBe(
+            "Dismiss",
+        );
     });
 
     test("dismissing fires lily-close and hides the banner", () => {

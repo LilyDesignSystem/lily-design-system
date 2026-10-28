@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Special-Purpose Identifiers/SlovenskoPasView",
     render: (args) => h("lily-slovensko-pas-view", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Pas",
-        "value": "AB1234567"
+        label: "Pas",
+        value: "AB1234567",
     },
 };
 

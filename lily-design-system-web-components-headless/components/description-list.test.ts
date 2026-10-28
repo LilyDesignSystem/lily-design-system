@@ -35,7 +35,9 @@ describe("DescriptionList", () => {
     });
 
     test("moves its children into the dl", () => {
-        const host = render("<lily-description-list><dt>Name</dt><dd>Widget</dd></lily-description-list>");
+        const host = render(
+            "<lily-description-list><dt>Name</dt><dd>Widget</dd></lily-description-list>",
+        );
 
         expect(host.querySelector("dl > dt")!.textContent).toBe("Name");
         expect(host.querySelector("dl > dd")!.textContent).toBe("Widget");

@@ -7,9 +7,10 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/NorgeFodselsnummerInput",
-    render: (args) => h("lily-norge-fodselsnummer-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-norge-fodselsnummer-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Fødselsnummer"
+        label: "Fødselsnummer",
     },
 };
 

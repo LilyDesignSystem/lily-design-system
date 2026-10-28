@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Forms/DateInput",
     render: (args) => h("lily-date-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Date of birth"
+        label: "Date of birth",
     },
 };
 

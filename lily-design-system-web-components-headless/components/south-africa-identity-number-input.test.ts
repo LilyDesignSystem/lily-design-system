@@ -3,7 +3,10 @@ import { afterEach, describe, expect, test } from "vitest";
 import { SouthAfricaIdentityNumberInput } from "./south-africa-identity-number-input.js";
 
 if (!customElements.get("lily-south-africa-identity-number-input")) {
-    customElements.define("lily-south-africa-identity-number-input", SouthAfricaIdentityNumberInput);
+    customElements.define(
+        "lily-south-africa-identity-number-input",
+        SouthAfricaIdentityNumberInput,
+    );
 }
 
 afterEach(() => {
@@ -17,7 +20,9 @@ function render(html: string): HTMLElement {
 
 describe("SouthAfricaIdentityNumberInput", () => {
     test("renders a native input type=text with the correct class", () => {
-        const host = render('<lily-south-africa-identity-number-input label="South African Identity Number"></lily-south-africa-identity-number-input>');
+        const host = render(
+            '<lily-south-africa-identity-number-input label="South African Identity Number"></lily-south-africa-identity-number-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.type).toBe("text");
@@ -25,13 +30,17 @@ describe("SouthAfricaIdentityNumberInput", () => {
     });
 
     test("always forces autocomplete to off, even if the consumer tries to override it", () => {
-        const host = render('<lily-south-africa-identity-number-input label="South African Identity Number" autocomplete="on"></lily-south-africa-identity-number-input>');
+        const host = render(
+            '<lily-south-africa-identity-number-input label="South African Identity Number" autocomplete="on"></lily-south-africa-identity-number-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("autocomplete")).toBe("off");
     });
 
     test("seeds the initial value from the value attribute and exposes a live value property", () => {
-        const host = render('<lily-south-africa-identity-number-input label="South African Identity Number" value="9001015008086"></lily-south-africa-identity-number-input>') as unknown as SouthAfricaIdentityNumberInput;
+        const host = render(
+            '<lily-south-africa-identity-number-input label="South African Identity Number" value="9001015008086"></lily-south-africa-identity-number-input>',
+        ) as unknown as SouthAfricaIdentityNumberInput;
 
         expect((host.querySelector("input") as HTMLInputElement).value).toBe("9001015008086");
 
@@ -41,7 +50,9 @@ describe("SouthAfricaIdentityNumberInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-south-africa-identity-number-input label="South African Identity Number" required disabled></lily-south-africa-identity-number-input>');
+        const host = render(
+            '<lily-south-africa-identity-number-input label="South African Identity Number" required disabled></lily-south-africa-identity-number-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -49,8 +60,12 @@ describe("SouthAfricaIdentityNumberInput", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-south-africa-identity-number-input label="South African Identity Number"></lily-south-africa-identity-number-input>');
+        const host = render(
+            '<lily-south-africa-identity-number-input label="South African Identity Number"></lily-south-africa-identity-number-input>',
+        );
 
-        expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("South African Identity Number");
+        expect(host.querySelector("input")!.getAttribute("aria-label")).toBe(
+            "South African Identity Number",
+        );
     });
 });

@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Content/Tooltip",
     render: (args) => h("lily-tooltip", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Additional info",
-        "visible": true,
+        label: "Additional info",
+        visible: true,
     },
 };
 

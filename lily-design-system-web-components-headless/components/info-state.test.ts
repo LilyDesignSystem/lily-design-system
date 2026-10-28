@@ -43,9 +43,13 @@ describe("InfoState", () => {
     });
 
     test("label overrides the aria-label default", () => {
-        const host = render('<lily-info-state title="No results" label="Search returned nothing"></lily-info-state>');
+        const host = render(
+            '<lily-info-state title="No results" label="Search returned nothing"></lily-info-state>',
+        );
 
-        expect(host.querySelector("section")!.getAttribute("aria-label")).toBe("Search returned nothing");
+        expect(host.querySelector("section")!.getAttribute("aria-label")).toBe(
+            "Search returned nothing",
+        );
     });
 
     test("title renders inside an h2", () => {
@@ -55,9 +59,13 @@ describe("InfoState", () => {
     });
 
     test("description renders inside a p when provided", () => {
-        const host = render('<lily-info-state title="No results" description="Try a different search."></lily-info-state>');
+        const host = render(
+            '<lily-info-state title="No results" description="Try a different search."></lily-info-state>',
+        );
 
-        expect(host.querySelector("p.info-state-description")!.textContent).toBe("Try a different search.");
+        expect(host.querySelector("p.info-state-description")!.textContent).toBe(
+            "Try a different search.",
+        );
     });
 
     test("renders no description paragraph when description is absent", () => {
@@ -75,7 +83,9 @@ describe("InfoState", () => {
         const section = host.querySelector("section")!;
 
         expect(section.firstElementChild!.getAttribute("data-slot")).toBe("illustration");
-        expect(section.querySelector("h2")!.previousElementSibling!.getAttribute("data-slot")).toBe("illustration");
+        expect(section.querySelector("h2")!.previousElementSibling!.getAttribute("data-slot")).toBe(
+            "illustration",
+        );
     });
 
     test("unflagged children (the action area) render after the description", () => {

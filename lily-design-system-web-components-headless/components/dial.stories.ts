@@ -7,11 +7,11 @@ const meta: Meta = {
     title: "Content/Dial",
     render: (args) => h("lily-dial", args as Record<string, string | boolean>),
     args: {
-        "label": "Volume",
-        "value": "50",
-        "min": "0",
-        "max": "100",
-        "step": "1",
+        label: "Volume",
+        value: "50",
+        min: "0",
+        max: "100",
+        step: "1",
     },
 };
 

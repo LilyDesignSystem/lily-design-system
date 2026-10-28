@@ -47,13 +47,17 @@ describe("Resizable", () => {
     });
 
     test("honours an explicit direction", () => {
-        const host = render('<lily-resizable label="Sidebar" direction="horizontal"><nav></nav></lily-resizable>');
+        const host = render(
+            '<lily-resizable label="Sidebar" direction="horizontal"><nav></nav></lily-resizable>',
+        );
 
         expect(host.getAttribute("data-resize")).toBe("horizontal");
     });
 
     test("appends the consumer's class onto the base class", () => {
-        const host = render('<lily-resizable label="Sidebar" class="my-resizable"><nav></nav></lily-resizable>');
+        const host = render(
+            '<lily-resizable label="Sidebar" class="my-resizable"><nav></nav></lily-resizable>',
+        );
 
         expect(host.getAttribute("class")).toBe("resizable my-resizable");
     });

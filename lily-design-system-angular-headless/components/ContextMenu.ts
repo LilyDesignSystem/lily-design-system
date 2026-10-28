@@ -44,7 +44,10 @@ export class ContextMenu {
     const injector = inject(Injector);
     effect(() => {
       if (this.open()) {
-        afterNextRender(() => this.menu()?.nativeElement.querySelector<HTMLElement>("[role='menuitem']")?.focus(), { injector });
+        afterNextRender(
+          () => this.menu()?.nativeElement.querySelector<HTMLElement>("[role='menuitem']")?.focus(),
+          { injector },
+        );
       }
     });
   }

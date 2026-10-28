@@ -7,9 +7,10 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Forms/DateTimeLocalInput",
-    render: (args) => h("lily-date-time-local-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-date-time-local-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Appointment"
+        label: "Appointment",
     },
 };
 

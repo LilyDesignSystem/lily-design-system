@@ -85,7 +85,9 @@ describe("TileMap", () => {
     });
 
     test("Enter dispatches tile-activate on the focused tile", () => {
-        const host = render('<lily-tile-map label="Map"><div data-tile tabindex="0" id="a">A</div></lily-tile-map>');
+        const host = render(
+            '<lily-tile-map label="Map"><div data-tile tabindex="0" id="a">A</div></lily-tile-map>',
+        );
         const a = host.querySelector("#a") as HTMLElement;
         const handler = vi.fn();
         a.addEventListener("tile-activate", handler);
@@ -97,7 +99,9 @@ describe("TileMap", () => {
     });
 
     test("Space dispatches tile-activate on the focused tile", () => {
-        const host = render('<lily-tile-map label="Map"><div data-tile tabindex="0" id="a">A</div></lily-tile-map>');
+        const host = render(
+            '<lily-tile-map label="Map"><div data-tile tabindex="0" id="a">A</div></lily-tile-map>',
+        );
         const a = host.querySelector("#a") as HTMLElement;
         const handler = vi.fn();
         a.addEventListener("tile-activate", handler);
@@ -109,7 +113,9 @@ describe("TileMap", () => {
     });
 
     test("Escape blurs the focused tile", () => {
-        const host = render('<lily-tile-map label="Map"><div data-tile tabindex="0" id="a">A</div></lily-tile-map>');
+        const host = render(
+            '<lily-tile-map label="Map"><div data-tile tabindex="0" id="a">A</div></lily-tile-map>',
+        );
         const a = host.querySelector("#a") as HTMLElement;
         a.focus();
         expect(document.activeElement).toBe(a);

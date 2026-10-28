@@ -99,7 +99,9 @@ export class ContextMenu extends HTMLElement {
             case "Escape": {
                 event.preventDefault();
                 this.removeAttribute("open");
-                this.dispatchEvent(new CustomEvent("lily-close", { bubbles: true, composed: true }));
+                this.dispatchEvent(
+                    new CustomEvent("lily-close", { bubbles: true, composed: true }),
+                );
                 break;
             }
         }

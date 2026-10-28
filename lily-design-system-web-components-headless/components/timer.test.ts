@@ -43,7 +43,9 @@ describe("Timer", () => {
     });
 
     test("passes through a datetime attribute", () => {
-        const host = render('<lily-timer label="Session timeout" datetime="PT5M30S">5:30</lily-timer>');
+        const host = render(
+            '<lily-timer label="Session timeout" datetime="PT5M30S">5:30</lily-timer>',
+        );
 
         expect(host.querySelector("time")!.getAttribute("datetime")).toBe("PT5M30S");
     });

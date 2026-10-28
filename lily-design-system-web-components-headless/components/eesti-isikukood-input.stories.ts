@@ -7,9 +7,10 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/EestiIsikukoodInput",
-    render: (args) => h("lily-eesti-isikukood-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-eesti-isikukood-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Isikukood"
+        label: "Isikukood",
     },
 };
 

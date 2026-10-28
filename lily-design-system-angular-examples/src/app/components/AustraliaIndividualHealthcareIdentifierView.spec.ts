@@ -7,7 +7,9 @@ describe("AustraliaIndividualHealthcareIdentifierView", () => {
   test("renders the span root with the base class", () => {
     const fixture = TestBed.createComponent(AustraliaIndividualHealthcareIdentifierView);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.australia-individual-healthcare-identifier-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.australia-individual-healthcare-identifier-view",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("AustraliaIndividualHealthcareIdentifierView", () => {
     const fixture = TestBed.createComponent(AustraliaIndividualHealthcareIdentifierView);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.australia-individual-healthcare-identifier-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.australia-individual-healthcare-identifier-view",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

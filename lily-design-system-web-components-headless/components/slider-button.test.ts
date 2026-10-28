@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("SliderButton", () => {
     test("renders a native button with role=slider", () => {
-        const host = render('<lily-slider-button label="Slide to confirm">Slide to confirm</lily-slider-button>');
+        const host = render(
+            '<lily-slider-button label="Slide to confirm">Slide to confirm</lily-slider-button>',
+        );
 
         const button = host.querySelector("button") as HTMLButtonElement;
         expect(button.className).toBe("slider-button");
@@ -26,13 +28,17 @@ describe("SliderButton", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-slider-button label="Slide to confirm">Slide</lily-slider-button>');
+        const host = render(
+            '<lily-slider-button label="Slide to confirm">Slide</lily-slider-button>',
+        );
 
         expect(host.querySelector("button")!.getAttribute("aria-label")).toBe("Slide to confirm");
     });
 
     test("defaults aria-valuenow to 0 with min 0 and max 100", () => {
-        const host = render('<lily-slider-button label="Slide to confirm">Slide</lily-slider-button>');
+        const host = render(
+            '<lily-slider-button label="Slide to confirm">Slide</lily-slider-button>',
+        );
 
         const button = host.querySelector("button")!;
         expect(button.getAttribute("aria-valuenow")).toBe("0");
@@ -41,19 +47,25 @@ describe("SliderButton", () => {
     });
 
     test("disabled propagates to the native button", () => {
-        const host = render('<lily-slider-button label="Slide to confirm" disabled>Slide</lily-slider-button>');
+        const host = render(
+            '<lily-slider-button label="Slide to confirm" disabled>Slide</lily-slider-button>',
+        );
 
         expect((host.querySelector("button") as HTMLButtonElement).disabled).toBe(true);
     });
 
     test("ArrowRight increases the value, and reaching 100 fires lily-confirm", () => {
-        const host = render('<lily-slider-button label="Slide to confirm">Slide</lily-slider-button>');
+        const host = render(
+            '<lily-slider-button label="Slide to confirm">Slide</lily-slider-button>',
+        );
         const button = host.querySelector("button") as HTMLButtonElement;
         const handler = vi.fn();
         host.addEventListener("lily-confirm", handler);
 
         for (let i = 0; i < 10; i++) {
-            button.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
+            button.dispatchEvent(
+                new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }),
+            );
         }
 
         expect(button.getAttribute("aria-valuenow")).toBe("100");
@@ -61,7 +73,9 @@ describe("SliderButton", () => {
     });
 
     test("Enter activates immediately", () => {
-        const host = render('<lily-slider-button label="Slide to confirm">Slide</lily-slider-button>');
+        const host = render(
+            '<lily-slider-button label="Slide to confirm">Slide</lily-slider-button>',
+        );
         const button = host.querySelector("button") as HTMLButtonElement;
         const handler = vi.fn();
         host.addEventListener("lily-confirm", handler);
@@ -73,7 +87,9 @@ describe("SliderButton", () => {
     });
 
     test("clicking activates immediately", () => {
-        const host = render('<lily-slider-button label="Slide to confirm">Slide</lily-slider-button>');
+        const host = render(
+            '<lily-slider-button label="Slide to confirm">Slide</lily-slider-button>',
+        );
         const handler = vi.fn();
         host.addEventListener("lily-confirm", handler);
 

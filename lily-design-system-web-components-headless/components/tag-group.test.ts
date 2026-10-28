@@ -30,7 +30,9 @@ describe("TagGroup", () => {
     });
 
     test("leaves children in place, unmoved", () => {
-        const host = render('<lily-tag-group label="Skills"><span class="tag">CSS</span></lily-tag-group>');
+        const host = render(
+            '<lily-tag-group label="Skills"><span class="tag">CSS</span></lily-tag-group>',
+        );
 
         expect(host.querySelector(":scope > span.tag")).toBeTruthy();
     });

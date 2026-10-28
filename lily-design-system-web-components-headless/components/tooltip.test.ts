@@ -55,7 +55,9 @@ describe("Tooltip", () => {
     });
 
     test("moves an id attribute to the inner tooltip element (avoiding a duplicate id)", () => {
-        const host = render('<lily-tooltip id="tip" label="Additional info" visible></lily-tooltip>');
+        const host = render(
+            '<lily-tooltip id="tip" label="Additional info" visible></lily-tooltip>',
+        );
 
         expect(host.hasAttribute("id")).toBe(false);
         expect((host.querySelector("div") as HTMLDivElement).id).toBe("tip");

@@ -23,7 +23,9 @@ describe("MockupShell", () => {
     });
 
     test("label is optional and maps to aria-label when provided", () => {
-        const host = render('<lily-mockup-shell label="Preview of the terminal session"></lily-mockup-shell>');
+        const host = render(
+            '<lily-mockup-shell label="Preview of the terminal session"></lily-mockup-shell>',
+        );
 
         expect(host.getAttribute("aria-label")).toBe("Preview of the terminal session");
     });

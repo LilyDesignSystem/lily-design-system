@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Buttons and links/FloatButton",
     render: (args) => h("lily-float-button", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Add item"
+        label: "Add item",
     },
 };
 

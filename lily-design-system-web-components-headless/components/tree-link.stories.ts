@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Links/TreeLink",
     render: (args) => h("lily-tree-link", args as Record<string, string | boolean>, SLOT),
     args: {
-        "href": "#src"
+        href: "#src",
     },
 };
 

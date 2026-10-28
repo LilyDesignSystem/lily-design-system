@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("IslandKennitalaInput", () => {
     test("renders a native input type=text with the correct class", () => {
-        const host = render('<lily-island-kennitala-input label="Kennitala"></lily-island-kennitala-input>');
+        const host = render(
+            '<lily-island-kennitala-input label="Kennitala"></lily-island-kennitala-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.type).toBe("text");
@@ -25,13 +27,17 @@ describe("IslandKennitalaInput", () => {
     });
 
     test("always forces autocomplete to off, even if the consumer tries to override it", () => {
-        const host = render('<lily-island-kennitala-input label="Kennitala" autocomplete="on"></lily-island-kennitala-input>');
+        const host = render(
+            '<lily-island-kennitala-input label="Kennitala" autocomplete="on"></lily-island-kennitala-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("autocomplete")).toBe("off");
     });
 
     test("seeds the initial value from the value attribute and exposes a live value property", () => {
-        const host = render('<lily-island-kennitala-input label="Kennitala" value="1207904929"></lily-island-kennitala-input>') as unknown as IslandKennitalaInput;
+        const host = render(
+            '<lily-island-kennitala-input label="Kennitala" value="1207904929"></lily-island-kennitala-input>',
+        ) as unknown as IslandKennitalaInput;
 
         expect((host.querySelector("input") as HTMLInputElement).value).toBe("1207904929");
 
@@ -41,7 +47,9 @@ describe("IslandKennitalaInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-island-kennitala-input label="Kennitala" required disabled></lily-island-kennitala-input>');
+        const host = render(
+            '<lily-island-kennitala-input label="Kennitala" required disabled></lily-island-kennitala-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -49,7 +57,9 @@ describe("IslandKennitalaInput", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-island-kennitala-input label="Kennitala"></lily-island-kennitala-input>');
+        const host = render(
+            '<lily-island-kennitala-input label="Kennitala"></lily-island-kennitala-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("Kennitala");
     });

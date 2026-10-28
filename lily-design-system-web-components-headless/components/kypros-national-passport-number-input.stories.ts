@@ -7,9 +7,14 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/KyprosNationalPassportNumberInput",
-    render: (args) => h("lily-kypros-national-passport-number-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-kypros-national-passport-number-input",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "National Passport Number"
+        label: "National Passport Number",
     },
 };
 

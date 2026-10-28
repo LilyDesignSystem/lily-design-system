@@ -59,7 +59,9 @@ describe("CollectionListItem (upgrade in place)", () => {
         renderList();
 
         const items = Array.from(document.querySelectorAll("li.collection-list-item"));
-        expect(items[0]!.querySelector("p.collection-list-item-meta")!.textContent).toBe("Jan 2026");
+        expect(items[0]!.querySelector("p.collection-list-item-meta")!.textContent).toBe(
+            "Jan 2026",
+        );
         expect(items[0]!.querySelector("p.collection-list-item-description")!.textContent).toBe(
             "A short summary.",
         );

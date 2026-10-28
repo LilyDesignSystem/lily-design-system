@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("RossiyaSnilsView", () => {
     test("renders a native span with the correct class", () => {
-        const host = render('<lily-rossiya-snils-view label="СНИЛС (SNILS)" value="112-233-445 95"></lily-rossiya-snils-view>');
+        const host = render(
+            '<lily-rossiya-snils-view label="СНИЛС (SNILS)" value="112-233-445 95"></lily-rossiya-snils-view>',
+        );
 
         const span = host.querySelector("span") as HTMLSpanElement;
         expect(span).not.toBeNull();
@@ -25,13 +27,17 @@ describe("RossiyaSnilsView", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-rossiya-snils-view label="СНИЛС (SNILS)" value="112-233-445 95"></lily-rossiya-snils-view>');
+        const host = render(
+            '<lily-rossiya-snils-view label="СНИЛС (SNILS)" value="112-233-445 95"></lily-rossiya-snils-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("СНИЛС (SNILS)");
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
-        const host = render('<lily-rossiya-snils-view label="СНИЛС (SNILS)" value="112-233-445 95"></lily-rossiya-snils-view>') as unknown as RossiyaSnilsView;
+        const host = render(
+            '<lily-rossiya-snils-view label="СНИЛС (SNILS)" value="112-233-445 95"></lily-rossiya-snils-view>',
+        ) as unknown as RossiyaSnilsView;
 
         expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("112-233-445 95");
         expect(host.value).toBe("112-233-445 95");
@@ -42,7 +48,9 @@ describe("RossiyaSnilsView", () => {
     });
 
     test("has role=text so the identifier announces as a single unit", () => {
-        const host = render('<lily-rossiya-snils-view label="СНИЛС (SNILS)" value="112-233-445 95"></lily-rossiya-snils-view>');
+        const host = render(
+            '<lily-rossiya-snils-view label="СНИЛС (SNILS)" value="112-233-445 95"></lily-rossiya-snils-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });

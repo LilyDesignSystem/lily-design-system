@@ -7,9 +7,10 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/ItaliaCodiceFiscaleInput",
-    render: (args) => h("lily-italia-codice-fiscale-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-italia-codice-fiscale-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Codice Fiscale"
+        label: "Codice Fiscale",
     },
 };
 

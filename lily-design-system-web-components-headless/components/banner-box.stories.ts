@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./banner-box.js";
 import { h } from "../stories/render.js";
 
-const SLOT = "<span>A new version is available.</span> <button type=\"button\">Refresh</button>";
+const SLOT = '<span>A new version is available.</span> <button type="button">Refresh</button>';
 
 const meta: Meta = {
     title: "Content/BannerBox",

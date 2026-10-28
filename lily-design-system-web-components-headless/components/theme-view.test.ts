@@ -17,20 +17,26 @@ function render(html: string): HTMLElement {
 
 describe("ThemeView", () => {
     test("renders a native span with the base class", () => {
-        const host = render('<lily-theme-view label="Current theme" value="dark"></lily-theme-view>');
+        const host = render(
+            '<lily-theme-view label="Current theme" value="dark"></lily-theme-view>',
+        );
 
         const span = host.querySelector("span") as HTMLSpanElement;
         expect(span.classList.contains("theme-view")).toBe(true);
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-theme-view label="Current theme" value="dark"></lily-theme-view>');
+        const host = render(
+            '<lily-theme-view label="Current theme" value="dark"></lily-theme-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Current theme");
     });
 
     test("renders value as the text content", () => {
-        const host = render('<lily-theme-view label="Current theme" value="dark"></lily-theme-view>');
+        const host = render(
+            '<lily-theme-view label="Current theme" value="dark"></lily-theme-view>',
+        );
 
         expect(host.querySelector("span")!.textContent).toBe("dark");
     });

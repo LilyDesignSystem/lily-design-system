@@ -7,9 +7,14 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/UnitedStatesSocialSecurityNumberInput",
-    render: (args) => h("lily-united-states-social-security-number-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-united-states-social-security-number-input",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Social Security number"
+        label: "Social Security number",
     },
 };
 

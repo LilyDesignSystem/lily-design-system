@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("AlbaCommunityHealthIndexView", () => {
     test("renders a native span with the correct class", () => {
-        const host = render('<lily-alba-community-health-index-view label="ID"></lily-alba-community-health-index-view>');
+        const host = render(
+            '<lily-alba-community-health-index-view label="ID"></lily-alba-community-health-index-view>',
+        );
 
         const span = host.querySelector("span") as HTMLSpanElement;
         expect(span).not.toBeNull();
@@ -25,19 +27,27 @@ describe("AlbaCommunityHealthIndexView", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-alba-community-health-index-view label="Community Health Index"></lily-alba-community-health-index-view>');
+        const host = render(
+            '<lily-alba-community-health-index-view label="Community Health Index"></lily-alba-community-health-index-view>',
+        );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Community Health Index");
+        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
+            "Community Health Index",
+        );
     });
 
     test("has role=text so the identifier announces as a single unit", () => {
-        const host = render('<lily-alba-community-health-index-view label="ID"></lily-alba-community-health-index-view>');
+        const host = render(
+            '<lily-alba-community-health-index-view label="ID"></lily-alba-community-health-index-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
-        const host = render('<lily-alba-community-health-index-view label="ID" value="1505850123"></lily-alba-community-health-index-view>') as unknown as AlbaCommunityHealthIndexView;
+        const host = render(
+            '<lily-alba-community-health-index-view label="ID" value="1505850123"></lily-alba-community-health-index-view>',
+        ) as unknown as AlbaCommunityHealthIndexView;
 
         expect(host.querySelector("span")!.textContent).toBe("1505850123");
         expect(host.value).toBe("1505850123");

@@ -29,13 +29,17 @@ describe("MonthInput", () => {
     });
 
     test("seeds the initial value from the value attribute", () => {
-        const host = render('<lily-month-input label="Start month" value="2026-09"></lily-month-input>');
+        const host = render(
+            '<lily-month-input label="Start month" value="2026-09"></lily-month-input>',
+        );
 
         expect((host.querySelector("input") as HTMLInputElement).value).toBe("2026-09");
     });
 
     test("exposes a live value property proxying the inner input", () => {
-        const host = render('<lily-month-input label="Start month"></lily-month-input>') as unknown as MonthInput;
+        const host = render(
+            '<lily-month-input label="Start month"></lily-month-input>',
+        ) as unknown as MonthInput;
         const input = host.querySelector("input") as HTMLInputElement;
 
         host.value = "2026-12";
@@ -45,7 +49,9 @@ describe("MonthInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-month-input label="Start month" required disabled></lily-month-input>');
+        const host = render(
+            '<lily-month-input label="Start month" required disabled></lily-month-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -53,7 +59,9 @@ describe("MonthInput", () => {
     });
 
     test("passes through rest attributes such as min and max", () => {
-        const host = render('<lily-month-input label="Start month" min="2026-01" max="2026-12"></lily-month-input>');
+        const host = render(
+            '<lily-month-input label="Start month" min="2026-01" max="2026-12"></lily-month-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.getAttribute("min")).toBe("2026-01");

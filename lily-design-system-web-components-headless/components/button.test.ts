@@ -60,7 +60,9 @@ describe("Button", () => {
     });
 
     test("uses the label attribute as aria-label", () => {
-        const host = render('<lily-button label="Close dialog"><span aria-hidden="true">x</span></lily-button>');
+        const host = render(
+            '<lily-button label="Close dialog"><span aria-hidden="true">x</span></lily-button>',
+        );
 
         expect(host.querySelector("button")!.getAttribute("aria-label")).toBe("Close dialog");
     });

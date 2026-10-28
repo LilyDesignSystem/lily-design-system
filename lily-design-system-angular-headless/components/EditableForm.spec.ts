@@ -37,7 +37,8 @@ describe("EditableForm — submit and cancel", () => {
     fixture.detectChanges();
     return fixture;
   }
-  const form = (f: { nativeElement: HTMLElement }) => f.nativeElement.querySelector("form.editable-form") as HTMLFormElement | null;
+  const form = (f: { nativeElement: HTMLElement }) =>
+    f.nativeElement.querySelector("form.editable-form") as HTMLFormElement | null;
 
   test("renders nothing while not editing", () => {
     expect(form(create())).toBeNull();

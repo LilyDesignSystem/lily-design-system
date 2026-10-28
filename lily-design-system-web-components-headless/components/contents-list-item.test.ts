@@ -58,7 +58,8 @@ describe("ContentsListItem (upgrade in place)", () => {
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        document.body.innerHTML = '<ol><lily-contents-list-item class="extra">X</lily-contents-list-item></ol>';
+        document.body.innerHTML =
+            '<ol><lily-contents-list-item class="extra">X</lily-contents-list-item></ol>';
 
         expect(document.querySelector("li")!.className).toBe("contents-list-item extra");
     });

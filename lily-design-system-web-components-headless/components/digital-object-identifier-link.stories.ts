@@ -7,9 +7,10 @@ const SLOT = "Read the paper";
 
 const meta: Meta = {
     title: "Links/DigitalObjectIdentifierLink",
-    render: (args) => h("lily-digital-object-identifier-link", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-digital-object-identifier-link", args as Record<string, string | boolean>, SLOT),
     args: {
-        "doi": "10.1000/xyz123"
+        doi: "10.1000/xyz123",
     },
 };
 

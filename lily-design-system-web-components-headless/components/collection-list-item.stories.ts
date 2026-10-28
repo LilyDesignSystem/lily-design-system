@@ -12,10 +12,10 @@ const meta: Meta = {
         return ul;
     },
     args: {
-        "heading": "Getting started with Lily",
-        "href": "/articles/1",
-        "meta": "January 1, 2026",
-        "description": "A short summary of the article.",
+        heading: "Getting started with Lily",
+        href: "/articles/1",
+        meta: "January 1, 2026",
+        description: "A short summary of the article.",
     },
 };
 

@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Content/Timer",
     render: (args) => h("lily-timer", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Session timeout countdown",
-        "datetime": "PT5M30S",
+        label: "Session timeout countdown",
+        datetime: "PT5M30S",
     },
 };
 

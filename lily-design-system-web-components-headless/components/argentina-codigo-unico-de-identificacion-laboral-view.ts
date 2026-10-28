@@ -24,7 +24,10 @@ export class ArgentinaCodigoUnicoDeIdentificacionLaboralView extends HTMLElement
         if (this.#span) return;
 
         const span = document.createElement("span");
-        span.className = rootClassName(this, "argentina-codigo-unico-de-identificacion-laboral-view");
+        span.className = rootClassName(
+            this,
+            "argentina-codigo-unico-de-identificacion-laboral-view",
+        );
         const label = this.getAttribute("label");
         if (label !== null) span.setAttribute("aria-label", label);
         span.textContent = this.getAttribute("value") ?? "";

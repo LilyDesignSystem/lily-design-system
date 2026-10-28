@@ -7,7 +7,8 @@ const SLOT = "<p>Video player</p>";
 
 const meta: Meta = {
     title: "Content/MockupPhoneLandscape",
-    render: (args) => h("lily-mockup-phone-landscape", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-mockup-phone-landscape", args as Record<string, string | boolean>, SLOT),
     args: {
         label: "Preview of the video player",
     },

@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("SouthAfricaIdentityNumberView", () => {
     test("renders a native span with the correct class", () => {
-        const host = render('<lily-south-africa-identity-number-view label="South African Identity Number" value="9001015008086"></lily-south-africa-identity-number-view>');
+        const host = render(
+            '<lily-south-africa-identity-number-view label="South African Identity Number" value="9001015008086"></lily-south-africa-identity-number-view>',
+        );
 
         const span = host.querySelector("span") as HTMLSpanElement;
         expect(span).not.toBeNull();
@@ -25,13 +27,19 @@ describe("SouthAfricaIdentityNumberView", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-south-africa-identity-number-view label="South African Identity Number" value="9001015008086"></lily-south-africa-identity-number-view>');
+        const host = render(
+            '<lily-south-africa-identity-number-view label="South African Identity Number" value="9001015008086"></lily-south-africa-identity-number-view>',
+        );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("South African Identity Number");
+        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
+            "South African Identity Number",
+        );
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
-        const host = render('<lily-south-africa-identity-number-view label="South African Identity Number" value="9001015008086"></lily-south-africa-identity-number-view>') as unknown as SouthAfricaIdentityNumberView;
+        const host = render(
+            '<lily-south-africa-identity-number-view label="South African Identity Number" value="9001015008086"></lily-south-africa-identity-number-view>',
+        ) as unknown as SouthAfricaIdentityNumberView;
 
         expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("9001015008086");
         expect(host.value).toBe("9001015008086");
@@ -42,7 +50,9 @@ describe("SouthAfricaIdentityNumberView", () => {
     });
 
     test("has role=text so the identifier announces as a single unit", () => {
-        const host = render('<lily-south-africa-identity-number-view label="South African Identity Number" value="9001015008086"></lily-south-africa-identity-number-view>');
+        const host = render(
+            '<lily-south-africa-identity-number-view label="South African Identity Number" value="9001015008086"></lily-south-africa-identity-number-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });

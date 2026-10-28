@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("MeasurementSystemView", () => {
     test("renders a native span with the correct class", () => {
-        const host = render('<lily-measurement-system-view value="metric"></lily-measurement-system-view>');
+        const host = render(
+            '<lily-measurement-system-view value="metric"></lily-measurement-system-view>',
+        );
 
         const span = host.querySelector("span") as HTMLSpanElement;
         expect(span).not.toBeNull();
@@ -25,19 +27,27 @@ describe("MeasurementSystemView", () => {
     });
 
     test("seeds the initial value as textContent", () => {
-        const host = render('<lily-measurement-system-view value="imperial"></lily-measurement-system-view>');
+        const host = render(
+            '<lily-measurement-system-view value="imperial"></lily-measurement-system-view>',
+        );
 
         expect(host.querySelector("span")!.textContent).toBe("imperial");
     });
 
     test("uses label as additional accessible context when provided", () => {
-        const host = render('<lily-measurement-system-view value="SI" label="International System of Units"></lily-measurement-system-view>');
+        const host = render(
+            '<lily-measurement-system-view value="SI" label="International System of Units"></lily-measurement-system-view>',
+        );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("International System of Units");
+        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
+            "International System of Units",
+        );
     });
 
     test("omits aria-label when label is not provided", () => {
-        const host = render('<lily-measurement-system-view value="metric"></lily-measurement-system-view>');
+        const host = render(
+            '<lily-measurement-system-view value="metric"></lily-measurement-system-view>',
+        );
 
         expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
@@ -54,7 +64,9 @@ describe("MeasurementSystemView", () => {
     });
 
     test("passes through rest attributes and the class hook", () => {
-        const host = render('<lily-measurement-system-view value="SI" class="extra" data-testid="system"></lily-measurement-system-view>');
+        const host = render(
+            '<lily-measurement-system-view value="SI" class="extra" data-testid="system"></lily-measurement-system-view>',
+        );
 
         const span = host.querySelector("span")!;
         expect(span.className).toBe("measurement-system-view extra");

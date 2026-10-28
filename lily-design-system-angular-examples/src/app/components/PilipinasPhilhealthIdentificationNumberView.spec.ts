@@ -7,7 +7,9 @@ describe("PilipinasPhilhealthIdentificationNumberView", () => {
   test("renders the span root with the base class", () => {
     const fixture = TestBed.createComponent(PilipinasPhilhealthIdentificationNumberView);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.pilipinas-philhealth-identification-number-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.pilipinas-philhealth-identification-number-view",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("PilipinasPhilhealthIdentificationNumberView", () => {
     const fixture = TestBed.createComponent(PilipinasPhilhealthIdentificationNumberView);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.pilipinas-philhealth-identification-number-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.pilipinas-philhealth-identification-number-view",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });
@@ -24,7 +28,9 @@ describe("PilipinasPhilhealthIdentificationNumberView", () => {
     const fixture = TestBed.createComponent(PilipinasPhilhealthIdentificationNumberView);
     fixture.componentRef.setInput("label", "Hello");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.pilipinas-philhealth-identification-number-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.pilipinas-philhealth-identification-number-view",
+    );
     expect(el.getAttribute("aria-label")).toBe("Hello");
   });
 
@@ -32,7 +38,9 @@ describe("PilipinasPhilhealthIdentificationNumberView", () => {
     const fixture = TestBed.createComponent(PilipinasPhilhealthIdentificationNumberView);
     fixture.componentRef.setInput("value", "abc123");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.pilipinas-philhealth-identification-number-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.pilipinas-philhealth-identification-number-view",
+    );
     expect(el.textContent).toBe("abc123");
   });
 });

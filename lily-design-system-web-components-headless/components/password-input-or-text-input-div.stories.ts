@@ -7,7 +7,8 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Content/PasswordInputOrTextInputDiv",
-    render: (args) => h("lily-password-input-or-text-input-div", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-password-input-or-text-input-div", args as Record<string, string | boolean>, SLOT),
     args: {
         label: "Password",
         "toggle-label": "Show password",

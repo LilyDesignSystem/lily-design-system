@@ -7,9 +7,14 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/DeutschlandKrankenversichertennummerInput",
-    render: (args) => h("lily-deutschland-krankenversichertennummer-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-deutschland-krankenversichertennummer-input",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Krankenversichertennummer"
+        label: "Krankenversichertennummer",
     },
 };
 

@@ -28,20 +28,28 @@ const SERIES_JSON = JSON.stringify([
 
 describe("LineChart", () => {
     test("exposes the graphic as a named image, not the figure", () => {
-        const host = render(`<lily-line-chart label="Temperature over time" series='${SERIES_JSON}'></lily-line-chart>`);
+        const host = render(
+            `<lily-line-chart label="Temperature over time" series='${SERIES_JSON}'></lily-line-chart>`,
+        );
 
         expect(host.querySelector(".line-chart-graphic")!.getAttribute("role")).toBe("img");
         expect(host.querySelector("figure")!.hasAttribute("role")).toBe(false);
     });
 
     test("uses label as the accessible name", () => {
-        const host = render(`<lily-line-chart label="Temperature over time" series='${SERIES_JSON}'></lily-line-chart>`);
+        const host = render(
+            `<lily-line-chart label="Temperature over time" series='${SERIES_JSON}'></lily-line-chart>`,
+        );
 
-        expect(host.querySelector(".line-chart-graphic")!.getAttribute("aria-label")).toBe("Temperature over time");
+        expect(host.querySelector(".line-chart-graphic")!.getAttribute("aria-label")).toBe(
+            "Temperature over time",
+        );
     });
 
     test("renders one polyline per series", () => {
-        const host = render(`<lily-line-chart label="Temperature over time" series='${SERIES_JSON}'></lily-line-chart>`);
+        const host = render(
+            `<lily-line-chart label="Temperature over time" series='${SERIES_JSON}'></lily-line-chart>`,
+        );
 
         const polylines = host.querySelectorAll("svg polyline");
         expect(polylines.length).toBe(1);
@@ -50,7 +58,9 @@ describe("LineChart", () => {
     });
 
     test("the svg is decorative (presentation role, aria-hidden)", () => {
-        const host = render(`<lily-line-chart label="Temperature over time" series='${SERIES_JSON}'></lily-line-chart>`);
+        const host = render(
+            `<lily-line-chart label="Temperature over time" series='${SERIES_JSON}'></lily-line-chart>`,
+        );
 
         const svg = host.querySelector("svg")!;
         expect(svg.getAttribute("role")).toBe("presentation");
@@ -79,7 +89,9 @@ describe("LineChart", () => {
     });
 
     test("the series property is live and re-renders on set", () => {
-        const host = render('<lily-line-chart label="Temperature"></lily-line-chart>') as unknown as LineChart;
+        const host = render(
+            '<lily-line-chart label="Temperature"></lily-line-chart>',
+        ) as unknown as LineChart;
 
         expect(host.querySelectorAll("svg polyline").length).toBe(0);
 
@@ -90,7 +102,9 @@ describe("LineChart", () => {
     });
 
     test("ignores malformed JSON in the series attribute", () => {
-        const host = render('<lily-line-chart label="Temperature" series="not json"></lily-line-chart>') as unknown as LineChart;
+        const host = render(
+            '<lily-line-chart label="Temperature" series="not json"></lily-line-chart>',
+        ) as unknown as LineChart;
 
         expect(host.series).toEqual([]);
     });

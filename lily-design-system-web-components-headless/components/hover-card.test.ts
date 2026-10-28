@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("HoverCard", () => {
     test("renders as itself with the base class", () => {
-        const host = render('<lily-hover-card label="User info"><p>Profile details</p></lily-hover-card>');
+        const host = render(
+            '<lily-hover-card label="User info"><p>Profile details</p></lily-hover-card>',
+        );
 
         expect(host.tagName.toLowerCase()).toBe("lily-hover-card");
         expect(host.className).toBe("hover-card");
@@ -52,13 +54,17 @@ describe("HoverCard", () => {
     });
 
     test("preserves children content in place", () => {
-        const host = render('<lily-hover-card open label="User info"><strong>Jane Doe</strong></lily-hover-card>');
+        const host = render(
+            '<lily-hover-card open label="User info"><strong>Jane Doe</strong></lily-hover-card>',
+        );
 
         expect(host.querySelector("strong")!.textContent).toBe("Jane Doe");
     });
 
     test("appends the consumer's class hook to the base class", () => {
-        const host = render('<lily-hover-card label="User info" class="profile-preview"></lily-hover-card>');
+        const host = render(
+            '<lily-hover-card label="User info" class="profile-preview"></lily-hover-card>',
+        );
 
         expect(host.className).toBe("hover-card profile-preview");
     });

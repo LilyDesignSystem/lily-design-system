@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("LietuvaPasasView", () => {
     test("renders a native span with the correct class", () => {
-        const host = render('<lily-lietuva-pasas-view label="Pasas (Passport Number)" value="12345678"></lily-lietuva-pasas-view>');
+        const host = render(
+            '<lily-lietuva-pasas-view label="Pasas (Passport Number)" value="12345678"></lily-lietuva-pasas-view>',
+        );
 
         const span = host.querySelector("span") as HTMLSpanElement;
         expect(span).not.toBeNull();
@@ -25,13 +27,19 @@ describe("LietuvaPasasView", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-lietuva-pasas-view label="Pasas (Passport Number)" value="12345678"></lily-lietuva-pasas-view>');
+        const host = render(
+            '<lily-lietuva-pasas-view label="Pasas (Passport Number)" value="12345678"></lily-lietuva-pasas-view>',
+        );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Pasas (Passport Number)");
+        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
+            "Pasas (Passport Number)",
+        );
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
-        const host = render('<lily-lietuva-pasas-view label="Pasas (Passport Number)" value="12345678"></lily-lietuva-pasas-view>') as unknown as LietuvaPasasView;
+        const host = render(
+            '<lily-lietuva-pasas-view label="Pasas (Passport Number)" value="12345678"></lily-lietuva-pasas-view>',
+        ) as unknown as LietuvaPasasView;
 
         expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("12345678");
         expect(host.value).toBe("12345678");
@@ -42,7 +50,9 @@ describe("LietuvaPasasView", () => {
     });
 
     test("has role=text so the identifier announces as a single unit", () => {
-        const host = render('<lily-lietuva-pasas-view label="Pasas (Passport Number)" value="12345678"></lily-lietuva-pasas-view>');
+        const host = render(
+            '<lily-lietuva-pasas-view label="Pasas (Passport Number)" value="12345678"></lily-lietuva-pasas-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });

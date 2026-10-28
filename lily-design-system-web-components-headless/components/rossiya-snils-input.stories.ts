@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Special-Purpose Identifiers/RossiyaSnilsInput",
     render: (args) => h("lily-rossiya-snils-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "СНИЛС (SNILS)"
+        label: "СНИЛС (SNILS)",
     },
 };
 

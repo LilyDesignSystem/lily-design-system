@@ -17,20 +17,26 @@ function render(html: string): HTMLElement {
 
 describe("RedAmberGreenPicker", () => {
     test("carries the base class", () => {
-        const host = render('<lily-red-amber-green-picker label="Project status"></lily-red-amber-green-picker>');
+        const host = render(
+            '<lily-red-amber-green-picker label="Project status"></lily-red-amber-green-picker>',
+        );
 
         expect(host.classList.contains("red-amber-green-picker")).toBe(true);
     });
 
     test("has role=radiogroup, not a native select", () => {
-        const host = render('<lily-red-amber-green-picker label="Project status"></lily-red-amber-green-picker>');
+        const host = render(
+            '<lily-red-amber-green-picker label="Project status"></lily-red-amber-green-picker>',
+        );
 
         expect(host.getAttribute("role")).toBe("radiogroup");
         expect(host.querySelector("select")).toBeNull();
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-red-amber-green-picker label="Project status"></lily-red-amber-green-picker>');
+        const host = render(
+            '<lily-red-amber-green-picker label="Project status"></lily-red-amber-green-picker>',
+        );
 
         expect(host.getAttribute("aria-label")).toBe("Project status");
     });
@@ -52,7 +58,9 @@ describe("RedAmberGreenPicker", () => {
     });
 
     test("is idempotent across repeated connectedCallback invocations", () => {
-        const host = render('<lily-red-amber-green-picker label="Project status"></lily-red-amber-green-picker>');
+        const host = render(
+            '<lily-red-amber-green-picker label="Project status"></lily-red-amber-green-picker>',
+        );
 
         (host as unknown as RedAmberGreenPicker).connectedCallback();
 

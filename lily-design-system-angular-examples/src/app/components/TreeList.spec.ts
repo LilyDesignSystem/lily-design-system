@@ -29,7 +29,8 @@ function key(el: Element, k: string) {
   return event;
 }
 
-const ITEMS = '<li role="treeitem" tabindex="-1">One</li><li role="treeitem" tabindex="-1">Two</li><li role="treeitem" tabindex="-1">Three</li>';
+const ITEMS =
+  '<li role="treeitem" tabindex="-1">One</li><li role="treeitem" tabindex="-1">Two</li><li role="treeitem" tabindex="-1">Three</li>';
 
 describe("TreeList — role and roving focus", () => {
   function create() {
@@ -111,7 +112,8 @@ describe("TreeList with TreeListItem — arrow keys reach real items", () => {
     const tree = fixture.nativeElement.querySelector("[role='tree']") as HTMLElement;
     const items = Array.from(tree.querySelectorAll<HTMLElement>("li[role='treeitem']"));
     expect(items).toHaveLength(3);
-    const press = (k: string) => tree.dispatchEvent(new KeyboardEvent("keydown", { key: k, bubbles: true, cancelable: true }));
+    const press = (k: string) =>
+      tree.dispatchEvent(new KeyboardEvent("keydown", { key: k, bubbles: true, cancelable: true }));
     items[0].focus();
     expect(document.activeElement).toBe(items[0]);
     press("ArrowDown");
@@ -137,7 +139,9 @@ describe("TreeList — skips items hidden in a collapsed branch", () => {
     const a = fixture.nativeElement.querySelector("#a") as HTMLElement;
     const b = fixture.nativeElement.querySelector("#b") as HTMLElement;
     a.focus();
-    tree.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, cancelable: true }));
+    tree.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, cancelable: true }),
+    );
     expect(document.activeElement).toBe(b);
     fixture.nativeElement.remove();
   });

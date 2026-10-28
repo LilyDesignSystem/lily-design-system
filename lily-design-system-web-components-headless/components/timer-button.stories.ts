@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Buttons and links/TimerButton",
     render: (args) => h("lily-timer-button", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Continue",
-        "duration": "10"
+        label: "Continue",
+        duration: "10",
     },
 };
 

@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Navigation/Footer",
     render: (args) => h("lily-footer", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Site footer"
+        label: "Site footer",
     },
 };
 

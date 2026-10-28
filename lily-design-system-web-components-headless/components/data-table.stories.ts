@@ -11,8 +11,8 @@ const meta: Meta = {
     title: "Tables/DataTable",
     render: (args) => h("lily-data-table", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Sales data",
-        "caption": "Quarterly sales"
+        label: "Sales data",
+        caption: "Quarterly sales",
     },
 };
 

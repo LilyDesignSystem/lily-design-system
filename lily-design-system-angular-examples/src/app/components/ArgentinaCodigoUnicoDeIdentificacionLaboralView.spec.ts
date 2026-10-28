@@ -7,7 +7,9 @@ describe("ArgentinaCodigoUnicoDeIdentificacionLaboralView", () => {
   test("renders the span root with the base class", () => {
     const fixture = TestBed.createComponent(ArgentinaCodigoUnicoDeIdentificacionLaboralView);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.argentina-codigo-unico-de-identificacion-laboral-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.argentina-codigo-unico-de-identificacion-laboral-view",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("ArgentinaCodigoUnicoDeIdentificacionLaboralView", () => {
     const fixture = TestBed.createComponent(ArgentinaCodigoUnicoDeIdentificacionLaboralView);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.argentina-codigo-unico-de-identificacion-laboral-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.argentina-codigo-unico-de-identificacion-laboral-view",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

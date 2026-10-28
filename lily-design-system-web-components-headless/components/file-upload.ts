@@ -72,7 +72,10 @@ export class FileUpload extends HTMLElement {
         const files = input.files;
         const count = files?.length ?? 0;
         this.#status!.setAttribute("data-file-count", String(count));
-        this.#status!.textContent = count > 0 ? `${count} ${count === 1 ? "file" : "files"} selected` : "";
-        this.dispatchEvent(new CustomEvent("lily-change", { detail: { files }, bubbles: true, composed: true }));
+        this.#status!.textContent =
+            count > 0 ? `${count} ${count === 1 ? "file" : "files"} selected` : "";
+        this.dispatchEvent(
+            new CustomEvent("lily-change", { detail: { files }, bubbles: true, composed: true }),
+        );
     };
 }

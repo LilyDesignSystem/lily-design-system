@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Forms/PasswordInput",
     render: (args) => h("lily-password-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Password"
+        label: "Password",
     },
 };
 

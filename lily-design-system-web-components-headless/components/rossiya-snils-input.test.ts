@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("RossiyaSnilsInput", () => {
     test("renders a native input type=text with the correct class", () => {
-        const host = render('<lily-rossiya-snils-input label="СНИЛС (SNILS)"></lily-rossiya-snils-input>');
+        const host = render(
+            '<lily-rossiya-snils-input label="СНИЛС (SNILS)"></lily-rossiya-snils-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.type).toBe("text");
@@ -25,13 +27,17 @@ describe("RossiyaSnilsInput", () => {
     });
 
     test("always forces autocomplete to off, even if the consumer tries to override it", () => {
-        const host = render('<lily-rossiya-snils-input label="СНИЛС (SNILS)" autocomplete="on"></lily-rossiya-snils-input>');
+        const host = render(
+            '<lily-rossiya-snils-input label="СНИЛС (SNILS)" autocomplete="on"></lily-rossiya-snils-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("autocomplete")).toBe("off");
     });
 
     test("seeds the initial value from the value attribute and exposes a live value property", () => {
-        const host = render('<lily-rossiya-snils-input label="СНИЛС (SNILS)" value="112-233-445 95"></lily-rossiya-snils-input>') as unknown as RossiyaSnilsInput;
+        const host = render(
+            '<lily-rossiya-snils-input label="СНИЛС (SNILS)" value="112-233-445 95"></lily-rossiya-snils-input>',
+        ) as unknown as RossiyaSnilsInput;
 
         expect((host.querySelector("input") as HTMLInputElement).value).toBe("112-233-445 95");
 
@@ -41,7 +47,9 @@ describe("RossiyaSnilsInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-rossiya-snils-input label="СНИЛС (SNILS)" required disabled></lily-rossiya-snils-input>');
+        const host = render(
+            '<lily-rossiya-snils-input label="СНИЛС (SNILS)" required disabled></lily-rossiya-snils-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -49,7 +57,9 @@ describe("RossiyaSnilsInput", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-rossiya-snils-input label="СНИЛС (SNILS)"></lily-rossiya-snils-input>');
+        const host = render(
+            '<lily-rossiya-snils-input label="СНИЛС (SNILS)"></lily-rossiya-snils-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("СНИЛС (SNILS)");
     });

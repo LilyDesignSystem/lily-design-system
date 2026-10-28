@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/Carousel",
     render: (args) => h("lily-carousel", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Featured products",
+        label: "Featured products",
     },
 };
 

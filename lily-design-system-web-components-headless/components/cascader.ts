@@ -81,7 +81,8 @@ export class Cascader extends HTMLElement {
         if (label !== null) this.setAttribute("aria-label", label);
 
         this.#trigger.disabled = this.hasAttribute("disabled");
-        this.#trigger.textContent = this.getAttribute("value") || this.getAttribute("placeholder") || "";
+        this.#trigger.textContent =
+            this.getAttribute("value") || this.getAttribute("placeholder") || "";
     }
 
     #onTriggerClick = (): void => {

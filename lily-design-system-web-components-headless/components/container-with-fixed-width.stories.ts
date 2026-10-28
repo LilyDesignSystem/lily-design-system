@@ -7,7 +7,8 @@ const SLOT = "<article>Centered content, capped to a fixed max-width.</article>"
 
 const meta: Meta = {
     title: "Content/ContainerWithFixedWidth",
-    render: (args) => h("lily-container-with-fixed-width", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-container-with-fixed-width", args as Record<string, string | boolean>, SLOT),
     args: {
         "max-width": "960px",
     },

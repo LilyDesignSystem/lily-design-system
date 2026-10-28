@@ -7,7 +7,8 @@ const SLOT = "<section>Full-width content with horizontal padding.</section>";
 
 const meta: Meta = {
     title: "Content/ContainerWithFluidWidth",
-    render: (args) => h("lily-container-with-fluid-width", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-container-with-fluid-width", args as Record<string, string | boolean>, SLOT),
     args: {
         "padding-inline": "2rem",
     },

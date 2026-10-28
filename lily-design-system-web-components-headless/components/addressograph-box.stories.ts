@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/AddressographBox",
     render: (args) => h("lily-addressograph-box", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Patient identification",
+        label: "Patient identification",
     },
 };
 

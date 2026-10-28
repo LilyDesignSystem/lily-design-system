@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Forms/TelInput",
     render: (args) => h("lily-tel-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Phone"
+        label: "Phone",
     },
 };
 

@@ -10,8 +10,8 @@ const meta: Meta = {
     title: "Lists/TourList",
     render: (args) => h("lily-tour-list", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Getting started",
-        "active": true,
+        label: "Getting started",
+        active: true,
     },
 };
 

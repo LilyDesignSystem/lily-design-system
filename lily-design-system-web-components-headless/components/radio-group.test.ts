@@ -38,13 +38,17 @@ describe("RadioGroup", () => {
     });
 
     test("the consumer's class is appended to the base class", () => {
-        const host = render('<lily-radio-group label="Delivery method" class="my-extra"></lily-radio-group>');
+        const host = render(
+            '<lily-radio-group label="Delivery method" class="my-extra"></lily-radio-group>',
+        );
 
         expect(host.querySelector("fieldset")!.className).toBe("radio-group my-extra");
     });
 
     test("passes through rest attributes such as id", () => {
-        const host = render('<lily-radio-group label="Delivery method" id="delivery-group"></lily-radio-group>');
+        const host = render(
+            '<lily-radio-group label="Delivery method" id="delivery-group"></lily-radio-group>',
+        );
 
         expect(host.querySelector("fieldset")!.id).toBe("delivery-group");
     });

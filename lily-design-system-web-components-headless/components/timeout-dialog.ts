@@ -18,7 +18,12 @@
 // References:
 //   - components/timeout-dialog/index.md (canonical contract)
 
-import { moveChildrenInto, nextId, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import {
+    moveChildrenInto,
+    nextId,
+    passThroughAttributes,
+    rootClassName,
+} from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["open", "title", "remaining-seconds"]);
 

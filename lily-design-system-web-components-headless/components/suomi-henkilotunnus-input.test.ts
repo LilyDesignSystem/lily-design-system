@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("SuomiHenkilotunnusInput", () => {
     test("renders a native input type=text with the correct class", () => {
-        const host = render('<lily-suomi-henkilotunnus-input label="Henkilötunnus (HETU)"></lily-suomi-henkilotunnus-input>');
+        const host = render(
+            '<lily-suomi-henkilotunnus-input label="Henkilötunnus (HETU)"></lily-suomi-henkilotunnus-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.type).toBe("text");
@@ -25,13 +27,17 @@ describe("SuomiHenkilotunnusInput", () => {
     });
 
     test("always forces autocomplete=off, even if the consumer tries to override it", () => {
-        const host = render('<lily-suomi-henkilotunnus-input label="Henkilötunnus (HETU)" autocomplete="on"></lily-suomi-henkilotunnus-input>');
+        const host = render(
+            '<lily-suomi-henkilotunnus-input label="Henkilötunnus (HETU)" autocomplete="on"></lily-suomi-henkilotunnus-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("autocomplete")).toBe("off");
     });
 
     test("seeds the initial value and exposes a live value property", () => {
-        const host = render('<lily-suomi-henkilotunnus-input label="Henkilötunnus (HETU)" value="131052-308T"></lily-suomi-henkilotunnus-input>') as unknown as SuomiHenkilotunnusInput;
+        const host = render(
+            '<lily-suomi-henkilotunnus-input label="Henkilötunnus (HETU)" value="131052-308T"></lily-suomi-henkilotunnus-input>',
+        ) as unknown as SuomiHenkilotunnusInput;
 
         expect(host.value).toBe("131052-308T");
 
@@ -40,7 +46,9 @@ describe("SuomiHenkilotunnusInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-suomi-henkilotunnus-input label="Henkilötunnus (HETU)" required disabled></lily-suomi-henkilotunnus-input>');
+        const host = render(
+            '<lily-suomi-henkilotunnus-input label="Henkilötunnus (HETU)" required disabled></lily-suomi-henkilotunnus-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -48,8 +56,12 @@ describe("SuomiHenkilotunnusInput", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-suomi-henkilotunnus-input label="Henkilötunnus (HETU)"></lily-suomi-henkilotunnus-input>');
+        const host = render(
+            '<lily-suomi-henkilotunnus-input label="Henkilötunnus (HETU)"></lily-suomi-henkilotunnus-input>',
+        );
 
-        expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("Henkilötunnus (HETU)");
+        expect(host.querySelector("input")!.getAttribute("aria-label")).toBe(
+            "Henkilötunnus (HETU)",
+        );
     });
 });

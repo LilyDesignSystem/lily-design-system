@@ -9,14 +9,18 @@ const SLOT = [
     ["amber", "Amber - Caution"],
     ["green", "Green - On track"],
 ]
-    .map(([value, label]) => `<lily-red-amber-green-picker-button value="${value}" label="${label}"></lily-red-amber-green-picker-button>`)
+    .map(
+        ([value, label]) =>
+            `<lily-red-amber-green-picker-button value="${value}" label="${label}"></lily-red-amber-green-picker-button>`,
+    )
     .join("");
 
 const meta: Meta = {
     title: "Pickers/RedAmberGreenPicker",
-    render: (args) => h("lily-red-amber-green-picker", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-red-amber-green-picker", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Project status"
+        label: "Project status",
     },
 };
 

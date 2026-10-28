@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Forms/MonthInput",
     render: (args) => h("lily-month-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Start month"
+        label: "Start month",
     },
 };
 

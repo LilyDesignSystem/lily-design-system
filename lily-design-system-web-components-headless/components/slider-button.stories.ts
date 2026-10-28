@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Buttons and links/SliderButton",
     render: (args) => h("lily-slider-button", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Slide to confirm order"
+        label: "Slide to confirm order",
     },
 };
 

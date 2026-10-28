@@ -7,7 +7,9 @@ describe("RedOrangeYellowGreenBluePickerButton", () => {
   test("renders the button root with the base class", () => {
     const fixture = TestBed.createComponent(RedOrangeYellowGreenBluePickerButton);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("button.red-orange-yellow-green-blue-picker-button");
+    const el = fixture.nativeElement.querySelector(
+      "button.red-orange-yellow-green-blue-picker-button",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("RedOrangeYellowGreenBluePickerButton", () => {
     const fixture = TestBed.createComponent(RedOrangeYellowGreenBluePickerButton);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("button.red-orange-yellow-green-blue-picker-button");
+    const el = fixture.nativeElement.querySelector(
+      "button.red-orange-yellow-green-blue-picker-button",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

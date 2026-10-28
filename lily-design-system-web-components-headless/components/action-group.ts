@@ -95,7 +95,11 @@ export class ActionGroup extends HTMLElement {
         const next = !this.hasAttribute("overflow-open");
         this.toggleAttribute("overflow-open", next);
         this.dispatchEvent(
-            new CustomEvent("lily-overflow-toggle", { detail: { open: next }, bubbles: true, composed: true }),
+            new CustomEvent("lily-overflow-toggle", {
+                detail: { open: next },
+                bubbles: true,
+                composed: true,
+            }),
         );
     };
 }

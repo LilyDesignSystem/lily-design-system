@@ -28,7 +28,9 @@ describe("ToolCall", () => {
   test("projects [toolCallSummary] into the summary and the rest into the content", () => {
     const f = TestBed.createComponent(Host);
     f.detectChanges();
-    expect(f.nativeElement.querySelector("summary.tool-call-summary [data-testid=sum]")).toBeTruthy();
+    expect(
+      f.nativeElement.querySelector("summary.tool-call-summary [data-testid=sum]"),
+    ).toBeTruthy();
     expect(f.nativeElement.querySelector("div.tool-call-content [data-testid=body]")).toBeTruthy();
     expect(f.nativeElement.querySelector("div.tool-call-content [data-testid=sum]")).toBeNull();
   });
@@ -41,7 +43,8 @@ describe("ToolCall", () => {
   });
   test("is busy only while running", () => {
     expect(root(make({ status: "running" })).getAttribute("aria-busy")).toBe("true");
-    for (const s of ["pending", "done", "error"]) expect(root(make({ status: s })).hasAttribute("aria-busy")).toBe(false);
+    for (const s of ["pending", "done", "error"])
+      expect(root(make({ status: s })).hasAttribute("aria-busy")).toBe(false);
   });
   test("appends the consumer class after the base class", () => {
     // Angular's class binding does not preserve source order, so assert membership.

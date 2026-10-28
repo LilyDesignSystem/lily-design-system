@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/WarningCallout",
     render: (args) => h("lily-warning-callout", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Warning"
+        label: "Warning",
     },
 };
 

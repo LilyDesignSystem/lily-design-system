@@ -13,7 +13,7 @@ const meta: Meta = {
     title: "Forms/SegmentGroup",
     render: (args) => h("lily-segment-group", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "View",
+        label: "View",
     },
 };
 

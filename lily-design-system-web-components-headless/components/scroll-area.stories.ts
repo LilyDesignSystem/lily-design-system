@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/ScrollArea",
     render: (args) => h("lily-scroll-area", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Scrollable content"
+        label: "Scrollable content",
     },
 };
 

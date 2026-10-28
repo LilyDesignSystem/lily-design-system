@@ -7,10 +7,11 @@ const SLOT = "Copy link";
 
 const meta: Meta = {
     title: "Buttons and links/ClipboardCopyButton",
-    render: (args) => h("lily-clipboard-copy-button", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-clipboard-copy-button", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Copy link",
-        "text": "https://example.com"
+        label: "Copy link",
+        text: "https://example.com",
     },
 };
 

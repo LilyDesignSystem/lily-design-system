@@ -7,10 +7,11 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Forms/AngleSliderRangeInput",
-    render: (args) => h("lily-angle-slider-range-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-angle-slider-range-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Rotation",
-        "value": "90"
+        label: "Rotation",
+        value: "90",
     },
 };
 

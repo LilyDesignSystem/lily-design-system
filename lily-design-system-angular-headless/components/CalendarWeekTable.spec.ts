@@ -42,7 +42,9 @@ describe("CalendarWeekTable", () => {
     expect(grid(make()).getAttribute("data-view")).toBe("week");
   });
   test("renders caption when provided", () => {
-    expect(grid(make({ caption: "Visible caption" })).querySelector("caption")?.textContent).toBe("Visible caption");
+    expect(grid(make({ caption: "Visible caption" })).querySelector("caption")?.textContent).toBe(
+      "Visible caption",
+    );
   });
   test("renders without caption by default", () => {
     expect(grid(make()).querySelector("caption")).toBeNull();

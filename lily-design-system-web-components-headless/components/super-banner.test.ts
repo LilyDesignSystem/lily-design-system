@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("SuperBanner", () => {
     test("the custom element itself is the alert (self-is-the-wrapper)", () => {
-        const host = render("<lily-super-banner>System maintenance in progress.</lily-super-banner>");
+        const host = render(
+            "<lily-super-banner>System maintenance in progress.</lily-super-banner>",
+        );
 
         expect(host.className).toBe("super-banner");
         expect(host.getAttribute("role")).toBe("alert");
@@ -25,7 +27,9 @@ describe("SuperBanner", () => {
     });
 
     test("label is optional and sets aria-label when present", () => {
-        const host = render('<lily-super-banner label="System outage">Maintenance in progress.</lily-super-banner>');
+        const host = render(
+            '<lily-super-banner label="System outage">Maintenance in progress.</lily-super-banner>',
+        );
 
         expect(host.getAttribute("aria-label")).toBe("System outage");
     });
@@ -37,13 +41,17 @@ describe("SuperBanner", () => {
     });
 
     test("dismissable renders a dismiss button", () => {
-        const host = render("<lily-super-banner dismissable>Maintenance in progress.</lily-super-banner>");
+        const host = render(
+            "<lily-super-banner dismissable>Maintenance in progress.</lily-super-banner>",
+        );
 
         expect(host.querySelector(".super-banner-dismiss")).toBeTruthy();
     });
 
     test("dismissing fires lily-close and hides the banner", () => {
-        const host = render("<lily-super-banner dismissable>Maintenance in progress.</lily-super-banner>");
+        const host = render(
+            "<lily-super-banner dismissable>Maintenance in progress.</lily-super-banner>",
+        );
         const handler = vi.fn();
         host.addEventListener("lily-close", handler);
 

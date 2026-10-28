@@ -20,5 +20,10 @@ export const Default: Story = {};
 
 export const Urgent: Story = {
     args: { label: "Error", urgent: true },
-    render: (args) => h("lily-notification", args as Record<string, string | boolean>, "Something went wrong. Please try again."),
+    render: (args) =>
+        h(
+            "lily-notification",
+            args as Record<string, string | boolean>,
+            "Something went wrong. Please try again.",
+        ),
 };

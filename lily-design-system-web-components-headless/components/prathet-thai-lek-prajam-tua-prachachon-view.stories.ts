@@ -7,10 +7,15 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/PrathetThaiLekPrajamTuaPrachachonView",
-    render: (args) => h("lily-prathet-thai-lek-prajam-tua-prachachon-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-prathet-thai-lek-prajam-tua-prachachon-view",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "เลขประจำตัวประชาชน (National ID)",
-        "value": "1234567890123"
+        label: "เลขประจำตัวประชาชน (National ID)",
+        value: "1234567890123",
     },
 };
 

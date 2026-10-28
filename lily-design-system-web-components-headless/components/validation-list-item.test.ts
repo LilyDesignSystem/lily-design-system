@@ -46,7 +46,11 @@ describe("ValidationListItem (upgrade in place)", () => {
         renderList();
 
         const items = Array.from(document.querySelectorAll("li.validation-list-item"));
-        expect(items.map((li) => li.getAttribute("data-status"))).toEqual(["passed", "failed", "pending"]);
+        expect(items.map((li) => li.getAttribute("data-status"))).toEqual([
+            "passed",
+            "failed",
+            "pending",
+        ]);
     });
 
     test("aria-label is rendered only when label is provided", () => {
@@ -65,7 +69,8 @@ describe("ValidationListItem (upgrade in place)", () => {
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        document.body.innerHTML = '<ul><lily-validation-list-item class="extra">X</lily-validation-list-item></ul>';
+        document.body.innerHTML =
+            '<ul><lily-validation-list-item class="extra">X</lily-validation-list-item></ul>';
 
         expect(document.querySelector("li")!.className).toBe("validation-list-item extra");
     });

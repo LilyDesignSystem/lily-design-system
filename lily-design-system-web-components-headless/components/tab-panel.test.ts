@@ -32,7 +32,9 @@ describe("TabPanel", () => {
     });
 
     test("uses labelled-by when present and omits aria-label", () => {
-        const host = render('<lily-tab-panel label="Details" labelled-by="tab-1">Panel content.</lily-tab-panel>');
+        const host = render(
+            '<lily-tab-panel label="Details" labelled-by="tab-1">Panel content.</lily-tab-panel>',
+        );
 
         expect(host.getAttribute("aria-labelledby")).toBe("tab-1");
         expect(host.hasAttribute("aria-label")).toBe(false);
@@ -45,13 +47,17 @@ describe("TabPanel", () => {
     });
 
     test("selected removes the hidden attribute", () => {
-        const host = render('<lily-tab-panel label="Details" selected>Panel content.</lily-tab-panel>');
+        const host = render(
+            '<lily-tab-panel label="Details" selected>Panel content.</lily-tab-panel>',
+        );
 
         expect(host.hidden).toBe(false);
     });
 
     test("toggling selected externally updates hidden", () => {
-        const host = render('<lily-tab-panel label="Details" selected>Panel content.</lily-tab-panel>');
+        const host = render(
+            '<lily-tab-panel label="Details" selected>Panel content.</lily-tab-panel>',
+        );
 
         host.removeAttribute("selected");
 

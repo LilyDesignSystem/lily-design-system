@@ -40,11 +40,24 @@ describe("TileMap — image role and tile navigation", () => {
     const tiles = Array.from(root.querySelectorAll<HTMLElement>("[data-tile]"));
     // 2 x 2 grid geometry (jsdom has no layout).
     const rects = [
-      [0, 0], [100, 0], [0, 100], [100, 100],
+      [0, 0],
+      [100, 0],
+      [0, 100],
+      [100, 100],
     ];
     tiles.forEach((t, i) => {
       t.getBoundingClientRect = () =>
-        ({ left: rects[i][0], top: rects[i][1], width: 90, height: 90, right: 0, bottom: 0, x: 0, y: 0, toJSON() {} }) as DOMRect;
+        ({
+          left: rects[i][0],
+          top: rects[i][1],
+          width: 90,
+          height: 90,
+          right: 0,
+          bottom: 0,
+          x: 0,
+          y: 0,
+          toJSON() {},
+        }) as DOMRect;
     });
     return { fixture, root, tiles };
   }

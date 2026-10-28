@@ -34,7 +34,9 @@ describe("PinInputDiv", () => {
     });
 
     test("digitLabel supplies positional labels, before or after connect", () => {
-        const host = render('<lily-pin-input-div label="Enter PIN"></lily-pin-input-div>') as unknown as PinInputDiv;
+        const host = render(
+            '<lily-pin-input-div label="Enter PIN"></lily-pin-input-div>',
+        ) as unknown as PinInputDiv;
         host.digitLabel = (n, of) => `Digit ${n} of ${of}`;
         const inputs = (host as unknown as HTMLElement).querySelectorAll("input");
         expect(inputs[0]!.getAttribute("aria-label")).toBe("Digit 1 of 4");
@@ -42,7 +44,9 @@ describe("PinInputDiv", () => {
     });
 
     test("length overrides the number of digit inputs", () => {
-        const host = render('<lily-pin-input-div label="Verification code" length="6"></lily-pin-input-div>');
+        const host = render(
+            '<lily-pin-input-div label="Verification code" length="6"></lily-pin-input-div>',
+        );
 
         expect(host.querySelectorAll("input").length).toBe(6);
     });
@@ -56,7 +60,9 @@ describe("PinInputDiv", () => {
     });
 
     test("seeds each digit from the initial value", () => {
-        const host = render('<lily-pin-input-div label="Enter PIN" value="12"></lily-pin-input-div>');
+        const host = render(
+            '<lily-pin-input-div label="Enter PIN" value="12"></lily-pin-input-div>',
+        );
         const inputs = host.querySelectorAll("input") as NodeListOf<HTMLInputElement>;
 
         expect(inputs[0]!.value).toBe("1");
@@ -92,7 +98,9 @@ describe("PinInputDiv", () => {
     });
 
     test("Backspace on an empty input clears and focuses the previous input", () => {
-        const host = render('<lily-pin-input-div label="Enter PIN" value="12"></lily-pin-input-div>');
+        const host = render(
+            '<lily-pin-input-div label="Enter PIN" value="12"></lily-pin-input-div>',
+        );
         const inputs = host.querySelectorAll("input") as NodeListOf<HTMLInputElement>;
         inputs[2]!.focus();
 
@@ -110,12 +118,16 @@ describe("PinInputDiv", () => {
         inputs[1]!.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft", bubbles: true }));
         expect(document.activeElement).toBe(inputs[0]);
 
-        inputs[0]!.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
+        inputs[0]!.dispatchEvent(
+            new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }),
+        );
         expect(document.activeElement).toBe(inputs[1]);
     });
 
     test("exposes a combined, bindable value property", () => {
-        const host = render('<lily-pin-input-div label="Enter PIN" value="12"></lily-pin-input-div>') as unknown as PinInputDiv;
+        const host = render(
+            '<lily-pin-input-div label="Enter PIN" value="12"></lily-pin-input-div>',
+        ) as unknown as PinInputDiv;
 
         expect(host.value).toBe("12");
         host.value = "9876";

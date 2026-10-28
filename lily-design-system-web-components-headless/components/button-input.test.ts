@@ -31,7 +31,9 @@ describe("ButtonInput", () => {
     });
 
     test("label attribute overrides the accessible name via aria-label", () => {
-        const host = render('<lily-button-input value="Submit" label="Submit the form"></lily-button-input>');
+        const host = render(
+            '<lily-button-input value="Submit" label="Submit the form"></lily-button-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("Submit the form");
     });

@@ -61,13 +61,17 @@ describe("TreeNav", () => {
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-tree-nav label="Documentation sidebar" class="extra"></lily-tree-nav>');
+        const host = render(
+            '<lily-tree-nav label="Documentation sidebar" class="extra"></lily-tree-nav>',
+        );
 
         expect(host.querySelector("nav")!.className).toBe("tree-nav extra");
     });
 
     test("passes through rest attributes to the nav", () => {
-        const host = render('<lily-tree-nav label="Documentation sidebar" data-testid="tn"></lily-tree-nav>');
+        const host = render(
+            '<lily-tree-nav label="Documentation sidebar" data-testid="tn"></lily-tree-nav>',
+        );
 
         expect(host.querySelector("nav")!.getAttribute("data-testid")).toBe("tn");
     });

@@ -25,7 +25,9 @@ describe("BackLink", () => {
     });
 
     test("uses label as an aria-label override", () => {
-        const host = render('<lily-back-link href="/previous" label="Back to results">Back</lily-back-link>');
+        const host = render(
+            '<lily-back-link href="/previous" label="Back to results">Back</lily-back-link>',
+        );
 
         expect(host.querySelector("a")!.getAttribute("aria-label")).toBe("Back to results");
     });

@@ -10,7 +10,7 @@ const meta: Meta = {
     title: "Lists/CheckList",
     render: (args) => h("lily-check-list", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Onboarding tasks",
+        label: "Onboarding tasks",
     },
 };
 

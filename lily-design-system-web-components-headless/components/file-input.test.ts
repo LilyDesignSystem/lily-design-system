@@ -31,7 +31,9 @@ describe("FileInput", () => {
     });
 
     test("accept attribute propagates to the inner input", () => {
-        const host = render('<lily-file-input label="Upload document" accept="image/*"></lily-file-input>');
+        const host = render(
+            '<lily-file-input label="Upload document" accept="image/*"></lily-file-input>',
+        );
 
         expect((host.querySelector("input") as HTMLInputElement).accept).toBe("image/*");
     });
@@ -43,7 +45,9 @@ describe("FileInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-file-input label="Upload document" required disabled></lily-file-input>');
+        const host = render(
+            '<lily-file-input label="Upload document" required disabled></lily-file-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);

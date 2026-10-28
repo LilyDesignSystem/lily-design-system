@@ -22,7 +22,9 @@ describe("EmptyState", () => {
     });
 
     test("keeps consumer children", () => {
-        const host = render("<lily-empty-state><h2>None</h2><button>Add</button></lily-empty-state>");
+        const host = render(
+            "<lily-empty-state><h2>None</h2><button>Add</button></lily-empty-state>",
+        );
         expect(host.querySelector("h2")!.textContent).toBe("None");
         expect(host.querySelector("button")).toBeTruthy();
     });

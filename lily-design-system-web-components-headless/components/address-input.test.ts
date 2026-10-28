@@ -53,7 +53,9 @@ describe("AddressInput", () => {
     });
 
     test("exposes a live value property proxying the inner input", () => {
-        const host = render('<lily-address-input label="Delivery address"></lily-address-input>') as unknown as AddressInput;
+        const host = render(
+            '<lily-address-input label="Delivery address"></lily-address-input>',
+        ) as unknown as AddressInput;
         const input = host.querySelector("input") as HTMLInputElement;
 
         host.value = "10 Downing Street";
@@ -63,7 +65,9 @@ describe("AddressInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-address-input label="Delivery address" required disabled></lily-address-input>');
+        const host = render(
+            '<lily-address-input label="Delivery address" required disabled></lily-address-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);

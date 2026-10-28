@@ -17,20 +17,33 @@ function render(html: string): HTMLElement {
 
 describe("ConvertIntoDiv", () => {
     test("renders a div with the base class", () => {
-        expect(render("<lily-convert-into-div>Hello</lily-convert-into-div>").querySelector("div.convert-into-div")).toBeTruthy();
+        expect(
+            render("<lily-convert-into-div>Hello</lily-convert-into-div>").querySelector(
+                "div.convert-into-div",
+            ),
+        ).toBeTruthy();
     });
 
     test("appends the consumer class after the base class", () => {
-        expect(render('<lily-convert-into-div class="mine">x</lily-convert-into-div>').querySelector("div")!.getAttribute("class")).toBe("convert-into-div mine");
+        expect(
+            render('<lily-convert-into-div class="mine">x</lily-convert-into-div>')
+                .querySelector("div")!
+                .getAttribute("class"),
+        ).toBe("convert-into-div mine");
     });
 
     test("moves the children into the element", () => {
-        const host = render('<lily-convert-into-div><b data-testid="txt">Hello</b></lily-convert-into-div>');
+        const host = render(
+            '<lily-convert-into-div><b data-testid="txt">Hello</b></lily-convert-into-div>',
+        );
         expect(host.querySelector("div [data-testid=txt]")!.textContent).toBe("Hello");
     });
 
     test("spreads other attributes", () => {
-        expect(render('<lily-convert-into-div id="x1">x</lily-convert-into-div>').querySelector("div")!.id).toBe("x1");
+        expect(
+            render('<lily-convert-into-div id="x1">x</lily-convert-into-div>').querySelector("div")!
+                .id,
+        ).toBe("x1");
     });
 
     test("is idempotent if connectedCallback runs twice", () => {

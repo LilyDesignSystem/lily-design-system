@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Links/BreadcrumbLink",
     render: (args) => h("lily-breadcrumb-link", args as Record<string, string | boolean>, SLOT),
     args: {
-        "href": "/products"
+        href: "/products",
     },
 };
 

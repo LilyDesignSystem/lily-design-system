@@ -7,8 +7,8 @@ const meta: Meta = {
     title: "Content/Emoji",
     render: (args) => h("lily-emoji", args as Record<string, string | boolean>),
     args: {
-        "emoji": "👍",
-        "label": "Thumbs up",
+        emoji: "👍",
+        label: "Thumbs up",
     },
 };
 

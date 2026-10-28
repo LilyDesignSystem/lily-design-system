@@ -7,10 +7,15 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/LiechtensteinNationalIdentityCardNumberView",
-    render: (args) => h("lily-liechtenstein-national-identity-card-number-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-liechtenstein-national-identity-card-number-view",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "National Identity Card Number",
-        "value": "ID022143586"
+        label: "National Identity Card Number",
+        value: "ID022143586",
     },
 };
 

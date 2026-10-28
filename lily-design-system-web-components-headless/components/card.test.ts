@@ -35,7 +35,9 @@ describe("Card", () => {
     });
 
     test("honours an explicit heading-level", () => {
-        const host = render('<lily-card heading="Title" heading-level="2">Body content.</lily-card>');
+        const host = render(
+            '<lily-card heading="Title" heading-level="2">Body content.</lily-card>',
+        );
 
         expect(host.querySelector("h2")!.textContent).toBe("Title");
     });

@@ -30,7 +30,9 @@ class Host {
   disabled = signal(false);
 }
 
-function make(init: Partial<{ value: string[]; size: number; required: boolean; disabled: boolean }> = {}) {
+function make(
+  init: Partial<{ value: string[]; size: number; required: boolean; disabled: boolean }> = {},
+) {
   const fixture = TestBed.createComponent(Host);
   if (init.value) fixture.componentInstance.value.set(init.value);
   if (init.size) fixture.componentInstance.size.set(init.size);
@@ -59,7 +61,9 @@ describe("MultiSelectWithExtras", () => {
 
   test("renders before and after content around the select in order", () => {
     const { root } = make();
-    const kids = Array.from(root.children).map((c) => c.tagName === "SELECT" ? "select" : c.textContent!.trim());
+    const kids = Array.from(root.children).map((c) =>
+      c.tagName === "SELECT" ? "select" : c.textContent!.trim(),
+    );
     expect(kids).toEqual(["Before", "select", "After"]);
   });
 

@@ -7,10 +7,15 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/UnitedStatesSocialSecurityNumberView",
-    render: (args) => h("lily-united-states-social-security-number-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-united-states-social-security-number-view",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Social Security number",
-        "value": "123-45-6789"
+        label: "Social Security number",
+        value: "123-45-6789",
     },
 };
 

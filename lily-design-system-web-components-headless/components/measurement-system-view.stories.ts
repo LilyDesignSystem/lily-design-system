@@ -7,10 +7,11 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Content/MeasurementSystemView",
-    render: (args) => h("lily-measurement-system-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-measurement-system-view", args as Record<string, string | boolean>, SLOT),
     args: {
-        "value": "SI",
-        "label": "International System of Units",
+        value: "SI",
+        label: "International System of Units",
     },
 };
 

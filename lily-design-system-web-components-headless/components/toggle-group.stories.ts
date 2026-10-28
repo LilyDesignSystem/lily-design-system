@@ -12,7 +12,7 @@ const meta: Meta = {
     title: "Forms/ToggleGroup",
     render: (args) => h("lily-toggle-group", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Text formatting",
+        label: "Text formatting",
     },
 };
 

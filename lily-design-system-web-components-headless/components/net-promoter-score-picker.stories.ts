@@ -6,14 +6,16 @@ import { h } from "../stories/render.js";
 
 const SLOT = Array.from(
     { length: 11 },
-    (_, score) => `<lily-net-promoter-score-picker-button value="${score}" label="${score}"></lily-net-promoter-score-picker-button>`,
+    (_, score) =>
+        `<lily-net-promoter-score-picker-button value="${score}" label="${score}"></lily-net-promoter-score-picker-button>`,
 ).join("");
 
 const meta: Meta = {
     title: "Pickers/NetPromoterScorePicker",
-    render: (args) => h("lily-net-promoter-score-picker", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-net-promoter-score-picker", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "How likely are you to recommend us?"
+        label: "How likely are you to recommend us?",
     },
 };
 

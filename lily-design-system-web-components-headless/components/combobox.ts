@@ -125,7 +125,8 @@ export class Combobox extends HTMLElement {
 
     #options(): HTMLElement[] {
         return Array.from(this.#listbox?.children ?? []).filter(
-            (el): el is HTMLElement => el instanceof HTMLElement && el.getAttribute("role") === "option",
+            (el): el is HTMLElement =>
+                el instanceof HTMLElement && el.getAttribute("role") === "option",
         );
     }
 
@@ -148,7 +149,11 @@ export class Combobox extends HTMLElement {
         this.setAttribute("value", text);
         this.removeAttribute("open");
         this.dispatchEvent(
-            new CustomEvent("lily-change", { detail: { value: text }, bubbles: true, composed: true }),
+            new CustomEvent("lily-change", {
+                detail: { value: text },
+                bubbles: true,
+                composed: true,
+            }),
         );
     }
 
@@ -165,7 +170,9 @@ export class Combobox extends HTMLElement {
             this.#setActive(null);
             return;
         }
-        const match = this.#options().find((opt) => (opt.textContent ?? "").toLowerCase().startsWith(query));
+        const match = this.#options().find((opt) =>
+            (opt.textContent ?? "").toLowerCase().startsWith(query),
+        );
         this.#setActive(match ?? null);
     };
 

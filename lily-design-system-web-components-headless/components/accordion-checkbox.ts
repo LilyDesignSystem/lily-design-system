@@ -88,7 +88,9 @@ export class AccordionCheckbox extends HTMLElement {
         this.#panel.hidden = !checked;
 
         const label = this.getAttribute("label");
-        const labelEl = this.querySelector<HTMLLabelElement>(":scope > label.accordion-checkbox-label");
+        const labelEl = this.querySelector<HTMLLabelElement>(
+            ":scope > label.accordion-checkbox-label",
+        );
         if (label !== null && labelEl) labelEl.textContent = label;
     }
 

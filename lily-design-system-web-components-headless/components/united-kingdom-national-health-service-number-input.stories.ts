@@ -7,9 +7,14 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/UnitedKingdomNationalHealthServiceNumberInput",
-    render: (args) => h("lily-united-kingdom-national-health-service-number-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-united-kingdom-national-health-service-number-input",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "NHS number"
+        label: "NHS number",
     },
 };
 

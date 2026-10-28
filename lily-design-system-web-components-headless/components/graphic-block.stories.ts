@@ -9,10 +9,10 @@ const meta: Meta = {
     title: "Media and data/GraphicBlock",
     render: (args) => h("lily-graphic-block", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Quarterly revenue chart",
-        "title": "Revenue",
-        "description": "By quarter, in thousands of dollars",
-        "notes": "Source: internal reporting"
+        label: "Quarterly revenue chart",
+        title: "Revenue",
+        description: "By quarter, in thousands of dollars",
+        notes: "Source: internal reporting",
     },
 };
 

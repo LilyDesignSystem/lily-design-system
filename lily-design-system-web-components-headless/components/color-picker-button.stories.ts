@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Pickers/ColorPickerButton",
     render: (args) => h("lily-color-picker-button", args as Record<string, string | boolean>, SLOT),
     args: {
-        "color": "#dc2626",
-        "label": "Red"
+        color: "#dc2626",
+        label: "Red",
     },
 };
 

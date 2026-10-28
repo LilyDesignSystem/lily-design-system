@@ -26,7 +26,9 @@ describe("SectionLink", () => {
     });
 
     test("sets aria-current=page when current is present", () => {
-        const host = render('<lily-section-link href="/section-1" current>Section 1</lily-section-link>');
+        const host = render(
+            '<lily-section-link href="/section-1" current>Section 1</lily-section-link>',
+        );
 
         expect(host.querySelector("a")!.getAttribute("aria-current")).toBe("page");
     });
@@ -44,13 +46,17 @@ describe("SectionLink", () => {
     });
 
     test("passes through rest attributes", () => {
-        const host = render('<lily-section-link href="/x" data-testid="section-link">Go</lily-section-link>');
+        const host = render(
+            '<lily-section-link href="/x" data-testid="section-link">Go</lily-section-link>',
+        );
 
         expect(host.querySelector("a")!.getAttribute("data-testid")).toBe("section-link");
     });
 
     test("moves children into the rendered anchor", () => {
-        const host = render('<lily-section-link href="/x"><span>Overview</span></lily-section-link>');
+        const host = render(
+            '<lily-section-link href="/x"><span>Overview</span></lily-section-link>',
+        );
 
         expect(host.querySelector("a > span")!.textContent).toBe("Overview");
     });

@@ -17,7 +17,11 @@ function render(html: string): HTMLElement {
 
 describe("StreamingText", () => {
     test("renders a div with the base class", () => {
-        expect(render("<lily-streaming-text>Hello</lily-streaming-text>").querySelector("div.streaming-text")).toBeTruthy();
+        expect(
+            render("<lily-streaming-text>Hello</lily-streaming-text>").querySelector(
+                "div.streaming-text",
+            ),
+        ).toBeTruthy();
     });
 
     test("is a polite, atomic status region", () => {
@@ -34,7 +38,9 @@ describe("StreamingText", () => {
     });
 
     test("is busy while the streaming attribute is present", () => {
-        const el = render("<lily-streaming-text streaming>Hel</lily-streaming-text>").querySelector("div")!;
+        const el = render("<lily-streaming-text streaming>Hel</lily-streaming-text>").querySelector(
+            "div",
+        )!;
         expect(el.getAttribute("aria-busy")).toBe("true");
         expect(el.getAttribute("data-streaming")).toBe("true");
     });
@@ -62,12 +68,16 @@ describe("StreamingText", () => {
     });
 
     test("moves the children into the region", () => {
-        const host = render('<lily-streaming-text><span data-testid="txt">Hello</span></lily-streaming-text>');
+        const host = render(
+            '<lily-streaming-text><span data-testid="txt">Hello</span></lily-streaming-text>',
+        );
         expect(host.querySelector("div [data-testid=txt]")!.textContent).toBe("Hello");
     });
 
     test("spreads other attributes onto the region", () => {
-        const host = render('<lily-streaming-text id="s1" data-testid="root">x</lily-streaming-text>');
+        const host = render(
+            '<lily-streaming-text id="s1" data-testid="root">x</lily-streaming-text>',
+        );
         const el = host.querySelector("div")!;
         expect(el.id).toBe("s1");
         expect(el.getAttribute("data-testid")).toBe("root");

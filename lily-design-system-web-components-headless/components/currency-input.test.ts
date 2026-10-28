@@ -38,19 +38,25 @@ describe("CurrencyInput", () => {
     });
 
     test("currency-code attribute overrides the default", () => {
-        const host = render('<lily-currency-input label="Price" currency-code="GBP"></lily-currency-input>');
+        const host = render(
+            '<lily-currency-input label="Price" currency-code="GBP"></lily-currency-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("data-currency-code")).toBe("GBP");
     });
 
     test("seeds the initial value from the value attribute", () => {
-        const host = render('<lily-currency-input label="Price" value="19.99"></lily-currency-input>');
+        const host = render(
+            '<lily-currency-input label="Price" value="19.99"></lily-currency-input>',
+        );
 
         expect((host.querySelector("input") as HTMLInputElement).value).toBe("19.99");
     });
 
     test("exposes a live numeric value property, undefined when empty", () => {
-        const host = render('<lily-currency-input label="Price"></lily-currency-input>') as unknown as CurrencyInput;
+        const host = render(
+            '<lily-currency-input label="Price"></lily-currency-input>',
+        ) as unknown as CurrencyInput;
         const input = host.querySelector("input") as HTMLInputElement;
 
         expect(host.value).toBeUndefined();

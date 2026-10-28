@@ -7,7 +7,9 @@ describe("UnitedStatesSocialSecurityNumberInput", () => {
   test("renders the input root with the base class", () => {
     const fixture = TestBed.createComponent(UnitedStatesSocialSecurityNumberInput);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.united-states-social-security-number-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.united-states-social-security-number-input",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("UnitedStatesSocialSecurityNumberInput", () => {
     const fixture = TestBed.createComponent(UnitedStatesSocialSecurityNumberInput);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.united-states-social-security-number-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.united-states-social-security-number-input",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

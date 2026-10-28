@@ -3,7 +3,10 @@ import { afterEach, describe, expect, test } from "vitest";
 import { CymruRhifYGwasanaethIechydGwladolInput } from "./cymru-rhif-y-gwasanaeth-iechyd-gwladol-input.js";
 
 if (!customElements.get("lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input")) {
-    customElements.define("lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input", CymruRhifYGwasanaethIechydGwladolInput);
+    customElements.define(
+        "lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input",
+        CymruRhifYGwasanaethIechydGwladolInput,
+    );
 }
 
 afterEach(() => {
@@ -17,7 +20,9 @@ function render(html: string): HTMLElement {
 
 describe("CymruRhifYGwasanaethIechydGwladolInput", () => {
     test("renders a native input type=text with the correct class", () => {
-        const host = render('<lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input label="ID"></lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input>');
+        const host = render(
+            '<lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input label="ID"></lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.type).toBe("text");
@@ -25,13 +30,17 @@ describe("CymruRhifYGwasanaethIechydGwladolInput", () => {
     });
 
     test("autocomplete is always off, even if the consumer tries to override it", () => {
-        const host = render('<lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input label="ID" autocomplete="on"></lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input>');
+        const host = render(
+            '<lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input label="ID" autocomplete="on"></lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("autocomplete")).toBe("off");
     });
 
     test("seeds the initial value and exposes a live value property", () => {
-        const host = render('<lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input label="ID" value="943 476 5919"></lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input>') as unknown as CymruRhifYGwasanaethIechydGwladolInput;
+        const host = render(
+            '<lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input label="ID" value="943 476 5919"></lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input>',
+        ) as unknown as CymruRhifYGwasanaethIechydGwladolInput;
 
         expect(host.value).toBe("943 476 5919");
 
@@ -41,7 +50,9 @@ describe("CymruRhifYGwasanaethIechydGwladolInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input label="ID" required disabled></lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input>');
+        const host = render(
+            '<lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input label="ID" required disabled></lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -49,8 +60,12 @@ describe("CymruRhifYGwasanaethIechydGwladolInput", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input label="Rhif y Gwasanaeth Iechyd Gwladol"></lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input>');
+        const host = render(
+            '<lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input label="Rhif y Gwasanaeth Iechyd Gwladol"></lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input>',
+        );
 
-        expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("Rhif y Gwasanaeth Iechyd Gwladol");
+        expect(host.querySelector("input")!.getAttribute("aria-label")).toBe(
+            "Rhif y Gwasanaeth Iechyd Gwladol",
+        );
     });
 });

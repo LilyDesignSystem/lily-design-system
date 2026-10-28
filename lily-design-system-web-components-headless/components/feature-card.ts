@@ -22,7 +22,14 @@
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
-const HANDLED = new Set(["heading", "image-position", "image-url", "image-alt", "description", "label"]);
+const HANDLED = new Set([
+    "heading",
+    "image-position",
+    "image-url",
+    "image-alt",
+    "description",
+    "label",
+]);
 
 export class FeatureCard extends HTMLElement {
     connectedCallback(): void {

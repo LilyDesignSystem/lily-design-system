@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Forms/FileInput",
     render: (args) => h("lily-file-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Upload document"
+        label: "Upload document",
     },
 };
 

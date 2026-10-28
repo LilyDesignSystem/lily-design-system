@@ -37,7 +37,9 @@ describe("SummaryBox", () => {
     });
 
     test("aria-label uses the label override when supplied", () => {
-        const host = render('<lily-summary-box heading="Next steps" label="What to do next"></lily-summary-box>');
+        const host = render(
+            '<lily-summary-box heading="Next steps" label="What to do next"></lily-summary-box>',
+        );
 
         expect(host.querySelector("aside")!.getAttribute("aria-label")).toBe("What to do next");
     });
@@ -53,13 +55,17 @@ describe("SummaryBox", () => {
     });
 
     test("passes through rest attributes to the aside", () => {
-        const host = render('<lily-summary-box heading="Key takeaways" data-testid="sbox"></lily-summary-box>');
+        const host = render(
+            '<lily-summary-box heading="Key takeaways" data-testid="sbox"></lily-summary-box>',
+        );
 
         expect(host.querySelector("aside")!.getAttribute("data-testid")).toBe("sbox");
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-summary-box heading="Key takeaways" class="extra"></lily-summary-box>');
+        const host = render(
+            '<lily-summary-box heading="Key takeaways" class="extra"></lily-summary-box>',
+        );
 
         expect(host.querySelector("aside")!.className).toBe("summary-box extra");
     });

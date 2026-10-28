@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("AddressographBox", () => {
     test("the custom element itself is the wrapper (self-is-the-wrapper)", () => {
-        const host = render("<lily-addressograph-box>Jane Doe, NHS 123 456 7890</lily-addressograph-box>");
+        const host = render(
+            "<lily-addressograph-box>Jane Doe, NHS 123 456 7890</lily-addressograph-box>",
+        );
 
         expect(host.className).toBe("addressograph-box");
     });
@@ -29,7 +31,9 @@ describe("AddressographBox", () => {
     });
 
     test("uses label as aria-label", () => {
-        const host = render('<lily-addressograph-box label="Patient identification">Jane Doe</lily-addressograph-box>');
+        const host = render(
+            '<lily-addressograph-box label="Patient identification">Jane Doe</lily-addressograph-box>',
+        );
 
         expect(host.getAttribute("aria-label")).toBe("Patient identification");
     });
@@ -41,7 +45,9 @@ describe("AddressographBox", () => {
     });
 
     test("class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-addressograph-box class="extra">Jane Doe</lily-addressograph-box>');
+        const host = render(
+            '<lily-addressograph-box class="extra">Jane Doe</lily-addressograph-box>',
+        );
 
         expect(host.className).toBe("addressograph-box extra");
     });

@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Content/Popover",
     render: (args) => h("lily-popover", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Additional information",
-        "open": true
+        label: "Additional information",
+        open: true,
     },
 };
 

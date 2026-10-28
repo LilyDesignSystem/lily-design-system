@@ -7,7 +7,9 @@ describe("UnitedStatesSocialSecurityNumberView", () => {
   test("renders the span root with the base class", () => {
     const fixture = TestBed.createComponent(UnitedStatesSocialSecurityNumberView);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.united-states-social-security-number-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.united-states-social-security-number-view",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("UnitedStatesSocialSecurityNumberView", () => {
     const fixture = TestBed.createComponent(UnitedStatesSocialSecurityNumberView);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.united-states-social-security-number-view");
+    const el = fixture.nativeElement.querySelector(
+      "span.united-states-social-security-number-view",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

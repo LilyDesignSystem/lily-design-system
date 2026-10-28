@@ -7,9 +7,10 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/TurkiyeTcKimlikNumarasiInput",
-    render: (args) => h("lily-turkiye-tc-kimlik-numarasi-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-turkiye-tc-kimlik-numarasi-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "T.C. Kimlik Numarası"
+        label: "T.C. Kimlik Numarası",
     },
 };
 

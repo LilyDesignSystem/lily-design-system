@@ -32,7 +32,9 @@ describe("FileUpload", () => {
     });
 
     test("renders a hidden file input carrying accept/multiple", () => {
-        const host = render('<lily-file-upload label="Upload images" accept="image/*" multiple></lily-file-upload>');
+        const host = render(
+            '<lily-file-upload label="Upload images" accept="image/*" multiple></lily-file-upload>',
+        );
 
         const input = host.querySelector('input[type="file"]') as HTMLInputElement;
         expect(input.hidden).toBe(true);

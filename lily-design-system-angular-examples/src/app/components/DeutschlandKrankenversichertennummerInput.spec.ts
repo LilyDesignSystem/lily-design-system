@@ -7,7 +7,9 @@ describe("DeutschlandKrankenversichertennummerInput", () => {
   test("renders the input root with the base class", () => {
     const fixture = TestBed.createComponent(DeutschlandKrankenversichertennummerInput);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.deutschland-krankenversichertennummer-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.deutschland-krankenversichertennummer-input",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("DeutschlandKrankenversichertennummerInput", () => {
     const fixture = TestBed.createComponent(DeutschlandKrankenversichertennummerInput);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.deutschland-krankenversichertennummer-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.deutschland-krankenversichertennummer-input",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

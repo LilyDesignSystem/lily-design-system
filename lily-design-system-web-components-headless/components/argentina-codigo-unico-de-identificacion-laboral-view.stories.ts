@@ -7,10 +7,15 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/ArgentinaCodigoUnicoDeIdentificacionLaboralView",
-    render: (args) => h("lily-argentina-codigo-unico-de-identificacion-laboral-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-argentina-codigo-unico-de-identificacion-laboral-view",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Código Único de Identificación Laboral (CUIL)",
-        "value": "20-12345678-9"
+        label: "Código Único de Identificación Laboral (CUIL)",
+        value: "20-12345678-9",
     },
 };
 

@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Media and data/BarcodeImage",
     render: (args) => h("lily-barcode-image", args as Record<string, string | boolean>, SLOT),
     args: {
-        "src": "https://placehold.co/200x60",
-        "alt": "Order number 12345"
+        src: "https://placehold.co/200x60",
+        alt: "Order number 12345",
     },
 };
 

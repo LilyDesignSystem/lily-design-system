@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Content/Draft",
     render: (args) => h("lily-draft", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Draft report",
-        "status": "in-progress",
+        label: "Draft report",
+        status: "in-progress",
     },
 };
 

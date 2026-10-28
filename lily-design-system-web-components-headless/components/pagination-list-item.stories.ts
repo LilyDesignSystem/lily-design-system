@@ -10,7 +10,9 @@ const meta: Meta = {
     render: (args) => {
         const ol = document.createElement("ol");
         ol.className = "pagination-list";
-        ol.appendChild(h("lily-pagination-list-item", args as Record<string, string | boolean>, SLOT));
+        ol.appendChild(
+            h("lily-pagination-list-item", args as Record<string, string | boolean>, SLOT),
+        );
         return ol;
     },
     args: {},

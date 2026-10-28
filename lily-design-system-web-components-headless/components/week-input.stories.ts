@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Forms/WeekInput",
     render: (args) => h("lily-week-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Sprint start week",
+        label: "Sprint start week",
     },
 };
 

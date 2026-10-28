@@ -8,7 +8,7 @@ const SLOT = '<option value="a">A</option><option value="b">B</option>';
 const meta: Meta = {
     title: "Forms/MultiSelect",
     render: (args) => h("lily-multi-select", args as Record<string, string | boolean>, SLOT),
-    args: { "label": "Tags" },
+    args: { label: "Tags" },
 };
 
 export default meta;

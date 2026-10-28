@@ -29,7 +29,9 @@ describe("Figure", () => {
     });
 
     test("moves consumer-supplied visualization content inside", () => {
-        const host = render('<lily-figure label="Sales chart"><svg><circle></circle></svg></lily-figure>');
+        const host = render(
+            '<lily-figure label="Sales chart"><svg><circle></circle></svg></lily-figure>',
+        );
 
         expect(host.querySelector("figure svg")).toBeTruthy();
     });

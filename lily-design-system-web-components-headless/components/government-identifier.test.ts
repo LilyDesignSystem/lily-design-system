@@ -66,7 +66,9 @@ describe("GovernmentIdentifier", () => {
             '<lily-government-identifier label="Agency identifier" agency-name="Example Agency" description="A federal agency."></lily-government-identifier>',
         );
 
-        expect(host.querySelector(".government-identifier-description")!.textContent).toBe("A federal agency.");
+        expect(host.querySelector(".government-identifier-description")!.textContent).toBe(
+            "A federal agency.",
+        );
     });
 
     test("moves children into a labelled nav when children are provided", () => {

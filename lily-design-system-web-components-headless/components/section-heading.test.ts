@@ -17,13 +17,17 @@ function render(html: string): HTMLElement {
 
 describe("SectionHeading", () => {
     test("renders a native header", () => {
-        const host = render('<lily-section-heading heading="Our principles"></lily-section-heading>');
+        const host = render(
+            '<lily-section-heading heading="Our principles"></lily-section-heading>',
+        );
 
         expect(host.querySelector("header.section-heading")).toBeTruthy();
     });
 
     test("renders the heading as an h2 by default", () => {
-        const host = render('<lily-section-heading heading="Our principles"></lily-section-heading>');
+        const host = render(
+            '<lily-section-heading heading="Our principles"></lily-section-heading>',
+        );
 
         const h = host.querySelector("h2.section-heading-heading");
         expect(h).toBeTruthy();
@@ -31,7 +35,9 @@ describe("SectionHeading", () => {
     });
 
     test("renders the heading at the given level", () => {
-        const host = render('<lily-section-heading heading="Designed for healthcare" level="3"></lily-section-heading>');
+        const host = render(
+            '<lily-section-heading heading="Designed for healthcare" level="3"></lily-section-heading>',
+        );
 
         expect(host.querySelector("h3.section-heading-heading")).toBeTruthy();
         expect(host.querySelector("h2")).toBeFalsy();
@@ -45,7 +51,9 @@ describe("SectionHeading", () => {
         expect(eyebrow).toBeTruthy();
         expect(eyebrow!.textContent).toBe("Why Lily");
 
-        const without = render('<lily-section-heading heading="Our principles"></lily-section-heading>');
+        const without = render(
+            '<lily-section-heading heading="Our principles"></lily-section-heading>',
+        );
         expect(without.querySelector("p.section-heading-eyebrow")).toBeFalsy();
     });
 
@@ -57,18 +65,24 @@ describe("SectionHeading", () => {
         expect(subtitle).toBeTruthy();
         expect(subtitle!.textContent).toBe("Patient-first.");
 
-        const without = render('<lily-section-heading heading="Our principles"></lily-section-heading>');
+        const without = render(
+            '<lily-section-heading heading="Our principles"></lily-section-heading>',
+        );
         expect(without.querySelector("p.section-heading-subtitle")).toBeFalsy();
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-section-heading heading="Our principles" class="extra"></lily-section-heading>');
+        const host = render(
+            '<lily-section-heading heading="Our principles" class="extra"></lily-section-heading>',
+        );
 
         expect(host.querySelector("header")!.className).toBe("section-heading extra");
     });
 
     test("passes through rest attributes to the header", () => {
-        const host = render('<lily-section-heading heading="Our principles" data-testid="sh"></lily-section-heading>');
+        const host = render(
+            '<lily-section-heading heading="Our principles" data-testid="sh"></lily-section-heading>',
+        );
 
         expect(host.querySelector("header")!.getAttribute("data-testid")).toBe("sh");
     });

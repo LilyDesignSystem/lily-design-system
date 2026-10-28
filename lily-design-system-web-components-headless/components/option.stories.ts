@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Forms/Option",
     render: (args) => h("lily-option", args as Record<string, string | boolean>, SLOT),
     args: {
-        "value": "ada"
+        value: "ada",
     },
 };
 

@@ -37,13 +37,17 @@ describe("ColorInput", () => {
     });
 
     test("seeds the initial value from the value attribute", () => {
-        const host = render('<lily-color-input label="Accent colour" value="#2563eb"></lily-color-input>');
+        const host = render(
+            '<lily-color-input label="Accent colour" value="#2563eb"></lily-color-input>',
+        );
 
         expect((host.querySelector("input") as HTMLInputElement).value).toBe("#2563eb");
     });
 
     test("exposes a live value property proxying the inner input", () => {
-        const host = render('<lily-color-input label="Accent colour"></lily-color-input>') as unknown as ColorInput;
+        const host = render(
+            '<lily-color-input label="Accent colour"></lily-color-input>',
+        ) as unknown as ColorInput;
         const input = host.querySelector("input") as HTMLInputElement;
 
         host.value = "#16a34a";

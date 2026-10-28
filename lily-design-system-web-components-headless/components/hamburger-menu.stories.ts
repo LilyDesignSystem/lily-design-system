@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Navigation/HamburgerMenu",
     render: (args) => h("lily-hamburger-menu", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Main menu"
+        label: "Main menu",
     },
 };
 

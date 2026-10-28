@@ -16,7 +16,8 @@ function render(html: string): HTMLElement {
 }
 
 const SVG = '<svg data-testid="art" viewBox="0 0 10 10"><circle r="4"></circle></svg>';
-const TABLE = '<table slot="data-table"><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>';
+const TABLE =
+    '<table slot="data-table"><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>';
 const BASIC = `<lily-sunburst-chart label="Test">${SVG}</lily-sunburst-chart>`;
 const WITH_TABLE = `<lily-sunburst-chart label="Test">${SVG}${TABLE}</lily-sunburst-chart>`;
 
@@ -41,11 +42,15 @@ describe("SunburstChart", () => {
 
     test("moves the consumer svg into the graphic wrapper", () => {
         const host = render(BASIC);
-        expect(host.querySelector("svg")!.closest("[role=img]")).toBe(host.querySelector(".sunburst-chart-graphic"));
+        expect(host.querySelector("svg")!.closest("[role=img]")).toBe(
+            host.querySelector(".sunburst-chart-graphic"),
+        );
     });
 
     test("spreads other attributes onto the figure", () => {
-        const host = render('<lily-sunburst-chart label="T" id="c1" data-testid="chart"></lily-sunburst-chart>');
+        const host = render(
+            '<lily-sunburst-chart label="T" id="c1" data-testid="chart"></lily-sunburst-chart>',
+        );
         const fig = host.querySelector("figure")!;
         expect(fig.id).toBe("c1");
         expect(fig.getAttribute("data-testid")).toBe("chart");

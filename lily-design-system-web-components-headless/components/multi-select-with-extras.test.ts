@@ -15,17 +15,22 @@ function render(html: string): HTMLElement {
     return document.body.firstElementChild as HTMLElement;
 }
 
-const OPTIONS = '<option value="a">A</option><option value="b">B</option><option value="c">C</option>';
+const OPTIONS =
+    '<option value="a">A</option><option value="b">B</option><option value="c">C</option>';
 
 describe("MultiSelectWithExtras", () => {
     test("wrapper carries the base class; select is multiple", () => {
-        const host = render(`<lily-multi-select-with-extras label="Tags">${OPTIONS}</lily-multi-select-with-extras>`);
+        const host = render(
+            `<lily-multi-select-with-extras label="Tags">${OPTIONS}</lily-multi-select-with-extras>`,
+        );
         expect(host.classList.contains("multi-select-with-extras")).toBe(true);
         expect(host.querySelector("select")!.multiple).toBe(true);
     });
 
     test("aria-label is on the select, not the wrapper", () => {
-        const host = render(`<lily-multi-select-with-extras label="Tags">${OPTIONS}</lily-multi-select-with-extras>`);
+        const host = render(
+            `<lily-multi-select-with-extras label="Tags">${OPTIONS}</lily-multi-select-with-extras>`,
+        );
         expect(host.querySelector("select")!.getAttribute("aria-label")).toBe("Tags");
         expect(host.hasAttribute("aria-label")).toBe(false);
     });
@@ -41,21 +46,27 @@ describe("MultiSelectWithExtras", () => {
     });
 
     test("initial array value selects options; multiple can be selected", () => {
-        const host = render(`<lily-multi-select-with-extras label="Tags" value='["a","b"]'>${OPTIONS}</lily-multi-select-with-extras>`) as unknown as MultiSelectWithExtras;
+        const host = render(
+            `<lily-multi-select-with-extras label="Tags" value='["a","b"]'>${OPTIONS}</lily-multi-select-with-extras>`,
+        ) as unknown as MultiSelectWithExtras;
         expect(host.value).toEqual(["a", "b"]);
         host.value = ["b", "c"];
         expect(host.value).toEqual(["b", "c"]);
     });
 
     test("size, required and disabled reach the select", () => {
-        const select = render(`<lily-multi-select-with-extras label="Tags" size="3" required disabled>${OPTIONS}</lily-multi-select-with-extras>`).querySelector("select")!;
+        const select = render(
+            `<lily-multi-select-with-extras label="Tags" size="3" required disabled>${OPTIONS}</lily-multi-select-with-extras>`,
+        ).querySelector("select")!;
         expect(select.size).toBe(3);
         expect(select.required).toBe(true);
         expect(select.disabled).toBe(true);
     });
 
     test("rest attributes stay on the wrapper; consumer class joins it", () => {
-        const host = render(`<lily-multi-select-with-extras label="Tags" data-testid="x" class="extra">${OPTIONS}</lily-multi-select-with-extras>`);
+        const host = render(
+            `<lily-multi-select-with-extras label="Tags" data-testid="x" class="extra">${OPTIONS}</lily-multi-select-with-extras>`,
+        );
         expect(host.getAttribute("data-testid")).toBe("x");
         expect(host.className).toBe("multi-select-with-extras extra");
         expect(host.querySelector("select")!.hasAttribute("data-testid")).toBe(false);

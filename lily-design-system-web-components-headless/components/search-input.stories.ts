@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Forms/SearchInput",
     render: (args) => h("lily-search-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Search",
+        label: "Search",
     },
 };
 

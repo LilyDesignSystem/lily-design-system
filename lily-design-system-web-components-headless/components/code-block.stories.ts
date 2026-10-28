@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/CodeBlock",
     render: (args) => h("lily-code-block", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Example function",
+        label: "Example function",
         "line-numbers": true,
         "highlight-lines": "2",
     },

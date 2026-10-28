@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Special-Purpose Identifiers/LietuvaPasasInput",
     render: (args) => h("lily-lietuva-pasas-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Pasas (Passport Number)"
+        label: "Pasas (Passport Number)",
     },
 };
 

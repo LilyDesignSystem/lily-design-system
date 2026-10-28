@@ -23,7 +23,9 @@ describe("MockupLaptop", () => {
     });
 
     test("label is optional and maps to aria-label when provided", () => {
-        const host = render('<lily-mockup-laptop label="Preview of the dashboard"></lily-mockup-laptop>');
+        const host = render(
+            '<lily-mockup-laptop label="Preview of the dashboard"></lily-mockup-laptop>',
+        );
 
         expect(host.getAttribute("aria-label")).toBe("Preview of the dashboard");
     });

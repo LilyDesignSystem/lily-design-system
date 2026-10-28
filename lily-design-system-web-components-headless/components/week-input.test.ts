@@ -30,7 +30,9 @@ describe("WeekInput", () => {
     });
 
     test("seeds the initial value from the value attribute", () => {
-        const host = render('<lily-week-input label="Sprint start week" value="2024-W01"></lily-week-input>');
+        const host = render(
+            '<lily-week-input label="Sprint start week" value="2024-W01"></lily-week-input>',
+        );
 
         expect((host.querySelector("input") as HTMLInputElement).value).toBe("2024-W01");
     });
@@ -48,7 +50,9 @@ describe("WeekInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-week-input label="Sprint start week" required disabled></lily-week-input>');
+        const host = render(
+            '<lily-week-input label="Sprint start week" required disabled></lily-week-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -56,7 +60,9 @@ describe("WeekInput", () => {
     });
 
     test("passes through rest attributes such as min", () => {
-        const host = render('<lily-week-input label="Sprint start week" min="2024-W01"></lily-week-input>');
+        const host = render(
+            '<lily-week-input label="Sprint start week" min="2024-W01"></lily-week-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("min")).toBe("2024-W01");
     });

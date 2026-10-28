@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./show-more.js";
 import { h } from "../stories/render.js";
 
-const SLOT = '<p>Long content that a consumer clamps with CSS.</p>';
+const SLOT = "<p>Long content that a consumer clamps with CSS.</p>";
 
 const meta: Meta = {
     title: "Content/ShowMore",

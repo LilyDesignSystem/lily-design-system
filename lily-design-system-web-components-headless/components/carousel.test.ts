@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("Carousel", () => {
     test("the custom element itself is the region (self-is-the-wrapper)", () => {
-        const host = render('<lily-carousel label="Featured products"><div>Slide one</div></lily-carousel>');
+        const host = render(
+            '<lily-carousel label="Featured products"><div>Slide one</div></lily-carousel>',
+        );
 
         expect(host.className).toBe("carousel");
         expect(host.getAttribute("role")).toBe("region");
@@ -36,7 +38,9 @@ describe("Carousel", () => {
     });
 
     test("preserves slide content", () => {
-        const host = render('<lily-carousel label="Featured products"><div>Slide one</div></lily-carousel>');
+        const host = render(
+            '<lily-carousel label="Featured products"><div>Slide one</div></lily-carousel>',
+        );
 
         expect(host.querySelector("div")!.textContent).toBe("Slide one");
     });

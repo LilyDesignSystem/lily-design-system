@@ -34,7 +34,9 @@ describe("CharacterCounter", () => {
     });
 
     test("shows count / max when max is provided", () => {
-        const host = render('<lily-character-counter count="42" max="140"></lily-character-counter>');
+        const host = render(
+            '<lily-character-counter count="42" max="140"></lily-character-counter>',
+        );
 
         const span = host.querySelector("span")!;
         expect(span.textContent).toBe("42 / 140");
@@ -43,19 +45,25 @@ describe("CharacterCounter", () => {
     });
 
     test("sets data-over-limit when count exceeds max", () => {
-        const host = render('<lily-character-counter count="150" max="140"></lily-character-counter>');
+        const host = render(
+            '<lily-character-counter count="150" max="140"></lily-character-counter>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("data-over-limit")).toBe("true");
     });
 
     test("uses label as aria-label", () => {
-        const host = render('<lily-character-counter label="Characters remaining"></lily-character-counter>');
+        const host = render(
+            '<lily-character-counter label="Characters remaining"></lily-character-counter>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Characters remaining");
     });
 
     test("updates when count changes externally", () => {
-        const host = render('<lily-character-counter count="10" max="100"></lily-character-counter>');
+        const host = render(
+            '<lily-character-counter count="10" max="100"></lily-character-counter>',
+        );
 
         host.setAttribute("count", "20");
 

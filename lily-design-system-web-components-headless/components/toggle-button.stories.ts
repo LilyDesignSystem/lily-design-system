@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Buttons and links/ToggleButton",
     render: (args) => h("lily-toggle-button", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Notifications"
+        label: "Notifications",
     },
 };
 

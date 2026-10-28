@@ -30,7 +30,8 @@ function key(el: Element, k: string, init: KeyboardEventInit = {}) {
 describe("ColorPicker — slider semantics and keys", () => {
   function create(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(ColorPicker);
-    for (const [k, v] of Object.entries({ label: "Colour", ...inputs })) fixture.componentRef.setInput(k, v);
+    for (const [k, v] of Object.entries({ label: "Colour", ...inputs }))
+      fixture.componentRef.setInput(k, v);
     fixture.detectChanges();
     return { fixture, el: fixture.nativeElement.querySelector("div.color-picker") as HTMLElement };
   }

@@ -17,20 +17,27 @@ function render(attrs = 'label="Month" value="2"', options = OPTIONS): WheelPick
     return document.body.firstElementChild as WheelPicker;
 }
 const list = (h: HTMLElement) => h.querySelector(".wheel-picker-list") as HTMLElement;
-const selected = (h: HTMLElement) => h.querySelector('[role="option"][aria-selected="true"]')?.textContent;
+const selected = (h: HTMLElement) =>
+    h.querySelector('[role="option"][aria-selected="true"]')?.textContent;
 const key = (h: HTMLElement, k: string): KeyboardEvent => {
     const event = new KeyboardEvent("keydown", { key: k, bubbles: true, cancelable: true });
     list(h).dispatchEvent(event);
     return event;
 };
 const click = (h: HTMLElement, text: string): void => {
-    (Array.from(h.querySelectorAll<HTMLElement>('[role="option"]')).find((o) => o.textContent === text) as HTMLElement).click();
+    (
+        Array.from(h.querySelectorAll<HTMLElement>('[role="option"]')).find(
+            (o) => o.textContent === text,
+        ) as HTMLElement
+    ).click();
 };
 
 describe("WheelPicker", () => {
     test("renders a div with the base class first, then the host's class, and a vertical listbox inside", () => {
         const host = render('label="Month" value="2" class="mine"');
-        expect(host.querySelector("div.wheel-picker")!.getAttribute("class")).toBe("wheel-picker mine");
+        expect(host.querySelector("div.wheel-picker")!.getAttribute("class")).toBe(
+            "wheel-picker mine",
+        );
         expect(list(host).getAttribute("role")).toBe("listbox");
         expect(list(host).getAttribute("aria-orientation")).toBe("vertical");
         expect(list(host).getAttribute("aria-label")).toBe("Month");
@@ -148,7 +155,10 @@ describe("WheelPicker", () => {
 
     test("the options property replaces the options", () => {
         const host = render();
-        host.options = [{ value: "a", label: "Alpha" }, { value: "b", label: "Beta" }];
+        host.options = [
+            { value: "a", label: "Alpha" },
+            { value: "b", label: "Beta" },
+        ];
         expect(host.querySelectorAll('[role="option"]')).toHaveLength(2);
         host.value = "b";
         expect(selected(host)).toBe("Beta");

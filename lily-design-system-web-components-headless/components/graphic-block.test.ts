@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("GraphicBlock", () => {
     test("renders a figure with role=img", () => {
-        const host = render('<lily-graphic-block label="Revenue chart"><svg></svg></lily-graphic-block>');
+        const host = render(
+            '<lily-graphic-block label="Revenue chart"><svg></svg></lily-graphic-block>',
+        );
 
         const figure = host.querySelector("figure")!;
         expect(figure.className).toBe("graphic-block");
@@ -25,13 +27,17 @@ describe("GraphicBlock", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-graphic-block label="Revenue chart"><svg></svg></lily-graphic-block>');
+        const host = render(
+            '<lily-graphic-block label="Revenue chart"><svg></svg></lily-graphic-block>',
+        );
 
         expect(host.querySelector("figure")!.getAttribute("aria-label")).toBe("Revenue chart");
     });
 
     test("does not render a figcaption when title, description, and notes are absent", () => {
-        const host = render('<lily-graphic-block label="Revenue chart"><svg></svg></lily-graphic-block>');
+        const host = render(
+            '<lily-graphic-block label="Revenue chart"><svg></svg></lily-graphic-block>',
+        );
 
         expect(host.querySelector("figcaption")).toBeNull();
     });
@@ -43,18 +49,26 @@ describe("GraphicBlock", () => {
 
         const figcaption = host.querySelector("figcaption.graphic-block-caption")!;
         expect(figcaption.querySelector(".graphic-block-title")!.textContent).toBe("Revenue");
-        expect(figcaption.querySelector(".graphic-block-description")!.textContent).toBe("By quarter");
-        expect(figcaption.querySelector(".graphic-block-notes")!.textContent).toBe("Source: internal");
+        expect(figcaption.querySelector(".graphic-block-description")!.textContent).toBe(
+            "By quarter",
+        );
+        expect(figcaption.querySelector(".graphic-block-notes")!.textContent).toBe(
+            "Source: internal",
+        );
     });
 
     test("moves the consumer's graphic content into graphic-block-content", () => {
-        const host = render('<lily-graphic-block label="Revenue chart"><svg data-testid="chart"></svg></lily-graphic-block>');
+        const host = render(
+            '<lily-graphic-block label="Revenue chart"><svg data-testid="chart"></svg></lily-graphic-block>',
+        );
 
         expect(host.querySelector(".graphic-block-content svg")).toBeTruthy();
     });
 
     test("is idempotent if connectedCallback runs more than once", () => {
-        const host = render('<lily-graphic-block label="Revenue chart"><svg></svg></lily-graphic-block>');
+        const host = render(
+            '<lily-graphic-block label="Revenue chart"><svg></svg></lily-graphic-block>',
+        );
 
         (host as unknown as GraphicBlock).connectedCallback();
 

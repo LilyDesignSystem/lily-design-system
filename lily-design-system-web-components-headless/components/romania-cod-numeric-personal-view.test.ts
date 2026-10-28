@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("RomaniaCodNumericPersonalView", () => {
     test("renders a native span with the correct class", () => {
-        const host = render('<lily-romania-cod-numeric-personal-view label="Cod Numeric Personal (CNP)"></lily-romania-cod-numeric-personal-view>');
+        const host = render(
+            '<lily-romania-cod-numeric-personal-view label="Cod Numeric Personal (CNP)"></lily-romania-cod-numeric-personal-view>',
+        );
 
         const span = host.querySelector("span") as HTMLSpanElement;
         expect(span).not.toBeNull();
@@ -25,13 +27,19 @@ describe("RomaniaCodNumericPersonalView", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-romania-cod-numeric-personal-view label="Cod Numeric Personal (CNP)"></lily-romania-cod-numeric-personal-view>');
+        const host = render(
+            '<lily-romania-cod-numeric-personal-view label="Cod Numeric Personal (CNP)"></lily-romania-cod-numeric-personal-view>',
+        );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Cod Numeric Personal (CNP)");
+        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
+            "Cod Numeric Personal (CNP)",
+        );
     });
 
     test("seeds the initial value as text content and exposes a live value property", () => {
-        const host = render('<lily-romania-cod-numeric-personal-view label="Cod Numeric Personal (CNP)" value="1900101221144"></lily-romania-cod-numeric-personal-view>') as unknown as RomaniaCodNumericPersonalView;
+        const host = render(
+            '<lily-romania-cod-numeric-personal-view label="Cod Numeric Personal (CNP)" value="1900101221144"></lily-romania-cod-numeric-personal-view>',
+        ) as unknown as RomaniaCodNumericPersonalView;
 
         expect(host.value).toBe("1900101221144");
         expect(host.querySelector("span")!.textContent).toBe("1900101221144");
@@ -42,7 +50,9 @@ describe("RomaniaCodNumericPersonalView", () => {
     });
 
     test('sets role="text" so the identifier announces as a single unit', () => {
-        const host = render('<lily-romania-cod-numeric-personal-view label="Cod Numeric Personal (CNP)"></lily-romania-cod-numeric-personal-view>');
+        const host = render(
+            '<lily-romania-cod-numeric-personal-view label="Cod Numeric Personal (CNP)"></lily-romania-cod-numeric-personal-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });

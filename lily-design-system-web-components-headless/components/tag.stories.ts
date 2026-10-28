@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/Tag",
     render: (args) => h("lily-tag", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Status: Completed",
+        label: "Status: Completed",
     },
 };
 

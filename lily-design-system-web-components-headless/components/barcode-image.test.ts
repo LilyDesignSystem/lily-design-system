@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("BarcodeImage", () => {
     test("renders a native img with src and alt", () => {
-        const host = render('<lily-barcode-image src="/barcode.svg" alt="Order number 12345"></lily-barcode-image>');
+        const host = render(
+            '<lily-barcode-image src="/barcode.svg" alt="Order number 12345"></lily-barcode-image>',
+        );
 
         const img = host.querySelector("img") as HTMLImageElement;
         expect(img.className).toBe("barcode-image");
@@ -26,13 +28,17 @@ describe("BarcodeImage", () => {
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-barcode-image src="/b.svg" alt="Code" class="large"></lily-barcode-image>');
+        const host = render(
+            '<lily-barcode-image src="/b.svg" alt="Code" class="large"></lily-barcode-image>',
+        );
 
         expect(host.querySelector("img")!.className).toBe("barcode-image large");
     });
 
     test("passes the loading attribute through", () => {
-        const host = render('<lily-barcode-image src="/b.svg" alt="Code" loading="lazy"></lily-barcode-image>');
+        const host = render(
+            '<lily-barcode-image src="/b.svg" alt="Code" loading="lazy"></lily-barcode-image>',
+        );
 
         expect(host.querySelector("img")!.getAttribute("loading")).toBe("lazy");
     });

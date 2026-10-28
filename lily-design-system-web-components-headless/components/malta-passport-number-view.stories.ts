@@ -7,10 +7,11 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/MaltaPassportNumberView",
-    render: (args) => h("lily-malta-passport-number-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-malta-passport-number-view", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Passport Number",
-        "value": "1234567"
+        label: "Passport Number",
+        value: "1234567",
     },
 };
 

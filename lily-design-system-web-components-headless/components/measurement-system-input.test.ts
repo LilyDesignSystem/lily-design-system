@@ -17,13 +17,17 @@ function render(html: string): HTMLElement {
 
 describe("MeasurementSystemInput", () => {
     test("renders a native input type=text", () => {
-        const host = render('<lily-measurement-system-input label="System"></lily-measurement-system-input>');
+        const host = render(
+            '<lily-measurement-system-input label="System"></lily-measurement-system-input>',
+        );
 
         expect((host.querySelector("input") as HTMLInputElement).type).toBe("text");
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-measurement-system-input label="System"></lily-measurement-system-input>');
+        const host = render(
+            '<lily-measurement-system-input label="System"></lily-measurement-system-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("System");
     });

@@ -91,13 +91,20 @@ export class MiddleTruncation extends HTMLElement {
         this.#full.textContent = text;
 
         const width = root.clientWidth;
-        if (this.#context === undefined) this.#context = document.createElement("canvas").getContext("2d");
+        if (this.#context === undefined)
+            this.#context = document.createElement("canvas").getContext("2d");
         const ctx = this.#context;
         let shown: string | null = null;
         if (ctx && width > 0) {
             const style = getComputedStyle(root);
             ctx.font = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
-            const result = truncateMiddle(text, { ellipsis, strategy, end, maxWidth: width, measure: (s) => ctx.measureText(s).width });
+            const result = truncateMiddle(text, {
+                ellipsis,
+                strategy,
+                end,
+                maxWidth: width,
+                measure: (s) => ctx.measureText(s).width,
+            });
             shown = result === text ? null : result;
         }
         this.#visual.textContent = shown ?? text;

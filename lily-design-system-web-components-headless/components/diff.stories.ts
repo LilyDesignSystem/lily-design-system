@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/Diff",
     render: (args) => h("lily-diff", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Before and after comparison",
+        label: "Before and after comparison",
     },
 };
 

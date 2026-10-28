@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/Avatar",
     render: (args) => h("lily-avatar", args as Record<string, string | boolean>, SLOT),
     args: {
-        "alt": "Jane Doe",
+        alt: "Jane Doe",
     },
 };
 

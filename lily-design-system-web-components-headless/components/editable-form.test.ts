@@ -35,7 +35,9 @@ describe("EditableForm", () => {
     });
 
     test("the form is visible when editing is present", () => {
-        const host = render('<lily-editable-form label="Edit profile" editing></lily-editable-form>');
+        const host = render(
+            '<lily-editable-form label="Edit profile" editing></lily-editable-form>',
+        );
 
         expect((host.querySelector("form") as HTMLFormElement).hidden).toBe(false);
     });
@@ -49,7 +51,9 @@ describe("EditableForm", () => {
     });
 
     test("submitting prevents default and reverts editing", () => {
-        const host = render('<lily-editable-form label="Edit profile" editing></lily-editable-form>');
+        const host = render(
+            '<lily-editable-form label="Edit profile" editing></lily-editable-form>',
+        );
         const form = host.querySelector("form") as HTMLFormElement;
 
         const event = new Event("submit", { bubbles: true, cancelable: true });
@@ -61,14 +65,18 @@ describe("EditableForm", () => {
     });
 
     test("Escape reverts editing and fires lily-cancel", () => {
-        const host = render('<lily-editable-form label="Edit profile" editing></lily-editable-form>');
+        const host = render(
+            '<lily-editable-form label="Edit profile" editing></lily-editable-form>',
+        );
         const form = host.querySelector("form") as HTMLFormElement;
 
         let cancelled = false;
         host.addEventListener("lily-cancel", () => {
             cancelled = true;
         });
-        form.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true }));
+        form.dispatchEvent(
+            new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true }),
+        );
 
         expect(cancelled).toBe(true);
         expect(host.hasAttribute("editing")).toBe(false);

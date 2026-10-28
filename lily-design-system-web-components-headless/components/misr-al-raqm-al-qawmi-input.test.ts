@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("MisrAlRaqmAlQawmiInput", () => {
     test("renders a native input type=text with the correct class", () => {
-        const host = render('<lily-misr-al-raqm-al-qawmi-input label="الرقم القومي (National Number)"></lily-misr-al-raqm-al-qawmi-input>');
+        const host = render(
+            '<lily-misr-al-raqm-al-qawmi-input label="الرقم القومي (National Number)"></lily-misr-al-raqm-al-qawmi-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.type).toBe("text");
@@ -25,13 +27,17 @@ describe("MisrAlRaqmAlQawmiInput", () => {
     });
 
     test("always forces autocomplete to off, even if the consumer tries to override it", () => {
-        const host = render('<lily-misr-al-raqm-al-qawmi-input label="الرقم القومي (National Number)" autocomplete="on"></lily-misr-al-raqm-al-qawmi-input>');
+        const host = render(
+            '<lily-misr-al-raqm-al-qawmi-input label="الرقم القومي (National Number)" autocomplete="on"></lily-misr-al-raqm-al-qawmi-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("autocomplete")).toBe("off");
     });
 
     test("seeds the initial value from the value attribute and exposes a live value property", () => {
-        const host = render('<lily-misr-al-raqm-al-qawmi-input label="الرقم القومي (National Number)" value="29001011234567"></lily-misr-al-raqm-al-qawmi-input>') as unknown as MisrAlRaqmAlQawmiInput;
+        const host = render(
+            '<lily-misr-al-raqm-al-qawmi-input label="الرقم القومي (National Number)" value="29001011234567"></lily-misr-al-raqm-al-qawmi-input>',
+        ) as unknown as MisrAlRaqmAlQawmiInput;
 
         expect((host.querySelector("input") as HTMLInputElement).value).toBe("29001011234567");
 
@@ -41,7 +47,9 @@ describe("MisrAlRaqmAlQawmiInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-misr-al-raqm-al-qawmi-input label="الرقم القومي (National Number)" required disabled></lily-misr-al-raqm-al-qawmi-input>');
+        const host = render(
+            '<lily-misr-al-raqm-al-qawmi-input label="الرقم القومي (National Number)" required disabled></lily-misr-al-raqm-al-qawmi-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -49,8 +57,12 @@ describe("MisrAlRaqmAlQawmiInput", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-misr-al-raqm-al-qawmi-input label="الرقم القومي (National Number)"></lily-misr-al-raqm-al-qawmi-input>');
+        const host = render(
+            '<lily-misr-al-raqm-al-qawmi-input label="الرقم القومي (National Number)"></lily-misr-al-raqm-al-qawmi-input>',
+        );
 
-        expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("الرقم القومي (National Number)");
+        expect(host.querySelector("input")!.getAttribute("aria-label")).toBe(
+            "الرقم القومي (National Number)",
+        );
     });
 });

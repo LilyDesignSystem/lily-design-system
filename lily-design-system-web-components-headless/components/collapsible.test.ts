@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("Collapsible", () => {
     test("renders native details/summary elements", () => {
-        const host = render('<lily-collapsible summary="More info">Content here</lily-collapsible>');
+        const host = render(
+            '<lily-collapsible summary="More info">Content here</lily-collapsible>',
+        );
 
         const details = host.querySelector("details.collapsible") as HTMLDetailsElement;
         expect(details).toBeTruthy();
@@ -25,26 +27,34 @@ describe("Collapsible", () => {
     });
 
     test("closed by default", () => {
-        const host = render('<lily-collapsible summary="More info">Content here</lily-collapsible>');
+        const host = render(
+            '<lily-collapsible summary="More info">Content here</lily-collapsible>',
+        );
 
         expect((host.querySelector("details") as HTMLDetailsElement).open).toBe(false);
     });
 
     test("open attribute opens the details", () => {
-        const host = render('<lily-collapsible summary="More info" open>Content here</lily-collapsible>');
+        const host = render(
+            '<lily-collapsible summary="More info" open>Content here</lily-collapsible>',
+        );
 
         expect((host.querySelector("details") as HTMLDetailsElement).open).toBe(true);
     });
 
     test("moves original content after the summary", () => {
-        const host = render('<lily-collapsible summary="More info">Content here</lily-collapsible>');
+        const host = render(
+            '<lily-collapsible summary="More info">Content here</lily-collapsible>',
+        );
 
         const details = host.querySelector("details")!;
         expect(details.lastChild!.textContent).toBe("Content here");
     });
 
     test("native toggle reflects back to the host's open attribute and dispatches lily-change", () => {
-        const host = render('<lily-collapsible summary="More info">Content here</lily-collapsible>');
+        const host = render(
+            '<lily-collapsible summary="More info">Content here</lily-collapsible>',
+        );
         const details = host.querySelector("details") as HTMLDetailsElement;
         const handler = vi.fn();
         host.addEventListener("lily-change", handler);
@@ -58,7 +68,9 @@ describe("Collapsible", () => {
     });
 
     test("external toggleAttribute API opens the details", () => {
-        const host = render('<lily-collapsible summary="More info">Content here</lily-collapsible>');
+        const host = render(
+            '<lily-collapsible summary="More info">Content here</lily-collapsible>',
+        );
 
         host.toggleAttribute("open", true);
 

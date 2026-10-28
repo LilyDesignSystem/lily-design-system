@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/Footnote",
     render: (args) => h("lily-footnote", args as Record<string, string | boolean>, SLOT),
     args: {
-        "id": "fn1",
+        id: "fn1",
     },
 };
 

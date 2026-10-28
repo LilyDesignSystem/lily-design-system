@@ -15,7 +15,8 @@ function render(html: string): HTMLElement {
     return document.body.firstElementChild as HTMLElement;
 }
 
-const BASE = '<lily-one-time-password-input label="Verification code" length="6"></lily-one-time-password-input>';
+const BASE =
+    '<lily-one-time-password-input label="Verification code" length="6"></lily-one-time-password-input>';
 
 describe("OneTimePasswordInput", () => {
     test("renders ONE native text input with the base class", () => {
@@ -27,7 +28,9 @@ describe("OneTimePasswordInput", () => {
     });
 
     test("has aria-label from label", () => {
-        expect(render(BASE).querySelector("input")!.getAttribute("aria-label")).toBe("Verification code");
+        expect(render(BASE).querySelector("input")!.getAttribute("aria-label")).toBe(
+            "Verification code",
+        );
     });
 
     test("is autofill-ready: one-time-code, numeric keypad", () => {

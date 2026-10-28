@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("CeskoCestovniPasView", () => {
     test("renders a native span with the correct class", () => {
-        const host = render('<lily-cesko-cestovni-pas-view label="ID"></lily-cesko-cestovni-pas-view>');
+        const host = render(
+            '<lily-cesko-cestovni-pas-view label="ID"></lily-cesko-cestovni-pas-view>',
+        );
 
         const span = host.querySelector("span") as HTMLSpanElement;
         expect(span).not.toBeNull();
@@ -25,19 +27,25 @@ describe("CeskoCestovniPasView", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-cesko-cestovni-pas-view label="Cestovní Pas"></lily-cesko-cestovni-pas-view>');
+        const host = render(
+            '<lily-cesko-cestovni-pas-view label="Cestovní Pas"></lily-cesko-cestovni-pas-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Cestovní Pas");
     });
 
     test("has role=text so the identifier announces as a single unit", () => {
-        const host = render('<lily-cesko-cestovni-pas-view label="ID"></lily-cesko-cestovni-pas-view>');
+        const host = render(
+            '<lily-cesko-cestovni-pas-view label="ID"></lily-cesko-cestovni-pas-view>',
+        );
 
         expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
-        const host = render('<lily-cesko-cestovni-pas-view label="ID" value="12345678"></lily-cesko-cestovni-pas-view>') as unknown as CeskoCestovniPasView;
+        const host = render(
+            '<lily-cesko-cestovni-pas-view label="ID" value="12345678"></lily-cesko-cestovni-pas-view>',
+        ) as unknown as CeskoCestovniPasView;
 
         expect(host.querySelector("span")!.textContent).toBe("12345678");
         expect(host.value).toBe("12345678");

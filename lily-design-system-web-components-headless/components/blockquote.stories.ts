@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/Blockquote",
     render: (args) => h("lily-blockquote", args as Record<string, string | boolean>, SLOT),
     args: {
-        "citation-text": "Ada Lovelace"
+        "citation-text": "Ada Lovelace",
     },
 };
 

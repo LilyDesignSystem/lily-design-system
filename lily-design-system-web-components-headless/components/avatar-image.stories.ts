@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Media and data/AvatarImage",
     render: (args) => h("lily-avatar-image", args as Record<string, string | boolean>, SLOT),
     args: {
-        "src": "https://placehold.co/64",
-        "alt": "Ada Lovelace"
+        src: "https://placehold.co/64",
+        alt: "Ada Lovelace",
     },
 };
 

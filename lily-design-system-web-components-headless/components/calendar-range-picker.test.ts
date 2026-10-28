@@ -17,19 +17,25 @@ function render(html: string): HTMLElement {
 
 describe("CalendarRangePicker", () => {
     test("carries the base class", () => {
-        const host = render('<lily-calendar-range-picker label="Select dates"></lily-calendar-range-picker>');
+        const host = render(
+            '<lily-calendar-range-picker label="Select dates"></lily-calendar-range-picker>',
+        );
 
         expect(host.classList.contains("calendar-range-picker")).toBe(true);
     });
 
     test("has role=application", () => {
-        const host = render('<lily-calendar-range-picker label="Select dates"></lily-calendar-range-picker>');
+        const host = render(
+            '<lily-calendar-range-picker label="Select dates"></lily-calendar-range-picker>',
+        );
 
         expect(host.getAttribute("role")).toBe("application");
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-calendar-range-picker label="Select dates"></lily-calendar-range-picker>');
+        const host = render(
+            '<lily-calendar-range-picker label="Select dates"></lily-calendar-range-picker>',
+        );
 
         expect(host.getAttribute("aria-label")).toBe("Select dates");
     });
@@ -51,7 +57,9 @@ describe("CalendarRangePicker", () => {
     });
 
     test("is idempotent across repeated connectedCallback invocations", () => {
-        const host = render('<lily-calendar-range-picker label="Select dates"></lily-calendar-range-picker>');
+        const host = render(
+            '<lily-calendar-range-picker label="Select dates"></lily-calendar-range-picker>',
+        );
 
         (host as unknown as CalendarRangePicker).connectedCallback();
 

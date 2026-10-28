@@ -54,7 +54,9 @@ describe("CalendarTable", () => {
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-calendar-table label="January 2025" class="compact"></lily-calendar-table>');
+        const host = render(
+            '<lily-calendar-table label="January 2025" class="compact"></lily-calendar-table>',
+        );
 
         expect(host.querySelector("table")!.className).toBe("calendar-table compact");
     });

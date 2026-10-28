@@ -7,10 +7,15 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView",
-    render: (args) => h("lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Реєстраційний номер облікової картки платника податків (РНОКПП)",
-        "value": "3061219210"
+        label: "Реєстраційний номер облікової картки платника податків (РНОКПП)",
+        value: "3061219210",
     },
 };
 

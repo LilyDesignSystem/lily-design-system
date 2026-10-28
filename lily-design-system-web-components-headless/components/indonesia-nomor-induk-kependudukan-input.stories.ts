@@ -7,9 +7,14 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/IndonesiaNomorIndukKependudukanInput",
-    render: (args) => h("lily-indonesia-nomor-induk-kependudukan-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-indonesia-nomor-induk-kependudukan-input",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Nomor Induk Kependudukan (NIK)"
+        label: "Nomor Induk Kependudukan (NIK)",
     },
 };
 

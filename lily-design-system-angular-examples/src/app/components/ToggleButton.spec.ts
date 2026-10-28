@@ -24,7 +24,8 @@ describe("ToggleButton", () => {
 describe("ToggleButton — switch semantics", () => {
   function create(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(ToggleButton);
-    for (const [k, v] of Object.entries({ label: "Dark mode", ...inputs })) fixture.componentRef.setInput(k, v);
+    for (const [k, v] of Object.entries({ label: "Dark mode", ...inputs }))
+      fixture.componentRef.setInput(k, v);
     fixture.detectChanges();
     return { fixture, button: fixture.nativeElement.querySelector("button") as HTMLButtonElement };
   }

@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Content/Expander",
     render: (args) => h("lily-expander", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Show advanced settings",
-        "expanded": true,
+        label: "Show advanced settings",
+        expanded: true,
     },
 };
 

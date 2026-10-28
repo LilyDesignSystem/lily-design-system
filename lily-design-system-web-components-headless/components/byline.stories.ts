@@ -11,7 +11,7 @@ const meta: Meta = {
     title: "Content/Byline",
     render: (args) => h("lily-byline", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Article byline",
+        label: "Article byline",
     },
 };
 

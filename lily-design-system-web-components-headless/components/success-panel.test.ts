@@ -24,7 +24,9 @@ describe("SuccessPanel", () => {
     });
 
     test("applies an explicit label as aria-label", () => {
-        const host = render('<lily-success-panel label="Application submitted"></lily-success-panel>');
+        const host = render(
+            '<lily-success-panel label="Application submitted"></lily-success-panel>',
+        );
 
         expect(host.getAttribute("aria-label")).toBe("Application submitted");
     });
@@ -36,7 +38,9 @@ describe("SuccessPanel", () => {
     });
 
     test("preserves the consumer's children", () => {
-        const host = render("<lily-success-panel><h1>Application complete</h1><p>Reference: ABC123</p></lily-success-panel>");
+        const host = render(
+            "<lily-success-panel><h1>Application complete</h1><p>Reference: ABC123</p></lily-success-panel>",
+        );
 
         expect(host.querySelector("h1")?.textContent).toBe("Application complete");
         expect(host.querySelector("p")?.textContent).toBe("Reference: ABC123");

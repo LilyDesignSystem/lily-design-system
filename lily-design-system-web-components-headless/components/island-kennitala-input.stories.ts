@@ -7,9 +7,10 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/IslandKennitalaInput",
-    render: (args) => h("lily-island-kennitala-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-island-kennitala-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Kennitala"
+        label: "Kennitala",
     },
 };
 

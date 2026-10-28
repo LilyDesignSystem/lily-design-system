@@ -25,13 +25,17 @@ describe("EestiIsikukoodInput", () => {
     });
 
     test("autocomplete is always off, even if the consumer tries to override it", () => {
-        const host = render('<lily-eesti-isikukood-input label="ID" autocomplete="on"></lily-eesti-isikukood-input>');
+        const host = render(
+            '<lily-eesti-isikukood-input label="ID" autocomplete="on"></lily-eesti-isikukood-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("autocomplete")).toBe("off");
     });
 
     test("seeds the initial value and exposes a live value property", () => {
-        const host = render('<lily-eesti-isikukood-input label="ID" value="38001085718"></lily-eesti-isikukood-input>') as unknown as EestiIsikukoodInput;
+        const host = render(
+            '<lily-eesti-isikukood-input label="ID" value="38001085718"></lily-eesti-isikukood-input>',
+        ) as unknown as EestiIsikukoodInput;
 
         expect(host.value).toBe("38001085718");
 
@@ -41,7 +45,9 @@ describe("EestiIsikukoodInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-eesti-isikukood-input label="ID" required disabled></lily-eesti-isikukood-input>');
+        const host = render(
+            '<lily-eesti-isikukood-input label="ID" required disabled></lily-eesti-isikukood-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -49,7 +55,9 @@ describe("EestiIsikukoodInput", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-eesti-isikukood-input label="Isikukood"></lily-eesti-isikukood-input>');
+        const host = render(
+            '<lily-eesti-isikukood-input label="Isikukood"></lily-eesti-isikukood-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("Isikukood");
     });

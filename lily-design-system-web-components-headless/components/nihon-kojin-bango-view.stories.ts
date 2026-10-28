@@ -7,10 +7,11 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/NihonKojinBangoView",
-    render: (args) => h("lily-nihon-kojin-bango-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-nihon-kojin-bango-view", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Individual Number / My Number (マイナンバー)",
-        "value": "123456789012"
+        label: "Individual Number / My Number (マイナンバー)",
+        value: "123456789012",
     },
 };
 

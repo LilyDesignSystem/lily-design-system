@@ -38,7 +38,8 @@ const HANDLED = new Set(["value", "label", "selected", "disabled"]);
 
 export class RedOrangeYellowGreenBluePickerButton extends HTMLElement {
     connectedCallback(): void {
-        if (this.querySelector(":scope > button.red-orange-yellow-green-blue-picker-button")) return;
+        if (this.querySelector(":scope > button.red-orange-yellow-green-blue-picker-button"))
+            return;
 
         const button = document.createElement("button");
         button.type = "button";

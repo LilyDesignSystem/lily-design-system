@@ -7,7 +7,8 @@ const SLOT = "<nav>Site navigation</nav>";
 
 const meta: Meta = {
     title: "Navigation/GrailLayoutTopHeader",
-    render: (args) => h("lily-grail-layout-top-header", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-grail-layout-top-header", args as Record<string, string | boolean>, SLOT),
     args: {},
 };
 

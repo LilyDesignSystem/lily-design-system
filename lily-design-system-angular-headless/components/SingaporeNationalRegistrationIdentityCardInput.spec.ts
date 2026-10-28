@@ -7,7 +7,9 @@ describe("SingaporeNationalRegistrationIdentityCardInput", () => {
   test("renders the input root with the base class", () => {
     const fixture = TestBed.createComponent(SingaporeNationalRegistrationIdentityCardInput);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.singapore-national-registration-identity-card-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.singapore-national-registration-identity-card-input",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("SingaporeNationalRegistrationIdentityCardInput", () => {
     const fixture = TestBed.createComponent(SingaporeNationalRegistrationIdentityCardInput);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.singapore-national-registration-identity-card-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.singapore-national-registration-identity-card-input",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });
@@ -23,7 +27,9 @@ describe("SingaporeNationalRegistrationIdentityCardInput", () => {
   test("sets autocomplete to off", () => {
     const fixture = TestBed.createComponent(SingaporeNationalRegistrationIdentityCardInput);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.singapore-national-registration-identity-card-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.singapore-national-registration-identity-card-input",
+    );
     expect(el.getAttribute("autocomplete")).toBe("off");
   });
 
@@ -31,7 +37,9 @@ describe("SingaporeNationalRegistrationIdentityCardInput", () => {
     const fixture = TestBed.createComponent(SingaporeNationalRegistrationIdentityCardInput);
     fixture.componentRef.setInput("label", "Hello");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.singapore-national-registration-identity-card-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.singapore-national-registration-identity-card-input",
+    );
     expect(el.getAttribute("aria-label")).toBe("Hello");
   });
 
@@ -39,7 +47,9 @@ describe("SingaporeNationalRegistrationIdentityCardInput", () => {
     const fixture = TestBed.createComponent(SingaporeNationalRegistrationIdentityCardInput);
     fixture.componentRef.setInput("required", true);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.singapore-national-registration-identity-card-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.singapore-national-registration-identity-card-input",
+    );
     expect(el.required).toBe(true);
   });
 
@@ -47,7 +57,9 @@ describe("SingaporeNationalRegistrationIdentityCardInput", () => {
     const fixture = TestBed.createComponent(SingaporeNationalRegistrationIdentityCardInput);
     fixture.componentRef.setInput("disabled", true);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.singapore-national-registration-identity-card-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.singapore-national-registration-identity-card-input",
+    );
     expect(el.disabled).toBe(true);
   });
 
@@ -55,7 +67,9 @@ describe("SingaporeNationalRegistrationIdentityCardInput", () => {
     const fixture = TestBed.createComponent(SingaporeNationalRegistrationIdentityCardInput);
     fixture.componentRef.setInput("value", "abc123");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.singapore-national-registration-identity-card-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.singapore-national-registration-identity-card-input",
+    );
     expect(el.value).toBe("abc123");
   });
 });

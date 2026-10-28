@@ -23,7 +23,9 @@ describe("BodyText", () => {
     });
 
     test("preserves original content unmodified", () => {
-        const host = render("<lily-body-text><p>Paragraph one.</p><p>Paragraph two.</p></lily-body-text>");
+        const host = render(
+            "<lily-body-text><p>Paragraph one.</p><p>Paragraph two.</p></lily-body-text>",
+        );
 
         expect(host.querySelectorAll("p").length).toBe(2);
     });

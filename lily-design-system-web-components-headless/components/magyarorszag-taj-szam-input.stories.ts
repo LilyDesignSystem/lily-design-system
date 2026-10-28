@@ -7,9 +7,10 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/MagyarorszagTajSzamInput",
-    render: (args) => h("lily-magyarorszag-taj-szam-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-magyarorszag-taj-szam-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Társadalombiztosítási Azonosító Jel (TAJ)"
+        label: "Társadalombiztosítási Azonosító Jel (TAJ)",
     },
 };
 

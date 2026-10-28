@@ -2,8 +2,15 @@ import { afterEach, describe, expect, test } from "vitest";
 
 import { UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput } from "./ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input.js";
 
-if (!customElements.get("lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input")) {
-    customElements.define("lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input", UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput);
+if (
+    !customElements.get(
+        "lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input",
+    )
+) {
+    customElements.define(
+        "lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input",
+        UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput,
+    );
 }
 
 afterEach(() => {
@@ -17,21 +24,29 @@ function render(html: string): HTMLElement {
 
 describe("UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput", () => {
     test("renders a native input type=text with the correct class", () => {
-        const host = render('<lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input label="Реєстраційний номер облікової картки платника податків (РНОКПП)"></lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input>');
+        const host = render(
+            '<lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input label="Реєстраційний номер облікової картки платника податків (РНОКПП)"></lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.type).toBe("text");
-        expect(input.className).toBe("ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input");
+        expect(input.className).toBe(
+            "ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input",
+        );
     });
 
     test("always forces autocomplete to off, even if the consumer tries to override it", () => {
-        const host = render('<lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input label="Реєстраційний номер облікової картки платника податків (РНОКПП)" autocomplete="on"></lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input>');
+        const host = render(
+            '<lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input label="Реєстраційний номер облікової картки платника податків (РНОКПП)" autocomplete="on"></lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("autocomplete")).toBe("off");
     });
 
     test("seeds the initial value from the value attribute and exposes a live value property", () => {
-        const host = render('<lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input label="Реєстраційний номер облікової картки платника податків (РНОКПП)" value="3061219210"></lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input>') as unknown as UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput;
+        const host = render(
+            '<lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input label="Реєстраційний номер облікової картки платника податків (РНОКПП)" value="3061219210"></lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input>',
+        ) as unknown as UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput;
 
         expect((host.querySelector("input") as HTMLInputElement).value).toBe("3061219210");
 
@@ -41,7 +56,9 @@ describe("UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput", ()
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input label="Реєстраційний номер облікової картки платника податків (РНОКПП)" required disabled></lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input>');
+        const host = render(
+            '<lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input label="Реєстраційний номер облікової картки платника податків (РНОКПП)" required disabled></lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -49,8 +66,12 @@ describe("UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput", ()
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input label="Реєстраційний номер облікової картки платника податків (РНОКПП)"></lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input>');
+        const host = render(
+            '<lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input label="Реєстраційний номер облікової картки платника податків (РНОКПП)"></lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input>',
+        );
 
-        expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("Реєстраційний номер облікової картки платника податків (РНОКПП)");
+        expect(host.querySelector("input")!.getAttribute("aria-label")).toBe(
+            "Реєстраційний номер облікової картки платника податків (РНОКПП)",
+        );
     });
 });

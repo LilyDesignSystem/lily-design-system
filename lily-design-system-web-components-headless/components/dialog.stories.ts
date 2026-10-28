@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Overlays/Dialog",
     render: (args) => h("lily-dialog", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Settings",
-        "open": true
+        label: "Settings",
+        open: true,
     },
 };
 

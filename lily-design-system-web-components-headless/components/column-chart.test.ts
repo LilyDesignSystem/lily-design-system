@@ -22,26 +22,36 @@ const CATEGORIES_JSON = JSON.stringify([
 
 describe("ColumnChart", () => {
     test("exposes the graphic as a named image, not the figure", () => {
-        const host = render(`<lily-column-chart label="Sales by day" categories='${CATEGORIES_JSON}'></lily-column-chart>`);
+        const host = render(
+            `<lily-column-chart label="Sales by day" categories='${CATEGORIES_JSON}'></lily-column-chart>`,
+        );
 
         expect(host.querySelector(".column-chart-graphic")!.getAttribute("role")).toBe("img");
         expect(host.querySelector("figure")!.hasAttribute("role")).toBe(false);
     });
 
     test("uses label as the accessible name", () => {
-        const host = render(`<lily-column-chart label="Sales by day" categories='${CATEGORIES_JSON}'></lily-column-chart>`);
+        const host = render(
+            `<lily-column-chart label="Sales by day" categories='${CATEGORIES_JSON}'></lily-column-chart>`,
+        );
 
-        expect(host.querySelector(".column-chart-graphic")!.getAttribute("aria-label")).toBe("Sales by day");
+        expect(host.querySelector(".column-chart-graphic")!.getAttribute("aria-label")).toBe(
+            "Sales by day",
+        );
     });
 
     test("renders one svg rect per category", () => {
-        const host = render(`<lily-column-chart label="Sales by day" categories='${CATEGORIES_JSON}'></lily-column-chart>`);
+        const host = render(
+            `<lily-column-chart label="Sales by day" categories='${CATEGORIES_JSON}'></lily-column-chart>`,
+        );
 
         expect(host.querySelectorAll("svg rect").length).toBe(2);
     });
 
     test("the svg is decorative (presentation role, aria-hidden)", () => {
-        const host = render(`<lily-column-chart label="Sales by day" categories='${CATEGORIES_JSON}'></lily-column-chart>`);
+        const host = render(
+            `<lily-column-chart label="Sales by day" categories='${CATEGORIES_JSON}'></lily-column-chart>`,
+        );
 
         const svg = host.querySelector("svg")!;
         expect(svg.getAttribute("role")).toBe("presentation");
@@ -55,7 +65,9 @@ describe("ColumnChart", () => {
 
         const graphic = host.querySelector(".column-chart-graphic")!;
         const describedbyId = graphic.getAttribute("aria-describedby")!;
-        expect(document.getElementById(describedbyId)!.textContent).toBe("Columns show daily sales.");
+        expect(document.getElementById(describedbyId)!.textContent).toBe(
+            "Columns show daily sales.",
+        );
     });
 
     test("moves a slot=data-table child into a sibling wrapper after the graphic, outside role=img", () => {
@@ -70,7 +82,9 @@ describe("ColumnChart", () => {
     });
 
     test("the categories property is live and re-renders on set", () => {
-        const host = render('<lily-column-chart label="Sales by day"></lily-column-chart>') as unknown as ColumnChart;
+        const host = render(
+            '<lily-column-chart label="Sales by day"></lily-column-chart>',
+        ) as unknown as ColumnChart;
 
         expect(host.querySelectorAll("svg rect").length).toBe(0);
 
@@ -81,7 +95,9 @@ describe("ColumnChart", () => {
     });
 
     test("ignores malformed JSON in the categories attribute", () => {
-        const host = render('<lily-column-chart label="Sales by day" categories="not json"></lily-column-chart>') as unknown as ColumnChart;
+        const host = render(
+            '<lily-column-chart label="Sales by day" categories="not json"></lily-column-chart>',
+        ) as unknown as ColumnChart;
 
         expect(host.categories).toEqual([]);
     });

@@ -30,7 +30,8 @@ function key(el: Element, k: string, init: KeyboardEventInit = {}) {
 describe("HorizontalScroller — region and scrolling keys", () => {
   function create(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(HorizontalScroller);
-    for (const [k, v] of Object.entries({ label: "Gallery", ...inputs })) fixture.componentRef.setInput(k, v);
+    for (const [k, v] of Object.entries({ label: "Gallery", ...inputs }))
+      fixture.componentRef.setInput(k, v);
     fixture.detectChanges();
     const el = fixture.nativeElement.querySelector("div.horizontal-scroller") as HTMLElement;
     const scrollBy = vi.fn();

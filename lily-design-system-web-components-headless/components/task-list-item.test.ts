@@ -46,7 +46,11 @@ describe("TaskListItem (upgrade in place)", () => {
         renderList();
 
         const items = Array.from(document.querySelectorAll("li.task-list-item"));
-        expect(items.map((li) => li.getAttribute("data-checked"))).toEqual(["false", "true", "true"]);
+        expect(items.map((li) => li.getAttribute("data-checked"))).toEqual([
+            "false",
+            "true",
+            "true",
+        ]);
         expect(items.map((li) => li.getAttribute("data-disabled"))).toEqual([null, null, "true"]);
     });
 
@@ -68,7 +72,8 @@ describe("TaskListItem (upgrade in place)", () => {
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        document.body.innerHTML = '<ol><lily-task-list-item class="extra" label="X"></lily-task-list-item></ol>';
+        document.body.innerHTML =
+            '<ol><lily-task-list-item class="extra" label="X"></lily-task-list-item></ol>';
 
         expect(document.querySelector("li")!.className).toBe("task-list-item extra");
     });

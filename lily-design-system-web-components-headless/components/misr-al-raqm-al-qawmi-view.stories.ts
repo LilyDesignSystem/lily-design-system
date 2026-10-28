@@ -7,10 +7,11 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/MisrAlRaqmAlQawmiView",
-    render: (args) => h("lily-misr-al-raqm-al-qawmi-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h("lily-misr-al-raqm-al-qawmi-view", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "الرقم القومي (National Number)",
-        "value": "29001011234567"
+        label: "الرقم القومي (National Number)",
+        value: "29001011234567",
     },
 };
 

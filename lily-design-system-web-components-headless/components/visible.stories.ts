@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/Visible",
     render: (args) => h("lily-visible", args as Record<string, string | boolean>, SLOT),
     args: {
-        "threshold": "0.5",
+        threshold: "0.5",
     },
 };
 

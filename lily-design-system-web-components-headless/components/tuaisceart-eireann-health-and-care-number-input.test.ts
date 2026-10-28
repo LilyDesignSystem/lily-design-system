@@ -3,7 +3,10 @@ import { afterEach, describe, expect, test } from "vitest";
 import { TuaisceartEireannHealthAndCareNumberInput } from "./tuaisceart-eireann-health-and-care-number-input.js";
 
 if (!customElements.get("lily-tuaisceart-eireann-health-and-care-number-input")) {
-    customElements.define("lily-tuaisceart-eireann-health-and-care-number-input", TuaisceartEireannHealthAndCareNumberInput);
+    customElements.define(
+        "lily-tuaisceart-eireann-health-and-care-number-input",
+        TuaisceartEireannHealthAndCareNumberInput,
+    );
 }
 
 afterEach(() => {
@@ -17,7 +20,9 @@ function render(html: string): HTMLElement {
 
 describe("TuaisceartEireannHealthAndCareNumberInput", () => {
     test("renders a native input type=text with the correct class", () => {
-        const host = render('<lily-tuaisceart-eireann-health-and-care-number-input label="Health and Care (H&C) Number"></lily-tuaisceart-eireann-health-and-care-number-input>');
+        const host = render(
+            '<lily-tuaisceart-eireann-health-and-care-number-input label="Health and Care (H&C) Number"></lily-tuaisceart-eireann-health-and-care-number-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.type).toBe("text");
@@ -25,13 +30,17 @@ describe("TuaisceartEireannHealthAndCareNumberInput", () => {
     });
 
     test("always forces autocomplete to off, even if the consumer tries to override it", () => {
-        const host = render('<lily-tuaisceart-eireann-health-and-care-number-input label="Health and Care (H&C) Number" autocomplete="on"></lily-tuaisceart-eireann-health-and-care-number-input>');
+        const host = render(
+            '<lily-tuaisceart-eireann-health-and-care-number-input label="Health and Care (H&C) Number" autocomplete="on"></lily-tuaisceart-eireann-health-and-care-number-input>',
+        );
 
         expect(host.querySelector("input")!.getAttribute("autocomplete")).toBe("off");
     });
 
     test("seeds the initial value from the value attribute and exposes a live value property", () => {
-        const host = render('<lily-tuaisceart-eireann-health-and-care-number-input label="Health and Care (H&C) Number" value="123 456 7890"></lily-tuaisceart-eireann-health-and-care-number-input>') as unknown as TuaisceartEireannHealthAndCareNumberInput;
+        const host = render(
+            '<lily-tuaisceart-eireann-health-and-care-number-input label="Health and Care (H&C) Number" value="123 456 7890"></lily-tuaisceart-eireann-health-and-care-number-input>',
+        ) as unknown as TuaisceartEireannHealthAndCareNumberInput;
 
         expect((host.querySelector("input") as HTMLInputElement).value).toBe("123 456 7890");
 
@@ -41,7 +50,9 @@ describe("TuaisceartEireannHealthAndCareNumberInput", () => {
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render('<lily-tuaisceart-eireann-health-and-care-number-input label="Health and Care (H&C) Number" required disabled></lily-tuaisceart-eireann-health-and-care-number-input>');
+        const host = render(
+            '<lily-tuaisceart-eireann-health-and-care-number-input label="Health and Care (H&C) Number" required disabled></lily-tuaisceart-eireann-health-and-care-number-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -49,13 +60,19 @@ describe("TuaisceartEireannHealthAndCareNumberInput", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-tuaisceart-eireann-health-and-care-number-input label="Health and Care (H&C) Number"></lily-tuaisceart-eireann-health-and-care-number-input>');
+        const host = render(
+            '<lily-tuaisceart-eireann-health-and-care-number-input label="Health and Care (H&C) Number"></lily-tuaisceart-eireann-health-and-care-number-input>',
+        );
 
-        expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("Health and Care (H&C) Number");
+        expect(host.querySelector("input")!.getAttribute("aria-label")).toBe(
+            "Health and Care (H&C) Number",
+        );
     });
 
     test("has the documented pattern and inputmode", () => {
-        const host = render('<lily-tuaisceart-eireann-health-and-care-number-input label="Health and Care (H&C) Number"></lily-tuaisceart-eireann-health-and-care-number-input>');
+        const host = render(
+            '<lily-tuaisceart-eireann-health-and-care-number-input label="Health and Care (H&C) Number"></lily-tuaisceart-eireann-health-and-care-number-input>',
+        );
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.getAttribute("pattern")).toBe("[0-9]{3} [0-9]{3} [0-9]{4}");

@@ -11,8 +11,8 @@ const meta: Meta = {
     title: "Forms/ActionGroup",
     render: (args) => h("lily-action-group", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Document actions",
-        "overflow-label": "More actions"
+        label: "Document actions",
+        "overflow-label": "More actions",
     },
 };
 

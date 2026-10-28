@@ -3,7 +3,10 @@ import { afterEach, describe, expect, test } from "vitest";
 import { RedOrangeYellowGreenBluePicker } from "./red-orange-yellow-green-blue-picker.js";
 
 if (!customElements.get("lily-red-orange-yellow-green-blue-picker")) {
-    customElements.define("lily-red-orange-yellow-green-blue-picker", RedOrangeYellowGreenBluePicker);
+    customElements.define(
+        "lily-red-orange-yellow-green-blue-picker",
+        RedOrangeYellowGreenBluePicker,
+    );
 }
 
 afterEach(() => {

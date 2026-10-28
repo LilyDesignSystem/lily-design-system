@@ -10,11 +10,13 @@ const meta: Meta = {
     render: (args) => {
         const ol = document.createElement("ol");
         ol.className = "breadcrumb-list";
-        ol.appendChild(h("lily-breadcrumb-list-item", args as Record<string, string | boolean>, SLOT));
+        ol.appendChild(
+            h("lily-breadcrumb-list-item", args as Record<string, string | boolean>, SLOT),
+        );
         return ol;
     },
     args: {
-        "current": true
+        current: true,
     },
 };
 

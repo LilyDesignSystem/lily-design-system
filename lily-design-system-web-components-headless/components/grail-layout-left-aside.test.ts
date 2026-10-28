@@ -23,25 +23,33 @@ describe("GrailLayoutLeftAside", () => {
     });
 
     test("moves children into the aside", () => {
-        const host = render("<lily-grail-layout-left-aside><nav>Nav</nav></lily-grail-layout-left-aside>");
+        const host = render(
+            "<lily-grail-layout-left-aside><nav>Nav</nav></lily-grail-layout-left-aside>",
+        );
 
         expect(host.querySelector("aside > nav")).toBeTruthy();
     });
 
     test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-grail-layout-left-aside class="extra">Content</lily-grail-layout-left-aside>');
+        const host = render(
+            '<lily-grail-layout-left-aside class="extra">Content</lily-grail-layout-left-aside>',
+        );
 
         expect(host.querySelector("aside")!.className).toBe("grail-layout-left-aside extra");
     });
 
     test("passes through rest attributes, including aria-label", () => {
-        const host = render('<lily-grail-layout-left-aside aria-label="Filters">Content</lily-grail-layout-left-aside>');
+        const host = render(
+            '<lily-grail-layout-left-aside aria-label="Filters">Content</lily-grail-layout-left-aside>',
+        );
 
         expect(host.querySelector("aside")!.getAttribute("aria-label")).toBe("Filters");
     });
 
     test("passes through arbitrary data attributes", () => {
-        const host = render('<lily-grail-layout-left-aside data-testid="aside">Content</lily-grail-layout-left-aside>');
+        const host = render(
+            '<lily-grail-layout-left-aside data-testid="aside">Content</lily-grail-layout-left-aside>',
+        );
 
         expect(host.querySelector("aside")!.getAttribute("data-testid")).toBe("aside");
     });

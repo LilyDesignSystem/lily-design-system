@@ -54,7 +54,9 @@ describe("ActionGroup", () => {
         expect(trigger).toBeTruthy();
         expect(trigger.getAttribute("aria-haspopup")).toBe("menu");
         expect(trigger.getAttribute("aria-label")).toBe("More actions");
-        expect(host.querySelector(".action-group-overflow-menu button")!.textContent).toBe("Archive");
+        expect(host.querySelector(".action-group-overflow-menu button")!.textContent).toBe(
+            "Archive",
+        );
     });
 
     test("overflow panel is hidden by default and trigger reports aria-expanded=false", () => {

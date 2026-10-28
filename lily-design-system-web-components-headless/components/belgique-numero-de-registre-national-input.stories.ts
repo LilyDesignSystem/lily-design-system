@@ -7,9 +7,14 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/BelgiqueNumeroDeRegistreNationalInput",
-    render: (args) => h("lily-belgique-numero-de-registre-national-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-belgique-numero-de-registre-national-input",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Numéro de Registre National"
+        label: "Numéro de Registre National",
     },
 };
 

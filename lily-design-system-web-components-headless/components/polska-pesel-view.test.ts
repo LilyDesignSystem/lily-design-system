@@ -31,7 +31,9 @@ describe("PolskaPeselView", () => {
     });
 
     test("seeds the initial value as text content and exposes a live value property", () => {
-        const host = render('<lily-polska-pesel-view label="PESEL" value="44051401359"></lily-polska-pesel-view>') as unknown as PolskaPeselView;
+        const host = render(
+            '<lily-polska-pesel-view label="PESEL" value="44051401359"></lily-polska-pesel-view>',
+        ) as unknown as PolskaPeselView;
 
         expect(host.value).toBe("44051401359");
         expect(host.querySelector("span")!.textContent).toBe("44051401359");

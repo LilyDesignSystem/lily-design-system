@@ -42,7 +42,9 @@ export class TreeList extends HTMLElement {
 
     #onKeydown = (event: KeyboardEvent): void => {
         const ol = event.currentTarget as HTMLOListElement;
-        const items = Array.from(ol.querySelectorAll<HTMLElement>("[role='treeitem']")).filter((el) => !el.parentElement?.closest("[role='treeitem'][aria-expanded='false']"));
+        const items = Array.from(ol.querySelectorAll<HTMLElement>("[role='treeitem']")).filter(
+            (el) => !el.parentElement?.closest("[role='treeitem'][aria-expanded='false']"),
+        );
         const current = document.activeElement as HTMLElement;
         const index = items.indexOf(current);
         switch (event.key) {

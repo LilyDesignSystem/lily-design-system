@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("FeaturePhoto", () => {
     test("renders a figure with an img sourced from src/alt", () => {
-        const host = render('<lily-feature-photo src="/dog.jpg" alt="A rescue dog"></lily-feature-photo>');
+        const host = render(
+            '<lily-feature-photo src="/dog.jpg" alt="A rescue dog"></lily-feature-photo>',
+        );
 
         const img = host.querySelector("img") as HTMLImageElement;
         expect(img.getAttribute("src")).toBe("/dog.jpg");
@@ -25,19 +27,25 @@ describe("FeaturePhoto", () => {
     });
 
     test("defaults loading to lazy", () => {
-        const host = render('<lily-feature-photo src="/dog.jpg" alt="A rescue dog"></lily-feature-photo>');
+        const host = render(
+            '<lily-feature-photo src="/dog.jpg" alt="A rescue dog"></lily-feature-photo>',
+        );
 
         expect((host.querySelector("img") as HTMLImageElement).loading).toBe("lazy");
     });
 
     test("honours an explicit eager loading value", () => {
-        const host = render('<lily-feature-photo src="/dog.jpg" alt="A rescue dog" loading="eager"></lily-feature-photo>');
+        const host = render(
+            '<lily-feature-photo src="/dog.jpg" alt="A rescue dog" loading="eager"></lily-feature-photo>',
+        );
 
         expect((host.querySelector("img") as HTMLImageElement).loading).toBe("eager");
     });
 
     test("sets width and height when given", () => {
-        const host = render('<lily-feature-photo src="/dog.jpg" alt="A rescue dog" width="640" height="480"></lily-feature-photo>');
+        const host = render(
+            '<lily-feature-photo src="/dog.jpg" alt="A rescue dog" width="640" height="480"></lily-feature-photo>',
+        );
 
         const img = host.querySelector("img") as HTMLImageElement;
         expect(img.width).toBe(640);
@@ -58,7 +66,9 @@ describe("FeaturePhoto", () => {
     });
 
     test("renders no figcaption when neither slot is supplied", () => {
-        const host = render('<lily-feature-photo src="/dog.jpg" alt="A rescue dog"></lily-feature-photo>');
+        const host = render(
+            '<lily-feature-photo src="/dog.jpg" alt="A rescue dog"></lily-feature-photo>',
+        );
 
         expect(host.querySelector("figcaption")).toBeNull();
     });

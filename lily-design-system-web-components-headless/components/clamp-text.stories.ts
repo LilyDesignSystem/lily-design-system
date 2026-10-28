@@ -10,7 +10,7 @@ const meta: Meta = {
     title: "Content/ClampText",
     render: (args) => h("lily-clamp-text", args as Record<string, string | boolean>, SLOT),
     args: {
-        "lines": "2",
+        lines: "2",
     },
 };
 

@@ -50,7 +50,9 @@ describe("Editable", () => {
     test("Enter/Space on the display span activates edit mode", () => {
         const host = render('<lily-editable label="Name" value="Ada"></lily-editable>');
 
-        host.querySelector("span")!.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
+        host.querySelector("span")!.dispatchEvent(
+            new KeyboardEvent("keydown", { key: "Enter", bubbles: true }),
+        );
 
         expect(host.hasAttribute("editing")).toBe(true);
     });
@@ -66,7 +68,9 @@ describe("Editable", () => {
     });
 
     test("Enter in edit mode confirms and dispatches lily-change", () => {
-        const host = render('<lily-editable label="Name" value="Ada" editing></lily-editable>') as unknown as Editable;
+        const host = render(
+            '<lily-editable label="Name" value="Ada" editing></lily-editable>',
+        ) as unknown as Editable;
         const handler = vi.fn();
         host.addEventListener("lily-change", handler);
         const input = host.querySelector("input") as HTMLInputElement;
@@ -77,11 +81,15 @@ describe("Editable", () => {
         expect(host.hasAttribute("editing")).toBe(false);
         expect(host.value).toBe("Grace");
         expect(handler).toHaveBeenCalledTimes(1);
-        expect((handler.mock.calls[0][0] as CustomEvent<{ value: string }>).detail).toEqual({ value: "Grace" });
+        expect((handler.mock.calls[0][0] as CustomEvent<{ value: string }>).detail).toEqual({
+            value: "Grace",
+        });
     });
 
     test("Escape in edit mode cancels without changing the value", () => {
-        const host = render('<lily-editable label="Name" value="Ada" editing></lily-editable>') as unknown as Editable;
+        const host = render(
+            '<lily-editable label="Name" value="Ada" editing></lily-editable>',
+        ) as unknown as Editable;
         const input = host.querySelector("input") as HTMLInputElement;
         input.value = "Grace";
 

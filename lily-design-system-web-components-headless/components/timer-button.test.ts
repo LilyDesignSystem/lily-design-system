@@ -18,7 +18,9 @@ function render(html: string): HTMLElement {
 
 describe("TimerButton", () => {
     test("renders a native button with the base class", () => {
-        const host = render('<lily-timer-button label="Continue" duration="5">Continue</lily-timer-button>');
+        const host = render(
+            '<lily-timer-button label="Continue" duration="5">Continue</lily-timer-button>',
+        );
 
         const button = host.querySelector("button") as HTMLButtonElement;
         expect(button.className).toBe("timer-button");
@@ -26,25 +28,33 @@ describe("TimerButton", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-timer-button label="Continue" duration="5">Continue</lily-timer-button>');
+        const host = render(
+            '<lily-timer-button label="Continue" duration="5">Continue</lily-timer-button>',
+        );
 
         expect(host.querySelector("button")!.getAttribute("aria-label")).toBe("Continue");
     });
 
     test("exposes duration as the initial data-remaining-seconds", () => {
-        const host = render('<lily-timer-button label="Continue" duration="5">Continue</lily-timer-button>');
+        const host = render(
+            '<lily-timer-button label="Continue" duration="5">Continue</lily-timer-button>',
+        );
 
         expect(host.querySelector("button")!.getAttribute("data-remaining-seconds")).toBe("5");
     });
 
     test("disabled propagates to the native button", () => {
-        const host = render('<lily-timer-button label="Continue" duration="5" disabled>Continue</lily-timer-button>');
+        const host = render(
+            '<lily-timer-button label="Continue" duration="5" disabled>Continue</lily-timer-button>',
+        );
 
         expect((host.querySelector("button") as HTMLButtonElement).disabled).toBe(true);
     });
 
     test("manual click activates immediately and fires lily-activate", () => {
-        const host = render('<lily-timer-button label="Continue" duration="5">Continue</lily-timer-button>');
+        const host = render(
+            '<lily-timer-button label="Continue" duration="5">Continue</lily-timer-button>',
+        );
         const handler = vi.fn();
         host.addEventListener("lily-activate", handler);
 
@@ -55,7 +65,9 @@ describe("TimerButton", () => {
 
     test("counts down and activates automatically at zero", () => {
         vi.useFakeTimers();
-        const host = render('<lily-timer-button label="Continue" duration="2">Continue</lily-timer-button>');
+        const host = render(
+            '<lily-timer-button label="Continue" duration="2">Continue</lily-timer-button>',
+        );
         const handler = vi.fn();
         host.addEventListener("lily-activate", handler);
 
@@ -69,7 +81,9 @@ describe("TimerButton", () => {
     });
 
     test("activating only fires lily-activate once even if clicked again", () => {
-        const host = render('<lily-timer-button label="Continue" duration="5">Continue</lily-timer-button>');
+        const host = render(
+            '<lily-timer-button label="Continue" duration="5">Continue</lily-timer-button>',
+        );
         const handler = vi.fn();
         host.addEventListener("lily-activate", handler);
         const button = host.querySelector("button") as HTMLButtonElement;

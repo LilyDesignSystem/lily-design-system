@@ -39,7 +39,9 @@ describe("BeachBall", () => {
     });
 
     test("active=false omits the spinner span", () => {
-        const host = render('<lily-beach-ball label="Loading results" active="false"></lily-beach-ball>');
+        const host = render(
+            '<lily-beach-ball label="Loading results" active="false"></lily-beach-ball>',
+        );
 
         expect(host.getAttribute("aria-busy")).toBe("false");
         expect(host.getAttribute("data-active")).toBe("false");
@@ -47,7 +49,9 @@ describe("BeachBall", () => {
     });
 
     test("toggling active externally adds/removes the spinner span", () => {
-        const host = render('<lily-beach-ball label="Loading results" active="false"></lily-beach-ball>');
+        const host = render(
+            '<lily-beach-ball label="Loading results" active="false"></lily-beach-ball>',
+        );
 
         host.setAttribute("active", "true");
 

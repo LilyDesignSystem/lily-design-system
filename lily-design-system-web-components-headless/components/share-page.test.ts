@@ -49,7 +49,9 @@ describe("SharePage", () => {
     });
 
     test("appends the consumer's class onto the base class", () => {
-        const host = render('<lily-share-page label="Share this page" class="my-share"></lily-share-page>');
+        const host = render(
+            '<lily-share-page label="Share this page" class="my-share"></lily-share-page>',
+        );
 
         expect(host.getAttribute("class")).toBe("share-page my-share");
     });

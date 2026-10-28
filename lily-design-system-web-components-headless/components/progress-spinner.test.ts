@@ -41,13 +41,17 @@ describe("ProgressSpinner", () => {
     });
 
     test("keeps optional inner content in place", () => {
-        const host = render('<lily-progress-spinner label="Loading data"><span>Loading...</span></lily-progress-spinner>');
+        const host = render(
+            '<lily-progress-spinner label="Loading data"><span>Loading...</span></lily-progress-spinner>',
+        );
 
         expect(host.querySelector("span")?.textContent).toBe("Loading...");
     });
 
     test("appends the consumer's class onto the base class", () => {
-        const host = render('<lily-progress-spinner label="Loading data" class="my-spinner"></lily-progress-spinner>');
+        const host = render(
+            '<lily-progress-spinner label="Loading data" class="my-spinner"></lily-progress-spinner>',
+        );
 
         expect(host.getAttribute("class")).toBe("progress-spinner my-spinner");
     });

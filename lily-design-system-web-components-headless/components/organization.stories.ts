@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Navigation/Organization",
     render: (args) => h("lily-organization", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Acme Corporation"
+        label: "Acme Corporation",
     },
 };
 

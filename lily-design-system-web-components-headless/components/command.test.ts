@@ -37,9 +37,13 @@ describe("Command", () => {
     });
 
     test("applies the placeholder attribute to the input", () => {
-        const host = render('<lily-command label="Command palette" placeholder="Search commands..."></lily-command>');
+        const host = render(
+            '<lily-command label="Command palette" placeholder="Search commands..."></lily-command>',
+        );
 
-        expect((host.querySelector("input") as HTMLInputElement).placeholder).toBe("Search commands...");
+        expect((host.querySelector("input") as HTMLInputElement).placeholder).toBe(
+            "Search commands...",
+        );
     });
 
     test("preserves the consumer's option children inside the listbox", () => {
@@ -47,7 +51,9 @@ describe("Command", () => {
             '<lily-command label="Command palette"><div role="option">Open file</div></lily-command>',
         );
 
-        expect(host.querySelector('[role="listbox"] [role="option"]')!.textContent).toBe("Open file");
+        expect(host.querySelector('[role="listbox"] [role="option"]')!.textContent).toBe(
+            "Open file",
+        );
     });
 
     test("ArrowDown/ArrowUp navigate aria-activedescendant among options", () => {
@@ -83,7 +89,9 @@ describe("Command", () => {
     });
 
     test("typing updates the bindable value", () => {
-        const host = render('<lily-command label="Command palette"></lily-command>') as unknown as Command;
+        const host = render(
+            '<lily-command label="Command palette"></lily-command>',
+        ) as unknown as Command;
         const input = host.querySelector("input") as HTMLInputElement;
 
         input.value = "open";
@@ -93,7 +101,9 @@ describe("Command", () => {
     });
 
     test("exposes a live value property", () => {
-        const host = render('<lily-command label="Command palette"></lily-command>') as unknown as Command;
+        const host = render(
+            '<lily-command label="Command palette"></lily-command>',
+        ) as unknown as Command;
 
         host.value = "deploy";
 

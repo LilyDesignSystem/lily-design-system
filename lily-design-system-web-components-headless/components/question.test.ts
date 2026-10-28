@@ -51,7 +51,9 @@ describe("Question", () => {
     });
 
     test("is idempotent across repeated connectedCallback invocations", () => {
-        const host = render("<lily-question label=\"Q1\">What is your favourite colour?</lily-question>");
+        const host = render(
+            '<lily-question label="Q1">What is your favourite colour?</lily-question>',
+        );
 
         (host as unknown as Question).connectedCallback();
 

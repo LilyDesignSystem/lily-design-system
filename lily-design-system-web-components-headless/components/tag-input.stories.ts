@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/TagInput",
     render: (args) => h("lily-tag-input", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Add a skill",
+        label: "Add a skill",
     },
 };
 

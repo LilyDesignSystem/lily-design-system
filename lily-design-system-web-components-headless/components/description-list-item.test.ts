@@ -17,13 +17,17 @@ function render(html: string): HTMLElement {
 
 describe("DescriptionListItem", () => {
     test("the custom element itself is the wrapper (self-is-the-wrapper)", () => {
-        const host = render("<lily-description-list-item><dt>Name</dt><dd>Ada Lovelace</dd></lily-description-list-item>");
+        const host = render(
+            "<lily-description-list-item><dt>Name</dt><dd>Ada Lovelace</dd></lily-description-list-item>",
+        );
 
         expect(host.className).toBe("description-list-item");
     });
 
     test("has no aria-label by default", () => {
-        const host = render("<lily-description-list-item><dt>Name</dt><dd>Ada Lovelace</dd></lily-description-list-item>");
+        const host = render(
+            "<lily-description-list-item><dt>Name</dt><dd>Ada Lovelace</dd></lily-description-list-item>",
+        );
 
         expect(host.hasAttribute("aria-label")).toBe(false);
     });
@@ -37,7 +41,9 @@ describe("DescriptionListItem", () => {
     });
 
     test("preserves the dt/dd children in place", () => {
-        const host = render("<lily-description-list-item><dt>Name</dt><dd>Ada Lovelace</dd></lily-description-list-item>");
+        const host = render(
+            "<lily-description-list-item><dt>Name</dt><dd>Ada Lovelace</dd></lily-description-list-item>",
+        );
 
         expect(host.querySelector("dt")!.textContent).toBe("Name");
         expect(host.querySelector("dd")!.textContent).toBe("Ada Lovelace");

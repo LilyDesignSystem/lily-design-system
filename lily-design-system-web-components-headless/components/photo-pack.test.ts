@@ -35,13 +35,17 @@ describe("PhotoPack", () => {
     });
 
     test("keeps children in place", () => {
-        const host = render('<lily-photo-pack label="Holiday photos"><figure>Beach</figure></lily-photo-pack>');
+        const host = render(
+            '<lily-photo-pack label="Holiday photos"><figure>Beach</figure></lily-photo-pack>',
+        );
 
         expect(host.querySelector("figure")!.textContent).toBe("Beach");
     });
 
     test("applies the consumer's class hook alongside the base class", () => {
-        const host = render('<lily-photo-pack label="Holiday photos" class="extra"></lily-photo-pack>');
+        const host = render(
+            '<lily-photo-pack label="Holiday photos" class="extra"></lily-photo-pack>',
+        );
 
         expect(host.className).toBe("photo-pack extra");
     });

@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("Pictogram", () => {
     test("renders a figure with the base class and data-layout defaulting to centered", () => {
-        const host = render('<lily-pictogram heading="Privacy"><span slot="icon">&#128274;</span></lily-pictogram>');
+        const host = render(
+            '<lily-pictogram heading="Privacy"><span slot="icon">&#128274;</span></lily-pictogram>',
+        );
 
         const figure = host.querySelector("figure")!;
         expect(figure.className).toBe("pictogram");
@@ -25,13 +27,17 @@ describe("Pictogram", () => {
     });
 
     test("honours an explicit layout", () => {
-        const host = render('<lily-pictogram layout="side" heading="Privacy"><span slot="icon">lock</span></lily-pictogram>');
+        const host = render(
+            '<lily-pictogram layout="side" heading="Privacy"><span slot="icon">lock</span></lily-pictogram>',
+        );
 
         expect(host.querySelector("figure")!.getAttribute("data-layout")).toBe("side");
     });
 
     test("moves the icon slot into an aria-hidden pictogram-icon div", () => {
-        const host = render('<lily-pictogram heading="Privacy"><span slot="icon">lock-icon</span></lily-pictogram>');
+        const host = render(
+            '<lily-pictogram heading="Privacy"><span slot="icon">lock-icon</span></lily-pictogram>',
+        );
 
         const iconDiv = host.querySelector(".pictogram-icon")!;
         expect(iconDiv.getAttribute("aria-hidden")).toBe("true");
@@ -45,7 +51,9 @@ describe("Pictogram", () => {
 
         const figcaption = host.querySelector("figcaption.pictogram-caption")!;
         expect(figcaption.querySelector("h3.pictogram-heading")!.textContent).toBe("Privacy");
-        expect(figcaption.querySelector("p.pictogram-description")!.textContent).toBe("Your data stays on your device.");
+        expect(figcaption.querySelector("p.pictogram-description")!.textContent).toBe(
+            "Your data stays on your device.",
+        );
     });
 
     test("additional children override the description", () => {
@@ -59,13 +67,17 @@ describe("Pictogram", () => {
     });
 
     test("sets aria-label from the label prop when provided", () => {
-        const host = render('<lily-pictogram label="Privacy pictogram"><span slot="icon">lock</span></lily-pictogram>');
+        const host = render(
+            '<lily-pictogram label="Privacy pictogram"><span slot="icon">lock</span></lily-pictogram>',
+        );
 
         expect(host.querySelector("figure")!.getAttribute("aria-label")).toBe("Privacy pictogram");
     });
 
     test("is idempotent if connectedCallback runs more than once", () => {
-        const host = render('<lily-pictogram heading="Privacy"><span slot="icon">lock</span></lily-pictogram>');
+        const host = render(
+            '<lily-pictogram heading="Privacy"><span slot="icon">lock</span></lily-pictogram>',
+        );
 
         (host as unknown as Pictogram).connectedCallback();
 

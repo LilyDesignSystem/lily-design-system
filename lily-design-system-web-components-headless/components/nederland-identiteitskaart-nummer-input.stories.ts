@@ -7,9 +7,14 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/NederlandIdentiteitskaartNummerInput",
-    render: (args) => h("lily-nederland-identiteitskaart-nummer-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-nederland-identiteitskaart-nummer-input",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "Identiteitskaart Nummer"
+        label: "Identiteitskaart Nummer",
     },
 };
 

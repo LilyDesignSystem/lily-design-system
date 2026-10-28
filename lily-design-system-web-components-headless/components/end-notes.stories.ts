@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Navigation/EndNotes",
     render: (args) => h("lily-end-notes", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "End notes"
+        label: "End notes",
     },
 };
 

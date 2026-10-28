@@ -17,14 +17,18 @@ function render(html: string): HTMLElement {
 
 describe("InputGroup", () => {
     test("renders with role=group and the base class", () => {
-        const host = render('<lily-input-group label="Amount"><input type="number"></lily-input-group>');
+        const host = render(
+            '<lily-input-group label="Amount"><input type="number"></lily-input-group>',
+        );
 
         expect(host.getAttribute("role")).toBe("group");
         expect(host.className).toBe("input-group");
     });
 
     test("uses label as the accessible name", () => {
-        const host = render('<lily-input-group label="Amount"><input type="number"></lily-input-group>');
+        const host = render(
+            '<lily-input-group label="Amount"><input type="number"></lily-input-group>',
+        );
 
         expect(host.getAttribute("aria-label")).toBe("Amount");
     });
@@ -59,7 +63,9 @@ describe("InputGroup", () => {
     });
 
     test("the consumer's class is appended to the base class", () => {
-        const host = render('<lily-input-group label="Amount" class="my-extra"><input></lily-input-group>');
+        const host = render(
+            '<lily-input-group label="Amount" class="my-extra"><input></lily-input-group>',
+        );
 
         expect(host.className).toBe("input-group my-extra");
     });

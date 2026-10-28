@@ -9,8 +9,8 @@ const meta: Meta = {
     title: "Content/Card",
     render: (args) => h("lily-card", args as Record<string, string | boolean>, SLOT),
     args: {
-        "heading": "Title",
-        "href": "/item/1"
+        heading: "Title",
+        href: "/item/1",
     },
 };
 

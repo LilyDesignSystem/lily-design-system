@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Content/Comment",
     render: (args) => h("lily-comment", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Comment by Ada Lovelace",
+        label: "Comment by Ada Lovelace",
     },
 };
 

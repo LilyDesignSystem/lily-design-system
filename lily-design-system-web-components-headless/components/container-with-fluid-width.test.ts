@@ -17,13 +17,17 @@ function render(html: string): HTMLElement {
 
 describe("ContainerWithFluidWidth", () => {
     test("the custom element itself is the wrapper (self-is-the-wrapper)", () => {
-        const host = render("<lily-container-with-fluid-width>Content</lily-container-with-fluid-width>");
+        const host = render(
+            "<lily-container-with-fluid-width>Content</lily-container-with-fluid-width>",
+        );
 
         expect(host.className).toBe("container-with-fluid-width");
     });
 
     test("defaults data-padding-inline to 1rem", () => {
-        const host = render("<lily-container-with-fluid-width>Content</lily-container-with-fluid-width>");
+        const host = render(
+            "<lily-container-with-fluid-width>Content</lily-container-with-fluid-width>",
+        );
 
         expect(host.getAttribute("data-padding-inline")).toBe("1rem");
     });
@@ -37,13 +41,17 @@ describe("ContainerWithFluidWidth", () => {
     });
 
     test("does not set an inline style (no third undocumented exception)", () => {
-        const host = render("<lily-container-with-fluid-width>Content</lily-container-with-fluid-width>");
+        const host = render(
+            "<lily-container-with-fluid-width>Content</lily-container-with-fluid-width>",
+        );
 
         expect(host.getAttribute("style")).toBeNull();
     });
 
     test("preserves children content", () => {
-        const host = render("<lily-container-with-fluid-width><section>Body</section></lily-container-with-fluid-width>");
+        const host = render(
+            "<lily-container-with-fluid-width><section>Body</section></lily-container-with-fluid-width>",
+        );
 
         expect(host.querySelector("section")!.textContent).toBe("Body");
     });

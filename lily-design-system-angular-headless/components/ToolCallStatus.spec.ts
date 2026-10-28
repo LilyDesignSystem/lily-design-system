@@ -12,7 +12,11 @@ function make(inputs: Record<string, unknown> = {}) {
 }
 const root = (f: any): HTMLElement => f.nativeElement.querySelector("span");
 
-@Component({ standalone: true, imports: [ToolCallStatus], template: `<lily-tool-call-status><span data-testid="txt">Hello</span></lily-tool-call-status>` })
+@Component({
+  standalone: true,
+  imports: [ToolCallStatus],
+  template: `<lily-tool-call-status><span data-testid="txt">Hello</span></lily-tool-call-status>`,
+})
 class Host {}
 
 describe("ToolCallStatus", () => {

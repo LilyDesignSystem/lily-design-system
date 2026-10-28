@@ -7,10 +7,15 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/PilipinasPhilhealthIdentificationNumberView",
-    render: (args) => h("lily-pilipinas-philhealth-identification-number-view", args as Record<string, string | boolean>, SLOT),
+    render: (args) =>
+        h(
+            "lily-pilipinas-philhealth-identification-number-view",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
     args: {
-        "label": "PhilHealth Identification Number (PIN)",
-        "value": "12-345678901-2"
+        label: "PhilHealth Identification Number (PIN)",
+        value: "12-345678901-2",
     },
 };
 

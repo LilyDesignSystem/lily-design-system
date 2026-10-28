@@ -38,7 +38,12 @@ export class ToolCallInput extends HTMLElement {
         const el = this.#el;
         if (!el) return;
         const label = this.getAttribute("label");
-        if (label) { el.setAttribute("role", "group"); el.setAttribute("aria-label", label); }
-        else { el.removeAttribute("role"); el.removeAttribute("aria-label"); }
+        if (label) {
+            el.setAttribute("role", "group");
+            el.setAttribute("aria-label", label);
+        } else {
+            el.removeAttribute("role");
+            el.removeAttribute("aria-label");
+        }
     }
 }

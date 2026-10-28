@@ -9,7 +9,7 @@ const meta: Meta = {
     title: "Navigation/ArticleLayout",
     render: (args) => h("lily-article-layout", args as Record<string, string | boolean>, SLOT),
     args: {
-        "label": "Feature story"
+        label: "Feature story",
     },
 };
 

@@ -7,7 +7,9 @@ describe("UnitedKingdomNationalInsuranceNumberInput", () => {
   test("renders the input root with the base class", () => {
     const fixture = TestBed.createComponent(UnitedKingdomNationalInsuranceNumberInput);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.united-kingdom-national-insurance-number-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.united-kingdom-national-insurance-number-input",
+    );
     expect(el).toBeTruthy();
   });
 
@@ -15,7 +17,9 @@ describe("UnitedKingdomNationalInsuranceNumberInput", () => {
     const fixture = TestBed.createComponent(UnitedKingdomNationalInsuranceNumberInput);
     fixture.componentRef.setInput("className", "extra");
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.united-kingdom-national-insurance-number-input");
+    const el = fixture.nativeElement.querySelector(
+      "input.united-kingdom-national-insurance-number-input",
+    );
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });

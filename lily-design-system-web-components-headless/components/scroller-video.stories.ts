@@ -9,10 +9,10 @@ const meta: Meta = {
     title: "Content/ScrollerVideo",
     render: (args) => h("lily-scroller-video", args as Record<string, string | boolean>, SLOT),
     args: {
-        "src": "/media/harbour-timelapse.mp4",
-        "label": "Our story in video",
-        "alt": "A time-lapse of the harbour at dawn",
-        "offset": "0.5"
+        src: "/media/harbour-timelapse.mp4",
+        label: "Our story in video",
+        alt: "A time-lapse of the harbour at dawn",
+        offset: "0.5",
     },
 };
 
