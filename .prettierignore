@@ -51,3 +51,5 @@ lily-design-system-alpine-headless/components/image.html
 /lily-design-system-themes/INSTALL.md
 # Expected output of bin/test-generators: must stay byte-identical to what the generators write
 test/generators
+# written by bin/generate-comparisons
+comparisons/index.md

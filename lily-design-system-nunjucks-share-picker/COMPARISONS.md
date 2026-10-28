@@ -9,7 +9,7 @@ it does that they do not, and — more usefully — what they do that it does no
 
 The per-component matrix lives in [comparisons/index.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/comparisons/index.md),
 generated from [comparisons/comparisons.tsv](https://github.com/LilyDesignSystem/lily-design-system/blob/main/comparisons/comparisons.tsv): 428
-component rows across 18 systems.
+component rows across 19 systems (`bin/generate-comparisons` writes the matrix and prints the counts below).
 
 ## Read the matrix carefully
 
@@ -32,6 +32,7 @@ accordingly.
 | Ark UI           | 126                              |
 | USWDS            | 123                              |
 | Wonderflow Wanda | 110                              |
+| DHCW             | 52 _(added 2026-10-28)_          |
 | Skeleton         | 103                              |
 | Bits UI          | 102                              |
 | NHS UK           | 95                               |
@@ -48,10 +49,11 @@ same feedback.
 
 Four things, and only these four are worth claiming.
 
-**1. One catalog, seven frameworks, one class contract.**
+**1. One catalog, eight frameworks, one class contract.**
 The same slug, the same PascalCase name, the same HTML element, the same ARIA and
 keyboard contract, and the same kebab-case class hook, in HTML, Svelte, React,
-Vue, Angular, Blazor, and Nunjucks. An organisation running React on one product
+Vue, Angular, Blazor, Nunjucks, and Web Components (plus Alpine.js as annotated
+snippets and one plugin). An organisation running React on one product
 and Blazor on another can share a single stylesheet and a single set of component
 docs. Ark UI is multi-framework (React, Vue, Solid); nothing else in the table
 spans this range, and nothing else includes Blazor or Nunjucks.
@@ -60,7 +62,7 @@ spans this range, and nothing else includes Blazor or Nunjucks.
 Most systems pick one side. Radix, Bits, Melt, and Ark ship behaviour and leave
 you the visuals. DaisyUI, Flowbite, Ant, Carbon, and Spectrum ship the visuals
 and their opinions with them. Lily ships an unstyled layer with zero CSS, plus
-seven complete styled applications and 45 theme stylesheets, so you can see the
+seven complete styled applications and 57 theme stylesheets, so you can see the
 end state before adopting the primitives.
 
 **3. Internationalisation as a hard rule, not a feature.**
@@ -70,7 +72,7 @@ and gender logic belongs to the consumer. Most component libraries ship English
 defaults and a translation mechanism bolted on afterwards.
 
 **4. Public-sector reference coverage.**
-45 themes covering NHS England, Scotland and Wales in patient and practitioner
+57 themes covering NHS England, Scotland and Wales in patient and practitioner
 variants, GOV.UK GDS, and USWDS, plus 140 national personal identifier components
 across 30+ countries with normalization and validation. Nothing else in the table
 addresses this, and it is the one area where Lily's breadth is not just breadth.
@@ -93,9 +95,9 @@ Written for someone deciding, not someone already convinced.
 
 - **New, and one maintainer.** First commit 2025-08-09. See
   [MAINTAINERS.md](MAINTAINERS.md) for what that means in practice.
-- **Four of seven frameworks are not on a registry yet.** See
+- **Not every framework is on a registry yet.** See
   [INSTALL.md](INSTALL.md).
-- **Breadth outruns depth.** 571 components is more surface than one person plus
+- **Breadth outruns depth.** 582 components is more surface than one person plus
   machine gates can exercise the way production does. Point-in-time verification
   snapshots are labelled as such in [spec/index.md](spec/index.md) §11.4.
 - **No design tooling.** No Figma library, no token pipeline, no design-to-code

@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+"""bin/generate-comparisons — the component matrix in comparisons/index.md, from comparisons/comparisons.tsv.
+
+The TSV is the source of truth (one row per Lily component, one column per system; `+` ships a matching
+component, `-` does not, `?` unknown, blank not surveyed). This script rewrites the table in
+comparisons/index.md from it, and the "rows matched" counts it prints are the ones COMPARISONS.md quotes.
+
+  bin/generate-comparisons            rewrite the table
+  bin/generate-comparisons --check    fail if the table differs from the TSV (used by bin/test)
+  bin/generate-comparisons --counts   print `system  rows matched`
+"""
+import re
+import sys
+from pathlib import Path
+
+top = Path(__file__).resolve().parent.parent
+tsv = [line.rstrip("\n").split("\t") for line in (top / "comparisons" / "comparisons.tsv").read_text().splitlines()]
+md_path = top / "comparisons" / "index.md"
+
+
+def name(header_cell):
+    return re.sub(r"\]\(.*$", "", header_cell).lstrip("[").strip()
+
+
+def build_table():
+    header = ["Component"] + [h.replace("[Lily]", "[Lily™]") for h in tsv[0][1:]]
+    lines = ["| " + " | ".join(header) + " |", "| " + " | ".join("---" for _ in header) + " |"]
+    for row in tsv[1:]:
+        cells = row + [""] * (len(header) - len(row))
+        lines.append("| " + " | ".join(cells) + " |")
+    return "\n".join(lines) + "\n"
+
+
+def main():
+    mode = sys.argv[1] if len(sys.argv) > 1 else "write"
+    if mode == "--counts":
+        for i, h in enumerate(tsv[0][1:], start=1):
+            print(f"{name(h):12} {sum(1 for r in tsv[1:] if len(r) > i and r[i] == '+')}")
+        return 0
+    md = md_path.read_text()
+    m = re.search(r"^\| Component .*?\n(?=\n|\Z)", md, re.S | re.M)
+    if not m:
+        sys.exit("generate-comparisons: no matrix table found in comparisons/index.md")
+    table = build_table()
+    new = md[: m.start()] + table + md[m.end():]
+    if mode == "--check":
+        if new != md:
+            print("Error: comparisons/index.md differs from comparisons/comparisons.tsv; run bin/generate-comparisons", file=sys.stderr)
+            return 1
+        print(f"generate-comparisons: OK ({len(tsv) - 1} rows, {len(tsv[0]) - 1} systems)")
+        return 0
+    if new != md:
+        md_path.write_text(new)
+        print(f"generate-comparisons: wrote {len(tsv) - 1} rows")
+    else:
+        print("generate-comparisons: up to date")
+    return 0
+
+
+sys.exit(main())

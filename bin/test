@@ -405,6 +405,8 @@ test_lockfiles_are_tracked
 test -s "$top/AGENTS/responsive.md" && test -s "$top/spec/responsive/index.md" \
     && grep -q '^@AGENTS/responsive.md$' "$top/AGENTS.md" \
     || err "AGENTS/responsive.md or spec/responsive/index.md is missing, or AGENTS.md does not load it"
+"$top/bin/generate-comparisons" --check >/dev/null 2>&1 \
+    || err "comparisons/index.md differs from comparisons/comparisons.tsv; run bin/generate-comparisons"
 "$top/bin/generate-api-docs" --check >/dev/null 2>&1 \
     || err "site contract sections drift from components/*/AGENTS.md; run bin/generate-api-docs"
 "$top/bin/generate-page-markdown" --check >/dev/null 2>&1 \
