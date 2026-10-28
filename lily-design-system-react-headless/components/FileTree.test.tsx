@@ -226,7 +226,7 @@ describe("FileTree", () => {
 
     test("Enter and Space activate the focused item", async () => {
         const { user, item } = setup();
-        let clicks: string[] = [];
+        const clicks: string[] = [];
         item("readme").addEventListener("click", () => clicks.push("readme"));
         item("readme").focus();
         await user.keyboard("{Enter}");

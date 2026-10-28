@@ -2335,7 +2335,7 @@ a task was measured on 2026-10-21; re-measure before closing it.
   `children`, `CheckListItem.test.tsx` passes `unknown` as `ReactNode`). Then run the same check on Vue, Angular and
   Web Components and fix what it finds.
   Verify: `tsc --noEmit` exits 0 in each; P12-T1's job is green.
-- [ ] **P12-T3 Lint and format.** Choose one ESLint flat config (with `eslint-plugin-svelte`, `-vue`, `-react-hooks`,
+- [ ] **P12-T3 Lint and format.** *(2026-10-28: ESLint flat config, Prettier config and a `lint` CI job landed at the repo root, scoped to the Svelte, React and Vue headless libraries: 0 errors, ~90 warnings reported. Decided: errors fail, warnings do not. Still open: widen the scope (Angular, Web Components, HTML, helper packages, examples), `angular-eslint`, `jsx-a11y`, `dotnet format` for Blazor, and the repo-wide Prettier reformat as its own commit plus `.git-blame-ignore-revs`; Prettier is not enforced yet.)* Choose one ESLint flat config (with `eslint-plugin-svelte`, `-vue`, `-react-hooks`,
   `angular-eslint`, `eslint-plugin-jsx-a11y` where it applies) and one Prettier config at the root, applied to every JS/TS
   subproject; `dotnet format --verify-no-changes` for Blazor. Land the formatting as its own commit; then add a CI job.
   Decide first whether lint warnings fail CI (recommend: errors only, warnings reported).

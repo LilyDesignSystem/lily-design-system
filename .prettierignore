@@ -1,0 +1,12 @@
+node_modules
+dist
+build
+.svelte-kit
+*.lock
+pnpm-lock.yaml
+# Generated or synced files: edit the source (see AGENTS/lily.md "Generated files").
+lilydesignsystem.github.io/static
+**/component-demos.ts
+**/component-examples*
+themes
+*.md

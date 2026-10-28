@@ -78,7 +78,7 @@
 
     // Re-measure whenever the text or the options change.
     $effect(() => {
-        text; ellipsis; strategy; end;
+        void [text, ellipsis, strategy, end]; // read so the effect tracks them
         recalculate();
     });
 

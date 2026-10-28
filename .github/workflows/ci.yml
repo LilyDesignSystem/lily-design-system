@@ -53,6 +53,23 @@ jobs:
       - name: bin/check-package-metadata (every published package names the monorepo as its source)
         run: bin/check-package-metadata
 
+  lint:
+    # Repo-level ESLint (eslint.config.js, scope set by the root "lint" script).
+    # Errors fail; warnings are reported only. Prettier is configured
+    # (.prettierrc.json) but not enforced: no repo-wide reformat has landed.
+    name: eslint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 11
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+
   helper-packages:
     # Top-level helper packages, one subproject each (the *-helpers
     # catalogs dissolved into them, Svelte first, 2026-10-10). Each is its

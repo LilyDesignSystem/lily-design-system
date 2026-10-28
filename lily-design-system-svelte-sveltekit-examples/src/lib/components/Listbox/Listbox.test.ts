@@ -84,7 +84,7 @@ describe("Listbox — active-descendant mode (opt-in, additive)", () => {
     });
 
     test("ArrowDown/ArrowUp move the cursor and clamp when clamp is set", async () => {
-        let activeIndex = 2;
+        const activeIndex = 2;
         const onActivate = vi.fn();
         render(Subject, {
             props: {
