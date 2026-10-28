@@ -2352,7 +2352,7 @@ a task was measured on 2026-10-21; re-measure before closing it.
   porting from Svelte; for HTML, in the custom elements or a shared script), or **document** that the library is structural
   only and correct the claims below. Then add the key tests.
   Verify: for each of the 23, the Angular (and HTML) source handles the keys its `AGENTS.md` names, with a test sending them.
-- [ ] **P12-T4a Correct the keyboard claims.** `lily-design-system-html-headless/index.md` says "Full keyboard navigation
+- [ ] **P12-T4a Correct the keyboard claims.** *(2026-10-28: the HTML, Blazor, Vue, Svelte and React `index.md` claims softened with measured counts; Angular and Web Components were not claiming it; counts are a point-in-time grep for key handlers.)* `lily-design-system-html-headless/index.md` says "Full keyboard navigation
   support" and "Keyboard navigation: Full keyboard support for all interactive components"; the Angular library has no
   equivalent caveat. Until P12-T4 lands, say which components handle keys in each library, or soften the claim.
   Verify: no library's `index.md` claims keyboard support its source lacks.

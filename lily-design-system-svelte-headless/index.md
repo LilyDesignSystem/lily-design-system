@@ -422,7 +422,7 @@ All components follow WCAG 2.2 AAA guidelines:
 
 - **Semantic HTML**: Proper element usage (`<button>`, `<nav>`, `<dialog>`, etc.)
 - **ARIA attributes**: Roles, labels, states, and properties
-- **Keyboard navigation**: Full keyboard support for all interactive components
+- **Keyboard**: native elements are keyboard-operable by default; about 34 components add APG key handling (arrows, Home/End, Escape, type-ahead) — see each component's `AGENTS.md`
 - **Screen readers**: Proper announcements via aria-live, role="alert", etc.
 - **Focus management**: Logical focus order and visible focus indicators
 - **Error handling**: Accessible error messages linked via aria-errormessage

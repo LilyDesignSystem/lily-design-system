@@ -9,7 +9,7 @@ A comprehensive headless Blazor component library with accessible, unstyled Razo
 - Headless Blazor Razor components
 - .NET 10 with C#
 - WCAG 2.2 AAA accessibility compliance
-- Full keyboard navigation support
+- Native keyboard operation from semantic elements; custom key handling (arrows, Home/End, Escape, type-ahead) in about 5 components, listed in each component's `AGENTS.md`
 - ARIA attributes and roles
 - Internationalization-ready (no hardcoded strings)
 - Zero dependencies beyond Blazor

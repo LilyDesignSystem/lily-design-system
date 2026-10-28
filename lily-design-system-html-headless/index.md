@@ -9,7 +9,7 @@ A headless plain HTML component library with 490 components. All components are 
 - 490 headless HTML components
 - Plain HTML and vanilla JavaScript — no frameworks required
 - WCAG 2.2 AAA accessibility compliance
-- Full keyboard navigation support
+- Native keyboard operation from semantic elements (`<button>`, `<dialog>`, `<details>`, …); custom key handling only in the few components that ship a script (see Accessibility below)
 - ARIA attributes and roles
 - Internationalization-ready (no hardcoded strings)
 - Zero dependencies
@@ -382,7 +382,7 @@ A headless plain HTML component library with 490 components. All components are 
 
 - **Plain HTML** with vanilla JavaScript for interactivity
 - **Headless design**: no CSS, no styles — consumers provide all styling
-- **Accessible**: WCAG 2.2 AAA, ARIA attributes, keyboard navigation
+- **Accessible**: WCAG 2.2 AAA, ARIA attributes, native keyboard operation
 - **Internationalization**: no hardcoded user-facing strings
 - **Zero dependencies**: works in any browser without build tools
 
@@ -525,7 +525,7 @@ All components follow WCAG 2.2 AAA guidelines:
 
 - **Semantic HTML**: Proper element usage (`<button>`, `<nav>`, `<dialog>`, etc.)
 - **ARIA attributes**: Roles, labels, states, and properties
-- **Keyboard navigation**: Full keyboard support for all interactive components
+- **Keyboard**: native elements are keyboard-operable by default. Roving-tabindex, arrow-key and type-ahead patterns (APG) are not implemented in most HTML components — a consumer needing them adds the script (P12-T4 tracks this)
 - **Screen readers**: Proper announcements via aria-live, role="alert", etc.
 - **Focus management**: Logical focus order and visible focus indicators
 

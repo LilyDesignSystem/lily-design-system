@@ -7,7 +7,7 @@ A headless Vue 3 component library with 490 components. All components are headl
 - 490 headless Vue components
 - TypeScript with full type definitions
 - WCAG 2.2 AAA accessibility compliance
-- Full keyboard navigation support
+- Native keyboard operation from semantic elements; custom key handling (arrows, Home/End, Escape, type-ahead) in about 35 components, listed in each component's `AGENTS.md`
 - ARIA attributes and roles
 - Internationalization-ready (no hardcoded strings)
 - Zero dependencies beyond Vue
@@ -207,7 +207,7 @@ All components follow WCAG 2.2 AAA guidelines:
 
 - **Semantic HTML**: Proper element usage (`<button>`, `<nav>`, `<dialog>`, etc.)
 - **ARIA attributes**: Roles, labels, states, and properties
-- **Keyboard navigation**: Full keyboard support for all interactive components
+- **Keyboard**: native elements are keyboard-operable by default; about 35 components add APG key handling (arrows, Home/End, Escape, type-ahead) — see each component's `AGENTS.md`
 - **Screen readers**: Proper announcements via aria-live, role="alert", etc.
 - **Focus management**: Logical focus order and visible focus indicators
 - **Error handling**: Accessible error messages linked via aria-errormessage
