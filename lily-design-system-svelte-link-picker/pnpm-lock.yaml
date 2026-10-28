@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@lilydesignsystem/svelte-headless':
-        specifier: ^0.5.1
-        version: 0.5.1(svelte@5.57.2)
+        specifier: ^0.6.1
+        version: 0.6.1(svelte@5.57.2)
       '@sveltejs/package':
         specifier: ^3.0.1
         version: 3.0.1(svelte@5.57.2)(typescript@6.0.3)
@@ -132,9 +132,9 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lilydesignsystem/svelte-headless@0.5.1':
-    resolution: {integrity: sha512-55wMJ1+KPGq4eY0JqVgikPafDPxFq/mrvEPx2ps6cR/4iBGq3D+OxbHcWKV1tPbJU54T9NQ/MIfJ0zaI0UeOLA==}
-    engines: {node: '=26'}
+  '@lilydesignsystem/svelte-headless@0.6.1':
+    resolution: {integrity: sha512-gQ3G9tXrEu1VyOM9is21L97J1lGdxPCrHPj5nM8zDOFSpv2uLnzCU19Sj/7K4hqxcpxbUdc71M9KaxUddr9MEQ==}
+    engines: {node: '>=26'}
     peerDependencies:
       svelte: ^5.0.0
 
@@ -896,7 +896,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@lilydesignsystem/svelte-headless@0.5.1(svelte@5.57.2)':
+  '@lilydesignsystem/svelte-headless@0.6.1(svelte@5.57.2)':
     dependencies:
       aria-query: 5.3.2
       svelte: 5.57.2
