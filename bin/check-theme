@@ -106,6 +106,7 @@ SHARED_SECTIONS = (
     "target-size (minimum) floor",
     "Overflow guards",
     "Helper packages — layout and look",
+    "Overflow navigation",
     "Container queries",
 )
 

@@ -88,10 +88,13 @@
     <h3>Keyboard</h3>
     <ul>
       <li>No keyboard interactions — this is a passive element</li>
+      <li>Overflow mode: Enter/Space toggle the More button; Escape closes the list and returns focus to the button; Tab flows through the links in order; a click outside closes the list</li>
     </ul>
     <h3>Props</h3>
     <ul>
       <li><code>label</code>: string (required) -- accessible name applied via <code>aria-label</code> to distinguish this nav landmark.</li>
+      <li><code>overflow</code>: boolean (optional, default false) -- overflow mode; publishes <code>data-overflow="true"</code>; children must be <code>&lt;li&gt;</code> items.</li>
+      <li><code>moreLabel</code>: string (required with <code>overflow</code>) -- the More button's accessible name; no English default (Web Components <code>more-label</code>, Blazor <code>MoreLabel</code>).</li>
       <li><code>children</code>: slot (required) -- navigation content to render inside the <code>&lt;nav&gt;</code> element.</li>
       <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;nav&gt;</code> element.</li>
     </ul>

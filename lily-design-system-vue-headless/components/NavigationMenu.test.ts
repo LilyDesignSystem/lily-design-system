@@ -43,7 +43,10 @@ describe("NavigationMenu overflow", () => {
                 disconnect() {}
             },
         );
-        Object.defineProperty(HTMLElement.prototype, "clientWidth", { configurable: true, get: () => width });
+        Object.defineProperty(HTMLElement.prototype, "clientWidth", {
+            configurable: true,
+            get: () => width,
+        });
         Object.defineProperty(HTMLElement.prototype, "offsetWidth", {
             configurable: true,
             get(this: HTMLElement) {
@@ -58,13 +61,22 @@ describe("NavigationMenu overflow", () => {
     });
 
     const items = [0, 1, 2, 3, 4]
-        .map((i) => `<li id="item-${i}"><a href="/${i}"${i === 1 ? ' aria-current="page"' : ""}>Item ${i}</a></li>`)
+        .map(
+            (i) =>
+                `<li id="item-${i}"><a href="/${i}"${i === 1 ? ' aria-current="page"' : ""}>Item ${i}</a></li>`,
+        )
         .join("");
     const mount = () =>
-        render(Subject, { props: { label: "Main", overflow: true, moreLabel: "More" }, slots: { default: items } });
+        render(Subject, {
+            props: { label: "Main", overflow: true, moreLabel: "More" },
+            slots: { default: items },
+        });
 
     test("overflow unset renders as before: no list, no More, no data-overflow", () => {
-        const { container } = render(Subject, { props: { label: "Main" }, slots: { default: "content" } });
+        const { container } = render(Subject, {
+            props: { label: "Main" },
+            slots: { default: "content" },
+        });
         expect(container.querySelector(".navigation-menu-list")).toBeNull();
         expect(container.querySelector(".navigation-menu-more")).toBeNull();
         expect(container.querySelector("nav")!.hasAttribute("data-overflow")).toBe(false);
@@ -83,7 +95,9 @@ describe("NavigationMenu overflow", () => {
         width = 300;
         const { container } = mount();
         expect(container.querySelector<HTMLElement>(".navigation-menu-more")!.hidden).toBe(false);
-        const moved = Array.from(container.querySelector(".navigation-menu-more-list")!.children).map((c) => c.id);
+        const moved = Array.from(
+            container.querySelector(".navigation-menu-more-list")!.children,
+        ).map((c) => c.id);
         expect(moved).toEqual(["item-2", "item-3", "item-4"]);
         expect(container.querySelector('[aria-current="page"]')!.getAttribute("href")).toBe("/1");
     });

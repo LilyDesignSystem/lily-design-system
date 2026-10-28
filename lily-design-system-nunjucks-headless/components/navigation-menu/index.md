@@ -14,6 +14,14 @@ See [components/navigation-menu/index.md](../../../components/navigation-menu/in
 {{ navigationMenu({ }) }}
 ```
 
+Overflow mode (markup only; this library ships no client script, so the links wrap and the More item stays hidden until you add one):
+
+```njk
+{% call navigationMenu({ label: "Main", overflow: true, moreLabel: "More" }) %}
+<li><a href="/">Home</a></li>
+{% endcall %}
+```
+
 ## Files
 
 - `macro.njk` — Nunjucks macro implementation

@@ -55,7 +55,10 @@ describe("NavigationMenu overflow", () => {
                 disconnect() {}
             },
         );
-        Object.defineProperty(HTMLElement.prototype, "clientWidth", { configurable: true, get: () => width });
+        Object.defineProperty(HTMLElement.prototype, "clientWidth", {
+            configurable: true,
+            get: () => width,
+        });
         Object.defineProperty(HTMLElement.prototype, "offsetWidth", {
             configurable: true,
             get(this: HTMLElement) {
@@ -98,7 +101,9 @@ describe("NavigationMenu overflow", () => {
         width = 300;
         const el = await mount();
         expect(el.querySelector<HTMLElement>(".navigation-menu-more")!.hidden).toBe(false);
-        const moved = Array.from(el.querySelector(".navigation-menu-more-list")!.children).map((c) => c.id);
+        const moved = Array.from(el.querySelector(".navigation-menu-more-list")!.children).map(
+            (c) => c.id,
+        );
         expect(moved).toEqual(["item-2", "item-3", "item-4"]);
         expect(el.querySelector('[aria-current="page"]')!.getAttribute("href")).toBe("/1");
     });

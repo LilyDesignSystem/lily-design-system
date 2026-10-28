@@ -43,8 +43,10 @@ let counter = 0;
 export function setupOverflowNavigation(root             )                            {
     const list = root.querySelector             (".navigation-menu-list");
     const more = list?.querySelector             (":scope > .navigation-menu-more") ?? null;
-    const button = more?.querySelector             (":scope > .navigation-menu-more-button") ?? null;
-    const moreList = more?.querySelector             (":scope > .navigation-menu-more-list") ?? null;
+    const button =
+        more?.querySelector             (":scope > .navigation-menu-more-button") ?? null;
+    const moreList =
+        more?.querySelector             (":scope > .navigation-menu-more-list") ?? null;
     if (!list || !more || !button || !moreList) return null;
     const doc = root.ownerDocument;
 
@@ -76,7 +78,8 @@ export function setupOverflowNavigation(root             )                      
         // Put everything back in order so each item can be measured where it sits on the row.
         for (const item of all) list.insertBefore(item, more);
         more.hidden = true;
-        const gap = parseFloat(root.ownerDocument.defaultView?.getComputedStyle(list).columnGap ?? "") || 0;
+        const gap =
+            parseFloat(root.ownerDocument.defaultView?.getComputedStyle(list).columnGap ?? "") || 0;
         const widths = all.map((item) => item.offsetWidth);
         let count = fitCount(widths, available, 0, gap);
         if (count < all.length) {
@@ -88,7 +91,12 @@ export function setupOverflowNavigation(root             )                      
             more.hidden = true;
             setOpen(false);
         }
-        if (active instanceof HTMLElement && active !== doc.body && doc.contains(active) && doc.activeElement !== active) {
+        if (
+            active instanceof HTMLElement &&
+            active !== doc.body &&
+            doc.contains(active) &&
+            doc.activeElement !== active
+        ) {
             active.focus();
         }
     };
@@ -101,7 +109,8 @@ export function setupOverflowNavigation(root             )                      
         }
     };
     const onOutside = (event       )       => {
-        if (!moreList.hidden && event.target instanceof Node && !more.contains(event.target)) setOpen(false);
+        if (!moreList.hidden && event.target instanceof Node && !more.contains(event.target))
+            setOpen(false);
     };
 
     button.addEventListener("click", onClick);

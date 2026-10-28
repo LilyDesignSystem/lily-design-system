@@ -38,7 +38,9 @@ describe("navigation-menu", () => {
         expect(button.getAttribute("type")).toBe("button");
         expect(button.getAttribute("aria-expanded")).toBe("false");
         expect(button.textContent).toBe("Mwy");
-        expect(more.querySelector("ul.navigation-menu-more-list").hasAttribute("hidden")).toBe(true);
+        expect(more.querySelector("ul.navigation-menu-more-list").hasAttribute("hidden")).toBe(
+            true,
+        );
         expect(list.querySelector("[aria-current=page]")).toBeTruthy();
     });
 

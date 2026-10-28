@@ -34,6 +34,8 @@ shared/zone-names
 # Written by bin/sync-shared-modules (TypeScript stripped to JavaScript)
 lily-design-system-alpine-headless/middle-truncation.js
 lily-design-system-alpine-headless/wheel-picker.js
+lily-design-system-alpine-headless/overflow-navigation.js
+lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/NavigationMenu.razor.js
 lily-design-system-nunjucks-markdown-editor/markdown-format.js
 lily-design-system-nunjucks-org-editor/org-format.js
 lily-design-system-nunjucks-time-zone-picker/zones.js

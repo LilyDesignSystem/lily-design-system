@@ -1244,6 +1244,22 @@
 .navigation-menu {
 }
 
+/* navigation-menu-list: the list of an overflow-mode navigation-menu (its children are <li> items) */
+.navigation-menu-list {
+}
+
+/* navigation-menu-more: the "More" <li> of an overflow-mode navigation-menu; hidden until something overflows */
+.navigation-menu-more {
+}
+
+/* navigation-menu-more-button: the toggle button (aria-expanded) of the More item */
+.navigation-menu-more-button {
+}
+
+/* navigation-menu-more-list: the list of moved items, hidden until the More button opens it; in normal flow */
+.navigation-menu-more-list {
+}
+
 /* nederland-burgerservice-nummer-input: an input for entering Netherlands's Burgerservicenummer (BSN) */
 .nederland-burgerservice-nummer-input {
 }

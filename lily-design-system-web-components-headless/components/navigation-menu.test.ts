@@ -78,7 +78,10 @@ describe("NavigationMenu overflow", () => {
                 disconnect() {}
             },
         );
-        Object.defineProperty(HTMLElement.prototype, "clientWidth", { configurable: true, get: () => width });
+        Object.defineProperty(HTMLElement.prototype, "clientWidth", {
+            configurable: true,
+            get: () => width,
+        });
         Object.defineProperty(HTMLElement.prototype, "offsetWidth", {
             configurable: true,
             get(this: HTMLElement) {
@@ -88,10 +91,15 @@ describe("NavigationMenu overflow", () => {
     });
 
     const items = [0, 1, 2, 3, 4]
-        .map((i) => `<li id="item-${i}"><a href="/${i}"${i === 1 ? ' aria-current="page"' : ""}>Item ${i}</a></li>`)
+        .map(
+            (i) =>
+                `<li id="item-${i}"><a href="/${i}"${i === 1 ? ' aria-current="page"' : ""}>Item ${i}</a></li>`,
+        )
         .join("");
     const mount = () =>
-        render(`<lily-navigation-menu label="Main" overflow more-label="More">${items}</lily-navigation-menu>`);
+        render(
+            `<lily-navigation-menu label="Main" overflow more-label="More">${items}</lily-navigation-menu>`,
+        );
 
     test("overflow unset renders as before: no list, no More, no data-overflow", () => {
         const host = render('<lily-navigation-menu label="Main"><li>x</li></lily-navigation-menu>');
@@ -114,7 +122,9 @@ describe("NavigationMenu overflow", () => {
         width = 300;
         const host = mount();
         expect(host.querySelector<HTMLElement>(".navigation-menu-more")!.hidden).toBe(false);
-        const moved = Array.from(host.querySelector(".navigation-menu-more-list")!.children).map((c) => c.id);
+        const moved = Array.from(host.querySelector(".navigation-menu-more-list")!.children).map(
+            (c) => c.id,
+        );
         expect(moved).toEqual(["item-2", "item-3", "item-4"]);
         expect(host.querySelector('[aria-current="page"]')!.getAttribute("href")).toBe("/1");
     });

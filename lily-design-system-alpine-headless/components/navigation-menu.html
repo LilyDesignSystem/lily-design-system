@@ -9,14 +9,29 @@
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<nav class="navigation-menu" aria-label="" data-overflow="true" x-data="lilyNavigationMenu">
+<nav
+  class="navigation-menu"
+  aria-label=""
+  data-overflow="true"
+  x-data="lilyNavigationMenu"
+>
   <ul class="navigation-menu-list">
     <!-- Consumer provides <li> items -->
-    <li class="navigation-menu-more" hidden>
-      <button class="navigation-menu-more-button" type="button" aria-expanded="false">
+    <li
+      class="navigation-menu-more"
+      hidden
+    >
+      <button
+        class="navigation-menu-more-button"
+        type="button"
+        aria-expanded="false"
+      >
         <!-- Consumer provides the More label -->
       </button>
-      <ul class="navigation-menu-more-list" hidden></ul>
+      <ul
+        class="navigation-menu-more-list"
+        hidden
+      ></ul>
     </li>
   </ul>
 </nav>

@@ -5138,6 +5138,62 @@
 }
 
 /* ============================================================================
+ * Overflow navigation — shared verbatim by all themes.
+ *
+ * The `overflow` mode of `navigation-menu` (contract: components/navigation-menu/index.md).
+ * With no script the list simply wraps, so every link stays reachable at 320 CSS pixels
+ * (WCAG 1.4.10) and the "More" item stays `hidden`. With the script a ResizeObserver moves
+ * the links that do not fit into the More list. That list is in normal flow (position
+ * static, never absolute), so opening it pushes the content below down and never covers it
+ * (WCAG 2.4.11). Every target is at least 24 x 24 CSS pixels (WCAG 2.5.8). :where() keeps
+ * specificity at zero, so any consumer rule wins.
+ * ========================================================================= */
+
+:where(.navigation-menu-list) {
+    display: flex;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.25rem 0.5rem;
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+:where(.navigation-menu-list > li > a, .navigation-menu-more-list > li > a) {
+    display: inline-block;
+    min-inline-size: 24px;
+    min-block-size: 24px;
+}
+
+:where(.navigation-menu-more) {
+    position: static;
+}
+
+:where(.navigation-menu-more[hidden], .navigation-menu-more-list[hidden]) {
+    display: none;
+}
+
+:where(.navigation-menu-more-button) {
+    min-inline-size: 24px;
+    min-block-size: 24px;
+    padding: 0.25rem 0.5rem;
+    font: inherit;
+    color: inherit;
+    background: transparent;
+    border: 1px solid currentcolor;
+    cursor: pointer;
+}
+
+:where(.navigation-menu-more-list) {
+    position: static;
+    margin: 0.25rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* ============================================================================
  * Container queries — shared verbatim by all themes.
  *
  * A component answers to the space it is given, not to the window: a summary

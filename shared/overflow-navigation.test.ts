@@ -5,7 +5,8 @@ import { fitCount, setupOverflowNavigation } from "./overflow-navigation";
 describe("fitCount", () => {
     test("everything fits", () => expect(fitCount([50, 50, 50], 200, 40)).toBe(3));
     test("exact fit with gaps", () => expect(fitCount([50, 50, 50], 160, 40, 5)).toBe(3));
-    test("leaves room for the More item", () => expect(fitCount([50, 50, 50, 50], 160, 40)).toBe(2));
+    test("leaves room for the More item", () =>
+        expect(fitCount([50, 50, 50, 50], 160, 40)).toBe(2));
     test("gaps count", () => expect(fitCount([50, 50, 50, 50], 160, 40, 10)).toBe(2));
     test("nothing fits beside More", () => expect(fitCount([100, 100], 120, 40)).toBe(0));
     test("empty", () => expect(fitCount([], 0, 0)).toBe(0));
@@ -23,8 +24,11 @@ class FakeResizeObserver {
 function build(n = 5) {
     document.body.innerHTML = `<nav class="navigation-menu" data-overflow="true"><ul class="navigation-menu-list">${Array.from(
         { length: n },
-        (_, i) => `<li id="i${i}"><a href="/${i}"${i === 1 ? ' aria-current="page"' : ""}>Item ${i}</a></li>`,
-    ).join("")}<li class="navigation-menu-more" hidden><button class="navigation-menu-more-button" type="button" aria-expanded="false">More</button><ul class="navigation-menu-more-list" hidden></ul></li></ul></nav>`;
+        (_, i) =>
+            `<li id="i${i}"><a href="/${i}"${i === 1 ? ' aria-current="page"' : ""}>Item ${i}</a></li>`,
+    ).join(
+        "",
+    )}<li class="navigation-menu-more" hidden><button class="navigation-menu-more-button" type="button" aria-expanded="false">More</button><ul class="navigation-menu-more-list" hidden></ul></li></ul></nav>`;
     const root = document.querySelector<HTMLElement>("nav")!;
     const list = root.querySelector<HTMLElement>(".navigation-menu-list")!;
     return {
@@ -41,7 +45,10 @@ beforeEach(() => {
     callbacks = [];
     width = 1000;
     vi.stubGlobal("ResizeObserver", FakeResizeObserver);
-    Object.defineProperty(HTMLElement.prototype, "clientWidth", { configurable: true, get: () => width });
+    Object.defineProperty(HTMLElement.prototype, "clientWidth", {
+        configurable: true,
+        get: () => width,
+    });
     Object.defineProperty(HTMLElement.prototype, "offsetWidth", {
         configurable: true,
         get(this: HTMLElement) {
@@ -126,7 +133,14 @@ describe("setupOverflowNavigation", () => {
         callbacks.forEach((cb) => cb());
         expect(more.hidden).toBe(true);
         expect(moreList.children.length).toBe(0);
-        expect(Array.from(list.children).map((c) => c.id)).toEqual(["i0", "i1", "i2", "i3", "i4", ""]);
+        expect(Array.from(list.children).map((c) => c.id)).toEqual([
+            "i0",
+            "i1",
+            "i2",
+            "i3",
+            "i4",
+            "",
+        ]);
     });
 
     test("narrowing through the observer moves items; Tab focus on a moved item survives a re-measure", () => {
