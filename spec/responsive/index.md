@@ -20,6 +20,7 @@ It does **not** cover: the headless markup rules (see [headless](../headless/ind
 - **No `100vw` widths** on `body` or full-width blocks.
 - **Reflow (WCAG 1.4.10) and resize (1.4.4).** No horizontal page scroll at 320 CSS pixels; usable at 400% zoom. Wide content scrolls inside its own labelled, focusable region.
 - **Text stays at or above `1rem`;** fluid values are for spacing only.
+- **Text expansion.** Layouts must survive labels 30 percent longer than English (Welsh runs 20 to 30 percent longer); the sweep tests it at 320px (`lang="cy"`, no document-level scroll, no clipped label).
 - **Fluid spacing tokens.** `--space-fluid-gutter` (container and main padding) and `--space-fluid-section` (stack and grid gaps) are `clamp()` values with a `1rem` floor that grow with the viewport. They are DTCG tokens (`$type: fluidDimension`) in `themes/tokens/*.json`, emitted by `bin/generate-theme-tokens`; `bin/check-theme` rule 11 requires every `clamp()` in a theme to start with a `rem` floor. The three practitioner NHS themes keep their dense fixed spacing.
 - **`(hover: none)` and `(pointer: coarse)`** decide touch affordances, not viewport width.
 - **Headless stays clean.** No media or container queries, `vw`/`vh` units or breakpoint literals in a component ([theme](../theme/index.md)).

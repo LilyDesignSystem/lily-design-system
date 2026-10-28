@@ -207,3 +207,86 @@ for (const width of [320, 768, 1280]) {
         });
     });
 }
+
+// ---------------------------------------------------------------------------
+// DHCW lessons item 6: text expansion. Welsh (lang="cy") labels run 20 to 30
+// percent longer than English, so a layout that only fits English will clip
+// or overflow. We cannot translate every route, so a pseudo-locale lengthens
+// every visible text node by 30 percent (each word grows by 30 percent, rounded
+// up, with a suffix of letters; words stay breakable at spaces), after setting document.documentElement.lang = "cy".
+//
+// Asserted, at 320 CSS px wide, on every reflow-320 route:
+//   1. no document-level horizontal scroll (expectNoHorizontalOverflow);
+//   2. no CLIPPED label: no element with computed overflow-x or overflow-y of
+//      hidden or clip, and non-empty text, whose scrollWidth exceeds its
+//      clientWidth by more than 1px. Excluded: elements that deliberately
+//      truncate (text-overflow: ellipsis, and .middle-truncation*), and
+//      elements with a clientWidth of 1px or less (visually-hidden text).
+// NOT asserted: clipping or overflow inside scroll containers
+//   (overflow auto or scroll), which keep the content reachable; text nodes
+//   inside script, style, code, pre, svg and .avatar (initials are names, not
+//   translatable labels; left unchanged); vertical clipping;
+//   overlap between elements; wording or truncation quality of real Welsh.
+// ---------------------------------------------------------------------------
+
+test.describe('responsive: 30% text expansion with lang="cy" at 320px', () => {
+    test.use({ viewport: { width: 320, height: 568 } });
+    for (const route of reflowRoutes) {
+        test(route, async ({ page }) => {
+            await page.goto(route);
+            // Let a client framework hydrate first, or it replaces the expanded nodes.
+            await page.waitForLoadState("networkidle");
+            const clipped = await page.evaluate(() => {
+                document.documentElement.lang = "cy";
+                const skip = "script, style, code, pre, svg, .avatar";
+                const roots = document.querySelectorAll("main, header, footer");
+                const seen = new Set<Node>();
+                for (const root of Array.from(roots)) {
+                    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+                    let node = walker.nextNode();
+                    while (node) {
+                        const parent = node.parentElement;
+                        const text = node.nodeValue ?? "";
+                        if (!seen.has(node) && parent && !parent.closest(skip) && text.trim()) {
+                            seen.add(node);
+                            // Lengthen each word by 30 percent (rounded up), as Welsh words are longer;
+                            // gluing all the extra letters to the last word would build one unbreakable
+                            // word, which no translation does.
+                            node.nodeValue = text.replace(
+                                /\S+/g,
+                                (word) =>
+                                    word +
+                                    "abcdefghi".repeat(4).slice(0, Math.ceil(word.length * 0.3)),
+                            );
+                        }
+                        node = walker.nextNode();
+                    }
+                }
+                const offenders: string[] = [];
+                for (const el of Array.from(document.body.querySelectorAll("*"))) {
+                    if (el.closest("[class*='middle-truncation']")) continue;
+                    if (el.closest("script, style, svg")) continue;
+                    if (!el.textContent?.trim()) continue;
+                    const style = getComputedStyle(el);
+                    const hidden = (v: string) => v === "hidden" || v === "clip";
+                    if (!hidden(style.overflowX) && !hidden(style.overflowY)) continue;
+                    if (style.textOverflow === "ellipsis") continue;
+                    if (el.clientWidth <= 1) continue;
+                    if (el.scrollWidth > el.clientWidth + 1) {
+                        const cls = (el.getAttribute("class") ?? "")
+                            .trim()
+                            .split(/\s+/)
+                            .filter(Boolean)
+                            .join(".");
+                        offenders.push(
+                            `${el.tagName.toLowerCase()}${cls ? "." + cls : ""} scrollWidth=${el.scrollWidth} clientWidth=${el.clientWidth}`,
+                        );
+                    }
+                }
+                return offenders;
+            });
+            await expectNoHorizontalOverflow(page, `text-expansion-cy${route}`);
+            expect(clipped, `clipped labels on ${route}:\n${clipped.join("\n")}`).toEqual([]);
+        });
+    }
+});
