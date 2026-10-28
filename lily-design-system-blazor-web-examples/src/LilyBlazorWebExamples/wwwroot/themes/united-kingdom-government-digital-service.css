@@ -3905,7 +3905,8 @@
     overflow-wrap: anywhere;
 }
 
-:where(.summary-list, .summary-list-item, .description-list) :where(dd) {
+/* overflow-wrap is inherited, so this reaches whatever the consumer puts in an item (dd, span, strong). */
+:where(.summary-list, .summary-list-item, .description-list) {
     overflow-wrap: anywhere;
 }
 
@@ -3914,6 +3915,7 @@
     .flex-stack,
     .grail-layout,
     .summary-list,
+    .summary-list-item,
     .description-list,
     .form,
     .editable-form,

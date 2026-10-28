@@ -34,6 +34,10 @@ set -eu
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 S="${1:-$(mktemp -d)}"
 mkdir -p "$S/consumer"
+# The catalog size comes from components.tsv, never a literal: a hard-coded count went stale at
+# 571 while the catalog grew to 582.
+LILY_COUNT="$(grep -c . "$ROOT/components.tsv")"
+export LILY_COUNT
 echo "scratch: $S"
 
 echo "== pack =="
@@ -171,7 +175,8 @@ echo "== html =="
 node -e '
 const lib = require("@lilydesignsystem/html-headless");
 const n = lib.listComponents().length;
-if (n !== 571) throw new Error("html: expected 571 components, got " + n);
+const want = Number(process.env.LILY_COUNT);
+if (n !== want) throw new Error("html: expected " + want + " components, got " + n);
 if (!lib.readComponent("button").includes(String.raw`class="button"`)) throw new Error("html: bad snippet");
 console.log("html OK");'
 
@@ -264,7 +269,7 @@ echo "== nunjucks =="
 node -e '
 const lily = require("@lilydesignsystem/nunjucks-headless");
 const nunjucks = require("nunjucks");
-if (lily.listComponents().length !== 571) throw new Error("nunjucks: expected 571");
+if (lily.listComponents().length !== Number(process.env.LILY_COUNT)) throw new Error("nunjucks: expected " + process.env.LILY_COUNT);
 const env = new nunjucks.Environment(new nunjucks.FileSystemLoader(lily.templatesDir));
 const out = env.renderString(`{% import "` + lily.macroPath("breadcrumb-nav") + `" as c %}{{ c.breadcrumbNav({ label: "Breadcrumb" }) }}`);
 if (!out.includes(String.raw`class="breadcrumb-nav"`)) throw new Error("nunjucks render: " + out);
@@ -313,7 +318,7 @@ for (const n of ["Button", "BreadcrumbNav", "TextInput", "ImageCropper"])
 // Fixed 2026-09-26 (tasks.md P8-T16): generate-index.mjs now keeps
 // index.ts in sync with components/, closing the gap that used to leave
 // every national-identifier export out of the published package.
-if (Object.keys(lib).length < 571) throw new Error("angular: expected >=571 exports");
+if (Object.keys(lib).length < Number(process.env.LILY_COUNT)) throw new Error("angular: expected >=" + process.env.LILY_COUNT + " exports");
 const helperPackages = [
   ["@lilydesignsystem/angular-theme-picker", "ThemePicker"],
   ["@lilydesignsystem/angular-locale-picker", "LocalePicker"],

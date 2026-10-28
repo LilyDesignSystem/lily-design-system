@@ -66,7 +66,7 @@ full-width blocks). Moving the themes to `min-width` queries is not planned: the
 - [x] This topic is listed in the spec index.
 - [x] `bin/check-theme` rejects `px` and off-table viewport breakpoints in `themes/*.css`.
 - [ ] `bin/check-theme` rejects `100vw` widths on `body` and full-width blocks.
-- [ ] The rules are reflected in the Lily skills ([agent-skills](../agent-skills/index.md)).
+- [x] The rules are reflected in the Lily skills ([agent-skills](../agent-skills/index.md)).
 
 ## Related topics
 

@@ -41,7 +41,7 @@ the headless layer.
 | **Slug**       | The kebab-case identifier for a component, also its CSS class hook (`.breadcrumb-nav`).                                                                                                                                                                                                                                           |
 | **Class hook** | The one stable CSS class every component's root element carries. Consumer CSS targets it; nothing else is a contract to rely on unless the component's docs name a sub-class.                                                                                                                                                     |
 | **Helper**     | A small opinionated package (`theme-picker`, `locale-picker`, `text-size-picker`, `share-picker`, `date-time-picker`) that owns one whole interaction — not just markup, but the popup, the keyboard behaviour, and (for the first three) applying + persisting a preference. Helpers are a layer above plain catalog components. |
-| **Theme**      | A ready-to-use stylesheet (45 of them, under `themes/`) targeting the class hooks — NHS England/Scotland/Wales, GOV.UK, USWDS, Adobe Spectrum, Mozilla Protocol, and general-purpose light/dark. The `theme-picker` helper swaps between them at runtime.                                                                         |
+| **Theme**      | A ready-to-use stylesheet (57 of them, under `themes/`) targeting the class hooks — NHS England/Scotland/Wales, GOV.UK, USWDS, Adobe Spectrum, Mozilla Protocol, and general-purpose light/dark. The `theme-picker` helper swaps between them at runtime.                                                                         |
 | **Subproject** | One implementation of the whole catalog for one framework and one layer, e.g. `@lilydesignsystem/react-headless`. Published as its own git subtree/repo.                                                                                                                                                                          |
 
 ## Naming conventions
@@ -85,6 +85,24 @@ motion, share, search, link, menu, settings, and the date-time field), `picker-b
 `gantt-chart`, `calendar` and `filter`, in all eight catalogs. The grid-like helpers take a large `labels` object and ship no English; the
 repository's `shared/label-packs/` holds that object ready-made for 64 locales (English reviewed, 63 machine drafts awaiting native-speaker
 review). Ask for `spec/label-packs/index.md` before writing labels by hand.
+
+## Making a Lily layout responsive
+
+Responsive behaviour is your CSS (or a Lily theme's), never a component's: headless components carry no media
+queries, sizes or breakpoints. The rules the themes follow, which are worth following in your own CSS:
+
+- Mobile first: base rules are the narrow layout; queries add width with `min-width`.
+- Prefer intrinsic sizing (`minmax()`, `min()`, `clamp()`, `flex-wrap`, `auto-fit`) to breakpoints. `grid` takes a
+  `minColumnWidth` for "as many columns as fit".
+- Breakpoints in `rem` from one table: `40rem`, `48rem`, `64rem`, `80rem`, `96rem`.
+- Components answer to the space they are given (container queries; the `grail-layout` regions are the containers in
+  the themes), page shells answer to the window.
+- Logical properties (`inline-size`, `margin-inline`) so right-to-left needs no second stylesheet.
+- No horizontal page scroll at 320 CSS pixels (WCAG 1.4.10) and usable at 400% zoom (1.4.4); wide content scrolls
+  inside its own labelled region; text never goes below `1rem`; long unbroken strings wrap (`overflow-wrap: anywhere`).
+- `grail-layout` collapses right aside first, then left; source order is reading order.
+
+Ask for `spec/responsive/index.md` for the full rules and how each is checked.
 
 ## What Lily deliberately doesn't do
 

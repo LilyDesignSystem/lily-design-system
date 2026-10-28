@@ -7,6 +7,7 @@
 @AGENTS/examples.md
 @AGENTS/sveltekit.md
 @AGENTS/theme.md
+@AGENTS/responsive.md
 @AGENTS/nhs-uk-design-system-references.md
 
 ## Metadata

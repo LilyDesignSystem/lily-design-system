@@ -8,6 +8,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  /* Wrap, so the logo, nav and pickers reflow at 320px instead of overflowing (WCAG 1.4.10). */
+  flex-wrap: wrap;
   gap: var(--nhsuk-spacing-4);
   padding-top: var(--nhsuk-spacing-3);
   padding-bottom: var(--nhsuk-spacing-3);

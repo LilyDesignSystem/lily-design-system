@@ -2,6 +2,7 @@
 
 @AGENTS/lily.md
 @AGENTS/theme.md
+@AGENTS/responsive.md
 @AGENTS/components.md
 @AGENTS/accessibility.md
 @AGENTS/internationalization.md

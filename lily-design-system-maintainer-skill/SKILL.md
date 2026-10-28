@@ -134,6 +134,9 @@ rely on memory, the rules are the binding source:
   hardcoded strings, stable text-prop names.
 - [`theme.md`](../AGENTS/theme.md) — the headless forbidden-literal list
   (no hex colours, no `font-*`, no spacing literals, no breakpoints).
+- [`responsive.md`](../AGENTS/responsive.md) — mobile first, intrinsic sizing,
+  `rem` breakpoints from the published table (`bin/check-theme` enforces it),
+  logical properties, reflow at 320px and 400% zoom; none of it in headless code.
 - [`helpers.md`](../AGENTS/helpers.md) — the `*-picker` catalog contract,
   if the change touches a helper rather than a plain catalog component.
 - [`components.md`](../AGENTS/components.md) — suffix→element mapping and

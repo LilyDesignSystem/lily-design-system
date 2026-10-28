@@ -169,6 +169,8 @@ test.describe("responsive: 60-character unbroken string at 320px (P15-T6)", () =
     for (const route of [reflowRoutes[0], grailRoute]) {
         test(`summary-list and data-table on ${route}`, async ({ page }) => {
             await page.goto(route);
+            // Let a client framework hydrate first, or it replaces the injected fixture.
+            await page.waitForLoadState("networkidle");
             await page.evaluate((text) => {
                 const host = document.querySelector("main") ?? document.body;
                 const wrap = document.createElement("div");
